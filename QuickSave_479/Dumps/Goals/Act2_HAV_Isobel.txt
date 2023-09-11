@@ -1,0 +1,137 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HAV_Isobel_Mirrors(S_HAV_Isobel_Mirror1_5103f881-a81a-48de-89bf-bd8897d770d9, VFX_Script_Mirror_Standing_Reflect_MoonLight_01_02cc1ccd-452c-300f-2d9b-beb485f5ab5c);
+DB_HAV_Isobel_Mirrors(S_HAV_Isobel_Mirror2_a416dc9c-8d84-4ee0-8cc0-df79f3ffb171, VFX_Script_Mirror_Small_Reflect_MoonLight_01_61588756-61de-900c-2039-a68555324803);
+DB_HAV_Isobel_Mirrors(S_HAV_Isobel_Mirror3_3b3caadb-7fc0-457e-ae90-478bb2fa079d, VFX_Script_Mirror_Medium_Reflect_MoonLight_01_65ac9721-b013-6099-103a-76dda00497b5);
+DB_HAV_Isobel_Mirrors(S_HAV_Isobel_Mirror4_668bee49-696a-44f4-89e7-480be14f05c4, VFX_Script_Mirror_Small_Reflect_MoonLight_01_61588756-61de-900c-2039-a68555324803);
+DB_NoLowAttitudeDialog(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+KBSECTION
+IF
+EntityEvent(_, "HAV_Isobel_FinishSpell", _, _, _)
+AND
+HasActiveStatus(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_ISOBEL_MOONRITUAL", 1, _, _)
+THEN
+DB_HAV_TakingIsobel_RitualFinishedOnPurpose(1);
+PROC_HAV_Isobel_FinishRitual();
+
+PROC
+PROC_HAV_Isobel_FinishRitual()
+THEN
+TriggerUnregisterForCharacter(S_HAV_TakingIsobel_RitualTrigger_ef724965-fccd-43b1-8e89-002dafa284b4, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+IF
+EntityEvent(_, "HAV_Isobel_StartRitual", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_HAV_Isobel_StartRitual();
+
+PROC
+PROC_HAV_Isobel_StartRitual()
+THEN
+NOT DB_HAV_TakingIsobel_RitualFinishedOnPurpose(1);
+TriggerRegisterForCharacter(S_HAV_TakingIsobel_RitualTrigger_ef724965-fccd-43b1-8e89-002dafa284b4, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+IF
+DB_InRegion(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_HAV_TakingIsobel_RitualTrigger_ef724965-fccd-43b1-8e89-002dafa284b4, _, _, _)
+AND NOT
+DB_HAV_TakingIsobel_RitualVFXOn(1, _, _, _, _)
+AND NOT
+DB_Defeated(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+DB_HAV_TakingIsobel_RitualVFXOn(1);
+ApplyStatus(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_ISOBEL_MOONRITUAL", -1, 0, NULL_00000000-0000-0000-0000-000000000000);
+DB_HAV_TakingIsobel_RitualVFXOn_Mirrors(1);
+PROC_LoopEffect(VFX_Script_HAV_SeluneBarrier_Ritual_01_99c095f1-3506-45d0-36d1-2e6c6f46b839, S_HAV_IsobelPrayerPoint_61d29a82-e9cd-462e-bbae-92184c783c15, "HAV_Isobel_MoonRitual", "SCL_Main_A", "");
+
+IF
+DB_HAV_TakingIsobel_RitualVFXOn(1, _, _, _, _)
+AND NOT
+DB_InRegion(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_HAV_TakingIsobel_RitualTrigger_ef724965-fccd-43b1-8e89-002dafa284b4, _, _, _)
+THEN
+NOT DB_HAV_TakingIsobel_RitualVFXOn(1);
+NOT DB_HAV_TakingIsobel_RitualVFXOn_Mirrors(1);
+PROC_StopLoopEffect(S_HAV_IsobelPrayerPoint_61d29a82-e9cd-462e-bbae-92184c783c15, "HAV_Isobel_MoonRitual");
+RemoveStatus(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_ISOBEL_MOONRITUAL", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_HAV_TakingIsobel_RitualVFXOn(1, _, _, _, _)
+AND
+DB_Defeated(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+NOT DB_HAV_TakingIsobel_RitualVFXOn(1);
+NOT DB_HAV_TakingIsobel_RitualVFXOn_Mirrors(1);
+PROC_StopLoopEffect(S_HAV_IsobelPrayerPoint_61d29a82-e9cd-462e-bbae-92184c783c15, "HAV_Isobel_MoonRitual");
+RemoveStatus(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_ISOBEL_MOONRITUAL", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_HAV_TakingIsobel_RitualVFXOn_Mirrors(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_Isobel_Mirrors(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_LoopEffect(_Var2, _Var1, "HAV_Isobel_MoonRitual", "SCL_Main_A", "");
+PROC_LoopBeamEffect(VFX_Script_Mirror_Reflect_MoonBeam_01_a563adce-15fb-2f82-18e7-02a6a5b493db, _Var1, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "", "Dummy_ChestFX", "HAV_Isobel_MoonRitualBeam", "SCL_Main_A");
+
+IF
+DB_HAV_Isobel_Mirrors(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_TakingIsobel_RitualVFXOn_Mirrors(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "HAV_Isobel_MoonRitual");
+PROC_StopLoopBeamEffect(_Var1, "HAV_Isobel_MoonRitualBeam");
+
+IF
+Moved((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_HAV_Isobel_Mirrors(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "HAV_Isobel_MoonRitual");
+PROC_StopLoopBeamEffect(_Var1, "HAV_Isobel_MoonRitualBeam");
+NOT DB_HAV_Isobel_Mirrors(_Var1, _Var2);
+
+IF
+AddedTo((ITEM)_Var1, _, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_HAV_Isobel_Mirrors(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "HAV_Isobel_MoonRitual");
+PROC_StopLoopBeamEffect(_Var1, "HAV_Isobel_MoonRitualBeam");
+NOT DB_HAV_Isobel_Mirrors(_Var1, _Var4);
+
+IF
+DestroyingBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_HAV_Isobel_Mirrors(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "HAV_Isobel_MoonRitual");
+PROC_StopLoopBeamEffect(_Var1, "HAV_Isobel_MoonRitualBeam");
+NOT DB_HAV_Isobel_Mirrors(_Var1, _Var5);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND NOT
+DB_DialogRequestFailed(_, _Var2, _, _, _)
+AND
+DB_DialogNPCs(_Var2, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var5, 1, _, _)
+AND
+GetFlag(GLO_Isobel_HasMet_2b86ff0d-1d1c-4a0c-9d77-7031b867ce02, _Var5, 0, _, _)
+THEN
+SetFlag(GLO_Isobel_HasMet_2b86ff0d-1d1c-4a0c-9d77-7031b867ce02, _Var5);
+
+IF
+LeftTrigger(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_HAV_TakingIsobel_RitualTrigger_ef724965-fccd-43b1-8e89-002dafa284b4, _, _, _)
+AND
+DB_HAV_TakingIsobel_RitualFinishedOnPurpose(1, _, _, _, _)
+AND
+QRY_SpeakerIsAvailable(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+PROC_TryStartAD(HAV_Isobel_AD_PrayerEnd_d38c8ec0-092d-2b48-c747-2c78f979d8bc, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

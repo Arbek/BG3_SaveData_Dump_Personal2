@@ -1,0 +1,139 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HAG_HagCombat_StateFlags(GLO_Hag_State_Transformed_c4c1bbcb-28d2-d607-2658-a06f1cf89d95, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_HAG_HagCombat_StateFlags(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e, AI_USESPELL_B_3297ed55-ccc1-473e-8475-ac4162a63fdd, NULL_00000000-0000-0000-0000-000000000000);
+DB_HAG_HagCombat_StateFlags(HAG_CMB_SpawnDoubles_Phase1_fc15098b-f83c-4e4a-a843-45573b6b54e1, HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_C_64d4bb52-dd35-4d61-a112-0bc9a5789597);
+DB_HAG_HagCombat_StateFlags(HAG_CMB_SpawnDoubles_Phase2_7fa148bd-ec06-4cd2-b16c-311bdf11d794, HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_HAG_HagCombat_StateFlags(HAG_CMB_MayrinaIllusion_Real_289009b8-4d9f-403f-aa56-102f1b64dc6d, HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_E_72c898ce-e277-46ad-b6fe-2f030c57737f);
+
+KBSECTION
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagCombat_StateFlags(_Var1, _, _, _, _)
+AND NOT
+DB_HAG_HagCombat_SetCurrentState(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAG_HagCombat_SetCurrentState(_Var1);
+
+IF
+DB_HAG_HagCombat_SetCurrentState(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagCombat_SetCurrentState(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+AND
+DB_HAG_HagCombat_StateFlags(_Var2, _, _Var4, _Var5, _Var6)
+THEN
+NOT DB_HAG_HagCombat_SetCurrentState(_Var2);
+ClearTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var4);
+ClearTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var5);
+ClearTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var6);
+
+IF
+DB_HAG_HagCombat_SetCurrentState(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagCombat_StateFlags(_Var1, _, _Var3, _Var4, _Var5)
+THEN
+SetTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var3);
+SetTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var4);
+SetTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var5);
+
+IF
+CastSpell(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "Shout_HAG_SpawnDoubles_Phase1", _, _, _)
+THEN
+SetFlag(HAG_CMB_SpawnDoubles_Phase1_fc15098b-f83c-4e4a-a843-45573b6b54e1, NULL_00000000-0000-0000-0000-000000000000);
+RemoveHarmfulStatuses(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+
+IF
+CastSpell(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "Shout_HAG_SpawnDoubles_Phase2", _, _, _)
+THEN
+SetFlag(HAG_CMB_SpawnDoubles_Phase2_7fa148bd-ec06-4cd2-b16c-311bdf11d794, NULL_00000000-0000-0000-0000-000000000000);
+RemoveHarmfulStatuses(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+
+IF
+CastSpell((CHARACTER)_Var1, "Shout_HAG_SpawnDoubles_MayrinaIllusion", _, _, _)
+THEN
+PROC_HAG_SpawnDoubles_MayrinaIllusion(_Var1);
+RemoveHarmfulStatuses(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Shout_HAG_SpawnDoubles_MayrinaIllusion", _, _, _)
+THEN
+TriggerSetSoundState(Amb_SV_Hag_Lair_FZ_513adaab-3e65-4fee-ab08-762b78fd3df3, "CombatPhase_Hag", "MayrinaIllusion", 1);
+TriggerSetSoundState(Amb_SV_Hag_Lair_Laboratory_FZ_0fc035a5-4cc8-464e-956c-95f92d2a715d, "CombatPhase_Hag", "MayrinaIllusion", 1);
+
+IF
+FlagCleared((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagCombat_StateFlags(_Var1, _Var4, _, _, _)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_HAG_HagCombat_SetCurrentState(_Var4);
+
+PROC
+PROC_HAG_HagLair_Doubles_CountRemaining()
+AND
+SysCount("DB_HAG_HagLair_Doubles", 1, _Var1, _Var1, _Var1)
+AND
+_Var1 == 0
+AND
+HasActiveStatus(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_DISGUISE_MAYRINA", 0, _Var1, _Var1)
+THEN
+RemoveStatus(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_DOUBLES");
+RemoveStatus(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "INVISIBLE");
+
+IF
+StatusRemoved(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_DOUBLES", _, _, _)
+AND
+HasActiveStatus(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_DISGUISE_MAYRINA", 0, _, _)
+THEN
+ClearFlag(HAG_CMB_SpawnDoubles_Phase1_fc15098b-f83c-4e4a-a843-45573b6b54e1, NULL_00000000-0000-0000-0000-000000000000);
+ClearFlag(HAG_CMB_SpawnDoubles_Phase2_7fa148bd-ec06-4cd2-b16c-311bdf11d794, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusRemoved(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "INVISIBLE", _, _, _)
+AND
+GetFlag(HAG_CMB_SpawnDoubles_Phase2_7fa148bd-ec06-4cd2-b16c-311bdf11d794, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+THEN
+RemoveStatus(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_DOUBLES");
+
+IF
+StatusApplied(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "AI_HELPER_SCRIPTEVENT", _, _, (GUIDSTRING)_)
+THEN
+PROC_TryStartAD(HAG_HagLair_AD_DoublesIllusionRevealed_17998dd9-e668-e9b6-dee5-e179e3f37523, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+
+PROC
+PROC_HAG_HagLair_MayrinaEventAccessable()
+AND
+DB_HAG_HagCombat_StateFlags(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e, AI_USESPELL_B_3297ed55-ccc1-473e-8475-ac4162a63fdd, NULL_00000000-0000-0000-0000-000000000000)
+THEN
+NOT DB_HAG_HagCombat_StateFlags(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e, AI_USESPELL_B_3297ed55-ccc1-473e-8475-ac4162a63fdd, NULL_00000000-0000-0000-0000-000000000000);
+DB_HAG_HagCombat_StateFlags(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e, AI_USESPELL_B_3297ed55-ccc1-473e-8475-ac4162a63fdd, AI_USESPELL_D_2d17a512-3d41-4f88-8953-f9c4ad4722b2);
+
+IF
+DB_PermaDefeated(S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, _, _, _, _)
+AND
+DB_HAG_HagCombat_StateFlags(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e, AI_USESPELL_B_3297ed55-ccc1-473e-8475-ac4162a63fdd, AI_USESPELL_D_2d17a512-3d41-4f88-8953-f9c4ad4722b2)
+THEN
+NOT DB_HAG_HagCombat_StateFlags(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e, AI_USESPELL_B_3297ed55-ccc1-473e-8475-ac4162a63fdd, AI_USESPELL_D_2d17a512-3d41-4f88-8953-f9c4ad4722b2);
+DB_HAG_HagCombat_StateFlags(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e, AI_USESPELL_B_3297ed55-ccc1-473e-8475-ac4162a63fdd, NULL_00000000-0000-0000-0000-000000000000);
+ClearTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, AI_USESPELL_D_2d17a512-3d41-4f88-8953-f9c4ad4722b2);
+
+IF
+UsingSpellOnTarget((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, "Target_HAG_ViciousMockery", _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsSummon(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+IsEnemy(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(HAG_HagLair_AD_ViciousMockery_0b465310-3087-02c3-2a20-ffd21ebf7c8b, _Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_Hag"

@@ -1,0 +1,709 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_WaypointInfo("", "", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_RegionSwapReadyCheck((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_WaypointInfo(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+RegisterWaypoint(_Var2, _Var3);
+
+IF
+DB_BlockedWaypointZone(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_BlockedWaypointZone(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InBlockedWaypointZone(_Var1, _Var2);
+
+IF
+DB_InBlockedWaypointZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InBlockedWaypointZone(_Var1, _Var2);
+
+IF
+DB_InBlockedWaypointZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_BlockedWaypointZone(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InBlockedWaypointZone(_Var1, _Var2);
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, "WaypointDiscovered", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WaypointInfo(_Var3, _Var4, _Var2, _Var5, _Var1)
+THEN
+PROC_UnlockWaypoint(_Var4, _Var1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WaypointInfo(_, _Var4, _Var2, _, _Var1)
+THEN
+PROC_UnlockWaypoint(_Var4, _Var1);
+
+PROC
+PROC_UnlockWaypoint((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_WaypointUnlocked(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WaypointInfo(_, _Var1, _, _Var5, _Var1)
+THEN
+PROC_UnlockWaypoint_Notification(_Var1, _Var2);
+UnlockWaypoint(_Var1, _Var5, _Var2);
+PROC_UnlockWaypoint_RecordDB(_Var1, _Var2);
+
+PROC
+PROC_UnlockWaypoint_Notification((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+QRY_UnlockWaypoint_AlreadyUnlockedForParty(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WaypointInfo(_Var3, _Var1, _Var4, _Var5, _Var1)
+THEN
+SetEntityEvent(_Var4, "WaypointDiscoveredEffect");
+
+QRY
+QRY_UnlockWaypoint_AlreadyUnlockedForParty((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WaypointUnlocked(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var2
+AND
+IsInPartyWith(_Var3, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_UnlockWaypoint_RecordDB((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInPartyWith(_Var3, _Var2, 1, _Var1, _Var1)
+THEN
+DB_WaypointUnlocked(_Var1, _Var3);
+
+PROC
+PROC_UnlockWaypointForAll((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WaypointInfo(_, _Var1, _, _, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UnlockWaypoint(_Var1, _Var5);
+
+PROC
+PROC_UnlockAllGroupWaypoints((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WaypointInfo(_Var1, _Var2, _, _, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UnlockWaypoint(_Var2, _Var5);
+
+PROC
+PROC_LockWaypoint((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WaypointUnlocked(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+LockWaypoint(_Var1, _Var2);
+PROC_LockWaypoint_DBRecord(_Var1, _Var2);
+
+PROC
+PROC_LockWaypoint_DBRecord((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInPartyWith(_Var3, _Var2, 1, _Var1, _Var1)
+THEN
+NOT DB_WaypointUnlocked(_Var1, _Var3);
+
+PROC
+PROC_LockWaypointForAll((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WaypointInfo(_, _Var1, _, _, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LockWaypoint(_Var1, _Var5);
+
+PROC
+PROC_LockAllGroupWaypoints((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WaypointInfo(_Var1, _Var2, _, _, _Var1)
+AND
+DB_WaypointUnlocked(_Var2, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_LockWaypoint(_Var2, _Var5);
+
+PROC
+PROC_LockAllUnlockedWaypoints()
+AND
+DB_WaypointUnlocked(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_LockWaypoint(_Var1, _Var2);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantMove(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "TRAVELBLOCK_CANTMOVE", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_FastTravelBlock_CantMove_StatusSet(_Var1);
+
+IF
+DB_FastTravelBlock_CantMove_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_CANTMOVE", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_CantMove_StatusSet(_Var1);
+
+IF
+DB_FastTravelBlock_CantMove_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_CANTMOVE", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_CantMove_StatusSet(_Var1);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_IsArrested(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "TRAVELBLOCK_ARRESTED", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_FastTravelBlock_Arrested_StatusSet(_Var1);
+
+IF
+DB_FastTravelBlock_Arrested_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_IsArrested(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_ARRESTED", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_Arrested_StatusSet(_Var1);
+
+IF
+DB_FastTravelBlock_Arrested_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_ARRESTED", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_Arrested_StatusSet(_Var1);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InBlockedWaypointZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "TRAVELBLOCK_BLOCKEDZONE", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_FastTravelBlock_BlockedZone_StatusSet(_Var1);
+
+IF
+DB_FastTravelBlock_BlockedZone_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InBlockedWaypointZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_BLOCKEDZONE", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_BlockedZone_StatusSet(_Var1);
+
+IF
+DB_FastTravelBlock_BlockedZone_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_BLOCKEDZONE", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_BlockedZone_StatusSet(_Var1);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "TRAVELBLOCK_CAMPNIGHTMODE", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_FastTravelBlock_CampNightMode_StatusSet(_Var1);
+
+IF
+DB_FastTravelBlock_CampNightMode_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_CAMPNIGHTMODE", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_CampNightMode_StatusSet(_Var1);
+
+IF
+DB_FastTravelBlock_CampNightMode_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_CAMPNIGHTMODE", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_CampNightMode_StatusSet(_Var1);
+
+IF
+DB_PlayerEscapedPrison(_Var1, _, _, _, _, _, _, _, _Var9, _Var1)
+AND
+DB_PlayerPrison(_Var10, _, _, _Var9, _Var1)
+AND
+DB_FugitiveArea(_Var10, _Var13, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var13, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "TRAVELBLOCK_FUGITIVEINPRISON", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var9);
+
+IF
+DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerEscapedPrison(_Var1, _, _, _, _, _, _, _, _Var2, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_FUGITIVEINPRISON", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var2);
+
+IF
+DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PlayerPrison(_Var3, _, _, _Var2, _Var1)
+AND
+DB_FugitiveArea(_Var3, _Var6, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_FUGITIVEINPRISON", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var2);
+
+IF
+DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TRAVELBLOCK_FUGITIVEINPRISON", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var2);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WaypointInfo(_, _Var4, _Var2, _, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_InBlockedWaypointZone(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WaypointBlockUI(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dialogs(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LoopEffect(VFX_Script_Waypoint_Portal_Looping_01_ac49625c-c1fb-a34c-911c-d43e65164364, _Var2, "GLO_UsingWaypoint", _Var9, "");
+DB_Waypoint_LoopingSourceVFX(_Var2);
+PROC_OpenWaypointUI(_Var1, _Var4, _Var2);
+
+IF
+UseFinished(_, (GUIDSTRING)_Var2, 1, _, _)
+AND
+DB_Waypoint_LoopingSourceVFX(_Var2, _, _, _, _)
+THEN
+NOT DB_Waypoint_LoopingSourceVFX(_Var2);
+PROC_StopLoopEffect(_Var2, "GLO_UsingWaypoint");
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WaypointInfo(_, _Var4, _Var2, _, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WaypointInfo(_, _Var4, _Var2, _, _Var1)
+AND
+DB_InBlockedWaypointZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+IF
+FlagSet(OpenWaypointUI_21800438-49cf-49bb-b68f-77edaa176df1, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_InBlockedWaypointZone(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, _Var4, 1, _Var1, _Var1)
+AND
+DB_WaypointInfo(_, _Var6, _Var4, _Var7, _Var1)
+THEN
+PROC_OpenWaypointUI(_Var1, _Var6, _Var4);
+
+IF
+FlagSet(OpenWaypointUI_21800438-49cf-49bb-b68f-77edaa176df1, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(OpenWaypointUI_21800438-49cf-49bb-b68f-77edaa176df1, _Var1, _Var2);
+
+QRY
+QRY_HasWaypointsUnlocked((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WaypointUnlocked(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TeleportToWaypoint((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_GLO_BlockTeleportToWaypoint(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_WaypointTeleportTo(_Var1, _Var2);
+
+QRY
+QRY_GLO_BlockTeleportToWaypoint((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(0);
+
+PROC
+PROC_WaypointTeleportTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetRegion(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var4, _Var5, _Var6, _Var1)
+THEN
+PROC_WaypointTeleport_TeleportLinkedPlayers(_Var1, _Var2);
+PlayEffectAtPosition(VFX_Script_Waypoint_Teleport_Out_417b85a5-5899-7dc1-4f3c-ddc3d09177ea, _Var4, _Var5, _Var6, 1);
+TeleportTo(_Var1, _Var2, "GLO_PlayerWaypointTeleported", 0, 1, 1);
+DB_Waypoint_Teleporting(_Var1, _Var2);
+PROC_WaypointTeleported(_Var1, _Var2);
+
+PROC
+PROC_WaypointTeleported((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "GLO_PlayerWaypointTeleported", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Waypoint_Teleporting(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WaypointInfo(_, _, _Var5, _Var2, _Var1)
+THEN
+PlayEffect(_Var5, VFX_Script_Waypoint_Portal_01_f545f66c-87c8-8dde-cd27-16539cb0dc45, "", 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "GLO_PlayerWaypointTeleported", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlayEffect(_Var1, VFX_Script_Waypoint_Teleport_In_aaf7e739-11f9-7e5d-c453-fba37e542750, "", 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "GLO_PlayerWaypointTeleported", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Waypoint_Teleporting(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Waypoint_Teleporting(_Var1, _Var2);
+
+PROC
+PROC_WaypointTeleportTo((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetRegion(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var4
+AND NOT
+DB_WaypointTravel_RegionswapDestination(_, _, _Var1, _Var1, _Var1)
+AND
+QRY_Waypoints_GetIDFromString(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Waypoints_IDFromString(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+QRY_WaypointTravel_RegionSwapPrevented(_Var1, _Var2, _Var7, _Var1, _Var1)
+THEN
+DB_WaypointTravel_RegionswapDestination(_Var2, _Var7);
+PROC_RegionSwapReadyCheck(_Var1, "WaypointTravel_RegionSwap", 0);
+
+QRY
+QRY_Waypoints_GetIDFromString((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_Waypoints_IDFromString(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Waypoints_GetIDFromString((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_Waypoints_IDFromString(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_Waypoint_Determined", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WaypointInfo(_, _Var4, _, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_Waypoint_Determined", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Waypoints_IDFromString(_Var1, _Var4);
+
+QRY
+QRY_Waypoints_GetIDFromString((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND NOT
+DB_QRYRTN_Waypoints_IDFromString(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Waypoints_IDFromString(_Var1, "");
+
+PROC
+PROC_RegionSwapReadyCheckPassed(_, "WaypointTravel_RegionSwap", _, _, _)
+AND
+DB_WaypointTravel_RegionswapDestination(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_WaypointTravel_RegionswapDestination(_Var2, _Var3);
+PROC_TeleportPartiesTo(_Var2, "");
+
+PROC
+PROC_RegionSwapReadyCheckFailed(_, "WaypointTravel_RegionSwap", _, _, _)
+AND
+DB_WaypointTravel_RegionswapDestination(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_WaypointTravel_RegionswapDestination(_Var2, _Var3);
+
+PROC
+PROC_WaypointTeleport_TeleportLinkedPlayers((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND
+InSamePartyGroup(_Var1, _Var3, 1, _Var1, _Var1)
+AND NOT
+QRY_WaypointTeleport_PlayerBlocked(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WaypointTeleport_WasLinked(_Var1, _Var3);
+DB_WaypointTeleport_WasLinked(_Var3, _Var1);
+TeleportTo(_Var3, _Var2, "GLO_PlayerWaypointTeleported", 0, 1, 1);
+PROC_WaypointTeleported(_Var3, _Var2);
+
+IF
+Teleported((GUIDSTRING)_Var1, _, _, _, _, _, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_WaypointTeleport_WasLinked(_Var1, _Var10, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var10, _Var11, _Var1, _Var1)
+AND
+_Var11 < 6
+THEN
+AttachToPartyGroup(_Var1, _Var10);
+NOT DB_WaypointTeleport_WasLinked(_Var1, _Var10);
+NOT DB_WaypointTeleport_WasLinked(_Var10, _Var1);
+
+QRY
+QRY_WaypointTravel_RegionSwapPrevented((CHARACTER)_Var1, _, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_CantRegionSwap", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_WaypointTeleport_PlayerBlocked(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_CantRegionSwap", _Var1, _Var1, _Var1, _Var1)
+THEN
+ShowError(_Var1, "CampFastTravel");
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_WaypointTeleport_PlayerBlocked_UserException(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_IsArrested(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InBlockedWaypointZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InDangerZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FastTravelBlock_CantMove_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FastTravelBlock_Arrested_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FastTravelBlock_BlockedZone_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_UserException((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_TeleportToSafePositionAndRestoreLinks((GUIDSTRING)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+QRY_WaypointTeleport_PlayerBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TeleportToSafePosition(_Var1, _Var2, _Var3, _Var4, "", 0, 1, 1, 1, 1);
+
+PROC
+PROC_OpenWaypointUI((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+OpenWaypointUI(_Var1, _Var2, _Var3, 0);
+
+PROC
+PROC_OpenWaypointUIForFlee((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+OpenWaypointUI(_Var1, _Var2, _Var3, 1);
+
+IF
+CharacterJoinedParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+AND
+IsInPartyWith(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_WayPoints_ShareWayPointState(_Var1, _Var2);
+
+PROC
+PROC_WayPoints_ShareWayPointState((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WaypointUnlocked(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UnlockWaypoint(_Var3, _Var2);
+
+PROC
+PROC_WayPoints_ShareWayPointState((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WaypointUnlocked(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_UnlockWaypoint(_Var3, _Var1);
+
+IF
+CharacterReservedUserIDChanged((GUIDSTRING)_Var1, _, -65536, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsPlayer(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_WaypointUnlocked(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WaypointUnlocked(_Var3, _Var1);
+
+IF
+TextEvent("wp", _, _, _, _)
+THEN
+PROC_Debug_UnlockAllWP();
+PROC_Debug_OpenWaypointUI();
+
+IF
+TextEvent("wplock", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LockAllGroupWaypoints(_Var1);
+
+IF
+TextEvent("wplock", _, _, _, _)
+AND NOT
+GetTextEventParamString(1, _, _, _, _)
+THEN
+PROC_LockAllUnlockedWaypoints();
+
+IF
+TextEvent("wpunlock", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UnlockAllGroupWaypoints(_Var1);
+
+IF
+TextEvent("wpunlock", _, _, _, _)
+AND NOT
+GetTextEventParamString(1, _, _, _, _)
+THEN
+PROC_Debug_UnlockAllWP();
+
+IF
+TextEvent("wpmenu", _, _, _, _)
+THEN
+PROC_Debug_OpenWaypointUI();
+
+PROC
+PROC_Debug_UnlockAllWP()
+AND
+DB_WaypointInfo(_, _Var2, _, _, _)
+THEN
+PROC_UnlockWaypointForAll(_Var2);
+
+PROC
+PROC_Debug_OpenWaypointUI()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_OpenWaypointUI(_Var1, "", NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

@@ -1,0 +1,60 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SHA_CloakerPhantasmSpawnTrigger(S_SHA_PhantasmSpawnTrigger_001_2dba8259-86ea-4a77-b484-a8b2d495ba3b);
+DB_SHA_CloakerPhantasmSpawnTrigger(S_SHA_PhantasmSpawnTrigger_002_05f9c4d1-81e2-41bc-aba4-f496380546cd);
+DB_SHA_CloakerPhantasmSpawnTrigger(S_SHA_PhantasmSpawnTrigger_003_e420cfd1-5c49-4adb-8dbf-c5aa5db9a960);
+DB_AmbushTrigger(S_SHA_CloakerAmbushTrigger_9cc4fafa-9a72-46c1-b43a-857b5158c947, S_SHA_CloakerPerceptionTrigger_48dd7901-2efd-4db7-91f8-92df98bec37c, Act2_Hard_91fb3598-dd68-4fa8-a306-2c7284709b08);
+DB_AmbushTrigger_Ambusher(S_SHA_CloakerAmbushTrigger_9cc4fafa-9a72-46c1-b43a-857b5158c947, S_SHA_Cloaker_c8119fa9-0b73-421d-a5fc-b163e399a185, 1);
+
+KBSECTION
+IF
+CastSpell((CHARACTER)_Var1, "Shout_Phantasms_Cloaker", _, _, _)
+THEN
+SetEntityEventReal(_Var1, "GLO_CombatWait", 3, 1);
+DB_SHA_CloakerPhantasmsActive(_Var1);
+
+PROC
+PROC_LeftCombat((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SHA_CloakerPhantasmsActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SysClear("DB_SHA_CloakerPhantasmSpawnTrigger_InUse", 2);
+
+PROC
+PROC_LeftCombat((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SHA_CloakerPhantasmsActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_CloakerPhantasmsActive(_Var1);
+RemoveSummons(_Var1, 0);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "CLOAKER_PHANTASM_VFX", _, _, (GUIDSTRING)_Var1)
+AND
+IsInTrigger(_Var1, S_SHA_CloakerCombatTrigger_9d44c59a-083e-471d-9710-216305b5d849, 1, _Var1, _Var1)
+AND
+DB_SHA_CloakerPhantasmSpawnTrigger(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SHA_CloakerPhantasmSpawnTrigger_InUse(_, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_SHA_CloakerPhantasmSpawnTrigger_InUse(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetCanJoinCombat(_Var1, 0);
+SetCanFight(_Var1, 0);
+RealtimeObjectTimerLaunch(_Var1, "SHA_PhantasmJoinCombat", 200);
+DB_SHA_CloakerPhantasmSpawnTrigger_InUse(_Var1, _Var4);
+UseSpell(_Var1, "Projectile_Fly", _Var4);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SHA_PhantasmJoinCombat", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetCanFight(_Var1, 1);
+SetCanJoinCombat(_Var1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

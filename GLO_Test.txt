@@ -1,0 +1,39 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+TextEvent("tadtest", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_BlowHorn_AD_51f7dd73-7709-4cd6-a37e-3c79c564c970, _Var1);
+
+IF
+TextEvent("spawnAsPlayerCharacter", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetTextEventParamUUID(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(_Var1, _Var2, 0, 0, "DEBUG_SpawnedNewPlayer", 1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "DEBUG_SpawnedNewPlayer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+MakePlayer(_Var1, _Var2);
+PROC_AssignCharacterToPlayer(_Var1, _Var2);
+SetFaction(_Var1, Hero_a1542c81-6895-929e-4522-10ce218bb360);
+DB_Players(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

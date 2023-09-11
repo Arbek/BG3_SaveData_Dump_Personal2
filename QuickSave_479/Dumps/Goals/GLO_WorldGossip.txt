@@ -1,0 +1,222 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_WorldGossip_RegionTrigger(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_WorldGossip_RegionTrigger(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_DialogName(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AutomatedDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var2, "GLO_WorldGossip_Block");
+DB_BlockWorldGossip(_Var2);
+
+IF
+DB_BlockWorldGossip(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_, _Var1, _, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, "GLO_WorldGossip_Block");
+ObjectTimerLaunch(_Var1, "GLO_WorldGossip_Block", 20000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_WorldGossip_Block", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_BlockWorldGossip(_Var1);
+PROC_RetestPartyBanterTrigger(_Var1);
+
+QRY
+QRY_WorldGossip_IsAnyoneNearbyBlocked((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_BlockWorldGossip(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+_Var3 < 20
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RegisterWorldGossipTrigger((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND NOT
+DB_WorldGossipTrigger(_Var1, _, _, _Var1, _Var1)
+AND
+GetUUID(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+Concatenate("WorldGossipTriggerCooldown_", _Var4, _Var5, _Var1, _Var1)
+THEN
+DB_WorldGossipTrigger(_Var1, 1, _Var5);
+PROC_TriggerRegisterForPlayers(_Var1);
+
+PROC
+PROC_UnregisterWorldGossipTrigger((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_WorldGossipTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_WorldGossipTrigger(_Var1, _Var2, _Var3);
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WorldGossipTrigger(_Var2, 1, _Var3, _Var1, _Var1)
+AND NOT
+QRY_WorldGossip_IsAnyoneNearbyBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WorldGossipTrigger(_Var2, 1, _Var3);
+DB_WorldGossipTrigger(_Var2, 0, _Var3);
+TimerLaunch(_Var3, 60000);
+PROC_StartWorldGossip(_Var1);
+
+PROC
+PROC_RetestPartyBanterTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WorldGossipTrigger(_Var2, 1, _Var3, _Var1, _Var1)
+AND NOT
+QRY_WorldGossip_IsAnyoneNearbyBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WorldGossipTrigger(_Var2, 1, _Var3);
+DB_WorldGossipTrigger(_Var2, 0, _Var3);
+TimerLaunch(_Var3, 60000);
+PROC_StartWorldGossip(_Var1);
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WorldGossipTrigger(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WorldGossipTrigger(_Var2, 0, _Var1);
+DB_WorldGossipTrigger(_Var2, 1, _Var1);
+
+PROC
+PROC_StartWorldGossip((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WorldGossip_RegionTrigger(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_StartWorldGossip((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WorldGossip_RegionTrigger(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_StartWorldGossip((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+FindGossipWorld(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_WorldGossip_FetchSpeaker(_Var2, 1);
+PROC_WorldGossip_StartGossip(_Var2);
+PROC_WorldGossip_Cleanup(_Var2);
+
+PROC
+PROC_WorldGossip_FetchSpeaker((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetGossipSpeaker(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var4, _Var1, _Var1)
+THEN
+DB_GossipSpeaker(_Var1, _Var2, _Var3);
+PROC_WorldGossip_FetchSpeaker(_Var1, _Var4);
+
+PROC
+PROC_WorldGossip_StartGossip((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GossipSpeaker(_Var1, 4, _Var2, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 3, _Var3, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 2, _Var4, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 1, _Var5, _Var1, _Var1)
+AND NOT
+QRY_StartDialog_Fixed(_Var1, _Var5, _Var4, _Var3, _Var2)
+AND
+GUIDToString(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+Concatenate("Could not start World Gossip: ", _Var6, _Var7, _Var1, _Var1)
+THEN
+DebugBreak(_Var7);
+
+PROC
+PROC_WorldGossip_StartGossip((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_GossipSpeaker(_Var1, 4, _, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 3, _Var3, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 2, _Var4, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 1, _Var5, _Var1, _Var1)
+AND NOT
+QRY_StartDialog_Fixed(_Var1, _Var5, _Var4, _Var3, _Var1)
+AND
+GUIDToString(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+Concatenate("Could not start World Gossip: ", _Var6, _Var7, _Var1, _Var1)
+THEN
+DebugBreak(_Var7);
+
+PROC
+PROC_WorldGossip_StartGossip((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GossipSpeaker(_Var1, 3, _, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 2, _Var3, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 1, _Var4, _Var1, _Var1)
+AND NOT
+QRY_StartDialog_Fixed(_Var1, _Var4, _Var3, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+Concatenate("Could not start World Gossip: ", _Var5, _Var6, _Var1, _Var1)
+THEN
+DebugBreak(_Var6);
+
+PROC
+PROC_WorldGossip_StartGossip((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_GossipSpeaker(_Var1, 2, _, _Var1, _Var1)
+AND
+DB_GossipSpeaker(_Var1, 1, _Var3, _Var1, _Var1)
+AND NOT
+QRY_StartDialog_Fixed(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+Concatenate("Could not start World Gossip: ", _Var4, _Var5, _Var1, _Var1)
+THEN
+DebugBreak(_Var5);
+
+PROC
+PROC_WorldGossip_Cleanup((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GossipSpeaker(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GossipSpeaker(_Var1, _Var2, _Var3);
+
+PROC
+PROC_WorldGossip_Cleanup((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+GossipCompleted(_Var1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,155 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_CRE_Brewery_OutsideArea_c05675f3-a998-4b4b-85de-54db6275599e);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold2_17f3597d-9416-4c6d-a017-cd2fee9bbbd2);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold3_8608477a-9b58-42af-8618-3d132cefdc9b);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold4_e42ae101-c220-4caa-a794-c894252db44b);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold5_e5796bc5-b166-4c58-b1e9-d588f00b28e6);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold6_021d2e7f-50b5-4b29-b468-fdf2ed347d8b);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold7_96b41bfd-1db4-4a09-a6da-8540474a6c2d);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold8_5995bb68-326f-4e89-8921-cbca363f926f);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold9_c8b8738c-4935-492e-957f-6b4342e03c83);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold10_1089b7f4-6220-412d-801a-a88714230359);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold11_f0a663a3-cb41-4d96-a955-4bc991b04797);
+DB_CRE_Brewery_Kobolds(S_CRE_Brewery_Kobold12_77d44b7f-d078-4b68-8b42-495a1f9e5912);
+DB_CRE_KoboldFactions(Act1B_CRE_Kobolds_Brewery_0bff51b4-8ced-434a-9061-244eb64f700c);
+PROC_TriggerRegisterForPlayers(S_CRE_Brewery_ADActiveZone_7c2caee7-191f-4a42-9cc7-989a795ebe8b);
+DB_TriggerEvents_AllPlayersLeft(S_CRE_Brewery_ADActiveZone_7c2caee7-191f-4a42-9cc7-989a795ebe8b, "CRE_Brewery_AllPlayersLeftADRange");
+Equip(S_CRE_Brewery_Kobold12_77d44b7f-d078-4b68-8b42-495a1f9e5912, S_CRE_Abbot1_Weapon_fce42526-f518-4727-91f6-c41c234fa053);
+DB_CRE_Brewery_KoboldBarrels(S_CRE_Brewery_KoboldBarrel04_fe3d7e90-af6f-45c0-95a5-0de126814b3f);
+DB_CRE_Brewery_KoboldBarrels(S_CRE_Brewery_KoboldBarrel01_6d7ea09b-4ec2-4fd6-b5fb-7419c05c5acb);
+DB_CRE_Brewery_KoboldBarrels(S_CRE_Brewery_KoboldBarrel02_0ac46981-6956-4874-9c5d-962ad35c98aa);
+DB_CRE_Brewery_KoboldBarrels(S_CRE_Brewery_KoboldBarrel03_29075208-8e0b-4175-9864-8793cdb55dae);
+DB_CombatReact_AD_OnTurn(S_CRE_Brewery_Kobold3_8608477a-9b58-42af-8618-3d132cefdc9b, CRE_Brewery_AD_Combat_Kobold3FirstTurn_86ab0970-d61b-e9e3-f156-718710e5d2af, 1);
+
+KBSECTION
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_CRE_Brewery_OutsideArea_c05675f3-a998-4b4b-85de-54db6275599e, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CantMove(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRE_Brewery_StumbleOut", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanFight(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, 0);
+SetCanJoinCombat(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, 0);
+Open(S_CRE_Brewery_Door_2f50441d-c475-4f60-8480-0dbc222ad071);
+CharacterMoveTo(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, S_CRE_Brewery_OutsideArea_c05675f3-a998-4b4b-85de-54db6275599e, "Walk", "CRE_Brewery_StumbleOut");
+PROC_TryStartAD(CRE_Brewery_StumbleKobold_AD_60f97062-8f48-e1b8-308a-1342c0e1c5d6, S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00);
+
+IF
+EntityEvent(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, "CRE_Brewery_StumbleOut", _, _, _)
+THEN
+PROC_CharacterMoveTo(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, S_CRE_BreweryDrunkKoboldSlipPos_b17ebf44-57aa-43f8-8dd0-9f2c3a0b17d1, "Run", "CRE_Brewery_StumbleSlip");
+
+IF
+EntityEvent(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, "CRE_Brewery_StumbleSlip", _, _, _)
+THEN
+ApplyStatus(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, "SLEEPING", -1, 1);
+SetCanJoinCombat(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, 1);
+SetCanFight(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, 1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_Brewery_Kobolds(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "SLEEPING", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "SLEEPING", NULL_00000000-0000-0000-0000-000000000000);
+ApplyStatus(_Var1, "SURPRISED", 6, 1, _Var1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_Brewery_Kobolds(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "CRE_BREWERYKOBOLDS_REDUCEDSIGHT", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_Brewery_Kobolds(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRE_KoboldWakeupcall", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(CRE_Brewery_KoboldWakeUpCall_1d7960f9-6e6c-05e8-d15e-2cdbd97e3a36, _Var1);
+SetCanJoinCombat(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, 1);
+SetCanFight(S_CRE_Brewery_StumbleKobold_5a37b8d6-1c6a-48ea-acee-788e5736cf00, 1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "CRE_BREWERYKOBOLDS_FIREWINEBELLY_TECHNICAL", _, _, (GUIDSTRING)_Var1)
+THEN
+CreateExplosion(_Var1, "Projectile_CRE_BreweryKobolds_FirewineBelly_Explosion", -1, _Var1);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRE_Brewery_KoboldBarrels(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(Kobolds_Melee_Drunk_45e31b7d-32ec-4f3d-8067-79061aeec77b, _Var1, 0, 1, "", 1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Saw((CHARACTER)_Var1, (CHARACTER)_Var2, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFaction(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_CRE_KoboldFactions(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRE_KoboldFactions(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(Act1B_CRE_Kobolds_Brewery_0bff51b4-8ced-434a-9061-244eb64f700c, _Var5, 0);
+
+IF
+DB_InRegion(_Var1, S_CRE_Brewery_ADActiveZone_7c2caee7-191f-4a42-9cc7-989a795ebe8b, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CRE_Brewery_Status_PlayersCanHearADs_4363567f-c513-4dcb-916d-7576249da6eb, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EntityEvent(_, "CRE_Brewery_AllPlayersLeftADRange", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(CRE_Brewery_Status_PlayersCanHearADs_4363567f-c513-4dcb-916d-7576249da6eb);
+
+IF
+DB_GlobalFlag(ORI_Laezel_State_CrecheExploded_31ee1ed3-b163-4d1a-84f3-d37521900a87, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRE_Brewery_Kobolds(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 0);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRE_Brewery_Kobolds(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRE_Kobolds_PlayerFirstTurnCombatAD", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_AD_OnNextTurn(_Var3, CRE_Brewery_AD_Combat_PlayerFirstTurn_46125e19-3774-377f-9a62-2503cc576b29);
+DB_CRE_KoboldCombat(_Var2);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRE_KoboldCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnNextTurn(_Var2, CRE_Brewery_AD_Combat_PlayerFirstTurn_46125e19-3774-377f-9a62-2503cc576b29, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnNextTurn(_Var2, CRE_Brewery_AD_Combat_PlayerFirstTurn_46125e19-3774-377f-9a62-2503cc576b29);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1b"

@@ -1,0 +1,146 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Plague_Cures("Target_LesserRestoration", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "OUT_PlagueHouse");
+DB_GLO_Plague_Cures("Target_LayOnHands_Cure", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "OUT_PlagueHouse");
+DB_GLO_Plague_Cures("Target_Heal", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "OUT_PlagueHouse");
+DB_GLO_Plague_CureFlags(GLO_Plague_State_HasCure_73b217b3-51e0-8d34-a49e-ece0d06db16f, GLO_Plague_State_PartyHasCure_4d8a3018-d2f4-2609-6a77-a8027c42ef11, "OUT_PlagueHouse");
+DB_GLO_Plague_CureCheck(GLO_Plague_Event_TryCure_3a223b01-0b91-bfce-4f1a-ded0b63803d8, GLO_Plague_Event_Cured_e36b3842-7404-d320-c996-46f4d799f769, "OUT_PlagueHouse");
+DB_GLO_Plague_InfectedLength(1);
+
+KBSECTION
+IF
+DialogActorJoined((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, _, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_Plague_Infected(_Var3, _Var5, _, _Var1, _Var1)
+AND
+_Var5 != 0
+AND
+DialogIsAutomated(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Plague_PartyCheckCure(_Var2, "OUT_PlagueHouse");
+
+IF
+UsingSpellOnTarget(_, (CHARACTER)_Var2, (STRING)_Var3, _, _, _, _, _, _, _)
+AND
+DB_GLO_Plague_Infected(_Var2, _Var7, _, _, _)
+AND
+_Var7 != 0
+AND
+DB_GLO_Plague_Cures(_Var3, _, _, "OUT_PlagueHouse", _)
+THEN
+SetFlag(GLO_Plague_Event_Cured_e36b3842-7404-d320-c996-46f4d799f769, _Var2);
+
+IF
+FlagSet(GLO_Plague_Event_Cured_e36b3842-7404-d320-c996-46f4d799f769, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_Infected(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var3 != 0
+THEN
+NOT DB_GLO_Plague_Infected(_Var1, _Var3, _Var4);
+DB_GLO_Plague_Infected(_Var1, 0, _Var4);
+
+IF
+DB_GLO_Plague_Infected(_Var1, 1, _, _Var1, _Var1)
+AND
+GetFlag(GLO_Plague_Event_Cured_e36b3842-7404-d320-c996-46f4d799f769, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_Plague_Event_Cured_e36b3842-7404-d320-c996-46f4d799f769, _Var1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_GLO_Plague_CureChecked(_Var3, _Var2, _Var4, _Var5, _)
+THEN
+NOT DB_GLO_Plague_CureChecked(_Var3, _Var2, _Var4, _Var5);
+
+PROC
+PROC_GLO_Plague_PartyCheckCure((INTEGER)_Var1, (STRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GLO_Plague_CureChecked(_, _Var1, _Var2, _, _Var1)
+AND
+QRY_GLO_Plague_PartyHasCure(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Plague_CureChecked(_, _Var1, _Var2, 1, _Var1)
+AND
+DB_GLO_Plague_CureFlags(_, _Var7, _Var2, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var7, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_GLO_Plague_PartyHasCure((INTEGER)_Var1, (STRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_Plague_CureFlags(_Var3, _, _Var2, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Plague_HasCure(_Var5, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_GLO_Plague_CureChecked(_Var5, _Var1, _Var2, 0);
+ClearFlag(_Var3, _Var5);
+
+QRY
+QRY_GLO_Plague_HasCure((CHARACTER)_Var1, (INTEGER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_Cures(_Var4, _Var5, _, _Var3, _Var1)
+AND
+HasSpell(_Var1, _Var4, _Var7, _Var1, _Var1)
+AND
+QRY_SetConditionalObjectFlag(_Var1, _Var5, _Var7, _Var1, _Var1)
+AND
+_Var7 == 1
+AND NOT
+DB_GLO_Plague_CureChecked(_Var1, _Var2, _Var3, _, _Var1)
+AND
+DB_GLO_Plague_CureFlags(_Var9, _Var10, _Var3, _Var1, _Var1)
+THEN
+DB_GLO_Plague_CureChecked(_Var1, _Var2, _Var3, 1);
+SetFlag(_Var9, _Var1);
+SetFlag(_Var10, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_GLO_Plague_TryCure((CHARACTER)_Var1, (FLAG)_Var2, (STRING)_Var3, (INTEGER)_Var4, (STRING)_Var5)
+AND
+DB_GLO_Plague_CureCheck(_, _Var7, _Var5, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var4, _Var8, _, _Var1, _Var1)
+AND
+GetFlag(_Var7, _Var1, 0, _Var1, _Var1)
+AND
+HasSpell(_Var8, _Var3, 1, _Var1, _Var1)
+THEN
+SetFlag(_Var7, _Var1, _Var4);
+ClearFlag(_Var2, _Var8);
+UseSpell(_Var8, _Var3, _Var1);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_GLO_Plague_CureCheck(_Var1, _, _Var5, _Var1, _Var1)
+AND
+DB_GLO_Plague_Cures(_Var6, _, _, _Var5, _Var1)
+AND
+GetFlag(_Var1, _Var2, 1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Plague_TryCure(_Var2, _Var1, _Var6, _Var3, _Var5)
+THEN
+ClearFlag(_Var1, _Var2);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_GLO_Plague_Cures(_Var4, _, _Var1, _Var6, _Var1)
+AND NOT
+QRY_GLO_Plague_TryCure(_Var2, _Var1, _Var4, _Var3, _Var6)
+THEN
+ClearFlag(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

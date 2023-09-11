@@ -1,0 +1,45 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_RelationshipDialog_WRD_TriggerInCamp(Minthara_InParty_13d72d55-0d47-c280-9e9c-da076d8876d8, ORI_Minthara_IPRD_OrinKilled_810bbd82-7ea4-36f3-a670-cfbad2c6bd93);
+TriggerRegisterForCharacter(S_ORI_Minthara_OrinApproach_0398595e-1dd0-4d7c-9135-55d8978100b8, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+KBSECTION
+IF
+EnteredTrigger(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, S_ORI_Minthara_OrinApproach_0398595e-1dd0-4d7c-9135-55d8978100b8, _, _, _)
+THEN
+PROC_RelationshipDialog(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, Minthara_InParty_13d72d55-0d47-c280-9e9c-da076d8876d8, ORI_Minthara_IPRD_GiftOfVengeance_a70bf2ee-fac1-6f58-233e-828934fd22fc, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 0);
+
+IF
+FlagSet(LOW_BaldursMouth_Event_BoughtPaper_8ae9c432-8eb0-4959-bf42-3962e745853e, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Minthara_State_IsInParty_766b8981-eb17-3ec5-5d30-2626509c550f, _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, Minthara_InParty_13d72d55-0d47-c280-9e9c-da076d8876d8, ORI_Minthara_IPRD_BaldursMouthPropoganda_7d8709bf-11a6-aca8-dbeb-0f03368ab9e9, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 0);
+
+IF
+FlagSet(GLO_Orin_State_PermaDefeated_c716e4d9-e6ed-445c-a710-ee4d91c67298, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RelationshipDialog(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, Minthara_InParty_13d72d55-0d47-c280-9e9c-da076d8876d8, ORI_Minthara_IPRD_OrinKilled_810bbd82-7ea4-36f3-a670-cfbad2c6bd93, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 1);
+
+PROC
+PROC_FlagReactionAfterDialog(LOW_MurderTribunal_Sarevok_BloodBaptism_c109fe2f-290c-ec28-9894-4a86ce153ab1, LOW_BhaalTemple_Knows_TempleIsBhaalTemple_b1525a1c-829e-4c05-bc39-c161e30ac235, _, _, _)
+THEN
+PROC_TryStartAD(LOW_BhaalTemple_Knows_TempleIsBhaalTemple_b1525a1c-829e-4c05-bc39-c161e30ac235, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+PROC
+PROC_FlagReactionAfterDialog(LOW_HouseOfGrief_ViconiaMapping_81568711-7b8f-d188-ee16-e9436c7b009f, LOW_HouseOfGrief_Event_OpenSecretDoor_88a7aecb-095e-4a4e-aed4-8a0e6d04bd02, _, _, _)
+THEN
+PROC_TryStartAD(LOW_HouseOfGrief_Event_OpenSecretDoor_88a7aecb-095e-4a4e-aed4-8a0e6d04bd02, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+PROC
+PROC_FlagReactionAfterDialog(WYR_South_Primary_f03a1685-b148-b70e-b773-b62404525308, WYR_South_State_AccessGranted_3339af4f-3214-4d10-aaab-3d3511b9ab74, _, _, _)
+THEN
+PROC_TryStartAD(WYR_South_State_AccessGranted_3339af4f-3214-4d10-aaab-3d3511b9ab74, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

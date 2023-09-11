@@ -1,0 +1,34 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_GlobalFlagReactionAfterDialog(END_IllithidOptions_Event_TadpoleGroupDiscussion_55831e5e-9916-4099-a397-37f5e6967d2e, END_IllithidOptions_Assimilation_f909fcc9-a3dc-b91d-e91c-33f0479c55bb, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_RelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, END_IllithidOptions_WRD_LaezelTadpoleChoice_6b4dd906-1126-8569-4910-359baefcfb31, NULL_00000000-0000-0000-0000-000000000000, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+PROC
+PROC_END_IllithidOptions_TryRaphaelLastChance()
+AND NOT
+QRY_END_IllithidOptions_RaphaelCanAppear()
+THEN
+PROC_RelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, END_IllithidOptions_WRD_LaezelEmperorBetrayed_935a55b7-31ed-b331-cf91-c4a1780ea6a3, NULL_00000000-0000-0000-0000-000000000000, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(END_IllithidOptions_State_AcceptedRaphaelDeal_c4d409ef-d70e-9934-edf2-d6bd66201c19, _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, END_IllithidOptions_WRD_LaezelEmperorBetrayed_935a55b7-31ed-b331-cf91-c4a1780ea6a3, NULL_00000000-0000-0000-0000-000000000000, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+IF
+FlagSet(END_IllithidOptions_State_ExitPortalAvailable_b97872a1-59cc-40cd-8963-e06be614adc0, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, END_IllithidOptions_WRD_LaezelEmperorBetrayed_935a55b7-31ed-b331-cf91-c4a1780ea6a3, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CancelRelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, END_IllithidOptions_WRD_LaezelTadpoleChoice_6b4dd906-1126-8569-4910-359baefcfb31, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3c"

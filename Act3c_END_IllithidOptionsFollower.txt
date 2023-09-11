@@ -1,0 +1,297 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_PermaDefeatedEvent(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, END_General_State_EmperorPermaDefeated_e47e6440-b7e2-4941-bb95-622ebdbdbbef);
+DB_DefeatedEvent(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, END_General_State_EmperorDefeated_1eb39fe6-e460-4f61-baed-d0bf91464ee3);
+DB_PermaDefeatedEvent(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, END_General_State_OrpheusPermaDefeated_9255d9c6-39b2-4436-bd03-c08d99526257);
+DB_DefeatedEvent(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, END_General_State_OrpheusDefeated_f502054a-3668-4e54-b742-6266d00c4ec1);
+DB_END_IllithidOptionsFollower_Follower(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, END_IllithidOptions_State_EmperorIsFollowing_27c8e444-2aa6-4ee3-9157-004e11617c18, END_IllithidOptions_State_EmperorInParty_0e7f8da7-1dce-411e-83ff-e74af6b7601e, END_Emperor_Follower_0d18fc81-4079-5776-4058-3b2cac7d5860);
+DB_END_IllithidOptionsFollower_Follower(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, END_IllithidOptions_State_OrpheusIsFollowing_1ac5b55f-dbf7-4504-8fd9-ca821619f516, END_IllithidOptions_State_OrpheusInParty_b6517ecb-99fe-470a-b9fe-787ca1ec3ddb, END_Orpheus_Follower_5c146ac1-bba2-00e4-ad6c-827402c299f4);
+DB_AddCharactersInTriggerToDialog(END_HighHall_Arrival_be92c5db-c9bf-4130-25f1-bdde183f7a46, S_END_HighHallArrivalDialogBox_b7ad8321-29b1-4d79-800d-ee8eebf9385c, 1, 1, 1);
+PROC_TriggerRegisterForPlayers(S_END_HighHallArrivalDialogBox_b7ad8321-29b1-4d79-800d-ee8eebf9385c);
+DB_END_IllithidOptionsFollower_RegionFlags(S_END_MorphicPool_SUB_5a646d13-e9bb-42f0-84e6-1f8fad2bef81, END_IllithidOptionsFollower_State_InMorphicPool_d1a763fa-c996-45b3-8ae1-cf70a07fe83e);
+DB_END_IllithidOptionsFollower_RegionFlags(S_END_GuardHouse_SUB_465cc4f7-f6ae-4383-a96f-409b18453419, END_IllithidOptionsFollower_State_InGuardHouse_e89ac5a8-3e6e-48a2-a3e6-90654a13229e);
+DB_END_IllithidOptionsFollower_RegionFlags(S_END_Underground_SUB_07f16e8a-fc85-4130-a908-1ae0972c3502, END_IllithidOptionsFollower_State_InUnderground_22d3fb76-1d93-44a8-be41-6b7ab7bbc63f);
+DB_END_IllithidOptionsFollower_RegionFlags(S_END_NautiloidCannonPoly_dcf15690-5483-40b2-8753-5d44a40ceb21, END_IllithidOptionsFollower_State_InHighHallInterior_cc099e2e-b4d3-46ee-b970-d6b6c9ceba60);
+
+KBSECTION
+IF
+TextEvent("end_emperorfollow_stones", _, _, _, _)
+THEN
+SetFlag(Debug_END_IllithidOptions_SidedEmperorGaveStones_0391b1db-c828-495c-bb00-64c936aba35e);
+
+IF
+TextEvent("end_emperorfollow_transformed", _, _, _, _)
+THEN
+SetFlag(Debug_END_IllithidOptions_SidedEmperorKeptStones_b6fe4510-78d6-4f30-a9dd-ee834efd605e);
+
+IF
+TextEvent("end_orpheusfollow_mindflayer", _, _, _, _)
+THEN
+SetFlag(Debug_END_IllithidOptions_SidedOrpheusAsMindFlayer_3255d1a1-8474-4022-91ea-694759388e9a);
+
+IF
+TextEvent("end_orpheusfollow_transformed", _, _, _, _)
+THEN
+SetFlag(Debug_END_IllithidOptions_SidedOrpheusPlayerMindFlayer_fd2aa88e-7678-4618-8baf-6e024c742716);
+
+IF
+DB_GlobalFlag(Debug_END_IllithidOptions_SidedEmperorGaveStones_0391b1db-c828-495c-bb00-64c936aba35e, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEBUG_END_IllithidOptionsFollower_RemoveFollowers(_Var1);
+PROC_DEBUG_END_IllithidOptionsFollower_ResetMindFlayerStatus();
+ClearFlag(Debug_END_IllithidOptions_SidedEmperorGaveStones_0391b1db-c828-495c-bb00-64c936aba35e);
+ClearFlag(END_IllithidOptions_Event_EmperorBetrayal_411c2575-bfbc-449c-9762-edad4285aafd);
+SetFlag(END_IllithidOptions_State_GaveStones_18e3be1a-c1c0-437e-ad0a-a1426d8830f4);
+SetFlag(END_IllithidOptions_State_AssimilatedOrpheus_5562cc3f-c168-48c9-87c1-1598a5c58961);
+PROC_DEBUG_END_IllithidOptionsFollower_Follow(_Var1, S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b);
+
+IF
+DB_GlobalFlag(Debug_END_IllithidOptions_SidedEmperorKeptStones_b6fe4510-78d6-4f30-a9dd-ee834efd605e, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEBUG_END_IllithidOptionsFollower_RemoveFollowers(_Var1);
+PROC_DEBUG_END_IllithidOptionsFollower_ResetMindFlayerStatus();
+ClearFlag(Debug_END_IllithidOptions_SidedEmperorKeptStones_b6fe4510-78d6-4f30-a9dd-ee834efd605e);
+ClearFlag(END_IllithidOptions_Event_EmperorBetrayal_411c2575-bfbc-449c-9762-edad4285aafd);
+SetFlag(END_IllithidOptions_Event_GiveSupremeTadpole_a8128df9-dea6-4a4d-961d-9dbdc49ebb38, _Var1);
+SetFlag(END_IllithidOptions_State_AssimilatedOrpheus_5562cc3f-c168-48c9-87c1-1598a5c58961);
+PROC_DEBUG_END_IllithidOptionsFollower_Follow(_Var1, S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b);
+
+IF
+DB_GlobalFlag(Debug_END_IllithidOptions_SidedOrpheusAsMindFlayer_3255d1a1-8474-4022-91ea-694759388e9a, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(END_IllithidOptions_State_AssimilatedOrpheus_5562cc3f-c168-48c9-87c1-1598a5c58961);
+PROC_DEBUG_END_IllithidOptionsFollower_RemoveFollowers(_Var1);
+PROC_DEBUG_END_IllithidOptionsFollower_ResetMindFlayerStatus();
+ClearFlag(Debug_END_IllithidOptions_SidedOrpheusAsMindFlayer_3255d1a1-8474-4022-91ea-694759388e9a);
+SetFlag(END_IllithidOptions_Event_EmperorBetrayal_411c2575-bfbc-449c-9762-edad4285aafd);
+ApplyStatus(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "MIND_FLAYER_ORPHEUS", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEBUG_END_IllithidOptionsFollower_Follow(_Var1, S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e);
+PROC_END_IllithidOptionsFollower_DebugFreeOrpheus();
+
+IF
+DB_GlobalFlag(Debug_END_IllithidOptions_SidedOrpheusPlayerMindFlayer_fd2aa88e-7678-4618-8baf-6e024c742716, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(END_IllithidOptions_State_AssimilatedOrpheus_5562cc3f-c168-48c9-87c1-1598a5c58961);
+PROC_DEBUG_END_IllithidOptionsFollower_RemoveFollowers(_Var1);
+PROC_DEBUG_END_IllithidOptionsFollower_ResetMindFlayerStatus();
+ClearFlag(Debug_END_IllithidOptions_SidedOrpheusPlayerMindFlayer_fd2aa88e-7678-4618-8baf-6e024c742716);
+SetFlag(END_IllithidOptions_Event_EmperorBetrayal_411c2575-bfbc-449c-9762-edad4285aafd);
+SetFlag(END_IllithidOptions_Event_GiveSupremeTadpole_a8128df9-dea6-4a4d-961d-9dbdc49ebb38, _Var1);
+PROC_DEBUG_END_IllithidOptionsFollower_Follow(_Var1, S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e);
+PROC_END_IllithidOptionsFollower_DebugFreeOrpheus();
+
+PROC
+PROC_END_IllithidOptionsFollower_DebugFreeOrpheus()
+THEN
+SetDetached(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, 0);
+RemoveStatus(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "INT_ORPHEUS_INFERNALBINDSANIM", NULL_00000000-0000-0000-0000-000000000000);
+RemoveStatus(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "INT_INFERNALCHAINS_LEFT", NULL_00000000-0000-0000-0000-000000000000);
+RemoveStatus(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "INT_INFERNALCHAINS_RIGHT", NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(END_IllithidOptions_State_MiniDominationOrbRemoved_05db0c72-bfc8-45a9-8c29-04d11eaa986b);
+SetDoNotFaceFlag(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, 0);
+PROC_SetAnubisConfig(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "DefaultCharacter");
+RemoveStatus(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "INT_ORPHEUS_INFERNALPROTECTION", NULL_00000000-0000-0000-0000-000000000000);
+SetCanJoinCombat(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, 1);
+SetCanFight(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, 1);
+PROC_CharacterEnableAllCrimes(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e);
+SetFlag(END_IllithidOptions_State_OrpheusIsFree_3b747050-1be0-432e-9de6-e48faa4b74bb);
+
+PROC
+PROC_END_IllithidOptionsFollower_DebugFreeOrpheus()
+AND
+GetEquippedItem(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "Gloves", _Var1, _Var1, _Var1)
+AND
+GetEquippedItem(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "Helmet", _Var2, _Var1, _Var1)
+THEN
+Unequip(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, _Var1);
+Unequip(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, _Var2);
+
+PROC
+PROC_DEBUG_END_IllithidOptionsFollower_RemoveFollowers((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var2, _Var3, _Var4, _, _Var1)
+THEN
+ClearFlag(_Var3, _Var1);
+RemovePartyFollower(_Var2, _Var1);
+ClearFlag(_Var4);
+
+PROC
+PROC_DEBUG_END_IllithidOptionsFollower_ResetMindFlayerStatus()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "MIND_FLAYER_FORM", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "MIND_FLAYER_FORM");
+
+PROC
+PROC_DEBUG_END_IllithidOptionsFollower_ResetMindFlayerStatus()
+AND
+HasActiveStatus(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "MIND_FLAYER_FORM", 1, _, _)
+THEN
+RemoveStatus(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "MIND_FLAYER_FORM");
+
+PROC
+PROC_DEBUG_END_IllithidOptionsFollower_Follow((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var3, _Var4, _Var5, _Var6, _Var1)
+AND
+GetFlag(_Var4, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(_Var4, _Var1);
+ClearFlag(_Var5);
+
+PROC
+PROC_DEBUG_END_IllithidOptionsFollower_Follow((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+Resurrect(_Var2);
+
+PROC
+PROC_DEBUG_END_IllithidOptionsFollower_Follow(_, _, _, _, _)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var3, _Var4, _Var5, _Var6, _)
+THEN
+NOT DB_END_IllithidOptionsFollower_Follower(_Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_DEBUG_END_IllithidOptionsFollower_Follow(_, _, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+DB_END_IllithidOptionsFollower_Follower(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, END_IllithidOptions_State_EmperorIsFollowing_27c8e444-2aa6-4ee3-9157-004e11617c18, END_IllithidOptions_State_EmperorInParty_0e7f8da7-1dce-411e-83ff-e74af6b7601e, END_Emperor_Follower_0d18fc81-4079-5776-4058-3b2cac7d5860);
+DB_END_IllithidOptionsFollower_Follower(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, END_IllithidOptions_State_OrpheusIsFollowing_1ac5b55f-dbf7-4504-8fd9-ca821619f516, END_IllithidOptions_State_OrpheusInParty_b6517ecb-99fe-470a-b9fe-787ca1ec3ddb, END_Orpheus_Follower_5c146ac1-bba2-00e4-ad6c-827402c299f4);
+
+PROC
+PROC_DEBUG_END_IllithidOptionsFollower_Follow((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var2, _Var3, _Var4, _, _Var1)
+THEN
+SetFlag(END_IllithidOptions_State_LeftAstralPrism_db4fa8cd-9901-bda6-b5ee-b341075c02ce);
+DebugText(_Var1, "Possiblity of breaking Illithid Options Situations!");
+SetFlag(_Var3, _Var1);
+SetFlag(_Var4);
+TeleportTo(_Var2, _Var1);
+
+PROC
+PROC_END_IllithidOptionsFollower_StartFollow()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(END_IllithidOptions_State_ChosenFollowLeader_70668804-535b-4fee-915e-396d1faa3e84, _Var1, 1, _Var1, _Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var2, _Var3, _Var4, _, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var3, _Var1);
+SetFlag(_Var4);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var4, _Var1, _Var5, _Var6, _Var1)
+THEN
+SetTag(_Var4, PLAYABLE_25bf5042-5bf6-4360-8df8-ab107ccb0d37);
+DB_GLO_Playable(_Var4);
+DB_CanBeResurrected(_Var4);
+DB_PreventPermaDefeated(_Var4);
+DB_PreventKnockedOutPermaDefeated(_Var4);
+DB_PartOfTheTeam(_Var4);
+AddPassive(_Var4, "DeathSavingThrows");
+SetCharacterLootable(_Var4, 0);
+AddPartyFollower(_Var4, _Var2);
+PROC_RemoveDialog(_Var4);
+DB_Dialogs(_Var4, _Var6);
+
+IF
+FlagCleared((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var4, _Var1, _Var5, _, _Var1)
+THEN
+ClearTag(_Var4, PLAYABLE_25bf5042-5bf6-4360-8df8-ab107ccb0d37);
+NOT DB_GLO_Playable(_Var4);
+NOT DB_CanBeResurrected(_Var4);
+RemovePartyFollower(_Var4, _Var2);
+ClearFlag(_Var5);
+NOT DB_PreventPermaDefeated(_Var4);
+NOT DB_PreventKnockedOutPermaDefeated(_Var4);
+NOT DB_PartOfTheTeam(_Var4);
+RemovePassive(_Var4, "DeathSavingThrows");
+SetCharacterLootable(_Var4, 1);
+
+IF
+FlagSet(END_IllithidOptions_State_AssimilatedOrpheus_5562cc3f-c168-48c9-87c1-1598a5c58961, _, _, _, _)
+AND
+DB_END_IllithidOptionsFollower_Follower(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, _Var3, _Var4, _Var5, _)
+THEN
+NOT DB_END_IllithidOptionsFollower_Follower(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, _Var3, _Var4, _Var5);
+
+IF
+FlagSet(END_IllithidOptions_Event_EmperorBetrayal_411c2575-bfbc-449c-9762-edad4285aafd, _, _, _, _)
+AND
+DB_END_IllithidOptionsFollower_Follower(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, _Var3, _Var4, _Var5, _)
+THEN
+NOT DB_END_IllithidOptionsFollower_Follower(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, _Var3, _Var4, _Var5);
+
+IF
+DB_END_IllithidOptionsFollower_RegionFlags(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var3, _, _, _, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var1, _Var3);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_END_IllithidOptionsFollower_RegionFlags(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var1, _, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var3);
+
+IF
+LeftTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_IllithidOptionsFollower_RegionFlags(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var1, _, _, _, _Var1)
+AND
+DB_GlobalFlag(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var3);
+
+IF
+ShortRested((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+GetFlag(_Var3, _Var1, 1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterFullRestore(_Var2);
+
+IF
+EnteredChasm((CHARACTER)_Var1, (GUIDSTRING)_Var2, _, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var1, _, _, _, _Var1)
+THEN
+PROC_Camp_PlayerEnteredChasm(_Var1, _Var2, _Var4, _Var5, _Var6);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3c"

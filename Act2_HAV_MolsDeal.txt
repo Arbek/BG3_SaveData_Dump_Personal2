@@ -1,0 +1,458 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_HAV_MolLetter_28b38a22-3f34-487d-a5e1-3e961405a282, 0);
+DB_HAV_MolsDeal_Debug_FlagList(HAV_MolsDeal_Event_FinishedGame_eadeec6e-e1ea-3aaf-6800-c92f904a9abe);
+DB_HAV_MolsDeal_Debug_FlagList(HAV_MolsDeal_State_WonGame_cd117dc3-5e6e-4100-edc2-369c63479302);
+DB_HAV_MolsDeal_Debug_FlagList(HAV_MolsDeal_State_LostGame_dfd02afb-71e7-1e01-7630-ce08f11cb40a);
+DB_HAV_MolsDeal_Debug_FlagList(HAV_MolsDeal_Mol_HasMet_78e3bb28-e9f5-7ea3-9fdc-9f82daed03b6);
+DB_HAV_MolsDeal_Debug_FlagList(HAV_MolsDeal_Raphael_HasMet_797d0da5-7e0a-4a8c-d2b3-10daa662eba7);
+DB_BookFlags(S_HAV_MolLetter_28b38a22-3f34-487d-a5e1-3e961405a282, HAV_MolsDeal_Knows_ReadMolLetter_11384240-983e-40c5-b3d8-fdc41514428e);
+DB_DialogBlockTradeButton(HAV_MolsDeal_Lanceboard_ThreeWay_3fc20a5a-83a6-e4a9-d9c2-536b0558ec2c);
+DB_DialogBlockAttackButton(HAV_MolsDeal_Lanceboard_ThreeWay_3fc20a5a-83a6-e4a9-d9c2-536b0558ec2c);
+DB_State_Priority(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "NeedsInit", 0);
+DB_State_Priority(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "Checkpoint", 50);
+DB_State_Priority(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "MovingToBoard", 100);
+DB_State_Flags(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "MovingToBoard", HAV_MolsDeal_Mol_State_MovingToBoard_4dd8c25a-e8b3-4e31-be55-973fc52d10c4);
+DB_State_Priority(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "LanceboardPlay", 200);
+DB_State_Flags(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "LanceboardPlay", HAV_MolsDeal_Mol_State_PlayingGame_175c745c-036b-4211-85c9-351b8c0936d0);
+DB_State_Priority(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PostMatch", 300);
+DB_State_Flags(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PostMatch", HAV_MolsDeal_Mol_State_PostGame_aabe4bf0-5496-4e0b-b35e-ea396a9559c1);
+DB_State_Priority(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "Siege", 400);
+DB_State_Priority(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "Left", 500);
+DB_State_Priority(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PermaDefeated", 600);
+DB_State_Current(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "NeedsInit");
+TemplateAddTo(BOOK_UNI_SCL_RaphaelsDiary2_f7d041fc-224a-43f3-8137-97eef0b2da45, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 1, 0);
+
+KBSECTION
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAV_MolsDeal_Debug_FlagList(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_MolsDeal_Debug_FlagsToClear(_Var1, _Var2);
+
+IF
+TextEvent("HAV_MolsDeal_Reset", _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(HAV_EnteringHaven_State_MolVouched_ff4181d3-63ff-49ea-b26e-bc96c919119e);
+PROC_Debug_HAV_MolsDeal_Reset();
+
+IF
+TextEvent("Test_Interrupt", _, _, _, _)
+THEN
+SetEntityEvent(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "Test_Interrupt");
+
+PROC
+PROC_Debug_HAV_MolsDeal_Reset()
+AND
+DB_HAV_MolsDeal_Debug_FlagsToClear(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, _Var2, 0);
+NOT DB_HAV_MolsDeal_Debug_FlagsToClear(_Var1, _Var2);
+
+PROC
+PROC_Debug_HAV_MolsDeal_Reset()
+THEN
+PROC_GLO_Monitor_DebugStateReset();
+PROC_HAV_DebugResetMolStateTo("NeedsInit");
+PROC_HAV_MolsDeal_Init();
+PROC_HAV_TieflingSurvivors_Setup("Mol");
+
+IF
+FlagSet(Debug_HAV_MolsDeal_RaphaelAlone_c0b97115-d43a-b7c4-6914-1ccc2eb5f287, _, _, _, _)
+AND
+IsDead(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 1, _, _, _)
+THEN
+Resurrect(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+
+IF
+FlagSet(Debug_HAV_MolsDeal_RaphaelAlone_c0b97115-d43a-b7c4-6914-1ccc2eb5f287, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetOnStage(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 0);
+PROC_GlobalSetFlagAndCache(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf);
+ClearFlag(Debug_HAV_MolsDeal_RaphaelAlone_c0b97115-d43a-b7c4-6914-1ccc2eb5f287, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_Debug_HAV_MolsDeal_Reset();
+
+IF
+FlagSet(Debug_HAV_MolsDeal_ThreeWaySetup_2b492e4d-bc82-0619-cdec-321cd55a7f41, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetOnStage(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 1);
+PROC_GlobalClearFlagAndCache(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf);
+
+IF
+FlagSet(Debug_HAV_MolsDeal_ThreeWaySetup_2b492e4d-bc82-0619-cdec-321cd55a7f41, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(Debug_HAV_MolsDeal_ThreeWaySetup_2b492e4d-bc82-0619-cdec-321cd55a7f41, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_Debug_HAV_MolsDeal_Reset();
+
+IF
+FlagSet(Debug_HAV_MolsDeal_ResetDialogs_1cb19622-d991-24f6-0f25-0cf069f38e92, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(Debug_HAV_MolsDeal_ResetDialogs_1cb19622-d991-24f6-0f25-0cf069f38e92, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_Debug_HAV_MolsDeal_Reset();
+
+IF
+TextEvent("HAV_MolsDeal_Teleport_Snap", _, _, _, _)
+THEN
+TeleportTo(S_HAV_MolsDeal_Lanceboard_f85b214b-9669-4e6b-99c8-588b5d82cd19, S_HAV_MolsDeal_LanceboardPoint_68191804-c0af-4127-8fe7-f59fcc6061c2, "", 1, 1, 1, 1, 1);
+
+IF
+TextEvent("HAV_MolsDeal_Teleport_NoSnap", _, _, _, _)
+THEN
+TeleportTo(S_HAV_MolsDeal_Lanceboard_f85b214b-9669-4e6b-99c8-588b5d82cd19, S_HAV_MolsDeal_LanceboardPoint_68191804-c0af-4127-8fe7-f59fcc6061c2, "", 1, 1, 1, 1, 0);
+
+IF
+FlagSet(GLO_Debug_MolDead_74068455-501c-0022-d2ec-105c8c8fd527, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf);
+PROC_Children_RemoveNPC(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+Die(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 0, 1);
+DB_Dead(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+SetOnStage(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 0);
+PROC_Debug_HAV_MolsDeal_Reset();
+
+IF
+FlagSet(GLO_Debug_ResurrectMol_4f6ae999-5893-90e8-7226-85d05a6e7b0c, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalClearFlagAndCache(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf);
+DB_Children(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+Resurrect(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+SetOnStage(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 1);
+PROC_Debug_HAV_MolsDeal_Reset();
+
+PROC
+PROC_HAV_DebugResetMolStateTo((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_State_Current(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", _Var2, _Var1, _Var1)
+THEN
+PROC_State_Changed(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", _Var2, _Var1);
+
+PROC
+PROC_HAV_TieflingSurvivors_OnSetupDone("Mol", _, _, _, _)
+THEN
+PROC_HAV_MolsDeal_Init();
+
+PROC
+PROC_HAV_MolsDeal_Init()
+AND NOT
+DB_PermaDefeated(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, _, _, _, _)
+THEN
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "Checkpoint");
+
+PROC
+PROC_HAV_MolsDeal_Init()
+AND NOT
+DB_PermaDefeated(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf, _, _, _, _)
+THEN
+SetOwner(S_HAV_MolsDeal_Lanceboard_f85b214b-9669-4e6b-99c8-588b5d82cd19, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+
+PROC
+PROC_HAV_MolsDeal_Init()
+AND
+DB_PermaDefeated(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf);
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PermaDefeated");
+
+PROC
+PROC_StateSet_PermaDefeated(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, _, _, _, _)
+THEN
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PermaDefeated");
+
+IF
+FlagSet(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf, _, _, _, _)
+THEN
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "MovingToBoard");
+
+PROC
+PROC_State_Changed(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", _, "MovingToBoard", (STRING)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+DB_Dialogs(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, HAV_MolsDeal_MolMoving_996d1993-6363-d43d-d5af-0d940fae09ac);
+
+IF
+EntityEvent(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_MolsDeal_ReachedLanceboard", _, _, _)
+AND
+DB_State_Current(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "MovingToBoard", _, _)
+AND
+DB_State_Current(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_WaitingMolAtLanceboard", _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_PlayingLanceboard");
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "LanceboardPlay");
+
+PROC
+PROC_State_Changed(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", _, "LanceboardPlay", (STRING)_)
+THEN
+DB_SceneManager(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "HAV_MolDeal_MatchPlayed");
+DB_SceneManager(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_MolDeal_MatchPlayed");
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+DB_Dialogs(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, HAV_MolsDeal_Lanceboard_ThreeWay_3fc20a5a-83a6-e4a9-d9c2-536b0558ec2c);
+Use(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, S_HAV_MolsDeal_LanceboardChair_1_8cca0090-625b-4453-82f7-52b938e3f421, 1, 1, "HAV_MolsDeal_SitsAtTable");
+
+IF
+FlagSet(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf, _, _, _, _)
+AND NOT
+QRY_State_IsBeforeState(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeavingHaven", _, _)
+THEN
+PROC_CharacterMoveTo(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, S_HAV_MolsDeal_MolSpot_Lanceboard_e4516c3a-4649-4d8c-b46c-820ad96808f1, "Walk", "HAV_MolsDeal_ReachedAloneSpot");
+
+IF
+EntityEvent(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_MolsDeal_ReachedAloneSpot", _, _, _)
+THEN
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PostMatch");
+
+PROC
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_WaitingMolAtLanceboard", (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != "GLO_Monitor_PlayingLanceboard"
+AND
+DB_State_Current(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "MovingToBoard", _Var1, _Var1)
+THEN
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PostMatch");
+
+IF
+FlagSet(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf, _, _, _, _)
+AND
+QRY_State_IsBeforeState(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeavingHaven", _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_HavenSolo");
+
+PROC
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", _, "GLO_Monitor_WaitingMolAtLanceboard", (STRING)_)
+THEN
+DB_SceneTriggerManager("HAV_MolDeal_MatchPlayed", S_HAV_LanceBoard_SceneManager_4379b45b-8820-4a55-a33b-089a5c6e5d3a, 0);
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, _, "HAV_MolDeal_MatchPlayed", (STRING)_Var3, (GUIDSTRING)_Var1)
+AND
+_Var3 != "StartedDialog"
+AND
+_Var1 != S_HAV_MolLetter_28b38a22-3f34-487d-a5e1-3e961405a282
+THEN
+PROC_SceneOver("HAV_MolDeal_MatchPlayed");
+
+PROC
+PROC_SceneOver("HAV_MolDeal_MatchPlayed", _, _, _, _)
+AND
+DB_State_Current(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "LanceboardPlay", _, _)
+THEN
+PROC_HAV_MolsDeal_MonitorAbort();
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PostMatch");
+
+PROC
+PROC_SceneOver("HAV_MolDeal_MatchPlayed", _, _, _, _)
+AND
+DB_State_Current(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "MovingToBoard", _, _)
+THEN
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PostMatch");
+
+PROC
+PROC_SceneOver("HAV_MolDeal_MatchPlayed", _, _, _, _)
+AND
+DB_State_Current(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_WaitingMolAtLanceboard", _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_HavenSolo");
+
+PROC
+PROC_SceneInterrupted(_, _, "HAV_MolDeal_MatchPlayed", (STRING)_Var3, _)
+AND
+DB_GLO_GenericSceneManager_ViolenceReason(_Var3, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Monitor_State_AttackedMonitor_355730d6-4035-4918-888e-dbbefea1b6c3);
+
+PROC
+PROC_State_Changed(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "LanceboardPlay", _, (STRING)_)
+THEN
+PROC_SceneOver("HAV_MolDeal_MatchPlayed");
+
+IF
+EntityEvent(_, "HAV_MolsDeal_Event_FailedToUseSeat", _, _, _)
+AND
+DB_State_Current(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "LanceboardPlay", _, _)
+THEN
+PROC_SceneOver("HAV_MolDeal_MatchPlayed");
+
+IF
+FlagSet(HAV_MolsDeal_Event_FinishedGame_eadeec6e-e1ea-3aaf-6800-c92f904a9abe, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogNPCs(_Var2, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, _, _, _)
+AND
+DialogRemoveActorFromDialog(_Var2, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(HAV_MolsDeal_Event_FinishedGame_eadeec6e-e1ea-3aaf-6800-c92f904a9abe, _, _, _, _)
+AND
+DB_State_Current(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "LanceboardPlay", _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LanceboardFinished");
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "PostMatch");
+
+PROC
+PROC_State_Changed(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", _, "PostMatch", (STRING)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+DB_Dialogs(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, HAV_MolsDeal_Mol_d47c649a-06cd-e554-8705-2d38a3214110);
+
+PROC
+PROC_HAV_MolsDeal_Init()
+THEN
+PROC_GLO_Monitor_Foop();
+TeleportTo(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, S_HAV_MolsDeal_MonitorSpot_Lanceboard_cab24502-8e98-4b99-9d3e-edfa8ba964b3);
+
+PROC
+PROC_HAV_MolsDeal_Init()
+AND
+DB_GlobalFlag(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_HavenSolo");
+
+PROC
+PROC_State_Changed(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", _, "Left", _)
+AND
+QRY_State_IsBeforeState(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeavingHaven", _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_HavenSolo");
+
+PROC
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", _, "GLO_Monitor_HavenSolo", (STRING)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+DB_Dialogs(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, HAV_MolsDeal_Raphael_f7a2c41b-2b2c-c91e-faf2-b8f6ccdede44);
+
+PROC
+PROC_HAV_MolsDeal_Init()
+AND NOT
+DB_GlobalFlag(HAV_MolsDeal_RaphaelSolo_62228f75-2a30-485d-98d9-13b95f3677cf, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_WaitingMolAtLanceboard");
+
+PROC
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", _, "GLO_Monitor_WaitingMolAtLanceboard", (STRING)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+DB_Dialogs(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, HAV_MolsDeal_RaphaelWaiting_a1266693-df11-9a21-fb66-f5316e2a52a8);
+
+PROC
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", _, "GLO_Monitor_WaitingMolAtLanceboard", _)
+AND NOT
+IsReposedOnEntity(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, S_HAV_MolsDeal_LanceboardChair_2_940559d0-8c46-428a-bcd1-eba27565d3d1, 1, _, _)
+THEN
+Use(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, S_HAV_MolsDeal_LanceboardChair_2_940559d0-8c46-428a-bcd1-eba27565d3d1, 1, 1, "HAV_MolsDeal_MonitorSits");
+
+IF
+DialogEnded(HAV_MolsDeal_Lanceboard_ThreeWay_3fc20a5a-83a6-e4a9-d9c2-536b0558ec2c, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(HAV_MolsDeal_Lanceboard_ThreeWay_3fc20a5a-83a6-e4a9-d9c2-536b0558ec2c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_MolsDeal_MonitorPoof();
+
+IF
+DialogEnded(HAV_MolsDeal_Raphael_f7a2c41b-2b2c-c91e-faf2-b8f6ccdede44, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(HAV_MolsDeal_Raphael_f7a2c41b-2b2c-c91e-faf2-b8f6ccdede44, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_MolsDeal_MonitorPoof();
+
+IF
+FlagSet(HAV_MolsDeal_Event_RaphaelPoof_af56edf4-13f6-4700-bf74-549aaa107f1c, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_HAV_MolsDeal_MonitorStagedOff();
+
+PROC
+PROC_HAV_MolsDeal_MonitorAbort()
+AND
+QRY_State_IsBeforeState(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeavingHaven", _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeavingHaven");
+PROC_ForceStopDialog(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+PROC_HAV_MolsDeal_MonitorLeaves();
+
+PROC
+PROC_HAV_MolsDeal_MonitorLeaves()
+AND NOT
+QRY_StartDialogCustom(HAV_MolsDeal_AD_MonitorLeave_251077f6-dbb7-871a-de69-06a69f0d7ca2, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 0, 0, 0, 0, _, _, _, _)
+THEN
+PROC_HAV_MolsDeal_MonitorPoof();
+
+IF
+AutomatedDialogEnded(HAV_MolsDeal_AD_MonitorLeave_251077f6-dbb7-871a-de69-06a69f0d7ca2, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_HAV_MolsDeal_MonitorPoof();
+
+PROC
+PROC_HAV_MolsDeal_MonitorPoof()
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftHaven");
+PROC_GLO_Monitor_Poof();
+PROC_HAV_MolsDeal_OnMonitorPoofed();
+
+PROC
+PROC_HAV_MolsDeal_MonitorStagedOff()
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftHaven");
+PROC_SetOnStage(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 0);
+PROC_HAV_MolsDeal_OnMonitorPoofed();
+
+PROC
+PROC_State_Changed(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _, _)
+THEN
+PROC_HAV_MolsDeal_MonitorAbort();
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "Siege");
+
+PROC
+PROC_State_Changed(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", (STRING)_Var1, "Siege", (STRING)_Var1)
+AND
+_Var1 != "PostMatch"
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+DB_Dialogs(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, HAV_MolsDeal_Mol_d47c649a-06cd-e554-8705-2d38a3214110);
+
+PROC
+PROC_State_Changed(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_NightsongFreed", _, _)
+AND NOT
+DB_GlobalFlag(HAV_TakingIsobel_Event_MolKidnapped_1a87fee7-163a-477c-b84d-cc0fbb74dbe2, _, _, _, _)
+THEN
+PurgeOsirisQueue(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+SetOnStage(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 0);
+PROC_GlobalSetFlagAndCache(HAV_MolsDeal_State_MolLeftWithHarpers_149b5a39-392c-4c0a-bb64-796f0123ddcf);
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "Left");
+PROC_HAV_MolsDeal_MonitorAbort();
+
+IF
+FlagSet(HAV_General_State_IsHostileToPlayers_3cd1e3a7-6a9a-6558-a9f2-8db69824869b, _, _, _, _)
+AND
+QRY_State_IsBeforeState(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeavingHaven", _, _)
+THEN
+PROC_HAV_MolsDeal_MonitorPoof();
+
+IF
+FlagSet(HAV_General_State_IsHostileToPlayers_3cd1e3a7-6a9a-6558-a9f2-8db69824869b, _, _, _, _)
+AND
+QRY_State_IsBeforeState(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "Left", _, _)
+THEN
+PROC_DisappearOutOfSight(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "Run", 0, "");
+PROC_State_Progress(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "HAV_Mol", "Left");
+
+IF
+FlagSet(HAV_MolsDeal_State_MolLeftWithHarpers_149b5a39-392c-4c0a-bb64-796f0123ddcf, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetOnStage(S_HAV_MolLetter_28b38a22-3f34-487d-a5e1-3e961405a282, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

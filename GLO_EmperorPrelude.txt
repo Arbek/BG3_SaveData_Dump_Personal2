@@ -1,0 +1,812 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DialogBlockTradeButton(GLO_EmperorPrelude_EndReady_27c34570-216b-3b6d-928e-938948d3591d);
+DB_DropMutingStatussesDialog(GLO_EmperorPrelude_EndReady_27c34570-216b-3b6d-928e-938948d3591d);
+DB_DialogBlockAttackButton(GLO_EmperorPrelude_EndReady_27c34570-216b-3b6d-928e-938948d3591d);
+DB_IgnoreMutingStatussesDialog(END_MorphicPool_BoatPassage_9459b1e4-f0b7-aab9-ae56-6c7089155d89);
+DB_GLO_EmperorPrelude_NetherStoneTrackers(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, COL_KethericShowdown_State_HasNetherstone_0243527e-408f-4711-97a0-7759847bb00a, GLO_EmperorPrelude_State_KethericStoneCollected_98cc3440-0316-4056-9aeb-d8b6e7c79b64, NULL_00000000-0000-0000-0000-000000000000, GLO_EmperorPrelude_State_KethericStoneAtCamp_ac25aac5-d4d0-4c2c-8327-6283e39f9938, "GLO_CrownController_Ketheric");
+DB_GLO_EmperorPrelude_NetherStoneTrackers(S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b, LOW_BhaalTemple_State_HasNetherstone_818fd00e-6780-4712-980e-5c7c25ba9987, GLO_EmperorPrelude_State_OrinStoneCollected_3e629422-74fd-49d0-9e15-d078f6a9c02c, GLO_EmperorPrelude_State_ReceivedOrinStoneLast_a9278f62-84d9-4430-a0c1-4952f790513c, GLO_EmperorPrelude_State_OrinStoneAtCamp_9ced54ed-8ea7-4d73-b9b4-d38ada6d7c17, "GLO_CrownController_Orin");
+DB_GLO_EmperorPrelude_NetherStoneTrackers(S_WYR_CrownController_Gortash_383be300-d328-4152-86df-4927482d1fd7, WYR_KillDirectorGortash_State_HasNetherstone_27dbf056-29ee-4d43-9ad9-4831fa2c8739, GLO_EmperorPrelude_State_GortashStoneCollected_c608f192-c5ab-4be9-b13d-4c4ca3c6b971, GLO_EmperorPrelude_State_ReceivedGortashStoneLast_29527c15-99c6-4da7-9eba-ea04e30a4fa1, GLO_EmperorPrelude_State_GortashStoneAtCamp_e22c3b3d-e1d4-4442-9cbc-010b2f4167f0, "GLO_CrownController_Orin");
+DB_GLO_EmperorPrelude_LastStoneOrderFlags(GLO_EmperorPrelude_State_OrinStoneCollected_3e629422-74fd-49d0-9e15-d078f6a9c02c, GLO_EmperorPrelude_State_ReceivedGortashStoneLast_29527c15-99c6-4da7-9eba-ea04e30a4fa1, S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, S_WYR_CrownController_Gortash_383be300-d328-4152-86df-4927482d1fd7);
+DB_GLO_EmperorPrelude_LastStoneOrderFlags(GLO_EmperorPrelude_State_GortashStoneCollected_c608f192-c5ab-4be9-b13d-4c4ca3c6b971, GLO_EmperorPrelude_State_ReceivedOrinStoneLast_a9278f62-84d9-4430-a0c1-4952f790513c, S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b);
+DB_GLO_EmperorPrelude_GortashPactTracker(COL_KethericShowdown_State_HasNetherstone_0243527e-408f-4711-97a0-7759847bb00a, S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d);
+DB_GLO_EmperorPrelude_GortashPactTracker(LOW_BhaalTemple_State_HasNetherstone_818fd00e-6780-4712-980e-5c7c25ba9987, S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b);
+DB_GLO_EmperorPrelude_EmperorLocation("CTY_Main_A", S_END_EmperorProjectionOrinPoint_a0efed79-3ec1-47bb-a9d8-b4eaf47d076d);
+DB_GLO_EmperorPrelude_EmperorLocation("BGO_Main_A", S_END_EmperorProjectionGortashPoint_ae64c182-9e48-4be0-abab-1e4ef4cd438f);
+DB_HasItemEvent(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, COL_KethericShowdown_State_HasNetherstone_0243527e-408f-4711-97a0-7759847bb00a);
+DB_HasItemEvent(S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b, LOW_BhaalTemple_State_HasNetherstone_818fd00e-6780-4712-980e-5c7c25ba9987);
+DB_HasItemEvent(S_WYR_CrownController_Gortash_383be300-d328-4152-86df-4927482d1fd7, WYR_KillDirectorGortash_State_HasNetherstone_27dbf056-29ee-4d43-9ad9-4831fa2c8739);
+DB_END_DEBUG_EmperorPrelude_Hooks("glo_emperorprelude_pact");
+DB_END_DEBUG_EmperorPrelude_Hooks("glo_emperorprelude_gortash");
+DB_END_DEBUG_EmperorPrelude_Hooks("glo_emperorprelude_orin");
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(0);
+DB_GLO_EmperorPrelude_LastIntermezzoStoneDropper(NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_EmperorPrelude_EmperorRevealedLevels("BGO_Main_A");
+DB_GLO_EmperorPrelude_EmperorRevealedLevels("CTY_Main_A");
+DB_GLO_EmperorPrelude_EmperorRevealedLevels("END_Main");
+
+KBSECTION
+IF
+FlagSet(Debug_GLO_EmperorPrelude_GetKethericStone_bcaea7b6-28cf-4491-a8df-49191427a9b2, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(Debug_GLO_EmperorPrelude_GetKethericStone_bcaea7b6-28cf-4491-a8df-49191427a9b2, _Var1);
+ToInventory(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, _Var1);
+
+IF
+FlagSet(Debug_GLO_EmperorPrelude_GetGortashStone_796febf0-7a23-4aa7-9946-49c7d5d2246c, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(Debug_GLO_EmperorPrelude_GetGortashStone_796febf0-7a23-4aa7-9946-49c7d5d2246c, _Var1);
+ToInventory(S_WYR_CrownController_Gortash_383be300-d328-4152-86df-4927482d1fd7, _Var1);
+
+IF
+FlagSet(Debug_GLO_EmperorPrelude_GetOrinStone_19065fd0-7583-4866-ba65-211420fde7a2, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(Debug_GLO_EmperorPrelude_GetOrinStone_19065fd0-7583-4866-ba65-211420fde7a2, _Var1);
+ToInventory(S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b, _Var1);
+
+IF
+TextEvent("end_tomorphicboat", _, _, _, _)
+THEN
+PROC_TeleportPartiesTo(S_Debug_Teleport_END_MorphicPoolBoat_6e077331-d6b4-4b72-bcea-fbe6e095d366, "");
+
+IF
+TextEvent((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_END_DEBUG_EmperorPrelude_Hooks(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_END_DEBUG_EmperorPrelude_ReadyStones(_Var1);
+
+PROC
+PROC_END_DEBUG_EmperorPrelude_ReadyStones("glo_emperorprelude_pact", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, _Var1);
+ToInventory(S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b, _Var1);
+SetFlag(WYR_KillDirectorGortash_State_AgreedToMeetInUndercity_1375d542-cf0a-49fd-927b-5c6bbce13ce4);
+
+PROC
+PROC_END_DEBUG_EmperorPrelude_ReadyStones("glo_emperorprelude_gortash", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, _Var1);
+ToInventory(S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b, _Var1);
+ToInventory(S_WYR_CrownController_Gortash_383be300-d328-4152-86df-4927482d1fd7, _Var1);
+PROC_GLO_EmperorPrelude_ReadyEmperor();
+PROC_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var1);
+
+PROC
+PROC_END_DEBUG_EmperorPrelude_ReadyStones("glo_emperorprelude_orin", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, _Var1);
+ToInventory(S_WYR_CrownController_Gortash_383be300-d328-4152-86df-4927482d1fd7, _Var1);
+ToInventory(S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b, _Var1);
+PROC_GLO_EmperorPrelude_ReadyEmperor();
+PROC_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var1);
+
+IF
+TextEvent("end_boatpassage", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(END_MorphicPool_BoatPassage_9459b1e4-f0b7-aab9-ae56-6c7089155d89, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_, _, _, _, _, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+MapMarkerChangeLevel(_Var7, _Var1);
+
+IF
+FlagCleared((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var4, _Var1, _Var5, _, _, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_EmperorPrelude_NetherstoneIsInMagicPocketsOrCamp(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone(_Var4, _Var2, _Var9);
+ShowMapMarker(_Var2, _Var8, 1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone((ITEM)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_CurrentLevel("INT_Main_A", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(END_MorphicPool_Event_ConfrontationStarted_5f683240-a9ab-449d-9847-a3ed0dc9a23f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_EmperorPrelude_DroppedStoneADPlayer(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_EmperorPrelude_DroppedStoneADPlayer(_Var2);
+PROC_GLO_EmperorPrelude_PlayDroppedStoneAD(_Var2);
+
+PROC
+PROC_LevelLoadedOnce((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_EmperorRevealedLevels(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(INT_EmperorRevealed_State_DaisyTrueIdentity_4e234132-dafe-4e81-8c68-6b8a90778562, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(INT_EmperorRevealed_State_DaisyTrueIdentity_4e234132-dafe-4e81-8c68-6b8a90778562);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayDroppedStoneAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(INT_EmperorRevealed_State_DaisyTrueIdentity_4e234132-dafe-4e81-8c68-6b8a90778562, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var1, GLO_EmperorPrelude_DaisyAD_DroppedStone_2687c132-2393-ad82-0d06-58ae6b77fc80);
+RealtimeObjectTimerLaunch(_Var1, "GLO_EmperorPrelude_DroppedADBuffer", 10000);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayDroppedStoneAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(INT_EmperorRevealed_State_DaisyTrueIdentity_4e234132-dafe-4e81-8c68-6b8a90778562, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, GLO_EmperorPrelude_EmperorAD_DroppedStone_5f8a4246-2141-960e-a2ac-43aa831caa9d);
+RealtimeObjectTimerLaunch(_Var1, "GLO_EmperorPrelude_DroppedADBuffer", 10000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "GLO_EmperorPrelude_DroppedADBuffer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_EmperorPrelude_DroppedStoneADPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(INT_EmperorRevealed_State_DaisyTrueIdentity_4e234132-dafe-4e81-8c68-6b8a90778562, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_EmperorPrelude_DroppedStoneADPlayer(_Var1);
+PROC_RemoveDaisyAD(_Var1, GLO_EmperorPrelude_DaisyAD_DroppedStone_2687c132-2393-ad82-0d06-58ae6b77fc80);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "GLO_EmperorPrelude_DroppedADBuffer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_EmperorPrelude_DroppedStoneADPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(INT_EmperorRevealed_State_DaisyTrueIdentity_4e234132-dafe-4e81-8c68-6b8a90778562, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_EmperorPrelude_DroppedStoneADPlayer(_Var1);
+PROC_ResetEmperorAD(_Var1, GLO_EmperorPrelude_EmperorAD_DroppedStone_5f8a4246-2141-960e-a2ac-43aa831caa9d);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var1, _, _, _, _Var7, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PlayerInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var7);
+
+IF
+AddedTo((ITEM)_Var1, (GUIDSTRING)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var1, _, _, _, _Var7, _, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var2, CONT_PlayerCampChest_96eab9d1-74b1-42f7-b1ad-061a9fcea8c4, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var7);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var4, _Var1, _, _, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+ShowMapMarker(_Var2, _Var8, 0);
+ClearFlag(_Var7);
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone(_Var4, _Var2, _Var9);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone((ITEM)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_EmperorPrelude_NotLastNetherstone((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_GLO_EmperorPrelude_LastStone(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_EmperorPrelude_AnyNetherstoneNotInMagicPocketsOrCamp()
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_EmperorPrelude_NetherstoneIsInMagicPocketsOrCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_EmperorPrelude_NetherstoneIsInMagicPocketsOrCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var1, _Var7, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_EmperorPrelude_NetherstoneIsInMagicPocketsOrCamp((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var1, _, _, _, _Var5, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_EmperorPrelude_DroppedNetherstoneCount()
+AND
+QRY_GLO_EmperorPrelude_ResetDroppedNetherstoneCount()
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var1, _Var2, _Var3, _, _Var5, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_EmperorPrelude_NetherstoneIsInMagicPocketsOrCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var7, 1, _Var8, _Var1, _Var1)
+THEN
+NOT DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var7);
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var8);
+
+QRY
+QRY_GLO_EmperorPrelude_ResetDroppedNetherstoneCount()
+AND
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var1);
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(0);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_, _Var1, _Var5, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var5);
+
+IF
+FlagSet((FLAG)_Var1, _, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_GLO_EmperorPrelude_LastStoneOrderFlags(_Var1, _Var4, _Var5, _Var6, _Var1)
+AND NOT
+DB_GLO_EmperorPrelude_LastStone(_, _, _, _Var1, _Var1)
+THEN
+DB_GLO_EmperorPrelude_LastStone(_Var4, _Var5, _Var6);
+
+IF
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_, _, _Var1, _Var4, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_LastStone(_Var4, _, _, _Var1, _Var1)
+THEN
+SetFlag(_Var4);
+SetFlag(GLO_EmperorPrelude_State_AllStonesPickedUp_f5f28f14-985f-449d-a9de-95ee46d2fca8);
+
+IF
+AddedTo((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_EmperorPrelude_LastStone(_, _, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_EmperorPrelude_ReadyEmperor();
+PROC_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var2);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND NOT
+DB_GLO_EmperorPrelude_DialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_, _Var1, _, _Var6, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_LastStone(_Var6, _, _Var10, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var10, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_GLO_EmperorPrelude_ReadyEmperor();
+PROC_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var2);
+
+PROC
+PROC_GLO_EmperorPrelude_ReadyPlayerForDialog(_, _, _, _, _)
+AND
+DB_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var2, _, _, _, _)
+THEN
+NOT DB_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var2);
+
+PROC
+PROC_GLO_EmperorPrelude_ReadyPlayerForDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var1);
+
+IF
+DB_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(END_MorphicPool_Event_ConfrontationStarted_5f683240-a9ab-449d-9847-a3ed0dc9a23f, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_EmperorPrelude_TryStartPreludeDialog(_Var1);
+
+PROC
+PROC_GLO_EmperorPrelude_ReadyEmperor()
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_EmperorLocation(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, 1);
+TeleportTo(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, _Var2);
+
+PROC
+PROC_GLO_EmperorPrelude_TryStartPreludeDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_EmperorPrelude_DialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(GLO_EmperorPrelude_EndReady_27c34570-216b-3b6d-928e-938948d3591d, S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_EmperorPrelude_DialogStarted(1);
+
+PROC
+PROC_GLO_EmperorPrelude_TryStartPreludeDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo_PreferAvatar(_Var2, _Var1, _Var3, 1, _Var1)
+AND NOT
+DB_GLO_EmperorPrelude_DialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(GLO_EmperorPrelude_EndReady_27c34570-216b-3b6d-928e-938948d3591d, S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, _Var2, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_EmperorPrelude_DialogStarted(1);
+
+PROC
+PROC_GLO_EmperorPrelude_TryStartPreludeDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 <= 20
+AND NOT
+DB_GLO_EmperorPrelude_DialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(GLO_EmperorPrelude_EndReady_27c34570-216b-3b6d-928e-938948d3591d, S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, _Var2, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_EmperorPrelude_DialogStarted(1);
+
+PROC
+PROC_GLO_EmperorPrelude_TryStartPreludeDialog(_, _, _, _, _)
+AND NOT
+DB_GLO_EmperorPrelude_DialogStarted(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_MorphicPool_State_UnlockedAccess_b65fedb8-ed89-4ccf-b20f-3338474bda18, _, _, _, _)
+THEN
+SetFlag(END_MorphicPool_State_UnlockedAccess_b65fedb8-ed89-4ccf-b20f-3338474bda18);
+DebugBreak("GLO_EmperorPrelude_EndReady failed to find a valid speaker!");
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(GLO_EmperorPrelude_EndReady_27c34570-216b-3b6d-928e-938948d3591d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_EmperorPrelude_ReadyPlayerForDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 <= 20
+AND
+IsSpeakerReserved(_Var3, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var3, 1);
+
+IF
+DialogEnded(GLO_EmperorPrelude_EndReady_27c34570-216b-3b6d-928e-938948d3591d, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(END_MorphicPool_State_UnlockedAccess_b65fedb8-ed89-4ccf-b20f-3338474bda18);
+
+IF
+DB_GlobalFlag(GLO_EmperorPrelude_State_OrinStoneCollected_3e629422-74fd-49d0-9e15-d078f6a9c02c, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_KillDirectorGortash_State_AgreedToMeetInUndercity_1375d542-cf0a-49fd-927b-5c6bbce13ce4, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_MorphicPool_State_UnlockedAccess_b65fedb8-ed89-4ccf-b20f-3338474bda18, _, _, _, _)
+THEN
+SetFlag(END_MorphicPool_State_UnlockedAccess_b65fedb8-ed89-4ccf-b20f-3338474bda18);
+PROC_GLO_EmperorPrelude_GortashMoveToMorphicPool();
+
+IF
+FlagCleared((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_, _Var1, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_EmperorPrelude_CheckAllStonesInInventory();
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_, _Var1, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_EmperorPrelude_CheckAllStonesInInventory();
+
+QRY
+QRY_GLO_EmperorPrelude_AnyNetherstonesNotInActivePartyInventory()
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var1, _Var2, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_EmperorPrelude_HasItemFlagSetOnAnyPlayer(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_EmperorPrelude_HasItemFlagSetOnAnyPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_EmperorPrelude_CheckAllStonesInInventory()
+AND
+QRY_GLO_EmperorPrelude_AnyNetherstonesNotInActivePartyInventory()
+THEN
+ClearFlag(GLO_EmperorPrelude_State_AllStonesInPartyInventory_1106e99b-273e-4d19-b3cc-7a9667cf3d53);
+
+PROC
+PROC_GLO_EmperorPrelude_CheckAllStonesInInventory()
+AND NOT
+QRY_GLO_EmperorPrelude_AnyNetherstonesNotInActivePartyInventory()
+THEN
+SetFlag(GLO_EmperorPrelude_State_AllStonesInPartyInventory_1106e99b-273e-4d19-b3cc-7a9667cf3d53);
+
+IF
+FlagCleared((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_GortashPactTracker(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_EmperorPrelude_CheckGortashPactStones();
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_GortashPactTracker(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_EmperorPrelude_CheckGortashPactStones();
+
+PROC
+PROC_GLO_EmperorPrelude_CheckGortashPactStones()
+AND
+QRY_GLO_EmperorPrelude_GortashPactAnyNetherstoneNotInInventory()
+THEN
+ClearFlag(GLO_EmperorPrelude_State_GortashPactAndBothStoneInInventory_07352366-dcc0-4424-a9df-c94512ba76c0);
+
+IF
+FlagSet(WYR_KillDirectorGortash_State_AgreedToMeetInUndercity_1375d542-cf0a-49fd-927b-5c6bbce13ce4, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GLO_EmperorPrelude_CheckGortashPactStones();
+
+PROC
+PROC_GLO_EmperorPrelude_CheckGortashPactStones()
+AND NOT
+QRY_GLO_EmperorPrelude_GortashPactAnyNetherstoneNotInInventory()
+AND
+DB_GlobalFlag(WYR_KillDirectorGortash_State_AgreedToMeetInUndercity_1375d542-cf0a-49fd-927b-5c6bbce13ce4, _, _, _, _)
+THEN
+SetFlag(GLO_EmperorPrelude_State_GortashPactAndBothStoneInInventory_07352366-dcc0-4424-a9df-c94512ba76c0);
+
+QRY
+QRY_GLO_EmperorPrelude_GortashPactAnyNetherstoneNotInInventory()
+AND
+DB_GLO_EmperorPrelude_GortashPactTracker(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_EmperorPrelude_HasItemFlagSetOnAnyPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, (CHARACTER)_Var1, "INT_Main_A", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_EmperorPrelude_LastIntermezzoStoneDropper(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_EmperorPrelude_LastIntermezzoStoneDropper(_Var2);
+DB_GLO_EmperorPrelude_LastIntermezzoStoneDropper(_Var1);
+
+PROC
+PROC_GLO_EmperorPrelude_CheckForIntermezzoStone()
+AND NOT
+QRY_GLO_EmperorPrelude_NetherstoneIsInMagicPocketsOrCamp(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, _, _, _, _)
+AND
+DB_GLO_EmperorPrelude_LastIntermezzoStoneDropper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SendToCampChest(S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d, _Var1);
+NOT DB_GLO_EmperorPrelude_LastIntermezzoStoneDropper(_Var1);
+DB_GLO_EmperorPrelude_WaitForBGOLoad(1);
+
+IF
+LevelLoaded("BGO_Main_A", _, _, _, _)
+AND
+DB_GLO_EmperorPrelude_WaitForBGOLoad(1, _, _, _, _)
+THEN
+NOT DB_GLO_EmperorPrelude_WaitForBGOLoad(1);
+TimerLaunch("GLO_IntermezzoStoneEmperorAD", 10000);
+
+IF
+TimerFinished("GLO_IntermezzoStoneEmperorAD", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_EmperorPrelude_ReadyIntermezzoEmperorAD(_Var1);
+
+IF
+DB_GLO_EmperorPrelude_ReadyIntermezzoEmperorAD(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, GLO_EmperorPrelude_EmperorAD_LostIntermezzoStone_877040f7-7355-d846-aabc-ab50e13bfd34);
+NOT DB_GLO_EmperorPrelude_ReadyIntermezzoEmperorAD(_Var1);
+
+IF
+LevelLoaded("CTY_Main_A", _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_EmperorPrelude_SetFishOffStage", _, _, _, _)
+THEN
+SetOnStage(S_LOW_NetherstoneFish_698b7ef0-9b7f-4c71-9f88-e90cbbfa9cfc, 0);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone((ITEM)_Var1, _, "IRN_Main_A", (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_Var1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone(_, _, "IRN_Main_A", _, _)
+AND NOT
+DB_GlobalFlag(GLO_EmperorPrelude_State_StoneInIronThrone_30d5fc8d-fcdf-4d99-9b35-b681d13c1dd1, _, _, _, _)
+THEN
+SetFlag(GLO_EmperorPrelude_State_StoneInIronThrone_30d5fc8d-fcdf-4d99-9b35-b681d13c1dd1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone(_, _, "IRN_Main_A", _, _)
+AND
+QRY_GLO_EmperorPrelude_DroppedNetherstoneCount()
+AND
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var3, _, _, _, _)
+AND
+_Var3 > 1
+THEN
+SetFlag(GLO_EmperorPrelude_State_MoreThanOneStoneInIronThrone_b3d54fb1-6865-2c02-e977-8f3cbf3e76c7);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone((ITEM)_Var1, _, "IRN_Main_A", (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_Var1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone(_, _, "IRN_Main_A", _, _)
+AND
+QRY_GLO_EmperorPrelude_DroppedNetherstoneCount()
+AND
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var3, _, _, _, _)
+AND
+_Var3 == 0
+THEN
+ClearFlag(GLO_EmperorPrelude_State_StoneInIronThrone_30d5fc8d-fcdf-4d99-9b35-b681d13c1dd1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone(_, _, "IRN_Main_A", _, _)
+AND
+QRY_GLO_EmperorPrelude_DroppedNetherstoneCount()
+AND
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var3, _, _, _, _)
+AND
+_Var3 <= 1
+THEN
+ClearFlag(GLO_EmperorPrelude_State_MoreThanOneStoneInIronThrone_b3d54fb1-6865-2c02-e977-8f3cbf3e76c7);
+
+PROC
+PROC_State_Changed(_, "IRN_IronThrone", "BackAtDocks", _, _)
+AND
+DB_GlobalFlag(GLO_EmperorPrelude_State_StoneInIronThrone_30d5fc8d-fcdf-4d99-9b35-b681d13c1dd1, _, _, _, _)
+THEN
+SetFlag(GLO_EmperorPrelude_State_IronThoneStonesAtBeach_8a4d87d3-7db5-410b-bbab-aea04b9ef1f2);
+DB_OneShotPlayerTrigger(S_LOW_LostStoneArrivalBox_f93d0238-e539-415b-b47f-eddd34a35b6b);
+PROC_GLO_EmperorPrelude_CheckSahuaginAttackStatus();
+
+PROC
+PROC_GLO_EmperorPrelude_CheckSahuaginAttackStatus()
+AND NOT
+DB_GlobalFlag(LOW_SahuaginAttack_State_SahuaginAttacked_0b56687e-e5b1-4e26-b546-5cf95418423a, _, _, _, _)
+THEN
+SetFlag(GLO_EmperorPrelude_State_IronThroneStonesToSahuagin_6125b3a8-2154-4878-9c7f-1b7f1d984dab);
+PROC_GLO_EmperorPrelude_MoveLostStonesToInventory(S_LOW_BeachSahuagin_Sahuagin_Champion_01_36902e83-9823-418a-8481-8835e95d481c);
+
+PROC
+PROC_GLO_EmperorPrelude_CheckSahuaginAttackStatus()
+AND
+DB_GlobalFlag(LOW_SahuaginAttack_State_SahuaginAttacked_0b56687e-e5b1-4e26-b546-5cf95418423a, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_LOW_BeachSahuagin_Civilian_Fishmonger_ecba853d-f96a-4252-912e-3bf030b10482, _, _, _, _)
+THEN
+SetFlag(GLO_EmperorPrelude_State_IronThroneStoneToFishmonger_661809de-55ed-4455-b4d2-8ae0db487e3a);
+PROC_GLO_EmperorPrelude_MoveLostStonesToInventory(S_LOW_BeachSahuagin_Civilian_Fishmonger_ecba853d-f96a-4252-912e-3bf030b10482);
+
+PROC
+PROC_GLO_EmperorPrelude_CheckSahuaginAttackStatus()
+AND
+DB_GlobalFlag(LOW_SahuaginAttack_State_SahuaginAttacked_0b56687e-e5b1-4e26-b546-5cf95418423a, _, _, _, _)
+AND
+DB_PermaDefeated(S_LOW_BeachSahuagin_Civilian_Fishmonger_ecba853d-f96a-4252-912e-3bf030b10482, _, _, _, _)
+THEN
+SetFlag(GLO_EmperorPrelude_State_IronThroneStoneToDeadFish_d9c42773-628c-4c96-b0e8-158b7a9df412);
+SetOnStage(S_LOW_NetherstoneFish_698b7ef0-9b7f-4c71-9f88-e90cbbfa9cfc, 1);
+PROC_GLO_EmperorPrelude_SetUpNetherstoneFish();
+PROC_GLO_EmperorPrelude_MoveLostStonesToInventory(S_LOW_NetherstoneFish_698b7ef0-9b7f-4c71-9f88-e90cbbfa9cfc);
+
+PROC
+PROC_GLO_EmperorPrelude_SetUpNetherstoneFish()
+AND
+GetPosition(S_LOW_NetherstoneFishPoint_2bd91805-7324-4e5e-8d7a-6fe56d33337a, _Var1, _Var2, _Var3, _Var1)
+AND
+FindValidPosition(_Var1, _Var2, _Var3, 5, S_LOW_NetherstoneFish_698b7ef0-9b7f-4c71-9f88-e90cbbfa9cfc, 0, _Var4, _Var5, _Var6, _Var1)
+THEN
+TeleportToPosition(S_LOW_NetherstoneFish_698b7ef0-9b7f-4c71-9f88-e90cbbfa9cfc, _Var4, _Var5, _Var6, "", 0);
+
+PROC
+PROC_GLO_EmperorPrelude_MoveLostStonesToInventory((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(_Var2, _Var1, 1, 0, 0);
+
+IF
+AddedTo((ITEM)_Var1, S_LOW_BeachSahuagin_Civilian_Fishmonger_ecba853d-f96a-4252-912e-3bf030b10482, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetIsTradable(_Var1, 0);
+
+PROC
+PROC_State_Changed(_, "IRN_IronThrone", "Finished", _, _)
+AND
+DB_GlobalFlag(GLO_EmperorPrelude_State_StoneInIronThrone_30d5fc8d-fcdf-4d99-9b35-b681d13c1dd1, _, _, _, _)
+AND
+DB_Avatars(_Var2, _, _, _, _)
+THEN
+DB_GLO_EmperorPrelude_ReturnFromIronThroneADAvatar(_Var2);
+
+IF
+DB_GLO_EmperorPrelude_ReturnFromIronThroneADAvatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_EmperorPrelude_ReturnFromIronThroneADAvatar(_Var1);
+PROC_EmperorAD(_Var1, GLO_EmperorPrelude_EmperorAD_LeftStonesInIronThrone_670c30a1-0c85-5a09-b804-7016441a97fd);
+
+PROC
+PROC_OneShotTriggerEntered((CHARACTER)_Var1, S_LOW_LostStoneArrivalBox_f93d0238-e539-415b-b47f-eddd34a35b6b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GLO_EmperorPrelude_State_IronThoneStonesAtBeach_8a4d87d3-7db5-410b-bbab-aea04b9ef1f2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_EmperorPrelude_State_IronThroneStonesToSahuagin_6125b3a8-2154-4878-9c7f-1b7f1d984dab, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, GLO_EmperorPrelude_EmperorAD_AtBeachForLostStones_97c56406-4be3-73cc-8d0d-cbead48a2847);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(GLO_EmperorPrelude_State_IronThoneStonesAtBeach_8a4d87d3-7db5-410b-bbab-aea04b9ef1f2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(S_LOW_BeachSahuagin_Sahuagin_Champion_01_36902e83-9823-418a-8481-8835e95d481c, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, GLO_EmperorPrelude_EmperorAD_AtBeachForLostStones_97c56406-4be3-73cc-8d0d-cbead48a2847);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GlobalFlag(GLO_EmperorPrelude_State_IronThoneStonesAtBeach_8a4d87d3-7db5-410b-bbab-aea04b9ef1f2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_Var1);
+ResetIsTradable(_Var1);
+PROC_GLO_EmperorPrelude_CheckAllIronThroneStonesReceived(_Var2);
+
+PROC
+PROC_GLO_EmperorPrelude_CheckAllIronThroneStonesReceived((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_EmperorPrelude_LostIronThroneNetherstones(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_EmperorPrelude_State_StoneInIronThrone_30d5fc8d-fcdf-4d99-9b35-b681d13c1dd1);
+ClearFlag(GLO_EmperorPrelude_State_MoreThanOneStoneInIronThrone_b3d54fb1-6865-2c02-e977-8f3cbf3e76c7);
+ClearFlag(GLO_EmperorPrelude_State_IronThoneStonesAtBeach_8a4d87d3-7db5-410b-bbab-aea04b9ef1f2);
+PROC_GLO_EmperorPrelude_IronThroneStonesBackAD(_Var1);
+
+PROC
+PROC_GLO_EmperorPrelude_IronThroneStonesBackAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+_Var3 <= 20
+THEN
+DB_GLO_EmperorPrelude_IronThroneStonesBackADAvatar(_Var2);
+
+IF
+DB_GLO_EmperorPrelude_IronThroneStonesBackADAvatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_EmperorPrelude_IronThroneStonesBackADAvatar(_Var1);
+PROC_EmperorAD(_Var1, GLO_EmperorPrelude_EmperorAD_ReceivedIronThroneStones_f0bdc2ed-2265-e427-7f74-62b6008fe338);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

@@ -1,0 +1,260 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_DaisyDreams_Daisies(S_CAMP_DaisyPlaceholder_000_8d63f164-8a82-4bd1-aa79-2c575c70ce49);
+DB_GLO_DaisyDreams_Daisies(S_CAMP_DaisyPlaceholder_001_def59a51-6607-4dfb-92ac-eb497818138f);
+DB_GLO_DaisyDreams_Daisies(S_CAMP_DaisyPlaceholder_002_7fe0bedf-8f17-47e8-85ec-e3787d54788a);
+DB_GLO_DaisyDreams_Daisies(S_CAMP_DaisyPlaceholder_003_5a3fc9ef-6c02-4c94-866a-5aac4424b640);
+DB_Daisy_IdleTeleport("WLD_Main_A", S_CAMP_DaisyTP_61cfa52f-8939-4b87-9cc2-270b79a60190);
+DB_GLO_DaisyBackups(S_GLO_Daisy_Backup1_c10cd603-219f-464a-83e6-c8e2d7101471);
+DB_GLO_DaisyBackups(S_GLO_Daisy_Backup2_c716113b-2780-4988-8f0c-148073540db8);
+DB_GLO_DaisyBackups(S_GLO_Daisy_Backup3_3a81b967-a094-4df2-ad83-61991fa59f9d);
+DB_GLO_DaisyBackup_TagsToClone(DAISY_MALE_807af8f5-0183-42d9-8d40-6e93d5236cc2);
+DB_GLO_DaisyBackup_TagsToClone(DAISY_MALE_VOICE_799118d3-901c-41cc-8f99-25326d23c649);
+DB_GLO_DaisyBackup_TagsToClone(DAISY_FEMALE_17c2405e-5771-4150-ad00-b1ef8d1dd5ae);
+DB_GLO_DaisyBackup_TagsToClone(DAISY_FEMALE_VOICE_3549f056-0826-45ee-a8ae-351449b70fe3);
+DB_GLO_DaisyBackup_TagsToClone(DAISY_NEUTRAL_3caea564-7be7-4f04-ad3c-05f4ebee3926);
+DB_GLO_DaisyBackup_TagsToClone(DAISY_DESIRETRACK_8f815f65-6fe5-4671-8e2b-63575e1f2e88);
+DB_GLO_DaisyBackup_TagsToClone(DAISY_REASONTRACK_6ea65c6d-3172-4478-9530-b74cbdcbb870);
+DB_GLO_DaisyBackup_TagsToClone(DAISY_FEARTRACK_c1400eed-4e63-4cb6-8ae1-f616505fda1a);
+
+KBSECTION
+IF
+CompanionSelectedForUser((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyDreams_Relationships(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyDreams_Daisies(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+GetIdentity(_Var1, 0, _Var5, _Var1, _Var1)
+THEN
+DB_GLO_DaisyDreams_Relationships(_Var3, _Var1);
+NOT DB_GLO_DaisyDreams_Relationships(_Var3, _Var4);
+PROC_DaisyDesire_SetDaisyFor(_Var3, _Var1, _Var5);
+
+IF
+CompanionSelectedForUser((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DaisyDreams_Relationships(_Var3, _, _Var1, _Var1, _Var1)
+AND
+GetIdentity(_Var1, 0, _Var5, _Var1, _Var1)
+THEN
+DB_GLO_DaisyDreams_Relationships(_Var3, _Var1);
+PROC_DaisyDesire_SetDaisyFor(_Var3, _Var1, _Var5);
+
+IF
+CompanionSelectedForUser((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_DaisyDreams_Relationships(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DaisyAwaitsAvatar(_Var1, _Var2);
+
+IF
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DaisyDreams_Relationships(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyAwaitsAvatar(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+GetIdentity(_Var4, 0, _Var5, _Var1, _Var1)
+THEN
+NOT DB_GLO_DaisyAwaitsAvatar(_Var4, _Var3);
+DB_GLO_DaisyDreams_Relationships(_Var1, _Var4);
+PROC_DaisyDesire_SetDaisyFor(_Var1, _Var4, _Var5);
+
+IF
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CC_Done(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Daisy_InitCustomDaisy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyDreams_Daisies(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DaisyDreams_Relationships(_, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DaisyDreams_Relationships(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetIdentity(_Var2, 0, _Var5, _Var1, _Var1)
+THEN
+DB_GLO_DaisyDreams_Relationships(_Var1, _Var2);
+PROC_DaisyDesire_SetDaisyFor(_Var1, _Var2, _Var5);
+
+QRY
+QRY_Daisy_InitCustomDaisy((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("daisytome", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DaisyDreams_GetDaisy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var2, _Var1);
+
+QRY
+QRY_GLO_DaisyDreams_GetDaisy((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var2);
+
+QRY
+QRY_GLO_DaisyDreams_GetDaisy((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DaisyDreams_Relationships(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_DaisyDreams_GetDaisy_Attempt(_Var2, _Var1);
+
+QRY
+QRY_GLO_DaisyDreams_GetDaisy((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_DaisyDreams_Relationships(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_GetBestAvatarForCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyDreams_Relationships(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_DaisyDreams_GetDaisy_Attempt(_Var4, _Var3);
+
+QRY
+QRY_GLO_DaisyDreams_GetDaisy((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_, _Var1, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("Could not find Daisy for: ", _Var3, _Var4, _Var1, _Var1)
+THEN
+DebugBreak(_Var4);
+
+PROC
+PROC_GLO_DaisyDreams_GetDaisy_Attempt((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var1);
+DB_GLO_DaisyDreams_DaisyVoice(_Var1, _Var2);
+
+PROC
+PROC_GLO_DaisyDreams_GetDaisy_Attempt((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DaisyBackups(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+Transform(_Var3, _Var1, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+PROC_GLO_DaisyDreams_Backup_CloneTags(_Var1, _Var3);
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var3);
+DB_GLO_DaisyDreams_DaisyVoice(_Var3, _Var2);
+
+PROC
+PROC_GLO_DaisyDreams_Backup_CloneTags((GUIDSTRING)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DaisyBackup_TagsToClone(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+PROC_SetConditionalTag(_Var2, _Var3, _Var4);
+
+IF
+DB_GLO_DaisyDreams_DaisyVoice(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DaisyAvatarDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyDreams_DaisyVoice(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_DaisyDreams_DaisyVoice(_Var3, _Var4);
+SetOnStage(_Var3, 0);
+
+IF
+DB_GLO_DaisyDreams_Relationships(_, _Var2, _, _, _)
+AND
+DB_CurrentLevel(_Var3, _, _, _, _)
+AND
+DB_Daisy_IdleTeleport(_Var3, _Var4, _, _, _)
+THEN
+TeleportTo(_Var2, _Var4);
+
+IF
+DB_GLO_DaisyBackups(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Daisy_IdleTeleport(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, _Var3);
+
+IF
+DB_Camp_DaisyAvatarDreamDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DaisyAvatarDialog(_Var1);
+
+QRY
+QRY_Camp_StartAvatarDream_CustomDialogStart((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_DaisyAvatarDreamDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DaisyDreams_GetDaisy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(_Var1, _Var3, _Var2, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_DaisyDreams_ChangeClothing(_Var1, _Var3);
+ClearFlag(GLO_Tadpoled_PartyUsed_1f4048fa-8793-4a61-9f18-cc660b68601b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+QRY
+QRY_Camp_StartAvatarDream_CustomDialogStart((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_DaisyAvatarDreamDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_DaisyDreams_ChangeClothing((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_DaisyDream_Vanity(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetArmourSet(_Var2, 0);
+DB_GLO_DaisyDream_ClothingChanged(_Var1, _Var2);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DaisyDream_ClothingChanged(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_DaisyDream_ClothingChanged(_Var1, _Var3);
+PROC_SetArmourSet(_Var3, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

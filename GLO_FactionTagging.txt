@@ -1,0 +1,308 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_FactionTagging_TrackTag("", "", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_FactionTagging_FactionTagged("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_FactionTagging_TrackTag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_FactionTagging_InternalTrackingTag(_Var4);
+
+IF
+DB_FactionTagging_InternalTrackingTag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_FactionTagging_TrackTag(_, _, _, _Var1, _Var1)
+THEN
+NOT DB_FactionTagging_InternalTrackingTag(_Var1);
+
+IF
+DB_FactionTagging_TrackTag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_FactionTagging_InternalTrackingLevelTag(_Var1, _Var4);
+
+IF
+DB_FactionTagging_InternalTrackingLevelTag(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_FactionTagging_TrackTag(_Var1, _, _, _Var2, _Var1)
+THEN
+NOT DB_FactionTagging_InternalTrackingLevelTag(_Var1, _Var2);
+
+IF
+DB_FactionTagging_TrackTag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_Factiontagging_InternalTrackingLevelFactionTag(_Var1, _Var3, _Var4);
+
+IF
+DB_Factiontagging_InternalTrackingLevelFactionTag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_FactionTagging_TrackTag(_Var1, _, _Var2, _Var3, _Var1)
+THEN
+NOT DB_Factiontagging_InternalTrackingLevelFactionTag(_Var1, _Var2, _Var3);
+
+QRY
+QRY_FactionTagging_CharacterExistsInTrackedLevel((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_FactionTagging_InternalTrackingLevelTag(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_FactionTagging_CharacterExistsInTrackedLevel((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsGlobal(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_FactionTagging_InternalTrackingTag(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_FactionTagging_CheckRemovedFactionMember((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CurrentLevel(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FactionTagging_InternalTrackingLevelTag(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_FactionTagging_FactionTagged(_Var4, _Var2, _Var5, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var5, 0, _Var1, _Var1)
+AND
+QRY_FactionTagging_CharacterExistsInTrackedLevel(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_FactionTagging_QueueTagChanged(_Var2, _Var5, _Var3, "Set");
+
+PROC
+PROC_FactionTagging_CheckAddedFactionMember((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CurrentLevel(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FactionTagging_InternalTrackingLevelTag(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_FactionTagging_CheckedTag", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FactionTagging_FactionTagged(_Var4, _, _Var5, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_FactionTagging_CheckedTag", _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var5, 0, _Var1, _Var1)
+AND
+QRY_FactionTagging_CharacterExistsInTrackedLevel(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_FactionTagging_QueueTagChanged(_Var2, _Var5, _Var3, "Cleared");
+
+PROC
+PROC_FactionTagging_QueueTagChanged((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+DB_FactionTagging_QueueTagChanged(_Var1, _Var2, _Var3, _Var4);
+TimerCancel("GLO_FactionTagging_Process");
+TimerLaunch("GLO_FactionTagging_Process", 0);
+
+IF
+TagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FactionTagging_InternalTrackingTag(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_FactionTagging_CharacterExistsInTrackedLevel(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetBaseFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_FactionTagging_QueueTagChanged(_Var3, _Var2, "TagSet", "Set");
+
+IF
+TimerFinished("GLO_FactionTagging_Process", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FactionTagging_QueueTagChanged(_Var2, _Var3, _Var4, "Set", _Var1)
+AND
+DB_FactionTagging_InternalTrackingLevelTag(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FactionTagging_QueueTagChanged(_Var2, _Var3, _Var4, "Set");
+PROC_FactionTagging_CheckTagSet(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_CheckTagSet((STRING)_Var1, (FACTION)_Var2, (TAG)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+DB_Factiontagging_InternalTrackingLevelFactionTag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+FactionIsTagged(_Var2, 0, _Var3, _Var5, _Var1)
+THEN
+PROC_FactionTagging_HandleTaggedResult(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_FactionTagging_CheckTagSet((STRING)_Var1, (GUIDSTRING)_Var2, (TAG)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND NOT
+DB_Factiontagging_InternalTrackingLevelFactionTag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+FactionGetParentFaction(_Var2, 1, _Var5, _Var1, _Var1)
+THEN
+PROC_FactionTagging_CheckTagSet(_Var1, _Var5, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_HandleTaggedResult((STRING)_Var1, (FACTION)_Var2, (TAG)_Var3, (STRING)_Var4, 1)
+AND
+DB_FactionTagging_TrackTag(_Var1, _Var5, _Var2, _Var3, _Var1)
+THEN
+DB_FactionTagging_FactionTagged(_Var1, _Var2, _Var3);
+PROC_FactionTagging_TagSet(_Var1, _Var5, _Var2, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_HandleTaggedResult((STRING)_Var1, (FACTION)_Var2, (TAG)_Var3, (STRING)_Var4, 1)
+AND
+FactionGetParentFaction(_Var2, 1, _Var5, _Var1, _Var1)
+THEN
+PROC_FactionTagging_CheckTagSet(_Var1, _Var5, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_TagSet((STRING)_Var1, (STRING)_Var2, (FACTION)_Var3, (TAG)_Var4, (STRING)_Var5)
+THEN
+DB_NOOP(1);
+
+IF
+TagCleared((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FactionTagging_InternalTrackingTag(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_FactionTagging_CharacterExistsInTrackedLevel(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetBaseFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_FactionTagging_QueueTagChanged(_Var3, _Var2, "TagCleared", "Cleared");
+
+IF
+TimerFinished("GLO_FactionTagging_Process", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FactionTagging_QueueTagChanged(_Var2, _Var3, _Var4, "Cleared", _Var1)
+AND
+DB_FactionTagging_InternalTrackingLevelTag(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FactionTagging_QueueTagChanged(_Var2, _Var3, _Var4, "Cleared");
+PROC_FactionTagging_ProcessTagCleared(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_ProcessTagCleared((STRING)_Var1, (GUIDSTRING)_Var2, (TAG)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND NOT
+DB_Factiontagging_InternalTrackingLevelFactionTag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+FactionGetParentFaction(_Var2, 1, _Var5, _Var1, _Var1)
+THEN
+PROC_FactionTagging_ProcessTagCleared(_Var1, _Var5, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_ProcessTagCleared((STRING)_Var1, (FACTION)_Var2, (TAG)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+DB_FactionTagging_FactionTagged(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+FactionGetParentFaction(_Var2, 1, _Var5, _Var1, _Var1)
+THEN
+PROC_FactionTagging_ProcessTagCleared(_Var1, _Var5, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_ProcessTagCleared((STRING)_Var1, (FACTION)_Var2, (TAG)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+DB_FactionTagging_FactionTagged(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_FactionTagging_TrackTag(_Var1, _Var5, _Var2, _Var3, _Var1)
+THEN
+NOT DB_FactionTagging_FactionTagged(_Var1, _Var2, _Var3);
+PROC_FactionTagging_TagCleared(_Var1, _Var5, _Var2, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_TagCleared((STRING)_Var1, (STRING)_Var2, (FACTION)_Var3, (TAG)_Var4, (STRING)_Var5)
+THEN
+DB_NOOP(1);
+
+IF
+TimerFinished("GLO_FactionTagging_Process", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FactionTagging_QueueTagChanged(_Var2, _Var3, _Var4, "CheckCleared", _Var1)
+AND
+DB_FactionTagging_InternalTrackingLevelTag(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FactionTagging_QueueTagChanged(_Var2, _Var3, _Var4, "CheckCleared");
+PROC_FactionTagging_CheckTagCleared(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_CheckTagCleared((STRING)_Var1, (FACTION)_Var2, (TAG)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND NOT
+DB_Factiontagging_InternalTrackingLevelFactionTag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+FactionGetParentFaction(_Var2, 1, _Var5, _Var1, _Var1)
+THEN
+PROC_FactionTagging_CheckTagCleared(_Var1, _Var5, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_CheckTagCleared((STRING)_Var1, (FACTION)_Var2, (TAG)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+DB_FactionTagging_FactionTagged(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+FactionIsTagged(_Var2, 0, _Var3, 0, _Var1)
+THEN
+PROC_FactionTagging_ProcessTagCleared(_Var1, _Var2, _Var3, _Var4);
+
+IF
+BaseFactionChanged((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_FactionTagging_CheckRemovedFactionMember(_Var1, _Var2, "BaseFactionChanged");
+
+IF
+BaseFactionChanged((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_FactionTagging_CheckAddedFactionMember(_Var1, _Var3, "BaseFactionChanged");
+
+IF
+EnteredLevel((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_FactionTagging_CheckAddedFactionMember(_Var1, _Var4, "EnteredLevel");
+
+IF
+LeftLevel((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_FactionTagging_CheckRemovedFactionMember(_Var1, _Var3, "LeftLevel");
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_FactionTagging_PreviousLevelActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Factiontagging_InternalTrackingLevelFactionTag(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_FactionTagging_QueueTagChanged(_Var2, _Var3, "LevelLoaded", "Set");
+PROC_FactionTagging_QueueTagChanged(_Var2, _Var3, "LevelLoaded", "CheckIfCleared");
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_FactionTagging_PreviousLevelActive(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FactionTagging_PreviousLevelActive(_Var2);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_FactionTagging_PreviousLevelActive(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

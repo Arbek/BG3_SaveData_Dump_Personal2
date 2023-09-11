@@ -1,0 +1,158 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetStoryDisplayName(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "GLO_DevilishOx_PolymorphedName");
+PROC_SetOnStage(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, 0);
+TriggerRegisterForCharacter(S_WYR_OxArea_1cebc515-8593-4716-8e0f-0df2d4086e4f, S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56);
+PROC_TeleportIfAlive();
+DB_DefeatedEvent(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, GLO_DevilishOx_State_Defeated_4061b72f-ce89-4b86-b18b-ed9c5fbc7cc8);
+DB_HasItemEvent(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, WYR_DevilishOx_State_AppleInInventory_5534ac16-ab3d-4dd9-8405-3a396cf628d4);
+DB_InRegionFlag(S_WYR_OxArea_1cebc515-8593-4716-8e0f-0df2d4086e4f, WYR_DevilishOx_State_InRegion_de7ab588-ec0f-4925-b1ab-8d8793897d9a);
+
+KBSECTION
+IF
+TextEvent("KillDevilishOx", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 0, 0);
+
+IF
+TextEvent("MetOxIn_DruidsGrove", _, _, _, _)
+THEN
+SetFlag(DEN_DevilishOx_MeetAtDruidsGrove_HasMet_SwA_94637372-3365-4c0c-97fa-59b7d089cd53);
+
+IF
+TextEvent("MetOxIn_LastLightInn", _, _, _, _)
+THEN
+SetFlag(HAV_DevilishOx_LastLight_HasMet_SwA_12a0387f-f284-417b-a91b-53ab87ef9e85);
+
+IF
+TextEvent("MetOxIn_SmallBarn", _, _, _, _)
+THEN
+SetFlag(WYR_DevilishOx_SmallBarn_HasMet_SwA_435e36f8-8a47-4c9d-8304-d98b349af0ef);
+
+PROC
+PROC_TeleportIfAlive()
+AND NOT
+DB_Defeated(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 1);
+TeleportTo(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, S_WYR_TeleportDevilishOxPos_dce97914-6c24-4cea-83b8-6b1e8477fc04);
+PROC_RemoveDialog(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56);
+DB_Dialogs(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, HAV_LastLightOx002_5dee5628-5f90-1dfe-05fa-63cc1243c713);
+RemoveStatus(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "HAV_PHASM_OX_DISGUISE_ACT1", NULL_00000000-0000-0000-0000-000000000000);
+ApplyStatus(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "HAV_PHASM_OX_DISGUISE", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SetAnubisConfig(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "GLO_DevilishOx");
+SetLevel(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 9);
+PROC_TriggerRegisterForPlayers(S_WYR_OxKnowledgeCheck_6172ed9a-9078-4e5e-bbca-6a81ee7401fa);
+DB_KnowledgeCheckTrigger("WYR_DevilishOx_Investigation", S_WYR_OxKnowledgeCheck_6172ed9a-9078-4e5e-bbca-6a81ee7401fa, "Insight", Act3_Medium_77cee1c4-384a-4217-b670-67db3c7add57);
+
+IF
+DB_Defeated(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_WYR_OxKnowledgeCheck_6172ed9a-9078-4e5e-bbca-6a81ee7401fa);
+
+IF
+DB_PermaDefeated(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_WYR_OxKnowledgeCheck_6172ed9a-9078-4e5e-bbca-6a81ee7401fa);
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((CHARACTER)_Var1, "WYR_DevilishOx_Investigation", S_WYR_OxKnowledgeCheck_6172ed9a-9078-4e5e-bbca-6a81ee7401fa, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_DevilishOx_State_InsightCheckSucceeded_36e186dc-ba92-4ac1-8dbd-f41a2b97d8d0, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_DevilishOx_State_InsightCheckSucceeded_0aa9dbad-3ff9-4956-a3e6-e5beaeb9caf4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DEN_DevilishOx_PAD_FirstInsight_ee3df178-2a9b-5fc9-e3fc-f9357e063bc1, _Var1);
+SetFlag(DEN_DevilishOx_State_InsightCheckSucceeded_36e186dc-ba92-4ac1-8dbd-f41a2b97d8d0);
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((CHARACTER)_Var1, "WYR_DevilishOx_Investigation", S_WYR_OxKnowledgeCheck_6172ed9a-9078-4e5e-bbca-6a81ee7401fa, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(HAV_DevilishOx_State_InsightCheckSucceeded_0aa9dbad-3ff9-4956-a3e6-e5beaeb9caf4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(WYR_DevilishOx_PAD_ThirdInsight_a48a456d-7d91-3d83-1c88-3c505a0758ef, _Var1);
+SetFlag(WYR_DevilishOx_State_InsightCheckSucceeded_86202033-1f7b-4727-aca9-e73bf4c6f952);
+
+IF
+FlagSet(WYR_DevilishOx_Event_PlayerAgreesToHelpOx_770092da-b4f4-40f5-bec8-aa9a6af0a2f4, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SetOnStage(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, 1);
+PROC_SetOnStage(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 0);
+
+IF
+EnteredCombat(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_EnteredCombat", _, _, _, _)
+THEN
+PROC_Foop(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56);
+RemoveStatus(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "HAV_PHASM_OX_DISGUISE", NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(HAV_DevilishOx_State_MonsterRevealed_32e50fb0-ab45-44cf-86af-3984de34f338, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+LeftCombat(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DisappearOutOfSight(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "Run", 1, "");
+SetFlag(HAV_DevilishOx_State_Fled_aa1fff72-16df-4269-abda-61e5120a8623, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+AttackedBy(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, _, (CHARACTER)_Var2, _, _, _, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+GetPosition(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, _Var7, _Var8, _Var9, _)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_AppleProvoked", _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 1);
+AppearAtPosition(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _Var7, _Var8, _Var9, 1, NULL_00000000-0000-0000-0000-000000000000, "WYR_DevilishOx_AppleAttacked");
+PROC_MakeNPCHostile(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _Var2);
+PROC_WYR_MonsterRevealed_Reaction();
+
+IF
+DB_Destroyed(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, _Var2, _Var3, _Var4, _Var1)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_AppleProvoked", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 1);
+AppearAtPosition(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _Var2, _Var3, _Var4, 1, NULL_00000000-0000-0000-0000-000000000000, "WYR_DevilishOx_AppleDestroyed");
+PROC_MakeNPCHostile(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _Var1);
+PROC_WYR_MonsterRevealed_Reaction();
+
+PROC
+PROC_WYR_MonsterRevealed_Reaction()
+AND
+QRY_OnlyOnce("WYR_DevilishOx_MonsterRevealedReaction", _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, 0);
+RemoveStatus(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "HAV_PHASM_OX_DISGUISE", NULL_00000000-0000-0000-0000-000000000000);
+SetRelation(Act2_HAV_Haven_e52bfc8c-7826-470d-a9f5-f6fae80dde82, Act2_HAV_Phasm_9fec6a42-f208-436d-904c-0a3b1843838b, 0);
+SetFlag(HAV_DevilishOx_State_MonsterRevealed_32e50fb0-ab45-44cf-86af-3984de34f338, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_Defeated(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_DevilishOx_State_MonsterRevealed_32e50fb0-ab45-44cf-86af-3984de34f338, _, _, _, _)
+AND
+QRY_GetClosestAvailableCharacterTo(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 0, 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, _, _, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _Var2, _Var1, _Var1)
+AND
+_Var2 <= 30
+AND
+QRY_OnlyOnce("WYR_DevilishOx_DeathReactionVB", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(HAV_DevilishOx_VB_DeathReaction_23a6603c-5e6f-8c98-6f96-912232e22378, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

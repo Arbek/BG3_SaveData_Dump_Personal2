@@ -1,0 +1,211 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_CompoundFlag(WYR_WyrmRockPrison_Florrick_Event_Discovered_701d43b6-3eae-36f4-f487-56a9f3be2fe5, WYR_WyrmRockPrison_Knows_FlorrickInPrison_37416ee4-f2db-4cad-a113-eafd9ea1e0bf);
+DB_QuestDef_State_ConditionalFlag(LOW_BasiliskGate_State_FlorrickExecutionKnown_aff10649-cfc1-b6d0-0984-5572383cda0a, "WYR_FreeFlorrick", "LearnedExecution", 0, WYR_WyrmRockPrison_Florrick_Event_Discovered_701d43b6-3eae-36f4-f487-56a9f3be2fe5);
+DB_QuestDef_State(WYR_WyrmRockPrison_Knows_FlorrickInPrison_37416ee4-f2db-4cad-a113-eafd9ea1e0bf, "WYR_FreeFlorrick", "LearnedImprisoned");
+DB_QuestDef_State_ConditionalFlag(LOW_BasiliskGate_State_FlorrickExecutionKnown_aff10649-cfc1-b6d0-0984-5572383cda0a, "WYR_FreeFlorrick", "LearnedExecutionFlorrick", 1, WYR_WyrmRockPrison_Florrick_Event_Discovered_701d43b6-3eae-36f4-f487-56a9f3be2fe5);
+DB_QuestDef_State(WYR_WyrmRockPrison_Florrick_Event_TookQuest_b7fcc7b4-7b90-3d1b-12da-1bc234163480, "WYR_FreeFlorrick", "AcceptedQuest");
+DB_QuestDef_State(LOW_BasiliskGate_CountDownToFlorrickExecution_TomorrowGlobalFlag_3ac0285c-c8bd-451b-a82a-844f106e32d9, "WYR_FreeFlorrick", "OneDayTillExecution");
+DB_QuestDef_State(WYR_WyrmRockPrison_Florrick_State_EscapedDialogFailedToStart_383be339-a99b-4dec-bf3a-351e66bd1dbb, "WYR_FreeFlorrick", "LeftFortress");
+DB_QuestDef_State_ConditionalFlag(WYR_WyrmRockPrison_State_FlorrickEscaped_a84a5b16-ca29-43c3-91bf-17def670ba07, "WYR_FreeFlorrick", "Escaped_Peaceful", 0, WYR_WyrmRockPrison_State_NotAllGuardsOk_5f090b41-b6bf-4c32-97df-c65748ca1255);
+DB_QuestDef_State_ConditionalFlag(WYR_WyrmRockPrison_State_FlorrickEscaped_a84a5b16-ca29-43c3-91bf-17def670ba07, "WYR_FreeFlorrick", "Escaped", 1, WYR_WyrmRockPrison_State_NotAllGuardsOk_5f090b41-b6bf-4c32-97df-c65748ca1255);
+DB_QuestDef_DefeatedState("WYR_DevilishOx", "DefeatedOx", S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56);
+DB_BGO_Nightsong_Act3Updates("NightsongSawPoster");
+DB_BGO_Nightsong_Act3Updates("NightsongInCamp");
+DB_BGO_Nightsong_Act3Updates("MetAradinInBG");
+DB_BGO_Nightsong_Act3Updates("GoUpstairsAlt");
+DB_BGO_Nightsong_Act3Updates("GoUpstairs");
+
+KBSECTION
+IF
+DialogEnded(WYR_WyrmRockPrison_Florrick_40d9f384-7637-91b7-01aa-556a76ac20e1, _, _, _, _)
+AND
+GetFlag(WYR_WyrmRockPrison_Florrick_State_LostHope_d82dd884-3a97-4d12-82fd-7cf1739ac39e, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+AND
+GetFlag(WYR_WyrmRockPrison_Florrick_Event_Convinced_98aad87a-b563-8bfe-4cc6-7dd6c54a0202, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+AND
+GetFlag(WYR_WyrmRockPrison_Florrick_Event_TookQuest_b7fcc7b4-7b90-3d1b-12da-1bc234163480, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+AND
+QRY_OnlyOnce("WYR_FreeFlorrick_LostHope", _, _, _, _)
+THEN
+QuestUpdate("WYR_FreeFlorrick", "LostHope");
+
+IF
+DialogEnded(WYR_WyrmRockPrison_Florrick_40d9f384-7637-91b7-01aa-556a76ac20e1, _, _, _, _)
+AND
+GetFlag(WYR_WyrmRockPrison_Florrick_Event_Convinced_98aad87a-b563-8bfe-4cc6-7dd6c54a0202, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+AND
+GetFlag(WYR_WyrmRockPrison_Florrick_Event_TookQuest_b7fcc7b4-7b90-3d1b-12da-1bc234163480, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+AND
+QRY_OnlyOnce("WYR_FreeFlorrick_Convinced", _, _, _, _)
+THEN
+QuestUpdate("WYR_FreeFlorrick", "Convinced");
+
+IF
+DB_LOW_BasiliskGate_FlorrickExecution_CountDownDays(1, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_BasiliskGate_CountDownToFlorrickExecution_TomorrowGlobalFlag_3ac0285c-c8bd-451b-a82a-844f106e32d9);
+
+QRY
+QRY_LOW_BasiliskGate_FlorrickExecution(0, _, _, _, _)
+AND
+DB_Act3_FlorrickExecution_Hangmen(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _, _, _, _, 1, _, _, _, _)
+THEN
+DB_WYR_Journal_FlorrickExecuted(1);
+
+IF
+FlagSet(GLO_Florrick_State_Dead_c190fb1f-4c27-4948-87f0-29dc5a9b5b55, _, _, _, _)
+AND NOT
+DB_WYR_Journal_FlorrickExecuted(1, _, _, _, _)
+AND
+DB_QuestIsOpened("WYR_FreeFlorrick", _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "WYR_FreeFlorrick", "Died");
+
+IF
+FlagSet(GLO_Florrick_State_Dead_c190fb1f-4c27-4948-87f0-29dc5a9b5b55, _, _, _, _)
+AND
+DB_WYR_Journal_FlorrickExecuted(1, _, _, _, _)
+AND
+DB_QuestIsOpened("WYR_FreeFlorrick", _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "WYR_FreeFlorrick", "Executed");
+
+IF
+TextEvent("journal_fcf_complete_e", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LearnedExecution");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LearnedImprisoned");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LostHope");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "Convinced");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "AcceptedQuest");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "OneDayTillExecution");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LeftFortress");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "Escaped");
+
+IF
+TextEvent("journal_fcf_complete_ep", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LearnedExecution");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LearnedImprisoned");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LostHope");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "Convinced");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "AcceptedQuest");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "OneDayTillExecution");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LeftFortress");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "Escaped_Peaceful");
+
+IF
+TextEvent("journal_fcf_complete_d", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LearnedImprisoned");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LearnedExecutionFlorrick");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "LostHope");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "Convinced");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "AcceptedQuest");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "OneDayTillExecution");
+QuestUpdate(_Var1, "WYR_FreeFlorrick", "Executed");
+
+IF
+DialogEnded(HAV_LastLightOx002_5dee5628-5f90-1dfe-05fa-63cc1243c713, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_DevilishOx_SmallBarn_HasMet_SwA_435e36f8-8a47-4c9d-8304-d98b349af0ef, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_DevilishOx_LastLight_HasMet_SwA_12a0387f-f284-417b-a91b-53ab87ef9e85, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_DevilishOx_Event_PlayerAgreesToHelpOx_770092da-b4f4-40f5-bec8-aa9a6af0a2f4, _, _, _, _)
+THEN
+QuestUpdate("WYR_DevilishOx", "DidntAgreeToHelpDevilishOxHasMet");
+
+IF
+DialogEnded(HAV_LastLightOx002_5dee5628-5f90-1dfe-05fa-63cc1243c713, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_DevilishOx_SmallBarn_HasMet_SwA_435e36f8-8a47-4c9d-8304-d98b349af0ef, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_DevilishOx_LastLight_HasMet_SwA_12a0387f-f284-417b-a91b-53ab87ef9e85, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_DevilishOx_Event_PlayerAgreesToHelpOx_770092da-b4f4-40f5-bec8-aa9a6af0a2f4, _, _, _, _)
+THEN
+QuestUpdate("WYR_DevilishOx", "DidntAgreeToHelpDevilishOx");
+
+IF
+DialogEnded(HAV_LastLightOx002_5dee5628-5f90-1dfe-05fa-63cc1243c713, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_DevilishOx_Event_PlayerAgreesToHelpOx_770092da-b4f4-40f5-bec8-aa9a6af0a2f4, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_DevilishOx_LastLight_HasMet_SwA_12a0387f-f284-417b-a91b-53ab87ef9e85, _, _, _, _)
+AND NOT
+DB_QuestIsOpened("WYR_DevilishOx", _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_AcceptDevilishOxQuest", _, _, _, _)
+THEN
+QuestUpdate("WYR_DevilishOx", "AgreeToHelpDevilishOxHasMet");
+
+IF
+DialogEnded(HAV_LastLightOx002_5dee5628-5f90-1dfe-05fa-63cc1243c713, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_DevilishOx_Event_PlayerAgreesToHelpOx_770092da-b4f4-40f5-bec8-aa9a6af0a2f4, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_DevilishOx_LastLight_HasMet_SwA_12a0387f-f284-417b-a91b-53ab87ef9e85, _, _, _, _)
+AND NOT
+DB_QuestIsOpened("WYR_DevilishOx", _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_AcceptDevilishOxQuest", _, _, _, _)
+THEN
+QuestUpdate("WYR_DevilishOx", "AgreeToHelpDevilishOx");
+
+IF
+DB_GlobalFlag(WYR_DevilishOx_Event_PlayerAgreesToHelpOx_770092da-b4f4-40f5-bec8-aa9a6af0a2f4, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_DevilishOx_LastLight_HasMet_SwA_12a0387f-f284-417b-a91b-53ab87ef9e85, _, _, _, _)
+AND
+DB_QuestIsOpened("WYR_DevilishOx", _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_AcceptDevilishOxQuest", _, _, _, _)
+THEN
+QuestUpdate("WYR_DevilishOx", "AgreeToHelpDevilishOxAfterDisagree");
+
+IF
+DB_GlobalFlag(WYR_DevilishOx_Event_PlayerAgreesToHelpOx_770092da-b4f4-40f5-bec8-aa9a6af0a2f4, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_DevilishOx_LastLight_HasMet_SwA_12a0387f-f284-417b-a91b-53ab87ef9e85, _, _, _, _)
+AND
+DB_QuestIsOpened("WYR_DevilishOx", _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_AcceptDevilishOxQuest", _, _, _, _)
+THEN
+QuestUpdate("WYR_DevilishOx", "AgreeToHelpDevilishOxAfterDisagree");
+
+IF
+DB_Is_InCombat(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestIsOpened("WYR_DevilishOx", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("WYR_DevilishOx", "StartedCombatWithOx");
+
+IF
+QuestUpdateUnlocked(_, "SHA_Nightsong", (STRING)_Var2, _, _)
+AND
+DB_BGO_Nightsong_Act3Updates(_Var2, _, _, _, _)
+AND
+QRY_OnlyOnce("BGO_NightsongJournalActSwapped", _, _, _, _)
+THEN
+QuestSetCategory("SHA_Nightsong", "BaldursGate");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

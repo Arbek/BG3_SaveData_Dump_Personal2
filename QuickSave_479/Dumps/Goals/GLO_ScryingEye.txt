@@ -1,0 +1,582 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_ScryingEye(Eye_00000000-0000-0000-0000-000000000000, AreaOfInterest_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_ScryingEye(Eye_00000000-0000-0000-0000-000000000000, AreaOfInterest_00000000-0000-0000-0000-000000000000);
+DB_GLO_ScryingEye_AbsoluteFactions(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_ScryingEye_AbsoluteFactions(NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_ScryingEye_LookOrFollow(0, 0, "None");
+DB_GLO_ScryingEye_LookOrFollow(0, 1, "Crime");
+DB_GLO_ScryingEye_LookOrFollow(1, 0, "JustSneaking");
+DB_GLO_ScryingEye_LookOrFollow(1, 1, "SneakingCriminal");
+DB_GLO_ScryingEye_FollowReason(0, "None");
+DB_GLO_ScryingEye_FollowReason(1, "Sneaking");
+DB_GLO_ScryingEye_FollowReason(2, "Crime");
+DB_GLO_ScryingEye_IgnoredByEye(S_GOB_GoblinHeretic_3af8a55b-903a-43cd-84d3-9cb7ca8f69de);
+DB_GLO_ScryingEye_IgnoredByEye(S_GOB_PainPriest_cad1854b-8f41-4038-b640-156ee0272f81);
+NOT DB_GLO_ScryingEye_PerRegionCrime(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_GLO_ScryingEye(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_ScryingEye(_Var1, _Var2, _Var3);
+DB_SpotPlayers(_Var1, "GLO_ScryingEye_Spotter", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_Continuous(_Var1, "GLO_ScryingEye_Spotter");
+DB_SpotPlayers_SpotTrigger(_Var1, "GLO_ScryingEye_Spotter", _Var2);
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, "GLO_ScryingEye_Spotter");
+DB_SpotPlayers_IncludeFollowers(_Var1, "GLO_ScryingEye_Spotter");
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, "GLO_ScryingEye_Spotter");
+
+IF
+DB_GLO_ScryingEye(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+TriggerRegisterForCharacter(_Var2, _Var1);
+PROC_TriggerRegisterForPlayers(_Var2);
+PROC_SelfHealing_Disable(_Var1);
+
+IF
+DB_GLO_ScryingEye_PerRegionCrime(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var2);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GOB_ScryingEyes_State_Encountered_398adb4b-842d-4f3e-9523-6157489fe96b, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GOB_ScryingEyes_State_Encountered_398adb4b-842d-4f3e-9523-6157489fe96b);
+
+PROC
+PROC_SpotPlayers_Spotted((GUIDSTRING)_Var1, "GLO_ScryingEye_Spotter", (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "SNEAKING", _Var4, _Var1, _Var1)
+AND
+GetFlag(GLO_ScryingEyes_State_ActedHostile_44fff0f3-bae2-4576-8e4b-8bfa091a504b, _Var2, _Var5, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye_LookOrFollow(_Var4, _Var5, _Var6, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_LookOrFollow(_Var1, _Var2, _Var4, _Var5, _Var6);
+
+IF
+StatusAttempt((GUIDSTRING)_Var1, "SNEAKING", _, _, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_ScryingEye_IsInArea(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_StartFollow(_Var4, _Var1, "Sneaking");
+
+PROC
+PROC_GLO_ScryingEye_LookOrFollow((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 0, 0, _)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "GLO_ScryingEye_Event_SpottedChar");
+
+PROC
+PROC_GLO_ScryingEye_LookOrFollow((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, 1, (STRING)_Var4)
+THEN
+PROC_GLO_ScryingEye_StartFollow(_Var1, _Var2, _Var4);
+
+PROC
+PROC_GLO_ScryingEye_LookOrFollow((CHARACTER)_Var1, (CHARACTER)_Var2, 1, _, (STRING)_Var4)
+THEN
+PROC_GLO_ScryingEye_StartFollow(_Var1, _Var2, _Var4);
+
+QRY
+QRY_GLO_ScryingEye_IsInArea((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_InRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_ScryingEye_IsInArea((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_ScryingEye(_Var2, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+AttackedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye(_Var1, _, _Var9, _Var1, _Var1)
+AND
+QRY_GetCharacterOwnerIfItemSummon(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var10, "Eye was Attacked!");
+PROC_GLO_ScryingEye_SetActedHostile(_Var10);
+SetDualEntityEvent(_Var1, _Var10, "GLO_ScryingEye_Event_Flee", 1);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var6, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_ScryingEye_IgnoredByEye(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+IsEnemy(_Var6, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_SetActedHostile(_Var2);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_ScryingEye_IsValidCrime(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye(_Var7, _Var8, _Var9, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_ScryingEye_Denounce(_Var7, _, _, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_CheckSeeCrime(_Var7, _Var1, _Var5, _Var2, _Var6);
+
+PROC
+PROC_CrimeMurderMaybeMakeSilentWitness((INTEGER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (INTEGER)_Var1)
+AND
+DB_GLO_ScryingEye(_Var2, _, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_CheckSeeCrime(_Var2, _Var3, _Var4, _Var6, _Var1);
+
+PROC
+PROC_GLO_ScryingEye_CheckSeeCrime((CHARACTER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+AND NOT
+DB_GLO_ScryingEye_Denounce(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_ScryingEye_SeeVictim(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var2, 0, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_ScryingEye_IgnoredByEye(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "SAW CRIME!");
+PROC_GLO_ScryingEye_Alert(_Var1, _Var2);
+PROC_GLO_ScryingEye_SetActedHostile(_Var2);
+PROC_GLO_ScryingEye_StartFollow(_Var1, _Var2, "Crime");
+DB_GLO_ScryingEye_Denounce(_Var1, _Var2, _Var5);
+PROC_CRIME_Guards_Call(_Var5, _Var1, "Arrest");
+
+QRY
+QRY_GLO_ScryingEye_SeeVictim((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_ScryingEye_SeeVictim((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var1 == _Var2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_ScryingEye_IsValidCrime((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CRIME_IsAssaultOrMurder(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_ScryingEye_IgnoredByEye((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_ScryingEye_IgnoredByEye(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_ScryingEye_IgnoredByEye((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_ScryingEye_IgnoredByEye(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, BRANDED_ABSOLUTE_310f7186-bb0b-4905-b8f6-dfc2fe62570a, 0, _Var1, _Var1)
+AND
+IsTagged(_Var1, GOBLIN_608597d9-bf00-4ede-aabe-767457280925, 0, _Var1, _Var1)
+AND
+IsTagged(_Var1, DROWELF_a672ac1d-d088-451a-9537-3da4bf74466c, 0, _Var1, _Var1)
+AND
+IsTagged(_Var1, SCRYING_EYE_0bdf874a-3703-49be-b1cf-4d291d4e495b, 0, _Var1, _Var1)
+AND
+IsTagged(_Var1, DUERGARDWARF_78adf3cd-4741-47a8-94f6-f3d322432591, 0, _Var1, _Var1)
+AND NOT
+QRY_GLO_ScryingEye_IsAbsoluteFaction(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_ScryingEye_IsAbsoluteFaction((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFaction(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye_AbsoluteFactions(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_ScryingEye_SetActedHostile((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(GLO_ScryingEyes_State_ActedHostile_44fff0f3-bae2-4576-8e4b-8bfa091a504b, _Var1);
+
+PROC
+PROC_GLO_ScryingEye_SetActedHostile((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye_PerRegionCrime(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var2);
+
+IF
+FlagSet(GLO_ScryingEyes_State_ActedHostile_44fff0f3-bae2-4576-8e4b-8bfa091a504b, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_ScryingEyes_State_PartyActedHostile_d3c6d338-36d5-41e7-97d1-9541e0a9bbcf);
+
+IF
+FlagCleared(GLO_ScryingEyes_State_ActedHostile_44fff0f3-bae2-4576-8e4b-8bfa091a504b, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalClearFlagAndCache(GLO_ScryingEyes_State_PartyActedHostile_d3c6d338-36d5-41e7-97d1-9541e0a9bbcf);
+
+IF
+FlagCleared(GLO_ScryingEyes_State_ActedHostile_44fff0f3-bae2-4576-8e4b-8bfa091a504b, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND
+GetFlag(GLO_ScryingEyes_State_ActedHostile_44fff0f3-bae2-4576-8e4b-8bfa091a504b, _Var3, 1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_ScryingEyes_State_ActedHostile_44fff0f3-bae2-4576-8e4b-8bfa091a504b, _Var3, 0);
+
+PROC
+PROC_GLO_ScryingEye_StartFollow((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_ScryingEye_Following(_, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_GLO_ScryingEye_Denounce(_Var1, _, _, _Var1, _Var1)
+AND
+QRY_GLO_ScryingEye_OverridePreviousFollowing(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_GLO_ScryingEye_Following(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_ScryingEye_AD_5185b007-6d22-ed98-d853-b16d3ed5567c, _Var1);
+DB_GLO_ScryingEye_Following(_Var1, _Var2, _Var3);
+SetDualEntityEvent(_Var1, _Var2, "GLO_ScryingEye_Event_Follow", 1);
+DebugText(_Var1, "Scrying Eye - Start Follow.");
+
+QRY
+QRY_GLO_ScryingEye_OverridePreviousFollowing((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_ScryingEye_FollowReason(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye_Following(_Var1, _Var5, _Var6, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye_FollowReason(_Var7, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var4 > _Var7
+THEN
+PROC_GLO_ScryingEye_StopFollow(_Var1, _Var5, 0);
+
+QRY
+QRY_GLO_ScryingEye_OverridePreviousFollowing((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SpotPlayers_Unspotted((GUIDSTRING)_Var1, "GLO_ScryingEye_Spotter", (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye_Following(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "GLO_ScryingEye_Event_LostSight", 1);
+DebugText(_Var2, "Scrying Eye - The eye lost sight of you.");
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_ScryingEye_SearchEnded", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_ScryingEye_Following(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_StopFollow(_Var1, _Var2, 1);
+NOT DB_GLO_ScryingEye_Following(_Var1, _Var2, _Var3);
+
+IF
+DB_GLO_ScryingEye_Following(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_ScryingEye_Following(_Var1, _Var2, _Var3);
+PROC_GLO_ScryingEye_StopFollow(_Var1, _Var2, 1);
+DebugText(_Var2, "Scrying Eye - You dead.");
+
+IF
+DB_GLO_ScryingEye_Following(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_InRegion(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_ScryingEye_Following(_Var1, _Var2, _Var3);
+PROC_GLO_ScryingEye_StopFollow(_Var1, _Var2, 1);
+DebugText(_Var2, "Scrying Eye - You left the eye's area of interest.");
+
+PROC
+PROC_GLO_ScryingEye_StopFollow((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetEntityEvent(_Var1, "GLO_ScryingEye_Event_StopFollow");
+
+PROC
+PROC_GLO_ScryingEye_StopFollow((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye_Denounce(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "GLO_ScryingEye");
+NOT DB_GLO_ScryingEye_Denounce(_Var1, _Var2, _Var4);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye_Following(_Var1, _Var3, _, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_StopFollow(_Var1, _Var3, 1);
+DebugText(_Var1, "Left area of interest!");
+
+PROC
+PROC_GLO_ScryingEye_Alert((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PlayEffect(_Var1, EFFECTRESOURCEGUID_VFX_Script_Stub_Poof_01_f0cf792a-0f74-d17e-ad0d-6052a6131416);
+SetDualEntityEvent(_Var1, _Var2, "GLO_ScryingEye_Event_Flee", 1);
+
+QRY
+QRY_CRIME_AllowRequestOnReactionCustom((CHARACTER)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, 0, (CHARACTER)_Var1)
+AND
+CrimeGetLeadInvestigator(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye(_Var4, _, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_AllowRequestOnReactionCustom(1);
+
+IF
+CharacterOnCrimeSensibleActionNotification((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, "CRIME_OsirisReaction", _, (CHARACTER)_Var5, _, _, _, 1)
+AND
+DB_GLO_ScryingEye(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_ScryingEye_Alarm_ReportCrime(_Var3, _, _, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var12, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetEvidence(_Var3, 1, _Var13, _Var1, _Var1)
+THEN
+DB_GLO_ScryingEye_Alarm_ReportCrime(_Var3, _Var12, _Var5);
+PROC_CharacterRegisterCrime(_Var5, "GLO_ScryingEye_ReportCrime", _Var13, NULL_00000000-0000-0000-0000-000000000000, _Var12);
+
+IF
+CharacterOnCrimeSensibleActionNotification((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, _, _, _, _, _, 1)
+AND
+DB_GLO_ScryingEye_Alarm_ReportCrime(_Var3, _Var10, _Var11, _Var1, _Var1)
+AND
+IsTagged(_Var1, GUARD_0b52f35e-fb1f-4865-bcd2-5d21ef7343cd, 1, _Var1, _Var1)
+THEN
+NOT DB_GLO_ScryingEye_Alarm_ReportCrime(_Var3, _Var10, _Var11);
+PROC_CRIME_StopForAllCriminals(_Var10);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_ScryingEye_Alarm_ReportCrime(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_ScryingEye_Alarm_ReportCrime(_Var2, _Var1, _Var3);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, "Shout_HelpArrives_ScryingEye", _, _, _)
+AND
+DB_GLO_ScryingEye(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_CombatReinforcements(_Var1);
+
+PROC
+PROC_GLO_ScryingEye_CombatReinforcements((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CharacterGetCrimeRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_RegionReinforcements(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_ScryingEye_TryFindCombatReinforcements(_Var1, _Var3, _Var2);
+PROC_GLO_ScryingEye_CallFoundCombatReinforcements(_Var1);
+
+PROC
+PROC_GLO_ScryingEye_TryFindCombatReinforcements((GUIDSTRING)_Var1, (INTEGER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_ScryingEye_FindCombatReinforcement(_Var1, _Var3);
+
+PROC
+PROC_GLO_ScryingEye_TryFindCombatReinforcements((GUIDSTRING)_Var1, (INTEGER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IntegerSubtract(_Var2, 1, _Var4, _Var1, _Var1)
+AND
+_Var4 > 0
+THEN
+PROC_GLO_ScryingEye_TryFindCombatReinforcements(_Var1, _Var4, _Var3);
+
+PROC
+PROC_GLO_ScryingEye_FindCombatReinforcement((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CRIME_Guards_GetClosestGuard(_Var2, _Var1, 0, _Var1, _Var1)
+AND
+DB_QRYRTN_Guards_GetClosestGuard(_Var3, _, _, _, _Var1)
+AND
+QRY_CRIME_Guards_HomePos(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_Guards_HomePos(_Var7, _Var8, _Var9, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_Leaving(_Var3, _Var7, _Var8, _Var9);
+DB_GLO_ScryingEye_CombatReinforcements(_Var10, _Var1, _Var3, _Var1, "GLO_ScryingEye_CombatReinforcement", _Var2, _Var7, _Var8, _Var9);
+
+PROC
+PROC_GLO_ScryingEye_CallFoundCombatReinforcements((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye_CombatReinforcements(_Var2, _Var1, _Var3, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1)
+AND
+GetPosition(_Var3, _Var9, _Var10, _Var11, _Var1)
+AND
+GetPosition(_Var1, _Var12, _Var13, _Var14, _Var1)
+THEN
+PROC_ClearStoryMove(_Var3);
+PROC_CancelDisappearOutOfSight(_Var3);
+PROC_CharacterRegisterCrimeWithPosition(_Var1, _Var4, NULL_00000000-0000-0000-0000-000000000000, _Var9, _Var10, _Var11, _Var3, _Var2);
+DB_CRIME_CrimeInvestigationPos(_Var2, _Var12, _Var13, _Var14);
+DB_CRIME_InvestigationNoWalkingTalking(_Var2);
+SetForceUpdate(_Var3, 1);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye_CombatReinforcements(_Var3, _Var4, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+SetForceUpdate(_Var1, 0);
+PROC_CRIME_StopForAllCriminals(_Var3);
+
+IF
+LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye_CombatReinforcements(_Var3, _Var4, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+PROC_CRIME_Guards_UnsummonCombatReinforcement(_Var1);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ScryingEye_CombatReinforcements(_Var3, _Var1, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+SetForceUpdate(_Var4, 0);
+PROC_CRIME_StopForAllCriminals(_Var3);
+PROC_CRIME_Guards_UnsummonCombatReinforcement(_Var4);
+
+PROC
+PROC_CRIME_Guards_UnsummonCombatReinforcement((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye_CombatReinforcements(_Var2, _Var3, _Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1)
+AND
+GetDistanceToPosition(_Var1, _Var6, _Var7, _Var8, _Var9)
+THEN
+NOT DB_GLO_ScryingEye_CombatReinforcements(_Var2, _Var3, _Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8);
+DB_CRIME_Guards_Leaving(_Var1, _Var6, _Var7, _Var8);
+SetEntityEvent(_Var1, "ClearPeaceReturn", 1);
+PROC_CRIME_Guards_ReturnHome(_Var1, _Var6, _Var7, _Var8, _Var9);
+
+QRY
+QRY_CRIME_GuardDisabled((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye_CombatReinforcements(_, _, _Var1, _, _, _, _, _, _, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GEB_Investigation_SceneUnreachable", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_ScryingEye_CombatReinforcements(_Var2, _Var3, _Var1, _, _, _, _, _, _, _Var1)
+THEN
+DB_GLO_ScryingEye_GuardAppears(_Var1, _Var3);
+PROC_AppearOutOfSightTo(_Var1, _Var3, _Var3, "GLO_ScryingEye_GuardAppears");
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_ScryingEye_GuardAppears", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_ScryingEye_GuardAppears(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_ScryingEye_GuardAppears(_Var1, _Var2);
+PROC_CharacterMoveTo(_Var1, _Var2, "Run", "");
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ScryingEye(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_ScryingEye(_Var1, _Var2, _Var3);
+NOT DB_SpotPlayers(_Var1, "GLO_ScryingEye_Spotter", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SpotPlayers_Continuous(_Var1, "GLO_ScryingEye_Spotter");
+NOT DB_SpotPlayers_SpotTrigger(_Var1, "GLO_ScryingEye_Spotter", _Var2);
+NOT DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, "GLO_ScryingEye_Spotter");
+NOT DB_SpotPlayers_IncludeFollowers(_Var1, "GLO_ScryingEye_Spotter");
+NOT DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, "GLO_ScryingEye_Spotter");
+PROC_Poof(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

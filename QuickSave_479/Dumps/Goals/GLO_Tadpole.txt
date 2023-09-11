@@ -1,0 +1,298 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_GLO_Tadpole_Init();
+DB_TadpolePower("");
+NOT DB_TadpolePower("");
+DB_TadpoleCounter(1, GLO_TadpoledCount1_ff1c4f21-91b7-9c21-0ed6-74ec9c1c5628);
+DB_TadpoleCounter(2, GLO_TadpoledCount2_d35434a5-94f1-88b2-479d-674b9aee2a29);
+DB_TadpoleCounter(3, GLO_TadpoledCount3_969f02bb-f03f-50e1-f3ae-86293dece3cc);
+DB_TadpoleCounter(4, GLO_TadpoledCount4_9a94c778-c16e-9e23-8aeb-c9d7b7834582);
+DB_TadpoleCounter(5, GLO_TadpoledCount5_01a081b5-ddd7-c0f5-b3d7-0c6e2532b57d);
+DB_TadpoleCounter(6, GLO_TadpoledCount6_d857f96a-5da1-a03b-d4b6-fb7e433be60a);
+
+KBSECTION
+PROC
+PROC_GLO_Tadpole_Init()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed);
+
+IF
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Tadpole_TadpoleBurstException(_Var1);
+
+IF
+TagSet((GUIDSTRING)_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetTag(_Var1, ILLITHID_INVIS_CHECK_4835ba9d-c0d6-40fb-ad62-88f875b536c2);
+
+IF
+TagCleared((GUIDSTRING)_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearTag(_Var1, ILLITHID_HIDDEN_CHECK_4835ba9d-c0d6-40fb-ad62-88f875b536c2);
+
+IF
+TagCleared((GUIDSTRING)_Var1, ILLITHID_HIDDEN_CHECK_4835ba9d-c0d6-40fb-ad62-88f875b536c2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+SetTag(_Var1, ILLITHID_HIDDEN_CHECK_4835ba9d-c0d6-40fb-ad62-88f875b536c2);
+
+IF
+TagCleared((GUIDSTRING)_Var1, ILLITHID_HIDDEN_CHECK_4835ba9d-c0d6-40fb-ad62-88f875b536c2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_IsEditor(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+Concatenate("Never remove ILLITHID_HIDDEN_CHECK tag directly!! Entity: ", _Var2, _Var3, _Var1, _Var1)
+THEN
+DebugBreak(_Var3);
+
+IF
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Tadpole_TadpoleBurstException(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+PROC_Tadpole_TadpoledDied(_Var1);
+
+PROC
+PROC_Tadpole_TadpoledDied((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Tadpole_WaitForCombatEnd(_Var1, _Var2);
+
+PROC
+PROC_Tadpole_TadpoledDied((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_TadPole_TadpoleBurstQueued(_Var1);
+DB_Tadpole_StillTadpoled(_Var1);
+
+IF
+DB_Tadpole_StillTadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Tadpole_WaitForCombatEnd(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Tadpole_Create(_Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Tadpole_WaitForCombatEnd(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Tadpole_SetNewNearbyCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_WaitForCombatEnd(_Var2, _Var1);
+
+QRY
+QRY_Tadpole_SetNewNearbyCombat((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_Tadpole_SetNewNearbyCombat_Reset()
+AND
+DB_Is_InCombat(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Tadpole_SetNewNearbyCombat(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 <= 18
+AND
+HasLineOfSight(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+DB_Tadpole_WaitForCombatEnd(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_Tadpole_SetNewNearbyCombat(1);
+DB_Tadpole_WaitForCombatEnd(_Var1, _Var3);
+NOT DB_Tadpole_WaitForCombatEnd(_Var1, _Var5);
+
+QRY
+QRY_Tadpole_SetNewNearbyCombat_Reset()
+THEN
+NOT DB_Tadpole_SetNewNearbyCombat(1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_Tadpole_TadpoleVanished", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Tadpole_TadpoleCreature(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_TadpoleCreature(_Var1, _Var2);
+
+PROC
+PROC_LongRest()
+AND
+DB_Tadpole_StillTadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_StillTadpoled(_Var1);
+
+PROC
+PROC_LongRest()
+AND
+DB_Tadpole_TadpoleCreature(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_TadpoleCreature(_Var1, _Var2);
+PROC_GLO_Tadpole_Remove(_Var1);
+
+PROC
+PROC_LongRest()
+AND
+DB_Tadpole_WaitForCombatEnd(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_WaitForCombatEnd(_Var1, _Var2);
+
+PROC
+PROC_GLO_Tadpole_Remove((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Tadpole_TadpoleCreature(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_TadpoleCreature(_Var1, _Var2);
+
+IF
+FlagSet(GLO_Tadpoled_UsedToday1_36d218ea-3eab-481f-fdaa-4ee185e76c25, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_Tadpole_CorruptionIncrease(_Var1);
+
+PROC
+PROC_GLO_Tadpole_CorruptionIncrease((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_Tadpoled_UsedTracker(_Var1);
+SetFlag(GLO_Tadpoled_PartyUsed_1f4048fa-8793-4a61-9f18-cc660b68601b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(GLO_Tadpoled_UsedToday2_b9d51e70-8963-e27f-a1fe-db5b9cfb3b1d, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_GLO_Tadpoled_UsedTracker(_Var1);
+
+PROC
+PROC_LongRest_Player((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tadpoled_UsedTracker(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tadpoled_UsedTracker(_Var1);
+ClearFlag(GLO_Tadpoled_UsedToday1_36d218ea-3eab-481f-fdaa-4ee185e76c25, _Var1, 0);
+ClearFlag(GLO_Tadpoled_UsedToday2_b9d51e70-8963-e27f-a1fe-db5b9cfb3b1d, _Var1, 0);
+
+IF
+FlagSet(GLO_TadpoleIntro_NPC_7450cbc3-2e52-7120-b02e-544db21fbc70, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_Tadpole_UsedOnNPC(_Var1, _Var2);
+RequestModalTutorial(_Var1, "TUT_Tadpole");
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_Tadpole_UsedOnNPC(_Var3, _Var2, _, _, _)
+AND
+DB_GLO_Tadpoled_UsedTracker(_Var3, _, _, _, _)
+AND
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+THEN
+PROC_GroupDiscussion_DelayedStart(_Var3, GLO_Tadpole_GD_IVB_FirstUse_392de716-2528-46a2-983e-6e3aef9848e3);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_Tadpole_UsedOnNPC(_Var3, _Var2, _, _, _)
+THEN
+NOT DB_Tadpole_UsedOnNPC(_Var3, _Var2);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TadpoleCounter(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tadpoled_Count(_Var2, _Var4);
+
+IF
+DB_GLO_Tadpoled_Count(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tadpoled_Count(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 > _Var3
+THEN
+NOT DB_GLO_Tadpoled_Count(_Var1, _Var3);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, (STRING)_Var2, _, _, _)
+AND
+DB_TadpolePower(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_TadpolePowerUsed(_Var1);
+
+PROC
+PROC_GLO_TadpolePowerUsed((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_TadpoledPowerUsage(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_TadpoledPowerUsage(_Var1, 0);
+
+PROC
+PROC_GLO_TadpolePowerUsed((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_TadpoledPowerUsage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_TadpoledPowerUsage(_Var1, _Var2);
+DB_GLO_TadpoledPowerUsage(_Var1, _Var3);
+
+PROC
+PROC_GLO_TadpolePowerUsed((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_TadpoledPowerUsage(_Var1, 2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_TadpoledPowerUsage(_Var1, 2);
+PROC_GLO_TadpolePowerUsed_IncreaseCorruption(_Var1);
+
+PROC
+PROC_GLO_TadpolePowerUsed_IncreaseCorruption((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Tadpoled_Count(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tadpoled_Count(_Var1, 0);
+
+PROC
+PROC_GLO_TadpolePowerUsed_IncreaseCorruption((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Tadpoled_Count(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+AND
+DB_TadpoleCounter(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tadpoled_Count(_Var1, _Var2);
+DB_GLO_Tadpoled_Count(_Var1, _Var3);
+SetFlag(_Var4, _Var1, 0);
+PROC_GLO_Tadpole_CorruptionIncrease(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

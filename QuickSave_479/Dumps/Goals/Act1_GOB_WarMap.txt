@@ -1,0 +1,30 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ItemOwnerShipTriggers("WLD_Main_A", S_GOB_WarMap_OwnershipTrigger_d14b0e1e-6a75-4cc1-ae68-ff348438f852, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+DB_ShovelArea(S_FOR_WarMap_StashMound_9fbb4960-8530-4600-89a9-dbcf4e812034, S_FOR_WarMap_Stash_876e5a0b-80ed-4f29-a177-e60dbb54e3c5);
+
+KBSECTION
+IF
+UseStarted((GUIDSTRING)_Var1, S_GOB_WarMap_78c48e45-30f6-47ea-8a53-a3dd960521ac, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ShovelArea(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowMarker(_Var1, "FOR_WarMap_StashMarker");
+SetEntityEvent(_Var2, "RevealFromStory", 1);
+
+IF
+DB_ActivePlayerMarker(_Var1, "FOR_WarMap_StashMarker", _Var1, _Var1, _Var1)
+AND NOT
+DB_ShovelArea(S_FOR_WarMap_StashMound_9fbb4960-8530-4600-89a9-dbcf4e812034, _, _Var1, _Var1, _Var1)
+THEN
+PROC_HideMarker(_Var1, "FOR_WarMap_StashMarker");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

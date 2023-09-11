@@ -1,0 +1,145 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_RemoveCounter((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GlobalCounter(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GlobalCounter(_Var1, _Var2);
+
+PROC
+PROC_DeclareCounter((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_RemoveCounter(_Var1);
+DB_GlobalCounter(_Var1, 0);
+
+PROC
+PROC_IncreaseCounter((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_IncreaseCounter(_Var1, 1);
+
+PROC
+PROC_IncreaseCounter((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GlobalCounter(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_GlobalCounter(_Var1, _Var3);
+DB_GlobalCounter(_Var1, _Var4);
+PROC_CounterIncreased(_Var1, _Var4);
+
+PROC
+PROC_CounterIncreased((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DecreaseCounter((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_DecreaseCounter(_Var1, 1);
+
+PROC
+PROC_DecreaseCounter((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GlobalCounter(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var3, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_GlobalCounter(_Var1, _Var3);
+DB_GlobalCounter(_Var1, _Var4);
+PROC_CounterDecreased(_Var1, _Var4);
+
+PROC
+PROC_CounterDecreased((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IncreaseCounter((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GlobalCounter(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_GlobalCounter(_Var1, 0);
+
+QRY
+QRY_IncreaseCounter((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_IncreaseCounter(_Var1, 1);
+
+PROC
+PROC_CountHelper((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_CountHelper(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_CountHelper(_Var1, 0);
+
+PROC
+PROC_CountHelper((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CountHelper(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CountHelper(_Var1, _Var2);
+DB_CountHelper(_Var1, _Var3);
+
+QRY
+QRY_CountHelperReset((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CountHelper(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CountHelper(_Var1, _Var2);
+
+QRY
+QRY_CountHelperReset((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_CountHelper(_Var1, 0);
+
+QRY
+QRY_CountHelper((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_CountHelper(_Var1);
+
+PROC
+PROC_ObjectCountHelper((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ObjectCountHelper(_Var1, _Var2, 1);
+
+PROC
+PROC_ObjectCountHelper((GUIDSTRING)_Var1, (STRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_ObjectCountHelper(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_ObjectCountHelper(_Var1, _Var2, 0);
+
+PROC
+PROC_ObjectCountHelper((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ObjectCountHelper(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+IntegerSum(_Var4, _Var3, _Var5, _Var1, _Var1)
+THEN
+NOT DB_ObjectCountHelper(_Var1, _Var2, _Var4);
+DB_ObjectCountHelper(_Var1, _Var2, _Var5);
+
+PROC
+PROC_ObjectCountHelperReset((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ObjectCountHelper(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_ObjectCountHelper(_Var1, _Var2, _Var3);
+
+QRY
+QRY_ObjectCountHelper((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ObjectCountHelper(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

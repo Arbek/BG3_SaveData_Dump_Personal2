@@ -1,0 +1,136 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_WaitingMolAtLanceboard", 500);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_PlayingLanceboard", 525);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_HavenSolo", 550);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LanceboardFinished", 600);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeavingHaven", 700);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftHaven", 800);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_AFamiliarFace", 1000);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftGraveyard", 1100);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_OrthonsLair", 1500);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftAct2", 1550);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_SharessCaress", 1600);
+DB_State_Flags(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_SharessCaress", WYR_RaphaelTango_State_Present_ab3e98bb-550d-42e1-bbcb-42e880a9fbfc);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftSharess", 1700);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_HouseOfHope", 2000);
+DB_State_Priority(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_DefeatedInHell", 3000);
+DB_DefeatedEvent(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, GLO_Monitor_State_Defeated_a5032bc9-878b-4187-b086-d145bec99441);
+DB_PermaDefeatedEvent(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, GLO_Monitor_State_PermaDefeated_92f6d5f6-86af-4339-ad8a-da9d629f0dae);
+DB_PreventPermaDefeated(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+DB_Inclusion_Object(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, GLO_Monitor_Inclusion_Start_c1578256-f2c2-4c8b-b249-18f5b0c55058, GLO_Monitor_Inclusion_End_29a42e24-d12d-4868-879c-4af19b1a9216);
+DB_HasItemEvent(S_GLO_OrphicHammer_9013ef0d-c6ee-4137-b17a-c1934079e10d, GLO_Monitor_State_HasOrphicHammer_29842214-5482-dc25-fc89-02e474d7d96b);
+SetImmortal(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 1);
+PROC_CharacterDisableAllCrimes(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+
+KBSECTION
+PROC
+PROC_GLO_Monitor_Poof()
+THEN
+PROC_Poof(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, VFX_Script_Raphael_Poof_TeleportOut_01_8186a3ba-1f1d-33a4-005a-36607680f5a5);
+
+PROC
+PROC_GLO_Monitor_Foop()
+THEN
+PROC_Foop(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, VFX_Script_Raphael_Poof_TeleportIn_01_f7880749-91d9-68dd-9675-ec33dbbc7936);
+
+PROC
+PROC_GLO_Monitor_EntityPoof((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Poof(_Var1, VFX_Script_Raphael_Poof_TeleportOut_01_8186a3ba-1f1d-33a4-005a-36607680f5a5);
+
+PROC
+PROC_GLO_Monitor_EntityFoop((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Foop(_Var1, VFX_Script_Raphael_Poof_TeleportIn_01_f7880749-91d9-68dd-9675-ec33dbbc7936);
+
+PROC
+PROC_GLO_Monitor_DebugStateReset()
+AND
+DB_State_Current(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", _Var1, _Var1, _Var1)
+THEN
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", _Var1, "GLO_Monitor_HasNotAppeared");
+
+IF
+TextEvent("testmonitorpoof", _, _, _, _)
+THEN
+PROC_GLO_Monitor_Poof();
+
+IF
+TextEvent("testmonitorfoop", _, _, _, _)
+THEN
+PROC_GLO_Monitor_Foop();
+
+IF
+FlagSet(Debug_GLO_Monitor_Act2_VossSetup_4062e8bc-38e8-9b06-4db7-8b4a17c1fa86, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_PermaDefeated(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+ClearFlag(GLO_GithKnight_State_PermaDefeated_c354b407-b88d-4920-96a2-80555d6fc0b0);
+TeleportTo(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, S_WYR_RaphaelTango_IntroPoint_beeff8fd-373e-408d-af9a-1bce83eacd2e, "", 0, 0, 0, 0, 1);
+PROC_CharacterFullRestore(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+DB_WYR_RaphaelTango_PartOfScene(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+DB_WYR_RaphaelTango_PartOfScene(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+DB_AssaultFamilyIgnoreFor(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+PROC_Debug_ORI_Laezel_ResetVossAct3State();
+PROC_SetOnStage(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, 1);
+DB_Dialogs(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, WYR_RaphaelTango_Voss_140953a8-5d79-c6d0-d691-52694b875bc2);
+SetFlag(ORI_Laezel_State_BetrayedByVlaakith_175d8487-99dc-4009-9b45-6e9f29708cd7);
+SetFlag(ORI_Laezel_State_MetVossInAct2_26563f96-bf5a-4895-b63b-036c7571bbbc);
+SetFlag(ORI_Laezel_State_AgreedWithVossInAct2_63f1a107-a2af-46ec-ac49-a10d0166ac2e);
+
+IF
+FlagSet(Debug_GLO_Monitor_Act3_MadeDeal_8cc80623-1f35-006b-1919-36010ead9dd9, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Monitor_State_MadeDeal_86f40f63-0bfa-4ab6-b3b0-d01475c3cbdc);
+PROC_GlobalSetFlagAndCache(WYR_RaphaelTango_State_DiscussedDeal_9896c94b-431e-4b0e-90ce-80293ffb1198);
+PROC_GlobalSetFlagAndCache(GLO_Orpheus_Knows_OrphicHammerIsTheKey_980541fb-1483-ea1a-3387-64405eace9a2);
+ToInventory(S_GLO_OrphicHammer_9013ef0d-c6ee-4137-b17a-c1934079e10d, _Var1, 1, 1, 1);
+
+IF
+FlagSet(Debug_GLO_Monitor_Act3_PrepareHoH_d8a99227-2968-5582-2626-7c2327536455, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TeleportPartiesTo(S_Debug_LOW_HouseOfHopePrepareRaphael_a0dd28ff-6b9b-4180-a1b0-9b3c137d25d3, "GLO_Monitor_TeleportToHouseOfHope");
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_Monitor_TeleportToHouseOfHope", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(Debug_LOW_HouseOfHope_MainTreasureStealing_8d6d5f80-dcf6-1429-b4c0-b17f3605de37, _Var1);
+
+IF
+FlagSet(Debug_GLO_Monitor_Act3_KillRaphael_ba290a7e-2133-9a44-f802-91f122408449, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetImmortal(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 0);
+NOT DB_PreventPermaDefeated(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+Die(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 0, 0);
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_DefeatedInHell");
+
+IF
+FlagSet(Debug_GLO_Monitor_Act3_LastChance_1606dc9e-7585-2ecc-30c5-6e2b5496343d, _, _, _, _)
+AND
+GetHostCharacter(_Var3, _, _, _, _)
+THEN
+ToInventory(S_GLO_OrphicHammer_9013ef0d-c6ee-4137-b17a-c1934079e10d, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+PROC_TeleportPartiesTo(S_Debug_Teleport_END_AstralPlaneEntrance_e496c951-22dc-4652-857d-111531bab153, "GLO_Monitor_TeleportToAstralPlane");
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_Monitor_TeleportToAstralPlane", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_OnlyOnce("END_IllithidOptions_AstralArrival");
+DB_END_MorphicPool_ConfrontationSpeaker(_Var1);
+PROC_END_MorphicPool_PostConfrontationCleanUp();
+PROC_TeleportPartiesTo(S_END_ToAstralPlanePoint_66edc6ed-1584-47ac-983c-c6119ea7ddd4, "END_IllithidOptions_PlayersArrived");
+TeleportTo(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, S_END_AstralEmperorPoint_a9932552-8c39-485b-8e5c-0aa8570824a3, "END_IllithidOptions_EmperorArrived");
+PROC_TeleportPartiesTo(S_END_OpenExitPortalPoint_c6d5437e-ca42-4fa9-892f-f33a964c091c, "GLO_Monitor_LastChance");
+
+IF
+EntityEvent(_, "GLO_Monitor_LastChance", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_END_IllithidOptions_EmperorEscapeToNetherbrain();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

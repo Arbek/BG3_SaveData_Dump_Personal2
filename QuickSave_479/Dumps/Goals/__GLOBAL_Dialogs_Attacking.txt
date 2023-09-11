@@ -1,0 +1,70 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DialogAttackRequested((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DialogAttackRequested_CustomResponse(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_OnDialogAttackRequested(_Var1, _Var2);
+
+PROC
+PROC_OnDialogAttackRequested((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OnDialogAttackRequested(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_OnDialogAttackRequested(_Var1, _Var2, _Var3);
+
+PROC
+PROC_OnDialogAttackRequested((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_OnDialogAttackRequested(_Var1, _Var2, 0);
+
+PROC
+PROC_OnDialogAttackRequested((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog_BlockAttackButton_Intern_ValidHostileSpeaker(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TryStopDialogFor(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OnDialogAttackRequested(_Var1, _Var2, 0);
+DB_OnDialogAttackRequested(_Var1, _Var2, 1);
+PROC_SetRelationTemporaryHostile(_Var1, _Var2);
+PROC_OnDialogAttack_GoingHostile(_Var1, _Var2);
+
+PROC
+PROC_OnDialogAttackRequested((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnDialogAttackRequested(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var3, _Var2, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var5, _Var3, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+Concatenate("DialogAttackRequest failed to stop the dialog: ", _Var6, _Var7, _Var1, _Var1)
+THEN
+DebugBreak(_Var7);
+
+PROC
+PROC_OnDialogAttack_GoingHostile((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DialogAttackRequested_CustomResponse((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

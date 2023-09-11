@@ -1,0 +1,23 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_UND_AdamantineForge_MagmaMephitsAmbush_Teleport_Helper_000_783884b2-fbee-4376-9c18-6fd99d225ce6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_UND_AdamantineForge_MagmaMephitsAmbush_Teleport_Helper_000_783884b2-fbee-4376-9c18-6fd99d225ce6, 0);
+SetEntityEventReal(_Var1, "GLO_CombatWait", 0.5);
+RealtimeObjectTimerLaunch(_Var1, "UND_MephitsAmbush_MephitJump_Timer", 500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "UND_MephitsAmbush_MephitJump_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+UseSpell(_Var1, "Projectile_Jump_Mephit", S_UND_AdamantineForge_MagmaMephitsAmbush_Teleport_Helper_001_01f1cc08-177a-42c6-b49b-da530e7082d7, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

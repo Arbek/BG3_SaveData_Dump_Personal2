@@ -1,0 +1,68 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_UND_MyconidCircle_MainArea_a08c9f65-06ed-4f36-95a9-2330fa9462da);
+DB_SporeServantBehaviourExceptions(S_UND_PlantDuergar_002_0028d0c1-1fb1-4c0f-baad-bf44eeae6dc1);
+DB_SporeServantBehaviourExceptions(S_UND_PlantDuergar_003_6da6d51e-8cf6-4b49-a780-3f46971d5b33);
+DB_SporeServantDialogExceptions(S_UND_PlantDuergar_002_0028d0c1-1fb1-4c0f-baad-bf44eeae6dc1);
+DB_SporeServantDialogExceptions(S_UND_PlantDuergar_003_6da6d51e-8cf6-4b49-a780-3f46971d5b33);
+PROC_TriggerRegisterForPlayers(S_UND_MyconidCircle_StartIntroEventTrigger_471e9e76-448b-49dc-bdc2-231550fa399c);
+DB_UND_MyconidCircle_AdditionsToKillCount(S_UND_PlantDuergar_002_0028d0c1-1fb1-4c0f-baad-bf44eeae6dc1);
+DB_UND_MyconidCircle_AdditionsToKillCount(S_UND_PlantDuergar_003_6da6d51e-8cf6-4b49-a780-3f46971d5b33);
+DB_UND_MyconidCircle_AnimatingSporesSpells("Target_UND_MyconidSovereign_FakeAnimatingSpores");
+DB_UND_MyconidCircle_AnimatingSporesSpells("Target_AnimatingSpores");
+
+KBSECTION
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_UND_MyconidCircle_MainArea_a08c9f65-06ed-4f36-95a9-2330fa9462da, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(UND_MyconidCircle_State_Visited_5c470f79-d252-49e0-af96-94cebd100359, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_TriggerUnregisterForPlayers(S_UND_MyconidCircle_MainArea_a08c9f65-06ed-4f36-95a9-2330fa9462da);
+
+IF
+DB_InRegion(_Var1, S_UND_MyconidCircle_StartIntroEventTrigger_471e9e76-448b-49dc-bdc2-231550fa399c, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_MyconidCircle_CurrentSovereign(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_State_Hostile_d0fe87bc-0b67-e446-1543-ac3b5e07e16d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, S_UND_MyconidCircle_StartIntroEventTrigger_471e9e76-448b-49dc-bdc2-231550fa399c, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_MyconidSovereign_PlayerIntro", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_MyconidSovereign_State_PlayerSawResurrection_0fc153f3-fff5-92b6-9834-b72e920423b7);
+StartVoiceBark(UND_MyconidCircle_VB_SawCorpse_dd67fc5d-0a77-36a9-21ab-670974b8478e, _Var1);
+PROC_TriggerUnregisterForPlayers(S_UND_MyconidCircle_StartIntroEventTrigger_471e9e76-448b-49dc-bdc2-231550fa399c);
+
+IF
+Resurrected((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_MyconidCircle_AdditionsToKillCount(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var1, "UND_MyconidCircle_KillCounter");
+
+IF
+CastedSpell(S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265, (STRING)_Var1, _, _, _)
+AND
+DB_UND_MyconidCircle_AnimatingSporesSpells(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var5, S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_MyconidSovereign_State_PlayerSawResurrection_0fc153f3-fff5-92b6-9834-b72e920423b7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_MyconidSovereign_State_PlayerSawResurrection_0fc153f3-fff5-92b6-9834-b72e920423b7);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

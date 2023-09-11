@@ -1,0 +1,118 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+TextEvent("WYR_TestKorrilla", _, _, _, _)
+THEN
+PROC_TeleportPartiesTo(S_WYR_Korrilla_DebugTeleportPoint_bedaa19e-e90e-4405-b59b-489bfcbf4870, "");
+
+IF
+LevelLoaded("BGO_Main_A", _, _, _, _)
+AND
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Circus", _, _)
+AND
+QRY_OnlyOnce("WYR_KorrillaSetUp", _, _, _, _)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Circus");
+PROC_GlobalSetFlagAndCache(WYR_Circus_State_WarlockPresent_9909b6d0-a013-484a-9c65-c735afda84f5);
+TeleportTo(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, S_WYR_Korrilla_AppearSpot_46bf2545-71c5-428a-8084-9d9832139663, "", 0, 0, 0, 1, 1);
+CharacterDisableAllCrimes(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+PROC_SetOnStage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 1);
+SetVisible(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 1);
+SetHitpointsPercentage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 100);
+PROC_GLO_Warlock_ApplyStatus("GLO_KORRILLA_PROJECTEDIMAGE");
+PROC_GLO_Warlock_ApplyStatus("TWN_KORRILLATHESPY_PROXIMITYAURA");
+PROC_GLO_Warlock_RemoveStatus("GLO_KORRILLA_STEALTH");
+PROC_RemoveDialog(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+DB_Dialogs(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, WYR_Circus_Korrilla_c4b80ac7-bbd5-315b-88cb-d3ec95fe6cff);
+DB_SpotPlayers(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "WYR_Circus_Korrilla_SpottedPlayer", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "WYR_Circus_Korrilla_SpottedPlayer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+LookAtEntity(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, 5);
+PlayAnimation(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, CUST_Spy_Wave_01_3a492504-e16c-4743-a32d-165f44da2df3, "WYR_Circus_Korrilla_WaveFinished");
+
+IF
+EntityEvent(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "WYR_Circus_Korrilla_WaveFinished", _, _, _)
+THEN
+SetFlag(GLO_KorrillaTheSpy_Circus_State_TimeToLeave_16f3e3d2-ddaa-4cbb-ba57-4bb257e9f5ca);
+
+IF
+EntityEvent(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "WYR_Korrilla_AtDisappearPosition", _, _, _)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+
+IF
+DialogEnded(WYR_Circus_Korrilla_c4b80ac7-bbd5-315b-88cb-d3ec95fe6cff, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var2);
+
+IF
+StatusApplied((CHARACTER)_Var1, "TWN_KORRILLATHESPY_ISNEAR", _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(WYR_Circus_State_WarlockPresent_9909b6d0-a013-484a-9c65-c735afda84f5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var1);
+
+IF
+DB_Sees(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(WYR_Circus_State_WarlockPresent_9909b6d0-a013-484a-9c65-c735afda84f5, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "TWN_KORRILLATHESPY_ISNEAR", 1, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var1);
+
+PROC
+PROC_GLO_Warlock_TeleportOut()
+THEN
+PROC_WYR_Circus_Warlock_OnLeaving();
+
+PROC
+PROC_State_Changed(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Circus", _, _)
+AND
+DB_GlobalFlag(WYR_Circus_State_WarlockPresent_9909b6d0-a013-484a-9c65-c735afda84f5, _, _, _, _)
+THEN
+PROC_WYR_Circus_Warlock_OnLeaving();
+
+PROC
+PROC_WYR_Circus_Warlock_OnLeaving()
+AND
+DB_GlobalFlag(WYR_Circus_State_WarlockPresent_9909b6d0-a013-484a-9c65-c735afda84f5, _, _, _, _)
+AND
+DB_CurrentLevel("BGO_Main_A", _, _, _, _)
+AND
+GetRegion(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "BGO_Main_A", _, _, _)
+AND
+GetPosition(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, _Var2, _Var3, _Var1)
+THEN
+PlayEffectAtPosition(VFX_Script_Raphael_Poof_TeleportOut_01_8186a3ba-1f1d-33a4-005a-36607680f5a5, _Var1, _Var2, _Var3);
+
+PROC
+PROC_WYR_Circus_Warlock_OnLeaving()
+AND
+DB_GlobalFlag(WYR_Circus_State_WarlockPresent_9909b6d0-a013-484a-9c65-c735afda84f5, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "WYR_Circus_Korrilla_SpottedPlayer");
+PROC_GlobalClearFlagAndCache(WYR_Circus_State_WarlockPresent_9909b6d0-a013-484a-9c65-c735afda84f5);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

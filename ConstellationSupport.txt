@@ -1,0 +1,47 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_Constellation_UseBlockedFromStorySender(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_BlockUseOfItem((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, BLOCK_USE_FROM_CONSTELLATION_89a63758-d622-41cd-81f9-baceffc12618, 1, _Var1, _Var1)
+AND
+QRY_Constellation_UseBlockedGetSender(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_Constellation_UseBlockedGetSender(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+ConstellationTriggerInputSocket(_Var2, "UseBlockedFromStory", _Var3, _Var1);
+
+QRY
+QRY_Constellation_UseBlockedGetSender((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRY_RTN_Constellation_UseBlockedGetSender(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_Constellation_UseBlockedGetSender(_Var3);
+
+QRY
+QRY_Constellation_UseBlockedGetSender((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Constellation_UseBlockedFromStorySender(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Constellation_UseBlockedGetSender(_Var3);
+
+QRY
+QRY_Constellation_UseBlockedGetSender((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_Constellation_UseBlockedGetSender(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Constellation_UseBlockedGetSender(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

@@ -1,0 +1,449 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_HAV_TakingIsobel_CaptureSetup();
+
+KBSECTION
+IF
+FlagSet(Debug_HAV_SpyCapture_1f79bdf6-d3e5-0281-330d-4eba54a9199f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+TeleportTo(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, S_HAV_SpyTransfoPoint_39b78c4b-a75e-42bb-bddf-b676a131792e);
+PROC_State_Progress(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, "HAV_FlamingSpy", "Spy_DefaultBehaviour");
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_LakeToRoomTransition");
+SetFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412);
+TeleportTo(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_HAV_IsobelPrayerPoint_ad61fb61-370f-4b1b-a40e-85ba0f1f1a8f);
+
+IF
+TextEvent("spycombat", _, _, _, _)
+THEN
+PROC_State_Progress(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, "HAV_FlamingSpy", "Spy_CaptureStarted");
+PROC_HAV_TakingIsobel_CaptureStarting();
+TeleportTo(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_HAV_IsobelPrayerPoint_ad61fb61-370f-4b1b-a40e-85ba0f1f1a8f);
+TeleportTo(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, S_HAV_SpyInPoint_546e38ea-db44-4b12-bbb7-d486dca08124);
+SetFlag(HAV_TakingIsobel_State_SidedWithSpy_5eb745b2-5043-2f36-4d3a-ee3f09ed7a82);
+PROC_HAV_TakingIsobel_InitSpyCombat(1);
+
+IF
+TextEvent("playercapture", _, _, _, _)
+THEN
+SetFlag(MOO_FirstFloor_DukeDouble_Quest_Accepted_10d8d681-e2a3-c472-e7d9-08718f2eaea2);
+SetFlag(HAV_TakingIsobel_Knows_ZevlorCanHelp_39f6c83f-fcec-e306-c500-e93dc13dd70d);
+
+IF
+TextEvent("koisobel", _, _, _, _)
+THEN
+ApplyStatus(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "KNOCKED_OUT", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup()
+AND
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup()
+AND
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup()
+AND NOT
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+AND
+DB_Defeated(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup()
+AND NOT
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+AND NOT
+DB_Defeated(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+THEN
+PROC_HAV_TakingIsobel_CaptureSetup(1);
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup(1, _, _, _, _)
+THEN
+DB_DialogBlockTradeButton(HAV_TakingIsobel_SpySuccess_5092e0db-55bd-71a6-2746-3cd5b359cde6);
+DB_DialogBlockTradeButton(HAV_TakingIsobel_GhoulSuccess_37afc763-fdfc-819b-fbe6-a490fa4a99c5);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_Balcony_ea450666-303d-4cde-b1f6-162fdc423064);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_Room_1ddc9945-3187-4eee-a2f3-8e2c06e5c06f);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_Balcony_2_512d08ab-d66e-4a3d-bb6d-e009de0c22b7);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_Downstairs_1_6760074f-7d8c-4cce-9469-cc51ffbb9698);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_Downstairs_2_0305c965-984d-414e-a1b4-d863f6fbb1c5);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_Downstairs_3_a0612a7d-21d8-4072-919c-dad14800d736);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_InnerBalcony_1_24455bb4-ca09-4837-8cbf-39a252fad2b6);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_InnerBalcony_2_0877dacb-fb40-44ea-b6cc-f00509d04470);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_InnerBalcony_3_b7d3666e-16c9-4d77-a505-50f3a19693ff);
+DB_HAV_Isobel_FollowupBoxes(S_HAV_IsobelRoomFollowUpBox_InnerBalcony_4_ee50c120-9403-4738-bfe6-6e02f10279a8);
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup(1, _, _, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(S_HAV_SpyPlayerInBox_edb52dcc-651b-46c5-afd0-e6f3de7beba2);
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup(1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAV_TakingIsobel_FlyingGhouls(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var1, "HAV_TakingIsobel_InnGhoulCombat");
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup(1, _, _, _, _)
+THEN
+SetCombatGroupID(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, "bed268ba-0c09-f87f-85c6-4b315443178a");
+SetCombatGroupID(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "bed268ba-0c09-f87f-85c6-4b315443178a");
+
+IF
+FlagSet(HAV_TakingIsobel_Event_SpawnGhouls_e8d0fd32-5eff-4101-bb7c-6d2e1acd4ba4, _, (INTEGER)_Var2, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_HAV_TakingIsobel_SpyCaptureStarted(_Var2);
+
+PROC
+PROC_HAV_TakingIsobel_SpyCaptureStarted((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_HAV_SpyCapture_PrioPlayer(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAV_SpyCapture_PrioPlayer(_Var2);
+
+PROC
+PROC_HAV_TakingIsobel_SpyCaptureStarted((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_HAV_SpyCapture_PrioPlayer(_Var2);
+PROC_HAV_TakingIsobel_CaptureStarting();
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "SpyCombat_Confrontation");
+
+PROC
+PROC_HAV_TakingIsobel_CaptureStarting()
+THEN
+PROC_State_Progress(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, "HAV_FlamingSpy", "Spy_CaptureStarted");
+SetFlag(HAV_TakingIsobel_State_SpyConfrontationStarted_44c18469-4650-4941-bf5f-9fe1f01df6e0);
+PROC_HAV_TakingIsobel_CaptureTeleport();
+PROC_HAV_TakingIsobel_SpyTransform();
+Open(S_HAV_IsobelBalconyDoor_33b6ec88-e2ed-4074-af35-76aaaf66f113);
+
+PROC
+PROC_HAV_TakingIsobel_CaptureTeleport()
+AND
+IsOnStage(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, 0, _, _, _)
+AND
+QRY_HAV_TakingIsobel_CapturePoint()
+AND
+DB_QRYRTN_HAV_TakingIsobel_CapturePoint(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _Var1);
+PROC_HAV_TakingIsobel_SetSpyOnStage(1);
+
+QRY
+QRY_HAV_TakingIsobel_CapturePoint()
+AND
+IsInTrigger(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_HAV_IsobelRoomFollowUpBox_Room_1ddc9945-3187-4eee-a2f3-8e2c06e5c06f, 1, _, _)
+AND
+IsInTrigger(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, S_HAV_IsobelRoomFollowUpBox_Balcony_ea450666-303d-4cde-b1f6-162fdc423064, 1, _, _)
+THEN
+DB_QRYRTN_HAV_TakingIsobel_CapturePoint(S_HAV_SpyInPoint_546e38ea-db44-4b12-bbb7-d486dca08124);
+
+QRY
+QRY_HAV_TakingIsobel_CapturePoint()
+AND NOT
+DB_QRYRTN_HAV_TakingIsobel_CapturePoint(_, _, _, _, _)
+THEN
+DB_QRYRTN_HAV_TakingIsobel_CapturePoint(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+PROC
+PROC_HAV_TakingIsobel_SpyClosesDoor()
+AND
+DB_Destroyed(S_HAV_IsobelRoomDoor_c9742d8f-15bd-4b2f-9825-9f8dded51361, _, _, _, _)
+AND
+QRY_IsOpeneding(S_HAV_IsobelRoomDoor_c9742d8f-15bd-4b2f-9825-9f8dded51361, _, _, _, _)
+THEN
+Close(S_HAV_IsobelRoomDoor_c9742d8f-15bd-4b2f-9825-9f8dded51361);
+
+IF
+DialogEnded(HAV_TakingIsobel_SpyCapture_1b698557-76c0-1166-6415-91fadb358985, _, _, _, _)
+AND
+GetFlag(HAV_TakingIsobel_State_SidedWithSpy_5eb745b2-5043-2f36-4d3a-ee3f09ed7a82, NULL_00000000-0000-0000-0000-000000000000, _Var2, _, _)
+THEN
+PROC_HAV_TakingIsobel_InitSpyCombat(_Var2);
+
+PROC
+PROC_HAV_TakingIsobel_InitSpyCombat(_, (INTEGER)_, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(HAV_TakingIsobel_Event_SpyCombatStarted_b0930689-e539-424e-bc92-e4a37fbee7d5);
+SetFlag(HAV_TakingIsobel_Event_AbductionAttempted_24605994-7bed-3f92-36f0-1472d32ab2ea);
+PROC_SelfHealing_Disable(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+PROC_SelfHealing_Disable(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6);
+SetAiHint(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, ACT2_HAV_AI_HINT_ISOBELFLEE_3f261d03-8132-4f0d-a954-689a040f9f58);
+SetTag(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, ACT2_HAV_AI_HINT_ISOBELFLEE_3f261d03-8132-4f0d-a954-689a040f9f58);
+AddPreferredAiTargetTag(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, ACT2_HAV_AI_HINT_ISOBELFLEE_3f261d03-8132-4f0d-a954-689a040f9f58);
+
+PROC
+PROC_HAV_TakingIsobel_InitSpyCombat(0, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "SpyCombat_SideWithIsobel");
+
+PROC
+PROC_HAV_TakingIsobel_InitSpyCombat(1, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "SpyCombat_SideWithSpy");
+
+PROC
+PROC_State_Changed(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "SpyCombat_SideWithIsobel", _, _)
+THEN
+DB_GLO_DefeatCounter(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, "HAV_TakingIsobel_DefaultSpyCombat");
+SetFaction(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, Act2_HAV_FlamingSpy_Hostile_caa2c8a9-67d2-479b-91ad-f460e66cfd9b);
+
+PROC
+PROC_State_Changed(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "SpyCombat_SideWithSpy", _, _)
+THEN
+PROC_HAV_SetupFactionsSpyAlly();
+
+PROC
+PROC_State_Changed(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "SpyCombat_SideWithSpy", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var1, "HAV_TakingIsobel_DefaultSpyCombat", _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_DefeatCounter(_Var1, "HAV_TakingIsobel_DefaultSpyCombat");
+
+IF
+TurnStarted(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND
+DB_HAV_SpyCapture_RemindKO(1, _, _, _, _)
+AND NOT
+DB_CantTalk_IgnoreCombat(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND NOT
+DB_CantMove(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND
+DB_State_Current(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "SpyCombat_SideWithSpy", _, _)
+AND
+QRY_StartDialog(HAV_TakingIsobel_AD_SpyRemindsKO_0b7674d7-e58d-dbe8-c17b-5cf7f67384b9, S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _)
+THEN
+NOT DB_HAV_SpyCapture_RemindKO(1);
+
+IF
+FlagSet(HAV_TakingIsobel_State_SidedWithSpy_5eb745b2-5043-2f36-4d3a-ee3f09ed7a82, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "Tasked_PlayerCombat");
+
+PROC
+PROC_State_Changed(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture", "Tasked_PlayerCombat", _, _)
+THEN
+PROC_HAV_SetupFactionsSpyAlly();
+
+PROC
+PROC_HAV_SetupFactionsSpyAlly()
+AND NOT
+DB_GlobalFlag(HAV_General_State_IsHostileToPlayers_3cd1e3a7-6a9a-6558-a9f2-8db69824869b, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(Act2_HAV_Haven_e52bfc8c-7826-470d-a9f5-f6fae80dde82, 51);
+
+PROC
+PROC_HAV_SetupFactionsSpyAlly()
+THEN
+SetFaction(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, Act2_HAV_FlamingSpy_RevealedAlly_e3da5c3f-056c-4391-83c9-7a78b0703856);
+PROC_HAV_TakingIsobel_SetGhoulsAlly();
+PROC_HAV_TakingIsobel_TurnIsobelHostile();
+DB_HAV_SpyCapture_RemindKO(1);
+PROC_HAV_TakingIsobel_CaptureCombatStarted();
+
+PROC
+PROC_HAV_TakingIsobel_TurnIsobelHostile()
+THEN
+SetFlag(HAV_TakingIsobel_Event_IsobelHostile_6719c859-499a-318d-e45b-b3923c76dff2);
+SetFlag(HAV_TakingIsobel_Event_AbductionAttempted_24605994-7bed-3f92-36f0-1472d32ab2ea);
+SetFaction(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, Act2_HAV_Isobel_Hostile_336d0541-f1ab-4bb4-a258-9525c065bef4);
+PROC_HAV_TakingIsobel_PrepareCallToArm();
+
+PROC
+PROC_HAV_TakingIsobel_PrepareCallToArm()
+THEN
+DB_HAV_TakingIsobel_JaheiraCallsToArm(1);
+
+IF
+DB_Is_InCombat(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_TakingIsobel_JaheiraCallsToArm(1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211
+AND
+_Var2 != S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6
+AND NOT
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_TakingIsobel_FlyingGhouls(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_General_State_IsHostileToPlayers_3cd1e3a7-6a9a-6558-a9f2-8db69824869b, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_State_IsBeforeState(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_FollowUp_Capture", _Var1, _Var1)
+AND
+DB_Sees(_Var2, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _Var1, _Var1, _Var1)
+AND NOT
+QRY_HAV_TakingIsobel_JaheiraCallToArms(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(Act2_HAV_Haven_e52bfc8c-7826-470d-a9f5-f6fae80dde82, 0);
+SetFlag(HAV_General_State_IsHostileToPlayers_3cd1e3a7-6a9a-6558-a9f2-8db69824869b, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_HAV_TakingIsobel_JaheiraCallsToArm(1);
+
+PROC
+PROC_DialogFlagSetup(HAV_TakingIsobel_JaheiraCallToArm_115de2ed-8330-d5f0-2c34-c32a673a5d1b, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SetRelationToPlayers(Act2_HAV_Haven_e52bfc8c-7826-470d-a9f5-f6fae80dde82, 0);
+SetFlag(HAV_General_State_IsHostileToPlayers_3cd1e3a7-6a9a-6558-a9f2-8db69824869b, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_HAV_TakingIsobel_JaheiraCallsToArm(1);
+
+QRY
+QRY_HAV_TakingIsobel_JaheiraCallToArms((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("HAV_TakingIsobel_JaheiraCallToArm", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(HAV_TakingIsobel_JaheiraCallToArm_115de2ed-8330-d5f0-2c34-c32a673a5d1b, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var2, _Var1, _Var1)
+THEN
+DB_OnlyOnce("HAV_TakingIsobel_JaheiraCallToArm");
+
+QRY
+QRY_HAV_TakingIsobel_JaheiraCallToArms((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("HAV_TakingIsobel_JaheiraCallToArm", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(HAV_TakingIsobel_JaheiraCallToArm_115de2ed-8330-d5f0-2c34-c32a673a5d1b, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var2, _Var1, _Var1)
+THEN
+DB_OnlyOnce("HAV_TakingIsobel_JaheiraCallToArm");
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211
+AND
+_Var1 != S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_TakingIsobel_FlyingGhouls(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAV_TakingIsobel_Event_IsobelHostile_6719c859-499a-318d-e45b-b3923c76dff2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_State_IsBeforeState(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_FollowUp_Capture", _Var1, _Var1)
+AND
+CanSee(_Var1, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, 1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreCombat(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(HAV_TakingIsobel_AD_CombatBetrayalReveal_0b2e728e-337a-4a7e-de37-31bb378d84c5, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_HAV_TakingIsobel_SetGhoulsAlly()
+THEN
+SetFaction(S_HAV_TaxiGhoul_3ebef8c7-2733-42aa-9757-84fdeadbe652, Act2_HAV_FlamingSpy_Ally_e3da5c3f-056c-4391-83c9-7a78b0703856);
+
+PROC
+PROC_HAV_TakingIsobel_SetGhoulsAlly()
+AND
+DB_HAV_TakingIsobel_FlyingGhouls(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var1, Act2_HAV_FlamingSpy_Ally_e3da5c3f-056c-4391-83c9-7a78b0703856);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("HAV_TakingIsobel_DefaultSpyCombat", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(HAV_TakingIsobel_State_DefendedIsobel_0d0255e4-dd08-47d7-9b40-cce21ec4a5bd);
+PROC_GlobalSetFlagAndCache(HAV_TakingIsobel_State_AbductionCombatOver_b0bb8648-79a1-4b4c-a0ea-822bcc0cd917);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("HAV_TakingIsobel_DefaultSpyCombat", _, _, _, _)
+AND
+DB_GlobalFlag(HAV_TakingIsobel_Event_SpyCombatStarted_b0930689-e539-424e-bc92-e4a37fbee7d5, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_FollowUp_Protection");
+GoalCompleted;
+
+PROC
+PROC_HAV_TakingIsobel_CaptureSetup(1, _, _, _, _)
+AND
+DB_Defeated(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+NOT DB_HAV_TakingIsobel_JaheiraCallsToArm(1);
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_DefeatedInHaven");
+GoalCompleted;
+
+PROC
+PROC_StateSet_PermaDefeated(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+NOT DB_HAV_TakingIsobel_JaheiraCallsToArm(1);
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_DefeatedInHaven");
+GoalCompleted;
+
+PROC
+PROC_StateSet_Defeated(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+NOT DB_HAV_TakingIsobel_JaheiraCallsToArm(1);
+GoalCompleted;
+
+IF
+DB_GLO_DefeatCounter_CountMet("HAV_TakingIsobel_InnGhoulCombat", _, _, _, _)
+AND NOT
+DB_CantMove(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+THEN
+PROC_CharacterMoveTo(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_HAV_IsobelRoomArrivalPoint_1f775852-ddf6-4644-b271-cee665cd2cdb, "Sprint", "HAV_TakingIsobel_FollowUpToIsobel");
+
+PROC
+PROC_SCE_SetupDebrief()
+THEN
+GoalCompleted;
+
+IF
+FlagSet(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DieImmediate(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, 0, 1);
+
+PROC
+PROC_State_Changed(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", (STRING)_Var1, "HAV_Isobel_State_AtMoonrise", (STRING)_Var1)
+THEN
+PROC_State_Remove(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_TakingIsobel_Capture");
+GoalCompleted;
+
+
+EXITSECTION
+NOT DB_DialogBlockTradeButton(HAV_TakingIsobel_SpyCapture_1b698557-76c0-1166-6415-91fadb358985);
+NOT DB_DialogBlockAttackButton(HAV_TakingIsobel_SpyCapture_1b698557-76c0-1166-6415-91fadb358985);
+NOT DB_GlobalFlagReactionAfterDialog(HAV_TakingIsobel_Event_IsobelHostile_6719c859-499a-318d-e45b-b3923c76dff2, HAV_DefeatingKetheric_BriefAtLake_b364a705-4541-1637-c738-fdebc6b4a737);
+NOT DB_GlobalFlagReactionAfterDialog(HAV_TakingIsobel_State_PersuadedToGo_19b191d9-0386-a27d-0115-e9313bf421cb, HAV_DefeatingKetheric_BriefAtLake_b364a705-4541-1637-c738-fdebc6b4a737);
+NOT DB_DialogBlockTradeButton(HAV_TakingIsobel_SpySuccess_5092e0db-55bd-71a6-2746-3cd5b359cde6);
+NOT DB_DialogBlockTradeButton(HAV_TakingIsobel_GhoulSuccess_37afc763-fdfc-819b-fbe6-a490fa4a99c5);
+NOT DB_HAV_TakingIsobel_JaheiraCallsToArm(1);
+PROC_TriggerUnregisterForPlayers(S_HAV_SpyPlayerInBox_edb52dcc-651b-46c5-afd0-e6f3de7beba2);
+ENDEXITSECTION
+
+ParentTargetEdge "Act2_HAV_TakingIsobel"

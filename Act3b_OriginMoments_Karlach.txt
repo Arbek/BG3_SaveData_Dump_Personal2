@@ -1,0 +1,254 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_LOW_Bartender_626fc1ed-c1ff-4dcd-a986-068a12cb7974, LOW_KarlachsRomance_Bartender_d949094e-237b-de80-784d-8b262b21679f);
+DB_Dialogs(S_LOW_ElfLover_000_b15d3b0d-eddd-4156-9dcc-77775d7c5975, LOW_ElfLover_000_06c8bef9-f4e5-e5a6-211a-9342a9f4616c);
+DB_Dialogs(S_LOW_ElfLover_001_47437f3d-70c5-4b88-a276-9a498280dc04, LOW_ElfLover_001_af13c133-4082-d013-eef7-00af06dc0f72);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_KarlachsTavern_RoomArea_09201191-2f92-47f5-812d-27db140b997f, S_LOW_Bartender_626fc1ed-c1ff-4dcd-a986-068a12cb7974);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_KarlachsTavern_Bar_Ownership_4db2627d-a9b0-430d-8f91-5f5030a4515f, S_LOW_Bartender_626fc1ed-c1ff-4dcd-a986-068a12cb7974);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_KarlachsTavern_KitchenArea_10de6376-a5d1-4bf1-8c97-6af5b396924b, S_LOW_Bartender_626fc1ed-c1ff-4dcd-a986-068a12cb7974);
+DB_ItemOwnerShipTriggersFallback(S_LOW_KarlachsTavern_RoomArea_09201191-2f92-47f5-812d-27db140b997f, S_LOW_Bartender_RomanceSceneBackup_d3e6a655-b69d-4db7-9b59-dc0a9cdbfc26);
+DB_ItemOwnerShipTriggersFallback(S_LOW_KarlachsTavern_Bar_Ownership_4db2627d-a9b0-430d-8f91-5f5030a4515f, S_LOW_Bartender_RomanceSceneBackup_d3e6a655-b69d-4db7-9b59-dc0a9cdbfc26);
+DB_ItemOwnerShipTriggersFallback(S_LOW_KarlachsTavern_KitchenArea_10de6376-a5d1-4bf1-8c97-6af5b396924b, S_LOW_Bartender_RomanceSceneBackup_d3e6a655-b69d-4db7-9b59-dc0a9cdbfc26);
+DB_CharacterInRegionFlag(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, S_LOW_City_SUB_dd83ddd3-80ff-4ff9-8f07-f3ede71b283f, GLO_ForgingOfTheHeart_State_DammonInAct3_d7ce5c6b-95d4-46c5-a96f-6a4ffe445606);
+PROC_LOW_ForgingOfTheHeart_SettingUpDammon();
+DB_LOW_AGraveyardHello_Tombstones(S_LOW_KarlachParents_Father_0b5f891e-88b9-4632-8191-5dbe65e4ca64, LOW_AGraveyardHello_AD_FathersGrave_73059d7d-257c-e45a-2d43-15c23d8fdaa0, "LOW_Karlach_FathersTombstoneReveal");
+DB_LOW_AGraveyardHello_Tombstones(S_LOW_KarlachParents_Mother_7ad21119-f63d-4518-9fcb-4560296df1a3, LOW_AGraveyardHello_AD_MothersGrave_3ef9c2a0-5e01-61eb-e173-95a176b2d315, "LOW_Karlach_MothersTombstoneReveal");
+PROC_TriggerRegisterForPlayers(S_LOW_KarlachParentsTombs_888c9cfe-8e8f-43e3-8c89-832d6f27490e);
+PROC_DefineSingleOriginMoment(LOW_SteepsTrader_Weapons_eb3d9bd3-7ccd-7f35-8533-8e86f20d4d0d, REALLY_KARLACH_1a2f70d6-8ead-4eb5-a824-79ee1971764a, LOW_AnOldFriend_OM_Karlach_AOM_OOM_52d8f04a-4f11-804f-ccfd-b15d3a4ab00a, LOW_AnOldFriend_OM_Karlach_COM_df3f060c-9abe-3ba4-d702-e966f23fa868, LOW_AnOldFriend_OM_Karlach_AOM_OOM_52d8f04a-4f11-804f-ccfd-b15d3a4ab00a);
+PROC_TriggerRegisterForPlayers(S_LOW_AnOldFriend_KarlachSpotArea_0d55e45d-2bf6-4490-9525-55aa9ab75d06);
+DB_RelationshipDialog_WRD_TriggerInCamp(Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_LearnsGortashWasSlave_ef743672-e022-4451-9fe1-52a47c1eea51);
+DB_ORI_Karlach_InPartyOMFlags(ORI_Karlach_IPRD_OutOfHell_decd7d2d-dd26-47cb-b8a8-77d70052cfdb, ORI_Karlach_State_LeftHoH_e757bcae-8f55-4f77-9753-4d94d62988aa);
+
+KBSECTION
+PROC
+PROC_LOW_ForgingOfTheHeart_SettingUpDammon()
+AND NOT
+DB_PermaDefeated(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, _, _, _, _)
+THEN
+TeleportTo(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, S_LOW_WeaponsmithPos_90b415de-4552-413b-a4f5-8cb8d0e06c2d);
+SetOnStage(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, 1);
+SetVisible(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, 1);
+PROC_SetCustomTradeTreasure(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, "LOW_Weaponsmith_Trade");
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79);
+DB_Dialogs(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, LOW_Dammon_028c720e-ece2-d8e4-de6c-cd4fa8faad26);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_WeaponsmithShop_7c674999-a7e5-4c92-9a68-92bee2a72fc7, S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79);
+PROC_DefineSingleOriginMoment(LOW_Dammon_028c720e-ece2-d8e4-de6c-cd4fa8faad26, REALLY_KARLACH_1a2f70d6-8ead-4eb5-a824-79ee1971764a, GLO_ForgingOfTheHeart_OM_Karlach_AOM_OOM_COM_e31f3936-c198-cf82-bd8f-e26efba691f1);
+
+PROC
+PROC_LOW_ForgingOfTheHeart_SettingUpDammon()
+AND
+DB_PermaDefeated(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, _, _, _, _)
+THEN
+RequestDelete(S_LOW_Dammon_InfernalArmsJournal_000_c098174d-01c0-4196-b1e7-c66135cf3944);
+
+PROC
+PROC_LOW_ForgingOfTheHeart_SettingUpDammon()
+AND
+DB_GlobalFlag(GLO_ForgingOfTheHeart_State_KarlachUpgraded_a818e2f5-9e0c-4ab3-8c1e-00765d3b892f, _, _, _, _)
+THEN
+SetFlag(HAV_ForgingOfTheHeart_State_ReadyForSecondUpgrade_edce0ffd-21d1-7a6c-2b55-a3e749d06fca, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(GLO_ForgingOfTheHeart_OM_Karlach_AOM_OOM_COM_e31f3936-c198-cf82-bd8f-e26efba691f1, S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_ORI_KarlachDate_TryReplaceBartender()
+AND
+DB_PermaDefeated(S_LOW_Bartender_626fc1ed-c1ff-4dcd-a986-068a12cb7974, _, _, _, _)
+THEN
+SetOnStage(S_LOW_Bartender_626fc1ed-c1ff-4dcd-a986-068a12cb7974, 0);
+RemoveSurfaceLayer(S_LOW_Bartender_Pos_9b09481a-1e11-435a-86a3-6164aa981b79, "Ground", 5);
+DB_Dialogs(S_LOW_Bartender_RomanceSceneBackup_d3e6a655-b69d-4db7-9b59-dc0a9cdbfc26, LOW_Bartender_Replace_0012debc-6cee-bc2e-d1e5-71ee2ee8ba6d);
+TeleportTo(S_LOW_Bartender_RomanceSceneBackup_d3e6a655-b69d-4db7-9b59-dc0a9cdbfc26, S_LOW_Bartender_Pos_9b09481a-1e11-435a-86a3-6164aa981b79);
+
+IF
+FlagSet(LOW_HouseOfHope_State_InRegion_216b82aa-2d9a-47d2-9793-2638226c8f61, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_BackInHell_f326fd18-8c4e-47c3-9742-8fe8b8f11401, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+FlagSet(LOW_HouseOfHope_State_InRegion_216b82aa-2d9a-47d2-9793-2638226c8f61, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _)
+AND
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND
+QRY_OnlyOnce("LOW_Karlach_AvatarInHouseOfHope", _, _, _, _)
+AND
+QRY_StartDialog_Fixed(LOW_Karlach_AvatarInHouseOfHope_1aa81775-5458-c54b-d090-7aa5a522e13b, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+LeftTrigger(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_TriggerEvents_TriggerSet("LOW_HouseOfHope", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_InTriggerSet(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "LOW_HouseOfHope", _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("LOW_Karlach_LeavingHouseOfHope", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_OutOfHell_decd7d2d-dd26-47cb-b8a8-77d70052cfdb, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+TextEvent("Karlach_TestAvatarHoH", _, _, _, _)
+AND
+QRY_StartDialog_Fixed(LOW_Karlach_AvatarInHouseOfHope_1aa81775-5458-c54b-d090-7aa5a522e13b, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_LOW_AGraveyardHello_Tombstones(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_Dialogs(_Var1, _Var2);
+PROC_DefineSingleOriginMoment(_Var2, REALLY_KARLACH_1a2f70d6-8ead-4eb5-a824-79ee1971764a, LOW_AGraveyardHello_OM_Karlach_AOM_OOM_d65d3904-0580-d867-6b47-6a036a193d82, LOW_AGraveyardHello_OM_Karlach_COM_ef138e4b-07f6-df7f-6263-6b187c8ab18b, LOW_AGraveyardHello_OM_Karlach_AOM_OOM_d65d3904-0580-d867-6b47-6a036a193d82);
+
+IF
+DB_InRegion(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_LOW_KarlachParentsTombs_888c9cfe-8e8f-43e3-8c89-832d6f27490e, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+PROC_LOWAGraveyardHello_RevealParentsGraves();
+
+PROC
+PROC_LOWAGraveyardHello_RevealParentsGraves()
+THEN
+PROC_TryStartAD(LOW_AGraveyardHello_PAD_SpottedParentsGraves_c257f7fc-e4c3-521a-04b7-2d69e4d40fd8, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+PROC_TriggerUnregisterForPlayers(S_LOW_KarlachParentsTombs_888c9cfe-8e8f-43e3-8c89-832d6f27490e);
+
+PROC
+PROC_LOWAGraveyardHello_RevealParentsGraves()
+AND
+DB_LOW_AGraveyardHello_Tombstones(_Var1, _, _Var3, _Var1, _Var1)
+THEN
+SetCanInteract(_Var1, 1);
+PROC_PlayPerceptionRevealEffect(_Var1, _Var3);
+
+IF
+DialogEnded(LOW_AGraveyardHello_OM_Karlach_AOM_OOM_d65d3904-0580-d867-6b47-6a036a193d82, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(LOW_AGraveyardHello_OM_Karlach_AOM_OOM_d65d3904-0580-d867-6b47-6a036a193d82, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(LOW_Karlach_State_VisitedParentsGrave_010b0502-962f-4927-aecb-6b539c528afb, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(LOW_AGraveyardHello_OM_Karlach_COM_ef138e4b-07f6-df7f-6263-6b187c8ab18b, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(LOW_AGraveyardHello_OM_Karlach_COM_ef138e4b-07f6-df7f-6263-6b187c8ab18b, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(LOW_Karlach_State_VisitedParentsGrave_010b0502-962f-4927-aecb-6b539c528afb, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+AttackedBy((ITEM)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, _, _, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LOW_AGraveyardHello_Tombstones(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetCharacterOwnerIfItemSummon(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var10, _, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var10, _Var1, _Var1, _Var1)
+AND
+ChangeApprovalRating(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var10, 1, -10, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Sees(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_LOW_SteepsTrader_Weapons_3c4ebba4-d2ba-4f07-98ed-bc523845ce3b, _, _, _)
+AND
+DB_InRegion(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_LOW_AnOldFriend_KarlachSpotArea_0d55e45d-2bf6-4490-9525-55aa9ab75d06, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND NOT
+DB_Defeated(S_LOW_SteepsTrader_Weapons_3c4ebba4-d2ba-4f07-98ed-bc523845ce3b, _, _, _, _)
+AND
+QRY_OnlyOnce("LOW_AnOldFriend_KarlachSpotsFytz", _, _, _, _)
+THEN
+PROC_TryStartAD(LOW_AnOldFriend_PAD_KarlachSpotsFrytz_d4d52eef-91a3-3225-902b-ac73b49ebefb, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+PROC_TriggerUnregisterForPlayers(S_LOW_AnOldFriend_KarlachSpotArea_0d55e45d-2bf6-4490-9525-55aa9ab75d06);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_AnOldFriend_OM_Karlach_COM_df3f060c-9abe-3ba4-d702-e966f23fa868, S_LOW_SteepsTrader_Weapons_3c4ebba4-d2ba-4f07-98ed-bc523845ce3b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_AnOldFriend_OM_Karlach_AOM_OOM_52d8f04a-4f11-804f-ccfd-b15d3a4ab00a, S_LOW_SteepsTrader_Weapons_3c4ebba4-d2ba-4f07-98ed-bc523845ce3b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OM_BlockDisablingTrade(LOW_AnOldFriend_OM_Karlach_AOM_OOM_52d8f04a-4f11-804f-ccfd-b15d3a4ab00a, _, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OM_BlockDisablingTrade(LOW_AnOldFriend_OM_Karlach_COM_df3f060c-9abe-3ba4-d702-e966f23fa868, _, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(LOW_AnOldFriend_OM_Karlach_AOM_OOM_52d8f04a-4f11-804f-ccfd-b15d3a4ab00a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(LOW_AnOldFriend_OM_Karlach_AOM_OOM_52d8f04a-4f11-804f-ccfd-b15d3a4ab00a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_MetFytz_1d51e4a5-3f57-b3f5-78c5-c508c43204c7, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+DialogEnded(LOW_AnOldFriend_OM_Karlach_COM_df3f060c-9abe-3ba4-d702-e966f23fa868, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(LOW_AnOldFriend_OM_Karlach_COM_df3f060c-9abe-3ba4-d702-e966f23fa868, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_MetFytz_1d51e4a5-3f57-b3f5-78c5-c508c43204c7, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+DB_Sees(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, _, _)
+AND
+DB_GlobalFlag(ORI_Minsc_HasMet_70ddd64b-6f91-1d6c-b3e6-8ecddc30ab04, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Karlach_SpotsMinsc", _, _, _, _)
+THEN
+DB_OnlyOnce("ORI_Karlach_SpotsMinsc");
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_MetMinsc_ecec9b80-1625-797d-2498-6815bd390490, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+DialogEnded(LOW_HouseOfHope_HopeSpirit01_32a22a1a-6052-0556-509b-a30105e5f4dc, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(LOW_HouseOfHope_HopeSpirit01_32a22a1a-6052-0556-509b-a30105e5f4dc, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_LOW_HouseOfHope_HopeSpirit01Trigger_ce6d730f-eb77-49ad-9f1c-db859990b036, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_Karlach_SawHope", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_HouseOfHope_PAD_KarlachReactsToHope_c4562399-29d0-b014-4047-74602a570501, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+IF
+FlagSet(LOW_HouseOfHope_Knows_GortashWasSlave_54d9e707-e5b9-e801-6d4a-9d4141275473, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_LearnsGortashWasSlave_ef743672-e022-4451-9fe1-52a47c1eea51, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

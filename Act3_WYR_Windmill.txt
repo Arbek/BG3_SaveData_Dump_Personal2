@@ -1,0 +1,598 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_WYR_Windmill_BrainQuakeTrigger_5629e56c-c6a3-4115-9eb1-ab51ca65cc88);
+SetHasDialog(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 1);
+DB_GLO_SleepingDialog(WYR_Windmill_Mindflayer_91a4e644-7eee-bbd4-3647-ec6d0934f515);
+DB_ItemOwnerShipTriggers("BGO_Main_A", S_WYR_Windmill_Ownership_PicnicCivilians_cf66b66f-a6d1-41c5-b226-e7e4b9b689a3, S_WYR_Windmill_Civilian1_c82e2241-e072-4c94-a926-f63096fdf058);
+DB_PermaDefeatedEvent(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, WYR_Windmill_State_MindflayerPermaDefeated_bff439da-9df0-4b19-9590-0679d80aa856);
+DB_TaggedItemTracker("DEFEATED_f0020818-86f1-4ee9-a5a9-9ace9ecc9010 & !HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8", WYR_Windmill_State_HasBodyNonHumanoid_dcd09f73-8d95-484c-bb37-bc94da155c1b);
+DB_TaggedItemTracker("DEFEATED_f0020818-86f1-4ee9-a5a9-9ace9ecc9010 & HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8", WYR_Windmill_State_HasBodyHumanoidDead_271d74f7-f085-2ab9-cce5-5790ed755fc6);
+DB_WYR_Windmill_HuntableCivilians(S_WYR_Windmill_Civilian1_c82e2241-e072-4c94-a926-f63096fdf058);
+DB_WYR_Windmill_HuntableCivilians(S_WYR_Windmill_Civilian2_4b20c9c6-be85-43ea-975a-213fa34ad0b3);
+DB_WYR_Windmill_HuntableCivilians(S_WYR_Windmill_Civilian3_20245c98-de91-4812-b648-3e7a05a8a2b5);
+DB_WYR_Windmill_HuntableCivilians(S_WYR_Windmill_Civilian4_b5e6f2dd-3756-49cb-8b3b-6e9c88aa9beb);
+DB_WYR_Windmill_HuntableCivilians(S_WYR_Windmill_Civilian5_0638d68d-71a9-4ca2-8650-a536a6fb367c);
+SetOnStage(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 1);
+DB_Dialogs(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, WYR_Windmill_Mindflayer_91a4e644-7eee-bbd4-3647-ec6d0934f515);
+DB_KnowledgeCheckItem_AD("WYR_Windmill_HayStackSearch", S_WYR_Windmill_HayStack_9c6b686e-3a7c-40e2-b8ad-3cdbb5accb06, "Investigation", Act3_VeryHard_60916b01-ba4c-418e-9f30-19a669704b4d, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+TextEvent("Windmill_MF_Helped", _, _, _, _)
+THEN
+SetFlag(WYR_Windmill_State_BodyGiven_500f48b2-6888-7f02-b3de-7c17f051dd8d);
+
+IF
+TextEvent("Windmill_MF_WaitForPlayer", _, _, _, _)
+THEN
+PROC_CharacterMoveTo(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, S_WYR_Windmill_Point_Front_9616c2dc-0ea7-4068-8399-ab9ee4b5e92c, "Walk", "WYR_Windmill_MF_ArrivedAtFront");
+
+IF
+TextEvent("Windmill_MF_Hunts", _, _, _, _)
+THEN
+SetOnStage(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 1);
+RemoveStatus(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "SLEEPING", NULL_00000000-0000-0000-0000-000000000000);
+Use(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, TOOL_Ladder_Wood_10n5H_A_000_099c7445-f91b-4c8f-9f5c-2196e5070cf8, 1, 1, "WYR_Windmill_MF_UsedLadder");
+
+IF
+TextEvent("Windmill_MF_SpellTest", _, _, _, _)
+THEN
+UseSpell(S_WYR_Windmill_Civilian2_4b20c9c6-be85-43ea-975a-213fa34ad0b3, "Target_MindBlast_MindFlayer", S_WYR_Windmill_Civilian1_c82e2241-e072-4c94-a926-f63096fdf058);
+
+IF
+TextEvent("Windmill_MF_AmbushHunt", _, _, _, _)
+THEN
+SetOnStage(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 1);
+PROC_SetRelationTemporaryHostile(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, S_WYR_Windmill_Civilian1_c82e2241-e072-4c94-a926-f63096fdf058);
+PROC_SetRelationTemporaryHostile(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, S_WYR_Windmill_Civilian2_4b20c9c6-be85-43ea-975a-213fa34ad0b3);
+PROC_SetRelationTemporaryHostile(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, S_WYR_Windmill_Civilian3_20245c98-de91-4812-b648-3e7a05a8a2b5);
+PROC_SetRelationTemporaryHostile(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, S_WYR_Windmill_Civilian4_b5e6f2dd-3756-49cb-8b3b-6e9c88aa9beb);
+PROC_SetRelationTemporaryHostile(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, S_WYR_Windmill_Civilian5_0638d68d-71a9-4ca2-8650-a536a6fb367c);
+PROC_CharacterMoveTo(S_WYR_Windmill_Civilian1_c82e2241-e072-4c94-a926-f63096fdf058, S_WYR_Windmill_Point_Front_9616c2dc-0ea7-4068-8399-ab9ee4b5e92c, "Walk", "");
+PROC_CharacterMoveTo(S_WYR_Windmill_Civilian2_4b20c9c6-be85-43ea-975a-213fa34ad0b3, S_WYR_Windmill_Point_Front_9616c2dc-0ea7-4068-8399-ab9ee4b5e92c, "Walk", "");
+PROC_CharacterMoveTo(S_WYR_Windmill_Civilian3_20245c98-de91-4812-b648-3e7a05a8a2b5, S_WYR_Windmill_Point_Front_9616c2dc-0ea7-4068-8399-ab9ee4b5e92c, "Walk", "");
+PROC_CharacterMoveTo(S_WYR_Windmill_Civilian4_b5e6f2dd-3756-49cb-8b3b-6e9c88aa9beb, S_WYR_Windmill_Point_Front_9616c2dc-0ea7-4068-8399-ab9ee4b5e92c, "Walk", "");
+PROC_CharacterMoveTo(S_WYR_Windmill_Civilian5_0638d68d-71a9-4ca2-8650-a536a6fb367c, S_WYR_Windmill_Point_Front_9616c2dc-0ea7-4068-8399-ab9ee4b5e92c, "Walk", "");
+ClearFlag(WYR_Windmill_State_MindflayerHunts_52f1c3c5-a312-b0ae-c3a6-25785b0ad7d1);
+SetFlag(WYR_Windmill_State_MindflayerHunts_52f1c3c5-a312-b0ae-c3a6-25785b0ad7d1);
+
+IF
+TextEvent("windmill_test_brainquake", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_StartForcedEvent(_Var1, "WYR_Brainquakes_EventOnlyOnce_Windmill");
+
+IF
+DB_InRegion(_Var1, S_WYR_Windmill_BrainQuakeTrigger_5629e56c-c6a3-4115-9eb1-ab51ca65cc88, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(S_WYR_Windmill_BrainQuakeTrigger_5629e56c-c6a3-4115-9eb1-ab51ca65cc88);
+TimerLaunch("WYR_Windmill_BrainquakeResponseTimer", 6500);
+PROC_GLO_Brainquakes_ShakeGroundAroundCharacter(_Var1);
+
+IF
+TimerFinished("WYR_Windmill_BrainquakeResponseTimer", _, _, _, _)
+THEN
+DB_OneShotPlayerTrigger(S_WYR_Windmill_CeremorphScreamTrigger_5c01ea7f-e7d1-4d54-9846-e6015a50646b);
+
+PROC
+PROC_OneShotTriggerEntered((CHARACTER)_Var1, S_WYR_Windmill_CeremorphScreamTrigger_5c01ea7f-e7d1-4d54-9846-e6015a50646b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "SLEEPING", 1, _Var1, _Var1)
+THEN
+PROC_WYR_Windmill_Scream(_Var1);
+
+PROC
+PROC_WYR_Windmill_Scream((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog(WYR_Windmill_CeremorphosisScream_AD_447dd34d-b9c3-1209-fa0b-31830d7e88d0, DOOR_GEN_Hatch_Wood_C_004_af638a20-e3b0-449d-aea4-42f9c44a0a3c, _Var1, _Var1, _Var1)
+THEN
+PlaySound(DOOR_GEN_Hatch_Wood_C_004_af638a20-e3b0-449d-aea4-42f9c44a0a3c, "TUT_MindflayerTransformation_VictimScreams_B");
+TimerLaunch("WYR_Windmill_ScreamResponseTimer", 2000);
+DB_WYR_Windmill_HeardScream(_Var1);
+
+IF
+TimerFinished("WYR_Windmill_ScreamResponseTimer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_Windmill_HeardScream(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(WYR_Windmill_VB_CeremorphosisResponse_dd106a4e-54b0-1621-8729-e34bd85e757a, _Var1);
+SetFlag(WYR_Windmill_State_HeardScream_4d3b0031-3656-4bb4-9cfd-249267cce806);
+NOT DB_WYR_Windmill_HeardScream(_Var1);
+
+QRY
+QRY_SelectCustomDialog(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(LOW_WindmillMindflayerFollowup_State_MindflayerInBG_834b84d1-8917-437f-8b7f-105d91085758, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_WYR_Windmill_OptionalNonIllithidSpeaker(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_WYR_Windmill_OptionalNonIllithidSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_Windmill_Mindflayer_91a4e644-7eee-bbd4-3647-ec6d0934f515, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1, _Var2);
+
+QRY
+QRY_WYR_Windmill_OptionalNonIllithidSpeaker((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_WYR_Windmill_OptionalNonIllithidSpeaker(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_WYR_Windmill_OptionalNonIllithidSpeaker(_Var3);
+
+QRY
+QRY_WYR_Windmill_OptionalNonIllithidSpeaker((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("WYR_Windmill_OptionalNonIllithidSpeaker", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WYR_Windmill_OptionalNonIllithidSpeaker((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+AND
+IsTagged(_Var3, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("WYR_Windmill_OptionalNonIllithidSpeaker", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_WYR_Windmill_OptionalNonIllithidSpeaker(_Var3);
+
+QRY
+QRY_WYR_Windmill_OptionalNonIllithidSpeaker((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_WYR_Windmill_OptionalNonIllithidSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_WYR_Windmill_OptionalNonIllithidSpeaker(NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(WYR_Windmill_Event_WakeMindflayer_fe8ebf07-934f-4efe-8461-d85411009715, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_WYR_Windmill_MF_Awakened();
+
+PROC
+PROC_WYR_Windmill_MF_Awakened()
+THEN
+PROC_GlobalSetFlagAndCache(WYR_Windmill_State_MindflayerAwakened_904a1cf6-d190-41fa-a841-75772426cca6);
+RemoveStatus(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "SLEEPING", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusRemoved(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "SLEEPING", (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(WYR_Windmill_State_MindflayerAwakened_904a1cf6-d190-41fa-a841-75772426cca6, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "WYR_Windmill_MF_Awakened", 10, 1);
+
+IF
+ObjectTimerFinished(_, "WYR_Windmill_MF_Awakened", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(WYR_Windmill_State_MindflayerAwakened_904a1cf6-d190-41fa-a841-75772426cca6);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "WYR_Windmill_MF_Awakened", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SelectAndStartDialog(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(WYR_Windmill_Event_WakeMindflayerRudely_a22edca7-7fbe-4fcd-9d87-8ecdd138d466, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_WYR_Windmill_MF_RudelyAwakened(_Var1);
+
+IF
+AttackedBy(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, (CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(WYR_Windmill_State_MindflayerAwakened_904a1cf6-d190-41fa-a841-75772426cca6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_Windmill_MF_RudelyAwakened(_Var1);
+
+PROC
+PROC_OnDialogAttackRequested(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(WYR_Windmill_State_MindflayerAwakened_904a1cf6-d190-41fa-a841-75772426cca6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_Windmill_MF_RudelyAwakened(_Var1);
+
+PROC
+PROC_WYR_Windmill_MF_RudelyAwakened((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFaction(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_Windmill_MF_Awakened();
+PROC_SetRelationToPlayers(Act3_WYR_Windmill_MF_f9c171f7-2621-4ecd-b11b-059cf5d9fa2f, 0);
+PROC_MakeSurprised(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 2, 1);
+
+IF
+FlagSet(WYR_Windmill_Event_GiveBodyDead_97a5c4f0-317d-30e1-9e57-a4faeff4e474, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetItemByTagInInventory("DEFEATED_f0020818-86f1-4ee9-a5a9-9ace9ecc9010 & HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8", _Var1, _Var3, _Var1, _Var1)
+THEN
+MagicPocketsDrop(_Var1, _Var3);
+PROC_SetOnStage(_Var3, 0);
+
+IF
+FlagSet(WYR_Windmill_Event_GiveRewardItem_1770aca5-d684-55fd-6e3b-75483b32475e, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsInInventoryOf(S_WYR_Windmill_MF_Reward_8dbecd84-f082-44e0-831e-9c9dcdb4d1c4, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 1, _Var1, _Var1)
+THEN
+ToInventory(S_WYR_Windmill_MF_Reward_8dbecd84-f082-44e0-831e-9c9dcdb4d1c4, _Var1, 1, 0, 1);
+SetFlag(WYR_Windmill_State_RewardItemGiven_9481362e-2b47-493e-9efe-82b1149ac926, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var2);
+
+IF
+FlagSet(WYR_Windmill_Event_GiveRewardPower_63455abf-6d0d-2943-bd04-a780ee1f6da5, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+PlayEffect(_Var1, VFX_Cinematic_Hag_HeadHold_01_2698b617-2913-24fd-4d9e-77eba6e7b5ec);
+AddTadpole(_Var1, 1);
+
+IF
+DB_PermaDefeated(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var2, _Var1, _Var1)
+AND
+_Var2 < 15
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND
+QRY_OnlyOncePerUser(_Var1, "WYR_Windmill_MFDead_DaisyExplainsBrain", _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, WYR_Windmill_MindflayerDead_EmperorAD_31b3a176-7f73-def9-efd6-937d3d41390a);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_WYR_Windmill_MF_Brain_09c288c0-bcba-45d5-bdfe-bbbc01a3dbc8, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_Windmill_State_BodyGiven_500f48b2-6888-7f02-b3de-7c17f051dd8d, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+AddTadpole(_Var1, 1);
+SetFlag(WYR_Windmill_State_AteMindflayerBrain_cc9adfb3-9456-4ad1-b11c-d5f461fe779f);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_WYR_Windmill_MF_Brain_09c288c0-bcba-45d5-bdfe-bbbc01a3dbc8, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(WYR_Windmill_State_BodyGiven_500f48b2-6888-7f02-b3de-7c17f051dd8d, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "WYR_Windmill_AteBrainTooLate_Timer", 1000, 0);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "WYR_Windmill_AteBrainTooLate_Timer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_EmperorAD(_Var1, WYR_Windmill_AteBrainTooLate_EmperorAD_3258ca42-bb62-085a-ef30-7290f3576a6d);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_WYR_Windmill_MF_Brain_09c288c0-bcba-45d5-bdfe-bbbc01a3dbc8, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+THEN
+PROC_TryStartAD(WYR_Windmill_NonIllithidEatsBrain_PAD_0d316de0-c479-2901-ba24-8ae86607a730, _Var1);
+
+IF
+MovedFromTo(S_WYR_Windmill_MF_Brain_09c288c0-bcba-45d5-bdfe-bbbc01a3dbc8, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _, _, _)
+AND NOT
+DB_Dead(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _, _, _, _)
+THEN
+Die(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0);
+
+QRY
+QRY_WYR_Windmill_ChooseHuntableCivilian()
+AND
+QRY_WYR_Windmill_ResetHuntableCivilian()
+AND
+QRY_OnlyOnce_Reset("WYR_Windmill_ChooseHuntableCivilian", _, _, _, _)
+AND
+DB_WYR_Windmill_HuntableCivilians(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("WYR_Windmill_ChooseHuntableCivilian", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_WYR_Windmill_ChooseHuntableCivilian(_Var1);
+
+QRY
+QRY_WYR_Windmill_ResetHuntableCivilian()
+THEN
+PROC_WYR_Windmill_ResetHuntableCivilian();
+
+PROC
+PROC_WYR_Windmill_ResetHuntableCivilian()
+AND
+DB_QRYRTN_WYR_Windmill_ChooseHuntableCivilian(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_WYR_Windmill_ChooseHuntableCivilian(_Var1);
+
+PROC
+PROC_MF_GoesHunting((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+Use(_Var1, TOOL_Ladder_Wood_10n5H_A_000_099c7445-f91b-4c8f-9f5c-2196e5070cf8, 1, 1, "WYR_Windmill_MF_UsedLadder");
+
+IF
+EntityEvent((CHARACTER)_Var1, "WYR_Windmill_MF_UsedLadder", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "WYR_Windmill_MF_ReadyToMoveToCivilians");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "WYR_Windmill_MF_ReadyToMoveToCivilians", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_WYR_Windmill_ChooseHuntableCivilian()
+AND
+DB_QRYRTN_WYR_Windmill_ChooseHuntableCivilian(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_Windmill_MF_KillCivilian(_Var1, _Var2);
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "WYR_Windmill_MF_ReadyToMoveToCivilians", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_WYR_Windmill_ChooseHuntableCivilian()
+THEN
+PROC_CharacterMoveTo(_Var1, S_WYR_Windmill_Point_Front_9616c2dc-0ea7-4068-8399-ab9ee4b5e92c, "Walk", "WYR_Windmill_MF_ArrivedAtFront");
+
+IF
+EntityEvent((CHARACTER)_Var1, "WYR_Windmill_MF_ArrivedAtFront", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_SpotPlayers(_Var1, "WYR_Windmill_MF_SpotPlayer", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(_Var1, "WYR_Windmill_MF_SpotPlayer", S_WYR_Windmill_MFLooksForPlayerTrigger_4f1e004a-0616-42a6-ab05-d72df86c9de7);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "WYR_Windmill_MF_SpotPlayer", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(WYR_Windmill_Mindflayer_WaitForPlayer_904700d0-88af-f22d-9c35-185061065039, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_WYR_Windmill_MF_KillCivilian((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+CrimeGetNewID(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "WYR_Windmill_MindflayerReaction", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var3);
+
+PROC
+PROC_WYR_Windmill_MF_KillCivilian((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Windmill_MFEatBody(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_Windmill_MFKillTarget(_Var2);
+PROC_CharacterMoveTo(_Var1, _Var2, "Run", "WYR_Windmill_MF_ArrivedAtCivilian");
+
+IF
+EntityEvent((CHARACTER)_Var1, "WYR_Windmill_MF_ArrivedAtCivilian", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Windmill_MFEatBody(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Windmill_MFKillTarget(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "WYR_Windmill_MFKills", NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var5);
+UseSpell(_Var1, "Zone_WYR_Mindblast_NoDamageNoResist", _Var4);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Zone_WYR_Mindblast_NoDamageNoResist", _, _, _)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Windmill_MFEatBody(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Windmill_MFKillTarget(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+UseSpell(_Var1, "Target_WYR_Tentacles_MindFlayer_NoDamageNoResist", _Var7);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Target_WYR_Tentacles_MindFlayer_NoDamageNoResist", _, _, _)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Windmill_MFEatBody(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Windmill_MFKillTarget(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+UseSpell(_Var1, "Target_WYR_ExtractBrain_MindFlayer_AlwaysHit", _Var7);
+ObjectTimerLaunch(_Var1, "WYR_Windmill_MF_BeforeHuntDoneLeave", 3000, 0);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "WYR_Windmill_MF_BeforeHuntDoneLeave", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(WYR_Windmill_State_MindflayerHuntDone_741f4535-bec7-477a-a0ae-b5a336b6441f);
+
+IF
+TurnStarted(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_Windmill_State_MindflayerHunts_52f1c3c5-a312-b0ae-c3a6-25785b0ad7d1, _, _, _, _)
+AND
+DB_Sees(_Var1, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("WYR_Windmill_MF_AsksPlayerForHelp", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(WYR_Windmill_Mindflayer_AskPlayerForHelp_56c6e23d-6990-3039-09e4-733ffd65677d, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(WYR_Windmill_Event_PlayerAssistsMindflayerHunt_d39122c3-cd5a-31e7-181d-e5c8c488330f, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SetRelationToPlayers(Act3_WYR_Windmill_MF_f9c171f7-2621-4ecd-b11b-059cf5d9fa2f, 100);
+PROC_WYR_Windmill_PlayersTemporaryHostileToOtherCombatants(_Var1, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17);
+
+PROC
+PROC_WYR_Windmill_PlayersTemporaryHostileToOtherCombatants((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInCombat(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+CombatGetGuidFor(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var4, 1, _Var1, _Var1, _Var1)
+AND
+_Var4 != _Var2
+AND NOT
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationTemporaryHostile(_Var4, _Var1);
+
+IF
+FlagSet(WYR_Windmill_Event_PlayerBetraysMindflayerHunt_49b23754-573e-6115-fa21-8659bf8a2654, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SetRelationToPlayers(Act3_WYR_Windmill_MF_f9c171f7-2621-4ecd-b11b-059cf5d9fa2f, 0);
+
+IF
+KilledBy((CHARACTER)_Var1, S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _, _, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(WYR_Windmill_State_MindflayerHunts_52f1c3c5-a312-b0ae-c3a6-25785b0ad7d1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Windmill_MFKillTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8, 1, _Var1, _Var1)
+THEN
+PROC_WYR_Windmill_MF_EatBody(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1);
+
+PROC
+PROC_WYR_Windmill_MF_EatBody((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SpotPlayers(_Var1, "WYR_Windmill_MF_SpotPlayer", _, _, _Var1)
+THEN
+NOT DB_SpotPlayers(_Var1, "WYR_Windmill_MF_SpotPlayer", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SpotPlayers_SpotTrigger(_Var1, "WYR_Windmill_MF_SpotPlayer", S_WYR_Windmill_MFLooksForPlayerTrigger_4f1e004a-0616-42a6-ab05-d72df86c9de7);
+
+PROC
+PROC_WYR_Windmill_MF_EatBody((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_WYR_Windmill_MFEatBody(_Var2);
+PROC_ClearStoryMove(_Var1);
+ObjectTimerLaunch(_Var1, "WYR_Windmill_MF_WaitBeforeEating", 5000, 0);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "WYR_Windmill_MF_WaitBeforeEating", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Windmill_MFEatBody(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Eating corpse");
+Die(_Var2, 0, _Var1, 1, 1, 1);
+ObjectTimerLaunch(_Var1, "WYR_Windmill_MF_Eating", 5000, 0);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "WYR_Windmill_MF_Eating", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Windmill_MFEatBody(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_Windmill_MFEatBody(_Var2);
+SetFlag(WYR_Windmill_State_MindflayerHuntDone_741f4535-bec7-477a-a0ae-b5a336b6441f);
+
+IF
+FlagSet(WYR_Windmill_State_MindflayerHuntDone_741f4535-bec7-477a-a0ae-b5a336b6441f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ObjectTimerLaunch(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "WYR_Windmill_MF_WaitingToLeave", 5000, 0);
+
+IF
+ObjectTimerFinished(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "WYR_Windmill_MF_WaitingToLeave", _, _, _)
+THEN
+PROC_NotifyWhenReadyToMoveOn(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "WYR_Windmill_MF_ReadyToLeave");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "WYR_Windmill_MF_ReadyToLeave", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, S_WYR_Windmill_Point_Exit_00948cbc-95af-4fd3-bef9-7b3e5c33f1ca, "Sprint", 0, "");
+
+IF
+DB_GlobalFlag(WYR_Windmill_State_MindflayerHunts_52f1c3c5-a312-b0ae-c3a6-25785b0ad7d1, _, _, _, _)
+THEN
+PROC_MF_GoesHunting(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17);
+SetHasDialog(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 0);
+PROC_PeacefulResolve(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17);
+
+PROC
+PROC_LongRest()
+AND NOT
+DB_GlobalFlag(LOW_WindmillMindflayerFollowup_State_MindflayerInBG_834b84d1-8917-437f-8b7f-105d91085758, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_Windmill_State_BodyGiven_500f48b2-6888-7f02-b3de-7c17f051dd8d, _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_Windmill_MF_OffStage", _, _, _, _)
+THEN
+RemoveStatus(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "WYR_WINDMILL_MINDFLAYER_WEAK");
+SetOnStage(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 0);
+DB_OneShot_VoiceBarkTrigger(S_WYR_Windmill_MindflayerTrigger_85db1931-0ec7-4267-b934-b19b2379b146, WYR_Windmill_VB_MindflayerFedAndGone_c3aab910-b4a9-b8f2-2b95-db13b022afd1);
+
+IF
+FlagSet(WYR_Windmill_State_BodyGiven_500f48b2-6888-7f02-b3de-7c17f051dd8d, _, _, _, _)
+AND
+DB_CombatReact_AD_OnEntered(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, WYR_Windmill_AD_Mindflayer_Combat_01_b8a5e674-af62-5de8-eec0-7aada8b11fc1, _, _, _)
+THEN
+NOT DB_CombatReact_AD_OnEntered(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, WYR_Windmill_AD_Mindflayer_Combat_01_b8a5e674-af62-5de8-eec0-7aada8b11fc1);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Windmill_HuntableCivilians(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Windmill_HuntableCivilians(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_Windmill_CivilianFlees(_Var1);
+
+PROC
+PROC_WYR_Windmill_CivilianFlees((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, S_WYR_Windmill_Point_Exit_00948cbc-95af-4fd3-bef9-7b3e5c33f1ca, "Run", 1, "");
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((CHARACTER)_Var1, "WYR_Windmill_HayStackSearch", _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(ARR_Arrow_Of_Acid_0bfb72d2-0e8e-4d16-aeae-3159b0d4b195, _Var1, 0, 0, "", 0, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_InvestigationSuccess_6f56969d-fb35-38f1-26ff-5b6c4db3ea68, _Var1);
+ToInventory(_Var3, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

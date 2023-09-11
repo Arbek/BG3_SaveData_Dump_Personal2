@@ -1,0 +1,139 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinWaiting", 0);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinInAct2", 100);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtCamp", 200);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtHaven", 300);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtPortal", 400);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinInShadowFell", 500);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtPostPortal", 600);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtCampWithSpirit", 700);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinLookingForOliver", 800);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinWaitingForBreath", 900);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HuntingForBreath", 1000);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_OliverFledToTown", 1050);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_ThanielRestored", 1100);
+DB_State_Priority(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtEpilogue", 1200);
+DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinWaiting");
+DB_State_Flags(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtHaven", HAV_LiftingTheCurse_State_HalsinAtHaven_5bb65571-a6ad-4c34-abd3-b1f407a9cafc);
+DB_State_Flags(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtHaven", HAV_LiftingTheCurse_State_HalsinAvailableForFist_38bd3ada-29d4-4a1d-900b-c58799aad3df);
+DB_State_Flags(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtPortal", HAV_LiftingTheCurse_State_HalsinAtLakeside_0bb942dc-420d-45f9-9594-83805760fd29);
+DB_State_Flags(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinInShadowFell", HAV_LiftingTheCurse_State_HalsinInShadowfell_480305fb-7b0b-4267-aab6-0090ddc12322);
+DB_State_Flags(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtCampWithSpirit", HAV_LiftingTheCurse_State_HalsinWaitingInCamp_0bce2b56-183d-475e-8a61-9053952e3673);
+DB_State_Flags(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_OliverFledToTown", SCL_LiftingTheCurse_State_OliverFledToTown_47018478-a3ef-42cc-8334-1516c6ed40f7);
+PROC_GLO_LiftingTheCurse_CheckHalsin();
+
+KBSECTION
+IF
+FlagSet(GLO_LiftingTheCurse_Debug_HalsinAvailable_3cef8942-ddb5-47d6-95b9-78322aa4f7f5, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp("GLO_LiftingTheCurse_Debug_Entry");
+
+PROC
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", _Var2, _Var1, _Var1)
+THEN
+PROC_GLO_LiftingTheCurse_Debug_HandleWorgPens();
+NOT DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", _Var2);
+DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinWaiting");
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp_State(_Var1);
+
+PROC
+PROC_GLO_LiftingTheCurse_Debug_HandleWorgPens()
+AND
+QRY_OnlyOnce("GLO_LiftingTheCurse_Debug_HandleWorgPens", _, _, _, _)
+THEN
+PROC_SceneOver("GOB_WolfPens");
+ApplyStatus(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "HAV_SELUNEOINTMENT", -1, 1);
+PROC_GLO_Halsin_RemoveWildshape();
+SetHasDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+SetCanFight(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+SetCanJoinCombat(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+PROC_RemoveDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+
+PROC
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp_State("GLO_LiftingTheCurse_Debug_Entry", _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(GLO_LiftingTheCurse_Debug_HalsinAvailable_3cef8942-ddb5-47d6-95b9-78322aa4f7f5);
+SetEntityEvent(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "DebugTeleportedToCamp");
+
+IF
+FlagSet(GLO_LiftingTheCurse_Debug_HalsinAvailable_3cef8942-ddb5-47d6-95b9-78322aa4f7f5, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp("GLO_LiftingTheCurse_Debug_Entry");
+
+PROC
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "HAV_SELUNEOINTMENT", -1, 1);
+PROC_GLO_Halsin_RemoveWildshape();
+SetHasDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+SetCanFight(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+SetCanJoinCombat(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+PROC_RemoveDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+NOT DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", _Var1);
+DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinWaiting");
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp_State("GLO_LiftingTheCurse_Debug_Entry");
+
+PROC
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp_State("GLO_LiftingTheCurse_Debug_Entry", _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(GLO_LiftingTheCurse_Debug_HalsinAvailable_3cef8942-ddb5-47d6-95b9-78322aa4f7f5);
+SetEntityEvent(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "DebugTeleportedToCamp");
+
+IF
+TextEvent("HalsinSCLBrief", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_Dialogs(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, CAMP_Halsin2_c0ab0f6f-3ffc-d06d-0d6d-d1aaef70dfe4);
+SetHasDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+PROC_GlobalSetFlagAndCache(CAMP_Halsin_Knows_ShadowCurseMotivation_ed848f84-6bba-5523-d4c5-67a3b7eeb46c);
+SetFlag(CAMP_Halsin_Event_DeferredShadowCurseDiscussion_b931f2ef-2e74-f4be-be16-8ab1580ec2e1, _Var1, 0);
+
+PROC
+PROC_GLO_LiftingTheCurse_CheckHalsin()
+AND
+DB_InCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinInAct2");
+
+IF
+DB_InCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND NOT
+DB_GLO_LiftingTheCurse_HalsinAvailable(1, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinInAct2");
+
+PROC
+PROC_State_Changed(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinInAct2", _, _)
+THEN
+PROC_GLO_Halsin_RemoveWildshape();
+ApplyStatus(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "HAV_SELUNEOINTMENT", -1, 1);
+PROC_GlobalSetFlagAndCache(GLO_LiftingTheCurse_State_HalsinIsInAct2_dd398e58-f86f-4676-affd-390d4acc615e);
+SetCanFight(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+SetCanJoinCombat(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+DB_GLO_LiftingTheCurse_HalsinAvailable(1);
+
+IF
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_EntryPointHalsin_Entered", _, _, _, _)
+THEN
+PROC_RemoveDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_Dialogs(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, CAMP_Halsin2_c0ab0f6f-3ffc-d06d-0d6d-d1aaef70dfe4);
+SetHasDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

@@ -1,0 +1,215 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DialogMoneyTransfer(1, DIALOGRESOURCEGUID_DEN_HagDouble_95dc8eb6-c648-8e38-c0ad-2c6cb68df6dc, 100);
+DB_DialogMoneyTransfer(2, DIALOGRESOURCEGUID_DEN_HagDouble_95dc8eb6-c648-8e38-c0ad-2c6cb68df6dc, 50);
+DB_Dialogs(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, DIALOGRESOURCEGUID_DEN_HagTrader_95dc8eb6-c648-8e38-c0ad-2c6cb68df6dc);
+PROC_TriggerRegisterForPlayers(S_HAG_HagLeaveDenTrigger_dcdeb8fd-131e-4586-a4d2-5e89cc682477);
+PROC_TriggerRegisterForPlayers(S_HAG_HagQuickLeaveDenTrigger_664fd0b3-9d97-440d-907a-acd9405ed34e);
+PROC_TriggerRegisterForPlayers(S_HAG_HagQuickLeaveDenTrigger_002_16ccbf0b-50bc-4775-9781-e969983c0dfc);
+PROC_TriggerRegisterForPlayers(S_DEN_HagArea_7e489410-a3cc-4871-a6cc-994940b243d8);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_LiedFail_10195f7f-1150-75d1-d97e-48546456b137, DEN_HagTrader_Quest_Complete_b4a08056-e4cf-0835-a345-c52e523e7eda);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_LiedSuccess_8f9cc286-d303-960e-7727-545c23168ebd, DEN_HagTrader_Quest_Complete_b4a08056-e4cf-0835-a345-c52e523e7eda);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_ReportedDead_348c1920-cb2c-0188-d5ba-589a0709ce2c, DEN_HagTrader_Quest_Complete_b4a08056-e4cf-0835-a345-c52e523e7eda);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_ReportedDelivered_d2b8c695-b1d9-cb7a-e425-8f0bebc08096, DEN_HagTrader_Quest_Complete_b4a08056-e4cf-0835-a345-c52e523e7eda);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_ReportedLetGo_6a823395-5aee-a346-eb92-1a09af864d20, DEN_HagTrader_Quest_Complete_b4a08056-e4cf-0835-a345-c52e523e7eda);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_b4a08056-e4cf-0835-a345-c52e523e7eda, DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_GotPoison_f428a3c1-afee-22c3-d03e-7db683a3c92c, DEN_HagTrader_Quest_Complete_b4a08056-e4cf-0835-a345-c52e523e7eda);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_LiedFail_10195f7f-1150-75d1-d97e-48546456b137, DEN_HagTrader_Quest_Failed_75bd0a06-07d4-1cdd-ba9c-61a5dd7dcd08);
+DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_ReportedLetGo_6a823395-5aee-a346-eb92-1a09af864d20, DEN_HagTrader_Quest_Failed_75bd0a06-07d4-1cdd-ba9c-61a5dd7dcd08);
+DB_HAG_HagLeaveDenTrigger(TRIGGERGUID_S_HAG_HagLeaveDenTrigger_dcdeb8fd-131e-4586-a4d2-5e89cc682477, 0);
+DB_HAG_HagLeaveDenTrigger(S_HAG_HagQuickLeaveDenTrigger_664fd0b3-9d97-440d-907a-acd9405ed34e, 1);
+DB_HAG_HagLeaveDenTrigger(S_HAG_HagQuickLeaveDenTrigger_002_16ccbf0b-50bc-4775-9781-e969983c0dfc, 1);
+ApplyStatus(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_DISGUISE_DEN", -1, 1, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+SetImmortal(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 1);
+DB_DEN_HagTrader_LeaveSpeed("Walk");
+SetCanJoinCombat(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 0);
+SetTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, ACT1_DEN_HAGTRADER_55fe3f63-d568-43d3-936e-b3984eed3cc3);
+DB_HAG_DenCrimeExempt("UseForbiddenItem");
+DB_HAG_DenCrimeExempt("BuyFromTrader");
+
+KBSECTION
+IF
+FlagSet(DEN_HagTrader_Event_GivePoison_bf388c2a-43dc-73ec-54ea-e02d2f5b1535, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TemplateAddTo(DEN_GoblinPoisoning_EthelBrew_29414a52-2dee-4386-a6a2-ae05fd44d47d, _Var1, 1, 1);
+
+IF
+FlagSet(DEN_HagTrader_Event_DrinkPotion_3d21003e-51a2-ca03-4eb0-bdb7588df56e, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_DEN_HagTrader_DrinkFreePotion(1);
+TemplateAddTo(ITEMGUID_CONS_Potion_Healing_A_Greater_e3b95c96-dc26-40fe-bfc0-baa05e1abd20, _Var1, 1);
+
+IF
+FlagSet(DEN_HagTrader_Event_TakePotion_506156a3-c7fa-4e4b-3419-ad5c388d4606, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TemplateAddTo(ITEMGUID_CONS_Potion_Healing_A_Greater_e3b95c96-dc26-40fe-bfc0-baa05e1abd20, _Var1, 1);
+
+IF
+FlagSet(DEN_HagTrader_Event_TryPoisonCoat_742710c2-d2dc-5e37-10e9-e11dec6aca3f, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(DEN_HagTrader_Event_TryPoisonCoat_742710c2-d2dc-5e37-10e9-e11dec6aca3f, _Var1, 0);
+DebugBreak("DEBUG: Coat weapon in hag's poison!");
+
+IF
+AddedTo((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_HagTrader_DrinkFreePotion(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, HEALING_POTION_1879a93d-2edf-4f54-85dd-81a3724d677f, 1, _Var1, _Var1)
+THEN
+NOT DB_DEN_HagTrader_DrinkFreePotion(1);
+DebugText(_Var2, "DEBUG: Drinking the potion!");
+Use(_Var2, _Var1, "DEN_DrinkFreePotion");
+TemplateRemoveFrom(ITEMGUID_CONS_Potion_Healing_A_Greater_e3b95c96-dc26-40fe-bfc0-baa05e1abd20, _Var2, 1);
+
+IF
+CrimeProcessingStarted((INTEGER)_Var1, 0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+CrimeGetVictim(_Var1, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_HAG_DenCrimeExempt(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HagTea", "TraderAtDen", _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_HagTrader_LeaveSpeed("Walk");
+DB_DEN_HagTrader_LeaveSpeed("Run");
+PROC_TryStartAD(DEN_HagTrader_AD_Flee_5c058817-e0e5-883d-857a-4440a7749c49, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+PROC_CharacterDisableAllCrimes(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+PROC_GlobalSetFlagAndCache(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e);
+PROC_DEN_HagTrader_TransferShop();
+
+QRY
+QRY_HAG_DenCrimeExempt((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_HAG_DenCrimeExempt(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_ItemShopTrigger_Delete(S_DEN_HagOwnership_d19456f1-799e-46d4-8a9c-e817997d0d6f);
+
+IF
+DB_GlobalFlag(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e, _, _, _, _)
+AND NOT
+DB_CantTalk(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _, _, _, _)
+AND
+DB_DEN_HagTrader_LeaveSpeed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HagTea", "TraderAtDen", _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+SetHasDialog(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 0);
+CharacterMoveTo(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, S_DEN_HagLeavePos_ccce8e0d-7451-4dd2-ac42-3e6e13a1fb70, _Var1, "DEN_HagTrader_StartLeaving");
+
+IF
+DialogActorLeft(DIALOGRESOURCEGUID_DEN_HagTrader_95dc8eb6-c648-8e38-c0ad-2c6cb68df6dc, _, (CHARACTER)_Var2, _, _)
+AND
+DB_GlobalFlag(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+ObjectTimerLaunch(_Var2, "DEN_HagTrader_HagLeaveVoicebark", 1500);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "DEN_HagTrader_HagLeaveVoicebark", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+StartVoiceBark(VOICEBARKRESOURCEGUID_DEN_HagTrader_VB_HagLeaves_e1f04aec-a145-89ae-2c91-c98b5448dd42, _Var1);
+
+IF
+EntityEvent(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "DEN_HagTrader_StartLeaving", _, _, _)
+AND
+IsInTrigger(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, S_HAG_HagLair_f84e3319-4a1d-483c-a718-dee3bff70d07, 0, _, _)
+THEN
+PROC_DisappearOutOfSightTo(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, TRIGGERGUID_S_DEN_HagDisappearPos_5ada1d31-47e8-48ab-83fe-8f9bb7ec6027, "Run", 1, "DEN_NPC_LeftDen");
+
+IF
+EntityEvent(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "DEN_HagTrader_Event_LeftDen", _, _, _)
+AND
+GetFlag(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+SetImmortal(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 0);
+SetCanJoinCombat(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 1);
+DB_CustomDialogRange(CHARACTERGUID_S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 19);
+TeleportTo(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, S_HAG_HagPosInHouse_dcb11ed7-bcd9-417f-b057-ef1aa0b1665c);
+SetOnStage(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 1);
+DB_HAG_Hag_SceneSpeakers(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+SetHasDialog(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 1);
+NOT DB_GLO_CompoundFlag(DEN_HagTrader_Quest_Complete_b4a08056-e4cf-0835-a345-c52e523e7eda, DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e);
+PROC_CharacterEnableAllCrimes(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+PROC_GlobalClearFlagAndCache(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e);
+SetHitpointsPercentage(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 100);
+PROC_HAG_Hagspawn_InitTeaScene();
+ClearTag(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, ACT1_DEN_HAGTRADER_55fe3f63-d568-43d3-936e-b3984eed3cc3);
+
+IF
+CharacterOnCrimeSensibleActionNotification(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _, (INTEGER)_Var2, "CRIME_OsirisDENHagReaction", _, _, _, _, _, _)
+AND
+CrimeGetType(_Var2, _Var9, _, _, _)
+AND NOT
+QRY_HAG_DenCrimeExempt(_Var9, _, _, _, _)
+THEN
+PROC_CrimeTryForceStopDialog(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+NOT DB_DEN_HagTrader_LeaveSpeed("Walk");
+DB_DEN_HagTrader_LeaveSpeed("Run");
+PROC_TryStartAD(DEN_HagTrader_AD_Flee_5c058817-e0e5-883d-857a-4440a7749c49, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+PROC_CharacterDisableAllCrimes(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+PROC_GlobalSetFlagAndCache(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e);
+CrimeConfrontationDone(_Var2, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+PROC_DEN_HagTrader_TransferShop();
+
+PROC
+PROC_DEN_HagTrader_TransferShop()
+THEN
+DB_ItemOwnerShipTriggers("WLD_Main_A", S_DEN_HagOwnership_d19456f1-799e-46d4-8a9c-e817997d0d6f, S_DEN_Tiefling_FoodTrader_001_1b35671b-e5d7-4943-bbd0-4c816b69b7cb);
+NOT DB_ItemShopTrigger(S_DEN_HagOwnership_d19456f1-799e-46d4-8a9c-e817997d0d6f, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+
+IF
+FlagCleared(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e, _, _, _, _)
+AND
+DB_HAG_HagLeaveDenTrigger(_Var3, _Var4, _, _, _)
+THEN
+NOT DB_HAG_HagLeaveDenTrigger(_Var3, _Var4);
+PROC_TriggerUnregisterForPlayers(_Var3);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLeaveDenTrigger(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAG_HagLeaveDenTrigger(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var3, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var4, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+
+IF
+FlagSet(HAG_Debug_TeleportOutOfDen_424a57d9-00a9-4453-462a-9a24e2fdcb42, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(DEN_HagTrader_State_LeaveDen_a203db46-2bac-4590-8d0b-13acafedc92e, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetEntityEvent(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "DEN_NPC_LeftDen");
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

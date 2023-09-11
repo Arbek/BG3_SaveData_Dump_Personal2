@@ -1,0 +1,109 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SCL_MastiffPoachers_Mastiffs(S_SCL_PoachersMastiff01_9948395e-def8-4e78-881e-43684a605d5d, S_SCL_PoachersMastiffDestination01_d20459b8-68ad-4027-a0b9-b955aa9d3227);
+DB_SCL_MastiffPoachers_Mastiffs(S_SCL_PoachersMastiff02_e0550627-094e-4673-8433-437690bbc7c3, S_SCL_PoachersMastiffDestination02_c3f0b885-1eb7-4892-a570-91c062c00458);
+DB_SCL_MastiffPoachers_Mastiffs(S_SCL_PoachersMastiff03_cafa77e6-500f-4a80-86e5-b1558e5c7fa5, S_SCL_PoachersMastiffDestination03_496786f7-168f-4919-a732-79f75b7b8ed0);
+DB_SCL_MastiffPoachers_Mastiffs(S_SCL_PoachersMastiff04_fe90348e-7b9c-481e-a9ca-ca3d84fb74c8, S_SCL_PoachersMastiffDestination04_f656c52d-a7c6-4ea3-bf70-d74766b1a77e);
+DB_SCL_Mastiff_Timer(S_SCL_PoachersMastiff01_9948395e-def8-4e78-881e-43684a605d5d, 100);
+DB_SCL_Mastiff_Timer(S_SCL_PoachersMastiff02_e0550627-094e-4673-8433-437690bbc7c3, 600);
+DB_SCL_Mastiff_Timer(S_SCL_PoachersMastiff03_cafa77e6-500f-4a80-86e5-b1558e5c7fa5, 1100);
+DB_SCL_Mastiff_Timer(S_SCL_PoachersMastiff04_fe90348e-7b9c-481e-a9ca-ca3d84fb74c8, 1600);
+DB_GLO_CharacterCorpseDialog(S_SCL_MastiffPoacher_TrueSoul_ce1526d5-c9fa-49f7-80f9-b1ac15252968, SCL_MastiffPoachers_TrueSoul_Dead_4deab001-fecd-799b-d93c-e1258e4ba211);
+DB_SCL_MastiffPoachers_Torches(S_SCL_PoachersTorch01_0f948dfc-cc51-42a6-824b-4a34f6839241);
+DB_SCL_MastiffPoachers_Torches(S_SCL_PoachersTorch02_6f8e23d2-a706-49b2-9c86-53ac6a003616);
+DB_SCL_MastiffPoachers_Torches(S_SCL_PoachersTorch03_3cd4a92d-d830-473e-9b7c-9b5f21a8bfcb);
+DB_SCL_MastiffPoachers_Torches(S_SCL_PoachersTorch04_01a2bee3-feb7-48f4-b09a-55b88c4eb87a);
+DB_SCL_MastiffPoachers_Torches(S_SCL_PoachersTorch05_6072e164-4f78-418c-b856-cc452b018df7);
+
+KBSECTION
+IF
+DB_SCL_MastiffPoachers_Mastiffs(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+DB_GLO_DefeatCounter(_Var1, "SCL_MastiffPoachers_MastiffsDefeated");
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_MastiffPoachers_Torches(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_MastiffPoachers_Knows_ContinualFlame_5b840c60-b931-a40c-3a45-a49c91d72bb1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_MastiffPoachers_ReactedToTorches", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(SCL_MastiffPoachers_VB_TouchedTorches_b7294597-cc44-1cd2-3e05-1f2b47d34659, _Var1);
+
+IF
+StatusRemoved((ITEM)_Var1, "BURNING", _, _, (ITEM)_Var1)
+AND
+DB_SCL_MastiffPoachers_Torches(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_MastiffPoachers_ExtinguishedTorches(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "BURNING", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_SCL_MastiffPoachers_Torches(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_MastiffPoachers_ExtinguishedTorches(_Var1);
+
+IF
+DB_SCL_MastiffPoachers_ExtinguishedTorches(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_MastiffPoachers_TorchesCheck();
+
+PROC
+PROC_SCL_MastiffPoachers_TorchesCheck()
+AND
+SysCount("DB_SCL_MastiffPoachers_ExtinguishedTorches", 1, _Var1, _Var1, _Var1)
+AND
+SysCount("DB_SCL_MastiffPoachers_Torches", 1, _Var2, _Var1, _Var1)
+AND
+_Var1 == _Var2
+THEN
+PROC_SCL_MastiffsAppear();
+TimerLaunch("SCL_ShadowMastiffAppear_Faction", 1650);
+
+PROC
+PROC_SCL_MastiffsAppear()
+AND
+DB_SCL_MastiffPoachers_Mastiffs(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Mastiff_Timer(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "SCL_ShadowMastiffAppear", _Var3, 1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "SCL_ShadowMastiffAppear", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_MastiffPoachers_Mastiffs(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var3, _Var4, _Var5, _Var1)
+THEN
+AppearAtPosition(_Var1, _Var3, _Var4, _Var5, 1, DFLT_UTIL_Spawn_01_510ff37e-0618-40e4-8ce0-236e3dc9c291, "", 0);
+PROC_CharacterMoveTo(_Var1, _Var2, "Run", "");
+
+IF
+TimerFinished("SCL_ShadowMastiffAppear_Faction", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_MastiffPoachers_Mastiffs(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var1, Act2_SCL_MastiffPoachers_Mastiffs_8b12962b-60e6-4434-9bcd-0073748ce504);
+
+IF
+TextEvent("Debug_KillMastiff", _, _, _, _)
+THEN
+PROC_Foop(S_SCL_PoachersMastiff01_9948395e-def8-4e78-881e-43684a605d5d);
+Die(S_SCL_PoachersMastiff01_9948395e-def8-4e78-881e-43684a605d5d, 0, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

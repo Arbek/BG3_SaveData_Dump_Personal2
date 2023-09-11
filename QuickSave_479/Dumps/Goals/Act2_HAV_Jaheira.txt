@@ -1,0 +1,250 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_EnteringHaven", 0);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_NeedsFollowUp", 1000);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_AtInn", 2000);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_CheckingOnIsobel", 3000);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_AfterCheckingOnIsobel", 4000);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_Siege", 5000);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_AtInn_PostSiege", 6000);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_AtCamp", 7000);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_Vanished", 7000);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_Dead", 9000);
+DB_State_Current(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_EnteringHaven");
+DB_PermaDefeatedEvent(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, GLO_Jaheira_State_PermaDefeated_932fb5a1-00ba-4621-b7ae-877d40d7ddcd);
+DB_DefeatedEvent(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, GLO_Jaheira_State_Defeated_51b3146a-4984-436b-88c1-a1cd8b46cd60);
+ApplyStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_SELUNEOINTMENT", -1, 1, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+SetHasDialog(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 1);
+DB_HAV_Jaheira_StateDialogs("HAV_State_Jaheira_Siege", HAV_Jaheira_Siege_050f35dc-8d79-0aad-dd37-38cf70ee72f8);
+DB_HAV_Jaheira_StateDialogs("HAV_State_Jaheira_AtCamp", CAMP_Jaheira_7d7010b2-7421-225b-e38b-791132676ae7);
+TriggerRegisterForCharacter(S_HAV_Jaheira_NearTableTrigger_adf7d5a1-42fb-4dca-8a6c-9781c01b077c, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+DB_HAV_Jaheira_IsobelCombatADs(HAV_Haven_AD_Jaheira_IsobelCombat_000_915f6d04-8cb8-2c8a-3f45-ccd43cecfd7f);
+DB_HAV_Jaheira_IsobelCombatADs(HAV_Haven_AD_Jaheira_IsobelCombat_001_fce8bf38-6a55-37cb-862d-dc9c95e78ec3);
+DB_HAV_Jaheira_IsobelCombatADs(HAV_Haven_AD_Jaheira_IsobelCombat_002_bf9a32cd-5239-b40b-223c-e94794bc6be2);
+DB_HAV_Jaheira_SiegeCombatADs(HAV_Haven_AD_Jaheira_SiegeCombat_000_38668a70-823a-a11e-5579-1d3b5848d861);
+DB_HAV_Jaheira_SiegeCombatADs(HAV_Haven_AD_Jaheira_SiegeCombat_001_9fb8b54f-3e99-457c-81aa-e022c43dfb6c);
+DB_HAV_Jaheira_SiegeCombatADs(HAV_Haven_AD_Jaheira_SiegeCombat_002_d8fec356-d1a0-78d3-d249-f6ec4a0600ae);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_CombatADs", "HAV_Jaheira_CheckpointADs", 0);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_CombatADs", "HAV_Jaheira_KidnappingADs", 50);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_CombatADs", "HAV_Jaheira_SiegeADs", 100);
+DB_State_Priority(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_CombatADs", "HAV_Jaheira_ClearADs", 200);
+DB_State_Flags(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_CombatADs", "HAV_Jaheira_KidnappingADs", LOW_JaheirasHouse_State_FoundBasement_9088478d-690a-4ccc-b9d5-3b157f9770c9);
+DB_State_Flags(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_CombatADs", "HAV_Jaheira_SiegeADs", HAV_TakingIsobel_Event_SpyCombatStarted_b0930689-e539-424e-bc92-e4a37fbee7d5);
+DB_State_Flags(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_CombatADs", "HAV_Jaheira_ClearADs", HAV_Siege_Event_SiegeEnd_1939fc49-17fd-49f8-9030-8c3d627a05df);
+DB_CombatReact_AD_OnNextTurn(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, HAV_Checkpoint_AD_Combat_Jaheira_000_a6e90238-3ab7-8375-5da9-344e9b1844f8);
+DB_CombatReact_AD_OnNextTurn(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, HAV_Checkpoint_AD_Combat_Jaheira_001_a1426288-6d4d-c857-48c0-a2f44b0ddaa6);
+DB_CombatReact_AD_OnNextTurn(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, HAV_Checkpoint_AD_Combat_Jaheira_002_20ab6a04-1aec-f614-6c89-6d2de25e32cd);
+DB_HAV_Jaheira_CurrentADs(HAV_Checkpoint_AD_Combat_Jaheira_000_a6e90238-3ab7-8375-5da9-344e9b1844f8);
+DB_HAV_Jaheira_CurrentADs(HAV_Checkpoint_AD_Combat_Jaheira_001_a1426288-6d4d-c857-48c0-a2f44b0ddaa6);
+DB_HAV_Jaheira_CurrentADs(HAV_Checkpoint_AD_Combat_Jaheira_002_20ab6a04-1aec-f614-6c89-6d2de25e32cd);
+
+KBSECTION
+IF
+FlagSet(GLO_Jaheira_State_PermaDefeated_932fb5a1-00ba-4621-b7ae-877d40d7ddcd, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_Dead");
+
+IF
+FlagSet(HAV_EnteringHaven_Event_ClawsKilled_d3669128-2cb3-49be-8245-59cedfdc38ef, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_NeedsFollowUp");
+
+IF
+FlagSet(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_Siege");
+
+IF
+FlagSet(HAV_Siege_Event_SiegeEnd_1939fc49-17fd-49f8-9030-8c3d627a05df, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_AtInn_PostSiege");
+
+IF
+DialogEnded(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_WasVouchedFor_49b15dc5-9283-0937-4d7e-e66f3d8d5a11, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_FlamingSpyRevealed_89e1eb87-a718-8dc2-026d-f4db8321b686, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_NeedsFollowUp");
+
+PROC
+PROC_State_Progress(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_NeedsFollowUp", _, _)
+THEN
+DB_SpotPlayers(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_ClawFollowUp", NULL_00000000-0000-0000-0000-000000000000, HAV_Jaheira_State_FollowingUpToClaws_3488988e-4a98-42e0-bd34-94e597315be1);
+
+PROC
+PROC_SpotPlayers_Spotted(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_ClawFollowUp", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialogCustom(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, 0, 0, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Restart_Spotting", 6000, 1);
+
+IF
+ObjectTimerFinished(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Restart_Spotting", _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_Jaheira_State_FollowingUpToClaws_3488988e-4a98-42e0-bd34-94e597315be1, _, _, _, _)
+THEN
+PROC_SpotPlayers_RestartSpotting(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_ClawFollowUp");
+
+IF
+DialogEnded(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_HAV_EnteringHaven_TadpoleCheckpoint_MetJaheira_be492b6e-8832-6b57-042d-4c6872de64c6, _, _, _, _)
+AND
+DB_State_Current(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_NeedsFollowUp", _, _)
+THEN
+PROC_GlobalSetFlagAndCache(HAV_Jaheira_State_FollowingUpToClaws_3488988e-4a98-42e0-bd34-94e597315be1);
+
+IF
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting("HAV_Jaheira_ClawFollowUp");
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", _Var2, _Var1, _Var1)
+AND NOT
+DB_HAV_Jaheira_StateDialogs(_Var2, _, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_HAV_Jaheira_NearTableTrigger_adf7d5a1-42fb-4dca-8a6c-9781c01b077c, 1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(HAV_Jaheira_a8318e4c-7e39-4f4f-1610-a9d3e7a1c1c8, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1);
+PROC_HAV_Jaheira_AttentionAD_Cancel();
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", _Var2, _Var1, _Var1)
+AND NOT
+DB_HAV_Jaheira_StateDialogs(_Var2, _, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_HAV_Jaheira_NearTableTrigger_adf7d5a1-42fb-4dca-8a6c-9781c01b077c, 0, _Var1, _Var1)
+THEN
+DB_SelectedDialog(HAV_Jaheira_OutOfPosition_e18cfb1d-110d-dadc-e6fa-d97d3593d335, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", _Var2, _Var1, _Var1)
+AND
+DB_HAV_Jaheira_StateDialogs(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_SelectedDialog(_Var3, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1);
+PROC_HAV_Jaheira_AttentionAD_Cancel();
+
+IF
+EntityEvent(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Isobel_ArrivedHomeAfterIsobel", _, _, _)
+THEN
+SetHasDialog(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 1);
+
+IF
+DB_InRegion(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_HAV_Jaheira_NearTableTrigger_adf7d5a1-42fb-4dca-8a6c-9781c01b077c, _, _, _)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_Jaheira_AttentionAD_StartSpot", _, _, _, _)
+THEN
+DB_SpotPlayers(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_AttentionAD", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_Continuous(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_AttentionAD");
+DB_SpotPlayers_SpotTrigger(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_AttentionAD", S_HAV_Jaheira_NearTableSpotTrigger_e5e6d7b0-6544-4167-a559-3cd2ee45804c);
+
+IF
+DB_InRegion(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_HAV_Jaheira_NearTableTrigger_adf7d5a1-42fb-4dca-8a6c-9781c01b077c, _, _, _)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND
+DB_SpotPlayers_Spotted(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_AttentionAD", _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(HAV_Jaheira_AD_Attention_6758c4a5-b309-6ceb-4baf-2b5d1fe22f9d, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_Jaheira_AttentionAD_Cancel();
+
+PROC
+PROC_HAV_Jaheira_AttentionAD_Cancel()
+THEN
+PROC_SpotPlayers_StopSpotting(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_AttentionAD");
+NOT DB_SpotPlayers(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_AttentionAD", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SpotPlayers_Continuous(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_AttentionAD");
+NOT DB_SpotPlayers_SpotTrigger(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_AttentionAD", S_HAV_Jaheira_NearTableSpotTrigger_e5e6d7b0-6544-4167-a559-3cd2ee45804c);
+
+PROC
+PROC_State_Changed(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", _, _, _)
+AND NOT
+QRY_State_IsBeforeState(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_CheckingOnIsobel", _, _)
+THEN
+PROC_HAV_Jaheira_AttentionAD_Cancel();
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, "HAV_Jaheira_CombatADs", "HAV_Jaheira_KidnappingADs", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAV_Jaheira_CurrentADs(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_Jaheira_IsobelCombatADs(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Jaheira_ClearADs(_Var1, _Var2);
+PROC_Jaheira_AddADs(_Var1, _Var3);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, "HAV_Jaheira_CombatADs", "HAV_Jaheira_SiegeADs", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAV_Jaheira_CurrentADs(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_Jaheira_SiegeCombatADs(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Jaheira_ClearADs(_Var1, _Var2);
+PROC_Jaheira_AddADs(_Var1, _Var3);
+
+PROC
+PROC_State_Changed(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira_CombatADs", "HAV_Jaheira_ClearADs", (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_HAV_Jaheira_CurrentADs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAV_Jaheira_CurrentADs(_Var1);
+
+PROC
+PROC_Jaheira_ClearADs((GUIDSTRING)_Var1, (DIALOGRESOURCE)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_HAV_Jaheira_CurrentADs(_Var2);
+NOT DB_CombatReact_AD_OnNextTurn(_Var1, _Var2);
+
+PROC
+PROC_Jaheira_AddADs((GUIDSTRING)_Var1, (DIALOGRESOURCE)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_HAV_Jaheira_CurrentADs(_Var2);
+DB_CombatReact_AD_OnNextTurn(_Var1, _Var2);
+
+IF
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+FlagSet(GLO_Jaheira_State_PermaDefeated_932fb5a1-00ba-4621-b7ae-877d40d7ddcd, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+PROC
+PROC_SCE_SetupDebrief()
+THEN
+GoalCompleted;
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+NOT DB_HAV_Jaheira_StateDialogs("HAV_State_Jaheira_Siege", HAV_Jaheira_Siege_050f35dc-8d79-0aad-dd37-38cf70ee72f8);
+NOT DB_HAV_Jaheira_StateDialogs("HAV_State_Jaheira_CheckingOnIsobel", NULL_00000000-0000-0000-0000-000000000000);
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

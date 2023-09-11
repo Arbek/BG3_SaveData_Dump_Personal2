@@ -1,0 +1,129 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_AssaultSilenced("Assault_Silenced");
+DB_CRIME_AssaultSilenced("Assault_Beast_LowPrio_Silenced");
+DB_CRIME_AssaultSilenced("Assault_Beast_HighPrio_Silenced");
+DB_CRIME_AssaultSilenced("Assault_Monster_Silenced");
+DB_CRIME_StoryActionHandled_NeverCombine("Assault_Silenced", "Assault_Beast_LowPrio_Silenced");
+DB_CRIME_StoryActionHandled_NeverCombine("Assault_Silenced", "Assault_Beast_HighPrio_Silenced");
+DB_CRIME_StoryActionHandled_NeverCombine("Assault_Silenced", "Assault_Monster_Silenced");
+DB_CRIME_StoryActionHandled_NeverCombine("Assault_Beast_LowPrio_Silenced", "Assault_Beast_HighPrio_Silenced");
+DB_CRIME_StoryActionHandled_NeverCombine("Assault_Beast_LowPrio_Silenced", "Assault_Monster_Silenced");
+DB_CRIME_StoryActionHandled_NeverCombine("Assault_Beast_HighPrio_Silenced", "Assault_Monster_Silenced");
+
+KBSECTION
+IF
+DB_CRIME_AssaultSilenced(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LinkedCrimes("Assault", _Var1);
+
+IF
+UsingSpell((GUIDSTRING)_Var1, _, _, _, (INTEGER)_Var5)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_Casting(_Var1, _Var5);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, _, _, _, (INTEGER)_Var5)
+AND
+DB_CRIME_Casting(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Casting(_Var1, _Var5);
+
+IF
+CastSpellFailed((GUIDSTRING)_Var1, _, _, _, (INTEGER)_Var5)
+AND
+DB_CRIME_Casting(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Casting(_Var1, _Var5);
+
+QRY
+QRY_CRIME_GetItemOwnerOwnerOrChar((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRY_RTN_CRIME_GetItemOwnerOwnerOrChar(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_CRIME_GetItemOwnerOwnerOrChar(_Var2);
+
+QRY
+QRY_CRIME_GetItemOwnerOwnerOrChar((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_CRIME_GetItemOwnerOwnerOrChar(_Var2);
+
+QRY
+QRY_CRIME_GetItemOwnerOwnerOrChar((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_CRIME_GetItemOwnerOwnerOrChar(_Var1);
+
+IF
+EnteredLevel((GUIDSTRING)_Var1, Helper_Spell_Silence_edca6656-dc8c-410b-9f16-fcc02d5ed803, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Casting(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_PotentialSilenceCasting(_Var3, _Var1, _Var4);
+TimerCancel("CRIME_CheckSilenceHelperOwner");
+TimerLaunch("CRIME_CheckSilenceHelperOwner", 0);
+
+IF
+TimerFinished("CRIME_CheckSilenceHelperOwner", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_PotentialSilenceCasting(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+GetOwner(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsPartyMember(_Var1, 1, 1, _Var1, _Var1)
+AND
+GUIDToString(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+Concatenate("CRIME_SilenceAssault_", _Var4, _Var5, _Var1, _Var1)
+AND
+Concatenate("CRIME_SilenceAssault_Finished_", _Var4, _Var6, _Var1, _Var1)
+THEN
+DB_CRIME_SilenceCaster(_Var2, _Var1, _Var5, _Var6, _Var3);
+IterateCharactersAround(_Var2, 6, _Var5, _Var6);
+
+IF
+TimerFinished("CRIME_CheckSilenceHelperOwner", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_PotentialSilenceCasting(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_PotentialSilenceCasting(_Var1, _Var2, _Var3);
+
+IF
+EntityEvent(_, (STRING)_Var2, _, _, _)
+AND
+DB_CRIME_SilenceCaster(_Var3, _Var4, _Var5, _Var2, _Var6)
+THEN
+NOT DB_CRIME_SilenceCaster(_Var3, _Var4, _Var5, _Var2, _Var6);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_SilenceCaster(_Var3, _Var4, _Var2, _Var5, _Var6)
+THEN
+PROC_CRIME_TryRegisterAssaultLikeCrime(_Var4, _Var1, _Var6, "_Silenced");
+
+IF
+StatusApplied((ITEM)_Var1, "SILENCED", (ITEM)_Var2, _, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, FORBIDDEN_FOR_SILENCE_ff5acb44-0a6e-435a-968a-586bd03dd611, 1, _Var1, _Var1)
+AND
+GetOwner(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_CrimeRegisterVandalise(_Var1, _Var4, _Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

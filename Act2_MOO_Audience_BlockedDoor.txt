@@ -1,0 +1,47 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOwner(S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606, S_MOO_AccessCultist_7f0f8d11-9d1e-4210-bbcb-41aa05666d58);
+
+KBSECTION
+PROC
+PROC_BlockUseOfItem((GUIDSTRING)_Var1, S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_State_IsBeforeState(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast", _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Audience_State_GrantedPermission_ef5c0ad1-8aae-48b8-a438-5989b1778f9a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_MOO_AccessCultist_7f0f8d11-9d1e-4210-bbcb-41aa05666d58, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(MOO_Audience_HasMet_AccessCultist_46449183-e8a2-7ac3-4c8e-ea386a80dc17, _Var1, 0, _Var1, _Var1)
+AND
+QRY_StartDialog(MOO_Audience_AccessCultist_49ad9a32-be79-4e30-ad8d-0de5c68a9c0e, S_MOO_AccessCultist_7f0f8d11-9d1e-4210-bbcb-41aa05666d58, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606, 0);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(MOO_Audience_State_GrantedPermission_ef5c0ad1-8aae-48b8-a438-5989b1778f9a, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(MOO_Audience_AccessCultist_49ad9a32-be79-4e30-ad8d-0de5c68a9c0e, _Var2, _Var1, _Var1, _Var1)
+AND
+GetFlag(MOO_Audience_HasMet_AccessCultist_46449183-e8a2-7ac3-4c8e-ea386a80dc17, _Var1, 0, _Var1, _Var1)
+THEN
+SetFlag(MOO_Audience_HasMet_AccessCultist_46449183-e8a2-7ac3-4c8e-ea386a80dc17, _Var1, 0);
+DialogAddActor(_Var2, _Var1);
+DB_CustomUseItemResponse(_Var1, S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606, 0);
+
+IF
+FlagSet(MOO_Audience_State_GrantedPermission_ef5c0ad1-8aae-48b8-a438-5989b1778f9a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearOwnership(S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

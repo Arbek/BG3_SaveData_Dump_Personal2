@@ -1,0 +1,56 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+LongRestFinished()
+AND
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+AND
+DB_PartOfTheTeam(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Halsin_State_ReadyForDream_62b3c87b-49ed-4771-be38-11ace543a2f8, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND NOT
+QRY_OnlyOnce("Halsin_Has_Spent_Some_Time_In_Baldurs_Gate", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Halsin_State_ReadyForDream_62b3c87b-49ed-4771-be38-11ace543a2f8);
+
+IF
+LongRestFinished()
+AND
+DB_CurrentLevel("BGO_Main_A", _, _, _, _)
+AND
+DB_PartOfTheTeam(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Halsin_IPRD_WyrmsCrossingDream", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71, ORI_Halsin_IPRD_WyrmsCrossingDream_3fbad77a-241f-4a0d-86d5-a8646f98da28, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 0, 0);
+DB_ExclamationDialog_NeverStop(Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71, ORI_Halsin_IPRD_WyrmsCrossingDream_3fbad77a-241f-4a0d-86d5-a8646f98da28);
+
+IF
+LongRestFinished()
+AND
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+AND
+DB_PartOfTheTeam(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Halsin_IPRD_LowerCityDream", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71, ORI_Halsin_IPRD_LowerCityDream_31e65241-1d49-4a52-ae9a-a8462015652b, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 0, 0);
+DB_ExclamationDialog_NeverStop(Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71, ORI_Halsin_IPRD_LowerCityDream_31e65241-1d49-4a52-ae9a-a8462015652b);
+
+IF
+FlagSet(LOW_BhaalTemple_State_WasAbductedHalsin_0265b4a7-cf01-4543-ac34-2a76da85d674, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CancelRelationshipDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71, ORI_Halsin_IPRD_LowerCityDream_31e65241-1d49-4a52-ae9a-a8462015652b);
+PROC_CancelRelationshipDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71, ORI_Halsin_IPRD_WyrmsCrossingDream_3fbad77a-241f-4a0d-86d5-a8646f98da28);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

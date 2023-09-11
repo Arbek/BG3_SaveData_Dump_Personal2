@@ -1,0 +1,1741 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ORI_Shadowheart_WolfDream_Threshold(3);
+DB_ORI_Shadowheart_WolfDream_ConditionFlags(ORI_Shadowheart_State_WolfDreamPoint_WoundFlarePositive_ff1cdcf8-9aaa-4318-b9f5-967648b93ae9);
+DB_ORI_Shadowheart_WolfDream_ConditionFlags(ORI_Shadowheart_State_WolfDreamPoint_WorshipGood_cd1832ce-2e41-4a82-a7bd-d9260f603757);
+DB_ORI_Shadowheart_WolfDream_ConditionFlags(ORI_Shadowheart_State_WolfDreamPoint_NautiloidSaved_71127b5b-ad4c-46ff-b870-82e91fb3d067);
+DB_ORI_Shadowheart_WolfDream_ConditionFlags(ORI_Shadowheart_State_WolfDreamPoint_MissingMemories_7d48086c-feaa-4972-a303-56b984b125b9);
+DB_ORI_Shadowheart_WolfDream_ConditionFlags(ORI_Shadowheart_State_WolfDreamPoint_LearnedPersonalKnowledge_20efdeb6-f531-479c-a6dc-212e065d3ae0);
+DB_ORI_Shadowheart_WolfDream_ConditionFlags(ORI_Shadowheart_State_WolfDreamPoint_FoundIdolOfShar_63e10361-c1bf-4038-9e81-13d71f3321b3);
+DB_ORI_Shadowheart_WolfDream_ConditionFlags(ORI_Shadowheart_State_WolfDreamPoint_LaezelFight_d73c1a88-cec8-4019-a433-0b4c8767a187);
+PROC_DeclareCounter("ORI_Shadowheart_WolfDreamPoints");
+DB_ORI_Shadowheart_NightsongPoint_ConditionFlags(ORI_Shadowheart_State_NightsongPoint_MadeSeluniteConnection_1414b3b6-704a-43dc-b7b5-62f3b7bfc28a);
+DB_ORI_Shadowheart_NightsongPoint_ConditionFlags(ORI_Shadowheart_State_NightsongPoint_CureIncurableWound_a5d0e9f5-6302-4b5d-ae8a-0a55ad790a57);
+DB_ORI_Shadowheart_NightsongPoint_ConditionFlags(ORI_Shadowheart_State_NightsongPoint_AbuseEmancipation_d4590c8c-8746-4344-9f4c-a5d366bd2bb8);
+DB_ORI_Shadowheart_NightsongPoint_ConditionFlags(ORI_Shadowheart_State_NightsongPoint_AgreedToTrials_6a3a641b-1b49-4ea7-8498-bec2dd6028ce);
+DB_ORI_Shadowheart_NightsongPoint_ConditionFlags(ORI_Shadowheart_State_NightsongPoint_GaveNightOrchid_cd01256d-93df-4d80-8d94-1233fe16ddf6);
+DB_ORI_Shadowheart_NightsongPoint_ConditionFlags(ORI_Shadowheart_State_NightsongPoint_AteNoblestalk_5a9e3927-507c-4ec0-8f73-51a1ec33a59e);
+PROC_DeclareCounter("ORI_Shadowheart_NightsongPoints");
+DB_ORI_Shadowheart_ParentPoints_ConditionFlags(ORI_Shadowheart_State_ParentPoints_Graffiti_56084254-ec74-4c13-8eb2-6e8163f16b8f);
+DB_ORI_Shadowheart_ParentPoints_ConditionFlags(ORI_Shadowheart_State_ParentPoints_Hideout_a1cf2f2f-8f3f-4ac7-a1f7-32e3bdb1bda4);
+DB_ORI_Shadowheart_ParentPoints_ConditionFlags(ORI_Shadowheart_State_ParentPoints_TeacherGrave_600ca39c-5887-4657-bf4c-d417cc3d146b);
+PROC_DeclareCounter("ORI_Shadowheart_ParentPoints");
+PROC_DeclareCounter("ORI_Shadowheart_IncurableWoundFlares");
+PROC_DeclareCounter("ORI_Shadowheart_WoundCooldown");
+DB_ORI_Shadowheart_IncurableWound_AutomatedFlares("SHA_Shadowheart_FailedTrial", 1000);
+DB_ORI_Shadowheart_IncurableWound_AutomatedFlares("SHA_Shadowheart_FreedOrthon", 1000);
+DB_ORI_Shadowheart_IncurableWound_AutomatedFlares("UND_Shadowheart_AteNobleStalk", 1000);
+DB_ORI_Shadowheart_IncurableWound_AutomatedFlares("FOR_Shadowheart_LootedShrine", 1000);
+DB_ORI_Shadowheart_IncurableWound_AutomatedFlares("FOR_Shadowheart_WoundFallback", 1000);
+DB_State_Priority(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", "ORI_DarkJusticiarHints_NoHint", 0);
+DB_State_Priority(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", "ORI_DarkJusticiarHints_Suspicion", 100);
+DB_State_Priority(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", "ORI_DarkJusticiarHints_DarkJusticiarDream", 200);
+DB_State_Current(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", "ORI_DarkJusticiarHints_NoHint");
+DB_State_Flags(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", "ORI_DarkJusticiarHints_Suspicion", ORI_Shadowheart_State_DarkJusticiarSuspicion_cfcbbb82-f080-443d-aa43-449e08ed5c15);
+DB_State_Flags(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", "ORI_DarkJusticiarHints_DarkJusticiarDream", ORI_Shadowheart_Knows_JusticiarDream_f37f2c1d-89c9-4d09-baff-81046a625267);
+DB_ORI_Shadowheart_GloveDialogs(SHA_NightsongsFate_OM_Shadowheart_AOM_OOM_COM_7c1dc5a3-0410-ebf4-3b3b-b2ee753562db);
+DB_ORI_Shadowheart_GloveDialogs(DEN_General_Squirrel_910734d1-dfb8-2aaf-2913-e15466181f73);
+DB_ORI_Shadowheart_GloveDialogs(LOW_SharGrotto_ParentsFate_OM_Shadowheart_AOM_OOM_93197c73-73c0-4482-e023-252cdf461dc1);
+DB_ORI_Shadowheart_GloveDialogs(LOW_SharGrotto_ParentsFate_OM_Shadowheart_COM_aa3b3a6b-b584-90f1-6a20-7a3ed4f037c2);
+DB_ORI_Shadowheart_GloveDialogs(SHA_SharWrath_OM_Shadowheart_AOM_6194acbf-2694-b9b4-e16c-94ac491157f9);
+DB_ORI_Shadowheart_GloveDialogs(CAMP_Shadowheart_IVB_CFM_WildMagic_302972f7-dc79-5f24-68c4-c0d9cccc31b1);
+DB_ORI_Shadowheart_GloveDialogs(CAMP_Shadowheart_IVB_CFM_Box_218ed2e2-d79c-c87b-fe8f-b76f7bd27165);
+DB_TopicalGreeting(TG_ORI_ShadowheartRecruited_714a755a-0257-4f85-bc05-86464f531581);
+AddPassive(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "FearOfWolves_Shadowheart");
+DB_QuestDef_State(ORI_Shadowheart_Knows_WoundSuspicion_3ecd2181-fdd0-4314-b0bf-fbe2aafdef87, "ORI_COM_ShadowHeart", "SawIncurableWound");
+DB_QuestDef_State(ORI_Shadowheart_Knows_MotherSuperior_2ccd399f-e743-45f6-9fea-12afaa4647f7, "ORI_COM_ShadowHeart", "KnowsMotherSuperior");
+DB_QuestDef_State(ORI_Shadowheart_State_WoundDiscussionFalse_3b7482d3-97db-40eb-aa24-ddea210b385b, "ORI_COM_ShadowHeart", "IncurableWoundDiscussed");
+DB_QuestDef_State(ORI_Shadowheart_State_WoundDiscussionTrue_f50bb445-539d-455b-8f2a-f7ad62dd0418, "ORI_COM_ShadowHeart", "IncurableWoundDiscussedTrue");
+DB_QuestDef_State(ORI_Shadowheart_State_WolfDreamPoint_WoundFlarePositive_ff1cdcf8-9aaa-4318-b9f5-967648b93ae9, "ORI_COM_ShadowHeart", "IncurableWoundHelp");
+DB_QuestDef_State(ORI_Shadowheart_State_IncurableWound_FlaredManyTimes_731b9f28-d892-4cb6-b4f0-5d4689b432bd, "ORI_COM_ShadowHeart", "IncurableWoundFlaredManyTimes");
+DB_QuestDef_State(ORI_Shadowheart_State_NightsongPoint_CureIncurableWound_a5d0e9f5-6302-4b5d-ae8a-0a55ad790a57, "ORI_COM_ShadowHeart", "IncurableWoundCure");
+DB_QuestDef_State(ORI_Shadowheart_State_RefusedWoundCure_a6384326-1341-4b84-8e3b-66bf65618d78, "ORI_COM_ShadowHeart", "IncurableWoundCureRefused");
+DB_QuestDef_State(ORI_Shadowheart_State_WoundMotherMade_16837ed6-9519-4199-8c86-9fe1c3e849f9, "ORI_COM_ShadowHeart", "IncurableWoundMotherMade");
+DB_QuestDef_State(ORI_Shadowheart_Knows_WolfFear_f5f935c3-7f73-4de4-9aee-553cb96fb6d1, "ORI_COM_ShadowHeart", "WolfPhobia");
+DB_QuestDef_State_ConditionalFlag(Shadowheart_InParty_DiscussedWolfFear_b91914a0-4b14-481c-9383-c104de9e3442, "ORI_COM_ShadowHeart", "WolfPhobiaDiscussed", 0, ORI_Shadowheart_Knows_HasSeenWolfDream_f7e48f6a-bc8b-4941-8016-6622956c84f9);
+DB_QuestDef_State_ConditionalFlag(Shadowheart_InParty_DiscussedWolfFear_b91914a0-4b14-481c-9383-c104de9e3442, "ORI_COM_ShadowHeart", "WolfPhobiaDiscussedDreamShared", 1, ORI_Shadowheart_Knows_HasSeenWolfDream_f7e48f6a-bc8b-4941-8016-6622956c84f9);
+DB_QuestDef_State(ORI_Shadowheart_State_NightsongPoint_MadeSeluniteConnection_1414b3b6-704a-43dc-b7b5-62f3b7bfc28a, "ORI_COM_ShadowHeart", "ToldSeluniteConnection");
+DB_QuestDef_ChainedState("ORI_COM_ShadowHeart", "SearchJusticiarLair_KnowShar", "StartJusticiarQuest");
+DB_QuestDef_ChainedState("ORI_COM_ShadowHeart", "SearchJusticiarLair_UnknowShar", "StartJusticiarQuest");
+DB_QuestDef_State(ORI_Shadowheart_State_NobleStalkMemory_d0d87954-6563-4e26-9f2c-4616e3cfeb0e, "ORI_COM_ShadowHeart", "NobleStalk");
+DB_QuestDef_State(ORI_Shadowheart_State_AvatarGaveNightOrchid_200bb10e-aae2-4221-a0c9-b591dd681720, "ORI_COM_ShadowHeart", "GaveNightOrchid");
+DB_QuestDef_State(ORI_Shadowheart_State_CrisisofFaith_27b92bd8-3a0d-4e2d-9546-fe304a648f64, "ORI_COM_ShadowHeart", "IrregularBehaviour");
+DB_QuestDef_State(ORI_Shadowheart_Knows_CurseResistant_1c40f83c-99d1-4777-a8f7-95377f6561b8, "ORI_COM_ShadowHeart", "CurseResistance");
+DB_QuestDef_State(SHA_PartyProgress_EnteredSharTemple_d212e499-d006-4043-9dee-8aac504098e5, "ORI_COM_ShadowHeart", "SharTemple");
+DB_QuestDef_State(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, "ORI_COM_ShadowHeart", "KilledNightsong");
+DB_QuestDef_State(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, "ORI_COM_ShadowHeart", "EnemyOfShar_SharWrath");
+DB_QuestDef_State(COL_KethericShowdown_Knows_KilledAvatarMyrkul_a9d5f8a5-341e-34e8-a6f7-f566e5666a4e, "ORI_COM_ShadowHeart", "SharPath_DefeatedKetheric");
+DB_QuestDef_State(CAMP_Shadowheart_State_HadNightsongMeeting_10b74e80-a963-420f-8c2a-d518b6aae143, "ORI_COM_ShadowHeart", "EnemyOfShar_NightsongMeeting");
+DB_QuestDef_State(ORI_Shadowheart_State_Shar_KilledParents_3a3b0ecf-a1ed-4733-8548-0348befc6bac, "ORI_COM_ShadowHeart", "SharPath_KilledParents");
+DB_QuestDef_State(ORI_Shadowheart_State_RejectShar_KilledParents_e9060caf-66b0-4701-8dfd-5ae1125f5afd, "ORI_COM_ShadowHeart", "EnemyOfShar_KilledParents");
+DB_QuestDef_State(ORI_Shadowheart_State_Shar_SavedParents_8a0fad17-1615-4a0d-a045-21661d9a2aa0, "ORI_COM_ShadowHeart", "SharPath_SavedParents");
+DB_QuestDef_State(ORI_Shadowheart_State_RejectShar_SavedParents_486d69d4-a7c2-4cb5-8fcb-8f2cb738ada9, "ORI_COM_ShadowHeart", "EnemyOfShar_SavedParents");
+DB_QuestDef_ChainedState("ORI_COM_ShadowHeart", "ShadowheartLeftOut", "SharTemple_NoDecisionAllowed");
+DB_QuestDef_State(ORI_Shadowheart_Knows_JusticiarMurals_87dea9e2-c18c-40a0-98cf-96cf2804cf4e, "ORI_COM_ShadowHeart", "JusticiarHint_Murals_Update");
+DB_QuestDef_State(ORI_Shadowheart_State_IdolHint_5e2d4403-e9e9-4ee2-a2fb-5d7f45aa71cb, "ORI_COM_ShadowHeart", "JusticiarHint_SharIdol_Update");
+DB_QuestDef_State(ORI_Shadowheart_Knows_CurseResistant_1c40f83c-99d1-4777-a8f7-95377f6561b8, "ORI_COM_ShadowHeart", "JusticiarHint_ShadowCurse_Update");
+DB_QuestDef_State(ORI_Shadowheart_State_TempleApproachHint_c0aa296e-fa16-4ddf-8e2d-ecfe5b5b32e2, "ORI_COM_ShadowHeart", "JusticiarHint_TempleApproach_Update");
+DB_QuestDef_State(Shadowheart_InParty_InterestInDarkJusticiars_4d45b833-582d-c7a6-9936-0922e78e36d9, "ORI_COM_ShadowHeart", "JusticiarHint_Halsin_Update");
+DB_QuestDef_State(ORI_Shadowheart_State_SeluneJusticiarHint_6c8ac0f9-e182-4a62-aeab-52e6dcf6a5ef, "ORI_COM_ShadowHeart", "JusticiarHint_Selune_Update");
+DB_QuestDef_State(ORI_Shadowheart_State_TownCorpseHint_e2059455-ab53-49d3-aac5-775453ff9468, "ORI_COM_ShadowHeart", "JusticiarHint_TownCorpses_Update");
+DB_QuestDef_State(ORI_Shadowheart_State_EnteredDeepCurse_0181f5bb-8692-4e6a-a4de-0f28a6f135a9, "ORI_COM_ShadowHeart", "DeepShadowCurse");
+DB_QuestDef_State(SHA_PartyProgress_EnteredSharTemple_d212e499-d006-4043-9dee-8aac504098e5, "ORI_COM_ShadowHeart", "FoundSharTemple_Alt");
+DB_QuestDef_State(SHA_Trials_Knows_SeenAltarInscription_24f46431-f67a-4b04-b027-fa4300322c00, "ORI_COM_ShadowHeart", "FoundTrials");
+DB_QuestDef_State(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, "ORI_COM_ShadowHeart", "Nightsong_Killed");
+DB_QuestDef_State(SHA_NightsongPrison_Event_NightsongSentToMoonrise_685b9761-43b6-9004-8655-073096c62731, "ORI_COM_ShadowHeart", "Nightsong_Surrendered");
+DB_QuestDef_State_CompanionLeft(REALLY_SHADOWHEART_642d2aee-e3df-47e3-9f47-bbcd441bb9e0, "ORI_COM_ShadowHeart", "SHA_Shadowheart_Denied");
+DB_QuestDef_LevelLoaded("ORI_COM_ShadowHeart", "NeverFoundNocturne", "END_Main");
+DB_QuestDef_PermaDefeatedState("ORI_COM_ShadowHeart", "KilledNocturne", S_LOW_ShadowheartFriend_2c10ff0f-d2ff-4dcb-8f8b-c6f870044f5d);
+DB_QuestDef_ChainedState("ORI_COM_ShadowHeart", "ShadowHeartDead_SUB_Justiciar", "ShadowheartDead_SUB_OldFriend");
+DB_QuestDef_ChainedState("ORI_COM_ShadowHeart", "ShadowheartLeftParty_SUB_Justiciar", "ShadowheartLeftParty_SUB_OldFriend");
+DB_QuestDef_State(ORI_Shadowheart_Knows_WoundSuspicion_3ecd2181-fdd0-4314-b0bf-fbe2aafdef87, "ORI_Avatar_ShadowHeart", "IncurableWound_FirstFlare");
+DB_QuestDef_State(ORI_Shadowheart_Knows_IncurableWound_bf04e5f1-0add-4b21-a3ec-be25a73bfe92, "ORI_Avatar_ShadowHeart", "IncurableWound_Introspection");
+DB_QuestDef_State(GLO_SecretOfArtefact_MintharaMentionedWeapon_ccca0874-11d3-430f-8e59-cfd8d209b125, "ORI_Avatar_ShadowHeart", "AbsoluteBox");
+DB_QuestDef_State(GOB_Orpheus_Knows_GobLookingForWeapon_be763168-bf0d-220e-0c49-82123c41ff20, "ORI_Avatar_ShadowHeart", "AbsoluteBox");
+DB_QuestDef_State(ORI_Shadowheart_Event_DarkJusticiarHint_f03186c1-6870-4129-9fbc-c1fc6c9fbc83, "ORI_Avatar_ShadowHeart", "FoundJusticiarHint");
+DB_QuestDef_State(CAMP_ShadowheartLaezelFight_State_ResolvedPeacefully_f212b8b3-0490-1663-4645-e4fa7ca350e4, "ORI_Avatar_ShadowHeart", "CampFight_Peace");
+DB_QuestDef_State(GOB_Orpheus_State_HadVoiceOfAbsoluteEvent_9546407d-19e3-4f26-88af-5970896997d7, "ORI_Avatar_ShadowHeart", "VoiceOfAbsolute");
+DB_QuestDef_State(PLA_GithChokepoint_Event_MentionedWeapon_569656de-2acb-6d5d-236c-c86df165e9b6, "ORI_Avatar_ShadowHeart", "FoundGithPatrol");
+DB_QuestDef_State(CRE_AstralPrison_State_DaisyDialogDone_040dd254-113c-48b5-aa2e-87ec799e7141, "ORI_Avatar_ShadowHeart", "SeenBoxInsides");
+DB_QuestDef_State(ORI_Shadowheart_Knows_HasSeenWolfDream_f7e48f6a-bc8b-4941-8016-6622956c84f9, "ORI_Avatar_ShadowHeart", "SeenWolfDream");
+DB_QuestDef_State(ORI_Shadowheart_Knows_CurseResistant_1c40f83c-99d1-4777-a8f7-95377f6561b8, "ORI_Avatar_ShadowHeart", "SeenShadowCurse");
+DB_QuestDef_State(SHA_PartyProgress_EnteredSharTemple_d212e499-d006-4043-9dee-8aac504098e5, "ORI_Avatar_ShadowHeart", "SharTemple");
+DB_QuestDef_State(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, "ORI_Avatar_ShadowHeart", "KilledNightsong");
+DB_QuestDef_State(SHA_NightsongPrison_State_NightsongFreed_24f27b06-6665-79ed-d7bf-e4bf356ca2fa, "ORI_Avatar_ShadowHeart", "SparedNightsong");
+DB_QuestDef_State(SHA_NightsongPrison_Event_NightsongSentToMoonrise_685b9761-43b6-9004-8655-073096c62731, "ORI_Avatar_ShadowHeart", "SurrenderedNightsong");
+DB_QuestDef_State(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, "ORI_Avatar_ShadowHeart", "EnemyOfShar_SharWrath");
+DB_QuestDef_State(COL_KethericShowdown_Knows_KilledAvatarMyrkul_a9d5f8a5-341e-34e8-a6f7-f566e5666a4e, "ORI_Avatar_ShadowHeart", "SharPath_DefeatedKetheric");
+DB_QuestDef_State(CAMP_Shadowheart_State_HadNightsongMeeting_10b74e80-a963-420f-8c2a-d518b6aae143, "ORI_Avatar_ShadowHeart", "EnemyOfShar_NightsongMeeting");
+DB_QuestDef_State(ORI_Shadowheart_State_Shar_KilledParents_3a3b0ecf-a1ed-4733-8548-0348befc6bac, "ORI_Avatar_ShadowHeart", "SharPath_KilledParents");
+DB_QuestDef_State(ORI_Shadowheart_State_RejectShar_KilledParents_e9060caf-66b0-4701-8dfd-5ae1125f5afd, "ORI_Avatar_ShadowHeart", "EnemyOfShar_KilledParents");
+DB_QuestDef_State(ORI_Shadowheart_State_Shar_SavedParents_8a0fad17-1615-4a0d-a045-21661d9a2aa0, "ORI_Avatar_ShadowHeart", "SharPath_SavedParents");
+DB_QuestDef_State(ORI_Shadowheart_State_RejectShar_SavedParents_486d69d4-a7c2-4cb5-8fcb-8f2cb738ada9, "ORI_Avatar_ShadowHeart", "EnemyOfShar_SavedParents");
+DB_QuestDef_State(ORI_Shadowheart_Knows_JusticiarMurals_87dea9e2-c18c-40a0-98cf-96cf2804cf4e, "ORI_Avatar_ShadowHeart", "JusticiarHint_Murals_Start");
+DB_QuestDef_State(ORI_Shadowheart_Knows_SeenTempleVista_81608e92-ac2f-4440-834c-585b0c228c7a, "ORI_Avatar_ShadowHeart", "JusticiarHint_TempleVista_Start");
+DB_QuestDef_State(ORI_Shadowheart_State_IdolHint_5e2d4403-e9e9-4ee2-a2fb-5d7f45aa71cb, "ORI_Avatar_ShadowHeart", "JusticiarHint_SharIdol_Start");
+DB_QuestDef_State(ORI_Shadowheart_Knows_CurseResistant_1c40f83c-99d1-4777-a8f7-95377f6561b8, "ORI_Avatar_ShadowHeart", "JusticiarHint_ShadowCurse_Start");
+DB_QuestDef_State(ORI_Shadowheart_State_TempleApproachHint_c0aa296e-fa16-4ddf-8e2d-ecfe5b5b32e2, "ORI_Avatar_ShadowHeart", "JusticiarHint_TempleApproach_Start");
+DB_QuestDef_State(Shadowheart_InParty_InterestInDarkJusticiars_4d45b833-582d-c7a6-9936-0922e78e36d9, "ORI_Avatar_ShadowHeart", "JusticiarHint_Halsin_Start");
+DB_QuestDef_State(ORI_Shadowheart_State_SeluneJusticiarHint_6c8ac0f9-e182-4a62-aeab-52e6dcf6a5ef, "ORI_Avatar_ShadowHeart", "JusticiarHint_Selune_Start");
+DB_QuestDef_State(UND_DarkJusticiarsCorpses_Recognized_6926ad12-4a89-35c9-3d70-2ec613b25c8d, "ORI_Avatar_ShadowHeart", "JusticiarHint_CityCorpses_Start");
+DB_QuestDef_State(ORI_Shadowheart_State_TownCorpseHint_e2059455-ab53-49d3-aac5-775453ff9468, "ORI_Avatar_ShadowHeart", "JusticiarHint_TownCorpses_Start");
+DB_QuestDef_State(ORI_Shadowheart_State_EnteredDeepCurse_0181f5bb-8692-4e6a-a4de-0f28a6f135a9, "ORI_Avatar_ShadowHeart", "DeepShadowCurse");
+DB_QuestDef_State(SHA_PartyProgress_EnteredSharTemple_d212e499-d006-4043-9dee-8aac504098e5, "ORI_Avatar_ShadowHeart", "FoundSharTemple_Alt");
+DB_QuestDef_State(ORI_Shadowheart_State_HeardSharVoice_26349064-ca39-40e6-999f-c2c00541b27e, "ORI_Avatar_ShadowHeart", "SharSpoke");
+DB_QuestDef_State(SHA_Trials_Knows_SeenAltarInscription_24f46431-f67a-4b04-b027-fa4300322c00, "ORI_Avatar_ShadowHeart", "FoundTrials");
+DB_QuestDef_State(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, "ORI_Avatar_ShadowHeart", "Nightsong_Killed");
+DB_QuestDef_State(SHA_NightsongPrison_State_NightsongFreed_24f27b06-6665-79ed-d7bf-e4bf356ca2fa, "ORI_Avatar_ShadowHeart", "Nightsong_Spared");
+DB_QuestDef_State(SHA_NightsongPrison_Event_NightsongSentToMoonrise_685b9761-43b6-9004-8655-073096c62731, "ORI_Avatar_ShadowHeart", "Nightsong_Surrendered");
+DB_QuestDef_State(ORI_Shadowheart_State_HandlerMentionedFriend_8427bce0-2f53-4a80-bacc-bd6da0df2816, "ORI_Avatar_ShadowHeart", "NoblestalkMemory");
+DB_QuestDef_LevelLoaded("ORI_Avatar_ShadowHeart", "EnteredLowerCity", "CTY_Main_A");
+DB_QuestDef_LevelLoaded("ORI_Avatar_ShadowHeart", "NeverFoundNocturne", "END_Main");
+DB_QuestDef_PermaDefeatedState("ORI_Avatar_ShadowHeart", "KilledNocturne", S_LOW_ShadowheartFriend_2c10ff0f-d2ff-4dcb-8f8b-c6f870044f5d);
+DB_KilledByPartyEvent(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ORI_Shadowheart_State_KilledByParty_a35bdc79-95b4-4ddd-8a2a-344d372998e8);
+
+KBSECTION
+IF
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Shadowheart_WolfDream_ConditionFlags(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IncreaseCounter("ORI_Shadowheart_WolfDreamPoints");
+
+IF
+DB_GlobalCounter("ORI_Shadowheart_WolfDreamPoints", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Shadowheart_WolfDream_Threshold(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 == _Var2
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_WolfDreamPoint_HasEnoughPoints_287f7fbb-cc6f-4021-9772-3a2d9c936822, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_WolfDreamPoint_HasEnoughPoints_287f7fbb-cc6f-4021-9772-3a2d9c936822);
+
+PROC
+PROC_CAMP_LeftCamp(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_WolfPointRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryWolfPointsInvite();
+
+IF
+ApprovalRatingChanged(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_WolfPointRD", _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 >= 10
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Shadowheart_TryWolfPointsInvite();
+
+IF
+DB_GlobalFlag(ORI_Shadowheart_State_WolfDreamPoint_HasEnoughPoints_287f7fbb-cc6f-4021-9772-3a2d9c936822, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_WolfPointRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryWolfPointsInvite();
+
+IF
+DB_GlobalFlag(ShadowHeart_InParty_Knows_SharWorshipper_634f858d-9b54-0711-e31f-075d304422ab, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_WolfPointRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryWolfPointsInvite();
+
+IF
+FlagCleared(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_WolfPointRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryWolfPointsInvite();
+
+PROC
+PROC_ORI_Shadowheart_TryWolfPointsInvite()
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_InCamp(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_Knows_BecomeJusticiar_c29b8679-3e0b-43f9-8578-2a5d7659180e, _, _, _, _)
+AND
+DB_GlobalFlag(ShadowHeart_InParty_Knows_SharWorshipper_634f858d-9b54-0711-e31f-075d304422ab, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_WolfDreamPoint_HasEnoughPoints_287f7fbb-cc6f-4021-9772-3a2d9c936822, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74, _, _, _, _)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 >= 10
+AND
+QRY_OnlyOnce("ORI_Shadowheart_WolfPointRD", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, ORI_Shadowheart_State_HadWolfDreamPoints_ffdc7263-22a9-43c9-b1ea-3f911fccd43b, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, 10);
+
+IF
+DB_GlobalFlag(VISITEDREGION_SCL_Main_A_f6e72539-9bc6-42e1-a20f-390f3a17ad8d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_WolfDreamPoint_HasEnoughPoints_287f7fbb-cc6f-4021-9772-3a2d9c936822, _, _, _, _)
+AND
+DB_ORI_Shadowheart_WolfDream_Threshold(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var1, 1, _Var2, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_LoweredThreshold", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Shadowheart_WolfDream_Threshold(_Var1);
+DB_ORI_Shadowheart_WolfDream_Threshold(_Var2);
+
+IF
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Shadowheart_NightsongPoint_ConditionFlags(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IncreaseCounter("ORI_Shadowheart_NightsongPoints");
+
+PROC
+PROC_CounterIncreased("ORI_Shadowheart_NightsongPoints", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var1 == 4
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_NightsongPoint_HasEnoughPoints_82893505-534a-461a-8dd5-0f4677dad6ce, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_NightsongPoint_HasEnoughPoints_82893505-534a-461a-8dd5-0f4677dad6ce);
+
+IF
+DB_GlobalFlag(ORI_Shadowheart_State_NightsongPoint_HasEnoughPoints_82893505-534a-461a-8dd5-0f4677dad6ce, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_NightsongRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryNightsongPointsInvite();
+
+IF
+FlagCleared(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_NightsongRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryNightsongPointsInvite();
+
+PROC
+PROC_CAMP_LeftCamp(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_NightsongRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryNightsongPointsInvite();
+
+PROC
+PROC_ORI_Shadowheart_TryNightsongPointsInvite()
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_InCamp(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_NightsongPoint_HasEnoughPoints_82893505-534a-461a-8dd5-0f4677dad6ce, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_IrregularBehaviour_a1e4a324-4c58-48fb-b08e-d538fec45af8, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_NightsongRD", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, ORI_Shadowheart_State_HadNightsongDoubt_99519514-894e-4849-800d-fd837a0d7c5c, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0);
+
+IF
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Shadowheart_ParentPoints_ConditionFlags(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IncreaseCounter("ORI_Shadowheart_ParentPoints");
+
+PROC
+PROC_CounterIncreased("ORI_Shadowheart_ParentPoints", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var1 == 2
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_NightsongPoint_HasEnoughPoints_82893505-534a-461a-8dd5-0f4677dad6ce, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_ParentPoints_HasEnoughPoints_1bbdd0b8-c2de-4b2f-8ce8-6740812deb59);
+
+IF
+DB_GlobalFlag(ORI_Shadowheart_State_ParentPoints_HasEnoughPoints_1bbdd0b8-c2de-4b2f-8ce8-6740812deb59, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_ParentRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryParentPointsInvite();
+
+IF
+FlagCleared(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_ParentRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryParentPointsInvite();
+
+PROC
+PROC_CAMP_LeftCamp(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_ParentRD", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryParentPointsInvite();
+
+PROC
+PROC_ORI_Shadowheart_TryParentPointsInvite()
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_ParentPoints_HasEnoughPoints_1bbdd0b8-c2de-4b2f-8ce8-6740812deb59, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_InCamp(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_ConcludedGrotto_438098b7-3b50-48d6-ac53-6960b2849e10, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_ParentRD", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, ORI_Shadowheart_State_HadParentsPoints_c5c03e5f-44af-4347-a081-bbbd9d5fc632, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0);
+
+IF
+DB_ORI_Shadowheart_DarkJusticiarHints_Trigger(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Shadowheart_DarkJusticiarHints_Trigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var1);
+
+IF
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Shadowheart_DarkJusticiarHints_Trigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(_Var1);
+
+IF
+FlagSet(ORI_Shadowheart_Event_DarkJusticiarHint_f03186c1-6870-4129-9fbc-c1fc6c9fbc83, _, (INTEGER)_Var2, _, _)
+AND NOT
+DB_State_Current(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", "ORI_DarkJusticiarHints_NoHint", _, _)
+AND
+DB_DialogName(_Var3, _Var2, _, _, _)
+AND
+DialogIsAutomated(_Var3, 0, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_QueuedDarkJusticiarReflection", _, _, _, _)
+THEN
+DB_ORI_Shadowheart_DarkJusticiarHints_Queued(1);
+
+IF
+FlagSet(ORI_Shadowheart_Event_DarkJusticiarHint_f03186c1-6870-4129-9fbc-c1fc6c9fbc83, _, (INTEGER)_Var2, _, _)
+AND NOT
+DB_State_Current(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", "ORI_DarkJusticiarHints_NoHint", _, _)
+AND
+DB_DialogName(_Var3, _Var2, _, _, _)
+AND
+DialogIsAutomated(_Var3, 1, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_QueuedDarkJusticiarReflection", _, _, _, _)
+THEN
+DB_ORI_Shadowheart_DarkJusticiarHints_PAD(_Var2);
+
+IF
+AutomatedDialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_ORI_Shadowheart_DarkJusticiarHints_PAD(_Var2, _, _, _, _)
+THEN
+NOT DB_ORI_Shadowheart_DarkJusticiarHints_PAD(_Var2);
+DB_ORI_Shadowheart_DarkJusticiarHints_Queued(1);
+
+IF
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_ORI_Shadowheart_DarkJusticiarHints_Queued(1, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_DarkJusticiarReflection", _, _, _, _)
+AND
+QRY_StartDialog_Fixed(GLO_DarkJusticiarHints_OM_Shadowheart_AOM_92536ed2-4ec0-0fc0-ae2d-f41b8a578961, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_DarkJusticiarReflection", _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(GLO_DarkJusticiarHints_OM_Shadowheart_AOM_92536ed2-4ec0-0fc0-ae2d-f41b8a578961, _, _, _, _)
+AND
+DB_ORI_Shadowheart_DarkJusticiarHints_Queued(1, _, _, _, _)
+THEN
+NOT DB_ORI_Shadowheart_DarkJusticiarHints_Queued(1);
+
+IF
+DialogEnded(GLO_DarkJusticiarHints_OM_Shadowheart_AOM_92536ed2-4ec0-0fc0-ae2d-f41b8a578961, _, _, _, _)
+AND
+DB_ORI_Shadowheart_DarkJusticiarHints_Trigger(_Var2, _, _, _, _)
+THEN
+TriggerUnregisterForCharacter(_Var2, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+TagSet(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, SHADOWHEART_SHARPATH_9624a3fe-bb9e-47c5-b9ab-417e6da6f84b, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb);
+
+IF
+TagSet(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, SHADOWHEART_ENEMYOFSHARPATH_8eca8027-996c-4c61-bec6-77f853de295b, _, _, _)
+THEN
+ClearTag(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ACT2_SHADOW_CURSE_RESISTANT_DONT_PROPAGATE_87dc3ebb-0eca-47d8-971e-3c500c743dd7);
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c);
+ClearTag(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, SHAR_486e4a27-e6f9-40a5-9dd1-108a1d0f60eb);
+ClearTag(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ALIGN_EVIL_6d08632e-0300-4587-80b9-8e411b0efb3b);
+SetGodOverride(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 7f990c80-7c33-4e29-a73c-0317f46e9dc6);
+
+IF
+DB_GlobalFlag(ORI_Shadowheart_State_Shar_SavedParents_8a0fad17-1615-4a0d-a045-21661d9a2aa0, _, _, _, _)
+THEN
+ClearTag(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, SHAR_486e4a27-e6f9-40a5-9dd1-108a1d0f60eb);
+SetGodOverride(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 7f990c80-7c33-4e29-a73c-0317f46e9dc6);
+
+PROC
+PROC_ORI_Shadowheart_IncurableWound_QueueAutomatedFlareUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ORI_Shadowheart_IncurableWound_AutomatedFlares(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_Event_IncurableWoundFlared_9a1f4cad-75ec-48dd-a408-929af01136c9);
+NOT DB_ORI_Shadowheart_IncurableWound_AutomatedFlares(_Var1, _Var2);
+TimerLaunch("ORI_Shadowheart_IncurableWound_FlareUp", _Var2);
+
+IF
+TimerFinished("ORI_Shadowheart_IncurableWound_FlareUp", _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_IncurableWound_TryAutomatedFlareUp();
+
+PROC
+PROC_ORI_Shadowheart_IncurableWound_TryAutomatedFlareUp()
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_IncurableWound_Unavailable_cc2ed160-cc5e-4898-8cbc-06a410fbd632, _, _, _, _)
+AND NOT
+DB_Is_InCombat(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+QRY_SpeakerIsAvailable(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+HasActiveStatus(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_WOUND_FLARE", 0, _, _)
+THEN
+ApplyStatus(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_WOUND_FLARE", 1, 1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+PROC_TryStartAD(ORI_Shadowheart_PAD_WoundFlareUp_9b2084a6-1307-0612-486f-a4fd4fbf2d9c, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+FlagSet(ORI_Shadowheart_Event_IncurableWoundFlared_9a1f4cad-75ec-48dd-a408-929af01136c9, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogSpeakers(_Var2, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(ORI_Shadowheart_Event_IncurableWoundFlared_9a1f4cad-75ec-48dd-a408-929af01136c9);
+PROC_IncreaseCounter("ORI_Shadowheart_IncurableWoundFlares");
+
+PROC
+PROC_CounterIncreased("ORI_Shadowheart_IncurableWoundFlares", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var1 >= 4
+AND
+DB_GlobalFlag(ORI_Shadowheart_Knows_IncurableWound_bf04e5f1-0add-4b21-a3ec-be25a73bfe92, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_IncurableWound_Unavailable_cc2ed160-cc5e-4898-8cbc-06a410fbd632, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_IncurableWound_Unavailable_cc2ed160-cc5e-4898-8cbc-06a410fbd632);
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_IncurableWound_FlaredManyTimes_731b9f28-d892-4cb6-b4f0-5d4689b432bd);
+
+PROC
+PROC_CounterIncreased("ORI_Shadowheart_IncurableWoundFlares", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var1 >= 2
+AND
+DB_GlobalFlag(ORI_Shadowheart_Knows_WoundSuspicion_3ecd2181-fdd0-4314-b0bf-fbe2aafdef87, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_IncurableWound_Unavailable_cc2ed160-cc5e-4898-8cbc-06a410fbd632, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(ORI_Shadowheart_Knows_WoundSuspicion_3ecd2181-fdd0-4314-b0bf-fbe2aafdef87);
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_Knows_IncurableWound_bf04e5f1-0add-4b21-a3ec-be25a73bfe92);
+
+PROC
+PROC_CounterIncreased("ORI_Shadowheart_IncurableWoundFlares", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var1 >= 1
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_Knows_IncurableWound_bf04e5f1-0add-4b21-a3ec-be25a73bfe92, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_IncurableWound_Unavailable_cc2ed160-cc5e-4898-8cbc-06a410fbd632, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_Knows_WoundSuspicion_3ecd2181-fdd0-4314-b0bf-fbe2aafdef87);
+
+PROC
+PROC_CounterIncreased("ORI_Shadowheart_IncurableWoundFlares", _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_IncurableWound_Unavailable_cc2ed160-cc5e-4898-8cbc-06a410fbd632, _, _, _, _)
+THEN
+PROC_IncreaseCounter("ORI_Shadowheart_WoundCooldown");
+
+PROC
+PROC_CounterIncreased("ORI_Shadowheart_WoundCooldown", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var1 >= 3
+THEN
+PROC_GlobalClearFlagAndCache(ORI_Shadowheart_State_IncurableWound_Unavailable_cc2ed160-cc5e-4898-8cbc-06a410fbd632);
+NOT DB_GlobalCounter("ORI_Shadowheart_WoundCooldown", _Var1);
+DB_GlobalCounter("ORI_Shadowheart_WoundCooldown", 0);
+
+IF
+FlagSet(ORI_Shadowheart_Event_DarkJusticiarHint_f03186c1-6870-4129-9fbc-c1fc6c9fbc83, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_Knows_JusticiarDream_f37f2c1d-89c9-4d09-baff-81046a625267, _, _, _, _)
+AND
+DB_State_Current(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", _Var3, _, _)
+AND
+DB_State_Priority(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", _Var3, _Var4, _)
+AND
+IntegerSum(_Var4, 100, _Var5, _, _)
+AND
+DB_State_Priority(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", _Var6, _Var5, _)
+THEN
+PROC_GlobalClearFlagAndCache(ORI_Shadowheart_Event_DarkJusticiarHint_f03186c1-6870-4129-9fbc-c1fc6c9fbc83);
+PROC_State_Progress(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_DarkJusticiarHints", _Var6);
+
+PROC
+PROC_CampNight_StartMorningMoments()
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND
+DB_GlobalFlag(Shadowheart_InParty_State_PreparingHairChange_396b3e23-b789-4380-b002-a0d754efc026, _, _, _, _)
+THEN
+AddCustomVisualOverride(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, e05b0f79-d3af-41eb-b0b2-1164b6f0debf);
+PROC_GlobalClearFlagAndCache(Shadowheart_InParty_State_PreparingHairChange_396b3e23-b789-4380-b002-a0d754efc026);
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_HairChange_2abcff91-1f1e-4853-98e2-ad7d2020158c);
+AddCustomMaterialOverride(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "831f8c8a-4101-4265-ad55-1a57217d2af7");
+
+PROC
+PROC_CampNight_StartMorningMoments()
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+AND
+DB_GlobalFlag(Shadowheart_InParty_State_PreparingHairChange_396b3e23-b789-4380-b002-a0d754efc026, _, _, _, _)
+THEN
+AddCustomVisualOverride(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, c7f78eb7-6858-4f02-836b-d8c8b56c34fc);
+PROC_GlobalClearFlagAndCache(Shadowheart_InParty_State_PreparingHairChange_396b3e23-b789-4380-b002-a0d754efc026);
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_HairChange_2abcff91-1f1e-4853-98e2-ad7d2020158c);
+
+PROC
+PROC_CampNight_StartMorningMoments()
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_HairChange_2abcff91-1f1e-4853-98e2-ad7d2020158c, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_CRD_HairChangeHappened", _, _, _, _)
+THEN
+PROC_CampRelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, 0);
+PROC_Try_CampRelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1);
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_ORI_Shadowheart_GloveDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Shadowheart_RemoveGloves();
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, _, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_ORI_Shadowheart_GloveDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Shadowheart_RemoveGloves();
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, _, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Shadowheart_GloveDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Shadowheart_RemoveGloves();
+
+PROC
+PROC_ORI_Shadowheart_RemoveGloves()
+AND
+GetEquippedItem(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "Gloves", _Var1, _Var1, _Var1)
+THEN
+DB_ORI_Shadowheart_RemovedGloves(_Var1);
+Unequip(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Shadowheart_GloveDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Shadowheart_RemovedGloves(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Shadowheart_RemovedGloves(_Var3);
+Equip(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var3);
+
+IF
+DB_ORI_Shadowheart_SeluneLocation(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+GameBookInterfaceClosed((ITEM)_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_ORI_Shadowheart_SeluneItem(_Var1, "Book", _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Shadowheart_SeluneItem(_Var1, "Book");
+PROC_ORI_Shadowheart_SeluneReactivity(ORI_Shadowheart_PAD_SeluneReactivity_Book_8c082704-4615-ec1a-7dc6-35084185652f);
+
+IF
+AddedTo((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_ORI_Shadowheart_SeluneItem(_Var1, "Item", _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsInRange(_Var2, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 10, _Var1, _Var1)
+THEN
+NOT DB_ORI_Shadowheart_SeluneItem(_Var1, "Item");
+PROC_ORI_Shadowheart_SeluneReactivity(ORI_Shadowheart_PAD_SeluneReactivity_Item_88409a10-2d62-bf1e-17e7-dcf8b0f4a288);
+
+IF
+EnteredTrigger(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_ORI_Shadowheart_SeluneLocation(_Var1, "Altar", _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+NOT DB_ORI_Shadowheart_SeluneLocation(_Var1, "Altar");
+PROC_ORI_Shadowheart_SeluneReactivity(ORI_Shadowheart_PAD_SeluneReactivity_Altar_a45d6de9-7d51-b1fd-0a7c-d7ef706ba93a);
+
+IF
+EnteredTrigger(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_ORI_Shadowheart_SeluneLocation(_Var1, "Misc", _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+NOT DB_ORI_Shadowheart_SeluneLocation(_Var1, "Misc");
+PROC_ORI_Shadowheart_SeluneReactivity(ORI_Shadowheart_PAD_SeluneReactivity_Misc_bac8d384-feb9-b278-939c-64b9f82ca1ad);
+
+PROC
+PROC_ORI_Shadowheart_SeluneReactivity((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_SeluneReactivity", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+TimerLaunch("ORI_Shadowheart_SeluneReactivity_Cooldown", 20000);
+
+IF
+TimerFinished("ORI_Shadowheart_SeluneReactivity_Cooldown", _, _, _, _)
+AND
+DB_OnlyOnce("ORI_Shadowheart_SeluneReactivity", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("ORI_Shadowheart_SeluneReactivity");
+
+IF
+DB_PartOfTheTeam(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_GlobalFlag(CURRENTREGION_WLD_Main_A_797d21c8-b2a9-4c86-a1e4-8ca3833a32ef, _, _, _, _)
+AND
+QRY_OnlyOnce("TG_ORI_ShadowheartRecruited", _, _, _, _)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(TG_ORI_ShadowheartRecruited_714a755a-0257-4f85-bc05-86464f531581, _Var1, 0);
+
+IF
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_ORI_Shadowheart_WolfPhobia_Queued(1, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_WolfPhobiaReflection", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_Knows_WolfFear_f5f935c3-7f73-4de4-9aee-553cb96fb6d1);
+NOT DB_ORI_Shadowheart_WolfPhobia_Queued(1);
+StartVoiceBark(ORI_Shadowheart_VB_WolfFearReflection_2ff68706-d44e-258b-532e-799039ba1dc1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+PROC_RelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+StatusApplied(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "FRIGHTENED_SHADOWHEART", _, _, _)
+AND
+HasPassive(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "FearOfWolves_Shadowheart", 1, _, _)
+AND
+QRY_ORI_Shadowheart_CheckWolfFear()
+AND
+QRY_OnlyOnce("ORI_Shadowheart_WolfPhobia", _, _, _, _)
+THEN
+PROC_TryStartAD(ORI_Shadowheart_PAD_WolfFear_5fe476cb-3187-d457-c70b-49c3ccf14edf, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+TimerLaunch("ORI_Shadowheart_WolfPhobiaDelay", 30000);
+
+QRY
+QRY_ORI_Shadowheart_CheckWolfFear()
+AND
+DB_Is_InCombat(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(S_LOW_Viconia_b1ea974d-96fb-47ca-b6d9-9c85fcb69313, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatReact_AD_OnCastOther(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, S_LOW_Viconia_b1ea974d-96fb-47ca-b6d9-9c85fcb69313, ORI_Shadowheart_PAD_ViconiaWolf_cf8b3753-feb9-cd10-d044-2d8bcdf410c1, "Target_LOW_HouseOfGrief_ExploitFear_Wolf_2", _Var1)
+THEN
+NOT DB_OnlyOnce("ORI_Shadowheart_WolfPhobia");
+
+QRY
+QRY_ORI_Shadowheart_CheckWolfFear()
+AND NOT
+DB_CombatReact_AD_OnCastOther(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, S_LOW_Viconia_b1ea974d-96fb-47ca-b6d9-9c85fcb69313, ORI_Shadowheart_PAD_ViconiaWolf_cf8b3753-feb9-cd10-d044-2d8bcdf410c1, "Target_LOW_HouseOfGrief_ExploitFear_Wolf_2", _)
+THEN
+DB_NOOP(1);
+
+IF
+AutomatedDialogEnded(ORI_Shadowheart_PAD_WolfFear_5fe476cb-3187-d457-c70b-49c3ccf14edf, _, _, _, _)
+AND NOT
+DB_ORI_Shadowheart_WolfPhobia_Queued(1, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Shadowheart_WolfPhobiaReflection", _, _, _, _)
+THEN
+DB_ORI_Shadowheart_WolfPhobia_Queued(1);
+
+IF
+TimerFinished("ORI_Shadowheart_WolfPhobiaDelay", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("ORI_Shadowheart_WolfPhobia");
+
+IF
+FlagSet(LOW_Grotto_State_ViconiaDefeated_8e27eb4e-8d52-4966-8aa4-e658ff595097, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+RemovePassive(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "FearOfWolves_Shadowheart");
+
+IF
+FlagSet(ORI_State_DatingShadowheart_e87f1e21-a758-47ae-8c0e-9e715eb289b5, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_StartedRomance_f725b333-9846-4e6c-8123-35330f3e7aa5);
+
+IF
+FlagSet(ORI_State_DatingShadowheart_e87f1e21-a758-47ae-8c0e-9e715eb289b5, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(ORI_Shadowheart_RomancingShadowheart_6fc310b9-5602-49ec-96b2-189365d142d0, _Var1);
+
+IF
+FlagCleared(ORI_State_DatingShadowheart_e87f1e21-a758-47ae-8c0e-9e715eb289b5, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(ORI_Shadowheart_RomancingShadowheart_6fc310b9-5602-49ec-96b2-189365d142d0, _Var1);
+
+IF
+FlagSet(ORI_State_PartneredWithShadowheart_3808ae35-ad4e-465b-800b-63d32b77211e, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(ORI_Shadowheart_RomancingShadowheart_6fc310b9-5602-49ec-96b2-189365d142d0, _Var1);
+
+IF
+FlagCleared(ORI_State_PartneredWithShadowheart_3808ae35-ad4e-465b-800b-63d32b77211e, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(ORI_Shadowheart_RomancingShadowheart_6fc310b9-5602-49ec-96b2-189365d142d0, _Var1);
+
+IF
+NestedDialogPlayed(ShadowHeart_InParty2_Nested_BackgroundChapter_03bb2e38-1479-c894-127a-4ec6227ab443, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_Knows_HasSeenWolfDream_f7e48f6a-bc8b-4941-8016-6622956c84f9, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_NightsongPoint_AbuseEmancipation_d4590c8c-8746-4344-9f4c-a5d366bd2bb8, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_WolfDreamEntry", _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "WolfDreamSharedAbuse");
+
+IF
+NestedDialogPlayed(ShadowHeart_InParty2_Nested_BackgroundChapter_03bb2e38-1479-c894-127a-4ec6227ab443, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_Knows_HasSeenWolfDream_f7e48f6a-bc8b-4941-8016-6622956c84f9, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_NightsongPoint_AbuseEmancipation_d4590c8c-8746-4344-9f4c-a5d366bd2bb8, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Shadowheart_WolfDreamEntry", _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "WolfDreamShared");
+
+IF
+FlagSet(SHA_NightsongPrison_State_NightsongFreed_24f27b06-6665-79ed-d7bf-e4bf356ca2fa, _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SparedNightsong");
+
+IF
+AutomatedDialogEnded(WYR_RefugeeCamp_PAD_Handler_46f813a1-face-e325-d142-0e5bd634a4d7, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_ArrivedInWYR");
+
+IF
+AutomatedDialogEnded(WYR_RefugeeCamp_PAD_Handler_46f813a1-face-e325-d142-0e5bd634a4d7, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_ArrivedInWYR");
+
+IF
+FlagSet(LOW_HouseOfGrief_Knows_IsSharCult_6aa0816f-5827-4669-b3d3-b6dd71a6b95e, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogName(WYR_RefugeeCamp_OM_Shadowheart_AOM_OOM_ab6223f9-eeca-ef54-8c63-92b9f1a6eba9, _Var2, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_LearnedCultLocation");
+
+IF
+FlagSet(LOW_HouseOfGrief_Knows_IsSharCult_6aa0816f-5827-4669-b3d3-b6dd71a6b95e, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogName(WYR_RefugeeCamp_OM_Shadowheart_AOM_OOM_ab6223f9-eeca-ef54-8c63-92b9f1a6eba9, _Var2, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_LearnedCultLocation");
+
+IF
+FlagSet(LOW_HouseOfGrief_Knows_IsSharCult_6aa0816f-5827-4669-b3d3-b6dd71a6b95e, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogName(WYR_RefugeeCamp_OM_Shadowheart_COM_64277eb5-3c13-6da6-9184-0cfe7805c5c3, _Var2, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_LearnedCultLocation");
+
+IF
+FlagSet(LOW_HouseOfGrief_Knows_IsSharCult_6aa0816f-5827-4669-b3d3-b6dd71a6b95e, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogName(WYR_RefugeeCamp_OM_Shadowheart_COM_64277eb5-3c13-6da6-9184-0cfe7805c5c3, _Var2, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_LearnedCultLocation");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_AOM_OOM_63272393-7816-186d-0ebc-6eb0df97f119, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_LearnedCultLocation", 1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_GainEntry");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_AOM_OOM_63272393-7816-186d-0ebc-6eb0df97f119, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_LearnedCultLocation", 1, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_GainEntry");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_COM_57295937-510c-6a02-14c3-97ac66e20da1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_LearnedCultLocation", 1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_GainEntry");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_COM_57295937-510c-6a02-14c3-97ac66e20da1, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_LearnedCultLocation", 1, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_GainEntry");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_AOM_OOM_63272393-7816-186d-0ebc-6eb0df97f119, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_LearnedCultLocation", 0, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_GainEntry_Alt");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_AOM_OOM_63272393-7816-186d-0ebc-6eb0df97f119, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_LearnedCultLocation", 0, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_GainEntry_Alt");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_COM_57295937-510c-6a02-14c3-97ac66e20da1, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_LearnedCultLocation", 0, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_GainEntry_Alt");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_COM_57295937-510c-6a02-14c3-97ac66e20da1, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_LearnedCultLocation", 0, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_GainEntry_Alt");
+
+IF
+DialogEnded(LOW_HouseOfGrief_MeetingViconia_OM_Shadowheart_AOM_OOM_acd28654-5731-e7ef-5d83-ce0c5f76cbc0, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_MetViconia");
+
+IF
+DialogEnded(LOW_HouseOfGrief_MeetingViconia_OM_Shadowheart_COM_7faa8762-49df-5912-49cd-79f8bb626e57, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_MetViconia");
+
+IF
+DialogEnded(LOW_HouseOfGrief_ViconiaMapping_81568711-7b8f-d188-ee16-e9436c7b009f, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_MetViconia");
+
+IF
+DialogEnded(LOW_HouseOfGrief_MeetingViconia_OM_Shadowheart_AOM_OOM_acd28654-5731-e7ef-5d83-ce0c5f76cbc0, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_MetViconia");
+
+IF
+DialogEnded(LOW_HouseOfGrief_MeetingViconia_OM_Shadowheart_COM_7faa8762-49df-5912-49cd-79f8bb626e57, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_MetViconia");
+
+IF
+DialogEnded(LOW_HouseOfGrief_ViconiaMapping_81568711-7b8f-d188-ee16-e9436c7b009f, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_MetViconia");
+
+IF
+DialogEnded(LOW_SharGrotto_ConfrontViconia_OM_Shadowheart_AOM_OOM_2a789ab8-8c27-ce72-9cc1-13c14c4cc491, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_ViconiaFight");
+
+IF
+DialogEnded(LOW_SharGrotto_ConfrontViconia_OM_Shadowheart_COM_6ebbe983-6aa1-1f25-6fcb-ec0aed2252bd, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_ViconiaFight");
+
+IF
+DialogEnded(LOW_SharGrotto_ConfrontViconia_OM_Shadowheart_AOM_OOM_2a789ab8-8c27-ce72-9cc1-13c14c4cc491, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_ViconiaFight");
+
+IF
+DialogEnded(LOW_SharGrotto_ConfrontViconia_OM_Shadowheart_COM_6ebbe983-6aa1-1f25-6fcb-ec0aed2252bd, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_ViconiaFight");
+
+IF
+FlagSet(LOW_Grotto_State_ViconiaDefeated_8e27eb4e-8d52-4966-8aa4-e658ff595097, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_DefeatedViconia");
+
+IF
+FlagSet(LOW_Grotto_State_ViconiaDefeated_8e27eb4e-8d52-4966-8aa4-e658ff595097, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_DefeatedViconia");
+
+IF
+FlagSet(LOW_SharGrotto_State_LossDoorOpened_7e985e7e-b56b-40cf-a7d2-db08295ae07c, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_EnteredLossChamber");
+
+IF
+FlagSet(LOW_SharGrotto_State_LossDoorOpened_7e985e7e-b56b-40cf-a7d2-db08295ae07c, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_EnteredLossChamber");
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_SharGrotto_ShadowheartParents(_Var1, _, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_ConcludedGrotto_438098b7-3b50-48d6-ac53-6960b2849e10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_ParentsSceneBroken");
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_SharGrotto_ShadowheartParents(_Var1, _, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_ConcludedGrotto_438098b7-3b50-48d6-ac53-6960b2849e10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_ParentsSceneBroken");
+
+IF
+FlagSet(CURRENTREGION_END_Main_140b4d3e-6cc7-48cb-b66f-dbc4eba710e1, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_NeverCompletedQuest_c0c906c5-8e31-437c-9c55-6ea79943dc42);
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_NeverCompletedPurge");
+
+IF
+FlagSet(CURRENTREGION_END_Main_140b4d3e-6cc7-48cb-b66f-dbc4eba710e1, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_NeverCompletedQuest_c0c906c5-8e31-437c-9c55-6ea79943dc42);
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_NeverSavedParents");
+
+IF
+FlagSet(SHA_PartyProgress_EnteredSharTemple_d212e499-d006-4043-9dee-8aac504098e5, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "FoundSharTemple_Alt", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart_SUB_Justiciar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "FoundSharTemple");
+
+IF
+DialogEnded(SHA_ClaimingNightsong_OM_Shadowheart_ACM_AOM_OOM_91ef4453-531e-1ba5-efa1-d8bb8c69faf4, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadCommunion_NoSpear");
+
+IF
+DialogEnded(SHA_ClaimingNightsong_OM_Shadowheart_ACM_AOM_COM_OOM_24481013-f15a-e07f-92c8-f3c596810b74, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadCommunion_NoSpear");
+
+IF
+DialogEnded(SHA_ClaimingNightsong_OM_Shadowheart_ACM_AOM_OOM_91ef4453-531e-1ba5-efa1-d8bb8c69faf4, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadCommunion_Spear");
+
+IF
+DialogEnded(SHA_ClaimingNightsong_OM_Shadowheart_ACM_AOM_COM_OOM_24481013-f15a-e07f-92c8-f3c596810b74, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadCommunion_Spear");
+
+IF
+AddedTo(S_SHA_NightSpear_b2454f89-dc53-48a6-a8cd-92c7a380a6a8, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_Knows_NeedSpear_27a5363d-4167-4bf9-b4c0-39cf9fca5523, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadWaterCommunion_NoSpear", 0, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "LootedSpearOfNight_Communion");
+
+IF
+Opened(S_SHA_NightsongChamberDoor_4689976f-7fe3-4d5f-933a-e872ce947d93, _, _, _, _)
+AND
+DB_GlobalFlag(SHA_Trials_Event_UnlockNightsongChamber_8e857d0c-990b-4029-aa28-f5b935fb8c0f, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "CompletedTrials");
+
+IF
+Opened(S_SHA_NightsongChamberDoor_4689976f-7fe3-4d5f-933a-e872ce947d93, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SHA_Trials_Event_UnlockNightsongChamber_8e857d0c-990b-4029-aa28-f5b935fb8c0f, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnteredSanctum_Alt");
+
+IF
+DialogEnded(SHA_NightsongPrison_OM_Shadowheart_AOM_OOM_62d859bc-9ee0-3a6a-19c8-444a8ceb9f44, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadWaterCommunion_NoSpear");
+
+IF
+DialogEnded(SHA_NightsongPrison_OM_Shadowheart_COM_594af605-3732-b2ee-bddc-e92a6b80b279, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadWaterCommunion_NoSpear");
+
+IF
+DialogEnded(SHA_NightsongPrison_OM_Shadowheart_AOM_OOM_62d859bc-9ee0-3a6a-19c8-444a8ceb9f44, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadWaterCommunion_Spear");
+
+IF
+DialogEnded(SHA_NightsongPrison_OM_Shadowheart_COM_594af605-3732-b2ee-bddc-e92a6b80b279, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "HadWaterCommunion_Spear");
+
+IF
+AddedTo(S_SHA_NightSpear_b2454f89-dc53-48a6-a8cd-92c7a380a6a8, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_Knows_NeedSpear_27a5363d-4167-4bf9-b4c0-39cf9fca5523, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "HadWaterCommunion_NoSpear", 1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "LootedSpearOfNight_WaterCommunion");
+
+IF
+FlagSet(SHA_NightsongPrison_State_PlayerEnteredPrison_f2cbe7cf-5223-4522-a649-879d08638282, _, _, _, _)
+AND
+DB_PermaDefeated(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnteredShadowfell_NoBalthazar");
+
+IF
+FlagSet(SHA_NightsongPrison_State_PlayerEnteredPrison_f2cbe7cf-5223-4522-a649-879d08638282, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnteredShadowfell_Balthazar");
+
+IF
+FlagSet(SHA_NightsongPrison_State_NightsongFreed_24f27b06-6665-79ed-d7bf-e4bf356ca2fa, _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "Nightsong_Spared");
+
+PROC
+PROC_SHA_NightsongPrison_BalthazarSummonSkellies()
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "BalthazarFight");
+
+IF
+FlagSet(VISITEDREGION_CTY_Main_A_ce5346f4-c176-43ea-8da0-2067450e26ac, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_NobleStalkMemory_d0d87954-6563-4e26-9f2c-4616e3cfeb0e, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_MetNocturne");
+
+IF
+DialogEnded(LOW_SharGrotto_FamiliarFace_OM_Shadowheart_COM_7c87d40e-6e62-66a7-8c4a-20d5edbf37c8, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_MetNocturne");
+
+IF
+DialogEnded(LOW_SharGrotto_FamiliarFace_OM_Shadowheart_AOM_OOM_76131ed2-b08c-9014-8997-f3af9f1968ba, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_MetNocturne");
+
+IF
+DialogEnded(LOW_SharGrotto_FamiliarFace_OM_Shadowheart_COM_7c87d40e-6e62-66a7-8c4a-20d5edbf37c8, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_MetNocturne");
+
+IF
+DialogEnded(LOW_SharGrotto_FamiliarFace_OM_Shadowheart_AOM_OOM_76131ed2-b08c-9014-8997-f3af9f1968ba, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_MetNocturne");
+
+IF
+FlagCleared(ORI_Shadowheart_State_NobleStalkMemory_d0d87954-6563-4e26-9f2c-4616e3cfeb0e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "ForgotNocturne");
+
+IF
+DialogEnded(TUT_Start_OM_Shadowheart_AOM_c989b41e-3af8-40ec-31d6-309d3f37b129, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_TUT_Start_JournalUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "Start");
+
+IF
+DialogEnded(GLO_DarkJusticiarHints_OM_Shadowheart_AOM_92536ed2-4ec0-0fc0-ae2d-f41b8a578961, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "HaveJusticiarSuspicion");
+
+IF
+Died(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+GetFlag(CAMP_Shadowheart_Event_Fight_9e208379-c14f-b65a-c4a2-a029162939cb, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "CampFight_LaezelDied");
+
+IF
+FlagSet(ShadowHeart_InParty_Knows_SharWorshipper_634f858d-9b54-0711-e31f-075d304422ab, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogName(SHA_NightsongsFate_OM_Shadowheart_AOM_OOM_COM_7c1dc5a3-0410-ebf4-3b3b-b2ee753562db, _Var2, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "ConfessedSharran_Alt");
+
+IF
+FlagSet(ShadowHeart_InParty_Knows_SharWorshipper_634f858d-9b54-0711-e31f-075d304422ab, _, (INTEGER)_Var2, _, _)
+AND NOT
+DB_DialogName(SHA_NightsongsFate_OM_Shadowheart_AOM_OOM_COM_7c1dc5a3-0410-ebf4-3b3b-b2ee753562db, _Var2, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "ConfessedSharran_Alt");
+
+IF
+FlagSet(VISITEDREGION_BGO_Main_A_40f06537-814f-4796-b012-5ffaa648a8d9, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_ArrivedInWYR");
+
+IF
+FlagSet(VISITEDREGION_BGO_Main_A_40f06537-814f-4796-b012-5ffaa648a8d9, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_ArrivedInWYR");
+
+IF
+FlagSet(LOW_HouseOfGrief_Knows_IsSharCult_6aa0816f-5827-4669-b3d3-b6dd71a6b95e, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogName(WYR_RefugeeCamp_OM_Shadowheart_AOM_OOM_ab6223f9-eeca-ef54-8c63-92b9f1a6eba9, _Var2, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_LearnedCultLocation");
+
+IF
+FlagSet(LOW_HouseOfGrief_Knows_IsSharCult_6aa0816f-5827-4669-b3d3-b6dd71a6b95e, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogName(WYR_RefugeeCamp_OM_Shadowheart_AOM_OOM_ab6223f9-eeca-ef54-8c63-92b9f1a6eba9, _Var2, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_LearnedCultLocation");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_AOM_OOM_63272393-7816-186d-0ebc-6eb0df97f119, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_LearnedCultLocation", 1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_GainEntry");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_AOM_OOM_63272393-7816-186d-0ebc-6eb0df97f119, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_LearnedCultLocation", 1, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_GainEntry");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_AOM_OOM_63272393-7816-186d-0ebc-6eb0df97f119, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_LearnedCultLocation", 0, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_GainEntry_Alt");
+
+IF
+DialogEnded(LOW_HouseOfGrief_OM_Shadowheart_AOM_OOM_63272393-7816-186d-0ebc-6eb0df97f119, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_LearnedCultLocation", 0, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_GainEntry_Alt");
+
+IF
+DialogEnded(LOW_HouseOfGrief_MeetingViconia_OM_Shadowheart_AOM_OOM_acd28654-5731-e7ef-5d83-ce0c5f76cbc0, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_MetViconia");
+
+IF
+DialogEnded(LOW_HouseOfGrief_ViconiaMapping_81568711-7b8f-d188-ee16-e9436c7b009f, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_MetViconia");
+
+IF
+DialogEnded(LOW_HouseOfGrief_MeetingViconia_OM_Shadowheart_AOM_OOM_acd28654-5731-e7ef-5d83-ce0c5f76cbc0, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_MetViconia");
+
+IF
+DialogEnded(LOW_HouseOfGrief_ViconiaMapping_81568711-7b8f-d188-ee16-e9436c7b009f, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_MetViconia");
+
+IF
+DialogEnded(LOW_SharGrotto_ConfrontViconia_OM_Shadowheart_AOM_OOM_2a789ab8-8c27-ce72-9cc1-13c14c4cc491, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_ViconiaFight");
+
+IF
+DialogEnded(LOW_SharGrotto_ConfrontViconia_OM_Shadowheart_AOM_OOM_2a789ab8-8c27-ce72-9cc1-13c14c4cc491, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_ViconiaFight");
+
+IF
+FlagSet(LOW_Grotto_State_ViconiaDefeated_8e27eb4e-8d52-4966-8aa4-e658ff595097, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_DefeatedViconia");
+
+IF
+FlagSet(LOW_Grotto_State_ViconiaDefeated_8e27eb4e-8d52-4966-8aa4-e658ff595097, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_DefeatedViconia");
+
+IF
+FlagSet(LOW_SharGrotto_State_LossDoorOpened_7e985e7e-b56b-40cf-a7d2-db08295ae07c, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_EnteredLossChamber");
+
+IF
+FlagSet(LOW_SharGrotto_State_LossDoorOpened_7e985e7e-b56b-40cf-a7d2-db08295ae07c, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_EnteredLossChamber");
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_SharGrotto_ShadowheartParents(_Var1, _, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_ConcludedGrotto_438098b7-3b50-48d6-ac53-6960b2849e10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_ParentsSceneBroken");
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_SharGrotto_ShadowheartParents(_Var1, _, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_ConcludedGrotto_438098b7-3b50-48d6-ac53-6960b2849e10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_ParentsSceneBroken");
+
+IF
+FlagSet(CURRENTREGION_END_Main_140b4d3e-6cc7-48cb-b66f-dbc4eba710e1, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_NeverCompletedQuest_c0c906c5-8e31-437c-9c55-6ea79943dc42);
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_NeverCompletedPurge");
+
+IF
+FlagSet(CURRENTREGION_END_Main_140b4d3e-6cc7-48cb-b66f-dbc4eba710e1, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_NeverCompletedQuest_c0c906c5-8e31-437c-9c55-6ea79943dc42);
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_NeverSavedParents");
+
+IF
+FlagSet(ORI_Shadowheart_Knows_JusticiarMurals_87dea9e2-c18c-40a0-98cf-96cf2804cf4e, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_Murals_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_Murals_Update");
+
+IF
+FlagSet(ORI_Shadowheart_Knows_SeenTempleVista_81608e92-ac2f-4440-834c-585b0c228c7a, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_TempleVista_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_TempleVista_Update");
+
+IF
+FlagSet(ORI_Shadowheart_State_IdolHint_5e2d4403-e9e9-4ee2-a2fb-5d7f45aa71cb, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_SharIdol_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_SharIdol_Update");
+
+IF
+FlagSet(ORI_Shadowheart_Knows_CurseResistant_1c40f83c-99d1-4777-a8f7-95377f6561b8, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_ShadowCurse_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_ShadowCurse_Update");
+
+IF
+FlagSet(ORI_Shadowheart_State_TempleApproachHint_c0aa296e-fa16-4ddf-8e2d-ecfe5b5b32e2, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_TempleApproach_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_TempleApproach_Update");
+
+IF
+FlagSet(Shadowheart_InParty_InterestInDarkJusticiars_4d45b833-582d-c7a6-9936-0922e78e36d9, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_Halsin_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_Halsin_Update");
+
+IF
+FlagSet(ORI_Shadowheart_State_SeluneJusticiarHint_6c8ac0f9-e182-4a62-aeab-52e6dcf6a5ef, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_Selune_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_Selune_Update");
+
+IF
+FlagSet(UND_DarkJusticiarsCorpses_Recognized_6926ad12-4a89-35c9-3d70-2ec613b25c8d, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_CityCorpses_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_CityCorpses_Update");
+
+IF
+FlagSet(ORI_Shadowheart_State_TownCorpseHint_e2059455-ab53-49d3-aac5-775453ff9468, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_TownCorpses_Start", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "JusticiarHint_TownCorpses_Update");
+
+IF
+FlagSet(SHA_PartyProgress_EnteredSharTemple_d212e499-d006-4043-9dee-8aac504098e5, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "FoundSharTemple_Alt", 0, _)
+AND
+QuestIsAccepted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart_SUB_ChosenOfShar", 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "FoundSharTemple");
+
+PROC
+PROC_SHA_Trials_StartTrial(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, S_SHA_ObjectOfDarknessTrial_3892d0a6-24f4-402e-8b51-03ba8cfb4429, _, _, _)
+AND
+DB_GlobalFlag(SHA_Trials_Knows_SeenAltarInscription_24f46431-f67a-4b04-b027-fa4300322c00, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "FoundStealthTrial");
+
+PROC
+PROC_SHA_Trials_StartTrial(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, S_SHA_MentalTortureTrial_98811843-1086-4931-a3bd-3fef817347fe, _, _, _)
+AND
+DB_GlobalFlag(SHA_Trials_Knows_SeenAltarInscription_24f46431-f67a-4b04-b027-fa4300322c00, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "FoundCloneTrial");
+
+PROC
+PROC_SHA_Trials_StartTrial(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, S_SHA_PathOfDarknessTrial_ff2af557-dbc2-4e27-9c02-f13b25dbe86e, _, _, _)
+AND
+DB_GlobalFlag(SHA_Trials_Knows_SeenAltarInscription_24f46431-f67a-4b04-b027-fa4300322c00, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "FoundDarknessTrial");
+
+IF
+DialogEnded(SHA_ClaimingNightsong_OM_Shadowheart_ACM_AOM_OOM_91ef4453-531e-1ba5-efa1-d8bb8c69faf4, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "HadCommunion_NoSpear");
+
+IF
+DialogEnded(SHA_ClaimingNightsong_OM_Shadowheart_ACM_AOM_OOM_91ef4453-531e-1ba5-efa1-d8bb8c69faf4, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "HadCommunion_Spear");
+
+IF
+AddedTo(S_SHA_NightSpear_b2454f89-dc53-48a6-a8cd-92c7a380a6a8, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_Knows_NeedSpear_27a5363d-4167-4bf9-b4c0-39cf9fca5523, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "HadWaterCommunion_NoSpear", 0, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "LootedSpearOfNight_Communion");
+
+IF
+Opened(S_SHA_NightsongChamberDoor_4689976f-7fe3-4d5f-933a-e872ce947d93, _, _, _, _)
+AND
+DB_GlobalFlag(SHA_Trials_Event_UnlockNightsongChamber_8e857d0c-990b-4029-aa28-f5b935fb8c0f, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "CompletedTrials");
+
+IF
+Opened(S_SHA_NightsongChamberDoor_4689976f-7fe3-4d5f-933a-e872ce947d93, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SHA_Trials_Event_UnlockNightsongChamber_8e857d0c-990b-4029-aa28-f5b935fb8c0f, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnteredSanctum_Alt");
+
+IF
+DialogEnded(SHA_NightsongPrison_OM_Shadowheart_AOM_OOM_62d859bc-9ee0-3a6a-19c8-444a8ceb9f44, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "HadWaterCommunion_NoSpear");
+
+IF
+DialogEnded(SHA_NightsongPrison_OM_Shadowheart_AOM_OOM_62d859bc-9ee0-3a6a-19c8-444a8ceb9f44, _, _, _, _)
+AND
+GetFlag(SHA_NightsongPrison_State_HasSpear_08b1de4b-9f5c-41aa-93ec-9bf4376754b6, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "HadWaterCommunion_Spear");
+
+IF
+AddedTo(S_SHA_NightSpear_b2454f89-dc53-48a6-a8cd-92c7a380a6a8, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_Knows_NeedSpear_27a5363d-4167-4bf9-b4c0-39cf9fca5523, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "HadWaterCommunion_NoSpear", 1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "LootedSpearOfNight_WaterCommunion");
+
+IF
+FlagSet(SHA_NightsongPrison_State_PlayerEnteredPrison_f2cbe7cf-5223-4522-a649-879d08638282, _, _, _, _)
+AND
+DB_PermaDefeated(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnteredShadowfell_NoBalthazar");
+
+IF
+FlagSet(SHA_NightsongPrison_State_PlayerEnteredPrison_f2cbe7cf-5223-4522-a649-879d08638282, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnteredShadowfell_Balthazar");
+
+PROC
+PROC_SHA_NightsongPrison_BalthazarSummonSkellies()
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "BalthazarFight");
+
+IF
+DialogEnded(UND_MushroomHunter_ConsumeNobleStalk_OM_Shadowheart_AOM_ddd93da7-0bc6-fd19-e81c-a1997aea20d4, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "NoblestalkMemory");
+
+IF
+DialogEnded(LOW_SharGrotto_FamiliarFace_OM_Shadowheart_AOM_OOM_76131ed2-b08c-9014-8997-f3af9f1968ba, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "SharPath_MetNocturne");
+
+IF
+DialogEnded(LOW_SharGrotto_FamiliarFace_OM_Shadowheart_AOM_OOM_76131ed2-b08c-9014-8997-f3af9f1968ba, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "EnemyOfShar_MetNocturne");
+
+IF
+FlagCleared(ORI_Shadowheart_State_NobleStalkMemory_d0d87954-6563-4e26-9f2c-4616e3cfeb0e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_Avatar_ShadowHeart", "ForgotNocturne");
+
+IF
+DB_RelationshipDialogsFinished(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, NULL_00000000-0000-0000-0000-000000000000, _, _)
+THEN
+NOT DB_RelationshipDialogsFinished(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_CampNight_StartMorningMoments()
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74, _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74);
+
+IF
+FlagSet(ShadowHeart_InParty_Knows_SharWorshipper_634f858d-9b54-0711-e31f-075d304422ab, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_BlockBackground_f3323dfc-c725-4627-a64f-fb8c6e8e4a74);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

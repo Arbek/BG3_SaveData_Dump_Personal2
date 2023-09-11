@@ -1,0 +1,92 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_GLO_Tutorials_TrackedTimerStart((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_Tutorials_TrackedTimers(NULL_00000000-0000-0000-0000-000000000000, _Var1, _, _Var1, _Var1)
+THEN
+TimerLaunch(_Var1, _Var2);
+DB_GLO_Tutorials_TrackedTimers(NULL_00000000-0000-0000-0000-000000000000, _Var1, "Running");
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerStart((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, _Var2, _Var3);
+DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, "Running");
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Tutorials_TrackedTimers(NULL_00000000-0000-0000-0000-000000000000, _Var1, "Running", _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_TrackedTimers(NULL_00000000-0000-0000-0000-000000000000, _Var1, "Finished");
+PROC_GLO_Tutorials_TrackedTimerFinished(_Var1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, "Running", _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, "Finished");
+PROC_GLO_Tutorials_TrackedTimerFinished(_Var1, _Var2);
+
+IF
+DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var3 != _Var4
+THEN
+NOT DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, _Var4);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerCancel((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Tutorials_TrackedTimers(NULL_00000000-0000-0000-0000-000000000000, _Var1, "Running", _Var1, _Var1)
+THEN
+TimerCancel(_Var1);
+NOT DB_GLO_Tutorials_TrackedTimers(NULL_00000000-0000-0000-0000-000000000000, _Var1, "Running");
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerCancel((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, "Running", _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, _Var2);
+NOT DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, "Running");
+
+PROC
+PROC_GLO_Tutorials_TrackedTimer_EraseTimerRecord((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Tutorials_TrackedTimers(NULL_00000000-0000-0000-0000-000000000000, _Var1, "Finished", _Var1, _Var1)
+THEN
+NOT DB_GLO_Tutorials_TrackedTimers(NULL_00000000-0000-0000-0000-000000000000, _Var1, "Finished");
+
+PROC
+PROC_GLO_Tutorials_TrackedTimer_EraseTimerRecord((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, "Finished", _Var1, _Var1)
+THEN
+NOT DB_GLO_Tutorials_TrackedTimers(_Var1, _Var2, "Finished");
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

@@ -1,0 +1,177 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, DEN_DruidPet_003_c5910495-af81-131f-cbaa-177ec177a044);
+DB_DropMutingStatussesDialog(DEN_DruidPet_003_c5910495-af81-131f-cbaa-177ec177a044);
+TriggerRegisterForCharacter(S_DEN_NearNestSphere_64261bfb-3554-4e69-8ef5-17f08c3d7fb8, S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea);
+DB_DEN_DruidPet_BirdDestinations(0, S_DEN_PetBirdNestSphere_a7543b9d-992a-4382-84c7-4b6022865004);
+DB_DEN_DruidPet_BirdDestinations(1, S_DEN_PetBirdPondSphere_b83df483-3074-4db0-b5b7-c8345f6bc571);
+DB_ItemOwnerShipTriggers("WLD_Main_A", S_DEN_PetBird_Ownership_bbc6c61b-ed14-4c96-8dad-fdac91f0c2e0, S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea);
+PROC_DEN_DruidPet_InitBird();
+
+KBSECTION
+PROC
+PROC_DEN_DruidPet_InitBird()
+THEN
+TriggerRegisterForItems(S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f);
+TeleportTo(S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f, S_DEN_PetBird_Ownership_bbc6c61b-ed14-4c96-8dad-fdac91f0c2e0, "");
+
+IF
+FlagSet(DEN_DruidPet_003_Event_ClearOwnership_11ada5c5-96bb-7f98-8dce-13d6c7d9de33, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+TriggerClearItemsOwner(S_DEN_PetBird_Ownership_bbc6c61b-ed14-4c96-8dad-fdac91f0c2e0);
+TriggerUnregisterForItems(S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f);
+PROC_GlobalClearFlagAndCache(DEN_DruidPet_003_State_NoCoinNearby_c30522af-f6e4-4a78-84c8-e9ed46a498b8);
+ClearOwnership(S_DEN_BirdCoin_68f376ae-2c60-4671-8868-1b29c5c504c2);
+
+IF
+Dying(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, _, _, _, _)
+THEN
+TriggerUnregisterForItems(S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f);
+
+IF
+CharacterStoleItem((CHARACTER)_Var1, (ITEM)_Var2, _, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, NULL_00000000-0000-0000-0000-000000000000, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrimeWithPosition(_Var1, "DEN_PetBird_Steal", _Var2, _Var4, _Var5, _Var6, S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, 0);
+
+IF
+DB_GlobalFlag(DEN_DruidPet_003_Event_TakeFlight_db06789d-b03e-cf68-77dd-0970663fec3e, _, _, _, _)
+AND NOT
+DB_CantTalk(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, _, _, _, _)
+THEN
+ClearFlag(DEN_DruidPet_003_Event_TakeFlight_db06789d-b03e-cf68-77dd-0970663fec3e, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_DruidPet_FlyOff();
+
+PROC
+PROC_DEN_DruidPet_FlyOff()
+AND
+GetFlag(DEN_DruidPet_003_State_NearNest_a82b7075-981d-473f-8668-b0759012ca51, S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, _Var1, _Var1, _Var1)
+AND
+DB_DEN_DruidPet_BirdDestinations(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_DruidPet_BirdLandingPoint(_Var2);
+SetHasDialog(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, 0);
+LookAtEntity(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, S_DEN_BirdLeavePoint_51b6be64-0750-47f5-9148-52fd103aa674);
+PlayAnimation(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, CUST_TakeOff_01_5f3d7746-eb42-4599-849e-cdd8e6fecce6, "DEN_PetBird_TookOff");
+
+IF
+EntityEvent(_, "DEN_PetBird_TookOff", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetOnStage(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, 0);
+ObjectTimerLaunch(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, "DEN_PetBird_LandingTimer", 2300);
+
+IF
+ObjectTimerFinished(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, "DEN_PetBird_LandingTimer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_DruidPet_BirdLandingPoint(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_DruidPet_BirdLandingPoint(_Var1);
+AppearAt(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, _Var1, 1, CUST_Landing_01_72f2b73f-ab59-4ea7-99fa-ac1c8b298e80, "");
+SetHasDialog(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, 1);
+
+IF
+EnteredTrigger(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, S_DEN_NearNestSphere_64261bfb-3554-4e69-8ef5-17f08c3d7fb8, _, _, _)
+THEN
+SetFlag(DEN_DruidPet_003_State_NearNest_a82b7075-981d-473f-8668-b0759012ca51, S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea);
+
+IF
+LeftTrigger(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, S_DEN_NearNestSphere_64261bfb-3554-4e69-8ef5-17f08c3d7fb8, _, _, _)
+THEN
+ClearFlag(DEN_DruidPet_003_State_NearNest_a82b7075-981d-473f-8668-b0759012ca51, S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea);
+
+PROC
+PROC_State_Changed(_, "DEN", (STRING)_Var2, _, _)
+AND
+DB_DEN_CombatStates(_Var2, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, _, _, _, _)
+THEN
+PROC_ForceStopDialog(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea);
+PROC_NotifyWhenReadyToMoveOn(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, "DEN_SacredPond_BirdFliesAway");
+
+PROC
+PROC_ReadyToMoveOn(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, "DEN_SacredPond_BirdFliesAway", _, _, _)
+THEN
+PlayAnimation(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, CUST_TakeOff_01_5f3d7746-eb42-4599-849e-cdd8e6fecce6, "DEN_PetBird_FledGrove");
+
+IF
+EntityEvent(_, "DEN_PetBird_FledGrove", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetOnStage(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, 0);
+DB_DEN_SacredPond_BirdFled(1);
+
+PROC
+PROC_State_Changed(_, "DEN", (STRING)_Var2, _, _)
+AND NOT
+DB_DEN_CombatStates(_Var2, _, _, _, _)
+AND NOT
+DB_DEN_LockdownStates(_Var2, _, _, _, _)
+AND
+_Var2 != "DEN_State_Final"
+AND
+DB_DEN_SacredPond_BirdFled(1, _, _, _, _)
+THEN
+NOT DB_DEN_SacredPond_BirdFled(1);
+AppearAt(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, S_DEN_PetBirdNestPoint_a586adac-71ba-404d-89e4-60dbcadeb28f, 1, CUST_Landing_01_72f2b73f-ab59-4ea7-99fa-ac1c8b298e80, "");
+SetHasDialog(S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, 1);
+
+IF
+TemplateLeftTrigger((ITEMROOT)_Var1, (ITEM)_Var2, S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f, S_DEN_PetBird_72bd7f25-0644-4323-a428-85ba5630e6ea, _)
+AND
+_Var1 != LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f
+AND
+IsDestroyed(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Bird_Misplaced(_Var2);
+
+IF
+MovedBy((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Bird_Misplaced(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f, _Var3, _Var1, _Var1)
+THEN
+NOT DB_DEN_Bird_Misplaced(_Var1);
+PROC_DEN_PetBird_PlaceItemBack(_Var1, _Var3);
+
+PROC
+PROC_DEN_PetBird_PlaceItemBack((ITEM)_Var1, 0, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+SetEntityEvent(_Var1, "DEN_PetBird_Event_MisplacedItem");
+
+IF
+TemplateLeftTrigger(LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f, (ITEM)_Var1, S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(DEN_DruidPet_003_State_NoCoinNearby_c30522af-f6e4-4a78-84c8-e9ed46a498b8);
+TriggerLaunchIterator(S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f, "DEN_PetBird_CheckGoldCoin", "");
+
+IF
+TemplateEnteredTrigger(LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f, (ITEM)_Var1, S_DEN_NestItemSphere_d13467e3-219f-4cdc-a92e-68ffd5f6aa0f, _, _)
+AND
+DB_GlobalFlag(DEN_DruidPet_003_State_NoCoinNearby_c30522af-f6e4-4a78-84c8-e9ed46a498b8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(DEN_DruidPet_003_State_NoCoinNearby_c30522af-f6e4-4a78-84c8-e9ed46a498b8);
+
+IF
+EntityEvent((CHARACTER)_Var1, "DEN_PetBird_CheckGoldCoin", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(DEN_DruidPet_003_State_NoCoinNearby_c30522af-f6e4-4a78-84c8-e9ed46a498b8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_DruidPet_003_Event_ClearOwnership_11ada5c5-96bb-7f98-8dce-13d6c7d9de33, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(DEN_DruidPet_003_State_NoCoinNearby_c30522af-f6e4-4a78-84c8-e9ed46a498b8);
+
+
+EXITSECTION
+NOT DB_DEN_DruidPet_BirdDestinations(0, S_DEN_PetBirdNestSphere_a7543b9d-992a-4382-84c7-4b6022865004);
+NOT DB_DEN_DruidPet_BirdDestinations(1, S_DEN_PetBirdPondSphere_b83df483-3074-4db0-b5b7-c8345f6bc571);
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

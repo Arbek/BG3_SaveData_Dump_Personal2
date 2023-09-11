@@ -1,0 +1,109 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_OriginTeam_AnnoyedReaction(0, "AnnoyedCompanionReaction");
+DB_CRIME_OriginTeam_AnnoyedReaction(1, "AnnoyedCompanionReaction_Forced");
+
+KBSECTION
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var6, BackgroundReaction_db918cfb-a484-437c-93bb-8bc36fe98a9c, 0, _Var1, _Var1)
+AND
+CrimeIsContinuous(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var6, VictimAlwaysNotices_f18ff657-d522-448a-bcbf-866604ed6423, _Var8, _Var1, _Var1)
+AND
+DB_CRIME_OriginTeam_AnnoyedReaction(_Var8, _Var9, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_OriginTeam_Ignore(_Var1, _Var5, _Var6, _Var7);
+PROC_CRIME_OriginTeam_Fallback(_Var1, _Var5, _Var9);
+
+PROC
+PROC_CRIME_OriginTeam_Fallback((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Origins(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, _Var3, NULL_00000000-0000-0000-0000-000000000000, _Var2, 0);
+
+PROC
+PROC_CRIME_OriginTeam_Ignore((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, 0, (GUIDSTRING)_Var1)
+AND
+DB_Origins(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var3, _Var4);
+
+PROC
+PROC_CRIME_OriginTeam_Ignore((GUIDSTRING)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, 0, (GUIDSTRING)_Var1)
+AND NOT
+DB_Origins(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Origins(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var3, _Var4);
+
+PROC
+PROC_CRIME_OriginTeam_Ignore((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, 1, (GUIDSTRING)_Var1)
+THEN
+DB_CRIME_OriginTeam_Ignored(_Var3, _Var2);
+
+IF
+DB_CRIME_OriginTeam_Ignored(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Origins(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var1, _Var3);
+
+IF
+DB_CRIME_OriginTeam_Ignored(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Origins(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Origins(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var1, _Var3);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_OriginTeam_Ignored(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_OriginTeam_Ignored(_Var1, _Var2);
+
+QRY
+QRY_CRIME_KeepingAnEyeOut_Block((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

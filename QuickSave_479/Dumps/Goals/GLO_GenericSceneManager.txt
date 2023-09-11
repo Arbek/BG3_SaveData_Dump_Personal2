@@ -1,0 +1,784 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SceneCheckForCombat(NULL_00000000-0000-0000-0000-000000000000, "");
+NOT DB_SceneCheckForCombat(NULL_00000000-0000-0000-0000-000000000000, "");
+DB_SceneAllowAllDisturbances("");
+NOT DB_SceneAllowAllDisturbances("");
+DB_SceneNoHostileContinuousDisturbance("");
+NOT DB_SceneNoHostileContinuousDisturbance("");
+DB_GLO_GenericSceneManager_LeavingReason("LeftTrigger");
+DB_GLO_GenericSceneManager_LeavingReason("PlayerTeleportInDialog");
+DB_GLO_GenericSceneManager_ViolenceReason("Attacked");
+DB_GLO_GenericSceneManager_ViolenceReason("EnteredCombat");
+DB_GLO_GenericSceneManager_ViolenceReason("Died");
+DB_GLO_GenericSceneManager_HostileContinuousDisturbance("ShapeshiftIntDev");
+DB_GLO_GenericSceneManager_HostileContinuousDisturbance("GuardKiller");
+DB_GLO_GenericSceneManager_HostileContinuousDisturbance("GuardKiller_NPC");
+PROC_DeclareCounter("SceneManager_DisturbanceStack");
+
+KBSECTION
+IF
+DB_SceneManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SceneTriggerManager(_Var2, _Var3, _, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var3, _Var1);
+
+IF
+DB_SceneTriggerManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SceneTriggerManager(_Var1, _Var2, 1);
+
+IF
+DB_SceneTriggerManager(_Var1, _Var2, 0, _Var1, _Var1)
+THEN
+TriggerRegisterForItems(_Var2);
+
+IF
+DB_SceneManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_Exists(_Var2);
+
+IF
+DB_InternScene_Exists(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SceneManager(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_Exists(_Var1);
+
+PROC
+PROC_SceneDialogOnly((STRING)_Var1, (CHARACTER)_Var2, (TRIGGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_SceneManager(_Var2, _Var1);
+DB_SceneTriggerManager(_Var1, _Var3, 1);
+DB_SceneAllowAllDisturbances(_Var1);
+
+IF
+Activated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneManager(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_Active(_Var1);
+
+IF
+Deactivated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternScene_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_Active(_Var1);
+
+IF
+DB_SceneManager(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsActive(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_Active(_Var1);
+
+IF
+DB_InternScene_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SceneManager(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_Active(_Var1);
+
+IF
+DB_SceneCheckForCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, _Var3, _Var2, "SawInCombat");
+
+PROC
+PROC_SceneManager_HandleViolence((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+THEN
+DB_InternScene_BackupOnCleanUp(_Var3);
+PROC_SceneInterrupted(_Var1, _Var2, _Var3, _Var4);
+PROC_SceneManager_MaybeHandledAttack(_Var3, _Var5);
+NOT DB_InternScene_BackupOnCleanUp(_Var3);
+NOT DB_SceneManager_AllowViolenceDisturbanceRegistration(_Var3);
+
+PROC
+PROC_SceneManager_MaybeHandledAttack((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_InternScene_BackedUpNPC(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_SceneManager_AllowViolenceDisturbanceRegistration(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StoryActionHandled(_Var3, _Var2);
+NOT DB_InternScene_BackedUpNPC(_Var1, _Var3);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneTriggerManager(_Var3, _Var2, _, _Var1, _Var1)
+AND
+DB_SceneManager(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, NULL_00000000-0000-0000-0000-000000000000, _Var3, "LeftTrigger");
+
+IF
+ItemLeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneTriggerManager(_Var4, _Var2, 0, _Var1, _Var1)
+THEN
+PROC_SceneManager_ItemLeftTrigger(_Var1, _Var3, _Var4);
+
+PROC
+PROC_SceneManager_ItemLeftTrigger((ITEM)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_ItemLeftHandled(1);
+PROC_SceneInterrupted(_Var1, _Var2, _Var3, "LeftTrigger");
+
+PROC
+PROC_SceneManager_ItemLeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_InternScene_ItemLeftHandled(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, NULL_00000000-0000-0000-0000-000000000000, _Var3, "LeftTrigger");
+
+PROC
+PROC_SceneManager_ItemLeftTrigger((ITEM)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_InternScene_ItemLeftHandled(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_ItemLeftHandled(1);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, _Var4, _Var3, "EnteredCombat");
+
+PROC
+PROC_CRIME_TryRegisterAssaultLikeCrime((CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, _, (CHARACTER)_Var1)
+AND
+DB_SceneManager(_Var2, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneManager_HandleViolence(_Var2, _Var1, _Var5, "Attacked", _Var3);
+
+IF
+Teleported((CHARACTER)_Var1, _, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (REAL)_Var7, (REAL)_Var8, (STRING)_Var9, (CHARACTER)_Var1)
+AND
+_Var9 != "RegionSwap"
+AND
+_Var9 != "Invalid"
+AND
+QRY_CRIME_PlayerInDialogTeleportedTooFar(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+DB_CRIME_PlayerInDialogTeleportedTooFar(_Var10, _Var1, _Var11, _Var1, _Var1)
+AND
+DB_SceneManager(_Var11, _Var12, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_PlayerInDialogTeleportedTooFar(_Var10, _Var1, _Var11);
+PROC_SceneInterrupted(_Var11, _Var1, _Var12, "PlayerTeleportInDialog");
+
+IF
+UsingSpellOnTarget((CHARACTER)_Var1, (CHARACTER)_Var2, _, "Teleportation", _, (INTEGER)_Var5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsPlayer(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var2, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneManager_HandleViolence(_Var2, _Var1, _Var6, "Attacked", _Var5);
+
+QRY
+QRY_SceneDialogInterruptIfSceneNPC((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneManager(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, _Var2, _Var3, "StartedDialog");
+
+QRY
+QRY_SelectCustomDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SceneDialogInterruptIfSceneNPC(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+DestroyedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneTriggerManager(_Var5, _Var6, 0, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var6, 1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, _Var2, _Var5, "DestroyedItem");
+
+QRY
+QRY_CRIME_BlockRegisterCrime((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SceneManager_DisturbanceInterrupt(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SceneManager_AnyDisturbancePassThrough(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SceneManager_CleanUpDisturbanceInterrupt(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SceneManager_AnyDisturbancePassThrough((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_QRYRTN_SceneManager_DisturbanceInterrupt(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_SceneManager_PassThroughAfterDisturbanceInterrupt(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_DisturbanceAllowed(_Var1, _Var2);
+
+QRY
+QRY_SceneManager_AnyDisturbancePassThrough((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_QRYRTN_SceneManager_DisturbanceInterrupt(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CharacterRegisterCrime_Success((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InternScene_DisturbanceAllowed(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_InternScene_Exists(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_AllowDisturbanceForScene(_Var6, _Var7);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CrimeIsContinuous(_Var6, 1, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_ContinuousDisturbance(_Var6);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_InternScene_CrimeActive(_Var6);
+
+IF
+DB_InternScene_Exists(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SceneNoHostileContinuousDisturbance(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InternScene_CrimeActive(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_GenericSceneManager_HostileContinuousDisturbance(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_AllowDisturbanceForScene(_Var2, _Var1);
+
+IF
+DB_SceneNoHostileContinuousDisturbance(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InternScene_AllowDisturbanceForScene(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_GenericSceneManager_HostileContinuousDisturbance(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_AllowDisturbanceForScene(_Var2, _Var1);
+
+IF
+DB_InternScene_Exists(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneAllowAllDisturbances(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InternScene_CrimeActive(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_AllowDisturbanceForScene(_Var2, _Var1);
+
+IF
+DB_InternScene_CrimeActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InternScene_Active(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternScene_AllowDisturbanceForScene(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_Ignored(_Var1, _Var2);
+CrimeIgnoreCrime(_Var1, _Var2);
+
+IF
+DB_InternScene_Ignored(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternScene_ContinuousDisturbance(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_Ignored(_Var1, _Var2);
+
+IF
+DB_InternScene_AllowDisturbanceForScene(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternScene_Ignored(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_Ignored(_Var1, _Var3);
+CrimeStopIgnoringCrime(_Var1, _Var3);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_InternScene_CrimeActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_CrimeActive(_Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_InternScene_AllowDisturbanceForScene(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_AllowDisturbanceForScene(_Var1, _Var2);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_InternScene_Ignored(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_Ignored(_Var1, _Var2);
+
+QRY
+QRY_SceneManager_DisturbanceInterrupt((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SceneManager_PushDisturbanceInterruptDB()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SceneManager_DisturbanceInterrupt((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CrimeTypeHasProperty(_Var2, NoSceneManagerInterrupt_e305c93f-eaf2-4b73-ae0a-0be56a1b0549, 0, _Var1, _Var1)
+AND
+QRY_SceneManager_CollectAffectedByDisturbance(_Var6, _Var4, _Var5, _Var1, _Var1)
+AND
+DB_QRYRTN_SceneManager_CollectAffectedByDisturbance(_Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+DB_QRYRTN_SceneManager_DisturbanceInterrupt(_Var6, _Var8);
+DB_SceneManager_DisturbanceRegistering(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+PROC_SceneInterrupted(_Var7, _Var1, _Var8, "DisturbanceRegistering");
+
+QRY
+QRY_SceneManager_DisturbanceInterrupt((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SceneManager_PopDisturbanceInterruptDB()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SceneManager_PushDisturbanceInterruptDB()
+THEN
+PROC_IncreaseCounter("SceneManager_DisturbanceStack");
+
+QRY
+QRY_SceneManager_PushDisturbanceInterruptDB()
+AND
+DB_SceneManager_DisturbanceRegistering(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalCounter("SceneManager_DisturbanceStack", _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_SceneManager_DisturbanceRegistering_Stack(_Var7, _Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+QRY
+QRY_SceneManager_PopDisturbanceInterruptDB()
+AND
+DB_GlobalCounter("SceneManager_DisturbanceStack", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager_DisturbanceRegistering_Stack(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneManager_DisturbanceRegistering_Stack(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+DB_SceneManager_DisturbanceRegistering(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+PROC_DecreaseCounter("SceneManager_DisturbanceStack");
+
+IF
+DB_SceneManager_DisturbanceRegistering(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager_DisturbanceRegistering(_Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var6 != _Var12
+THEN
+NOT DB_SceneManager_DisturbanceRegistering(_Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+
+QRY
+QRY_SceneManager_CollectAffectedByDisturbance((INTEGER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SceneManager(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_SceneManager_CollectAffectedByDisturbance(_Var1, _Var3, _Var4);
+
+QRY
+QRY_SceneManager_CollectAffectedByDisturbance((INTEGER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_SceneManager_CollectAffectedByDisturbance(_Var1, _Var2, _Var4);
+
+QRY
+QRY_SceneManager_CollectAffectedByDisturbance((INTEGER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsItem(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+DB_SceneTriggerManager(_Var4, _Var5, 0, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, _Var5, 1, _Var1, _Var1)
+THEN
+DB_QRYRTN_SceneManager_CollectAffectedByDisturbance(_Var1, _Var2, _Var4);
+
+QRY
+QRY_SceneManager_PassThroughAfterDisturbanceInterrupt((INTEGER)_Var1, (STRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_InternScene_Exists(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SceneManager_BlockDisturbance(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SceneManager_PassThroughAfterDisturbanceInterrupt((INTEGER)_Var1, (STRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_InternScene_Exists(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager_AllowDisturbance(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SceneManager_PassThroughAfterDisturbanceInterrupt((INTEGER)_Var1, (STRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SceneAllowAllDisturbances(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SceneManager_CleanUpDisturbanceInterrupt((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_InternScene_DisturbanceAllowed(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_DisturbanceAllowed(_Var1, _Var2);
+
+QRY
+QRY_SceneManager_CleanUpDisturbanceInterrupt((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SceneManager_DisturbanceRegistering(_Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneManager_DisturbanceRegistering(_Var2, _Var3, _Var4, _Var5, _Var6, _Var1);
+
+QRY
+QRY_SceneManager_CleanUpDisturbanceInterrupt((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SceneManager_BlockDisturbance(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneManager_BlockDisturbance(_Var1);
+
+QRY
+QRY_SceneManager_CleanUpDisturbanceInterrupt((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SceneManager_AllowDisturbance(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneManager_AllowDisturbance(_Var1);
+
+QRY
+QRY_SceneManager_CleanUpDisturbanceInterrupt((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_QRYRTN_SceneManager_CollectAffectedByDisturbance(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_SceneManager_CollectAffectedByDisturbance(_Var1, _Var2, _Var3);
+
+QRY
+QRY_SceneManager_CleanUpDisturbanceInterrupt((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_QRYRTN_SceneManager_DisturbanceInterrupt(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_SceneManager_DisturbanceInterrupt(_Var1, _Var2);
+
+IF
+CharacterOnCrimeSensibleActionNotification((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var8, (GUIDSTRING)_Var9, (INTEGER)_Var10)
+AND
+DB_SceneManager_DisturbanceReaction(_Var11, _Var12, _Var13, _Var14, _Var15, _Var16, _Var17, _Var18, _Var19, _Var20)
+THEN
+NOT DB_SceneManager_DisturbanceReaction(_Var11, _Var12, _Var13, _Var14, _Var15, _Var16, _Var17, _Var18, _Var19, _Var20);
+
+IF
+CharacterOnCrimeSensibleActionNotification((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var8, (GUIDSTRING)_Var9, (INTEGER)_Var10)
+THEN
+DB_SceneManager_DisturbanceReaction(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10);
+
+IF
+CharacterOnCrimeSensibleActionNotification((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (DIALOGRESOURCE)_Var5, (CHARACTER)_Var6, (CHARACTER)_Var7, (CHARACTER)_Var8, (CHARACTER)_Var9, (INTEGER)_Var10)
+AND
+CrimeHasProperty(_Var3, NoSceneManagerInterrupt_e305c93f-eaf2-4b73-ae0a-0be56a1b0549, 0, _Var1, _Var1)
+AND
+DB_SceneManager(_Var1, _Var11, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, _Var6, _Var11, "DisturbanceReaction");
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (CHARACTER)_Var2, _, "Investigation", (INTEGER)_Var1)
+AND
+QRY_OnlyOnce_Reset("Scenemanager_Investigation", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("Scenemanager_Investigation", _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var1, NoSceneManagerInterrupt_e305c93f-eaf2-4b73-ae0a-0be56a1b0549, 0, _Var1, _Var1)
+THEN
+PROC_SceneManager_HandleInvestigation(_Var1, _Var2);
+
+PROC
+PROC_SceneManager_HandleInvestigation((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SceneManager_DisturbanceReaction(_Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12)
+THEN
+NOT DB_SceneManager_DisturbanceReaction(_Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+
+PROC
+PROC_SceneManager_HandleInvestigation((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+CrimeGetCriminals(_Var1, _Var3, _Var4, _Var5, _Var6)
+AND
+CharacterGetCrimeRegion(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND
+CrimeGetInterrogationDialog(_Var1, _Var2, _Var8, _Var1, _Var1)
+AND
+CrimeGetLeadInvestigator(_Var1, _Var9, _Var1, _Var1, _Var1)
+AND
+QRY_GetGuidsEqual(_Var2, _Var9, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetGuidsEqual(_Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SceneManager_DisturbanceReaction(_Var2, _Var7, _Var1, "INVESTIGATION", _Var8, _Var3, _Var4, _Var5, _Var6, _Var10);
+
+PROC
+PROC_SceneManager_HandleInvestigation((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SceneManager_DisturbanceReaction(_Var2, _Var3, _Var1, "INVESTIGATION", _Var4, _Var5, _Var6, _Var7, _Var8, _Var9)
+AND
+DB_SceneManager(_Var2, _Var10, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var2, _Var5, _Var10, "DisturbanceReaction");
+
+PROC
+PROC_SpotPlayers_Spotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, _Var3, _Var2, "Spotted");
+
+PROC
+PROC_SpotPlayers_Unspotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, _Var3, _Var2, "Unspotted");
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, (CHARACTER)_Var2, (STRING)_Var3, "LeftTrigger", (GUIDSTRING)_Var1)
+AND
+DB_SceneManager(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneManager_TryBlockDialog(_Var1, _Var3);
+
+IF
+DB_SceneTriggerManager(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_SceneManager(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var4, _Var2, 0, _Var1, _Var1)
+THEN
+PROC_SceneManager_TryBlockDialog(_Var4, _Var1);
+
+PROC
+PROC_SceneManager_TryBlockDialog((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_InternScene_LeftTriggerDialogsBlocked(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_LeftTriggerDialogsBlocked(_Var1, _Var2);
+PROC_GenericsSetBusyDialog(_Var1);
+
+PROC
+PROC_SceneInterrupted((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, "LeftTrigger", (CHARACTER)_Var1)
+AND
+DB_SceneManager(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_SpotPlayers_IsSpotting(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_LeftTriggerStoppedSpotting(_Var1, _Var3);
+PROC_SpotPlayers_StopSpotting(_Var1, _Var3);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneTriggerManager(_Var3, _Var2, _, _Var1, _Var1)
+AND
+DB_InternScene_LeftTriggerDialogsBlocked(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_LeftTriggerDialogsBlocked(_Var1, _Var3);
+PROC_GenericsClearBusyDialog(_Var1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SceneTriggerManager(_Var3, _Var2, _, _Var1, _Var1)
+AND
+DB_InternScene_LeftTriggerStoppedSpotting(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_LeftTriggerDialogsBlocked(_Var1, _Var3);
+PROC_SpotPlayers_RestartSpotting(_Var1, _Var3);
+
+PROC
+PROC_SceneManager_RemoveFromScene((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InternScene_LeftTriggerDialogsBlocked(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_LeftTriggerDialogsBlocked(_Var1, _Var2);
+PROC_GenericsClearBusyDialog(_Var1);
+
+PROC
+PROC_SceneManager_RemoveFromScene((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InternScene_LeftTriggerStoppedSpotting(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_LeftTriggerStoppedSpotting(_Var1, _Var2);
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SceneOver((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SceneManager(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneManager_RemoveFromScene(_Var2, _Var1);
+
+PROC
+PROC_SceneOver((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SceneTriggerManager(_Var1, _Var2, 0, _Var1, _Var1)
+THEN
+TriggerUnregisterForItems(_Var2);
+
+PROC
+PROC_SceneOver((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SceneTriggerManager(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SceneTriggerManager(_Var1, _Var2, _Var3);
+
+PROC
+PROC_SceneOver((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SceneTriggerManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneTriggerManager(_Var1, _Var2);
+
+PROC
+PROC_SceneOver((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SceneCheckForCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneCheckForCombat(_Var2, _Var1);
+
+PROC
+PROC_SceneOver((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SceneNoHostileContinuousDisturbance(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneNoHostileContinuousDisturbance(_Var1);
+
+PROC
+PROC_SceneOver((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SceneAllowAllDisturbances(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneAllowAllDisturbances(_Var1);
+
+PROC
+PROC_SceneManager_RemoveFromScene((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SceneTriggerManager(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_SceneManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var3, _Var1);
+
+PROC
+PROC_SceneManager_RemoveFromScene((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SceneManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers(_Var1, _Var2, _, _, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var1, _Var2);
+
+PROC
+PROC_SceneManager_RemoveFromScene((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneManager(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneManager(_Var1, _Var2);
+
+PROC
+PROC_SceneManager_RemoveFromScene((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SceneCheckForCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SceneCheckForCombat(_Var1, _Var2);
+
+PROC
+PROC_SceneManager_RemoveFromScene((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternScene_Ignored(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_Ignored(_Var3, _Var1);
+CrimeStopIgnoringCrime(_Var3, _Var1);
+
+PROC
+PROC_SceneManager_RemoveFromScene((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternScene_BackupOnCleanUp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternScene_BackedUpNPC(_Var2, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

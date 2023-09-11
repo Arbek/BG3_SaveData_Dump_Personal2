@@ -1,0 +1,81 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_GLO_Doppelgangers_CustomReactionPAD(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+StatusRemoved((CHARACTER)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(GLO_Doppelgangers_State_ReactedToFirstTransformation_7c66af09-fe89-43fe-9fac-0e52fb397c59, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Doppelganger", 1, _Var1, _Var1)
+AND
+QRY_GLO_Doppelgangers_BlockGenericReactionPAD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Doppelgangers_State_ReactedToFirstTransformation_7c66af09-fe89-43fe-9fac-0e52fb397c59);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(GLO_Doppelgangers_State_ReactedToFirstTransformation_7c66af09-fe89-43fe-9fac-0e52fb397c59, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Doppelganger", 1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Doppelgangers_BlockGenericReactionPAD(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+CanSee(_Var5, _Var1, 1, _Var1, _Var1)
+AND NOT
+DB_GLO_Shapeshifters_QueuedReactionPAD(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Shapeshifters_QueuedReactionPAD(_Var5, _Var1);
+
+QRY
+QRY_GLO_Doppelgangers_BlockGenericReactionPAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+DB_GLO_Shapeshifters_QueuedReactionPAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_Doppelgangers_State_ReactedToFirstTransformation_7c66af09-fe89-43fe-9fac-0e52fb397c59, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Doppelgangers_CustomReactionPAD(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Doppelgangers_PlayFirstTransformationReactionPAD(_Var3, _Var1);
+
+IF
+DB_GLO_Shapeshifters_QueuedReactionPAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_Doppelgangers_State_ReactedToFirstTransformation_7c66af09-fe89-43fe-9fac-0e52fb397c59, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Doppelgangers_CustomReactionPAD(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Doppelgangers_PlayFirstTransformationReactionPAD(GLO_PAD_SawDoppelgangerFirstTime_27acb99f-552f-3f89-c86e-965f5ae5a21f, _Var1);
+
+PROC
+PROC_GLO_Doppelgangers_PlayFirstTransformationReactionPAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_StartDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Doppelgangers_State_ReactedToFirstTransformation_7c66af09-fe89-43fe-9fac-0e52fb397c59);
+
+PROC
+PROC_GLO_Doppelgangers_PlayFirstTransformationReactionPAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+THEN
+NOT DB_GLO_Shapeshifters_QueuedReactionPAD(_Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

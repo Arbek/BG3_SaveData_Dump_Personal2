@@ -1,0 +1,88 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+FlagSet(GLO_Volo_LobotomyPatient_4e24982b-24d2-7107-a817-caa317dffd26, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(GLO_Volo_Knows_Lobotomy_6f016a74-c28b-4a6a-919e-b58223cc14cb, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetTag(_Var1, ONEEYED_8df7d133-21cb-4e8d-92dd-9ef9394fd2d1);
+SetTag(_Var1, CANTLOSEEYE_b5de40c5-edec-43a7-a918-1d85c13232de);
+
+IF
+DialogEnded(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+GetFlag(GLO_Volo_LobotomyPatient_4e24982b-24d2-7107-a817-caa317dffd26, _Var2, 1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "CAMP_VOLO_ERSATZEYE", -1, 1, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+AddCustomMaterialOverride(_Var2, "dc46662a-d909-4df5-ad12-50a524150aff");
+SetFlag(GLO_Volo_State_LeftAfterOperation_fec19c09-93c5-40f3-a6e9-b242076e68bf);
+
+IF
+DialogEnded(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+GetFlag(GLO_Volo_LobotomyPatient_4e24982b-24d2-7107-a817-caa317dffd26, _Var2, 0, _Var1, _Var1)
+AND
+GetFlag(GLO_Volo_StartON_72e7a848-7ca3-e519-db23-4b85170ff5b6, _Var2, 1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Volo_State_LeftAfterOperation_fec19c09-93c5-40f3-a6e9-b242076e68bf);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(GLO_Volo_State_Researching_3b5b625e-4ac4-891f-18f5-d47db044514e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Volo_State_Researched_2cf45e20-a429-7d90-283a-47033bdbf62c, _, _, _, _)
+THEN
+SetFlag(GLO_Volo_State_Researched_2cf45e20-a429-7d90-283a-47033bdbf62c, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(GLO_Volo_StartON_72e7a848-7ca3-e519-db23-4b85170ff5b6, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyStatus(_Var1, "CAMP_VOLO_NEEDLE", 12, 1, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+IF
+DialogEnded(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(GLO_Volo_RefusedOperation_2a42d60b-a49a-f6fa-9bc5-cc546d1526f5, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Volo_State_LeftAfterOperation_fec19c09-93c5-40f3-a6e9-b242076e68bf);
+
+IF
+FlagSet(GLO_Volo_State_LeftAfterOperation_fec19c09-93c5-40f3-a6e9-b242076e68bf, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_NotifyWhenReadyToMoveOn(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "CAMP_VoloLeaving");
+
+PROC
+PROC_ReadyToMoveOn(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "CAMP_VoloLeaving", _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "Run", 1, "CAMP_VoloLeft");
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "CAMP_VoloLeft", _, _, _)
+THEN
+ClearFlag(GLO_Volo_State_AtCamp_de1cadca-2eca-4cee-a3dc-e262bbb92277);
+
+PROC
+PROC_StateSet_PermaDefeated(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _, _, _, _)
+THEN
+TemplateAddTo(DEN_VoloOperation_ErsatzEye_000cfc9f-b973-48e7-a5c8-f2992a47a943, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 1);
+
+IF
+TextEvent("CAMP_VOLO_ERSATZEYE_Test", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetTextEventParamUUID(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AddCustomMaterialOverride(_Var1, "dc46662a-d909-4df5-ad12-50a524150aff");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

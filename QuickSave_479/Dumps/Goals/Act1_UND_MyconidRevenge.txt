@@ -1,0 +1,280 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HasItemEvent(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, UND_MyconidRevenge_State_HasNereHead_2eacf3d4-e7ce-4f76-8228-954ff5bfd6a4);
+DB_GiveItemToEvent(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, UND_MyconidRevenge_Event_GiveNereHead_f360d6ae-23b4-4910-8a52-e230e0219958);
+DB_GLO_HeadRemoval(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30, UNI_UND_TheDrowNere_Headless_8f0dd6a9-cf20-4e92-94b1-39da14ccbabb, S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b);
+DB_GLO_HeadRemoval_Dialog(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30, UND_MyconidRevenge_NereHeadLoot_b00b6005-fbe5-918c-6ebb-c1ae2db11da1);
+DB_DropMutingStatussesDialog(UND_MyconidRevenge_NereHeadLoot_b00b6005-fbe5-918c-6ebb-c1ae2db11da1);
+DB_DialogBlockTradeButton(UND_MyconidRevenge_NereHeadLoot_b00b6005-fbe5-918c-6ebb-c1ae2db11da1);
+DB_PreventKnockedOutPermaDefeated(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30);
+DB_QuestDef_State(UND_Mutineers_Quest_Accepted_d37a860e-a0ea-9d9a-7dc0-d73a66f8663e, "UND_MyconidRevenge", "AcceptedMutineers");
+DB_QuestDef_State(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, "UND_MyconidRevenge", "HeadInaccessible");
+DB_FlagReactionAfterDialog(UND_MyconidRevenge_Event_TakeHead_9f811625-beee-15e7-a581-32739bd44cbe, UND_MyconidRevenge_NereHeadLoot_b00b6005-fbe5-918c-6ebb-c1ae2db11da1);
+
+KBSECTION
+QRY
+QRY_GLO_HeadRemoval_Block(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_MyconidRevenge_State_SentKillNere_d8d606e6-d565-ed2f-bd4e-f2de1e719618, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, UND_MyconidRevenge_Event_TakeHead_9f811625-beee-15e7-a581-32739bd44cbe, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(UND_MyconidRevenge_Event_FailedRemoval_3d6c29b9-07d2-fbe0-85ea-4766cc87011e, _Var1, 1, _Var1, _Var1)
+THEN
+CreateSurface(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30, "SurfaceBlood", 3, -1);
+ApplyStatus(_Var1, "BLOOD_COVERED_FULL", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EntityEvent((CHARACTER)_Var1, "UND_MyconidRevenge_Event_PrepareHeadTrophy", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_MyconidCircle_CurrentSovereign(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_MyconidRevenge_HeadPlaced(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Hiding Head");
+DB_UND_MyconidRevenge_HeadPlaced(1);
+NOT DB_HasItemEvent(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, UND_MyconidRevenge_State_HasNereHead_2eacf3d4-e7ce-4f76-8228-954ff5bfd6a4);
+SetGravity(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, 0);
+TeleportTo(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, S_UND_MyconidRevenge_NereHeadTrophyTrigger_65166556-36ba-4f21-a2df-2865010d5fc2, "UND_MyconidRevenge_Event_HeadTrophyTeleported", 0, 0, 0, 0, 0);
+SetOnStage(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, 0);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "UND_MyconidRevenge_Event_PlaceNereHeadTrophy", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ItemMoveTo(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, S_UND_MyconidRevenge_NereHeadTrophyTrigger_65166556-36ba-4f21-a2df-2865010d5fc2, 99, 99, 1, "", 0);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "UND_MyconidRevenge_Event_PlaceNereHeadTrophy", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(UND_MyconidRevenge_State_HasNereHead_2eacf3d4-e7ce-4f76-8228-954ff5bfd6a4, _Var1, 1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Showing Head");
+SetOnStage(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, 1);
+
+IF
+UsingSpellOnTarget((GUIDSTRING)_Var1, S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, "Target_UND_MyconidSovereign_FakeAnimatingSpores", _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_UND_MyconidRevenge_HeadShroomed(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_MyconidRevenge_HeadShroomed(1);
+ObjectTimerLaunch(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, "UND_MyconidRevenge_HeadTransform_Timer", 1800);
+
+IF
+ObjectTimerFinished(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, "UND_MyconidRevenge_HeadTransform_Timer", _, _, _)
+THEN
+ClearOwnership(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b);
+Transform(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, UNI_UND_MyconidRevenge_NereHead_Shroomed_55249c82-7b97-4f8b-8fc2-ba0053aa6621, PHYSICAL_4acc6277-6dcd-4110-9450-b9379beaedac);
+
+IF
+QuestUpdateUnlocked(_, "UND_MyconidRevenge", "AcceptedSpaw", _, _)
+AND NOT
+DB_Defeated(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _, _, _, _)
+THEN
+DB_QuestDef_DefeatedState("UND_MyconidRevenge", "SpawDefeated", S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265);
+
+PROC
+PROC_StateSet_Defeated(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30, _, _, _, _)
+THEN
+NOT DB_QuestDef_DefeatedState("UND_MyconidRevenge", "SpawDefeated", S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265);
+
+IF
+FlagSet(UND_MyconidRevenge_State_GlutNere_11014930-f2d1-4c8d-9df9-e83677e0a731, _, _, _, _)
+AND
+DB_QuestIsAccepted("UND_MyconidRevenge", _, _, _, _)
+THEN
+QuestUpdate("UND_MyconidRevenge", "SpawThenGlut");
+
+IF
+FlagSet(UND_MyconidRevenge_State_GlutNere_11014930-f2d1-4c8d-9df9-e83677e0a731, _, _, _, _)
+AND NOT
+DB_QuestIsAccepted("UND_MyconidRevenge", _, _, _, _)
+THEN
+QuestUpdate("UND_MyconidRevenge", "AcceptedGlut");
+
+QRY
+QRY_UND_MyconidRevenge_KnowsAliveSovereign()
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_Sovereign_State_Dead_bcfa3d32-7250-4c44-9eff-fbf30cef2b6e, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_UND_MyconidRevenge_KnowsAliveSovereign()
+AND
+DB_GlobalFlag(UND_MyconidRevenge_State_GlutNere_11014930-f2d1-4c8d-9df9-e83677e0a731, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Dead(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_TheDrowNere_State_DiedDeserted_d9349fbe-a9bd-45f1-8c9e-8f97cf648841, _, _, _, _)
+AND NOT
+DB_GLO_HeadRemoval_HeadInaccessible(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30, _, _, _, _)
+THEN
+QuestUpdate("UND_MyconidRevenge", "KilledNere");
+
+IF
+DB_GLO_HeadRemoval_HeadInaccessible(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_MyconidRevenge_State_HeadInaccessible_4623532f-89fe-4622-a57a-63f792ef4fac);
+QuestUpdate("UND_MyconidRevenge", "HeadInaccessible");
+
+IF
+QuestAccepted((CHARACTER)_Var1, "UND_MyconidRevenge", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(UND_MyconidRevenge_State_HasNereHead_2eacf3d4-e7ce-4f76-8228-954ff5bfd6a4, _Var1, 1, _Var1, _Var1)
+AND NOT
+DB_UND_MyconidRevenge_NereHeadTaken(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_MyconidRevenge_NereHeadTaken(_Var1);
+
+IF
+FlagSet(UND_MyconidRevenge_State_HasNereHead_2eacf3d4-e7ce-4f76-8228-954ff5bfd6a4, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestIsAccepted("UND_MyconidRevenge", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_MyconidRevenge_NereHeadTaken(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_MyconidRevenge_NereHeadTaken(_Var1);
+
+IF
+DB_UND_MyconidRevenge_NereHeadTaken(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_Sovereign_State_Dead_bcfa3d32-7250-4c44-9eff-fbf30cef2b6e, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_MyconidRevenge", "TookHeadSpaw");
+
+IF
+DB_UND_MyconidRevenge_NereHeadTaken(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_MyconidRevenge_State_GlutNere_11014930-f2d1-4c8d-9df9-e83677e0a731, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_MyconidRevenge", "TookHeadGlut");
+
+IF
+DB_UND_MyconidRevenge_NereHeadTaken(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_Sovereign_State_Dead_bcfa3d32-7250-4c44-9eff-fbf30cef2b6e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_Dead_da7ae2b1-fa67-0889-6003-48d6aef7271d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_MyconidRevenge_State_GlutNere_11014930-f2d1-4c8d-9df9-e83677e0a731, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_MyconidRevenge", "TookHeadSovereign");
+
+IF
+DB_GlobalFlag(UND_MyconidCircle_Sovereign_State_Dead_bcfa3d32-7250-4c44-9eff-fbf30cef2b6e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_Dead_da7ae2b1-fa67-0889-6003-48d6aef7271d, _, _, _, _)
+AND
+DB_QuestIsAccepted("UND_MyconidRevenge", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "UND_MyconidRevenge", "TookHeadSpaw", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_MyconidRevenge", "TookHeadSovereign");
+
+IF
+DB_GlobalFlag(UND_MyconidRevenge_State_GlutNere_11014930-f2d1-4c8d-9df9-e83677e0a731, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_Dead_da7ae2b1-fa67-0889-6003-48d6aef7271d, _, _, _, _)
+AND
+DB_QuestIsAccepted("UND_MyconidRevenge", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "UND_MyconidRevenge", "TookHeadSovereign", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_MyconidRevenge", "TookHeadGlut");
+
+IF
+DB_GlobalFlag(UND_MyconidCircle_State_BothSovereignsDead_84a1008e-f3a0-4136-b085-8eb43be8aa93, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_MyconidRevenge", "MyconidsDead");
+
+IF
+DB_GlobalFlag(UND_TheDrowNere_State_DiedDeserted_d9349fbe-a9bd-45f1-8c9e-8f97cf648841, _, _, _, _)
+AND
+DB_QuestIsAccepted("UND_MyconidRevenge", _, _, _, _)
+AND NOT
+DB_UND_MyconidRevenge_NereHeadTaken(_, _, _, _, _)
+THEN
+DB_OneShot_VoiceBarkTrigger(S_UND_MyconidRevenge_DesertedTrigger_5cd9b763-32b0-4226-bef6-dbf9fd6b28d4, UND_DuergarCamp_VB_NereDiedDeserted_f5ffef55-bbd0-8593-6913-58322d243efc);
+
+IF
+DB_UND_MyconidRevenge_NereHeadTaken(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(S_UND_MyconidRevenge_DesertedTrigger_5cd9b763-32b0-4226-bef6-dbf9fd6b28d4, UND_DuergarCamp_VB_NereDiedDeserted_f5ffef55-bbd0-8593-6913-58322d243efc, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveOneShotVoiceBarkTrigger(S_UND_MyconidRevenge_DesertedTrigger_5cd9b763-32b0-4226-bef6-dbf9fd6b28d4, UND_DuergarCamp_VB_NereDiedDeserted_f5ffef55-bbd0-8593-6913-58322d243efc);
+
+IF
+VoiceBarkEnded(UND_DuergarCamp_VB_NereDiedDeserted_f5ffef55-bbd0-8593-6913-58322d243efc, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "UND_MyconidRevenge", "NereDiedRubble");
+
+IF
+VoiceBarkFailed(UND_DuergarCamp_VB_NereDiedDeserted_f5ffef55-bbd0-8593-6913-58322d243efc, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_MyconidRevenge", "NereDiedRubble");
+
+IF
+TextEvent("UND_MyconidRevenge_ToKillNere_Spaw", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_MyconidCircle_State_GainedAccess_fb9b0ee2-a499-cef2-fd3e-d9556050ea6a);
+PROC_GlobalSetFlagAndCache(UND_MyconidCircle_SpokeWithSovereign_155b4ce9-fd7b-445a-afbd-64cb5bf2d707);
+PROC_GlobalSetFlagAndCache(UND_MyconidCircle_State_OfferedQuest_0dacced0-1395-c7e6-6d2c-427348c70011);
+PROC_GlobalSetFlagAndCache(UND_MyconidCircle_AcceptedQuest_3aa48080-074b-457d-acbc-fcb970d9912b);
+Die(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+PROC_GlobalSetFlagAndCache(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394);
+PROC_GlobalSetFlagAndCache(UND_MyconidRevenge_State_SentKillNere_d8d606e6-d565-ed2f-bd4e-f2de1e719618);
+QuestUpdate("UND_MyconidRevenge", "AcceptedSpaw");
+
+IF
+TextEvent("UND_MyconidRevenge_AddNereHead", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, 1);
+ToInventory(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, _Var1, 1, 1, 1);
+
+IF
+TextEvent("UND_MyconidRevenge_TestPlacingNereHead", _, _, _, _)
+THEN
+SetOnStage(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, 1);
+ToInventory(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265);
+
+IF
+TextEvent("UND_MyconidRevenge_TestTeleportNereHead", _, _, _, _)
+THEN
+SetGravity(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, 0);
+SetOnStage(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, 1);
+ToInventory(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265);
+TeleportTo(S_UND_MyconidRevenge_NereHead_ac566f0d-9a24-4b91-a703-af913494ef0b, S_UND_MyconidRevenge_NereHeadTrophyTrigger_65166556-36ba-4f21-a2df-2865010d5fc2, "", 0, 0, 0, 0, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

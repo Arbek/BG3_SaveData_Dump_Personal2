@@ -1,0 +1,78 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DialogMoneyTransfer(1, CAMP_UnfortunateGnome_2ed77bf2-7ce7-00af-831b-035ee968f546, 100, 1);
+
+KBSECTION
+IF
+EntityEvent(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "UND_UnfortunateGnome_RanAwayToCamp", _, _, _)
+THEN
+PROC_CAMP_UnfortunateGnome_MoveToCamp();
+
+PROC
+PROC_CAMP_UnfortunateGnome_MoveToCamp()
+THEN
+PROC_SetCustomTradeTreasure(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_UnfortunateGnomeTrader");
+SetFlag(CAMP_UnfortunateGnome_State_MovedToCamp_0292e2c3-0717-4ac2-a99c-c3febfb76435, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetTag(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, TRADER_91d5ebc6-91ea-44db-8a51-216860d69b5b);
+PROC_ORI_SetupCamp(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, 1);
+
+IF
+DB_InCamp(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, _, _, _, _)
+THEN
+PROC_RemoveDialog(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+DB_Dialogs(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, CAMP_UnfortunateGnome_2ed77bf2-7ce7-00af-831b-035ee968f546);
+
+IF
+EntityEvent(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "UND_UnfortunateGnome_RanAwayToCamp", _, _, _)
+AND
+QRY_TriggerEvents_AnyPlayerInTrigger(S_UND_KethericCity_SUB_eeb2e8d6-6c21-41d9-aef8-30b6f267a0a5, _, _, _, _)
+THEN
+DB_ORI_OriginCampData(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "WLDDUNSHA", S_CAMP_WLDDUNSHA_UnfortunateGnome_ba48e0c6-7395-4163-9f9f-d86ce918d574);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_UND_KethericCity_SUB_eeb2e8d6-6c21-41d9-aef8-30b6f267a0a5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_OriginCampData(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "WLDDUNSHA", S_CAMP_WLDDUNSHA_UnfortunateGnome_ba48e0c6-7395-4163-9f9f-d86ce918d574, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_UND_KethericCity_SUB_eeb2e8d6-6c21-41d9-aef8-30b6f267a0a5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_OriginCampData(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "WLDDUNSHA", S_CAMP_WLDDUNSHA_UnfortunateGnome_ba48e0c6-7395-4163-9f9f-d86ce918d574);
+
+IF
+TextEvent("CAMP_MoveGnomeToCamp", _, _, _, _)
+THEN
+PROC_CAMP_DEBUG_PrepGnomeForCamp();
+SetEntityEvent(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "UND_UnfortunateGnome_RanAwayToCamp");
+
+IF
+EntityEvent(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "DebugTeleportedToCamp", _, _, _)
+THEN
+PROC_CAMP_DEBUG_PrepGnomeForCamp();
+SetEntityEvent(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "UND_UnfortunateGnome_RanAwayToCamp");
+
+IF
+DB_InCamp(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, _, _, _, _)
+AND
+DB_CAMP_DEBUG_MovedGnomeWithDebug(1, _, _, _, _)
+THEN
+NOT DB_CAMP_DEBUG_MovedGnomeWithDebug(1);
+PROC_SpotPlayers_StopSpotting(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_UnfortunateGnome");
+
+PROC
+PROC_CAMP_DEBUG_PrepGnomeForCamp()
+THEN
+DB_CAMP_DEBUG_MovedGnomeWithDebug(1);
+RemoveStatus(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_TIEDTOWINDMILL");
+PROC_StopLoopEffect(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_WindmillRopes");
+SetFaction(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, ACT1_FOR_UnfortunateGnome_b07fe550-1c04-7fed-03d4-f6ea6ff836f1);
+PROC_ClearStoryMove(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

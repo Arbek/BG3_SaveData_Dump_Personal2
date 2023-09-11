@@ -1,0 +1,65 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+QRY
+QRY_GameOver_BlockGameOver()
+AND
+QRY_TUT_GameOver_LivingCharactersLeft()
+AND
+DB_TutorialCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_PlayerLikeCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TUT_GameOver_LivingCharactersLeft()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TutorialCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_PlayerLikeCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GameOver_CheckGameOver();
+
+PROC
+PROC_TUT_Misc_TutorialCompanion_RemoveCompanion((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TUT_PlayerLikeCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GameOver_CheckGameOver();
+
+IF
+DB_TutorialCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_PlayerLikeCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GameOver_CheckGameOver();
+
+PROC
+PROC_TUT_Helm_EndTutorial()
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Tutorial"

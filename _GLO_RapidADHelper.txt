@@ -1,0 +1,326 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_RapidADHelper_BaseAdjustedTime(900);
+DB_GLO_RapidADHelper_AvailableRapidMindMeldADHelperCount(-1);
+NOT DB_GLO_RapidAD_AvailableRapidMindMeldADHelper("ID", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+KBSECTION
+PROC
+PROC_GLO_RapidAD_SetMaxDistance((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_RapidAD_MindMeldDistancePoints(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_GLO_RapidAD_MindMeldMaxDistance(_Var1, _Var4);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND
+DB_GLO_RapidAD_MindMeldRegion(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_RapidAD_TryRapidMindMeldAD(_Var1, _Var3);
+
+PROC
+PROC_GLO_RapidAD_TryRapidMindMeldAD((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_RapidAD_MindMeldRegion(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_RapidAD_ADHelper(_Var2, _Var4, _Var5, _Var1, _Var1)
+AND NOT
+DB_GLO_RapidAD_ActiveRapidAD(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce(_Var2);
+DB_GLO_RapidAD_ActiveRapidAD(_Var2, _Var5);
+PROC_GLO_RapidAD_TeleportADHelper(_Var4, _Var1, _Var2);
+PROC_TryStartAD(_Var5, _Var4);
+PROC_GLO_RapidAD_TimerStart(_Var2, _Var1);
+
+PROC
+PROC_GLO_RapidAD_TryOneRandomMindMeldAD(_, _, _, _, _)
+AND
+DB_GLO_RapidADHelper_AvailableRapidMindMeldADHelperCount(_Var3, _, _, _, _)
+THEN
+NOT DB_GLO_RapidADHelper_AvailableRapidMindMeldADHelperCount(_Var3);
+
+PROC
+PROC_GLO_RapidAD_TryOneRandomMindMeldAD(_, _, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+DB_GLO_RapidADHelper_AvailableRapidMindMeldADHelperCount(-1);
+
+PROC
+PROC_GLO_RapidAD_TryOneRandomMindMeldAD(_, _, _, _, _)
+AND
+DB_GLO_RapidAD_AvailableRapidMindMeldADHelper(_Var3, _Var4, _Var5, _Var6, _)
+THEN
+NOT DB_GLO_RapidAD_AvailableRapidMindMeldADHelper(_Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_GLO_RapidAD_TryOneRandomMindMeldAD((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_RapidAD_ADHelper(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND NOT
+DB_GLO_RapidAD_ActiveRapidAD(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GLO_RapidADHelper_AvailableRapidMindMeldADHelperCount(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var5, 1, _Var6, _Var1, _Var1)
+THEN
+DB_GLO_RapidAD_AvailableRapidMindMeldADHelper(_Var2, _Var3, _Var4, _Var6);
+NOT DB_GLO_RapidADHelper_AvailableRapidMindMeldADHelperCount(_Var5);
+DB_GLO_RapidADHelper_AvailableRapidMindMeldADHelperCount(_Var6);
+
+PROC
+PROC_GLO_RapidAD_TryOneRandomMindMeldAD((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_RapidAD_NonAutoMindMeldRegion(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+SysCount("DB_GLO_RapidAD_AvailableRapidMindMeldADHelper", 4, _Var4, _Var1, _Var1)
+AND
+Random(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_GLO_RapidAD_AvailableRapidMindMeldADHelper(_Var2, _Var6, _Var7, _Var5, _Var1)
+THEN
+DB_GLO_RapidAD_ActiveRapidAD(_Var2, _Var7);
+PROC_GLO_RapidAD_TeleportADHelper(_Var6, _Var1, _Var2);
+PROC_TryStartAD(_Var7, _Var6);
+
+PROC
+PROC_GLO_RapidAD_TeleportADHelper((ITEM)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_RapidAD_OverloadOffsetRules(_Var3, _Var4, _Var5, _Var6, _Var7)
+THEN
+PROC_GLO_RapidAD_TeleportADHelper(_Var1, _Var2, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_GLO_RapidAD_TeleportADHelper((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_RapidAD_OverloadOffsetRules(_Var3, _, _, _, _)
+THEN
+PROC_GLO_RapidAD_TeleportADHelper(_Var1, _Var2, 2, -0.5, 1, 1);
+
+PROC
+PROC_GLO_RapidAD_TeleportADHelper((ITEM)_Var1, (GUIDSTRING)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+Random(100, _Var7, _Var1, _Var1, _Var1)
+AND
+Random(100, _Var8, _Var1, _Var1, _Var1)
+AND
+Random(100, _Var9, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var7, _Var10, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var8, _Var11, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var9, _Var12, _Var1, _Var1, _Var1)
+AND
+RealDivide(_Var10, 100, _Var13, _Var1, _Var1)
+AND
+RealDivide(_Var11, 100, _Var14, _Var1, _Var1)
+AND
+RealDivide(_Var12, 100, _Var15, _Var1, _Var1)
+AND
+Random(4, _Var16, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_RapidAD_DetermineRandomOffset(_Var16, _Var13, _Var14, _Var3, _Var5)
+AND
+DB_QRYRTN_GLO_RapidAD_RandomOffset(_Var17, _Var18, _Var1, _Var1, _Var1)
+AND
+RealProduct(_Var15, _Var6, _Var19, _Var1, _Var1)
+AND
+RealSum(_Var19, _Var4, _Var20, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var21, _Var22, _Var23, _Var1)
+AND
+RealSum(_Var21, _Var17, _Var24, _Var1, _Var1)
+AND
+RealSum(_Var23, _Var18, _Var25, _Var1, _Var1)
+AND
+RealSum(_Var22, _Var20, _Var26, _Var1, _Var1)
+THEN
+TeleportToPosition(_Var1, _Var24, _Var26, _Var25, "", 0, 0, 0, 0, 0);
+NOT DB_QRYRTN_GLO_RapidAD_RandomOffset(_Var17, _Var18);
+
+PROC
+PROC_GLO_RapidAD_TeleportADHelper(_, _, _, _, _, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GLO_RapidAD_RapidMindMeldADCleanup();
+
+PROC
+PROC_GLO_RapidAD_RapidMindMeldADCleanup()
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithOffset(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_GLO_RapidAD_CalculatedWithOffset(_Var1);
+
+PROC
+PROC_GLO_RapidAD_RapidMindMeldADCleanup()
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithoutOffset(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_GLO_RapidAD_CalculatedWithoutOffset(_Var1);
+
+PROC
+PROC_GLO_RapidAD_RapidMindMeldADCleanup()
+AND
+DB_QRYRTN_GLO_RapidAD_RandomOffset(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GLO_RapidAD_RandomOffset(_Var1, _Var2);
+
+QRY
+QRY_GLO_RapidAD_DetermineRandomOffset(0, (REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4)
+AND
+QRY_GLO_RapidAD_CalcWithOffset(_Var1, _Var3, _Var4, 1, _Var1)
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithOffset(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_RapidAD_CalcWithoutOffset(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithoutOffset(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_RapidAD_RandomOffset(_Var5, _Var6);
+
+QRY
+QRY_GLO_RapidAD_DetermineRandomOffset(1, (REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4)
+AND
+QRY_GLO_RapidAD_CalcWithOffset(_Var1, _Var3, _Var4, -1, _Var1)
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithOffset(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_RapidAD_CalcWithoutOffset(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithoutOffset(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_RapidAD_RandomOffset(_Var5, _Var6);
+
+QRY
+QRY_GLO_RapidAD_DetermineRandomOffset(2, (REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4)
+AND
+QRY_GLO_RapidAD_CalcWithoutOffset(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithoutOffset(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_RapidAD_CalcWithOffset(_Var2, _Var3, _Var4, 1, _Var1)
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithOffset(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_RapidAD_RandomOffset(_Var5, _Var6);
+
+QRY
+QRY_GLO_RapidAD_DetermineRandomOffset(3, (REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4)
+AND
+QRY_GLO_RapidAD_CalcWithoutOffset(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithoutOffset(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_RapidAD_CalcWithOffset(_Var2, _Var3, _Var4, -1, _Var1)
+AND
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithOffset(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_RapidAD_RandomOffset(_Var5, _Var6);
+
+QRY
+QRY_GLO_RapidAD_CalcWithOffset((REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var1)
+AND
+RealProduct(_Var1, _Var3, _Var5, _Var1, _Var1)
+AND
+RealSum(_Var5, _Var2, _Var6, _Var1, _Var1)
+AND
+RealProduct(_Var6, _Var4, _Var7, _Var1, _Var1)
+THEN
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithOffset(_Var7);
+
+QRY
+QRY_GLO_RapidAD_CalcWithoutOffset((REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var1, (REAL)_Var1)
+AND
+RealSum(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+RealSubtract(_Var1, 0.5, _Var5, _Var1, _Var1)
+AND
+RealProduct(_Var5, 2, _Var6, _Var1, _Var1)
+AND
+RealProduct(_Var6, _Var4, _Var7, _Var1, _Var1)
+THEN
+DB_QRY_RTN_GLO_RapidAD_CalculatedWithoutOffset(_Var7);
+
+PROC
+PROC_GLO_RapidAD_TimerStart((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_GLO_Brainquakes_GetTimeDifference(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_RapidAD_ActiveRapidMindMeldTimeAdjusted(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var2, _Var1, _Var3, 1);
+DB_GLO_RapidAD_ActiveRapidMindMeldTimer(_Var1);
+NOT DB_QRYRTN_GLO_RapidAD_ActiveRapidMindMeldTimeAdjusted(_Var1, _Var3);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_RapidAD_ActiveRapidMindMeldTimer(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OnlyOnce(_Var2);
+NOT DB_GLO_RapidAD_ActiveRapidMindMeldTimer(_Var2);
+PROC_GLO_RapidAD_TryRapidMindMeldAD(_Var1, _Var2);
+
+QRY
+QRY_GLO_Brainquakes_GetTimeDifference((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_RapidAD_MindMeldDistancePoints(_Var1, _Var3, _, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var3, _Var5, _Var1, _Var1)
+AND
+DB_GLO_RapidAD_MindMeldMaxDistance(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+RealDivide(_Var5, _Var6, _Var7, _Var1, _Var1)
+AND
+DB_GLO_RapidAD_ActiveRapidMindMeldStartTime(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+RealProduct(_Var7, _Var9, _Var10, _Var1, _Var1)
+AND
+RealToInteger(_Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_RapidAD_SetAdjustedTime(_Var1, _Var11);
+
+PROC
+PROC_GLO_RapidAD_SetAdjustedTime((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_RapidADHelper_BaseAdjustedTime(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 > _Var3
+THEN
+DB_QRYRTN_GLO_RapidAD_ActiveRapidMindMeldTimeAdjusted(_Var1, _Var2);
+
+PROC
+PROC_GLO_RapidAD_SetAdjustedTime((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_RapidADHelper_BaseAdjustedTime(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 <= _Var3
+THEN
+DB_QRYRTN_GLO_RapidAD_ActiveRapidMindMeldTimeAdjusted(_Var1, _Var3);
+
+IF
+AutomatedDialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_RapidAD_ActiveRapidAD(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_RapidAD_ActiveRapidAD(_Var3, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

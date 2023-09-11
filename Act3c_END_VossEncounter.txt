@@ -1,0 +1,220 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_AutoSaveTrigger(S_END_AstralPlaneAutoSave_084d3ab1-ecf9-4da0-963c-cb630a8a8c2d);
+DB_END_VossEncounter_VossPosse(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, S_END_VossAmbushPoint_65259237-d9fe-49b8-8b5d-4073e358f793);
+DB_END_VossEncounter_VossPosse(S_END_VossPosseWarrior_001_17eae98e-c81d-4757-89da-f7a26089ba98, S_END_GithKnight001AmbushPoint_6a955577-d8a7-4b82-ba3a-2b448f2fb914);
+DB_END_VossEncounter_VossPosse(S_END_VossPosseWarrior_002_34191a83-2209-43ef-b1c7-ea757a7a37e1, S_END_GithKnight002AmbushPoint_f1f0dca7-ac81-4ebd-9d18-b5cebdec48ce);
+DB_END_VossEncounter_VossPosse(S_END_VossPosseWarrior_003_9e4fb331-8dfd-4ec7-b023-982534a3b383, S_END_GithKnight003AmbushPoint_b5af03b7-8531-42c3-babc-81b547547a85);
+SetOnStage(S_END_VossPosseWarrior_001_17eae98e-c81d-4757-89da-f7a26089ba98, 0);
+SetOnStage(S_END_VossPosseWarrior_002_34191a83-2209-43ef-b1c7-ea757a7a37e1, 0);
+SetOnStage(S_END_VossPosseWarrior_003_9e4fb331-8dfd-4ec7-b023-982534a3b383, 0);
+DB_OneShotPartyTrigger(S_END_VossSetup_9d5de3a8-2776-414a-92af-6ffe94f1ffca);
+PROC_TriggerRegisterForPlayers(S_END_VossAmbushBegin_b2f2ea06-d92b-4fe6-8639-72672882f73c);
+
+KBSECTION
+IF
+TextEvent("end_forcevossencounter", _, _, _, _)
+THEN
+SetFlag(Debug_END_VossEncounter_Event_ForceArrival_8d91a9ec-eb4f-4d68-910e-3014ed4cee24);
+
+IF
+FlagSet(Debug_END_VossEncounter_Event_ForceArrival_8d91a9ec-eb4f-4d68-910e-3014ed4cee24, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(Debug_END_VossEncounter_Event_ForceArrival_8d91a9ec-eb4f-4d68-910e-3014ed4cee24);
+DB_END_DEBUG_VossEncounter_DebugResurrect(1);
+Resurrect(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+
+IF
+Resurrected(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, _, _, _, _)
+AND
+DB_END_DEBUG_VossEncounter_DebugResurrect(1, _, _, _, _)
+THEN
+NOT DB_END_DEBUG_VossEncounter_DebugResurrect(1);
+NOT DB_PermaDefeated(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+ClearFlag(GLO_GithKnight_State_PermaDefeated_c354b407-b88d-4920-96a2-80555d6fc0b0);
+PROC_CharacterFullRestore(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+PROC_SetOnStage(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, 1);
+DB_END_VossEncounter_VossPosse(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, S_END_VossAmbushPoint_65259237-d9fe-49b8-8b5d-4073e358f793);
+
+IF
+TextEvent("end_StartVossEncounter", _, _, _, _)
+THEN
+PROC_END_VossEncounter_Setup();
+PROC_END_VossEncounter_MoveGith();
+
+PROC
+PROC_OneShotTriggerEntered((CHARACTER)_Var1, S_END_VossSetup_9d5de3a8-2776-414a-92af-6ffe94f1ffca, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_RemoveOneShotTrigger(S_END_VossSetup_9d5de3a8-2776-414a-92af-6ffe94f1ffca);
+PROC_END_VossEncounter_Setup();
+
+PROC
+PROC_END_VossEncounter_Setup()
+AND
+DB_PermaDefeated(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, _, _, _, _)
+AND
+DB_END_VossEncounter_VossPosse(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_VossEncounter_VossPosse(_Var1, _Var2);
+
+PROC
+PROC_END_VossEncounter_Setup()
+AND
+DB_END_VossEncounter_VossPosse(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(_Var1);
+TeleportTo(_Var1, S_END_VossPossePoint_d4570832-89c0-4a8b-856d-af05424f582e);
+SetOnStage(_Var1, 1);
+SetFaction(_Var1, ACT3_END_VossPosse_bfb577a5-62a8-449f-8857-c33d12d0d5dc);
+SetCombatGroupID(_Var1, "END_VossEncounter_VossPosse");
+
+PROC
+PROC_END_VossEncounter_Setup()
+AND NOT
+DB_END_VossEncounter_VossDialogueSpeaker(_, _, _, _, _)
+AND
+DB_END_IllithidOptionsFollower_Follower(_Var2, _, _, _, _)
+AND
+CharacterGetOwner(_Var2, _Var6, _, _, _)
+THEN
+DB_END_VossEncounter_VossDialogueSpeaker(_Var6);
+
+PROC
+PROC_END_VossEncounter_Setup()
+AND NOT
+DB_END_VossEncounter_VossDialogueSpeaker(_, _, _, _, _)
+AND
+DB_Avatars(_Var2, _, _, _, _)
+AND
+IsTagged(_Var2, FULL_CEREMORPH_3797bfc4-8004-4a19-9578-61ce0714cc0b, 1, _, _)
+THEN
+DB_END_VossEncounter_VossDialogueSpeaker(_Var2);
+
+PROC
+PROC_END_VossEncounter_Setup()
+AND NOT
+DB_END_VossEncounter_VossDialogueSpeaker(_, _, _, _, _)
+AND
+DB_Avatars(_Var2, _, _, _, _)
+THEN
+DB_END_VossEncounter_VossDialogueSpeaker(_Var2);
+
+PROC
+PROC_END_VossEncounter_Setup()
+AND
+DB_GlobalFlag(GLO_Voss_Event_GivesSilverSword_744de93b-5f2e-4316-9f41-ba595501f1c4, _, _, _, _)
+AND NOT
+DB_GLO_Voss_VossChangedSwords(1, _, _, _, _)
+THEN
+PROC_CharacterRemoveEquipmentPermanently(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+CharacterGiveEquipmentSet(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "EQ_END_VossLostGreatsword");
+
+IF
+EnteredTrigger(_, S_END_VossAmbushBegin_b2f2ea06-d92b-4fe6-8639-72672882f73c, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_TriggerUnregisterForPlayers(S_END_VossAmbushBegin_b2f2ea06-d92b-4fe6-8639-72672882f73c);
+PROC_END_VossEncounter_MoveGith();
+
+PROC
+PROC_END_VossEncounter_MoveGith()
+AND
+DB_END_VossEncounter_VossPosse(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+UseSpell(_Var1, "Target_MistyStep_Githyanki", _Var2);
+
+IF
+CastedSpell(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "Target_MistyStep_Githyanki", "Target", _, _)
+THEN
+PROC_END_VossEncounter_BeginDialogue();
+
+IF
+CastSpellFailed(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "Target_MistyStep_Githyanki", "Target", _, _)
+THEN
+TeleportTo(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, S_END_VossAmbushPoint_65259237-d9fe-49b8-8b5d-4073e358f793);
+PROC_END_VossEncounter_BeginDialogue();
+
+PROC
+PROC_END_VossEncounter_BeginDialogue()
+AND
+DB_END_VossEncounter_VossDialogueSpeaker(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(END_VossEncounter_VossAmbush_5967c11a-7d61-2198-04fd-24df3774c311, S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_VossEncounter_VossDialogueSpeaker(_Var1);
+
+PROC
+PROC_END_VossEncounter_BeginDialogue()
+AND
+DB_END_VossEncounter_VossDialogueSpeaker(_, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT3_END_VossPosse_bfb577a5-62a8-449f-8857-c33d12d0d5dc, 0);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(END_VossEncounter_VossAmbush_5967c11a-7d61-2198-04fd-24df3774c311, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(END_IllithidOptions_State_AssimilatedOrpheus_5562cc3f-c168-48c9-87c1-1598a5c58961, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(END_VossEncounter_VossAmbush_5967c11a-7d61-2198-04fd-24df3774c311, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_END_VossEncounter_VossPosse(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(END_VossEncounter_VossAmbush_5967c11a-7d61-2198-04fd-24df3774c311, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_END_VossEncounter_VossDialogueSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var3, 1, 0);
+
+IF
+DialogEnded(END_VossEncounter_VossAmbush_5967c11a-7d61-2198-04fd-24df3774c311, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_VossEncounter_Event_GithReinforcementsAwarded_b5147ee9-ec6e-461e-8849-7d9af26c3d54, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT3_END_VossPosse_bfb577a5-62a8-449f-8857-c33d12d0d5dc, 0);
+
+IF
+DialogEnded(END_VossEncounter_VossAmbush_5967c11a-7d61-2198-04fd-24df3774c311, _, _, _, _)
+AND
+DB_GlobalFlag(END_VossEncounter_Event_GithReinforcementsAwarded_b5147ee9-ec6e-461e-8849-7d9af26c3d54, _, _, _, _)
+AND
+DB_END_VossEncounter_VossPosse(_Var2, _, _, _, _)
+THEN
+UseSpell(_Var2, "Target_END_VossEncounter_GithMistyStep", S_END_GithKnight001AmbushPoint_6a955577-d8a7-4b82-ba3a-2b448f2fb914);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Target_END_VossEncounter_GithMistyStep", _, _, (INTEGER)_Var4)
+AND
+DB_END_VossEncounter_VossPosse(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+CastSpellFailed((CHARACTER)_Var1, "Target_END_VossEncounter_GithMistyStep", _, _, (INTEGER)_Var4)
+AND
+DB_END_VossEncounter_VossPosse(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, S_END_GithKnight001AmbushPoint_6a955577-d8a7-4b82-ba3a-2b448f2fb914, "Run", 1, "END_VossEncounter_GithFinishedWithPlayers");
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_END_VossEncounter_VossPosse(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_VossEncounter_VossPosse(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3c"

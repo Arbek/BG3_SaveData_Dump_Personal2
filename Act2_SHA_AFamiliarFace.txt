@@ -1,0 +1,222 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_TWN_GraveyardRaphaelSpawn_c81ceadf-5b47-4b29-ac22-e18cd7cf10d7);
+SetTag(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, ACT2_SHADOW_CURSE_IMMUNE_b47643e0-583c-4808-b108-f6d3b605b0a9);
+DB_GLO_CompoundFlag(MOO_Ketheric_Knows_HasSeen_0d776dde-e2b5-447a-b41d-3dd3c025cf96, GLO_Ketheric_Knows_Existence_aaf551db-484c-b549-4cc6-435086ae2d86);
+DB_GLO_CompoundFlag(GLO_SCL_Ketheric_State_PlayerKnowsKethericHistory_fe5d6b69-fd1a-aeac-17d5-2887fbf61fae, GLO_Ketheric_Knows_Existence_aaf551db-484c-b549-4cc6-435086ae2d86);
+DB_GLO_CompoundFlag(GLO_Ketheric_Knows_AboutImmortality_6d37f35d-fcaf-4b80-97f6-e44473ef5fbb, GLO_Ketheric_Knows_Existence_aaf551db-484c-b549-4cc6-435086ae2d86);
+DB_GLO_CompoundFlag(GLO_Ketheric_Knows_ImmortalitySource_0e9375d2-68e3-0509-36c5-55694768dad5, GLO_Ketheric_Knows_Existence_aaf551db-484c-b549-4cc6-435086ae2d86);
+DB_GLO_CompoundFlag(GLO_Ketheric_Knows_IsobelIsDaughter_4157aaed-4605-4f91-ba30-98d7735ff5f9, GLO_Ketheric_Knows_Existence_aaf551db-484c-b549-4cc6-435086ae2d86);
+DB_GLO_CompoundFlag(GLO_Ketheric_Knows_KethericNotTadpoled_9ffd4bfb-d61e-964f-c011-269cd32098aa, GLO_Ketheric_Knows_Existence_aaf551db-484c-b549-4cc6-435086ae2d86);
+
+KBSECTION
+IF
+EnteredTrigger((CHARACTER)_Var1, S_TWN_GraveyardRaphaelSpawn_c81ceadf-5b47-4b29-ac22-e18cd7cf10d7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_State_Current(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftHaven", _Var1, _Var1)
+AND
+QRY_State_IsBeforeState(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_AFamiliarFace", _Var1, _Var1)
+AND NOT
+DB_SHA_AFamiliarFace_WaitingRaphaelPoof(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SHA_RaphaelAtGraveyard", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SHA_AFamiliarFace_WaitingRaphaelPoof(1);
+PROC_HAV_MolsDeal_MonitorAbort();
+
+IF
+EnteredTrigger(_, S_TWN_GraveyardRaphaelSpawn_c81ceadf-5b47-4b29-ac22-e18cd7cf10d7, _, _, _)
+AND
+DB_State_Current(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftHaven", _, _)
+AND NOT
+DB_SHA_AFamiliarFace_WaitingRaphaelPoof(1, _, _, _, _)
+AND
+QRY_OnlyOnce("SHA_RaphaelAtGraveyard", _, _, _, _)
+THEN
+PROC_SHA_AFamiliarFace_InitScene();
+
+PROC
+PROC_HAV_MolsDeal_OnMonitorPoofed()
+AND
+DB_SHA_AFamiliarFace_WaitingRaphaelPoof(1, _, _, _, _)
+THEN
+NOT DB_SHA_AFamiliarFace_WaitingRaphaelPoof(1);
+PROC_SHA_AFamiliarFace_InitScene();
+
+PROC
+PROC_SHA_AFamiliarFace_InitScene()
+AND
+IsDead(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 1, _, _, _)
+THEN
+Resurrect(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+
+PROC
+PROC_SHA_AFamiliarFace_InitScene()
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_AFamiliarFace");
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+PROC_TriggerUnregisterForPlayers(S_TWN_GraveyardRaphaelSpawn_c81ceadf-5b47-4b29-ac22-e18cd7cf10d7);
+TeleportTo(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, S_SHA_RaphaelPoint_f3af0429-1d3f-4d31-bf75-bfd6e2561cf4, "SHA_MoveRaphaelToTemple", 1, 1, 1);
+
+IF
+EntityEvent(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "SHA_MoveRaphaelToTemple", _, _, _)
+AND
+DB_State_Current(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_AFamiliarFace", _, _)
+THEN
+DB_Dialogs(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, SHA_Raphael_b2456297-525e-fff7-e72b-7da3da48995a);
+SetFlag(SHA_OrthonsLair_State_RaphaelAtTemple_3b3a1869-54e0-45c9-bdc7-b548febbe291, NULL_00000000-0000-0000-0000-000000000000);
+PROC_GLO_Monitor_Foop();
+DB_SpotPlayers(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "SHA_RaphaelAtGraveyard", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "SHA_RaphaelAtGraveyard", S_SHA_RaphaelGraveyardDialogTrigger_4a167728-e20e-4b85-aa4a-9571c1737409);
+DB_SceneManager(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "SHA_RaphaelAtGraveyard");
+DB_SceneTriggerManager("SHA_RaphaelAtGraveyard", S_TWN_RaphaelAtGraveyardScene_ddcf2f64-19bf-4cd6-816f-eddd36f8b8af);
+
+PROC
+PROC_SpotPlayers_Spotted(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "SHA_RaphaelAtGraveyard", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SHA_Raphael_ReplaceSpeakerWithAstarionAvatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_SHA_Raphael_DialogSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(SHA_Raphael_b2456297-525e-fff7-e72b-7da3da48995a, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_State_Current(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_AFamiliarFace", _Var1, _Var1)
+AND
+QRY_SHA_Raphael_ReplaceSpeakerWithAstarionAvatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_SHA_Raphael_DialogSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(SHA_Raphael_b2456297-525e-fff7-e72b-7da3da48995a, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, _Var2);
+
+QRY
+QRY_SHA_Raphael_ReplaceSpeakerWithAstarionAvatar((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255
+AND
+DB_Avatars(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, _, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, _Var3, _Var1, _Var1)
+AND
+_Var3 <= 25
+THEN
+DB_QRYRTN_SHA_Raphael_DialogSpeaker(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255);
+
+QRY
+QRY_SHA_Raphael_ReplaceSpeakerWithAstarionAvatar((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_SHA_Raphael_DialogSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_SHA_Raphael_DialogSpeaker(_Var1);
+
+IF
+DialogStarted(SHA_Raphael_b2456297-525e-fff7-e72b-7da3da48995a, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "SHA_RaphaelAtGraveyard");
+
+IF
+DialogEnded(SHA_Raphael_b2456297-525e-fff7-e72b-7da3da48995a, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SceneOver("SHA_RaphaelAtGraveyard");
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftGraveyard");
+
+PROC
+PROC_SceneInterrupted(_, _, "SHA_RaphaelAtGraveyard", (STRING)_Var3, _)
+AND
+DB_GLO_GenericSceneManager_ViolenceReason(_Var3, _, _, _, _)
+AND NOT
+QRY_StartDialog(SHA_FamiliarFace_AD_MonitorLeaves_75abe47d-8e36-e8a1-9924-3ee6de2b5342, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Monitor_State_AttackedMonitor_355730d6-4035-4918-888e-dbbefea1b6c3);
+PROC_SceneOver("SHA_RaphaelAtGraveyard");
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftGraveyard");
+
+IF
+AutomatedDialogEnded(SHA_FamiliarFace_AD_MonitorLeaves_75abe47d-8e36-e8a1-9924-3ee6de2b5342, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Monitor_State_AttackedMonitor_355730d6-4035-4918-888e-dbbefea1b6c3);
+PROC_SceneOver("SHA_RaphaelAtGraveyard");
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftGraveyard");
+
+PROC
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_AFamiliarFace", _, (STRING)_)
+THEN
+PROC_SceneOver("SHA_RaphaelAtGraveyard");
+
+PROC
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", _, "GLO_Monitor_LeftGraveyard", (STRING)_)
+THEN
+PROC_GLO_Monitor_Poof();
+
+IF
+DB_Dead(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_CanBeResurrected(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftAct2");
+
+IF
+DB_KnockedOut(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_PreventKnockedOutPermaDefeated(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_CanBeResurrected(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND
+DB_ForceRemoveKnockedOutCharacterOnLongRest(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftAct2");
+
+IF
+DB_KnockedOut(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_PreventKnockedOutPermaDefeated(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_CanBeResurrected(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND
+HasAppliedStatus(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, "KNOCKED_OUT_TEMPORARILY", 0, _, _)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_LeftAct2");
+
+PROC
+PROC_SceneOver("SHA_RaphaelAtGraveyard", _, _, _, _)
+AND
+DB_GlobalFlag(SHA_AFamiliarFace_State_RaphaelAtGraveyard_3b3a1869-54e0-45c9-bdc7-b548febbe291, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "SHA_RaphaelAtGraveyard");
+ClearFlag(SHA_AFamiliarFace_State_RaphaelAtGraveyard_3b3a1869-54e0-45c9-bdc7-b548febbe291, NULL_00000000-0000-0000-0000-000000000000);
+PROC_ForceStopDialog(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+SetFlag(ORI_Astarion_State_RaphaelLeftMasoleumEntrance_ee881edf-2d4d-40a2-a6f1-c790a01c9ed5);
+
+PROC
+PROC_GLO_Monitor_DebugStateReset()
+AND
+QRY_OnlyOnce_Reset("SHA_RaphaelAtGraveyard", _, _, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(S_TWN_GraveyardRaphaelSpawn_c81ceadf-5b47-4b29-ac22-e18cd7cf10d7);
+
+PROC
+PROC_State_Changed(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", _, "GLO_Monitor_SharessCaress", (STRING)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

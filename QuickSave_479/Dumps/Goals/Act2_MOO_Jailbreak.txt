@@ -1,0 +1,2224 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DialogBlockTradeButton(MOO_Jailbreak_Wulbren_70298fcd-3a9f-7bdb-b740-0fa46ea09902);
+DB_Dialogs(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, MOO_Jailbreak_GnomePrisoner_001_fec6ff03-708e-b279-075b-643d48198dbb);
+DB_Dialogs(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_Wulbren_70298fcd-3a9f-7bdb-b740-0fa46ea09902);
+DB_Dialogs(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, MOO_Jailbreak_GnomePrisoner_002_10025a36-6e51-a7c7-7061-f471e75f05fa);
+DB_MOO_Jailbreak_Cell("Gnomes", S_MOO_CellGate_002_35fbdc57-b803-4edb-879f-f678bad6c446, MOO_Jailbreak_State_GnomeCellOpen_a557455c-0cb4-4859-96a7-cd99131af5cd, S_MOO_GnomeDestructibleWall_001_918242db-699a-4886-9cd7-433c62b920a9, MOO_Jailbreak_State_GnomePathOpen_ef0aa614-2a18-7bd1-0f79-c3aca59ec3ab);
+PROC_TriggerRegisterForPlayers(S_MOO_CloseToGnomesArea_ce80db02-4f1d-4d3a-91fc-1fbb92f07866);
+PROC_TriggerRegisterForPlayers(S_MOO_CloseToGnomesArea_001_bb9032ca-6a7c-40b5-acff-eb0d3a9cb129);
+PROC_TriggerRegisterForPlayers(S_MOO_MoonriseTowerNoRoof_SUB_54d40f5d-34e6-42fd-829b-bb2f5facfcda);
+PROC_TriggerRegisterForPlayers(S_MOO_PrisonJailbreak_SUB_d066ff4c-bc01-4e46-97ad-f641ccd61929);
+SetFlag(MOO_Jailbreak_State_GnomesInJail_acbdd0cf-8b58-460c-adb6-fe883d886deb, NULL_00000000-0000-0000-0000-000000000000, 0);
+TriggerRegisterForItems(S_MOO_GnomeCell_25f1be2f-5203-4100-bc47-e286cd3f13b0);
+DB_MOO_Jailbreak_Prisoner(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, "Gnomes");
+DB_MOO_Jailbreak_Prisoner(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "Gnomes");
+DB_MOO_Jailbreak_Prisoner(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, "Gnomes");
+DB_PermaDefeatedEvent(S_MOO_GnomeDestructibleWall_918242db-699a-4886-9cd7-433c62b920a9, MOO_Jailbreak_State_TunnelPathOpen_ef0aa614-2a18-7bd1-0f79-c3aca59ec3ab);
+DB_HasItemEvent(S_MOO_JailbreakHammer_b6925b99-4b14-48a1-89ca-eb328bb746df, MOO_Jailbreak_State_HasWulbrenHammer_32474e94-de18-1860-b66e-100dac52b9e4);
+DB_Dialogs(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7, MOO_Jailbreak_Warden_4eb7970b-14df-5faa-f25c-8e9360fd280b);
+DB_Dialogs(S_MOO_PrisonGuard_002_0cf357ec-268c-4779-92ad-8d6c7de437d1, MOO_Jailbreak_Guard_002_7c32a61a-20e2-6492-08cf-9aed1f6777f5);
+DB_Dialogs(S_MOO_PrisonGuard_004_107c72ca-2a4f-477d-a315-deeea3eea49e, MOO_Jailbreak_Guard_004_37e932d6-554f-7edb-b1a7-47cad0bff37e);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_PrisonGuard_002_0cf357ec-268c-4779-92ad-8d6c7de437d1);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_PrisonGuard_004_107c72ca-2a4f-477d-a315-deeea3eea49e);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_WarehouseGuard_000_d161fc7f-801c-463c-bdbd-f638c8499361);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_WarehouseGuard_001_30de3349-7bcb-4a6e-be2e-3ae7a4c89e6a);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_WarehouseGuard_002_8360ec17-f888-4745-8b22-351feadb86d1);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_PrisonEye_A_fe9333ab-2bbe-4624-978e-56ca9b4c58da);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_PrisonEye_B_9bea6db5-8e9a-4277-9813-823b45248022);
+DB_MOO_Jailbreak_PendingGuards(S_MOO_PrisonEye_C_89e223c3-52e8-4bbf-9a75-47cbb0b6b65e);
+DB_MOO_Jailbreak_EscapedPrisonerCheck(S_MOO_CloseToGnomesArea_001_bb9032ca-6a7c-40b5-acff-eb0d3a9cb129, MOO_Jailbreak_State_GnomePathOpen_ef0aa614-2a18-7bd1-0f79-c3aca59ec3ab);
+DB_MOO_Jailbreak_EscapedPrisonerCheck(S_MOO_CloseToTieflingsArea_002_00eaf664-f945-467a-8c63-9c8961d544c3, MOO_Jailbreak_State_TieflingPathOpen_7ac02a54-0147-f8fc-778a-88af57f9030d);
+DB_MOO_Jailbreak_TunnelInvestigatePos(S_MOO_CellGate_002_35fbdc57-b803-4edb-879f-f678bad6c446, S_MOO_GoToTunnelsPos_001_d4f41fbc-fecd-47d8-878e-886aca322921);
+DB_MOO_Jailbreak_TunnelInvestigatePos(S_MOO_CellGate_004_9758a245-c314-4099-94a5-506267cf2a1d, S_MOO_GoToTunnelsPos_002_c471ee14-6458-4b43-aa35-73abfd6ff8fc);
+PROC_TriggerRegisterForPlayers(S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab);
+PROC_TriggerRegisterForPlayers(S_MOO_ByCellsArea_6871bc1b-742f-4677-82ab-069d6a35cd5a);
+PROC_TriggerRegisterForPlayers(S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff);
+DB_SpotPlayers_SpotTrigger(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7, "MOO_Jailbreak_EntryWarning", S_MOO_PrisonEntryArea_ed458e58-37ee-4293-b554-8084bf79bd38);
+DB_SpotPlayers(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7, "MOO_Jailbreak_EntryWarning", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_MOO_Jailbreak_PotentialTiefling(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, S_MOO_PrisonerTieflingPos_001_9c279042-4963-490c-8f2e-6476c2aea716, MOO_Jailbreak_ProdigySister_2f6d3c1c-f580-453a-8828-e0a8ec3cd9ff, "MOO_ProdigySister");
+DB_MOO_Jailbreak_PotentialTiefling(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, S_MOO_PrisonerTieflingPos_002_8bc30a20-b491-4d4a-990c-615fc851564a, MOO_Jailbreak_ProdigyBrother_58346860-9653-c355-d12e-0642a7610bb9, "MOO_ProdigyBrother");
+DB_MOO_Jailbreak_PotentialTiefling(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, S_MOO_PrisonerTieflingPos_003_b5142de2-140d-4ea1-b5b6-8b9d351585ed, MOO_Jailbreak_FlirtyTiefling_6e0eb4fb-89a5-4202-7985-745e932913f9, "MOO_FlirtyTiefling");
+DB_MOO_Jailbreak_PotentialTiefling(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, S_MOO_PrisonerTieflingPos_004_78192c52-3382-44b6-9fb2-480919139632, MOO_Jailbreak_Lover_e78e1cce-b7fe-76bf-9110-d4e3e009e1a4, "MOO_TieflingLover");
+PROC_TriggerRegisterForPlayers(S_MOO_CloseToTieflingsArea_6139cf6a-9e00-4ccb-8b92-733437a35e57);
+PROC_TriggerRegisterForPlayers(S_MOO_CloseToTieflingsArea_002_00eaf664-f945-467a-8c63-9c8961d544c3);
+SetCanInteract(S_MOO_EscapeBoatSeats_b1f641f2-a0b0-4f04-a76f-63d08d48ccdb, 0);
+SetCanInteract(S_MOO_EscapeBoatTie_001_b08428d6-7b79-4e43-aba0-2980b091516a, 0);
+SetCanInteract(S_MOO_EscapeBoatTie_002_396ae816-5fca-4000-97bf-029add26b1a5, 0);
+DB_IgnoreMutingStatussesDialog(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3);
+PROC_TriggerRegisterForPlayers(S_MOO_GetawayBoatDialogArea_030094d9-ec6f-4717-903a-0cb27c5cea2f);
+PROC_TriggerRegisterForPlayers(S_MOO_GetawayBoatPlayerArea_02e5e8aa-6987-4988-971f-315d0b489ec3);
+DB_MOO_Jailbreak_BoatParts(S_MOO_EscapeBoat_dd67802b-bb74-474c-a670-87d04a784db7);
+DB_MOO_Jailbreak_BoatParts(S_MOO_EscapeBoatRope_001_a12aa575-b72c-4f6a-b86d-8fc305b0d4ba);
+DB_MOO_Jailbreak_BoatParts(S_MOO_EscapeBoatRope_002_cf0a7c1e-9f46-418f-8cbb-1696de3bc8d4);
+DB_MOO_Jailbreak_BoatParts(S_MOO_EscapeBoatSeats_b1f641f2-a0b0-4f04-a76f-63d08d48ccdb);
+DB_MOO_Jailbreak_BoatParts(S_MOO_EscapeBoatTie_001_b08428d6-7b79-4e43-aba0-2980b091516a);
+DB_MOO_Jailbreak_BoatParts(S_MOO_EscapeBoatTie_002_396ae816-5fca-4000-97bf-029add26b1a5);
+SetCanInteract(S_MOO_EscapeBoatTie_001_b08428d6-7b79-4e43-aba0-2980b091516a, 0);
+DB_MOO_Jailbreak_BoatInMOO(1);
+DB_MOO_Jailbreak_Chains(S_MOO_EscapeBoatRope_001_a12aa575-b72c-4f6a-b86d-8fc305b0d4ba);
+DB_MOO_Jailbreak_Chains(S_MOO_EscapeBoatRope_002_cf0a7c1e-9f46-418f-8cbb-1696de3bc8d4);
+DB_MOO_Jailbreak_ChainPositions(S_MOO_EscapeBoatRope_001_a12aa575-b72c-4f6a-b86d-8fc305b0d4ba, S_MOO_ChainPosition_001_8bda9f9d-5b04-4274-8f8c-b6b40d7fac12, NULL_00000000-0000-0000-0000-000000000000);
+DB_MOO_Jailbreak_ChainPositions(S_MOO_EscapeBoatRope_001_a12aa575-b72c-4f6a-b86d-8fc305b0d4ba, S_MOO_ChainPosition_002_5c2f7460-8bb4-4159-9ad8-64f87738a8bd, NULL_00000000-0000-0000-0000-000000000000);
+DB_MOO_Jailbreak_ChainPositions(S_MOO_EscapeBoatRope_002_cf0a7c1e-9f46-418f-8cbb-1696de3bc8d4, S_MOO_ChainPosition_003_c8862c34-ab00-45c6-8696-4a97e8d28d3a, NULL_00000000-0000-0000-0000-000000000000);
+DB_MOO_Jailbreak_ChainPositions(S_MOO_EscapeBoatRope_002_cf0a7c1e-9f46-418f-8cbb-1696de3bc8d4, S_MOO_ChainPosition_004_d020f501-3bc5-4d20-98b8-3a9b593ad334, NULL_00000000-0000-0000-0000-000000000000);
+DB_MOO_Jailbreak_ChainWeapons(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, S_MOO_JailbreakWeapon_001_089cebb7-cfe7-43c9-933a-93c792c7d1e4);
+DB_MOO_Jailbreak_ChainWeapons(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, S_MOO_JailbreakWeapon_002_27b5ff48-d456-4b96-ae3a-e34268feafa9);
+DB_MOO_Jailbreak_ChainWeapons(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, S_MOO_JailbreakWeapon_003_ba0d3372-ca79-4e32-9057-5b458aabca11);
+DB_MOO_Jailbreak_ChainWeapons(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, S_MOO_JailbreakWeapon_004_a9207f73-15a9-4dfa-829d-69148ee83b06);
+DB_MOO_Jailbreak_ChainWeapons(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, S_MOO_JailbreakWeapon_005_f06e2585-0109-4e67-a974-bbff9cfe8492);
+DB_MOO_Jailbreak_ChainWeapons(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, S_MOO_JailbreakWeapon_006_95bc170e-c74c-42fd-8150-1c384fa71d4c);
+DB_MOO_Jailbreak_ChainWeapons(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, S_MOO_JailbreakWeapon_007_72c0516c-f66d-4fbc-858f-c5914ae31b07);
+DB_MOO_Jailbreak_CanCombatChainBreakAD(1);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, S_MOO_GnomeBoatSpline_001_e32d1011-7b8c-4ee6-8432-cbffc18b7f6e);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, S_MOO_BackupEscapeSpline_001_367cde76-d4ab-4860-9eab-9bb829dabf8f);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_DockEscape_7621f16f-7820-26c3-4ab0-1288dc5b26e4, S_MOO_DockEscapeSpline_001_285cf7c8-65a3-448d-a2bc-a633b722cb8b);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, S_MOO_GnomePrisonEscapeSpline_001_ba8f4861-b908-4e85-8e9b-3f1090e0bf05);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_TieflingEscape_957c68da-c432-44af-a69d-a7b44da4b344, S_MOO_SaveTieflingsSpline_001_617ad006-0123-47b2-8c1b-f18c361b9cf0);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, S_MOO_GnomeBoatSpline_002_e398dd3b-3dd2-4791-832c-00b58ad4ccbc);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, S_MOO_BackupEscapeSpline_001_367cde76-d4ab-4860-9eab-9bb829dabf8f);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, MOO_Jailbreak_State_DockEscape_7621f16f-7820-26c3-4ab0-1288dc5b26e4, S_MOO_DockEscapeSpline_001_285cf7c8-65a3-448d-a2bc-a633b722cb8b);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, S_MOO_GnomePrisonEscapeSpline_002_4d0ca2d5-0c1e-4393-9e40-642177cb8804);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, MOO_Jailbreak_State_TieflingEscape_957c68da-c432-44af-a69d-a7b44da4b344, S_MOO_SaveTieflingsSpline_002_dd361711-dd9f-4f04-bb0e-67becf536460);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, S_MOO_GnomeBoatSpline_003_a850ecbb-081a-4301-8147-aa93e4fb81c3);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, S_MOO_BackupEscapeSpline_001_367cde76-d4ab-4860-9eab-9bb829dabf8f);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, MOO_Jailbreak_State_DockEscape_7621f16f-7820-26c3-4ab0-1288dc5b26e4, S_MOO_DockEscapeSpline_001_285cf7c8-65a3-448d-a2bc-a633b722cb8b);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, S_MOO_GnomePrisonEscapeSpline_003_2a8c313d-4cc6-4d43-951b-ef356b963cee);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, MOO_Jailbreak_State_TieflingEscape_957c68da-c432-44af-a69d-a7b44da4b344, S_MOO_SaveTieflingsSpline_003_f1c9c7f4-3bb1-417a-a98c-2c961b8dc48a);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, S_MOO_TieflingBoatSpline_001_7573550f-a219-4a62-9596-8e523d9d17fa);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, S_MOO_BackupEscapeSpline_001_367cde76-d4ab-4860-9eab-9bb829dabf8f);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, MOO_Jailbreak_State_DockEscape_7621f16f-7820-26c3-4ab0-1288dc5b26e4, S_MOO_DockEscapeSpline_001_285cf7c8-65a3-448d-a2bc-a633b722cb8b);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, S_MOO_TieflingPrisonEscapeSpline_001_0bf11977-f44b-4d86-8f74-f1b234fc2f3c);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, S_MOO_TieflingBoatSpline_002_cd7c528b-918e-436e-b81a-dbe9ce01d33d);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, S_MOO_BackupEscapeSpline_001_367cde76-d4ab-4860-9eab-9bb829dabf8f);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, MOO_Jailbreak_State_DockEscape_7621f16f-7820-26c3-4ab0-1288dc5b26e4, S_MOO_DockEscapeSpline_001_285cf7c8-65a3-448d-a2bc-a633b722cb8b);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, S_MOO_TieflingPrisonEscapeSpline_002_cc8b5040-db6e-4b41-8c69-cfa65ccac9cf);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, S_MOO_TieflingBoatSpline_003_588bc0ea-30a8-4c08-bbbc-753afda26110);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, S_MOO_BackupEscapeSpline_001_367cde76-d4ab-4860-9eab-9bb829dabf8f);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, MOO_Jailbreak_State_DockEscape_7621f16f-7820-26c3-4ab0-1288dc5b26e4, S_MOO_DockEscapeSpline_001_285cf7c8-65a3-448d-a2bc-a633b722cb8b);
+DB_MOO_Jailbreak_EscapeSpline(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, S_MOO_TieflingPrisonEscapeSpline_003_ecbc3e46-1eef-403a-ae9c-5a3cacbd50cf);
+DB_MOO_Jailbreak_EscapeSpline(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, S_MOO_TieflingBoatSpline_004_228ac4a3-daa3-42aa-a5af-6889668d1557);
+DB_MOO_Jailbreak_EscapeSpline(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, S_MOO_BackupEscapeSpline_001_367cde76-d4ab-4860-9eab-9bb829dabf8f);
+DB_MOO_Jailbreak_EscapeSpline(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, MOO_Jailbreak_State_DockEscape_7621f16f-7820-26c3-4ab0-1288dc5b26e4, S_MOO_DockEscapeSpline_001_285cf7c8-65a3-448d-a2bc-a633b722cb8b);
+DB_MOO_Jailbreak_EscapeSpline(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, S_MOO_TieflingPrisonEscapeSpline_004_2c210111-b652-4167-ab56-ce819cfc9eae);
+DB_MOO_Jailbreak_ADs(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_AD_Wulbren_e0c2afa6-8580-f353-bf14-7dd1496a0527);
+DB_MOO_Jailbreak_ADs(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, MOO_Jailbreak_AD_Gnome01_73cb0f8b-001a-01d7-26b1-b94ec669fedd);
+DB_MOO_Jailbreak_ADs(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, MOO_Jailbreak_AD_Gnome02_354429e5-bad7-5d99-d521-856df6fe2c5a);
+DB_MOO_Jailbreak_ADs(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, MOO_Jailbreak_AD_FlirtyTiefling_35aeb3bf-aa75-8d78-2a61-8c0b2384978d);
+DB_MOO_Jailbreak_ADs(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, MOO_Jailbreak_AD_TieflingLover_ce6a2b21-707d-88fb-9a0a-d72a3f0d919b);
+DB_MOO_Jailbreak_ADs(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, MOO_Jailbreak_AD_ProdigyBrother_58cabccd-ba3d-7f9d-07ae-5ba66f0b4ea8);
+DB_MOO_Jailbreak_ADs(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, MOO_Jailbreak_AD_ProdigySister_36aeb2a9-90d8-6aac-f167-42827c6a3cfd);
+DB_MOO_Jailbreak_BoatLeaderPriority(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, 1);
+DB_MOO_Jailbreak_BoatLeaderPriority(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, 2);
+DB_MOO_Jailbreak_BoatLeaderPriority(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, 3);
+DB_MOO_Jailbreak_BoatLeaderPriority(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, 4);
+DB_MOO_Jailbreak_BoatLeaderPriority(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, 5);
+DB_MOO_Jailbreak_BoatLeaderPriority(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, 6);
+DB_MOO_Jailbreak_BoatLeaderPriority(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, 7);
+DB_MOO_Jailbreak_FreedFlag(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_WulbrenFreed_f2b40211-ba53-43c1-a0a1-9827c5910018);
+DB_MOO_Jailbreak_FreedFlag(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, MOO_Jailbreak_State_SisterFreed_9c16b011-8adb-4049-9036-c530eae8795c);
+DB_MOO_Jailbreak_FreedFlag(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, MOO_Jailbreak_State_BrotherFreed_9313203f-2e50-4069-b0b9-808ca58d759b);
+DB_MOO_Jailbreak_FreedFlag(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, MOO_Jailbreak_State_FlirtyFreed_637f73fa-c9fa-4114-ac13-8b05c495cce0);
+DB_MOO_Jailbreak_FreedFlag(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, MOO_Jailbreak_State_LoverFreed_75a39abf-b7db-452d-991d-b158a4ea7d05);
+DB_MOO_Jailbreak_FreedFlag(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, MOO_Jailbreak_State_Gnome01Freed_1a3c3868-a614-43d3-a4f1-3b8e9857e8a5);
+DB_MOO_Jailbreak_FreedFlag(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, MOO_Jailbreak_State_Gnome02Freed_e97448ba-b0f6-457a-ba74-4cdb43964cb5);
+DB_MOO_Jailbreak_TieflingAD(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, MOO_Jailbreak_AD_ProdigySister_36aeb2a9-90d8-6aac-f167-42827c6a3cfd);
+DB_MOO_Jailbreak_TieflingAD(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, MOO_Jailbreak_AD_ProdigyBrother_58cabccd-ba3d-7f9d-07ae-5ba66f0b4ea8);
+DB_MOO_Jailbreak_TieflingAD(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, MOO_Jailbreak_AD_FlirtyTiefling_35aeb3bf-aa75-8d78-2a61-8c0b2384978d);
+DB_MOO_Jailbreak_TieflingAD(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, MOO_Jailbreak_AD_TieflingLover_ce6a2b21-707d-88fb-9a0a-d72a3f0d919b);
+DB_Dialogs(S_MOO_JailbreakToolDebug_63c509fd-0bf0-4da2-8434-3731e58a5502, DEBUG_MOO_Jailbreak_ToolInstructions_ff22f241-5f92-1fc7-f06b-346634ee8a2b);
+PROC_MOO_Jailbreak_Init();
+SetFlag(MOO_Jailbreak_State_PlayersCanUseBoat_f3b7858e-8dc7-0e25-df9a-8147ce6894a9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+KBSECTION
+PROC
+PROC_MOO_Jailbreak_Init()
+AND
+DB_MOO_Jailbreak_SetupTieflings(1, _, _, _, _)
+THEN
+PROC_MOO_Jailbreak_SetupTieflings();
+
+PROC
+PROC_MOO_Jailbreak_SetupTieflings()
+AND NOT
+DB_HAV_SavingPrisoners_InHaven(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _, _, _, _)
+THEN
+NOT DB_MOO_Jailbreak_PotentialTiefling(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, S_MOO_PrisonerTieflingPos_001_9c279042-4963-490c-8f2e-6476c2aea716, MOO_Jailbreak_ProdigySister_2f6d3c1c-f580-453a-8828-e0a8ec3cd9ff, "MOO_ProdigySister");
+NOT DB_MOO_Jailbreak_PotentialTiefling(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, S_MOO_PrisonerTieflingPos_002_8bc30a20-b491-4d4a-990c-615fc851564a, MOO_Jailbreak_ProdigyBrother_58346860-9653-c355-d12e-0642a7610bb9, "MOO_ProdigyBrother");
+
+PROC
+PROC_MOO_Jailbreak_SetupTieflings()
+AND
+DB_MOO_Jailbreak_PotentialTiefling(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_DeleteAllWeapons(_Var1);
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+PROC_SetAnubisConfig(_Var1, _Var4);
+TeleportTo(_Var1, _Var2, "");
+SetOnStage(_Var1, 1);
+LookFromTrigger(_Var1, _Var2, 0);
+SetFaction(_Var1, ACT2_MOO_Prisoners_415c10db-9541-4d9b-aaff-5c77f98a1189);
+DB_Dialogs(_Var1, _Var3);
+PROC_MOO_Jailbreak_AddToPrison(_Var1, "Tieflings");
+TriggerRegisterForCharacter(S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab, _Var1);
+
+PROC
+PROC_MOO_Jailbreak_SetupTieflings()
+AND
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+THEN
+SetFlag(MOO_Jailbreak_State_TieflingLeader_fa806828-c5a4-2691-ad46-be5e2ced9d67, S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, 0);
+
+PROC
+PROC_MOO_Jailbreak_SetupTieflings()
+AND NOT
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_Prisoner(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, _, _, _, _)
+AND
+DB_MOO_Jailbreak_Prisoner(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, _, _, _, _)
+THEN
+PROC_SetAnubisConfig(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, "MOO_ProdigySister");
+SetFlag(MOO_Jailbreak_State_TieflingLeader_fa806828-c5a4-2691-ad46-be5e2ced9d67, S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, 0);
+
+PROC
+PROC_MOO_Jailbreak_SetupTieflings()
+AND NOT
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND
+DB_MOO_Jailbreak_Prisoner(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, _, _, _, _)
+THEN
+PROC_SetAnubisConfig(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, "MOO_ProdigySister");
+SetFlag(MOO_Jailbreak_State_TieflingLeader_fa806828-c5a4-2691-ad46-be5e2ced9d67, S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, 0);
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var1, "MOO_Jailbreak_Guards");
+DB_CRIME_Guards_BlockPrisonerDialog(_Var1);
+
+IF
+DB_MOO_Jailbreak_Prisoner(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+RequestSetSwarmGroup(_Var1, "");
+SetTag(_Var1, ACT2_SHADOW_CURSE_IMMUNE_b47643e0-583c-4808-b108-f6d3b605b0a9);
+TriggerRegisterForCharacter(S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_PendingGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_Guards(_Var1);
+
+IF
+DB_InRegion(_Var1, S_MOO_DisableEscapeArea_130ffe26-5c2c-4f5d-95a8-5b3e5480475c, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_GuardsCloseToGnomes_f5ed9e52-0804-4b3f-8b98-92a05b654c8a, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_GuardsCloseToGnomes_f5ed9e52-0804-4b3f-8b98-92a05b654c8a, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GlobalFlag(MOO_Jailbreak_State_GuardsCloseToGnomes_f5ed9e52-0804-4b3f-8b98-92a05b654c8a, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_MOO_DisableEscapeArea_130ffe26-5c2c-4f5d-95a8-5b3e5480475c, _, _, _)
+THEN
+ClearFlag(MOO_Jailbreak_State_GuardsCloseToGnomes_f5ed9e52-0804-4b3f-8b98-92a05b654c8a, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_PendingGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(S_MOO_DisableEscapeArea_130ffe26-5c2c-4f5d-95a8-5b3e5480475c, _Var1);
+
+PROC
+PROC_StateCleared_Defeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_PendingGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_MOO_DisableEscapeArea_130ffe26-5c2c-4f5d-95a8-5b3e5480475c, _Var1);
+
+IF
+DB_MOO_Jailbreak_Prisoner(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_DisarmPrisoner(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_DisarmPrisoner((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetEquippedWeapon(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+RequestDelete(_Var2);
+
+PROC
+PROC_MOO_Jailbreak_DisarmPrisoner((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetEquippedShield(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+RequestDelete(_Var2);
+
+PROC
+PROC_MOO_Jailbreak_AddToPrison((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_MOO_Jailbreak_Prisoner(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_AddToPrison((CHARACTER)_Var1, "Tieflings", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("MOO_Jailbreak_TieflingsAdded", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_Cell("Tieflings", S_MOO_CellGate_004_9758a245-c314-4099-94a5-506267cf2a1d, MOO_Jailbreak_State_TieflingCellOpen_3cd17384-b469-4922-99ab-97154f0e4f85, S_MOO_GnomeDestructibleWall_002_eb404040-7b2b-4542-8faa-dd119ff5e763, MOO_Jailbreak_State_TieflingPathOpen_7ac02a54-0147-f8fc-778a-88af57f9030d);
+SetFlag(MOO_Jailbreak_State_TieflingsInJail_c00d4fef-f2d6-4308-9dda-19d34b6cbf3c, NULL_00000000-0000-0000-0000-000000000000, 0);
+TriggerRegisterForItems(S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab);
+
+IF
+DB_MOO_Jailbreak_Prisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_TrackedPrisoner(_Var1, _Var2);
+PROC_CharacterDisableAllCrimes(_Var1, 1);
+TriggerRegisterForCharacter(S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1);
+
+IF
+DB_MOO_Jailbreak_PendingGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_MOO_ByCellsArea_6871bc1b-742f-4677-82ab-069d6a35cd5a, _Var1);
+TriggerRegisterForCharacter(S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1);
+TriggerRegisterForCharacter(S_MOO_DisableEscapeArea_130ffe26-5c2c-4f5d-95a8-5b3e5480475c, _Var1);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_Prisoner(_Var1, _Var2);
+DB_MOO_Jailbreak_KilledPrisoner(_Var1);
+PROC_HAV_SavingPrisoners_PrisonerPermaDefeated(_Var2);
+PROC_MOO_Jailbreak_CheckEnd();
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_TrackedPrisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_TrackedPrisoner(_Var1, _Var2);
+PROC_HAV_SavingPrisoners_PrisonerPermaDefeated(_Var2);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_Escaping(_Var1, _Var2);
+PROC_MOO_Jailbreak_CheckEnd();
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_Guards(_Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_Event_ProdigyIntro_69799630-8919-7518-a027-91295fe51eee, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(MOO_Jailbreak_ProdigySister_2f6d3c1c-f580-453a-8828-e0a8ec3cd9ff, S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _Var1, S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_Event_ProdigyIntro_69799630-8919-7518-a027-91295fe51eee, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(MOO_Jailbreak_ProdigySister_2f6d3c1c-f580-453a-8828-e0a8ec3cd9ff, S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _Var1, S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b);
+
+IF
+ItemEnteredTrigger((GUIDSTRING)_Var1, S_MOO_GnomeCell_25f1be2f-5203-4100-bc47-e286cd3f13b0, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_CheckValidTool(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_CheckValidTool((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsWeapon(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetBaseWeaponDamageType(_Var1, "Bludgeoning", _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_ToolOnGround(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_CheckValidTool((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsWeapon(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetBaseWeaponDamageType(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 != "Bludgeoning"
+THEN
+PROC_MOO_Jailbreak_TryWrongItemAD();
+
+PROC
+PROC_MOO_Jailbreak_TryWrongItemAD()
+AND NOT
+DB_MOO_Jailbreak_WrongItemCooldown(1, _, _, _, _)
+THEN
+PROC_TryStartAD(MOO_Jailbreak_AD_ToolRefused_7be83c11-0bdf-f711-be76-04193645e702, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf);
+DB_MOO_Jailbreak_WrongItemCooldown(1);
+ObjectTimerLaunch(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "MOO_Jailbreak_WrongItemTimer", 5000);
+
+IF
+ObjectTimerFinished(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "MOO_Jailbreak_WrongItemTimer", _, _, _)
+THEN
+NOT DB_MOO_Jailbreak_WrongItemCooldown(1);
+
+IF
+ItemLeftTrigger((GUIDSTRING)_Var1, S_MOO_GnomeCell_25f1be2f-5203-4100-bc47-e286cd3f13b0, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_ToolOnGround(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_ToolOnGround(_Var1);
+SetEntityEvent(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "S_MOO_Jailbreak_ClearPickup");
+PROC_MOO_Jailbreak_CheckForOtherToolOnGround();
+
+IF
+AddedTo((ITEM)_Var1, (GUIDSTRING)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_MOO_Jailbreak_ToolOnGround(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf
+THEN
+NOT DB_MOO_Jailbreak_ToolOnGround(_Var1);
+SetEntityEvent(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "S_MOO_Jailbreak_ClearPickup");
+PROC_MOO_Jailbreak_CheckForOtherToolOnGround();
+
+IF
+DB_MOO_Jailbreak_ToolOnGround(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _Var1, "MOO_Jailbreak_PickupTool");
+
+PROC
+PROC_MOO_Jailbreak_CheckForOtherToolOnGround()
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(MOO_Jailbreak_Event_GiveHammer_d77eec74-6db4-26d6-633a-313fb84b3fd8, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_MOO_Jailbreak_NoSpotPlayers(1);
+ToInventory(S_MOO_JailbreakHammer_b6925b99-4b14-48a1-89ca-eb328bb746df, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, 1, 0, 1);
+
+IF
+AddedTo((GUIDSTRING)_Var1, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsWeapon(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetBaseWeaponDamageType(_Var1, "Bludgeoning", _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(MOO_Jailbreak_AD_ToolAccepted_73267ee0-75fe-9520-7420-6f8b36017901, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf);
+Equip(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _Var1);
+SetFlag(MOO_Jailbreak_State_GnomesHaveTools_740c0cea-1876-d336-7601-2418455692b1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(MOO_Jailbreak_State_GnomesHaveTools_740c0cea-1876-d336-7601-2418455692b1, _, _, _, _)
+AND NOT
+DB_DialogNPCs(_, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_NoSpotPlayers(1, _, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_Escaping(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+THEN
+DB_SpotPlayers(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "MOO_Jailbreak_GotTools", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_MOO_Jailbreak_Escaping(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "MOO_Jailbreak_GotTools");
+
+PROC
+PROC_SpotPlayers_Spotted(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "MOO_Jailbreak_GotTools", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog(MOO_Jailbreak_Wulbren_70298fcd-3a9f-7bdb-b740-0fa46ea09902, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DestroyedBy((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Cell(_, _, _, _Var1, _Var8)
+THEN
+SetFlag(_Var8, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DestroyedBy(S_MOO_GnomeDestructibleWall_002_eb404040-7b2b-4542-8faa-dd119ff5e763, _, _, _, _)
+AND
+DB_MOO_Jailbreak_Escaping(_Var4, MOO_Jailbreak_State_TieflingEscape_957c68da-c432-44af-a69d-a7b44da4b344, _, _, _)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var4, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Cell(_Var4, _, _, _, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var8, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var8, _, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var8, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee);
+
+IF
+Opened((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Cell(_, _Var1, _Var3, _, _)
+THEN
+SetFlag(_Var3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_MOO_Jailbreak_Cell(_, _Var1, _Var6, _, _)
+THEN
+SetFlag(_Var6, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet((FLAG)_Var1, _, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_MOO_Jailbreak_Cell(_Var4, _, _Var1, _, _)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var8, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var8, _, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var8, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_EscapingInCombat_50e87b8b-ff96-4855-bd99-b690ac937277, _Var1, 0);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_EscapingInCombat_50e87b8b-ff96-4855-bd99-b690ac937277, _Var1, 0);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "ClearPeaceReturn", 1);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, "Gnomes", _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_TieflingsInJail_c00d4fef-f2d6-4308-9dda-19d34b6cbf3c, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(S_MOO_GnomeDestructibleWall_002_eb404040-7b2b-4542-8faa-dd119ff5e763, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var1, MOO_Jailbreak_State_TieflingEscape_957c68da-c432-44af-a69d-a7b44da4b344);
+DB_MOO_Jailbreak_BlockSetEscapeRoute(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+AND NOT
+DB_MOO_Jailbreak_BlockSetEscapeRoute(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var3, _Var1, 0);
+SetEntityEvent(_Var1, "MOO_Jailbreak_CancelRoute");
+NOT DB_MOO_Jailbreak_Escaping(_Var1, _Var3);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, "Gnomes", _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_GnomesInJail_acbdd0cf-8b58-460c-adb6-fe883d886deb, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_GnomesInJail_acbdd0cf-8b58-460c-adb6-fe883d886deb, NULL_00000000-0000-0000-0000-000000000000, 0);
+TriggerUnregisterForItems(S_MOO_GnomeCell_25f1be2f-5203-4100-bc47-e286cd3f13b0);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, "Tieflings", _Var1, _Var1, _Var1)
+AND
+_Var2 != MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_TieflingsInJail_c00d4fef-f2d6-4308-9dda-19d34b6cbf3c, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_TieflingsInJail_c00d4fef-f2d6-4308-9dda-19d34b6cbf3c, NULL_00000000-0000-0000-0000-000000000000, 0);
+TriggerUnregisterForItems(S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, "Tieflings", _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_TieflingsInJail_c00d4fef-f2d6-4308-9dda-19d34b6cbf3c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_TieflingPathOpen_7ac02a54-0147-f8fc-778a-88af57f9030d, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_TieflingsInJail_c00d4fef-f2d6-4308-9dda-19d34b6cbf3c, NULL_00000000-0000-0000-0000-000000000000, 0);
+TriggerUnregisterForItems(S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, MOO_Jailbreak_State_TieflingEscape_957c68da-c432-44af-a69d-a7b44da4b344, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var2, "Tieflings", _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var2, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_TieflingCellOpen_3cd17384-b469-4922-99ab-97154f0e4f85, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(S_MOO_GnomeDestructibleWall_002_eb404040-7b2b-4542-8faa-dd119ff5e763, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var1, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, MOO_Jailbreak_State_TieflingEscape_957c68da-c432-44af-a69d-a7b44da4b344, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_TieflingsInJail_c00d4fef-f2d6-4308-9dda-19d34b6cbf3c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_WaitingForBoat_a649ff0e-8456-4718-905d-966ba37999a8, _Var1, 0);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_Escaping(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_BlockSetEscapeRoute(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_BlockSetEscapeRoute(_Var1);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("MOO_Jailbreak_Start", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(ACT2_MOO_Prisoners_415c10db-9541-4d9b-aaff-5c77f98a1189, 100);
+DB_MOO_Jailbreak_Started(1);
+SetFlag(MOO_Jailbreak_Event_StartedJailbreak_4f376a54-949f-433c-b079-4ec14239ee6d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_Escaping_139ced4b-4340-eb70-4a33-14279f87b2be, _Var1, 0);
+SetFlag(_Var2, _Var1, 0);
+PROC_MOO_Jailbreak_EscapeMove(_Var1, _Var2);
+
+IF
+FlagSet(MOO_Jailbreak_State_Escaping_139ced4b-4340-eb70-4a33-14279f87b2be, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, 0, _, _)
+AND
+QRY_OnlyOnce("MOO_Jailbreak_WulbrenEscapeAD", _, _, _, _)
+THEN
+ObjectTimerLaunch(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "MOO_Jailbreak_WulbrenEscapeADTimer", 1500);
+
+IF
+ObjectTimerFinished(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "MOO_Jailbreak_WulbrenEscapeADTimer", _, _, _)
+THEN
+SetFlag(MOO_Jailbreak_Event_ADEscaping_7fede5d9-9619-7fc9-4e3c-94d8650a1180, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, 0);
+
+IF
+FlagSet(MOO_Jailbreak_Event_ADEscaping_7fede5d9-9619-7fc9-4e3c-94d8650a1180, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, 0, _, _)
+THEN
+PROC_TryStartAD(MOO_Jailbreak_AD_Wulbren_e0c2afa6-8580-f353-bf14-7dd1496a0527, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf);
+
+IF
+FlagSet(MOO_Jailbreak_State_Escaping_139ced4b-4340-eb70-4a33-14279f87b2be, (GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(MOO_Jailbreak_State_TieflingLeader_fa806828-c5a4-2691-ad46-be5e2ced9d67, _Var1, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("MOO_Jailbreak_TieflingEscapeAD", _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "MOO_Jailbreak_TieflingEscapeADTimer", 1500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "MOO_Jailbreak_TieflingEscapeADTimer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(MOO_Jailbreak_Event_ADEscaping_7fede5d9-9619-7fc9-4e3c-94d8650a1180, _Var1, 0);
+
+IF
+FlagSet(MOO_Jailbreak_Event_ADEscaping_7fede5d9-9619-7fc9-4e3c-94d8650a1180, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_TieflingAD(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var1);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_MOO_GetawayBoatArea_e5fc26b4-a348-4369-9cc2-ddbdeebfbf92, _Var1);
+
+PROC
+PROC_MOO_Jailbreak_EscapeMove((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_EscapeSpline(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+SetEntityEventGuid(_Var1, "MOO_Jailbreak_SetRoute", _Var3);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 0);
+DB_MOO_Jailbreak_BlockDialog(_Var1);
+
+IF
+DB_MOO_Jailbreak_BlockDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+NOT DB_MOO_Jailbreak_BlockDialog(_Var1);
+
+IF
+DB_MOO_Jailbreak_BlockDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_AtBoat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+NOT DB_MOO_Jailbreak_BlockDialog(_Var1);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("MOO_Jailbreak_Guards", _, _, _, _)
+THEN
+SetFlag(MOO_Jailbreak_State_GuardsCleanedOut_d7ca2c67-8eb1-db4d-a16c-2bc3c17deeb7, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var5, _, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var6, _Var8);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var7, _, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var6, _Var7);
+
+QRY
+QRY_CRIME_Guards_GuardKillerExcludeWitness((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_SpeakingWithPrisoner(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var1, _Var5, _, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var5, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_PrisonerInterogationAllowed_ec463b99-d941-2f57-3c5c-de8f4b0db1e2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var2, S_MOO_PlayerCell_7b277f0f-3812-42e7-a4f3-e3c94b08e6a7, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_SpeakingWithPrisoner(_Var2, _Var5);
+
+IF
+DB_MOO_Jailbreak_SpeakingWithPrisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 != S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf
+THEN
+PROC_CharacterRegisterCrime(_Var1, "MOO_Jailbreak_SpokeWithPrisoner", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_MOO_Jailbreak_SpeakingWithPrisoner(_Var1, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_GnomesHaveTools_740c0cea-1876-d336-7601-2418455692b1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "MOO_Jailbreak_SpokeWithPrisoner", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_MOO_Jailbreak_SpeakingWithPrisoner(_Var1, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_GnomesHaveTools_740c0cea-1876-d336-7601-2418455692b1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "MOO_Jailbreak_SpokeWithPrisonerAfterTrade", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_MOO_Jailbreak_SpeakingWithPrisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_, _Var1, _, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_SpeakingWithPrisoner(_Var1, _Var2);
+CharacterStopCrime(_Var1, "MOO_Jailbreak_SpokeWithPrisoner", NULL_00000000-0000-0000-0000-000000000000);
+CharacterStopCrime(_Var1, "MOO_Jailbreak_SpokeWithPrisonerAfterTrade", NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_MOO_Jailbreak_PosInPrisonerCell((REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var1, (REAL)_Var1)
+AND
+PositionIsInTrigger(_Var1, _Var2, _Var3, S_MOO_GnomeCell_25f1be2f-5203-4100-bc47-e286cd3f13b0, 1)
+THEN
+DB_NOOP(1);
+
+IF
+ItemEnteredTrigger((GUIDSTRING)_Var1, S_MOO_GnomeCell_25f1be2f-5203-4100-bc47-e286cd3f13b0, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_GnomesInJail_acbdd0cf-8b58-460c-adb6-fe883d886deb, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, S_MOO_PlayerCell_7b277f0f-3812-42e7-a4f3-e3c94b08e6a7, 0, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var2, "MOO_Jailbreak_TradedWithPrisoner", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+ItemEnteredTrigger((ITEM)_Var1, S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_TieflingsInJail_c00d4fef-f2d6-4308-9dda-19d34b6cbf3c, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, S_MOO_PlayerCell_7b277f0f-3812-42e7-a4f3-e3c94b08e6a7, 0, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var2, "MOO_Jailbreak_TradedWithPrisoner", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+CharacterOnCrimeSensibleActionNotification((CHARACTER)_Var1, "SCL_Main_A_MOO", (INTEGER)_Var2, "CRIME_AttackNoDialog", _, (CHARACTER)_Var4, _, _, _, 1)
+AND
+CrimeGetType(_Var2, "MOO_Jailbreak_SpokeWithPrisonerAfterTrade", _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var4);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_EscapedPrisonerCheck(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var4, _Var5);
+TriggerRegisterForCharacter(S_MOO_CombatMissingPrisonerArea_daa78ec4-e946-4b9a-9d6e-da3ac3d6a5e5, _Var5);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_EscapedPrisonerCheck(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Cell(_, _Var6, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_, _, _, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Try Play AD! The Prisoners have escaped!");
+PROC_MOO_Jailbreak_LookForPrisoners(_Var1, _Var6, _Var4);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_EscapedPrisonerCheck(_, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_CombatMissingPrisonerArea_daa78ec4-e946-4b9a-9d6e-da3ac3d6a5e5, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Cell(_, _Var5, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_, _, _, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Try Play AD! The Prisoners have escaped!");
+PROC_MOO_Jailbreak_LookForPrisoners(_Var1, _Var5, _Var3);
+
+PROC
+PROC_MOO_Jailbreak_LookForPrisoners((GUIDSTRING)_Var1, (ITEM)_Var2, (FLAG)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Alarm_ScryingEyes(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_FindInvestigatingGuard(_Var1, _Var2, _Var3);
+
+PROC
+PROC_MOO_Jailbreak_LookForPrisoners((CHARACTER)_Var1, (ITEM)_Var2, (FLAG)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_MOO_Alarm_ScryingEyes(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+PurgeOsirisQueue(_Var1, 0);
+PROC_MOO_Jailbreak_FindInvestigatingGuard(_Var1, _Var2, _Var3);
+
+PROC
+PROC_MOO_Jailbreak_SendEyeToInvestigate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Alarm_ScryingEyes(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("MOO_Jailbreak_EyeFollow", _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_MOO_GuardAndEyeDestinationArea_536666cb-c218-4388-a195-2881647a0d14, _Var1);
+TriggerRegisterForCharacter(S_MOO_GuardAndEyeDestinationArea_536666cb-c218-4388-a195-2881647a0d14, _Var2);
+PROC_Follow(_Var2, _Var1);
+
+PROC
+PROC_MOO_Jailbreak_FindInvestigatingGuard((GUIDSTRING)_Var1, (ITEM)_Var2, (FLAG)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Alarm_ScryingEyes(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Guards(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_, _, _, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+PurgeOsirisQueue(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+DB_MOO_Jailbreak_LeadInvestigatingGuard(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7, _Var2, _Var3);
+TriggerRegisterForCharacter(S_MOO_GuardAndEyeDestinationArea_536666cb-c218-4388-a195-2881647a0d14, S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+TriggerRegisterForCharacter(S_MOO_GuardAndEyeDestinationArea_536666cb-c218-4388-a195-2881647a0d14, _Var1);
+PROC_Follow(_Var1, S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+
+PROC
+PROC_MOO_Jailbreak_FindInvestigatingGuard((CHARACTER)_Var1, (ITEM)_Var2, (FLAG)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Alarm_ScryingEyes(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Alarm_ScryingEyes(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_, _, _, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var4);
+PurgeOsirisQueue(_Var4);
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_Var4, _Var2, _Var3);
+TriggerRegisterForCharacter(S_MOO_GuardAndEyeDestinationArea_536666cb-c218-4388-a195-2881647a0d14, _Var4);
+TriggerRegisterForCharacter(S_MOO_GuardAndEyeDestinationArea_536666cb-c218-4388-a195-2881647a0d14, _Var1);
+PROC_Follow(_Var1, _Var4);
+
+PROC
+PROC_MOO_Jailbreak_FindInvestigatingGuard((CHARACTER)_Var1, (ITEM)_Var2, (FLAG)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Alarm_ScryingEyes(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_, _, _, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_TryAddWardenToInvestigation(_Var1);
+PROC_ForceStopDialog(_Var1);
+PurgeOsirisQueue(_Var1);
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_Var1, _Var2, _Var3);
+PROC_MOO_Jailbreak_SendEyeToInvestigate(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_TryAddWardenToInvestigation((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7
+AND
+DB_MOO_Jailbreak_Guards(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_PriorityAccompanyingGuard(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+
+IF
+DB_InRegion(_Var1, S_MOO_GuardAndEyeDestinationArea_536666cb-c218-4388-a195-2881647a0d14, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_GuardAndEyeDestinationArea_536666cb-c218-4388-a195-2881647a0d14, _Var1, _Var1, _Var1)
+AND
+DB_Following(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopFollow(_Var2);
+
+IF
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_PriorityAccompanyingGuard(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_PriorityAccompanyingGuard(_Var1);
+
+IF
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_MOO_EmergencyLever_976d70e4-edec-4a03-a004-a8e1a6ac86c1, "Run", "MOO_Jailbreak_GuardStartsEmergency");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "MOO_Jailbreak_GuardStartsEmergency", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_MOO_Jailbreak_EmergencyStarted(1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "MOO_Jailbreak_GuardStartsEmergency", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_MOO_Prison_DisabledLever(S_MOO_EmergencyLever_976d70e4-edec-4a03-a004-a8e1a6ac86c1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Use(_Var1, S_MOO_EmergencyLever_976d70e4-edec-4a03-a004-a8e1a6ac86c1, "");
+
+IF
+DB_MOO_Prison_OpenCell(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_GoInvestigateBoat(_Var2, _Var1);
+
+PROC
+PROC_MOO_Jailbreak_GoInvestigateBoat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_TunnelInvestigatePos(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var3, "Run", "MOO_Jailbreak_AtCellInvestigate");
+PROC_MOO_Jailbreak_GetAccompanyingInvestigators(_Var3);
+
+PROC
+PROC_MOO_Jailbreak_GetAccompanyingInvestigators((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_MOO_Jailbreak_PriorityAccompanyingGuard(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_AccompanyingInvestigatingGuard(_Var2, _Var1);
+NOT DB_MOO_Jailbreak_PriorityAccompanyingGuard(_Var2);
+
+PROC
+PROC_MOO_Jailbreak_GetAccompanyingInvestigators((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Alarm_ScryingEyes(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+SysCount("DB_MOO_Jailbreak_AccompanyingInvestigatingGuard", 2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 3
+AND NOT
+DB_MOO_Jailbreak_LeadInvestigatingGuard(_Var2, _, _, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_AccompanyingInvestigatingGuard(_Var2, _Var1);
+
+IF
+DB_MOO_Jailbreak_AccompanyingInvestigatingGuard(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Run", "MOO_Jailbreak_AtCellInvestigate");
+
+IF
+EntityEvent((CHARACTER)_Var1, "MOO_Jailbreak_AtCellInvestigate", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_MOO_GetawayBoatRunPos_17986938-fdbf-44fa-86a4-48b07410eace, "Run", "MOO_Jailbreak_Investigate");
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b, 1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_GuardsInTunnel(1);
+
+IF
+DB_MOO_Jailbreak_GuardsInTunnel(1, _, _, _, _)
+AND
+DB_OnlyOnce("MOO_Jailbreak_HostileToPlayers", _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_GuardsToTunnels_f58a2f57-252c-407c-ad51-e117961b3cbe, _, _, _, _)
+THEN
+SetFlag(MOO_Jailbreak_State_GuardsToTunnels_f58a2f57-252c-407c-ad51-e117961b3cbe, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_AttackPrisoners", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_PrisonerHostility();
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var2, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var2, S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_AttackPrisoners", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_PrisonerHostility();
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var2, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_HostileToPlayers", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_PlayerHostility();
+PROC_MOO_Jailbreak_ForceCharacterToCombatGuard(_Var2, _Var1);
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_EmergencyStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_ByCellsArea_6871bc1b-742f-4677-82ab-069d6a35cd5a, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_ByCellsArea_6871bc1b-742f-4677-82ab-069d6a35cd5a, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_HostileToPlayers", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_PlayerHostility();
+PROC_MOO_Jailbreak_ForceCharacterToCombatGuard(_Var2, _Var1);
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_EmergencyStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_ByCellsArea_6871bc1b-742f-4677-82ab-069d6a35cd5a, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_MOO_ByCellsArea_6871bc1b-742f-4677-82ab-069d6a35cd5a, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_HostileToPlayers", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_PlayerHostility();
+PROC_MOO_Jailbreak_ForceCharacterToCombatGuard(_Var2, _Var1);
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var3, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_HostileToPlayers", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_PlayerHostility();
+PROC_MOO_Jailbreak_ForceCharacterToCombatGuard(_Var5, _Var1);
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var3, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var5, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_PlayerHostility();
+PROC_MOO_Jailbreak_ForceCharacterToCombatGuard(_Var5, _Var1);
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var4, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var3, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_PrisonerHostility();
+PROC_MOO_Jailbreak_ForceCharacterToCombatGuard(_Var4, _Var1);
+
+PROC
+PROC_MOO_Jailbreak_ForceCharacterToCombatGuard((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_EnterCombatRequested(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStopDialogFor(_Var1);
+PROC_EnterCombat(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_PlayerHostility()
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_HostileToPlayers", _, _, _, _)
+THEN
+DB_OnlyOnce("MOO_Jailbreak_HostileToPlayers");
+PROC_SetRelationToPlayers(ACT2_MOO_Jailers_81d21487-9f41-4280-8e21-44495cdc762e, 0);
+
+PROC
+PROC_MOO_Jailbreak_PrisonerHostility()
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_AttackPrisoners", _, _, _, _)
+THEN
+PROC_SetRelationMutual(ACT2_MOO_Jailers_81d21487-9f41-4280-8e21-44495cdc762e, ACT2_MOO_Prisoners_415c10db-9541-4d9b-aaff-5c77f98a1189, 0);
+DB_OnlyOnce("MOO_Jailbreak_AttackPrisoners");
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Docks_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_HostileDocks", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("MOO_Jailbreak_HostileDocks");
+PROC_SetRelationToPlayers(ACT2_MOO_Docks_18e130ab-2ddb-a467-839e-8c0e388c6122, 0);
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_GnomesHaveTools_740c0cea-1876-d336-7601-2418455692b1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "MOO_Jailbreak_Guards");
+SetCombatGroupID(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "MOO_Jailbreak_Guards");
+
+PROC
+PROC_MOO_Jailbreak_EmergencyLeverUsed()
+THEN
+DB_NOOP(1);
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_AtBoat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_OnTheWayToBoat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_BoatPrisoners(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_BoatPrisoners(_Var1);
+DB_MOO_Jailbreak_OnTheWayToBoat(_Var1);
+
+IF
+DB_MOO_Jailbreak_OnTheWayToBoat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_OnTheWayToBoat(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_MOO_GetawayBoatArea_e5fc26b4-a348-4369-9cc2-ddbdeebfbf92, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_BoatInMOO(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_AtBoat(_Var1);
+NOT DB_MOO_Jailbreak_OnTheWayToBoat(_Var1);
+SetEntityEvent(_Var1, "MOO_Jailbreak_AtBoat");
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_StayInBoatAiTrigger(_Var1);
+SetAiHint(_Var1, AI_HINT_UNIQUE_1902723d-dd16-4e7a-87d6-7b07f63add79);
+SetStayInAiHints(_Var1, 1);
+
+IF
+DB_MOO_Jailbreak_StayInBoatAiTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, _Var1, _Var1, _Var1)
+THEN
+SetAiHint(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+SetStayInAiHints(_Var1, 0);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_MOO_GetawayBoatArea_e5fc26b4-a348-4369-9cc2-ddbdeebfbf92, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_BoatInMOO(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var1, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f);
+
+IF
+DB_MOO_Jailbreak_AtBoat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_ChainPositions(_Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Chains(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_ChainPositions(_, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_MOO_Jailbreak_IsOnChains(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_MOO_BreakingChainsArea_5c1358d1-21e8-485b-a6f3-10acedb72bd7, _Var1);
+DB_MOO_Jailbreak_ChainPositions(_Var2, _Var3, _Var1);
+ClearFlag(MOO_Jailbreak_State_WaitingForBoat_a649ff0e-8456-4718-905d-966ba37999a8, _Var1, 0);
+NOT DB_MOO_Jailbreak_ChainPositions(_Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000);
+PROC_MOO_Jailbreak_TryFindWeapon(_Var1);
+SetDualEntityEvent(_Var1, _Var2, "MOO_Jailbreak_SetChainAttackTarget");
+SetDualEntityEvent(_Var1, _Var3, "MOO_Jailbreak_SetChainPos");
+
+PROC
+PROC_MOO_Jailbreak_TryFindWeapon((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_ChainWeapons(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "MOO_Jailbreak_SetWeapon");
+
+IF
+AddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_ChainWeapons(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+Equip(_Var2, _Var1);
+
+QRY
+QRY_MOO_Jailbreak_IsOnChains((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_ChainPositions(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_BoatPrisoners(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_BoatPrisoners(_Var1);
+
+PROC
+PROC_StateSet_Defeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_ChainPositions(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_ChainPositions(_Var2, _Var3, _Var1);
+DB_MOO_Jailbreak_ChainPositions(_Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_MOO_Jailbreak_ClearChain((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_MOO_Jailbreak_Chains(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_ClearChain((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_ChainPositions(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+NOT DB_MOO_Jailbreak_ChainPositions(_Var1, _Var2, _Var3);
+
+IF
+DestroyedBy((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Chains(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_Chains(_Var1);
+PROC_MOO_Jailbreak_ClearChain(_Var1);
+PROC_MOO_Jailbreak_CheckBoatReady();
+
+PROC
+PROC_MOO_Jailbreak_CheckBoatReady()
+AND NOT
+DB_MOO_Jailbreak_Chains(_, _, _, _, _)
+THEN
+SetFlag(MOO_Jailbreak_State_BoatReady_8fb4753f-14fc-8477-9dbf-26b606830bcb, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_MOO_Jailbreak_AtBoat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_BoatReady_8fb4753f-14fc-8477-9dbf-26b606830bcb, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_FindBoatLeader();
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_ChainPositions(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_ChainBreakAD(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_CanCombatChainBreakAD(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_CanCombatChainBreakAD(1);
+DB_MOO_Jailbreak_ChainBreakAD(_Var1);
+SetFlag(MOO_Jailbreak_Event_ADPrepareBoatCombat_97f4eb38-63ac-fb09-83bb-6945216ecfaa, _Var1, 0);
+
+IF
+CombatRoundStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_ChainPositions(_, _, _Var3, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_CanCombatChainBreakAD(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_CanCombatChainBreakAD(1);
+
+PROC
+PROC_MOO_Jailbreak_FindBoatLeader()
+THEN
+DB_MOO_Jailbreak_TempBoatLeader(NULL_00000000-0000-0000-0000-000000000000, 1000);
+
+PROC
+PROC_MOO_Jailbreak_FindBoatLeader()
+AND
+DB_MOO_Jailbreak_BoatPrisoners(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_BoatLeaderPriority(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_TempBoatLeader(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 < _Var4
+THEN
+NOT DB_MOO_Jailbreak_TempBoatLeader(_Var3, _Var4);
+DB_MOO_Jailbreak_TempBoatLeader(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_FindBoatLeader()
+AND
+DB_MOO_Jailbreak_TempBoatLeader(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_BoatLeader(_Var1, _Var2);
+NOT DB_MOO_Jailbreak_TempBoatLeader(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_FindBoatLeader()
+AND
+DB_MOO_Jailbreak_BoatLeader(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_BoatLeader_6d868d94-d360-6638-6dd6-6c34b25c07c8, _Var1, 0);
+
+PROC
+PROC_StateSet_Defeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_BoatLeader(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_BoatLeader_6d868d94-d360-6638-6dd6-6c34b25c07c8, _Var1, 0);
+NOT DB_MOO_Jailbreak_BoatLeader(_Var1, _Var2);
+PROC_MOO_Jailbreak_FindBoatLeader();
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_BoatLeaderPriority(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_BoatLeaderPriority(_Var1, _Var2);
+
+IF
+EntityEvent((CHARACTER)_Var1, "MOO_Jailbreak_BecomeBoatLeader", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_MOO_Jailbreak_ForceBoatLeader(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_ForceBoatLeader((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_BoatLeader(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_BoatLeader_6d868d94-d360-6638-6dd6-6c34b25c07c8, _Var2, 0);
+NOT DB_MOO_Jailbreak_BoatLeader(_Var2, _Var3);
+SetFlag(MOO_Jailbreak_State_BoatLeader_6d868d94-d360-6638-6dd6-6c34b25c07c8, _Var1, 0);
+DB_MOO_Jailbreak_BoatLeader(_Var1, -1);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_BoatLeader(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_BoatLeaderTurn();
+
+PROC
+PROC_MOO_Jailbreak_BoatLeaderTurn()
+THEN
+DB_NOOP(1);
+
+IF
+DB_GlobalFlag(MOO_Jailbreak_State_BoatReady_8fb4753f-14fc-8477-9dbf-26b606830bcb, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_BoatDialog", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_GetawayBoatDialogArea_030094d9-ec6f-4717-903a-0cb27c5cea2f, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_BoatLeader(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogNPCs(_, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("MOO_Jailbreak_BoatDialog");
+DB_MOO_Jailbreak_AddTriggerPlayersToBoatDialog(1);
+PROC_MOO_Jailbreak_StartBoatDialogForPlayer(_Var1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_BoatLeader(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_OnlyOnce("MOO_Jailbreak_BoatDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OnlyOnce("MOO_Jailbreak_BoatDialog");
+
+IF
+EnteredCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_BoatLeader(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_BoatReady_8fb4753f-14fc-8477-9dbf-26b606830bcb, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_ChangeLeaderToFirstTurner(1);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_MOO_Jailbreak_BoatLeader(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_AtBoat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_ChangeLeaderToFirstTurner(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_ForceBoatLeader(_Var1);
+
+IF
+AutomatedDialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_MOO_Jailbreak_ADs(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_BoatLeader(_Var3, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_Event_ForceBoatLeave_f97b9312-f1ec-735a-3dba-558fe6a976b0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_AddAllPlayersToBoatDialog(1);
+PROC_MOO_Jailbreak_StartBoatCombatDialog();
+
+PROC
+PROC_MOO_Jailbreak_StartBoatCombatDialog()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_MOO_OutOfJailArea_fd04d6ad-9d59-4904-933b-e61e44fec1ff, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_BoatDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("MOO_Jailbreak_BoatDialog");
+PROC_MOO_Jailbreak_StartBoatDialogForPlayer(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_StartBoatCombatDialog()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_BoatDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("MOO_Jailbreak_BoatDialog");
+PROC_MOO_Jailbreak_StartBoatDialogForPlayer(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_MOO_EscapeBoat_dd67802b-bb74-474c-a670-87d04a784db7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_BoatReady_8fb4753f-14fc-8477-9dbf-26b606830bcb, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_BoatLeader(_, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_Event_PlayerClickedOnBoat_d80f8a4b-643c-369e-b10f-425055d7b4aa, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_MOO_Jailbreak_StartBoatDialogForPlayer(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_MOO_EscapeBoat_dd67802b-bb74-474c-a670-87d04a784db7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_BoatReady_8fb4753f-14fc-8477-9dbf-26b606830bcb, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_BoatLeader(_, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_Event_PlayerClickedOnBoat_d80f8a4b-643c-369e-b10f-425055d7b4aa, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_MOO_Jailbreak_StartBoatDialogForPlayer(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_MOO_EscapeBoat_dd67802b-bb74-474c-a670-87d04a784db7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_BoatReady_8fb4753f-14fc-8477-9dbf-26b606830bcb, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_BoatPAD(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(MOO_Jailbreak_PAD_CheckingOutBoat_144e2801-126a-524c-e5c2-2e1160f0edf3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_BoatPAD(1);
+
+IF
+AutomatedDialogEnded(MOO_Jailbreak_PAD_CheckingOutBoat_144e2801-126a-524c-e5c2-2e1160f0edf3, _, _, _, _)
+AND
+DB_MOO_Jailbreak_BoatPAD(1, _, _, _, _)
+THEN
+NOT DB_MOO_Jailbreak_BoatPAD(1);
+
+PROC
+PROC_MOO_Jailbreak_StartBoatDialogForPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_BoatLeavesPier_d0727183-7ab9-410e-8d2b-4f28afe544be, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialogCustom(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_BoatLeavesPier_d0727183-7ab9-410e-8d2b-4f28afe544be, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_MOO_Jailbreak_BoatLeaves();
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_MOO_Jailbreak_FindBoatLeader();
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_MOO_Jailbreak_AddExtrasToBoatDialog(_Var1);
+
+IF
+DB_DialogName(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_AddAllPlayersToBoatDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DialogAddActor(_Var1, _Var2);
+
+IF
+DB_DialogName(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_AddTriggerPlayersToBoatDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_GetawayBoatDialogArea_030094d9-ec6f-4717-903a-0cb27c5cea2f, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DialogAddActor(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_AddExtrasToBoatDialog((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_MOO_Jailbreak_BoatPrisoners(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2, 1);
+
+PROC
+PROC_MOO_Jailbreak_AddExtrasToBoatDialog((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, _Var1, _Var2, _, _Var1)
+AND
+CharacterGetOwner(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 1);
+
+IF
+FlagSet(MOO_Jailbreak_State_BoatPlayer_cd3bbc8e-1b23-045d-1e02-be25c3a8de6c, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_MOO_Jailbreak_BoatPlayer(_Var1);
+
+IF
+DialogEnded(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_BoatPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_BoatPlayer_cd3bbc8e-1b23-045d-1e02-be25c3a8de6c, _Var1, 0);
+
+IF
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_DialogName(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("MOO_Jailbreak_PauseBoatCombat", _Var1, _Var1, _Var1, _Var1)
+THEN
+PauseCombat(_Var4);
+DB_MOO_Jailbreak_PausedCombat(_Var4);
+
+PROC
+PROC_MOO_Jailbreak_ResumeCombats()
+AND
+DB_MOO_Jailbreak_PausedCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_PausedCombat(_Var1);
+ResumeCombat(_Var1);
+
+IF
+FlagSet(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(MOO_Jailbreak_State_PlayersCanUseBoat_f3b7858e-8dc7-0e25-df9a-8147ce6894a9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogEnded(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_BoatLeavesPier_d0727183-7ab9-410e-8d2b-4f28afe544be, _, _, _, _)
+THEN
+NOT DB_MOO_Jailbreak_AddAllPlayersToBoatDialog(1);
+NOT DB_MOO_Jailbreak_AddTriggerPlayersToBoatDialog(1);
+PROC_MOO_Jailbreak_CheckBoatDeparture();
+PROC_MOO_Jailbreak_ResumeCombats();
+
+PROC
+PROC_MOO_Jailbreak_CheckBoatDeparture()
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_Event_BoatLeavesWithoutPlayers_c39e9bb8-6270-ed21-240b-00dda1d5edfc, _, _, _, _)
+THEN
+PROC_MOO_Jailbreak_BoatLeaves();
+PROC_MOO_Jailbreak_BoatBringsNearbyPlayers();
+
+PROC
+PROC_MOO_Jailbreak_CheckBoatDeparture()
+AND
+DB_GlobalFlag(MOO_Jailbreak_Event_BoatLeavesWithoutPlayers_c39e9bb8-6270-ed21-240b-00dda1d5edfc, _, _, _, _)
+THEN
+PROC_MOO_Jailbreak_BoatLeaves();
+
+PROC
+PROC_MOO_Jailbreak_BoatLeaves()
+AND NOT
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _, _, _, _)
+AND
+DB_MOO_Jailbreak_BoatPrisoners(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+LeaveCombat(_Var1);
+ClearFlag(MOO_Jailbreak_State_Escaping_139ced4b-4340-eb70-4a33-14279f87b2be, _Var1, 0);
+PROC_MOO_Jailbreak_ClearPrisoner(_Var1, "Boat", 0);
+SetEntityEvent(_Var1, "MOO_Jailbreak_GoToHaven_Boat");
+SetOnStage(_Var1, 0);
+
+PROC
+PROC_MOO_Jailbreak_BoatLeaves()
+AND
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _, _, _, _)
+AND
+DB_MOO_Jailbreak_BoatPrisoners(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+LeaveCombat(_Var1);
+ClearFlag(MOO_Jailbreak_State_Escaping_139ced4b-4340-eb70-4a33-14279f87b2be, _Var1, 0);
+PROC_MOO_Jailbreak_ClearPrisoner(_Var1, "Boat", 1);
+SetEntityEvent(_Var1, "MOO_Jailbreak_WaitForEpilogue");
+SetOnStage(_Var1, 0);
+
+PROC
+PROC_MOO_Jailbreak_BoatLeaves()
+THEN
+NOT DB_MOO_Jailbreak_BoatInMOO(1);
+
+PROC
+PROC_MOO_Jailbreak_BoatLeaves()
+AND
+DB_MOO_Jailbreak_BoatParts(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+EntityEvent((CHARACTER)_Var1, "MOO_Jailbreak_ToDocks", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_MOO_Jailbreak_GroundEscapePos_001_374e15c2-38d4-49a5-b957-5aab360fe39c, "Run", "MOO_Jailbreak_AtDocks");
+
+IF
+EntityEvent((CHARACTER)_Var1, "MOO_Jailbreak_AtDocks", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_MOO_Jailbreak_SetEscapeRoute(_Var1, MOO_Jailbreak_State_DockEscape_7621f16f-7820-26c3-4ab0-1288dc5b26e4);
+
+IF
+EntityEvent((CHARACTER)_Var1, "MOO_Jailbreak_LeaveMoonriseOutOfCombat", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_RoadEscape(_Var1, _Var2);
+
+IF
+EntityEvent((CHARACTER)_Var1, "MOO_Jailbreak_LeaveMoonrise", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_RoadEscape(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_RoadEscape((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_Escaping_139ced4b-4340-eb70-4a33-14279f87b2be, _Var1, 0);
+SetCanJoinCombat(_Var1, 0);
+SetCanFight(_Var1, 0);
+LeaveCombat(_Var1);
+PROC_MOO_Jailbreak_ClearPrisoner(_Var1, "Road", 0);
+SetEntityEvent(_Var1, "MOO_Jailbreak_GoToHaven_Road");
+PROC_DisappearOutOfSightTo(_Var1, S_MOO_Jailbreak_DocksDisappearPos_76867b84-034c-4f9b-bfe2-b06181877df7, "Run", 1, "");
+
+PROC
+PROC_MOO_Jailbreak_RoadEscape((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_Escaping_139ced4b-4340-eb70-4a33-14279f87b2be, _Var1, 0);
+SetCanJoinCombat(_Var1, 0);
+SetCanFight(_Var1, 0);
+LeaveCombat(_Var1);
+PROC_MOO_Jailbreak_ClearPrisoner(_Var1, "Road", 1);
+SetEntityEvent(_Var1, "MOO_Jailbreak_WaitForEpilogue");
+PROC_DisappearOutOfSightTo(_Var1, S_MOO_Jailbreak_DocksDisappearPos_76867b84-034c-4f9b-bfe2-b06181877df7, "Run", 1, "");
+
+IF
+EntityEvent((CHARACTER)_Var1, "MOO_Jailbreak_TryLeaveAD", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_MOO_Jailbreak_TryLeaveAD(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_TryLeaveAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_MOO_Jailbreak_BlockLeaveAD(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_BlockLeaveAD(1);
+TimerLaunch("MOO_Jailbreak_LeaveADTimer", 5000);
+
+IF
+TimerFinished("MOO_Jailbreak_LeaveADTimer", _, _, _, _)
+THEN
+NOT DB_MOO_Jailbreak_BlockLeaveAD(1);
+
+PROC
+PROC_MOO_Jailbreak_ClearPrisoner((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+
+IF
+LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetCombatGroupID(_Var1, "MOO_Jailbreak_Guards", _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+
+PROC
+PROC_MOO_Jailbreak_End()
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetCombatGroupID(_Var1, "MOO_Jailbreak_Guards", _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+
+IF
+DB_MOO_Jailbreak_Escaping(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Jailbreak_InCombatGroup(_Var1);
+SetCombatGroupID(_Var1, "MOO_Jailbreak_Guards");
+
+IF
+DB_MOO_Jailbreak_InCombatGroup(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_InCombatGroup(_Var1);
+SetCombatGroupID(_Var1, "");
+
+IF
+DB_MOO_Jailbreak_InCombatGroup(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_InCombatGroup(_Var1);
+SetCombatGroupID(_Var1, "");
+
+IF
+DB_MOO_Jailbreak_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "MOO_Jailbreak_Guards");
+
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+
+IF
+Saw((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _, _Var1, _Var1, _Var1)
+AND
+GetCombatGroupID(_Var2, "MOO_Jailbreak_Guards", _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "MOO_Jailbreak_Guards");
+
+IF
+LostSightOf((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_MOO_Jailbreak_SeeAnyPrisonerInCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+
+QRY
+QRY_MOO_Jailbreak_SeeAnyPrisonerInCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _, _Var1, _Var1, _Var1)
+AND
+GetCombatGroupID(_Var2, "MOO_Jailbreak_Guards", _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_MOO_Jailbreak_ClearPrisoner((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_MOO_Jailbreak_QueueEscape(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_ClearPrisoner((CHARACTER)_Var1, (STRING)_Var2, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_HAV_SavingPrisoners_JournalEpilogueReturn(0);
+DB_HAV_SavingPrisoners_JournalEpilogueReturn(1);
+
+PROC
+PROC_MOO_Jailbreak_ClearPrisoner((CHARACTER)_Var1, (STRING)_Var2, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_MOO_Jailbreak_EpilogueReturn(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_ClearPrisoner((CHARACTER)_Var1, (STRING)_Var2, 0, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_HAV_SavingPrisoners_PendingReturn(_Var1, _Var2);
+
+IF
+DB_HAV_SavingPrisoners_PendingReturn(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAV_SavingPrisoners_PendingReturn(_Var1, _Var2);
+DB_MOO_Jailbreak_EpilogueReturn(_Var1, _Var2);
+
+PROC
+PROC_MOO_Jailbreak_ClearPrisoner((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_Prisoner(_Var1, _Var4);
+
+PROC
+PROC_MOO_Jailbreak_ClearPrisoner((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Escaping(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, CIVILIAN_71120d5d-3853-46e4-9762-33f59aa6b4ae);
+ClearFlag(_Var4, _Var1, 0);
+NOT DB_MOO_Jailbreak_Escaping(_Var1, _Var4);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_QueueEscape(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Jailbreak_QueueEscape(_Var1);
+PROC_MOO_Jailbreak_Escaped(_Var1);
+
+PROC
+PROC_HAV_SavingPrisoners_CharacterReturns((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_QueueEscape(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Jailbreak_Escaped(_Var1);
+NOT DB_MOO_Jailbreak_QueueEscape(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_Escaped((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_FreedFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_MOO_Jailbreak_Escaped((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearTag(_Var1, ACT2_SHADOW_CURSE_IMMUNE_b47643e0-583c-4808-b108-f6d3b605b0a9);
+SetCanJoinCombat(_Var1, 1);
+SetCanFight(_Var1, 1);
+
+PROC
+PROC_MOO_Jailbreak_Escaped((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_MOO_Jailbreak_CheckEnd();
+
+IF
+DB_InRegion(_Var1, S_MOO_CloseToTieflingsArea_6139cf6a-9e00-4ccb-8b92-733437a35e57, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_PlayerCloseToTieflings_1ec918a4-f07b-4750-96a1-7e27d78298d2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_, S_MOO_CloseToTieflingsArea_002_00eaf664-f945-467a-8c63-9c8961d544c3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_PlayerCloseToTieflings_1ec918a4-f07b-4750-96a1-7e27d78298d2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GlobalFlag(MOO_Jailbreak_State_PlayerCloseToTieflings_1ec918a4-f07b-4750-96a1-7e27d78298d2, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_MOO_CloseToTieflingsArea_6139cf6a-9e00-4ccb-8b92-733437a35e57, _, _, _)
+THEN
+ClearFlag(MOO_Jailbreak_State_PlayerCloseToTieflings_1ec918a4-f07b-4750-96a1-7e27d78298d2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_InRegion(_Var1, S_MOO_CloseToGnomesArea_ce80db02-4f1d-4d3a-91fc-1fbb92f07866, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_PlayerCloseToGnomes_50174da0-77e4-44d6-98c7-66c444672eb2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_, S_MOO_CloseToGnomesArea_001_bb9032ca-6a7c-40b5-acff-eb0d3a9cb129, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_PlayerCloseToGnomes_50174da0-77e4-44d6-98c7-66c444672eb2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GlobalFlag(MOO_Jailbreak_State_PlayerCloseToGnomes_50174da0-77e4-44d6-98c7-66c444672eb2, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_MOO_CloseToGnomesArea_ce80db02-4f1d-4d3a-91fc-1fbb92f07866, _, _, _)
+THEN
+ClearFlag(MOO_Jailbreak_State_PlayerCloseToGnomes_50174da0-77e4-44d6-98c7-66c444672eb2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_MOO_MoonriseTowerNoRoof_SUB_54d40f5d-34e6-42fd-829b-bb2f5facfcda, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_MOO_MoonriseTowerNoRoof_SUB_54d40f5d-34e6-42fd-829b-bb2f5facfcda, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_MOO_PrisonJailbreak_SUB_d066ff4c-bc01-4e46-97ad-f641ccd61929, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_BoatLeavesPier_d0727183-7ab9-410e-8d2b-4f28afe544be, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_MOO_Jailbreak_BoatLeaves();
+PROC_MOO_Jailbreak_LeftPrisonersBehind();
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_MOO_PrisonJailbreak_SUB_d066ff4c-bc01-4e46-97ad-f641ccd61929, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_MOO_MoonriseTowerNoRoof_SUB_54d40f5d-34e6-42fd-829b-bb2f5facfcda, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_MOO_PrisonJailbreak_SUB_d066ff4c-bc01-4e46-97ad-f641ccd61929, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_BoatLeavesPier_d0727183-7ab9-410e-8d2b-4f28afe544be, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_MOO_Jailbreak_BoatLeaves();
+PROC_MOO_Jailbreak_LeftPrisonersBehind();
+
+PROC
+PROC_MOO_Jailbreak_LeftPrisonersBehind()
+THEN
+PROC_MOO_Jailbreak_KillRemainingPrisoners();
+
+PROC
+PROC_MOO_Jailbreak_KillRemainingPrisoners()
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 1);
+PROC_COL_TadpolingCentre_PurgeCleanUp(_Var1);
+
+PROC
+PROC_MOO_Jailbreak_End()
+THEN
+SetFlag(MOO_Jailbreak_State_Over_ce186cbb-3c45-8cb1-cc4a-b64196290ec3, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_MOO_Jailbreak_Started(1);
+
+PROC
+PROC_MOO_Jailbreak_CheckEnd()
+AND
+DB_MOO_Jailbreak_Started(1, _, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_Prisoner(_, _, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_, _, _, _, _)
+THEN
+PROC_MOO_Jailbreak_End();
+PROC_HAV_SavingPrisoners_ReturnPendingEscapees();
+
+IF
+DialogEnded(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_BoatLeavesPier_d0727183-7ab9-410e-8d2b-4f28afe544be, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var2, 0.5);
+
+IF
+DialogEnded(MOO_Jailbreak_Boat_f006e87e-8b07-d6d8-0b3b-cff42b4129f3, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_BoatLeavesPier_d0727183-7ab9-410e-8d2b-4f28afe544be, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Jailbreak_Event_BoatLeavesWithoutPlayers_c39e9bb8-6270-ed21-240b-00dda1d5edfc, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var2, 0.5);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_PlayerInTieflingCell_35945fbb-3ce5-0ea7-dc83-2dbf0befa985, _Var1, 0);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_PlayerInTieflingCell_35945fbb-3ce5-0ea7-dc83-2dbf0befa985, _Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

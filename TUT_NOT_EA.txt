@@ -1,0 +1,27 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HasItemEvent(S_TUT_InfernalMetal_829eb90b-0d1c-4266-9e3f-41b9a601106c, TUT_UpperDeck_State_HasInfernalMetal_f0a5546c-ff03-40fd-8150-dac63dc226c7);
+DB_GiveItemToEvent(S_TUT_InfernalMetal_829eb90b-0d1c-4266-9e3f-41b9a601106c, TUT_UpperDeck_Event_GiveInfernalMetal_32a16600-7d37-42b8-b8af-bfa928f9da1b);
+
+KBSECTION
+IF
+AddedTo(S_TUT_InfernalMetal_829eb90b-0d1c-4266-9e3f-41b9a601106c, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("TUT_UpperDeck_AddedInfernalMetal", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(TUT_UpperDeck_VB_FoundInfernalMetal_513a5c2c-d289-12d2-3e60-4571522c5858, _Var1);
+
+QRY
+QRY_GLO_DaisyDreams_BlockInclusion((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CurrentLevel("TUT_Avernus_C", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Tutorial"

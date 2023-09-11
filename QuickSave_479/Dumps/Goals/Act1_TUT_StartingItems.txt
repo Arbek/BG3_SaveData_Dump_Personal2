@@ -1,0 +1,33 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_TUT_Start_InitialChests(S_TUT_PlayerChest_001_f4defa6f-a922-41e1-98e7-25392fff3a46);
+DB_TUT_Start_InitialChests(S_TUT_PlayerChest_002_e2338d14-3776-4901-8f97-ab4d592c50c8);
+DB_TUT_Start_InitialChests(S_TUT_PlayerChest_003_0d82b247-9766-41d0-8365-20162d28f123);
+DB_TUT_Start_InitialChests(S_TUT_PlayerChest_004_f24f5671-8a73-46ef-9912-96b939023676);
+DB_TUT_Start_InitialChests(S_TUT_LaezelChest_277d00a3-1ac3-4d16-b302-1fced1473b28);
+PROC_TUT_StartingItems_EmptyStartingChests();
+
+KBSECTION
+PROC
+PROC_TUT_StartingItems_EmptyStartingChests()
+AND
+DB_TUT_Start_InitialChests(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+IterateInventory(_Var1, "TUT_StartingItemsGoThrough", "TUT_StartingItemsGoThrough_Done");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "TUT_StartingItemsGoThrough", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+TriggerGetRandomPosition(S_TUT_StartingItemsCrashTrigger_e04afb72-d691-49da-a7f6-e6199dd6024e, _Var2, _Var3, _Var4, _Var1)
+AND
+FindValidPosition(_Var2, _Var3, _Var4, 10, _Var1, 1, _Var5, _Var6, _Var7, _Var1)
+THEN
+TeleportToPosition(_Var1, _Var5, _Var6, _Var7, "", 0, 0, 0, 0, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

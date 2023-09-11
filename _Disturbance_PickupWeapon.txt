@@ -1,0 +1,170 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_PickupWeapon_Type("PickUpDisarmedEquipment");
+DB_CRIME_PickupWeapon_Type("PickUpDisarmedEquipmentAtLocation");
+
+KBSECTION
+IF
+CharacterDisarmed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsPartyMember(_Var1, 1, 0, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var4, _Var5, _Var6, _Var1)
+THEN
+DB_CRIME_DisarmedNPC(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+Equipped((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_DisarmedNPC(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedItem(_Var2, _Var4, _, _Var1, _Var1)
+THEN
+NOT DB_CRIME_DisarmedNPC(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+IF
+Moved((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_DisarmedNPC(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+CanSee(_Var2, _Var1, 1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var7, _Var8, _Var9, _Var1)
+THEN
+NOT DB_CRIME_DisarmedNPC(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6);
+DB_CRIME_DisarmedNPC(_Var2, _Var1, _Var3, _Var7, _Var8, _Var9);
+
+IF
+EnteredChasm((ITEM)_Var1, _, _, _, _, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRIME_DisarmedNPC(_Var7, _Var1, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStoryItem(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_DisarmedNPC(_Var7, _Var1, _Var8, _Var9, _Var10, _Var11);
+
+IF
+EnteredChasm((ITEM)_Var1, _, _, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRIME_DisarmedNPC(_Var7, _Var1, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStoryItem(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_DisarmedNPC(_Var7, _Var1, _Var8, _Var9, _Var10, _Var11);
+DB_CRIME_DisarmedNPC(_Var7, _Var1, _Var8, _Var4, _Var5, _Var6);
+
+IF
+CharacterMadePlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_DisarmedNPC(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_DisarmedNPC(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+DroppedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_DisarmedNPC(_Var3, _Var1, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+CanSee(_Var3, _Var2, 1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var8, _Var9, _Var10, _Var1)
+THEN
+NOT DB_CRIME_DisarmedNPC(_Var3, _Var1, _Var4, _Var5, _Var6, _Var7);
+DB_CRIME_DisarmedNPC(_Var3, _Var1, _Var4, _Var8, _Var9, _Var10);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsEnabled(_Var1, "PickUpDisarmedEquipment", _Var1, _Var1, _Var1)
+AND
+IsPartyMember(_Var1, 1, 0, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_DisarmedNPC(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var3, 0, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_RearmingNPC(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, "FirstTry");
+PROC_Disturbance_PerformWhenAvailable(_Var1, "PickUpDisarmedEquipment", _Var3, _Var1, 0);
+
+IF
+LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_DisarmedNPC(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_DisarmedNPC(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Finished((CHARACTER)_Var1, "PickUpDisarmedEquipment", (ITEM)_Var2, (CHARACTER)_Var3, (INTEGER)_Var4)
+AND
+_Var4 != 0
+AND
+GetInventoryOwner(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_RearmingNPC(_Var1, _Var2, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_RearmingNPC(_Var1, _Var2, _Var5, _Var6, _Var7, _Var8, _Var9);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Finished((CHARACTER)_Var1, "PickUpDisarmedEquipment", (ITEM)_Var2, (CHARACTER)_Var3, 0)
+AND
+DB_CRIME_RearmingNPC(_Var1, _Var2, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_RearmingNPC(_Var1, _Var2, _Var4, _Var5, _Var6, _Var7, _Var8);
+
+QRY
+QRY_Disturbance_PerformWhenAvailable_Retry((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (CHARACTER)_Var4, (INTEGER)_Var5)
+AND
+DB_CRIME_PickupWeapon_Type(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_RearmingNPC(_Var1, _Var3, _Var6, _Var7, _Var8, _Var9, "FirstTry", _Var1, _Var1, _Var1)
+AND
+CanSee(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_RearmingNPC(_Var1, _Var3, _Var6, _Var7, _Var8, _Var9, "FirstTry");
+DB_CRIME_RearmingNPC(_Var1, _Var3, _Var6, _Var7, _Var8, _Var9, "SecondTry");
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Finished((CHARACTER)_Var1, "PickUpDisarmedEquipment", (ITEM)_Var2, (CHARACTER)_Var3, (INTEGER)_Var4)
+AND
+DB_CRIME_RearmingNPC(_Var1, _Var2, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+GetDistanceToPosition(_Var1, _Var6, _Var7, _Var8, _Var10)
+AND
+_Var10 > 4
+THEN
+NOT DB_CRIME_RearmingNPC(_Var1, _Var2, _Var5, _Var6, _Var7, _Var8, _Var9);
+DB_CRIME_RearmingNPC(_Var1, _Var2, _Var5, _Var6, _Var7, _Var8, "FirstTry");
+PROC_Disturbance_PerformWhenAvailable(_Var1, "PickUpDisarmedEquipmentAtLocation", _Var2, _Var1, 0);
+
+PROC
+PROC_CharacterRegisterCrime_Success((CHARACTER)_Var1, "PickUpDisarmedEquipmentAtLocation", _, (ITEM)_Var3, (CHARACTER)_Var1, (INTEGER)_Var4, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_RearmingNPC(_Var1, _Var3, _Var5, _Var6, _Var7, _Var8, _, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_CrimeInvestigationPos(_Var4, _Var6, _Var7, _Var8);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Finished((CHARACTER)_Var1, "PickUpDisarmedEquipmentAtLocation", (ITEM)_Var2, (CHARACTER)_Var3, (INTEGER)_Var4)
+AND
+DB_CRIME_RearmingNPC(_Var1, _Var2, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_RearmingNPC(_Var1, _Var2, _Var5, _Var6, _Var7, _Var8, _Var9);
+
+IF
+AddedTo((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRIME_RearmingNPC(_Var2, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1)
+THEN
+Equip(_Var2, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

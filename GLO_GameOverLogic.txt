@@ -1,0 +1,79 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GameOver_DefeatCausesNotGameOver("TempBanished");
+DB_GameOver_DefeatCausesNotGameOver("TempPetrified");
+
+KBSECTION
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CheckPartyForPlayer(_Var1);
+
+IF
+DB_CheckPartyForPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CheckPartyForPlayer(_Var1);
+PROC_GameOver_CheckGameOver();
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GameOver_CheckGameOver();
+
+PROC
+PROC_GameOver_CheckGameOver()
+AND NOT
+QRY_GameOver_AliveCharactersLeft()
+AND NOT
+QRY_GameOver_BlockGameOver()
+THEN
+MusicPlayGeneral("Music_Game_Over");
+ShowGameOverMenu();
+
+QRY
+QRY_GameOver_AliveCharactersLeft()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GameOver_CharacterWarrantsGameOver(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GameOver_CharacterWarrantsGameOver((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DefeatedCauses(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_GameOver_DefeatCausesNotGameOver(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GameOver_CharacterWarrantsGameOver((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DefeatedCauses(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GameOver_BlockGameOver()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

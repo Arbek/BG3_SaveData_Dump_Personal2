@@ -1,0 +1,120 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_COL_EntranceVBTriggers(S_COL_EntranceVB_2_6df2d869-3957-41b7-9c10-3fcac4f9f38f, 0);
+DB_COL_EntranceVBTriggers(S_COL_EntranceVB_1_e50b3aba-01f1-4b82-a60b-e3edbebc88e0, 1);
+DB_FlagReactionAfterDialog(COL_KethericShowdown_Event_Entry_489d4c55-be3c-fa14-2418-fa145dbd6f33, COL_EntranceDoor_a7ad5aaa-fd26-0ca3-0b4d-61654fd06391);
+SetOnStage(S_COL_Entrance_Audience_Tentacle_c7291e48-45e1-43c5-b243-8b4716e1344e, 0);
+DB_Dialogs(S_COL_Entrance_Audience_Tentacle_c7291e48-45e1-43c5-b243-8b4716e1344e, COL_Entrance_AudienceTentacle_d5a15fe9-1a2c-14ce-d286-45cb4dd1d5e0);
+DB_OneShot_VoiceBarkTrigger(S_COL_Entrance_OneShotVB_NeverThoughtWouldReturn_79f70147-b3cd-4892-98c2-d9172ff18b23, COL_Entrance_VB_NeverThoughtWouldReturn_ea4ea0dd-cd7b-354f-9fc8-948c4735725e);
+DB_OneShotPlayerTrigger(S_COL_Arrival_ThroghHole_Daisy_566ab5a4-6554-44fc-9914-5be5f0099911);
+
+KBSECTION
+IF
+TextEvent("COL_TeleportPlayer", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetTextEventParamInteger(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_TeleportPartiesToColony(_Var1);
+
+IF
+DialogEnded(DebugBook_3af7dec4-4c08-9e44-9064-ec038ebad0ea, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+GetFlag(Debug_Teleport_MOO_Colony_0d349ae9-0879-40ac-951f-1cbd3386a255, _Var2, 1, _, _)
+AND
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+THEN
+PROC_COL_CheckDebugSetup();
+
+IF
+DialogEnded(DebugBook_3af7dec4-4c08-9e44-9064-ec038ebad0ea, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+GetFlag(Debug_Teleport_COL_Colony_WithNecromancer_7cfae272-5f13-de8a-8cb1-51cc3905bee8, _Var2, 1, _, _)
+AND
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+THEN
+PROC_COL_CheckDebugSetup();
+
+PROC
+PROC_COL_CheckDebugSetup()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(Debug_Teleport_MOO_Colony_0d349ae9-0879-40ac-951f-1cbd3386a255, _Var1, 1, _Var1, _Var1)
+AND
+QRY_StartDialog(MOO_Assault_TentaclelessJump_671ddd7b-35dc-5f76-e5cc-b82afb118fa2, S_MOO_TentaclelessTeleporter_c29cec63-82da-4579-b11d-75a5a08bbe1b, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_TeleportPartiesToColony(0);
+
+IF
+TextEvent("COL_Tentacle", _, _, _, _)
+THEN
+SetOnStage(S_COL_Entrance_Audience_Tentacle_c7291e48-45e1-43c5-b243-8b4716e1344e, 1);
+PROC_TeleportPartiesTo(S_COL_AssaultTeleportPoint_21b37cc1-8a65-46aa-8b63-59ccf71efed7, "");
+
+PROC
+PROC_COL_TeleportPartiesToColony(_, (INTEGER)_, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(COL_PartyProgress_EnteredColony_666abe92-f197-4c38-85a8-d879a9e258b6, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_COL_TeleportPartiesToColony(0, _, _, _, _)
+THEN
+PROC_TeleportPartiesTo(S_COL_AssaultTeleportPoint_21b37cc1-8a65-46aa-8b63-59ccf71efed7, "COL_Entrance_PlayerArrived");
+
+PROC
+PROC_COL_TeleportPartiesToColony(0, _, _, _, _)
+AND NOT
+DB_GlobalFlag(COL_General_Event_PlayersEnteredMainEntrance_17ae6b2c-06f0-4af4-b400-fbad11a3059f, _, _, _, _)
+THEN
+SetFlag(COL_General_Event_PlayersEnteredMainEntrance_17ae6b2c-06f0-4af4-b400-fbad11a3059f);
+
+PROC
+PROC_COL_TeleportPartiesToColony(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Audience_Event_PassTeleporter_3115b554-2e0e-cbdc-6166-5fa7586cae45, _, _, _, _)
+THEN
+SetFlag(MOO_Audience_Event_PassTeleporter_3115b554-2e0e-cbdc-6166-5fa7586cae45);
+SetOnStage(S_COL_Entrance_Audience_Tentacle_c7291e48-45e1-43c5-b243-8b4716e1344e, 1);
+
+PROC
+PROC_COL_KethericShowdown_ChosenThree_CleanUp()
+THEN
+SetOnStage(S_COL_Entrance_Audience_Tentacle_c7291e48-45e1-43c5-b243-8b4716e1344e, 0);
+
+PROC
+PROC_COL_TeleportPartiesToColony((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_COL_EntranceVBTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OneShot_VoiceBarkTrigger(_Var2, COL_Entrance_VB_48aa6fe3-5947-5c28-c8bd-681c0068c58b, "Global");
+
+PROC
+PROC_COL_TeleportPartiesToColony((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_COL_EntranceVBTriggers(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var1
+THEN
+PROC_RegisterWorldGossipTrigger(_Var2);
+
+PROC
+PROC_OneShotTriggerEntered((GUIDSTRING)_Var1, S_COL_Arrival_ThroghHole_Daisy_566ab5a4-6554-44fc-9914-5be5f0099911, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_DaisyAD(_Var1, COL_Arrival_DaisyAD_ThroughHole_6aeb81f6-419a-db43-eeb0-2ae490374aed);
+
+PROC
+PROC_COL_NecromancerLab_SetAudienceRoute()
+THEN
+NOT DB_OneShotPlayerTrigger(S_COL_Arrival_ThroghHole_Daisy_566ab5a4-6554-44fc-9914-5be5f0099911);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

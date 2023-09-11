@@ -1,0 +1,813 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Sizes(0, WEIGHT_TINY_9360d001-0cef-49e0-a2e0-4d715d4976ea);
+DB_GLO_Sizes(1, WEIGHT_SMALL_7e99123d-6833-4461-9b4a-b5e281586734);
+DB_GLO_Sizes(2, WEIGHT_MEDIUM_653cb906-38d1-4b80-b598-00b064efff3d);
+DB_GLO_Sizes(4, WEIGHT_LARGE_346b447c-93ba-426c-acf5-da9244fb22ec);
+DB_GLO_Sizes(5, WEIGHT_HUGE_5e77c1e9-5dbf-4b24-a616-80b5740e77b5);
+DB_GLO_Sizes(6, WEIGHT_GARGANTUAN_7f26284a-0c98-48d8-85f3-6c7ab52997df);
+
+KBSECTION
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var2, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var2, _Var3, 0, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable(NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (INTEGER)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 0, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 0, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 0, 1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreDead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 0, 1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreDead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 1, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 1, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 1, 1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatusesDead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 1, 1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatusesDead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 1, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 0, 1, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 1, 0, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 1, 0, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 1, 0, 1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreCombatDead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 1, 0, 1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreCombatDead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 1, 1, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 1, 1, 0, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 1, 1, 1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatusesCombatDead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable((GUIDSTRING)_Var1, 1, 1, 1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk_IgnoreStatusesCombatDead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInCurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsInCurrentLevel((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableForDialogSlot(NULL_00000000-0000-0000-0000-000000000000, (GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableForDialogSlot((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailableForDialogSlot(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableForDialogSlot((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var5)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_DialogStart_SpeakerReserved(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LogicOr(_Var6, _Var7, _Var8, _Var1, _Var1)
+AND
+DialogSpeakerHasLines(_Var2, _Var3, _Var9, _Var1, _Var1)
+AND
+DialogAllowDeadSpeakers(_Var2, _Var10, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableLinesCheck(_Var1, _Var9, _Var4, _Var8, _Var10)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableLinesCheck((GUIDSTRING)_Var1, 1, (INTEGER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableLinesCheck((GUIDSTRING)_Var1, 0, (INTEGER)_Var2, (INTEGER)_Var3, 0)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableNoLines(_Var1, _Var4, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableLinesCheck((GUIDSTRING)_Var1, 0, (INTEGER)_Var2, (INTEGER)_Var3, 1)
+AND
+IsSpeakerReserved(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableNoLines(_Var1, _Var4, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableNoLines((GUIDSTRING)_Var1, 0, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableNoLines((GUIDSTRING)_Var1, 0, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableNoLines((GUIDSTRING)_Var1, 1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableNoLines((GUIDSTRING)_Var1, 1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableAndInDialogRange((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var1, _Var2, 0, 0, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableAndInDialogRange((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsInDialogRange((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CustomDialogRange(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 < _Var3
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsInDialogRange((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CustomDialogRange(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 < _Var3
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsInDialogRange((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 40
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsInDialogRange((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CustomDialogRange(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CustomDialogRange(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+_Var5 < 10
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PreventMPDialogue((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetReservedUserID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var3 != -65536
+AND
+_Var4 != -65536
+AND
+_Var3 != _Var4
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GetHasDialogAny((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_GetHasDialogAny(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GetHasDialogAny(_Var2);
+
+QRY
+QRY_GetHasDialogAny((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetHasOsirisDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetHasDialogAny(_Var2);
+
+QRY
+QRY_GetHasDialogAny((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_GetHasDialogAny(0, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHasDefaultDialog(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GetHasDialogAny(0);
+DB_QRYRTN_GetHasDialogAny(1);
+
+QRY
+QRY_CharacterIsHidden((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Character_GetIsHidden((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Character_GetIsHidden(0);
+DB_QRYRTN_Character_GetIsHidden(1);
+
+QRY
+QRY_Character_GetIsHidden((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Character_GetIsHidden(1);
+DB_QRYRTN_Character_GetIsHidden(0);
+
+QRY
+QRY_CharacterIsNull((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 == NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PetPallerInDialogRange((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRY_RTN_PetPallerInDialogRange(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_PetPallerInDialogRange(_Var2);
+
+QRY
+QRY_PetPallerInDialogRange((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRY_RTN_PetPallerInDialogRange(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, PETPAL_dc860a81-f3c2-4c1a-ab90-e7583324845c, 1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_PetPallerInDialogRange(_Var2);
+
+QRY
+QRY_PetPallerInDialogRange((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsPartyMember((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsPartyMember(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CheckCanSqueeze((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Sizes(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var3, 1, _Var1, _Var1)
+AND
+_Var2 < 2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CheckCanSqueeze((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, DWARF_486a2562-31ae-437b-bf63-30393e18cbdd, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsEnemy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+IsEnemy(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsEnemy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_IsEnemy_Internal_CheckDBs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsEnemy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_IsEnemy_Internal_CheckDBs(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsEnemy_Internal_CheckDBs((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_RelationChangingToHostile(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsEnemy_Internal_CheckDBs((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_RelationChangingToTemporaryHostile(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsEnemyToAnyPlayerInCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemy(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WasEnemyToAnyPlayerInCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemy(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsTelepath((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, MYCONID_480f5568-7c49-45e4-9543-7c06e43bdf52, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsTelepath((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, MINDFLAYER_8ee4d870-3f6b-466c-968f-ab0ba2be6229, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GetIsTelepath((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_GetIsTelepath(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GetIsTelepath(_Var2);
+
+QRY
+QRY_GetIsTelepath((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_IsTelepath(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetIsTelepath(1);
+
+QRY
+QRY_GetIsTelepath((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_GetIsTelepath(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetIsTelepath(0);
+
+QRY
+QRY_GetOwnerIfItemSummon((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GetOwnerIfItemSummon(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GetOwnerIfItemSummon(_Var3);
+
+QRY
+QRY_GetOwnerIfItemSummon((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsItem(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetOwnerIfItemSummon(_Var1);
+
+QRY
+QRY_GetOwnerIfItemSummon((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_GetOwnerIfItemSummon(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetOwnerIfItemSummon(_Var2);
+
+QRY
+QRY_GetCharacterOwnerIfItemSummon((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GetOwnerIfItemSummon(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetOwnerIfItemSummon(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var3);
+
+IF
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var2);
+
+QRY
+QRY_GetSummonOwner((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GetSummonOwner(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GetSummonOwner(_Var2);
+
+QRY
+QRY_GetSummonOwner((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetSummonOwner(_Var2);
+
+QRY
+QRY_GetSummonOwner((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetSummonOwner(_Var2);
+
+QRY
+QRY_CharacterGetOwnerOrSelf((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CharacterGetOwnerOrSelf(_Var2);
+
+QRY
+QRY_CharacterGetOwnerOrSelf((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var1);
+
+QRY
+QRY_CharacterGetOwnerOrSelf((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CharacterGetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var2);
+
+IF
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_QRYRTN_CharacterGetOwnerOrSelf(_Var2);
+
+QRY
+QRY_IsNPC((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsMultiPlayer()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var4
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsSummonOrPartyFollower((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsSummon(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsSummonOrPartyFollower((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsPartyFollower(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsLargerThan((CHARACTER)_Var1, (TAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Sizes(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Sizes(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var4 > _Var3
+AND
+IsTagged(_Var1, _Var5, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

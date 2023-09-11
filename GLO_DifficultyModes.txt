@@ -1,0 +1,42 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_DifficultyClasses("EASY", GLO_DifficultyMode_Easy_8ff3ba67-ada2-442b-925c-ee2415359024);
+DB_GLO_DifficultyClasses("MEDIUM", GLO_DifficultyMode_Medium_0fc95071-9342-44d5-988a-30e8a8c8b787);
+DB_GLO_DifficultyClasses("HARD", GLO_DifficultyMode_Hard_aba45e0b-b623-404d-8bba-0ab65e480586);
+
+KBSECTION
+IF
+GameModeStarted(_, _, _, _, _)
+AND
+GetRulesetModifierString(cac2d8bd-c197-4a84-9df1-f86f54ad4521, _Var4, _, _, _)
+AND
+DB_GLO_DifficultyClasses(_Var4, _Var5, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(_Var5);
+
+IF
+RulesetModifierChangedString(cac2d8bd-c197-4a84-9df1-f86f54ad4521, (STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_DifficultyClasses(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var3);
+
+IF
+FlagSet((FLAG)_Var1, _, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_GLO_DifficultyClasses(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DifficultyClasses(_, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var6
+THEN
+PROC_GlobalClearFlagAndCache(_Var6);
+
+
+EXITSECTION
+ENDEXITSECTION
+

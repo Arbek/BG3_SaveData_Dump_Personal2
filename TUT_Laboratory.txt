@@ -1,0 +1,569 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_KnowledgeCheckItem_AD("TUT_Lab_AcidMaw", S_TUT_Lab_AcidMaw_069af69f-354a-40d7-b53b-fb07d9d72843, "Investigation", DC_Legacy_5_6e246ccd-6149-4ec4-a325-034309a18138, TUT_Lab_PAD_AcidMawComment_d1187421-cccc-c82c-6c1f-443ecfabc62a, TUT_Lab_Knows_AcidMaw_3420b8e3-c24d-42a6-83fd-7df1d335d9d0);
+SetOnStage(S_TUT_Lab_AcidMaw_069af69f-354a-40d7-b53b-fb07d9d72843, 0);
+DB_GlobalFlagReactionAfterDialog(TUT_Lab_Event_UsStartsFleeing_e1529859-09bf-4c68-879a-6ba5e4876e82, TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e);
+DB_GlobalFlagReactionAfterDialog(TUT_Lab_State_TryKillBrain_1b90cd28-0d25-4b4c-af09-2a5b1833039a, TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e);
+DB_GlobalFlagReactionAfterDialog(TUT_Lab_State_FreedBrain_2a0d14f5-661b-46d5-8910-98cc4f85c3e3, TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e);
+SetCanInteract(S_TUT_Lab_OperationChair_f7f83f8c-fead-4953-9924-ef4956dd9543, 0);
+PROC_CharacterDisableAllCrimes(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, 1);
+TriggerRegisterForCharacter(S_TUT_Lab_VictimBounds_acdb0458-a0ec-4c13-a98d-92a5c5d09519, S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575);
+TriggerRegisterForCharacter(S_TUT_Lab_EscapeUsNearTrigger_d61af560-bf6b-43d1-92bb-c0a0167d469d, S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575);
+Use(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, S_TUT_Lab_OperationChair_f7f83f8c-fead-4953-9924-ef4956dd9543, "TUT_Lab_SitOnChair");
+DB_Dialogs(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, S_TUT_Lab_SpeakerHelper_d31feb5c-9b0a-40a7-98f3-ad5281413cb8, TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e);
+DB_Dialogs(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, TUT_Lab_DevourerFollower_728f07b6-dc6b-75fb-d7bf-649d3beb534d);
+DB_DialogBlockAttackButton(TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e);
+DB_TUT_Lab_IntellectDevourerDialogues(TUT_Lab_DevourerFollower_728f07b6-dc6b-75fb-d7bf-649d3beb534d);
+DB_TUT_Lab_IntellectDevourerDialogues(TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e);
+PROC_SetOnStage(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 0);
+SetOnStage(S_TUT_Lab_BrainReader_2abaa5fd-014e-4ee1-8033-1e7fdc517eb6, 0);
+DB_TUT_Lab_BrainJar(S_TUT_Lab_AdventurerBrainJar_2c5bca7e-8649-4217-9ebb-52b20a506e99);
+DB_TUT_Lab_BrainJar(S_TUT_Lab_ClericBrainJar_f938e0a4-fb50-4d69-8b40-18e9bba30a22);
+PROC_TUT_Lab_SetUp();
+PROC_TriggerRegisterForPlayers(S_TUT_Start_HoleBounds_e594a65c-17fb-44e9-893d-82a4e58557f8);
+
+KBSECTION
+IF
+TextEvent("TUT_LAB_MoveUs", _, _, _, _)
+THEN
+UseSpell(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "Projectile_Jump", S_TUT_UsEscapePosition_Jump_d78fb374-7c20-435f-af42-50bab1b62cbc);
+
+IF
+TextEvent("TUT_Laboratory_LobotomizeUs", _, _, _, _)
+THEN
+ApplyStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "TUT_LOBOTOMIZED_US", -1);
+
+IF
+TextEvent("TUT_Laboratory_FreeUs", _, _, _, _)
+THEN
+PROC_TUT_Laboratory_DebugRecruitUs();
+
+IF
+DB_GlobalFlag(TUT_Lab_Debug_RecruitUs_b897439b-d03f-4c7f-8596-389f13eb2e62, _, _, _, _)
+THEN
+PROC_TUT_Laboratory_DebugRecruitUs();
+
+PROC
+PROC_TUT_Laboratory_DebugRecruitUs()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6);
+SetFlag(GLO_TUT_Knows_TalkedToIntellectDevourer_51dc73fa-ca3e-175c-8798-f66b0bd64e25, _Var1);
+PROC_TUT_Misc_TutorialCompanion_RecruitBrain(_Var1);
+ApplyStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "TUT_NEWBORN_INTDEV", 30, 1, NULL_00000000-0000-0000-0000-000000000000);
+Transform(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, QUEST_TUT_LAB_TrappedDevourerVictim_Brainless_89136d53-c05d-4528-81a9-4a8f72de27c6, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+SetFlag(TUT_Lab_State_FreedBrain_2a0d14f5-661b-46d5-8910-98cc4f85c3e3);
+TeleportTo(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1);
+SetFlag(TUT_Misc_State_DevourerBecomesFollower_b1eef2ac-1efe-42c2-a7c3-ff2213e9aaed, _Var1);
+
+PROC
+PROC_TUT_Laboratory_DebugAngerUs()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(TUT_Lab_State_FreedBrain_2a0d14f5-661b-46d5-8910-98cc4f85c3e3);
+SetFlag(GLO_TUT_Knows_TalkedToIntellectDevourer_51dc73fa-ca3e-175c-8798-f66b0bd64e25, _Var1);
+ApplyStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "TUT_NEWBORN_INTDEV", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(TUT_Lab_Event_UsStartsFleeing_e1529859-09bf-4c68-879a-6ba5e4876e82);
+
+IF
+TextEvent("TUT_Laboratory_AngerUs", _, _, _, _)
+THEN
+PROC_TUT_Laboratory_DebugAngerUs();
+
+IF
+DB_GlobalFlag(TUT_Lab_Debug_AntagonizeUs_1e700f5c-953b-41fb-b1e9-ce9cc0c15a9f, _, _, _, _)
+THEN
+PROC_TUT_Laboratory_DebugAngerUs();
+
+PROC
+PROC_TUT_Laboratory_DebugAngerUs()
+AND
+QRY_OnlyOnce("TUT_Lab_UsStartsEscape", _, _, _, _)
+THEN
+TimerLaunch("TUT_TransformChamber_DebugStartEscape", 1000);
+
+IF
+TimerFinished("TUT_TransformChamber_DebugStartEscape", _, _, _, _)
+THEN
+DB_TUT_Lab_UsJumping(1);
+PROC_TUT_Laboratory_StartUsEscape();
+
+IF
+UseStarted((CHARACTER)_Var1, S_TUT_Lab_ClosedBrinepool_53499357-f2c4-4ffd-afc0-5b72000c4587, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TryStartAD(TUT_Lab_PAD_ClosedBrinepool_a4f58504-eeba-3261-8f6f-87184483b54b, _Var1);
+
+IF
+LeftTrigger(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, S_TUT_Lab_VictimBounds_acdb0458-a0ec-4c13-a98d-92a5c5d09519, _, _, _)
+AND
+HasActiveStatus(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, "TUT_UNDEROPERATION", 1, _, _)
+AND NOT
+DB_Dead(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, _, _, _, _)
+THEN
+PROC_TUT_Laboratory_KillVictim();
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_TUT_Lab_IntellectDevourerDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StartOverrideDialog_PlayerSpeaker(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_TUT_Lab_IntellectDevourerDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StartOverrideDialog_PlayerSpeaker(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_TUT_Lab_IntellectDevourerDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StartOverrideDialog_PlayerSpeaker(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_TUT_Lab_IntellectDevourerDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StartOverrideDialog_PlayerSpeaker(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (GUIDSTRING)_Var6, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_TUT_Lab_IntellectDevourerDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StartOverrideDialog_PlayerSpeaker(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_TUT_Lab_IntellectDevourerDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StartOverrideDialog_PlayerSpeaker(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+IF
+EntityEvent(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, "TUT_Lab_SitOnChair", _, _, _)
+THEN
+ApplyStatus(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, "TUT_UNDEROPERATION", -1, 1);
+
+IF
+Died(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _, _, _, _)
+AND
+IsPartyFollower(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1, _, _, _)
+AND
+CharacterGetOwner(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemovePartyFollower(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1);
+
+IF
+DialogEnded(TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+GetRelation(ACT0_TUT_LabDevourer_55adef8a-dea9-4f20-9af4-1045ec79e749, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var5 > 50
+AND
+QRY_OnlyOnce("TUT_Lab_DevourerAddedToParty", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_TUT_Knows_TalkedToIntellectDevourer_51dc73fa-ca3e-175c-8798-f66b0bd64e25, _Var2);
+PROC_TUT_Misc_TutorialCompanion_RecruitBrain(_Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+QRY
+QRY_Inclusion_SpeakerIsAvailableForInclusion((DIALOGRESOURCE)_Var1, _, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (CHARACTER)_Var3, (DIALOGRESOURCE)_Var1)
+AND
+DB_PartyMembers(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1, 1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(TUT_Lab_State_FreedBrain_2a0d14f5-661b-46d5-8910-98cc4f85c3e3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(TUT_Lab_Event_UsStartsFleeing_e1529859-09bf-4c68-879a-6ba5e4876e82, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(TUT_Lab_State_LobotomizedBrain_d303b55f-b9b1-4acc-b052-26622a337867, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "TUT_NEWBORN_INTDEV", 30, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(TUT_Lab_State_FreedBrain_2a0d14f5-661b-46d5-8910-98cc4f85c3e3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(TUT_Lab_Event_UsStartsFleeing_e1529859-09bf-4c68-879a-6ba5e4876e82, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(TUT_Lab_State_LobotomizedBrain_d303b55f-b9b1-4acc-b052-26622a337867, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "TUT_NEWBORN_INTDEV", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(TUT_Lab_DevourerFollower_728f07b6-dc6b-75fb-d7bf-649d3beb534d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_TUT_Lab_DevourerIsFollowing(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TUT_Misc_TutorialCompanion_RecruitBrain(_Var2);
+
+PROC
+PROC_TUT_Misc_TutorialCompanion_RecruitBrain((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFaction(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_TUT_Lab_DevourerIsFollowing(1);
+SetFaction(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, Hero_a1542c81-6895-929e-4522-10ce218bb360);
+DB_TUT_Misc_TutorialCompanion_OldFaction(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var2);
+AddPartyFollower(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1);
+
+PROC
+PROC_TUT_Misc_TutorialCompanion_RecruitBrain((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SceneOver("TUT_Laboratory_UsDimissed");
+
+PROC
+PROC_TUT_Lab_TempRemoveBrain()
+AND
+CharacterGetOwner(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TUT_Lab_DevourerIsFollowing(1);
+ClearFlag(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6);
+PROC_TUT_Misc_TutorialCompanion_RemoveCompanion(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "dismissed", "");
+PROC_CharacterDisableAllCrimes(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+DB_TUT_Lab_OwnerUs(_Var1);
+
+IF
+DialogEnded(TUT_Lab_DevourerFollower_728f07b6-dc6b-75fb-d7bf-649d3beb534d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_TUT_Lab_DevourerIsFollowing(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TUT_Lab_DevourerIsFollowing(1);
+PROC_TUT_Misc_TutorialCompanion_RemoveCompanion(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "dismissed", "");
+
+IF
+DialogEnded(TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(TUT_Lab_State_FreedBrain_2a0d14f5-661b-46d5-8910-98cc4f85c3e3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_Lab_TrappedDevourerVictim_Transformed", _Var1, _Var1, _Var1, _Var1)
+THEN
+Transform(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, QUEST_TUT_LAB_TrappedDevourerVictim_Brainless_89136d53-c05d-4528-81a9-4a8f72de27c6, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+
+IF
+FlagSet(TUT_Lab_State_FreedBrain_2a0d14f5-661b-46d5-8910-98cc4f85c3e3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetOnStage(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1);
+
+IF
+FlagSet(TUT_Lab_State_LobotomizedBrain_d303b55f-b9b1-4acc-b052-26622a337867, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ApplyStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "TUT_LOBOTOMIZED_US", -1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(TUT_Lab_State_TryKillBrain_1b90cd28-0d25-4b4c-af09-2a5b1833039a, _, _, _, _)
+THEN
+PROC_TUT_Laboratory_KillVictim();
+
+PROC
+PROC_TUT_Laboratory_KillVictim()
+THEN
+Die(S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(TUT_Lab_Event_UsStartsFleeing_e1529859-09bf-4c68-879a-6ba5e4876e82, _, _, _, _)
+AND
+QRY_OnlyOnce("TUT_Lab_UsStartsEscape", _, _, _, _)
+THEN
+DB_TUT_Lab_UsJumping(1);
+PROC_TUT_Laboratory_StartUsEscape();
+
+PROC
+PROC_TUT_Laboratory_StartUsEscape()
+THEN
+SetCanFight(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 0);
+SetCanJoinCombat(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 0);
+PROC_RemoveAllDialogEntriesForSpeaker(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+SetHasDialog(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 0);
+PROC_SetRelationToPlayers(ACT0_TUT_LabDevourer_55adef8a-dea9-4f20-9af4-1045ec79e749, 0);
+TriggerRegisterForCharacter(S_TUT_UsEscapePosition_Jump_d78fb374-7c20-435f-af42-50bab1b62cbc, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+PROC
+PROC_TUT_Laboratory_StartUsEscape()
+AND
+DB_TUT_Lab_UsJumping(1, _, _, _, _)
+THEN
+UseSpell(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "Projectile_Jump", S_TUT_UsEscapePosition_Jump_d78fb374-7c20-435f-af42-50bab1b62cbc);
+
+PROC
+PROC_TUT_Laboratory_StartUsEscape()
+AND NOT
+DB_TUT_Lab_UsJumping(1, _, _, _, _)
+THEN
+PROC_CharacterMoveTo(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, S_TUT_UsEscapePosition_Leave_ff47a48c-4ec0-4653-91ee-05d0e2f5e8e8, "Run", "TUT_SortingChamber_UsReadyToLeave");
+
+PROC
+PROC_SceneInterrupted(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (CHARACTER)_Var1, "TUT_Laboratory_UsDimissed", (STRING)_Var2, (CHARACTER)_Var1)
+AND
+DB_GLO_GenericSceneManager_ViolenceReason(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("TUT_LowerDeck_GuideAppears", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("TUT_Laboratory_UsDimissed");
+PROC_TUT_Laboratory_StartUsEscape();
+
+PROC
+PROC_SceneInterrupted(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (CHARACTER)_Var1, "TUT_Laboratory_UsDimissed", (STRING)_Var2, (CHARACTER)_Var1)
+AND
+DB_GLO_GenericSceneManager_ViolenceReason(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OnlyOnce("TUT_LowerDeck_GuideAppears", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_Lab_UsStartsEscape", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("TUT_Laboratory_UsDimissed");
+SetCanJoinCombat(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1);
+PROC_SetCanFight(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1);
+PROC_TUT_Misc_UsHostile();
+
+IF
+UsingSpellInTrigger(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "Projectile_Jump", _, _, S_TUT_DevourerJumpStartTrigger_155d865c-f7b4-4300-994d-e3fcc8baf851, (INTEGER)_Var3, _, _, _, _)
+AND
+IsInTrigger(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, S_TUT_DevourerJumpStartTrigger_155d865c-f7b4-4300-994d-e3fcc8baf851, 1, _, _)
+AND
+DB_TUT_Lab_UsJumping(1, _, _, _, _)
+THEN
+DB_TUT_Lab_UsJumpID(_Var3);
+
+IF
+CastSpellFailed((CHARACTER)_Var1, _, _, _, (INTEGER)_Var5)
+AND
+DB_TUT_Lab_UsJumpID(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TUT_Lab_UsJumpID(_Var5);
+PROC_SetOnStage(S_TUT_Lab_UsEscapeBlocker_001_6b858436-f0b1-41ce-88f0-e3428d9896bc, 0);
+PROC_SetOnStage(S_TUT_Lab_UsEscapeBlocker_000_fad701b2-701c-47f7-b832-53e44e335d89, 0);
+PROC_CharacterMoveTo(_Var1, S_TUT_UsEscapePosition_Leave_ff47a48c-4ec0-4653-91ee-05d0e2f5e8e8, "Run", "TUT_SortingChamber_UsReadyToLeave");
+
+IF
+CastedSpell((GUIDSTRING)_Var1, _, _, _, (INTEGER)_Var5)
+AND
+DB_TUT_Lab_UsJumpID(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TUT_Lab_UsJumping(1);
+NOT DB_TUT_Lab_UsJumpID(_Var5);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_TUT_UsEscapePosition_Jump_d78fb374-7c20-435f-af42-50bab1b62cbc, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+TriggerUnregisterForCharacter(S_TUT_UsEscapePosition_Jump_d78fb374-7c20-435f-af42-50bab1b62cbc, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+PROC_SetOnStage(S_TUT_Lab_UsEscapeBlocker_001_6b858436-f0b1-41ce-88f0-e3428d9896bc, 0);
+PROC_SetOnStage(S_TUT_Lab_UsEscapeBlocker_000_fad701b2-701c-47f7-b832-53e44e335d89, 0);
+PROC_CharacterMoveTo(_Var1, S_TUT_UsEscapePosition_Leave_ff47a48c-4ec0-4653-91ee-05d0e2f5e8e8, "Run", "TUT_SortingChamber_UsReadyToLeave");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "TUT_SortingChamber_UsReadyToLeave", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+PROC_SetOnStage(S_TUT_Lab_UsEscapeBlocker_001_6b858436-f0b1-41ce-88f0-e3428d9896bc, 1);
+PROC_SetOnStage(S_TUT_Lab_UsEscapeBlocker_000_fad701b2-701c-47f7-b832-53e44e335d89, 1);
+SetCanFight(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1);
+SetCanJoinCombat(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1);
+SetFaction(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, ACT0a_TUT_UpperDeck_Mindflayer_d218306d-31e0-4329-9c3c-125b2cbf0dec);
+TimerLaunch("TUT_SortingChamber_UsMovingThroughNautiloid", 7000);
+
+IF
+TimerFinished("TUT_SortingChamber_UsMovingThroughNautiloid", _, _, _, _)
+THEN
+SetHitpointsPercentage(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 100);
+PROC_SetOnStage(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1);
+DB_TUT_Lab_DevourerHostilityWhenSeenUs(1);
+TeleportToPosition(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, -32, 26, -354, "TUT_SortingChamber_UsTraveled", 0, 0, 0, 0, 0);
+
+IF
+EntityEvent((CHARACTER)_Var1, "TUT_SortingChamber_UsTraveled", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "TUT_TransformChamber_ReadyToGoToPosition");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "TUT_TransformChamber_ReadyToGoToPosition", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Defeated(S_TUT_Lab_IntellectDevourer_40bd6b82-2728-410a-bb8a-a805f98556a1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_TUT_Lab_IntellectDevourer_40bd6b82-2728-410a-bb8a-a805f98556a1, "Run", "");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "TUT_TransformChamber_ReadyToGoToPosition", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Defeated(S_TUT_Lab_IntellectDevourer_40bd6b82-2728-410a-bb8a-a805f98556a1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(ACT0a_TUT_UpperDeck_Mindflayer_d218306d-31e0-4329-9c3c-125b2cbf0dec, 0);
+PROC_CharacterMoveTo(_Var1, S_TUT_MindFlayerRoom_UsTeleport_33122d49-a31d-49e6-9436-719e192f6736, "Run", "");
+
+IF
+RelationChanged(ACT0a_TUT_UpperDeck_Mindflayer_d218306d-31e0-4329-9c3c-125b2cbf0dec, (FACTION)_Var1, 0, _, (FACTION)_Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_Laboratory_UpperIntDevHostile", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(ACT0a_TUT_UpperDeck_Mindflayer_d218306d-31e0-4329-9c3c-125b2cbf0dec, 0);
+
+IF
+RelationChanged(ACT0a_TUT_UpperDeck_Mindflayer_d218306d-31e0-4329-9c3c-125b2cbf0dec, Hero_a1542c81-6895-929e-4522-10ce218bb360, 0, 1, _)
+AND
+DB_PartyMembers(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _, _, _, _)
+AND NOT
+DB_GLO_NarrativeCombat_ID("TUT_Helm_FinalCombat", _, _, _, _)
+AND NOT
+DB_GlobalFlag(TUT_Lab_State_LobotomizedBrain_d303b55f-b9b1-4acc-b052-26622a337867, _, _, _, _)
+AND
+QRY_OnlyOnce("TUT_Misc_TrappedDevourerHostile", _, _, _, _)
+THEN
+PROC_TUT_Misc_UsHostile();
+
+PROC
+PROC_TUT_Misc_UsHostile()
+AND
+DB_PartyMembers(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _, _, _, _)
+AND
+CharacterGetOwner(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemovePartyFollower(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1);
+
+PROC
+PROC_TUT_Misc_UsHostile()
+THEN
+SetFaction(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, ACT0a_TUT_UpperDeck_Mindflayer_d218306d-31e0-4329-9c3c-125b2cbf0dec);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_TUT_Misc_RubbleRoom_001_5873b16d-43e6-48c8-970b-bde226c6b515, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_Lab_EnteredLab", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TUT_Lab_Callout();
+
+PROC
+PROC_TUT_Lab_Callout()
+AND
+QRY_StartDialog(TUT_Lab_AD_DevourerVictim_8aff4ad4-72c5-37e5-3bcd-7176489d717c, S_TUT_Lab_DevourerVictim_37f50067-bc94-4b77-9e3c-95d73222b575, _, _, _)
+THEN
+TimerLaunch("TUT_Lab_DevourerCallOutTimer", 15000);
+
+IF
+TimerFinished("TUT_Lab_DevourerCallOutTimer", _, _, _, _)
+AND NOT
+DB_OnlyOnce("TUT_Lab_DevourerCallOut", _, _, _, _)
+THEN
+PROC_TUT_Lab_Callout();
+
+IF
+DialogEnded(TUT_Lab_TrappedDevourer_7236cc61-1c14-46ee-917d-5ec036e4058e, _, _, _, _)
+AND
+QRY_OnlyOnce("TUT_Lab_DevourerCallOut", _, _, _, _)
+THEN
+TimerCancel("TUT_Lab_DevourerCallOutTimer");
+
+PROC
+PROC_LevelUnloading("TUT_Avernus_C", _, _, _, _)
+THEN
+TimerCancel("TUT_Lab_DevourerCallOutTimer");
+
+IF
+AddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TUT_Lab_BrainJar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TUT_Lab_BrainJarFound(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_TUT_Lab_BrainJarFound(_Var1);
+PROC_TUT_Lab_BrainjarAD(_Var1, _Var2);
+
+PROC
+PROC_TUT_Lab_BrainjarAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_Lab_BrainJar(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(TUT_Lab_PAD_BrainJarLoot_6f436f22-f141-15d6-1b8c-05f7613a85e8, _Var2);
+
+IF
+FlagSet(TUT_Lab_State_MindflayerCheckFailed_89bf3698-47a1-4b80-acb4-9f078c136a78, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyStatus(_Var1, "TUT_LAB_MADNESS", 6, 1);
+
+QRY
+QRY_BlockPickpocket(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_TUT_Lab_SetUp()
+THEN
+ApplyStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "DISABLE_CRITICALHITS", -1, 1);
+
+IF
+FlagSet(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+RemoveStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "DISABLE_CRITICALHITS");
+
+IF
+FlagCleared(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ApplyStatus(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "DISABLE_CRITICALHITS", -1, 1);
+
+IF
+TextEvent("TUT_RecruitIntDev", _, _, _, _)
+AND
+QRY_OnlyOnce_Reset("debug_TUT_RecruitIntDev", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("debug_TUT_RecruitIntDev", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TUT_Misc_TutorialCompanion_RecruitBrain(_Var1);
+SetOnStage(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, 1);
+TeleportTo(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Tutorial"

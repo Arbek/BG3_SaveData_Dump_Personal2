@@ -1,0 +1,47 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+GameBookInterfaceClosed(S_MOO_ApostleDiary_3ae7a258-146e-4fa5-8c97-65a1303945f6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_MOO_ApostleDiary_HasRolled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_ApostleDiary_HasVBed(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TrySkillCheck(_Var1, S_MOO_ApostleDiary_3ae7a258-146e-4fa5-8c97-65a1303945f6, "Religion", DC_Legacy_15_bddbb9b8-a242-4c3e-a2eb-3fd274c0c539, "MOO_ApostleDiary_StartVB");
+DB_MOO_ApostleDiary_HasRolled(_Var1);
+
+PROC
+PROC_RollResult("MOO_ApostleDiary_StartVB", (CHARACTER)_Var1, _, 2, (CHARACTER)_Var1)
+THEN
+NOT DB_MOO_ApostleDiary_HasRolled(_Var1);
+
+PROC
+PROC_RollResult("MOO_ApostleDiary_StartVB", (CHARACTER)_Var1, _, 1, (CHARACTER)_Var1)
+AND NOT
+DB_MOO_ApostleDiary_HasVBed(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(MOO_ApostleEntry_VB_Ritual_ee439ab1-a588-d92a-bd34-40497f7544d2, _Var1);
+DB_MOO_ApostleDiary_HasVBed(1);
+
+IF
+VoiceBarkStarted(MOO_ApostleEntry_VB_Ritual_ee439ab1-a588-d92a-bd34-40497f7544d2, _, _, _, _)
+AND
+DB_MOO_ApostleDiary_HasRolled(_Var2, _, _, _, _)
+THEN
+NOT DB_MOO_ApostleDiary_HasRolled(_Var2);
+
+IF
+VoiceBarkStarted(MOO_ApostleEntry_VB_Ritual_ee439ab1-a588-d92a-bd34-40497f7544d2, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_MOO_ApostleDiary_HasVBed(1);
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

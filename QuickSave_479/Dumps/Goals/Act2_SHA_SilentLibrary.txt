@@ -1,0 +1,215 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CombatReact_AD_OnEntered(S_SHA_SilentLibrary_Justiciar_000_79c0ecfe-930b-4d1e-9b50-9e8836c91c12, SHA_SilentLibrary_AD_SilencePlayer_f3fee7c0-2ec3-9dd9-4f74-01e9726fe168);
+DB_CombatReact_AD_OnEntered(S_SHA_SilentLibrary_Justiciar_001_ec125743-513c-4427-adab-d8bf96bba40b, SHA_SilentLibrary_AD_SilencePlayer_f3fee7c0-2ec3-9dd9-4f74-01e9726fe168);
+DB_CombatReact_AD_OnEntered(S_SHA_SilentLibrary_Justiciar_002_435289b8-97b5-4623-8cfb-a3b02e263841, SHA_SilentLibrary_AD_SilencePlayer_f3fee7c0-2ec3-9dd9-4f74-01e9726fe168);
+DB_CombatReact_AD_OnEntered(S_SHA_SilentLibrary_Justiciar_003_3df987bc-5c0f-4133-a87a-444352e86268, SHA_SilentLibrary_AD_SilencePlayer_f3fee7c0-2ec3-9dd9-4f74-01e9726fe168);
+DB_CombatReact_AD_OnEntered(S_SHA_SilentLibrary_Justiciar_004_f76831bc-3065-40e8-ac07-0e2d088e1e46, SHA_SilentLibrary_AD_SilencePlayer_f3fee7c0-2ec3-9dd9-4f74-01e9726fe168);
+DB_CombatReact_AD_OnEntered(S_SHA_SilentLibrary_Justiciar_005_95f6757b-8c98-4256-8071-26d60c613e59, SHA_SilentLibrary_AD_SilencePlayer_f3fee7c0-2ec3-9dd9-4f74-01e9726fe168);
+DB_ItemDialog_NarratorAD(S_SHA_BookPlaque_906234ec-0dbb-48dc-ae60-74d27e6b07cc, SHA_SilentLibrary_AD_RiddlePlaque_8b43f39c-72c5-51aa-acfb-3c7b7a6699d8);
+DB_ItemDialog_PlayerVB(S_SHA_SilentLibrary_ScrollRoomDoorButton_7b0d1404-7908-4f41-93fc-61d8fe137354, SHA_SilentLibrary_VB_OpenedScrollRoom_ff7a0004-9e5f-c4b1-b4ee-d1a9e2d2672d);
+PROC_TriggerRegisterForParty(S_SHA_SilentLibrary_SUB_961f86d2-b05c-40c5-b2e4-bf40c089f481);
+PROC_LoopEffect(VFX_Environment_SHA_Silence_Wall_01_30301670-8920-172a-c54e-f0b2a7b69bfb, S_SHA_SilentLibrary_SilencePlane_09bf707f-4e09-442e-9655-f3f4f864170a, "SHA_SilentLibrary_SilencePlane", "SCL_Main_A", "");
+DB_BookTemplateFlags(UNI_BOOK_SHA_SpearOfTheNight_e6e91952-d96b-4b30-8a57-f62725f39308, SHA_SilentLibrary_SpearOfTheNightSecret_54d1eca1-45a5-493d-b638-bc7f94b300e1);
+DB_ItemDialog_NarratorAD(S_SHA_SilentLibrary_Plaque1_fff1df2f-7a52-4295-88d8-8e405bb9f756, SHA_NightsongPrison_AD_StealthPlaque_db88ba34-c1d3-00df-ec0c-0ac6e7bdea1a);
+DB_ItemDialog_NarratorAD(S_SHA_SilentLibrary_Plaque2_6da1b08c-525b-405c-a337-c6890d3481da, SHA_NightsongPrison_AD_MartialPlaque_58e34526-74c5-9ed9-73f6-b099cf338df0);
+DB_ItemDialog_NarratorAD(S_SHA_SilentLibrary_Plaque3_ec0c1e58-d8ad-45d7-9923-69d15c0e1d6a, SHA_NightsongPrison_AD_DarknessPlaque_b19b8686-0db3-4320-6674-38c3279ef073);
+DB_SHA_SilentLibrary_FakeButtons(S_SHA_SilentLibrary_FalseButton_002_2626359d-5c0e-4ac8-8217-acedc1b860d6);
+DB_SHA_SilentLibrary_FakeButtons(S_SHA_SilentLibrary_FalseButton_001_50d4d59f-7d21-4855-bc3d-6fffb01a22d9);
+DB_SHA_SilentLibrary_FakeButtons(S_SHA_SilentLibrary_FalseButton_000_f9a00b8d-278a-48ff-a8e6-d41cecedcf77);
+
+KBSECTION
+IF
+TextEvent("silentlibraryopen", _, _, _, _)
+THEN
+SetEntityEvent(S_SHA_BookPlaque_906234ec-0dbb-48dc-ae60-74d27e6b07cc, "SHA_SilentLibrary_TriggerPedestalTrap");
+TimerLaunch("SHA_SilentLibrary_TrapTimer", 12000);
+
+IF
+Combined(S_SHA_BookPlaque_906234ec-0dbb-48dc-ae60-74d27e6b07cc, (ITEM)_Var1, _, _, _, _, (ITEM)_Var6, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_GlobalFlag(SHA_SilentLibrary_State_SecretDoorOpened_2c300a57-0b71-4dc5-9a4f-7290cad0c9bc, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_SHA_SilentLibrary_SharranBook_005_40036615-8ed4-45cd-b554-4403bb1f6834
+AND
+QRY_OnlyOnce("SHA_SilentLibrary_TrapActivated", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SHA_SilentLibrary_MoveBook(_Var1, 0);
+SetEntityEvent(S_SHA_BookPlaque_906234ec-0dbb-48dc-ae60-74d27e6b07cc, "SHA_SilentLibrary_TriggerPedestalTrap");
+TimerLaunch("SHA_SilentLibrary_TrapTimer", 12000);
+RequestDelete(_Var6);
+
+IF
+TimerFinished("SHA_SilentLibrary_TrapTimer", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("SHA_SilentLibrary_TrapActivated");
+SetEntityEvent(S_SHA_BookPlaque_906234ec-0dbb-48dc-ae60-74d27e6b07cc, "SHA_SilentLibrary_TriggerPedestalTrap");
+
+IF
+Combined(S_SHA_BookPlaque_906234ec-0dbb-48dc-ae60-74d27e6b07cc, S_SHA_SilentLibrary_SharranBook_005_40036615-8ed4-45cd-b554-4403bb1f6834, _, _, _, _, (GUIDSTRING)_Var5, (ITEM)_, (ITEM)_, (ITEM)_)
+THEN
+RequestDelete(_Var5);
+PROC_SHA_SilentLibrary_MoveBook(S_SHA_SilentLibrary_SharranBook_005_40036615-8ed4-45cd-b554-4403bb1f6834, 1);
+
+IF
+Combined(S_SHA_BookPlaque_906234ec-0dbb-48dc-ae60-74d27e6b07cc, S_SHA_SilentLibrary_SharranBook_005_40036615-8ed4-45cd-b554-4403bb1f6834, _, _, _, _, (GUIDSTRING)_Var5, (ITEM)_, (ITEM)_, (ITEM)_)
+THEN
+SetCanInteract(S_SHA_BookPlaque_906234ec-0dbb-48dc-ae60-74d27e6b07cc, 0);
+TimerLaunch("SHA_SilentLibrary_DoorOpening", 1850);
+PROC_CameraShakeAroundObject(S_SHA_SilentLibrary_OpeningFX_243a29a9-858e-419d-b9be-1ff4845be84d, 1650, 5);
+
+IF
+TimerFinished("SHA_SilentLibrary_DoorOpening", (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+GetPosition(S_SHA_SilentLibrary_OpeningFX_243a29a9-858e-419d-b9be-1ff4845be84d, _Var1, _Var2, _Var3, _Var1)
+THEN
+PlayEffectAtPosition(VFX_Script_SCL_SharTempleLibrary_PuzzleSolving_01_3bc76c07-e482-7f79-ff44-61fa2b199ba4, _Var1, _Var2, _Var3);
+PROC_GlobalSetFlagAndCache(SHA_SilentLibrary_State_SecretDoorOpened_2c300a57-0b71-4dc5-9a4f-7290cad0c9bc);
+
+IF
+UsingSpellOnTarget(_, S_SHA_SilentLibrary_SecretDoor_d2781367-8585-4428-96a2-63b2dd1820fc, "Target_Knock", _, _, _, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SHA_SilentLibrary_State_SecretDoorOpened_2c300a57-0b71-4dc5-9a4f-7290cad0c9bc, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SHA_SilentLibrary_State_SecretDoorOpened_2c300a57-0b71-4dc5-9a4f-7290cad0c9bc);
+
+IF
+FlagSet(SHA_SilentLibrary_State_SecretDoorOpened_2c300a57-0b71-4dc5-9a4f-7290cad0c9bc, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+ItemMoveTo(S_SHA_SilentLibrary_SecretDoor_d2781367-8585-4428-96a2-63b2dd1820fc, S_SHA_SilentLibrary_SecretDoorDestination_6953d539-573c-4151-97b8-bf777e1cb55a, 2, 0, 0, "SHA_SilentLibrary_OpenSecretDoor", 0);
+PlaySound(S_SHA_SilentLibrary_SecretDoor_d2781367-8585-4428-96a2-63b2dd1820fc, "Items_Doors_Generic_Stone_Medium_Open");
+
+IF
+EntityEvent(S_SHA_SilentLibrary_SecretDoor_d2781367-8585-4428-96a2-63b2dd1820fc, "SHA_SilentLibrary_OpenSecretDoor", _, _, _)
+THEN
+PlaySound(S_SHA_SilentLibrary_SecretDoor_d2781367-8585-4428-96a2-63b2dd1820fc, "Items_Doors_Generic_Stone_Medium_Stop");
+
+IF
+UseFinished((GUIDSTRING)_Var1, S_SHA_SilentLibrary_SecretDoor_d2781367-8585-4428-96a2-63b2dd1820fc, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SHA_SilentLibrary_State_SecretDoorOpened_2c300a57-0b71-4dc5-9a4f-7290cad0c9bc, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+PROC
+PROC_SHA_SilentLibrary_MoveBook((ITEM)_Var1, 0, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+TeleportTo(_Var1, S_SHA_BookPoint_3dde6dc3-422c-42dd-bacf-bbe8f47ed081, "", 0, 0, 0, 0, 0);
+
+PROC
+PROC_SHA_SilentLibrary_MoveBook((ITEM)_Var1, 1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+TeleportTo(_Var1, S_SHA_BookPoint_3dde6dc3-422c-42dd-bacf-bbe8f47ed081, "SHA_SilentLibrary_FixBook", 0, 0, 0, 0, 0);
+
+IF
+DB_InRegion(_Var1, S_SHA_SilentLibrary_SUB_961f86d2-b05c-40c5-b2e4-bf40c089f481, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SHA_SilentLibrary_State_PlayerEnteredLibrary_ebc3af34-7deb-429d-9bf3-4d1439876ac0, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SHA_SilentLibrary_State_PlayerEnteredLibrary_ebc3af34-7deb-429d-9bf3-4d1439876ac0);
+
+IF
+EntityEvent(S_SHA_SilentLibrary_ScrollRoomDoorButton_7b0d1404-7908-4f41-93fc-61d8fe137354, "SHA_SilentLibrary_OpenScrollRoom", _, _, _)
+AND
+IsClosed(S_SHA_SilentLibrary_ScrollRoomDoor_3c059324-cb77-4cb2-8917-ad553f9a64d0, 1, _, _, _)
+THEN
+PROC_CameraShakeAroundObject(S_SHA_SilentLibrary_ScrollRoomDoor_3c059324-cb77-4cb2-8917-ad553f9a64d0, 500, 20);
+SetCanInteract(S_SHA_SilentLibrary_ScrollRoomDoorButton_7b0d1404-7908-4f41-93fc-61d8fe137354, 0);
+
+IF
+AutomatedDialogEnded(SHA_SilentLibrary_PAD_OpenedScrollDoor_50fbadad-471c-6bbb-cf91-ffaabc463f1c, _, _, _, _)
+AND
+DB_ItemDialog_PlayerVB(S_SHA_SilentLibrary_ScrollRoomDoorButton_7b0d1404-7908-4f41-93fc-61d8fe137354, SHA_SilentLibrary_VB_OpenedScrollRoom_ff7a0004-9e5f-c4b1-b4ee-d1a9e2d2672d, _, _, _)
+THEN
+NOT DB_ItemDialog_PlayerVB(S_SHA_SilentLibrary_ScrollRoomDoorButton_7b0d1404-7908-4f41-93fc-61d8fe137354, SHA_SilentLibrary_VB_OpenedScrollRoom_ff7a0004-9e5f-c4b1-b4ee-d1a9e2d2672d);
+
+IF
+AttemptedDisarm((ITEM)_Var1, (CHARACTER)_Var2, _, 0, (ITEM)_Var1)
+AND
+DB_SHA_SilentLibrary_FakeButtons(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTrapArmed(_Var1, 0);
+
+IF
+UseFinished((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_SilentLibrary_FakeButtons(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTrapArmed(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+PROC_TryStartAD(GLO_AD_MechanicalClunk_a96814b5-9d5b-cf71-b0c3-39d4aea3dfd6, _Var2);
+SetCanInteract(_Var2, 0);
+NOT DB_SHA_SilentLibrary_FakeButtons(_Var2);
+
+IF
+Opened(S_SHA_SilentLibrary_ScrollRoomDoor_3c059324-cb77-4cb2-8917-ad553f9a64d0, _, _, _, _)
+AND
+QRY_OnlyOnce("SHA_SilentLibraryDisableButtonsOnOpen", _, _, _, _)
+THEN
+SetCanInteract(S_SHA_SilentLibrary_ScrollRoomDoorButton_7b0d1404-7908-4f41-93fc-61d8fe137354, 0);
+PROC_TryStartAD(GLO_AD_MechanicalClick_fc8d3dc5-b947-6354-3aa9-d1f02fd51af4, S_SHA_SilentLibrary_ScrollRoomDoorButton_7b0d1404-7908-4f41-93fc-61d8fe137354);
+PROC_SHA_SilentLibraryDisarmArmedButtons();
+
+PROC
+PROC_SHA_SilentLibraryDisarmArmedButtons()
+AND
+DB_SHA_SilentLibrary_FakeButtons(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanInteract(_Var1, 0);
+PROC_TryStartAD(GLO_AD_MechanicalClunk_a96814b5-9d5b-cf71-b0c3-39d4aea3dfd6, _Var1);
+SetTrapArmed(_Var1, 0);
+
+IF
+DB_PermaDefeated(S_SHA_PUZ_SilentLibrary_Librarian_Item_8f766750-9d29-4170-b898-57b95e92e3c0, _, _, _, _)
+THEN
+PROC_StopLoopEffect(S_SHA_SilentLibrary_SilencePlane_09bf707f-4e09-442e-9655-f3f4f864170a, "SHA_SilentLibrary_SilencePlane");
+
+IF
+DB_PermaDefeated(S_SHA_PUZ_SilentLibrary_Librarian_Item_8f766750-9d29-4170-b898-57b95e92e3c0, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_SHA_SilenceTrigger_3404e377-fede-41b2-a31b-e8b8bab0caf2, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "SHA_SILENTLIBRARY_LIBRARIANSILENCE_STATUS", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "SHA_SILENTLIBRARY_LIBRARIANSILENCE_STATUS");
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_SHA_SilenceTrigger_3404e377-fede-41b2-a31b-e8b8bab0caf2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(S_SHA_PUZ_SilentLibrary_Librarian_Item_8f766750-9d29-4170-b898-57b95e92e3c0, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SHA_SILENTLIBRARY_LIBRARIANSILENCE_STATUS", -1, 1, S_SHA_PUZ_SilentLibrary_Librarian_Item_8f766750-9d29-4170-b898-57b95e92e3c0);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_SHA_SilenceTrigger_3404e377-fede-41b2-a31b-e8b8bab0caf2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "SHA_SILENTLIBRARY_LIBRARIANSILENCE_STATUS", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "SHA_SILENTLIBRARY_LIBRARIANSILENCE_STATUS");
+
+IF
+FlagSet(SHA_SilentLibrary_SpearOfTheNightSecret_54d1eca1-45a5-493d-b638-bc7f94b300e1, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ShowMarker(_Var1, "SHA_SilentLibrary_SpearOfTheNight");
+
+IF
+FlagSet(SHA_SilentLibrary_State_PlayerEnteredLibrary_ebc3af34-7deb-429d-9bf3-4d1439876ac0, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+PROC_HideMarker(_Var3, "SHA_SilentLibrary_SpearOfTheNight");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

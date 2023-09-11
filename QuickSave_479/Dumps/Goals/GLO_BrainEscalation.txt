@@ -1,0 +1,439 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_BrainEscalation_NetherBrainEnemyTemplates(SteelWatcher_Biped_A_27385ea6-d768-47ce-91b8-8d957c0aabd9);
+DB_GLO_BrainEscalation_NetherBrainEnemyTemplates(SteelWatcher_Biped_A_Ranged_70417e3e-9278-4f96-a1d8-5bd90bf5d07a);
+DB_GLO_BrainEscalation_NetherBrainEnemyTemplates(SteelWatcher_Biped_B_ec2820db-afd7-4428-90bd-a0838949cc69);
+DB_GLO_BrainEscalation_NetherBrainEnemyTemplates(SteelWatcher_Biped_B_Ranged_80cb7cbd-41fc-4921-847b-d62f2517ddd9);
+DB_GLO_BrainEscalation_NetherBrainEnemyTemplates(SteelWatcher_Quadruped_A_26fa3fe9-608c-4113-99a6-727781351ea4);
+SetFlag(GLO_SteelWatchers_State_InBaseState_ca1b279a-b266-49ee-8549-5e6bd9bc209b);
+
+KBSECTION
+IF
+TextEvent("GLO_BrainEscalation_PlayEmperorQuakeReaction", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, GLO_BrainEscalation_AD_EmperorBrainQuakeReaction_9a81c788-347f-d917-9391-6fb44af99a37);
+
+IF
+TextEvent("GLO_BrainEscalation_PlayKilledGortashBrainDialog", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_GLO_BrainEscalation_NetherBrainHelper_fba8e1f5-9516-4f94-836a-a9308a2d0173, _Var1, "GLO_BrainEscalation_GortashKilledFirstDialogReady", 0, 0, 0, 0, 1);
+
+IF
+TextEvent("GLO_BrainEscalation_PlayBrainAntagonistDialog", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_GLO_BrainEscalation_NetherBrainHelper_fba8e1f5-9516-4f94-836a-a9308a2d0173, _Var1, "GLO_BrainEscalation_NetherBrainHelperSpawned", 0, 0, 0, 0, 1);
+
+IF
+TextEvent("GLO_BrainEscalation_PlayEmperorCombatEndReact", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, GLO_BrainEscalation_AD_EmperorCombatReaction_5b5723be-b740-f3d5-4904-bbadb59381bd);
+
+IF
+TextEvent("GLO_BrainEscalation_SteelWatchPostGortashDialog", _, _, _, _)
+THEN
+Die(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 0);
+
+IF
+DB_GlobalFlag(GLO_Debug_KillGortash_1dedf7b0-9e64-41ec-9dc5-60f80f878701, _, _, _, _)
+THEN
+Die(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 0);
+
+IF
+TextEvent("GLO_BrainEscalation_SteelWatchTurnsHostile", _, _, _, _)
+THEN
+Die(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 0);
+Die(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 0);
+
+IF
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+THEN
+DB_TriggerEvents_AllPlayersLeft(S_LOW_BhaalTemple_Temple_SUB_3725bdbc-2e19-4c50-9f0b-2fabaf0eafb5, "GLO_BrainEscalation_AllPlayersLeftBhaalTemple");
+
+IF
+EntityEvent(_, "GLO_BrainEscalation_AllPlayersLeftBhaalTemple", _, _, _)
+AND
+DB_Avatars(_Var2, _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_BrainEscalation_OrinDeadBrainQuake", _, _, _, _)
+THEN
+PROC_GLO_Brainquakes_StartForcedEvent(_Var2, "GLO_BrainEscalation_OrinDeadBrainQuake");
+RealtimeObjectTimerLaunch(_Var2, "GLO_BrainEscalation_OrinDead_BrainquakeResponseTimer", 6500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_BrainEscalation_OrinDead_BrainquakeResponseTimer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var2, GLO_BrainEscalation_AD_EmperorBrainQuakeReaction_9a81c788-347f-d917-9391-6fb44af99a37);
+
+QRY
+QRY_CorpseLooting_BlockMakeOwned(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("S_GLO_BrainEscalation_GortashDead_PlayerSelected", _Var1, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "S_GLO_BrainEscalation_GortashDead_PlayBrainDialog", 2000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "S_GLO_BrainEscalation_GortashDead_PlayBrainDialog", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TeleportTo(S_GLO_BrainEscalation_NetherBrainHelper_fba8e1f5-9516-4f94-836a-a9308a2d0173, _Var1, "GLO_BrainEscalation_GortashKilledFirstDialogReady", 0, 0, 0, 0, 1);
+DB_GLO_BrainEscalation_PlayerPresentAtGortashDeath(_Var1);
+
+IF
+EntityEvent(_, "GLO_BrainEscalation_GortashKilledFirstDialogReady", _, _, _)
+AND
+DB_GLO_BrainEscalation_PlayerPresentAtGortashDeath(_Var2, _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_BrainEscalation_PlayedGortashKilledFirstDialog", _, _, _, _)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var2, "GLO_BrainEscalation_GortashKilledFirstPlayerReady");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "GLO_BrainEscalation_GortashKilledFirstPlayerReady", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialogCustom(GLO_BrainEscalation_KilledGortashFirst_007e5dec-6c04-26d9-7522-cc60ccb7c68f, S_GLO_BrainEscalation_NetherBrainHelper_fba8e1f5-9516-4f94-836a-a9308a2d0173, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(GLO_BrainEscalation_KilledGortashFirst_007e5dec-6c04-26d9-7522-cc60ccb7c68f, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var1, _Var2);
+
+IF
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+AND
+DB_CurrentLevel("BGO_Main_A", _, _, _, _)
+THEN
+DB_GLO_BrainEscalation_Brainantagonist_WaitToRevealInLOW(1);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+AND
+DB_GLO_BrainEscalation_Brainantagonist_WaitToRevealInLOW(1, _, _, _, _)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_BrainEcalation_NetherBrainRevealSetUp", _Var1, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "GLO_BrainEcalation_NetherBrainRevealinLOW", 2000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_BrainEcalation_NetherBrainRevealinLOW", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TeleportTo(S_GLO_BrainEscalation_NetherBrainHelper_fba8e1f5-9516-4f94-836a-a9308a2d0173, _Var1, "GLO_BrainEscalation_NetherBrainHelperSpawned", 0, 0, 0, 0, 1);
+
+IF
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+AND
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+DB_TriggerEvents_AllPlayersLeft(S_LOW_BhaalTemple_Temple_SUB_3725bdbc-2e19-4c50-9f0b-2fabaf0eafb5, "GLO_BrainEscalation_NetherBrainRevealBhaalTemple");
+
+IF
+EntityEvent(_, "GLO_BrainEscalation_NetherBrainRevealBhaalTemple", _, _, _)
+AND
+DB_Avatars(_Var2, _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_BrainEcalation_NetherBrainRevealSetUp", _, _, _, _)
+THEN
+TeleportTo(S_GLO_BrainEscalation_NetherBrainHelper_fba8e1f5-9516-4f94-836a-a9308a2d0173, _Var2, "GLO_BrainEscalation_NetherBrainHelperSpawned", 0, 0, 0, 0, 1);
+
+IF
+EntityEvent(_, "GLO_BrainEscalation_NetherBrainHelperSpawned", _, _, _)
+AND
+DB_Avatars(_Var2, _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_BrainEcalation_NetherBrainRevealedAntagonist", _, _, _, _)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var2, "GLO_BrainEcalation_NetherBrainReveal_AvatarReady");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "GLO_BrainEcalation_NetherBrainReveal_AvatarReady", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialogCustom(GLO_BrainEscalation_BrainIsAntagonist_676335e0-918a-8b53-de2d-ad834ba33444, S_GLO_BrainEscalation_NetherBrainHelper_fba8e1f5-9516-4f94-836a-a9308a2d0173, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(GLO_BrainEscalation_BrainIsAntagonist_676335e0-918a-8b53-de2d-ad834ba33444, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var1, _Var2);
+
+IF
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_BrainEscalation_State_NetherBrainReleased_06e31f1d-7e29-47ab-bce6-0f17cdc9c47e);
+
+IF
+DialogStarted(GLO_BrainEscalation_BrainIsAntagonist_676335e0-918a-8b53-de2d-ad834ba33444, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_StartForcedEvent(_Var2, "GLO_BrainEscalation_StartBrainquake");
+
+IF
+DialogEnded(GLO_BrainEscalation_BrainIsAntagonist_676335e0-918a-8b53-de2d-ad834ba33444, _, _, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _, _)
+THEN
+PROC_GLO_Brainquakes_StartForcedEvent(_Var3, "GLO_BrainEscalation_EndBrainquake");
+
+IF
+FlagSet(WYR_KillDirectorGortash_State_AgreedToMeetInUndercity_1375d542-cf0a-49fd-927b-5c6bbce13ce4, _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+THEN
+DB_GLO_BrainEscalation_Brainantagonist_WaitToRevealInLOW(1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(GLO_BrainEscalation_State_NetherBrainReleased_06e31f1d-7e29-47ab-bce6-0f17cdc9c47e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_MindflayerOutburst_TurnedCivilians(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_GLO_BrainEscalation_EscalationFight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_BrainEscalation_EscalationFight(_Var2);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(GLO_BrainEscalation_State_NetherBrainReleased_06e31f1d-7e29-47ab-bce6-0f17cdc9c47e, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_BrainEscalation_NetherBrainEnemyTemplates(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_BrainEscalation_EscalationFight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_BrainEscalation_EscalationFight(_Var2);
+
+IF
+SwitchedCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_BrainEscalation_EscalationFight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_BrainEscalation_EscalationFight(_Var2);
+DB_GLO_BrainEscalation_EscalationFight(_Var3);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_BrainEscalation_EscalationFight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_IsOrWasInCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var2, GLO_BrainEscalation_AD_EmperorCombatReaction_5b5723be-b740-f3d5-4904-bbadb59381bd);
+PROC_ResetEmperorAD(_Var2, GLO_BrainEscalation_AD_EmperorCombatReaction_5b5723be-b740-f3d5-4904-bbadb59381bd);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_BrainEscalation_EscalationFight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_BrainEscalationCombatEnded(_Var1);
+NOT DB_GLO_BrainEscalation_EscalationFight(_Var1);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_GortashDead_WatchersBecomeBrainControlled", _, _, _, _)
+THEN
+DB_GLO_BrainEscalation_WatchersBrainControlled(1);
+SetFlag(GLO_SteelWatchers_State_FriendlyToPlayer_83bf5140-be30-44c2-af39-8f3885512643);
+ClearFlag(GLO_SteelWatchers_State_InBaseState_ca1b279a-b266-49ee-8549-5e6bd9bc209b);
+
+IF
+DB_GLO_BrainEscalation_WatchersBrainControlled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_SteelWatchers_SetWatchersBrainControlled(_Var1);
+
+PROC
+PROC_GLO_SteelWatchers_SetWatchersBrainControlled((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_SteelWatchers_BrainControlled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_SteelWatchers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(_Var2);
+DB_Dialogs(_Var2, GLO_SteelWatcher_NetherBrainControlled_27ac32e6-bdac-8bda-1d83-061a0c9a3772);
+SetFaction(_Var2, GLO_SteelWatcher_BrainControlled_f0bb90ec-b609-4864-9716-0ad5d7222689);
+
+IF
+BaseFactionChanged((CHARACTER)_Var1, _, GLO_SteelWatcher_BrainControlled_f0bb90ec-b609-4864-9716-0ad5d7222689, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_SteelWatchers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "STEELWATCHER_GUARD_TAG");
+PROC_CharacterDisableAllCrimes(_Var1);
+PROC_CharacterEnableCrime(_Var1, "Murder");
+PROC_CharacterEnableCrime(_Var1, "Assault");
+PROC_CharacterEnableCrime(_Var1, "Assault_Related");
+
+PROC
+PROC_GLO_SteelWatchers_SetWatchersBrainControlled((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_SteelWatchers_BrainControlled(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SteelWatchers_BrainControlled(_Var1);
+
+IF
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+THEN
+SetFlag(GLO_BrainEscalation_SteelWatchHuntingPlayer_fa13dce6-cc01-4627-a1d1-edd284afc6de);
+ClearFlag(GLO_SteelWatchers_State_InBaseState_ca1b279a-b266-49ee-8549-5e6bd9bc209b);
+ClearFlag(GLO_SteelWatchers_State_FriendlyToPlayer_83bf5140-be30-44c2-af39-8f3885512643);
+
+IF
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+AND
+DB_GLO_SteelWatchers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(GLO_SteelWatcher_BrainControlled_f0bb90ec-b609-4864-9716-0ad5d7222689, 50);
+PROC_RemoveDialog(_Var1);
+DB_SpotPlayers(_Var1, "GLO_BrainEscalation_SteelWatcherHostility", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_Continuous(_Var1, "GLO_BrainEscalation_SteelWatcherHostility");
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "GLO_BrainEscalation_SteelWatcherHostility", (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+LookAtEntity(_Var1, _Var2, 3);
+PROC_TryStartAD(GLO_BrainEscalation_AD_SteelWatchersAttack_8dd2b215-aace-d5e3-2570-48c96f5cc95d, _Var1);
+DB_GLO_BrainEscalation_WatcherHostility(_Var1, _Var2);
+
+IF
+AutomatedDialogStarted(GLO_BrainEscalation_AD_SteelWatchersAttack_8dd2b215-aace-d5e3-2570-48c96f5cc95d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_BrainEscalation_WatcherHostility(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetRelationTemporaryHostile(_Var2, _Var3);
+NOT DB_GLO_BrainEscalation_WatcherHostility(_Var2, _Var3);
+
+IF
+AutomatedDialogRequestFailed(GLO_BrainEscalation_AD_SteelWatchersAttack_8dd2b215-aace-d5e3-2570-48c96f5cc95d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_BrainEscalation_WatcherHostility(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetRelationTemporaryHostile(_Var2, _Var3);
+NOT DB_GLO_BrainEscalation_WatcherHostility(_Var2, _Var3);
+
+IF
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND
+DB_CurrentLevel("CTY_MAIN_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_SteelWatchFoundry_State_Destroyed_cdfffe24-5082-4e41-b7c2-f1fef6da3a8a, _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_SteelWatchFoundry_State_ShutDownByBrain_07595def-a21f-4edf-ab31-2974fc354d38, _, _, _, _)
+THEN
+PROC_GLO_BrainEscalation_ShutDownFoundry();
+
+IF
+DB_PermaDefeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+AND
+DB_CurrentLevel("CTY_MAIN_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_Destroyed_91795368-af06-4b56-9ac1-b78995aa9ea9, _, _, _, _)
+THEN
+SetFlag(IRN_IronThrone_State_Destroyed_91795368-af06-4b56-9ac1-b78995aa9ea9);
+
+PROC
+PROC_GLO_BrainEscalation_ShutDownFoundry()
+THEN
+PROC_LOW_SteelWatchFoundry_LoadDestroyedFoundry();
+PROC_LOW_SteelWatchFoundry_DeactivateAllSwitches();
+PROC_LOW_SteelWatchFoundry_KillAllBaneites();
+SetFlag(LOW_SteelWatchFoundry_State_ShutDownByBrain_07595def-a21f-4edf-ab31-2974fc354d38);
+TriggerRegisterForPlayers(LOW_SteelWatchFoundry_NoticeDestroyedFoundryZone_d7082970-003a-4511-844b-c651b7b896d9);
+
+IF
+DB_InRegion(_Var1, LOW_SteelWatchFoundry_NoticeDestroyedFoundryZone_d7082970-003a-4511-844b-c651b7b896d9, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_SteelWatchFoundry_Knows_FoundryDestroyedByBrain_2274d648-53f4-4107-9256-a5c6332dc283, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(LOW_SteelWatchFoundry_Knows_FoundryDestroyedByBrain_2274d648-53f4-4107-9256-a5c6332dc283);
+TriggerUnregisterForPlayers(LOW_SteelWatchFoundry_NoticeDestroyedFoundryZone_d7082970-003a-4511-844b-c651b7b896d9);
+
+PROC
+PROC_GLO_BrainEscalation_ShutDownFoundry()
+AND
+DB_LOW_Gondians(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+GetFlag(LOW_SteelWatchFoundry_State_WorkerLiberated_32da4560-217f-41d3-b5bb-526e2665a83d, _Var1, 1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1, 0);
+
+PROC
+PROC_GLO_BrainEscalation_ShutDownFoundry()
+AND
+DB_LOW_Gondians(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(LOW_SteelWatchFoundry_State_WorkerLiberated_32da4560-217f-41d3-b5bb-526e2665a83d, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "");
+
+IF
+FlagSet(LOW_SteelWatchFoundry_State_Destroyed_cdfffe24-5082-4e41-b7c2-f1fef6da3a8a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(GLO_SteelWatchers_State_FriendlyToPlayer_83bf5140-be30-44c2-af39-8f3885512643);
+ClearFlag(GLO_BrainEscalation_SteelWatchHuntingPlayer_fa13dce6-cc01-4627-a1d1-edd284afc6de);
+ClearFlag(GLO_SteelWatchers_State_InBaseState_ca1b279a-b266-49ee-8549-5e6bd9bc209b);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

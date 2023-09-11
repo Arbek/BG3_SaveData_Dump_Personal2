@@ -1,0 +1,40 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GlobalFlagReactionAfterDialog(END_IllithidOptions_Event_TookMomentToChoose_4fc3d679-7bd5-4a2f-9175-4d5c028ed185, END_IllithidOptions_OrpheusFreed_dd0df229-54bf-82cb-9869-a33edb46a57f);
+
+KBSECTION
+PROC
+PROC_GlobalFlagReactionAfterDialog(END_IllithidOptions_Event_TadpoleGroupDiscussion_55831e5e-9916-4099-a397-37f5e6967d2e, END_IllithidOptions_Assimilation_f909fcc9-a3dc-b91d-e91c-33f0479c55bb, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_SwayedTowardsCrown_76150a10-511d-4eeb-b263-46994bab0b48, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, END_IllithidOptions_WRD_GaleBombOption_15e19d29-6c41-cb8a-c961-d7fec9b73e31, NULL_00000000-0000-0000-0000-000000000000, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(END_IllithidOptions_Event_TookMomentToChoose_4fc3d679-7bd5-4a2f-9175-4d5c028ed185, END_IllithidOptions_OrpheusFreed_dd0df229-54bf-82cb-9869-a33edb46a57f, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_SwayedTowardsCrown_76150a10-511d-4eeb-b263-46994bab0b48, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RelationshipDialogsFinished(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, END_IllithidOptions_WRD_GaleBombOption_15e19d29-6c41-cb8a-c961-d7fec9b73e31, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+NOT DB_RelationshipDialogsFinished(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, END_IllithidOptions_WRD_GaleBombOption_15e19d29-6c41-cb8a-c961-d7fec9b73e31, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(END_IllithidOptions_Event_TookMomentToChoose_4fc3d679-7bd5-4a2f-9175-4d5c028ed185, END_IllithidOptions_OrpheusFreed_dd0df229-54bf-82cb-9869-a33edb46a57f, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_SwayedTowardsCrown_76150a10-511d-4eeb-b263-46994bab0b48, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, END_IllithidOptions_WRD_GaleBombOption_15e19d29-6c41-cb8a-c961-d7fec9b73e31, NULL_00000000-0000-0000-0000-000000000000, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0, 0);
+
+IF
+FlagSet(END_IllithidOptions_Event_EmperorBetrayal_411c2575-bfbc-449c-9762-edad4285aafd, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, END_IllithidOptions_WRD_GaleBombOption_15e19d29-6c41-cb8a-c961-d7fec9b73e31, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3c"

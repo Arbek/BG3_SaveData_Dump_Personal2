@@ -1,0 +1,940 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Backgrounds_Category("WLD_Main_A", "Act1");
+DB_GLO_Backgrounds_Goal(CRIMINAL_74ed9de3-fff5-419a-949b-18bd5e17944e, "GLO_Criminal_StealValuable_1000", 6b0839f2-f3f7-4a5e-8d8d-634b1d898a81);
+DB_GLO_Backgrounds_Goal(CRIMINAL_74ed9de3-fff5-419a-949b-18bd5e17944e, "GLO_Criminal_KillInnocent", c74bb9ee-687b-4a6b-9045-7aec14e7b90a);
+DB_GLO_Backgrounds_Goal(CRIMINAL_74ed9de3-fff5-419a-949b-18bd5e17944e, "GLO_Criminal_EscapePrison", 414ecfe5-088a-4d65-92ac-dddc492ba37d);
+DB_GLO_Backgrounds_Criminal_ValuableItemStolen("GLO_Criminal_StealValuable_1000", 1000);
+DB_GLO_Backgrounds_Goal(SAGE_dad18490-c61d-4958-805c-f017eb68f8a0, "GLO_Sage_SwD", 0e33567e-5405-4e1c-9065-a9c03ad54b4e);
+DB_GLO_Backgrounds_Goal(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, "GLO_Soldier_LargeBattle", 70c3f9bc-ed3e-4fc7-b93c-f506cfbb849b);
+DB_GLO_Backgrounds_Goal(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, "GLO_Soldier_KillMultipleInOneTurn", cd3f9057-bdc7-4a20-a679-1b2757a6a1db);
+DB_GLO_Backgrounds_Goal(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, "GLO_Soldier_BossOneShot", 8d30463c-0e75-47ae-a1cb-6b5e19168bae);
+DB_GLO_Backgrounds_Goal(NOBLE_56825486-9cfc-4ec2-87d1-c8065c41774b, "GLO_Noble_Approval", e2bb0bf3-6b82-4680-80f9-a9b634ef827d, "GlobalAvatar");
+DB_GLO_Backgrounds_Goal(NOBLE_56825486-9cfc-4ec2-87d1-c8065c41774b, "GLO_Noble_HoardGold_First", 012a6a18-e72d-4c96-9645-8583cbb4e1f2);
+DB_GLO_Backgrounds_Goal(NOBLE_56825486-9cfc-4ec2-87d1-c8065c41774b, "GLO_Noble_TrueSoul", 041883e3-df55-4b97-b882-985d23811ed8);
+DB_GLO_Backgrounds_Goal(NOBLE_56825486-9cfc-4ec2-87d1-c8065c41774b, "GLO_Noble_BribeGuard", f8872467-9b40-420e-8f0b-7f2a965ccf79);
+DB_GLO_Backgrounds_Goal(NOBLE_56825486-9cfc-4ec2-87d1-c8065c41774b, "GLO_Noble_Title", 62ca8dce-81a1-4743-a4c0-eec439f56d93);
+DB_GLO_Backgrounds_Noble_GoldHoarded("GLO_Noble_HoardGold_First", 2000);
+DB_GLO_Backgrounds_Goal(GUILD_ARTISAN_baf9fb0e-f535-40a0-bb78-3ec289d84e66, "GLO_GuildArtisan_SellHighValueItem", a3af0d3d-03a0-4510-b0b4-46f4e9fa9f9c);
+DB_GLO_Backgrounds_Goal(GUILD_ARTISAN_baf9fb0e-f535-40a0-bb78-3ec289d84e66, "GLO_GuildArtisan_TraderAttitude", e508c275-1c87-413f-9351-7c5f4a51b3c3);
+DB_GLO_Backgrounds_GuildArtisan_HighValueSell(1000, "GLO_GuildArtisan_SellHighValueItem");
+DB_GLO_Backgrounds_Goal(HAUNTED_ONE_ce00b3b6-238e-4524-851b-3d1f2d2b1189, "Act0_HauntedOne_KilledEnemyAllElements", 7a1ae833-fcd9-4f4b-a8f9-a2c714cdc80a);
+DB_GLO_Backgrounds_Goal(HAUNTED_ONE_ce00b3b6-238e-4524-851b-3d1f2d2b1189, "Act0_HauntedOne_Killed5Enemies1Round", dd87af22-ce6d-4ccd-ad9c-728c59fcb3d9);
+DB_GLO_Backgrounds_Goal(HAUNTED_ONE_ce00b3b6-238e-4524-851b-3d1f2d2b1189, "Act0_HauntedOne_Killed5Neutral1Round", 7090743e-c565-4859-9847-7dabe567d7b6);
+DB_GLO_Backgrounds_HauntedOne_RoundKillTracking("Act0_HauntedOne_Killed5Enemies1Round");
+DB_GLO_Backgrounds_HauntedOne_RoundKillTracking("Act0_HauntedOne_Killed5Neutral1Round");
+DB_GLO_Backgrounds_HauntedOne_DeathTypes("Acid");
+DB_GLO_Backgrounds_HauntedOne_DeathTypes("Electrocution");
+DB_GLO_Backgrounds_HauntedOne_DeathTypes("Incinerate");
+DB_GLO_Backgrounds_HauntedOne_DeathTypes("Necrotic");
+DB_GLO_Backgrounds_HauntedOne_DeathTypes("Physical");
+DB_GLO_Backgrounds_HauntedOne_DeathTypes("Psychic");
+DB_GLO_Backgrounds_HauntedOne_DeathTypes("Radiant");
+NOT DB_GLO_Backgrounds_ChainAfterGlobalFlagPartyWide(NULL_00000000-0000-0000-0000-000000000000, "");
+
+KBSECTION
+IF
+TagSet((CHARACTER)_Var1, (TAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Goal(_Var2, _, _, _, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Players(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Players(_Var1, _Var2);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Goal(_Var2, _, _, _, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Players(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Players(_Var1, _Var2);
+
+IF
+DB_GLO_Backgrounds_Players(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Players(_Var1, _Var2);
+
+IF
+DB_GLO_Backgrounds_Players(_, _Var2, _, _, _)
+AND NOT
+DB_GLO_Backgrounds_Tags(_Var2, _, _, _, _)
+THEN
+DB_GLO_Backgrounds_Tags(_Var2);
+
+IF
+DB_GLO_Backgrounds_Tags(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Players(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Tags(_Var1);
+
+PROC
+PROC_GLO_Backgrounds_CompleteGoal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var3, _Var2);
+
+PROC
+PROC_GLO_Backgrounds_CompleteGoal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CurrentLevel("TUT_Avernus_C", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_RewardPlayer(_Var1, _Var2);
+PROC_GLO_Backgrounds_ShareGoalRewarding(_Var1, _Var2);
+DB_GLO_Backgrounds_Blocked(_Var2);
+
+PROC
+PROC_GLO_Backgrounds_RewardPlayer((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Completed(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Goal(_Var3, _Var2, _Var4, _, _Var1)
+AND
+DB_GLO_Backgrounds_Players(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Completed(_Var1, _Var2);
+PROC_GLO_Backgrounds_GivePoint(_Var1, _Var4);
+
+PROC
+PROC_GLO_Backgrounds_GivePoint((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActiveLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Category(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+AddBackgroundGoal(_Var1, _Var2, _Var4);
+
+PROC
+PROC_GLO_Backgrounds_ShareGoalRewarding((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND
+DB_GLO_Backgrounds_Goal(_, _Var2, _, _Var6, _Var1)
+AND NOT
+QRY_GLO_Backgrounds_BlockSharingWithPlayer(_Var1, _Var3, _Var6, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_RewardPlayer(_Var3, _Var2);
+
+QRY
+QRY_GLO_Backgrounds_BlockSharingWithPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, "GlobalAvatar", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_GLO_Backgrounds_Goal(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Goal(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+DB_GLO_Backgrounds_Goal(_Var1, _Var2, _Var3, "Global");
+
+PROC
+PROC_GLO_Backgrounds_CompleteGoal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterGoal(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, _Var3);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterCharacterFlag(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, _Var4);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogPlayers(_Var3, _Var4, _, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterGlobalFlagInDialog(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var4, _Var6);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterGlobalFlagPartyWide(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var5, _Var4);
+
+IF
+QuestUpdateUnlocked((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterQuestUpdate(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, _Var4);
+
+IF
+GameBookInterfaceClosed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterBookClosed(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, _Var3);
+
+IF
+Opened((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterItemOpened(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetClosestPlayer(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 < 20
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var3, _Var2);
+
+IF
+KilledBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterDefeated(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, _Var5);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterDefeated(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsInRange(_Var1, _Var3, 30, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var3, _Var2);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterDefeatCounterInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DefeatCounter(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var5, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var5, _Var2);
+
+IF
+DB_GLO_Backgrounds_ChainAfterDialogEndedWithGlobalFlag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_GlobalFlagReactionAfterDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GlobalFlagReactionAfterDialog(_Var2, _Var1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog((GUIDSTRING)_Var1, (DIALOGRESOURCE)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_ChainAfterDialogEndedWithGlobalFlag(_Var2, _Var1, _Var4, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var3, _Var5, _, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var5, _Var4);
+
+IF
+CharacterPickpocketSuccess((CHARACTER)_Var1, _, (ITEM)_Var3, _, (INTEGER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_Criminal_CheckStealing(_Var1, _Var3, _Var5, _Var6);
+
+IF
+CharacterStoleItem((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, _, _, _, _, _, (INTEGER)_Var9, (INTEGER)_Var10)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_Criminal_CheckStealing(_Var1, _Var2, _Var9, _Var10);
+
+PROC
+PROC_GLO_Backgrounds_Criminal_CheckStealing((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (CHARACTER)_Var1)
+AND
+DB_GLO_Backgrounds_Tags(CRIMINAL_74ed9de3-fff5-419a-949b-18bd5e17944e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Criminal_UniqueItemsToSteal(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_Criminal_StealValuable", _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerDivide(_Var4, _Var3, _Var5, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Criminal_ValuableItemStolen(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+_Var5 >= _Var7
+AND
+QRY_OnlyOnce("GLO_Criminal_StealValuable", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, _Var6);
+
+IF
+CrimeIsRegistered((CHARACTER)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var5, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(CRIMINAL_74ed9de3-fff5-419a-949b-18bd5e17944e, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var2, "Murder", _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Backgrounds_IsCivilian(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var9, _Var1, _Var1, _Var1)
+AND
+Concatenate("killedNPC:", _Var9, _Var10, _Var1, _Var1)
+THEN
+TrackAnalyticsInfo("bgg_killInnocent", _Var10, _Var5);
+PROC_GLO_Backgrounds_CompleteGoal(_Var5, "GLO_Criminal_KillInnocent");
+
+QRY
+QRY_GLO_Backgrounds_IsCivilian((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, CIVILIAN_71120d5d-3853-46e4-9762-33f59aa6b4ae, 1, _Var1, _Var1)
+AND
+IsTagged(_Var1, GOBLIN_608597d9-bf00-4ede-aabe-767457280925, 0, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_Prison_Escaped((CHARACTER)_Var1, _, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, "GLO_Criminal_EscapePrison");
+
+IF
+DialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_CharacterCorpseDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Sage_SwD", _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_SpeakWithDead_State_QuestionsLimitReached_01c40268-4a8d-4787-8566-77e01ff04762, _Var3, 1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var4, _Var5, _, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var5, "GLO_Sage_SwD");
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_LargeBattle", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemyToAnyPlayerInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var1, _Var2);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_LargeBattle", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_WasEnemyToAnyPlayerInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var1, _Var2);
+
+IF
+SwitchedCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var4, _Var2);
+DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var4, _Var3);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_LargeBattle", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_DeadInCombatCounter(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_DeadInCombatCounter(_Var1, 0);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_LargeBattle", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Soldier_DeadInCombatCounter(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_DeadInCombatCounter(_Var1, _Var3);
+DB_GLO_Backgrounds_Soldier_DeadInCombatCounter(_Var1, _Var4);
+
+IF
+DB_GLO_Backgrounds_Soldier_DeadInCombatCounter(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_LargeBattle", _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 > 10
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var3, "GLO_Soldier_LargeBattle");
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_PermaDefeatedInCombat(_Var2, _Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_DeadInCombatCounter(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_DeadInCombatCounter(_Var1, _Var2);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_KillMultipleInOneTurn", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var1, 0);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_KillMultipleInOneTurn", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var2, _Var3);
+DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var2, _Var4);
+
+IF
+DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var1, 5, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_KillMultipleInOneTurn", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, "GLO_Soldier_KillMultipleInOneTurn");
+
+IF
+TurnEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var1, _Var2);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_SingleTurnTracker(_Var2, _Var3);
+
+IF
+UsingSpell((GUIDSTRING)_Var1, _, _, _, _)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_Soldier_BossOneShotClear(_Var1);
+
+IF
+UsingSpell((GUIDSTRING)_Var1, _, _, _, (INTEGER)_Var5)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_BossOneShot", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var1, _Var5);
+
+IF
+CastSpellFailed((GUIDSTRING)_Var1, _, _, _, (INTEGER)_Var5)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_Soldier_BossOneShotClear(_Var1);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, _, _, _, (INTEGER)_Var5)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_Soldier_BossOneShotClear(_Var1);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotDamaged(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_BossOneShotDamaged(_Var1, _Var2, _Var3);
+
+PROC
+PROC_GLO_Backgrounds_Soldier_BossOneShotClear((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var2);
+
+PROC
+PROC_GLO_Backgrounds_Soldier_BossOneShotClear((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotDamaged(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking(_Var2, _Var1, _Var3);
+
+PROC
+PROC_GLO_Backgrounds_Soldier_BossOneShotClear((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var1, _Var2);
+
+PROC
+PROC_GLO_Backgrounds_Soldier_BossOneShotClear((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotDamaged(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_BossOneShotDamaged(_Var2, _Var1, _Var3);
+
+IF
+AttackedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, _, _, _, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotDamaged(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking(_Var1, _, _, _Var1, _Var1)
+AND
+IsBoss(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_BossOneShotDamaged(_Var1, _Var2, _Var7);
+
+IF
+AttackedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, _, _, _, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1);
+
+IF
+AttackedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, _, _, _, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_BossOneShot", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NoSpellOrCurrent(_Var1, _Var2, _Var7, _Var1, _Var1)
+AND
+IsBoss(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1);
+
+IF
+HitpointsChanged((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 < 100
+AND
+_Var2 > 0
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_BossOneShot", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+AND
+IsBoss(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1);
+
+IF
+KilledBy((CHARACTER)_Var1, (CHARACTER)_Var2, _, (INTEGER)_Var4, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_BossOneShot", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NoSpellOrCurrent(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NotAwaitsBlockingOrCurrent(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+IsBoss(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, "GLO_Soldier_BossOneShot");
+
+IF
+EnteredChasm((CHARACTER)_Var1, (CHARACTER)_Var2, _, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_BossOneShot", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Tags(SOLDIER_d135f265-c2e1-4077-a836-b548ee871681, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NoSpellOrCurrent(_Var1, _Var2, -1, _Var1, _Var1)
+AND
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NotAwaitsBlockingOrCurrent(_Var1, _Var2, -1, _Var1, _Var1)
+AND
+IsBoss(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetDistanceToPosition(_Var2, _Var4, _Var5, _Var6, _Var7)
+AND
+_Var7 < 30
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, "GLO_Soldier_BossOneShot");
+
+IF
+HitpointsChanged((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 >= 100
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_Soldier_BossOneShotBlocked(_Var1);
+
+QRY
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NoSpellOrCurrent((CHARACTER)_Var1, (CHARACTER)_Var2, -1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NoSpellOrCurrent((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotSpell(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NoSpellOrCurrent((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotDamaged(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NotAwaitsBlockingOrCurrent((CHARACTER)_Var1, (CHARACTER)_Var2, -1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NotAwaitsBlockingOrCurrent((CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Backgrounds_Soldier_BossOneShot_NotAwaitsBlockingOrCurrent((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_GLO_Backgrounds_Blocked("GLO_Soldier_BossOneShot", _, _, _, _)
+THEN
+SysClear("DB_GLO_Backgrounds_Soldier_BossOneShotBlocked", 1);
+SysClear("DB_GLO_Backgrounds_Soldier_BossOneShotSpell", 2);
+SysClear("DB_GLO_Backgrounds_Soldier_BossOneShotDamaged", 3);
+SysClear("DB_GLO_Backgrounds_Soldier_BossOneShotAwaitsBlocking", 3);
+
+IF
+ApprovalRatingChanged((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 >= 45
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, "GLO_Noble_Approval");
+
+IF
+GoldChanged((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 > 0
+AND
+DB_GLO_Backgrounds_Noble_GoldHoarded(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+GetGoldInMagicPockets(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 >= _Var4
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, _Var3);
+
+IF
+TagSet((CHARACTER)_Var1, TRUESOUL_11491bda-fa57-44ed-a306-a13fdf8e3b82, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, "GLO_Noble_TrueSoul");
+
+PROC
+PROC_CrimeBribes_RecordElude("Bribe", (CHARACTER)_Var1, (CHARACTER)_Var2, _, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, "GLO_Noble_BribeGuard");
+
+IF
+MovedFromTo((ITEM)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, 1, (ITEM)_Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_Backgrounds_GuildArtisan_SellValuable", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+ItemGetGoldValue(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+GetStackAmount(_Var1, _Var5, _, _Var1, _Var1)
+AND
+IntegerDivide(_Var4, _Var5, _Var7, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_GuildArtisan_HighValueSell(_Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+_Var7 > _Var8
+AND
+QRY_OnlyOnce("GLO_Backgrounds_GuildArtisan_SellValuable", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, _Var9);
+
+IF
+MovedFromTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, 1, (GUIDSTRING)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_GuildArtisan_Trading(_Var3, _Var2, _Var1);
+
+IF
+MovedFromTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, 1, (GUIDSTRING)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_GuildArtisan_Trading(_Var2, _Var3, _Var1);
+
+PROC
+PROC_GLO_Backgrounds_GuildArtisan_Trading((CHARACTER)_Var1, (CHARACTER)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(_Var2, _Var1, _Var4, _Var1, _Var1)
+AND
+_Var4 >= 75
+AND
+ItemGetGoldValue(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+GetStackAmount(_Var3, _Var6, _, _Var1, _Var1)
+AND
+IntegerDivide(_Var5, _Var6, _Var8, _Var1, _Var1)
+AND
+_Var8 >= 10
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, "GLO_GuildArtisan_TraderAttitude");
+
+IF
+KilledBy((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Completed(_Var2, "Act0_HauntedOne_KilledEnemyAllElements", _Var1, _Var1, _Var1)
+AND
+GetDeathType(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_HauntedOne_DeathTypes(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Backgrounds_HauntedOne_DeathTypes(_Var5);
+PROC_GLO_Backgrounds_HauntedOne_CheckDeathTypesCompleted(_Var2);
+
+PROC
+PROC_GLO_Backgrounds_HauntedOne_CheckDeathTypesCompleted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Backgrounds_HauntedOne_DeathTypes(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, "Act0_HauntedOne_KilledEnemyAllElements");
+
+IF
+CombatRoundStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ObjectCountHelper(_Var3, _Var4, _Var5, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_HauntedOne_RoundKillTracking(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ObjectCountHelperReset(_Var3, _Var4);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ObjectCountHelper(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_HauntedOne_RoundKillTracking(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ObjectCountHelperReset(_Var1, _Var3);
+
+IF
+KilledBy((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_HauntedOne_RoundKillTracking(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Backgrounds_Completed(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_ObjectCountHelper(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_ObjectCountHelper(_Var2, _Var5, _Var6, _Var1, _Var1)
+AND
+QRY_GLO_Backgrounds_HauntedOne_CheckVictimMatch(_Var2, _Var1, _Var5, _Var1, _Var1)
+AND
+_Var6 >= 5
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, _Var5);
+PROC_ObjectCountHelperReset(_Var2, _Var5);
+
+QRY
+QRY_GLO_Backgrounds_HauntedOne_CheckVictimMatch((CHARACTER)_Var1, (CHARACTER)_Var2, "Act0_HauntedOne_Killed5Enemies1Round", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsEnemy(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Backgrounds_HauntedOne_CheckVictimMatch((CHARACTER)_Var1, (CHARACTER)_Var2, "Act0_HauntedOne_Killed5Neutral1Round", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsNeutral(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("giveAllBGTags", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_BackgroundTags(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var2, 0, _Var1, _Var1)
+THEN
+SetTag(_Var1, _Var2);
+
+IF
+TextEvent("clearAllBGTags", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_ClearAllTags_Background_d84d4e7a-b838-c611-4a8d-016140d3aa44, _Var1);
+
+IF
+TextEvent("completeBGG", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, _Var1);
+
+IF
+TextEvent("completeAllBGG", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Backgrounds_Goal(_, _Var3, _, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

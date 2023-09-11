@@ -1,0 +1,53 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HAG_HagSpawn_BrothersDeadReaction(S_HAG_HagAmbush_Brother_001_767e2e80-b340-4e0f-9a6c-fd7df92d6e9e, HAG_HagAmbush_Brother_001_AD_BrotherDied_e63317ea-ef11-3867-3152-e78f42d3f9eb);
+DB_HAG_HagSpawn_BrothersDeadReaction(S_HAG_HagAmbush_Brother_002_24c7e849-2ad6-414e-bc38-6ea3f358a80b, HAG_HagAmbush_Brother_002_AD_BrotherDied_efed3923-b620-36c3-fde9-63851dbf63ac);
+
+KBSECTION
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagAmbush_Brothers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagSpawn_BrothersDeadReaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var1);
+NOT DB_HAG_HagSpawn_BrothersDeadReaction(S_HAG_HagAmbush_Brother_001_767e2e80-b340-4e0f-9a6c-fd7df92d6e9e, HAG_HagAmbush_Brother_001_AD_BrotherDied_e63317ea-ef11-3867-3152-e78f42d3f9eb);
+NOT DB_HAG_HagSpawn_BrothersDeadReaction(S_HAG_HagAmbush_Brother_002_24c7e849-2ad6-414e-bc38-6ea3f358a80b, HAG_HagAmbush_Brother_002_AD_BrotherDied_efed3923-b620-36c3-fde9-63851dbf63ac);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagAmbush_Brothers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagSpawn_BrothersDeadReaction(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var4, _Var3);
+NOT DB_HAG_HagSpawn_BrothersDeadReaction(S_HAG_HagAmbush_Brother_001_767e2e80-b340-4e0f-9a6c-fd7df92d6e9e, HAG_HagAmbush_Brother_001_AD_BrotherDied_e63317ea-ef11-3867-3152-e78f42d3f9eb);
+NOT DB_HAG_HagSpawn_BrothersDeadReaction(S_HAG_HagAmbush_Brother_002_24c7e849-2ad6-414e-bc38-6ea3f358a80b, HAG_HagAmbush_Brother_002_AD_BrotherDied_efed3923-b620-36c3-fde9-63851dbf63ac);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagAmbush_Brothers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(ACT1_HAG_Brothers_21a1003e-c806-e4ae-7f0e-b1e6422d39dc, 0);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

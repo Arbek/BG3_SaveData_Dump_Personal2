@@ -1,0 +1,28 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_MonkAmuletBanters(S_LOW_MonkAmulet_SharranGrottoBanter_c00ca9c7-f1f4-4134-86b2-ebddcd3b6ae5, LOW_MonkAmulet_AD_SharranGrottoBanter_8b882bcd-3ebc-824a-b8ae-25ad9cebae56);
+
+KBSECTION
+IF
+AutomatedDialogStarted(LOW_MonkAmulet_AD_SharranGrottoBanter_8b882bcd-3ebc-824a-b8ae-25ad9cebae56, _, _, _, _)
+AND
+DB_GLO_MonkAmulet_EquippingPlayer(_Var2, _, _, _, _)
+AND
+IsTagged(_Var2, SHAR_486e4a27-e6f9-40a5-9dd1-108a1d0f60eb, 1, _, _)
+THEN
+SetFlag(LOW_MonkAmulet_State_SharranWearingAmulet_3bceb1e9-f0c8-484a-86f5-a23a04ebd46b);
+
+IF
+AutomatedDialogEnded(LOW_MonkAmulet_AD_SharranGrottoBanter_8b882bcd-3ebc-824a-b8ae-25ad9cebae56, _, _, _, _)
+AND
+DB_GlobalFlag(LOW_MonkAmulet_State_SharranWearingAmulet_3bceb1e9-f0c8-484a-86f5-a23a04ebd46b, _, _, _, _)
+THEN
+ClearFlag(LOW_MonkAmulet_State_SharranWearingAmulet_3bceb1e9-f0c8-484a-86f5-a23a04ebd46b);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

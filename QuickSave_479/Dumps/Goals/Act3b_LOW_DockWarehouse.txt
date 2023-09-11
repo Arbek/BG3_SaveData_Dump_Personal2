@@ -1,0 +1,160 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LOW_DockWarehouse_Beasts(S_LOW_DockWorg1_58eb1559-6b4e-43a5-935d-e292a9899af2);
+DB_LOW_DockWarehouse_Beasts(S_LOW_DockWorg2_dc09e270-40e4-4f37-855e-ffe51b91b8f1);
+DB_LOW_DockWarehouse_Beasts(S_LOW_DockWorg3_755385cb-bee4-4991-bfb5-a03959c99d1f);
+DB_LOW_DockWarehouse_Beasts(S_LOW_DockWorg4_2f885f58-85af-42db-ad4d-62a46d68f6af);
+DB_LOW_DockWarehouse_Beasts(S_LOW_DockWorg5_9f613f8d-8ed7-4042-adcc-e93932c5f24f);
+DB_Dialogs(S_LOW_FisherBrother_092b641b-7cac-4fc5-81e2-ef9f21186e67, LOW_DockWarehouse_FisherBrother_e7162a03-ee78-c8cd-e5d2-421b56157b6c);
+DB_Dialogs(S_LOW_FisherSister_78b65473-f053-4eea-9501-90958df96f82, LOW_DockWarehouse_FisherSister_617ff488-3236-c922-7807-468469449f97);
+DB_GlobalFlagReactionAfterDialog(LOW_DockWarehouse_Knows_GreyWaversMightKnowMore_e3c23464-a16b-4b53-890c-28451e214290, LOW_DockWarehouse_FisherBrother_e7162a03-ee78-c8cd-e5d2-421b56157b6c);
+DB_GlobalFlagReactionAfterDialog(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, TEST_IRN_IronThrone_SetupParameters_f5a70361-5874-c8dd-dd54-d48221c56110);
+DB_GlobalFlagReactionAfterDialog(IRN_IronThrone_State_OmeluumPresent_ea0d5354-ea67-4518-b885-df0105230f9f, TEST_IRN_IronThrone_SetupParameters_f5a70361-5874-c8dd-dd54-d48221c56110);
+PROC_TriggerRegisterForPlayers(S_LOW_WarehouseInterior_88801975-6707-43ee-8644-3aa6d99c24e2);
+PROC_TriggerRegisterForPlayers(S_LOW_SubmersibleFoundArea_33e66469-ee7c-44e0-ab28-0413cda48d31);
+PROC_SetOnStage(S_LOW_Beastmaster_LetterOfResignation_72d89d37-ed12-481d-b7f0-61a1039dbe58, 0);
+
+KBSECTION
+IF
+TextEvent("irn_setupdialog", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(TEST_IRN_IronThrone_SetupParameters_f5a70361-5874-c8dd-dd54-d48221c56110, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(DebugBook_3af7dec4-4c08-9e44-9064-ec038ebad0ea, _, _, _, _)
+AND
+DB_GlobalFlag(Debug_IRN_DialogSequenceSkipGameplay_94705540-0d6b-4e2b-8beb-bdf0a2ccbdda, _, _, _, _)
+THEN
+DB_Debug_IRN_DebugDialogSequenceOngoing(1);
+
+IF
+Unlocked(S_LOW_DockWarehouse_SubmersiblePlaceholder_d08e1090-58b7-4130-b292-339dcf9933d7, _, _, _, _)
+AND
+QRY_OnlyOnce("IRN_Autosave_UnlockedSubmersible", _, _, _, _)
+THEN
+AutoSave();
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_LOW_DockWarehouse_SubmersiblePlaceholder_d08e1090-58b7-4130-b292-339dcf9933d7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_LOW_DockWarehouse_CanUseSubmersible()
+AND NOT
+DB_LOW_BellyOfTheBeast_BeastmasterBoardingSubmersible(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_Beastmaster_d999308c-8a20-4c31-b9e2-f89ff3ee1cd1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatusWithGroup(_Var1, "SG_Invisible", 0, _Var1, _Var1)
+AND
+QRY_StartDialog(LOW_BellyOfTheBeast_Beastmaster_a952200e-814d-ca21-8c05-1971b5ee86b0, S_GLO_Beastmaster_d999308c-8a20-4c31-b9e2-f89ff3ee1cd1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(LOW_BellyOfTheBeast_Event_BeastmasterSawPlayerUsingSubmersible_8a4bde8e-f2b5-4704-9246-7846baf9bef8);
+DB_CustomUseItemResponse(_Var1, S_LOW_DockWarehouse_SubmersiblePlaceholder_d08e1090-58b7-4130-b292-339dcf9933d7, 0);
+
+IF
+UseFinished((CHARACTER)_Var1, S_LOW_DockWarehouse_SubmersiblePlaceholder_d08e1090-58b7-4130-b292-339dcf9933d7, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_LOW_DockWarehouse_CanUseSubmersible()
+THEN
+ReadyCheckGlobal("LOW_DockWarehouse_ToIronThrone_ReadyCheck", "LOW_DockWarehouse_ToIronThrone_ReadyCheck", 0, _Var1);
+
+IF
+UseFinished((CHARACTER)_Var1, S_LOW_DockWarehouse_SubmersiblePlaceholder_d08e1090-58b7-4130-b292-339dcf9933d7, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_LOW_DockWarehouse_CanUseSubmersible()
+THEN
+StartVoiceBark(LOW_BellyOfTheBeast_VB_SubmersibleBroken_ac2cc8ca-1b10-3562-9bae-ae51a10aa714, _Var1);
+
+QRY
+QRY_LOW_DockWarehouse_CanUseSubmersible()
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_Visited_5b3fb5a7-61e8-44a9-a0a1-b6b45b59a23c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_Destroyed_91795368-af06-4b56-9ac1-b78995aa9ea9, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+ReadyCheckPassed("LOW_DockWarehouse_ToIronThrone_ReadyCheck", _, _, _, _)
+AND NOT
+DB_Defeated(S_GLO_Beastmaster_d999308c-8a20-4c31-b9e2-f89ff3ee1cd1, _, _, _, _)
+AND
+IsOnStage(S_GLO_Beastmaster_d999308c-8a20-4c31-b9e2-f89ff3ee1cd1, 1, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_Beastmaster_d999308c-8a20-4c31-b9e2-f89ff3ee1cd1, 0);
+
+IF
+ReadyCheckPassed("LOW_DockWarehouse_ToIronThrone_ReadyCheck", _, _, _, _)
+THEN
+PrepareLevelStartingDialog(1);
+PROC_TeleportPartiesTo(S_IRN_Debug_StartCountdownPos_66dd9741-ba35-4e0f-bc97-b0e2f0f301c0, "LOW_BellyOfTheBeast_ExitedSubmersible");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, TEST_IRN_IronThrone_SetupParameters_f5a70361-5874-c8dd-dd54-d48221c56110, _, _, _)
+AND
+QRY_OnlyOnce("IRN_Debug_SetupRavengard", _, _, _, _)
+THEN
+TeleportTo(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_Ravengard_Pos_3d27f038-b773-4abd-bf3f-f569e0d93d28, "", 0, 0, 0, 0, 1);
+DB_IRN_PrisonerGroup(10, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+DB_Dialogs(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, IRN_IronThrone_Ravengard_5f8aa534-4bfc-cfd1-0c6d-f2c0a40fe96a);
+SetFaction(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, ACT3_LOW_IronThrone_Ravengard_d884141d-e554-4ab8-a209-cad8c8fbdad7);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(IRN_IronThrone_State_OmeluumPresent_ea0d5354-ea67-4518-b885-df0105230f9f, TEST_IRN_IronThrone_SetupParameters_f5a70361-5874-c8dd-dd54-d48221c56110, _, _, _)
+AND
+QRY_OnlyOnce("IRN_Debug_SetupOmeluum", _, _, _, _)
+THEN
+TeleportTo(S_GLO_SocietyOfBrilliance_MindFlayer_1f9937ef-9207-4db6-a833-e4083d571f53, S_IRN_Omeluum_Pos_470314b5-cee5-47c4-ac80-9c5d19718886, "", 0, 0, 0, 0, 1);
+DB_IRN_PrisonerGroup(9, S_GLO_SocietyOfBrilliance_MindFlayer_1f9937ef-9207-4db6-a833-e4083d571f53);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_SocietyOfBrilliance_MindFlayer_1f9937ef-9207-4db6-a833-e4083d571f53);
+DB_Dialogs(S_GLO_SocietyOfBrilliance_MindFlayer_1f9937ef-9207-4db6-a833-e4083d571f53, IRN_IronThrone_Omeluum_26f2208c-177d-b640-fb5a-0594b84f305a);
+SetFaction(S_GLO_SocietyOfBrilliance_MindFlayer_1f9937ef-9207-4db6-a833-e4083d571f53, ACT3_LOW_IronThrone_Omeluum_8f848a43-3e4e-403f-be71-41860b5127cc);
+
+IF
+DB_GlobalFlag(IRN_IronThrone_State_Destroyed_91795368-af06-4b56-9ac1-b78995aa9ea9, _, _, _, _)
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_Visited_5b3fb5a7-61e8-44a9-a0a1-b6b45b59a23c, _, _, _, _)
+AND
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+PROC_LOW_Dockwarehouse_MakeIRNInaccessible();
+
+PROC
+PROC_LOW_Dockwarehouse_MakeIRNInaccessible()
+THEN
+PROC_SetOnStage(S_LOW_DockWarehouse_SubmersiblePlaceholder_d08e1090-58b7-4130-b292-339dcf9933d7, 0);
+PROC_SetOnStage(S_LOW_DockSubmersible_bb1db2a5-2b1e-445a-86c3-8c500d911e32, 0);
+PROC_NotifyWhenReadyToMoveOn(S_GLO_Beastmaster_d999308c-8a20-4c31-b9e2-f89ff3ee1cd1, "LOW_DockWareHouse_BeastMasterReadyToLeave");
+SetFlag(LOW_SteelWatchFoundry_State_AllIronThronePrisonersDead_4fefe27f-7cd6-44b1-9322-a57b22246271);
+SetFlag(LOW_SteelWatchFoundry_State_MajorityIronThronePrisonersDead_6c40a75d-32ae-4402-a54c-062805f7ee7d);
+SetFlag(LOW_SteelWatchFoundry_State_AnyIronThronePrisonersDead_5d6c4329-ee56-4084-8220-d627b716ac87);
+UnloadLevelTemplate(LT_PLT_CTY_Submersible_A_000_7b4f3f57-e933-4e0b-8aa6-9d383c69470a);
+LoadLevelTemplate(LT_PLT_CTY_SubmersibleGone_A_000_08dc0546-ef6b-4807-a6c1-c50bf471995b);
+PROC_LOW_IronThrone_TeleportDeadBodiesToShore();
+
+PROC
+PROC_ReadyToMoveOn(S_GLO_Beastmaster_d999308c-8a20-4c31-b9e2-f89ff3ee1cd1, "LOW_DockWareHouse_BeastMasterReadyToLeave", _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_GLO_Beastmaster_d999308c-8a20-4c31-b9e2-f89ff3ee1cd1, "Run", 1, "");
+PROC_SetOnStage(S_LOW_Beastmaster_LetterOfResignation_72d89d37-ed12-481d-b7f0-61a1039dbe58, 1);
+
+PROC
+PROC_LOW_Dockwarehouse_MakeIRNInaccessible()
+AND
+DB_GlobalFlag(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, _, _, _, _)
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_Visited_5b3fb5a7-61e8-44a9-a0a1-b6b45b59a23c, _, _, _, _)
+THEN
+PROC_IRN_KillRavengard();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

@@ -1,0 +1,170 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, 0);
+PROC_TriggerRegisterForParty(S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649);
+PROC_CharacterDisableAllCrimes(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6);
+DB_IgnoreMutingStatussesDialog(HAG_HagLair_EntranceDouble_StatusFallback_c42d174a-32e0-004f-a5bb-0b3ccd6e6faf);
+
+KBSECTION
+IF
+FlagSet(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, _, _, _, _)
+AND
+DB_GlobalFlag(HAG_Hag_State_ToLairBecauseCombat_256770d9-04b6-4cdb-92db-e14e30b2700d, _, _, _, _)
+AND
+QRY_OnlyOnce("HAG_HagLair_EntranceOneshotVoicebark", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForParty(S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649);
+DB_OneShot_VoiceBarkTrigger(S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649, HAG_HagLair_VB_AtEntrance_eb4050c3-c708-65df-045e-3cb3ed92a33e, "PerUserAndNearbyPlayers");
+
+IF
+FlagSet(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+AND
+QRY_OnlyOnce("HAG_HagLair_EntranceOneshotVoicebark", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForParty(S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649);
+DB_OneShot_VoiceBarkTrigger(S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649, HAG_HagLair_VB_AtEntrance_eb4050c3-c708-65df-045e-3cb3ed92a33e, "PerUserAndNearbyPlayers");
+
+IF
+DialogEnded(DIALOGRESOURCEGUID_HAG_HagLair_EntranceDouble_0b1ad599-e130-3b52-5bde-425122ccf44e, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetEntityEvent(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_RemoveDouble");
+SetFlag(HAG_HagLair_EntranceDouble_DialogEnded_8e3b4835-4bd4-4f58-ba2a-fa4c420db120, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogEnded(HAG_HagLair_EntranceDouble_StatusFallback_c42d174a-32e0-004f-a5bb-0b3ccd6e6faf, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetEntityEvent(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_RemoveDouble");
+SetFlag(HAG_HagLair_EntranceDouble_DialogEnded_8e3b4835-4bd4-4f58-ba2a-fa4c420db120, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(HAG_HagLair_EntranceDouble_Leave_55aa8c88-25f7-9b88-52df-938c2e73e082, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CharacterMoveTo(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, S_HAG_HagLair_Entrance_HagLeaveTrigger_a95f5dd9-8839-4d0d-8597-f1780f45fa5f, "Run", "HAG_HagLair_EntranceDouble_Leave");
+
+IF
+EntityEvent(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_HagLair_EntranceDouble_Leave", _, _, _)
+THEN
+SetVisible(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, 0);
+
+IF
+FlagSet(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TriggerUnregisterForParty(S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649);
+
+IF
+FlagSet(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveOneShotVoiceBarkTrigger(S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649, HAG_HagLair_VB_AtEntrance_eb4050c3-c708-65df-045e-3cb3ed92a33e);
+
+IF
+DB_InRegion(_Var1, S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HAG_HagLair_Entrance_DialogStart", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, 1);
+DB_SpotPlayers(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_HagLair_EntranceDoubleStartDialog", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_HagLair_EntranceDoubleStartDialog", S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649);
+DB_SpotPlayers_IncludeFollowers(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_HagLair_EntranceDoubleStartDialog");
+DB_SpotPlayers_IncludeSummons(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_HagLair_EntranceDoubleStartDialog");
+DB_SpotPlayers_IncludeWildshapedPlayers(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_HagLair_EntranceDoubleStartDialog");
+DB_SpotPlayers_TargetIgnoreCantTalk(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_HagLair_EntranceDoubleStartDialog");
+
+IF
+WentOnStage(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, 1, _, _, _)
+THEN
+PlayEffect(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, VFX_Script_Hag_SpawnDoubles_Reappear_Overlay_01_3a1bf6ef-f124-b468-348b-516ae935e813, "Dummy_BodyFX");
+
+IF
+TextEvent("HAG_HagLair_Entrance_DialogStart_TestAppearance", _, _, _, _)
+THEN
+SetOnStage(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, 1);
+
+IF
+TextEvent("HAG_HagLair_Entrance_DialogStart_Disappear", _, _, _, _)
+THEN
+SetOnStage(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, 0);
+
+IF
+DB_InRegion(_Var1, S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("HAG_FleeToLair", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAG_HagSpawn_SurrogateMother_State_InLair_400601e6-9c76-4d93-a4bf-d561de28cc10, _Var1, _Var1, _Var1, _Var1)
+AND
+IsActive(S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_HAG_SetupSurrogateMotherCage();
+
+IF
+DB_InRegion(_Var1, S_HAG_HagLair_Entrance_DialogStartTrigger_e662e96b-95b7-44bc-9787-3875bd5cc649, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAG_Hag_State_ReadyForLair_658c4d09-b278-42dd-8f72-b98ec3efd0d5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HAG_FleeToLair", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Hag_State_Transformed_c4c1bbcb-28d2-d607-2658-a06f1cf89d95, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(HAG_Hag_State_ToLairBecauseCombat_256770d9-04b6-4cdb-92db-e14e30b2700d, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(HAG_Hag_State_ReadyForLair_658c4d09-b278-42dd-8f72-b98ec3efd0d5, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+Deactivated(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _, _, _, _)
+AND
+DB_GlobalFlag(HAG_Hag_State_ReadyForLair_658c4d09-b278-42dd-8f72-b98ec3efd0d5, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+THEN
+SetEntityEvent(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_Hag_HagEscape_PastAtHatch");
+
+IF
+FlagSet(HAG_Hag_State_ReadyForLair_658c4d09-b278-42dd-8f72-b98ec3efd0d5, _, _, _, _)
+AND
+IsActive(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 0, _, _, _)
+AND NOT
+DB_GlobalFlag(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+THEN
+SetEntityEvent(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_Hag_HagEscape_PastAtHatch");
+
+PROC
+PROC_SpotPlayers_Spotted(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_HagLair_EntranceDoubleStartDialog", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_StartDialogCustomWithAvailableSpeakerInRange(HAG_HagLair_EntranceDouble_0b1ad599-e130-3b52-5bde-425122ccf44e, S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, _Var1, 8, 0, 1, 1, 0, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(HAG_HagLair_EntranceDouble_StatusFallback_c42d174a-32e0-004f-a5bb-0b3ccd6e6faf, S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6);
+PlayEffect(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, VFX_Script_Hag_IllusionHit_01_85f79ea8-36ea-8a43-e21b-48ea94bdf4db, "Dummy_BodyFX");
+SetDetached(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, 1);
+RealtimeObjectTimerLaunch(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_RemoveDouble_Timer", 1000);
+
+IF
+AttackedBy(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, _, _, _, _, _, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveDialog(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6);
+PlayEffect(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, VFX_Script_Hag_IllusionHit_01_85f79ea8-36ea-8a43-e21b-48ea94bdf4db, "Dummy_BodyFX");
+SetDetached(S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, 1);
+RealtimeObjectTimerLaunch(CHARACTERGUID_S_HAG_HagLair_EntranceDouble_d6e7f76b-9922-43b2-a44d-d9f91f9d9fd6, "HAG_RemoveDouble_Timer", 1000);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

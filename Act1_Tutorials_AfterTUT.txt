@@ -1,0 +1,533 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Tutorials_ClassTagsCanPrepareSpell(WIZARD_6fe3ae27-dc6c-4fc9-9245-710c790c396c);
+DB_GLO_Tutorials_ClassTagsCanPrepareSpell(CLERIC_1671b4bf-4f47-4bb7-9cb9-80bb1f6009d5);
+DB_GLO_Tutorials_ClassTagsCanPrepareSpell(PALADIN_6d85ab2d-5c23-498c-a61e-98f05a00177a);
+DB_GLO_Tutorials_ClassTagsCanPrepareSpell(DRUID_44ac4317-4d38-4d28-80e2-94024c6e42f0);
+DB_GLO_Tutorials_ArmorSlots(0);
+DB_GLO_Tutorials_ArmorSlots(0);
+DB_GLO_Tutorials_ArmorSlots(0);
+DB_GLO_Tutorials_ArmorSlots(0);
+
+KBSECTION
+IF
+CharacterJoinedParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_Tutorials_IsCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_ActiveCompanionCount(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tutorials_ActiveCompanionCount(_Var2);
+DB_GLO_Tutorials_ActiveCompanionCount(_Var3);
+PROC_EvaluatePartylineTutorial(_Var1);
+
+IF
+CharacterLeftParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_Tutorials_IsCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_ActiveCompanionCount(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tutorials_ActiveCompanionCount(_Var2);
+DB_GLO_Tutorials_ActiveCompanionCount(_Var3);
+
+QRY
+QRY_GLO_Tutorials_IsCompanion((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PartyFollowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_EvaluatePartylineTutorial((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_ActiveCompanionCount(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 > 1
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Partyline_f3418e56-981b-4fe7-8f0e-10de5fe83506);
+
+PROC
+PROC_ShowEndTheDayTutorial((GUIDSTRING)_Var1, (UNIFIEDTUTORIAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_EndTheDayTutorials(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOncePerUser(_Var1, "Tutorials_EndTheDay", _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_EndTheDayTutorials(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, _Var2);
+SetTutorialShown(_Var1, _Var3);
+PROC_GLO_Tutorials_TrackedTimerStart(_Var1, "Tutorials_EndTheDay_Timer", 2000);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, "Tutorials_EndTheDay_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce_Reset("Tutorials_EndTheDay", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimer_EraseTimerRecord(_Var1, "Tutorials_EndTheDay_Timer");
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_EndTheDayTutorials(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTutorialShown(_Var1, _Var2);
+HideTutorial(_Var1, _Var2);
+
+QRY
+QRY_GLO_Tutorials_PlayerOutsideDangerAndCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_InDangerZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+HitpointsChanged((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EvaluateEndTheDay_LowHealth_Tutorial(_Var1);
+
+PROC
+PROC_EvaluateEndTheDay_LowHealth_Tutorial((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+PartyGetActionResourceValue(_Var1, "ShortRestPoint", 0, _Var1, _Var1)
+AND
+QRY_GLO_Tutorials_PlayerOutsideDangerAndCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHitpointsPercentage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 <= 50
+AND NOT
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowEndTheDayTutorial(_Var1, End_the_day__low_health_and_no_short_rests__3944e9b3-5090-4fc5-8a4d-a7ac204917ca);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_TutorialEvents_LongRestReplenishables(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_EndTheDay_DepletedLongRestResource(_Var1);
+PROC_EvaluateEndTheDay_LongRestResourceDepleted_Tutorial(_Var1);
+
+PROC
+PROC_EvaluateEndTheDay_LongRestResourceDepleted_Tutorial((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_EndTheDay_DepletedLongRestResource(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Tutorials_PlayerOutsideDangerAndCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowEndTheDayTutorial(_Var1, End_the_day__depleted_long_rest_resource__388fad02-67dc-4d8f-940c-9821322ec16b);
+NOT DB_GLO_Tutorials_EndTheDay_DepletedLongRestResource(_Var1);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_TutorialEvents_ShortRestReplenishables(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_EndTheDay_DepletedShortRestResourceOrSpell(_Var1);
+PROC_EvaluateEndTheDay_ShortRestResourceDepleted_Tutorial(_Var1);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, (STRING)_Var2, _, _, _)
+AND
+DB_GLO_TutorialEvents_EndTheDayTutorial_ShortRestSpells(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_EndTheDay_DepletedShortRestResourceOrSpell(_Var1);
+PROC_EvaluateEndTheDay_ShortRestResourceDepleted_Tutorial(_Var1);
+
+PROC
+PROC_EvaluateEndTheDay_ShortRestResourceDepleted_Tutorial((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_EndTheDay_DepletedShortRestResourceOrSpell(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+PartyGetActionResourceValue(_Var1, "ShortRestPoint", 0, _Var1, _Var1)
+AND
+QRY_GLO_Tutorials_PlayerOutsideDangerAndCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowEndTheDayTutorial(_Var1, End_the_day__depleted_short_rest_resource__b931d222-c59c-41a1-9081-dca461606342);
+NOT DB_GLO_Tutorials_EndTheDay_DepletedShortRestResourceOrSpell(_Var1);
+
+IF
+CombatEnded(_, _, _, _, _)
+AND
+DB_PartyMembers(_Var2, _, _, _, _)
+AND
+IsSummon(_Var2, 0, _, _, _)
+THEN
+PROC_EvaluateEndTheDay_LowHealth_Tutorial(_Var2);
+PROC_EvaluateEndTheDay_ShortRestResourceDepleted_Tutorial(_Var2);
+PROC_EvaluateEndTheDay_LongRestResourceDepleted_Tutorial(_Var2);
+
+PROC
+PROC_CharacterLeftDangerZone((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_EvaluateEndTheDay_LowHealth_Tutorial(_Var1);
+PROC_EvaluateEndTheDay_ShortRestResourceDepleted_Tutorial(_Var1);
+PROC_EvaluateEndTheDay_LongRestResourceDepleted_Tutorial(_Var1);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_TutorialEvents_ShortRestReplenishables(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_ShortRest_ShouldSee(_Var1);
+PROC_EvaluateShortRestTutorial_ReasonSpellOrResource(_Var1);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, (STRING)_Var2, _, _, _)
+AND
+DB_GLO_TutorialEvents_EndTheDayTutorial_ShortRestSpells(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_ShortRest_ShouldSee(_Var1);
+PROC_EvaluateShortRestTutorial_ReasonSpellOrResource(_Var1);
+
+IF
+HitpointsChanged((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EvaluateShortRestTutorial_ReasonLowHP(_Var1);
+
+PROC
+PROC_EvaluateShortRestTutorial_ReasonLowHP((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetHitpointsPercentage(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 <= 50
+AND NOT
+PartyGetActionResourceValue(_Var1, "ShortRestPoint", 0, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Short_Rest_8dd94c49-13fe-4319-addd-1ae33df7ee65);
+
+PROC
+PROC_EvaluateShortRestTutorial_ReasonSpellOrResource((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_ShortRest_ShouldSee(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+PartyGetActionResourceValue(_Var1, "ShortRestPoint", 0, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Short_Rest_8dd94c49-13fe-4319-addd-1ae33df7ee65);
+NOT DB_GLO_Tutorials_ShortRest_ShouldSee(_Var1);
+
+IF
+CombatEnded(_, _, _, _, _)
+AND
+DB_PartyMembers(_Var2, _, _, _, _)
+THEN
+PROC_EvaluateShortRestTutorial_ReasonLowHP(_Var2);
+PROC_EvaluateShortRestTutorial_ReasonSpellOrResource(_Var2);
+
+IF
+ShortRested((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+HideTutorial(_Var1, Short_Rest_8dd94c49-13fe-4319-addd-1ae33df7ee65);
+
+IF
+AddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+ItemGetSupplyValue(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 > 0
+AND
+DB_GLO_Tutorials_TrackedTimers(_Var2, "GLO_Tutorials_TemporaryEquipmentTutSuppression", "Finished", _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var2, Camp_Supplies_1b298039-4476-4b52-aaa5-afadb889c154);
+
+IF
+DB_DialogNPCs(_Var1, S_GLO_JergalAvatar_0133f2ad-e121-4590-b5f0-a79413919805, _, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var3, _, _Var1, _Var1)
+AND
+DB_InCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_WithersDialog(_Var1, _Var3);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_GLO_Tutorials_WithersDialog(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_GLO_Tutorials_WithersDialog(_Var2, _Var3);
+PROC_ShowUnifiedTutorialForPlayer(_Var3, Withers_97c40dd5-7485-4011-8408-e83752d80de7);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SNEAKING", _, _, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimerStart(_Var1, "RemainUndetected_Tutorial_DelayedShowTimer", 3000);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, "RemainUndetected_Tutorial_DelayedShowTimer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "SNEAKING", 1, _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimer_EraseTimerRecord(_Var1, "RemainUndetected_Tutorial_DelayedShowTimer");
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Remain_Undetected_b9822611-61cc-4998-bf99-9a90848726a2);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var5 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TUT_TriggerCrimeTutorialForCrimeType(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimerStart(_Var1, "CrimesTimerDelay", 2000);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, "CrimesTimerDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimer_EraseTimerRecord(_Var1, "CrimesTimerDelay");
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Crimes_a38bbd39-0f05-46a0-bf54-7aab932ca110);
+
+QRY
+QRY_TUT_TriggerCrimeTutorialForCrimeType((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CrimeAttitudeChange(_Var2, _, _Var1, _Var1, _Var1)
+AND
+_Var2 != "VandaliseNoOwner"
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CrimeTeleportCharacterToPrison((CHARACTER)_Var1, (CHARACTER)_Var2, (TRIGGER)_Var3, (TRIGGER)_Var4, (STRING)_Var5)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var2, Prison_fba136ef-4e12-4098-9d61-14c64bc4e88b);
+
+IF
+StatusApplied((CHARACTER)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PlayerPrison(_, _, _, _Var2, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Fugitive_5f7da749-8cfc-4d14-b46e-d4eb0f5d3df3);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, Inventory_Opened_e2d0dd0a-5958-454f-9ec3-0bfba58c7153, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_ActiveCompanionCount(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 > 0
+THEN
+PROC_GLO_Tutorials_TrackedTimerStart(_Var1, "GLO_Tutorials_PartyInventoryOverlapPrevention", 1500);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, "GLO_Tutorials_PartyInventoryOverlapPrevention", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimer_EraseTimerRecord(_Var1, "GLO_Tutorials_PartyInventoryOverlapPrevention");
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, "GLO_Tutorials_PartyInventoryOverlapPrevention", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsAnyTutorialShowingFor(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Party_Inventory_bb14da73-4205-41b8-b911-8a3adc8b1850);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, Inventory_Opened_e2d0dd0a-5958-454f-9ec3-0bfba58c7153, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Context_Menu__items__31f73f43-06a9-4a4c-9729-0029e6d5264b);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, PartyPanel_Opened_b3c925a4-6317-45f8-99c0-4ca42e3ef36b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Context_Menu__items__31f73f43-06a9-4a4c-9729-0029e6d5264b);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, ContextMenu_Opened_59db3193-478a-4d85-af8c-2ab29d8dbf25, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+HideTutorial(_Var1, Context_Menu__items__31f73f43-06a9-4a4c-9729-0029e6d5264b);
+SetTutorialShown(_Var1, Context_Menu__items__31f73f43-06a9-4a4c-9729-0029e6d5264b);
+
+IF
+Equipped((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsProficientWith(_Var2, _Var1, 0, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_TrackedTimers(_Var2, "GLO_Tutorials_TemporaryEquipmentTutSuppression", "Finished", _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_ProcessItemProficiencies(_Var2, _Var1);
+
+PROC
+PROC_GLO_Tutorials_ProcessItemProficiencies((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsWeapon(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Weapon_Proficiency_19548521-dbd0-4408-8947-5b9cd8111314);
+
+PROC
+PROC_GLO_Tutorials_ProcessItemProficiencies((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetEquipmentSlotForItem(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_ArmorSlots(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Armour_Proficiency_e974fec1-52af-41c7-8283-fd9610aedfdb);
+
+PROC
+PROC_GLO_Tutorials_ProcessItemProficiencies((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetEquippedShield(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Shield_Proficiency_4ce5ced0-5877-4eec-af81-349991a2c180);
+
+IF
+ShareInitiative((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimerStart(_Var1, "GLO_Tutorials_SharedInitiativeOverlapPrevention", 2000);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, "GLO_Tutorials_SharedInitiativeOverlapPrevention", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsAnyTutorialShowingFor(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Shared_Initiative_4ccd84ad-2056-40fb-ab8f-8a93ed6b9187);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, "GLO_Tutorials_SharedInitiativeOverlapPrevention", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimer_EraseTimerRecord(_Var1, "GLO_Tutorials_SharedInitiativeOverlapPrevention");
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "INSURFACE", _, _, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetSurfaceGroundAt(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_FlammableSurfaces(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Surfaces_abe35b74-6b4a-4d82-818b-98fcaaae313f);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, Inspiration_Gained_f033b6a0-9298-4f86-b17f-c8683892be8a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Inspiration_b2946b4d-5ded-4c17-8a98-f45a1c36ceb2);
+
+PROC
+PROC_LongRest()
+THEN
+PROC_GLO_Tutorials_EvaluatePrepareSpellsTutorial();
+
+IF
+ShortRested((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_ShortRestedAtLeastOnceAfterTut(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_EvaluatePrepareSpellsTutorial();
+
+IF
+ShortRested((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_Tutorials_ShortRestedAtLeastOnceAfterTut(_Var1);
+
+PROC
+PROC_GLO_Tutorials_EvaluatePrepareSpellsTutorial()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_ClassTagsCanPrepareSpell(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Prepare_Spells_8bf00f46-c0c6-405c-9749-21a64a45d158);
+
+PROC
+PROC_StartTrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (TRADEMODE)_Var3, _, _)
+AND NOT
+DB_Origins(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != 0
+AND
+SpeakerGetDialog(_Var1, 0, _, _Var7, _Var1)
+THEN
+DB_GLO_Tutorials_TradingDialog(_Var1, _Var7);
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Trading_59b2d8ef-f74e-44b2-aaa3-0a16bd8a17b8);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, TradeMode_Changed_4eff1cb5-03b4-4aec-9774-bf416f43d331, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+HideTutorial(_Var1, Trading_59b2d8ef-f74e-44b2-aaa3-0a16bd8a17b8);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_GLO_Tutorials_TradingDialog(_Var3, _Var2, _, _, _)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var3, Trader_Attitude_fcc5a529-effc-46e6-9cd5-e07f856736f8);
+NOT DB_GLO_Tutorials_TradingDialog(_Var3, _Var2);
+
+IF
+CharacterMoveFailedUseJump((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Jump_d332cfa0-ea0c-482f-973f-73c04c8a5d0b);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

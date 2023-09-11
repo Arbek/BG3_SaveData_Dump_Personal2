@@ -1,0 +1,181 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_MOO_PLACEHOLDER_HeartSpike_4f9739c4-9360-47b1-9c38-57506c26b4cc, 0);
+SetOnStage(S_MOO_HeartKey_12303d80-c793-4fea-93f0-73e57d57e56f, 0);
+SetCanInteract(S_MOO_HeartBox_93307c10-c4ac-4b05-aa8e-bc1436f21bb3, 0);
+DB_BookFlags(S_MOO_BalthazarSecretBook_8f90de22-6a7c-4579-a966-73c0d80d7a54, MOO_BalthazarsSecrets_Knows_NightsongSecret_3599ecf9-382d-46b7-8c72-c7d99303d7c4);
+DB_MOO_BalthazarsSecrets_TrapBooks(S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94);
+DB_MOO_BalthazarsSecrets_TrapBooks(S_MOO_TrapBook_002_55f57258-967e-4137-95a3-be396121a308);
+DB_MOO_BalthazarsSecrets_TrapBooks(S_MOO_TrapBook_003_760c687e-1412-4845-9060-9b7eba5f5f01);
+DB_MOO_BalthazarsSecrets_TrapBooks(S_MOO_TrapBook_004_02691ba1-8698-4b61-ab35-47f2bd5bb3f1);
+PROC_TriggerRegisterForPlayers(S_MOO_NecroDiscoverBox_5cdda27f-d3ce-4e6d-b6d0-e08499aa9fe6);
+DB_MOO_BalthazarsSecrets_Spikes(S_BookSpikes_001_e32a8860-c9e0-4b8b-ad3b-7da437929c16);
+DB_MOO_BalthazarsSecrets_Spikes(S_BookSpikes_002_b9372af3-bbcb-4783-b617-1a70bf0181a3);
+PlayAnimation(S_BookSpikes_001_e32a8860-c9e0-4b8b-ad3b-7da437929c16, OBJ_Use_Deactivate_01_bb1e8405-8773-46d1-92c8-9f42d900922b, "");
+PlayAnimation(S_BookSpikes_002_b9372af3-bbcb-4783-b617-1a70bf0181a3, OBJ_Use_Deactivate_01_bb1e8405-8773-46d1-92c8-9f42d900922b, "");
+DB_OneShotPlayerTrigger(S_MOO_Necromancer_Chamber_Daisy_3040403d-cd2c-4312-8045-6e06efe74dcf);
+
+KBSECTION
+IF
+TextEvent("balthsecrets_openbookdoor", _, _, _, _)
+THEN
+SetFlag(MOO_BalthazarsSecrets_State_BookcaseOpened_f24ceb4a-5095-4509-8daa-406dbf8f8685);
+
+IF
+TextEvent("balthsecrets_allowdoors", _, _, _, _)
+THEN
+PROC_MOO_BalthazarsSecrets_AllowDoors();
+
+IF
+FlagSet(Debug_MOO_BalthazarsSecrets_AddBook_1f0cb439-fab0-4ecf-9c70-7072304588bf, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(Debug_MOO_BalthazarsSecrets_AddBook_1f0cb439-fab0-4ecf-9c70-7072304588bf, _Var1);
+ToInventory(S_MOO_BalthazarSecretBook_8f90de22-6a7c-4579-a966-73c0d80d7a54, _Var1, 1, 0, 1);
+
+IF
+TextEvent("balthsecrets_getheartkey", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_MOO_HeartKey_79c71f06-0999-48b3-bed8-eca4e1e8c1a1, 1);
+ToInventory(S_MOO_HeartKey_79c71f06-0999-48b3-bed8-eca4e1e8c1a1, _Var1, 1, 0, 1);
+
+IF
+FlagSet(Debug_MOO_BalthazarsSecrets_AddBook_1f0cb439-fab0-4ecf-9c70-7072304588bf, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(Debug_MOO_BalthazarsSecrets_AddBook_1f0cb439-fab0-4ecf-9c70-7072304588bf, _Var1);
+ToInventory(S_MOO_BalthazarSecretBook_8f90de22-6a7c-4579-a966-73c0d80d7a54, _Var1, 1, 0, 1);
+
+IF
+EntityEvent(S_MOO_BalthazarLever_40f9b074-b09e-423f-973f-75b62a0e9af0, "MOO_BalthazarLever_Unlock", _, _, _)
+THEN
+PROC_ItemUnlockAndOpen(S_MOO_NecroRoomDoor_003_99432bb0-3ca4-4d42-ae2d-648cbb63edff);
+
+IF
+EntityEvent(S_MOO_BalthazarLever_40f9b074-b09e-423f-973f-75b62a0e9af0, "MOO_BalthazarLever_Lock", _, _, _)
+THEN
+PROC_ItemCloseAndLock(S_MOO_NecroRoomDoor_003_99432bb0-3ca4-4d42-ae2d-648cbb63edff, "STORYLOCK");
+
+PROC
+PROC_MOO_BalthazarsSecrets_AllowDoors()
+AND NOT
+DB_Destroyed(S_MOO_NecroRoomDoor_001_fa33a896-363c-49a0-8618-7d9555bafaae, _, _, _, _)
+THEN
+ClearOwnership(S_MOO_NecroRoomDoor_001_fa33a896-363c-49a0-8618-7d9555bafaae);
+
+PROC
+PROC_HiddenPerceptionCheckSucceeded(_, (CHARACTER)_Var2, S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94, _, _)
+AND
+QRY_OnlyOnce("MOO_BalthazarsSecrets_BookPerceptionAD", _, _, _, _)
+THEN
+PROC_MOO_BalthazarsSecrets_HiddenCheckAllBooks(_Var2, S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94, 1);
+
+PROC
+PROC_RollResult("GLO_HiddenItemCheck", (CHARACTER)_Var1, S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94, 0, (CHARACTER)_Var1)
+AND NOT
+DB_PerceptionSkillCheck(_Var1, S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94, _, _Var1, _Var1)
+THEN
+PROC_MOO_BalthazarsSecrets_HiddenCheckAllBooks(_Var1, S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94, 0);
+
+PROC
+PROC_MOO_BalthazarsSecrets_HiddenCheckAllBooks((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_BalthazarsSecrets_TrapBooks(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 != _Var2
+THEN
+DB_PerceptionSkillCheck(_Var1, _Var4, _Var3);
+
+PROC
+PROC_MOO_BalthazarsSecrets_HiddenCheckAllBooks((CHARACTER)_Var1, (ITEM)_Var2, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_BalthazarsSecrets_TrapBooks(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var2
+THEN
+SetEntityEvent(_Var3, "StoryReveal");
+
+IF
+DualEntityEvent(_, S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94, "MOO_BalthazarsSecrets_ActivateHeartBox", _, _)
+AND NOT
+DB_GlobalFlag(MOO_BalthazarsSecrets_State_HeartBoxActive_23f22a42-3fc4-491b-aefd-4a4b52257735, _, _, _, _)
+THEN
+SetFlag(MOO_BalthazarsSecrets_State_HeartBoxActive_23f22a42-3fc4-491b-aefd-4a4b52257735);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(MOO_BalthazarsSecrets_State_HeartBoxActive_23f22a42-3fc4-491b-aefd-4a4b52257735, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_MOO_TrapBook_001_bb48a971-aad4-4c10-8907-addb6d32ba94, 0);
+PROC_TryStartAD(GEN_AD_ItemBlocked_a4eb2e7b-809a-a9e4-94da-955a8ac9b8c6, _Var1);
+
+IF
+DualEntityEvent(_, S_MOO_TrapBook_003_760c687e-1412-4845-9060-9b7eba5f5f01, "MOO_BalthazarsSecrets_Spikes", _, _)
+AND
+DB_MOO_BalthazarsSecrets_Spikes(_Var2, _, _, _, _)
+THEN
+PlayAnimation(_Var2, OBJ_Use_Activate_01_42c02cc0-0503-4ca9-9ea0-45564bd0e5d4, "");
+UseSpell(_Var2, "Projectile_MOO_BookSpikeTrap", _Var2);
+
+IF
+EntityEvent((ITEM)_Var1, "MOO_BalthazarsSecrets_SpikesOff", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_MOO_BalthazarsSecrets_Spikes(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PlayAnimation(_Var1, OBJ_Use_Deactivate_01_bb1e8405-8773-46d1-92c8-9f42d900922b, "");
+
+IF
+FlagSet(MOO_BalthazarsSecrets_State_HeartBoxActive_23f22a42-3fc4-491b-aefd-4a4b52257735, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetCanInteract(S_MOO_HeartBox_93307c10-c4ac-4b05-aa8e-bc1436f21bb3, 1);
+PROC_TryStartAD(GLO_AD_MechanicalClick_fc8d3dc5-b947-6354-3aa9-d1f02fd51af4, S_MOO_HeartBox_93307c10-c4ac-4b05-aa8e-bc1436f21bb3);
+
+IF
+Combined(S_MOO_HeartBox_93307c10-c4ac-4b05-aa8e-bc1436f21bb3, (ITEM)_Var1, _, _, _, (CHARACTER)_Var5, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+SetFlag(MOO_BalthazarsSecrets_State_BookcaseOpened_f24ceb4a-5095-4509-8daa-406dbf8f8685);
+PlayEffect(S_MOO_PlacedBodypartPoint_efe932f9-13d0-4034-84e2-98d4abdc67ef, VFX_Script_DestroyAction_BodyPart_01_3f8410a6-f5c8-02f5-4c2a-2da18df8728b);
+PROC_TryStartAD(GLO_PerceptionSuccess_48825dbe-a320-7c4c-fe3e-372b717d5bc9, _Var5);
+
+IF
+FlagSet(MOO_BalthazarsSecrets_State_BookcaseOpened_f24ceb4a-5095-4509-8daa-406dbf8f8685, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+Open(S_MOO_BookcaseDoor_e6f5e44f-dda9-4a92-9d39-d8675b31af67);
+
+PROC
+PROC_BookFlags_FlagSet(S_MOO_BalthazarSecretBook_8f90de22-6a7c-4579-a966-73c0d80d7a54, MOO_BalthazarsSecrets_Knows_NightsongSecret_3599ecf9-382d-46b7-8c72-c7d99303d7c4, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SHA_Nightsong_HasMet_6b56f4b8-8bb3-5393-de12-d320fbb55218, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_BalthazarsSecrets_ReadyVB(_Var1);
+
+IF
+DB_MOO_BalthazarsSecrets_ReadyVB(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("MOO_BalthazarsSecrets_NightsongInfoVB", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(MOO_BalthazarsSectrets_VB_NightsongInfo_05767661-c649-6b6d-c0c8-7be13cabb470, _Var1);
+NOT DB_MOO_BalthazarsSecrets_ReadyVB(_Var1);
+
+PROC
+PROC_OneShotTriggerEntered((CHARACTER)_Var1, S_MOO_Necromancer_Chamber_Daisy_3040403d-cd2c-4312-8045-6e06efe74dcf, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DaisyAD(_Var1, COL_Necromancer_DaisyAD_Balthazar_b2437b3c-8491-c1e9-9e60-04592903e367);
+
+PROC
+PROC_COL_TeleportPartiesToColony(_, (INTEGER)_, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_OneShotPlayerTrigger(S_MOO_Necromancer_Chamber_Daisy_3040403d-cd2c-4312-8045-6e06efe74dcf);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

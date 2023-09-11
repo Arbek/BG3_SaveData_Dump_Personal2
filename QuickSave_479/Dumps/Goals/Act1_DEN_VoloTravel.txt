@@ -1,0 +1,128 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetFlag(GLO_Volo_State_AtDen_c1bb44ab-c358-46d1-a261-34356bf1d071, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_VoloSignBook(BOOK_Book_A_VoloGBG_49871a48-7f07-4310-84ef-e890983ea5c3, BOOK_Book_A_VoloGBG_Signed_A_88b9f7e6-afc6-4e86-a31b-41e8dc5dfd1a);
+DB_VoloSignBook(BOOK_Book_B_VoloCGBN_f5eb9707-169e-47ce-bb3d-5d25d6fa8aa6, BOOK_Book_B_VoloCGBN_Signed_A_8c5f1f1a-1bd5-408f-a072-cd7c8991dd39);
+DB_VoloSignBook(BOOK_Book_F_VoloGSS_14d9b664-b4e4-4e22-a83f-7fafd09f61f5, BOOK_Book_F_VoloGSS_Signed_A_79c95480-dfc6-4b1e-953a-b269fb609c80);
+DB_Dialogs(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, DEN_VoloTravel_942e99d5-07ca-d6ed-3376-a30be6d22b54);
+DB_GLO_CharacterCorpseDialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, DEN_Volo_Dead_4329ba80-3504-e1dd-9f1e-25a2ea07cc93);
+SetHasDialog(S_DEN_VoloBear_893c5f40-a760-4b04-bd86-c8fb8f5dd08a, 1);
+
+KBSECTION
+IF
+FlagSet(GLO_Volo_State_PermaDefeated_90bacc1d-9755-4e24-adc3-9016698a7be6, NULL_00000000-0000-0000-0000-000000000000, 0, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_VoloAdventure", "VoloDead");
+
+IF
+FlagSet(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+DB_QuestIsOpened("DEN_VoloAdventure", _, _, _, _)
+THEN
+PROC_DEN_VoloAdventure_UpdateLeft();
+
+PROC
+PROC_DEN_VoloAdventure_UpdateLeft()
+AND
+DB_GlobalFlag(GOB_VoloBallad_State_VoloEscaped_13ae819f-b0b7-434d-9ebb-cee412b1a407, _, _, _, _)
+THEN
+QuestUpdate("DEN_VoloAdventure", "VoloCamp");
+
+PROC
+PROC_DEN_VoloAdventure_UpdateLeft()
+AND NOT
+DB_GlobalFlag(GOB_VoloBallad_State_VoloEscaped_13ae819f-b0b7-434d-9ebb-cee412b1a407, _, _, _, _)
+THEN
+QuestUpdate("DEN_VoloAdventure", "NotSaved");
+
+IF
+DialogEnded(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2, _, _, _, _)
+AND
+DB_QuestIsOpened("DEN_VoloAdventure", _, _, _, _)
+THEN
+QuestUpdate("DEN_VoloAdventure", "VoloCamp");
+
+IF
+DB_GlobalFlag(GLO_Volo_HasMet_07ff1071-2535-f215-72d3-224e360af5f2, _, _, _, _)
+AND NOT
+DB_DEN_PlayerInDen(_, _, _, _, _)
+AND NOT
+DB_Defeated(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_Volo_State_AtDen_c1bb44ab-c358-46d1-a261-34356bf1d071, _, _, _, _)
+THEN
+SetOnStage(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 0);
+SetEntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "DEN_NPC_LeftDen", 1);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "DEN_VoloLeft", _, _, _)
+AND
+DB_GlobalFlag(GLO_Volo_State_AtDen_c1bb44ab-c358-46d1-a261-34356bf1d071, _, _, _, _)
+THEN
+ClearFlag(GLO_Volo_State_AtDen_c1bb44ab-c358-46d1-a261-34356bf1d071, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_VoloSignBook(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_PlayerHasTemplateItem(_Var1, GLO_Volo_HasBook_5eb37dc3-96b4-41f5-a088-db1532bd3b8a);
+
+IF
+FlagSet(GLO_Volo_BookSigned_6f8b4dae-903d-44b5-b274-bac3f5346430, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_VoloSignBook(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_ItemTemplateInMagicPockets(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+TemplateRemoveFrom(_Var3, _Var1, 1);
+TemplateAddTo(_Var4, _Var1, 1, 1);
+ClearFlag(GLO_Volo_BookSigned_6f8b4dae-903d-44b5-b274-bac3f5346430, _Var1);
+
+IF
+FlagSet(GLO_Volo_GiveGSS_9ec63bb2-9e9b-4ab6-8986-2111ddd45c39, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetInventoryOwner(S_DEN_VoloGSS_30bf3988-8704-4e0d-88ec-be1eb6dd31c2, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1)
+THEN
+RequestDelete(S_DEN_VoloGSS_30bf3988-8704-4e0d-88ec-be1eb6dd31c2);
+TemplateAddTo(BOOK_Book_F_VoloGSS_Signed_A_79c95480-dfc6-4b1e-953a-b269fb609c80, _Var1, 1, 1);
+ClearFlag(GLO_Volo_GiveGSS_9ec63bb2-9e9b-4ab6-8986-2111ddd45c39, _Var1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(DEN_VoloTravel_942e99d5-07ca-d6ed-3376-a30be6d22b54, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_DEN_VoloBear_893c5f40-a760-4b04-bd86-c8fb8f5dd08a, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_DEN_VoloBear_893c5f40-a760-4b04-bd86-c8fb8f5dd08a);
+
+QRY
+QRY_SelectCustomDialog(S_DEN_VoloBear_893c5f40-a760-4b04-bd86-c8fb8f5dd08a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(GLO_Volo_State_AtDen_c1bb44ab-c358-46d1-a261-34356bf1d071, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_DEN_VoloBear_893c5f40-a760-4b04-bd86-c8fb8f5dd08a, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_DruidAttack_State_DruidSetup_96fc1420-fa07-4235-98c3-ecb34fcb6b0a, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DEN_VoloTravel_Bear_df897d41-901f-7865-31cf-4ff6ba89555b, S_DEN_VoloBear_893c5f40-a760-4b04-bd86-c8fb8f5dd08a, _Var1, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectCustomDialog(S_DEN_VoloBear_893c5f40-a760-4b04-bd86-c8fb8f5dd08a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_DruidAttack_State_DruidSetup_96fc1420-fa07-4235-98c3-ecb34fcb6b0a, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DEN_VoloTravel_Bear_df897d41-901f-7865-31cf-4ff6ba89555b, S_DEN_VoloBear_893c5f40-a760-4b04-bd86-c8fb8f5dd08a, _Var1, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

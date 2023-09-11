@@ -1,0 +1,642 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_IgnoreMutingStatussesDialog(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532);
+
+KBSECTION
+IF
+TextEvent("fakeloadact1", _, _, _, _)
+THEN
+DB_CheckLevelStart("WLD_Main_A");
+DB_CurrentLevel("WLD_Main_A");
+NOT DB_CheckLevelStart("WLD_Main_A");
+NOT DB_CurrentLevel("WLD_Main_A");
+
+IF
+TextEvent("fakeload", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CheckLevelStart(_Var1);
+DB_CurrentLevel(_Var1);
+NOT DB_CheckLevelStart(_Var1);
+NOT DB_CurrentLevel(_Var1);
+
+IF
+TextEvent("tpa", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetTextEventParamInteger(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(2, _Var2, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(3, _Var3, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(4, _Var4, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var5, S_CHA_ShadowheartFleePos_051554e8-266e-4293-ab76-a2f7f74cd4de, "", _Var1, _Var2, _Var3, _Var4, 1);
+
+IF
+TextEvent("tpb", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetTextEventParamInteger(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(2, _Var2, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(3, _Var3, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(4, _Var4, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var5, S_CRA_BeachShadowheartRecruit_566350d5-6331-4a87-afde-ef122c5f41a6, "", _Var1, _Var2, _Var3, _Var4, 1);
+
+IF
+TextEvent("follower", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(Humans_Male_Civilian_3278f064-5353-4c08-ab96-c2f432d0fda0, _Var1, 1, 0, "", 0, _Var2, _Var1, _Var1, _Var1)
+THEN
+AddPartyFollower(_Var2, _Var1);
+DB_MyNPCFollower(_Var2);
+DB_Dialogs(_Var2, TEST_NPC_13a1e844-c237-7f6d-7cd5-b9f80745794e);
+
+IF
+TextEvent("nofollower", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MyNPCFollower(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemovePartyFollower(_Var2, _Var1);
+
+IF
+TextEvent("dom", _, _, _, _)
+THEN
+DB_DoubleOriginMoment(TEST_NPC_13a1e844-c237-7f6d-7cd5-b9f80745794e, REALLY_SHADOWHEART_642d2aee-e3df-47e3-9f47-bbcd441bb9e0, REALLY_LAEZEL_b5682d1d-c395-489c-9675-1f9b0c328ea5, TEST_DOM_c9682393-6a70-6ff5-233b-2ecf30423d5f, TEST_DOM_c9682393-6a70-6ff5-233b-2ecf30423d5f, TEST_DOM_c9682393-6a70-6ff5-233b-2ecf30423d5f, TEST_DOM_c9682393-6a70-6ff5-233b-2ecf30423d5f, TEST_DOM_c9682393-6a70-6ff5-233b-2ecf30423d5f, TEST_DOM_c9682393-6a70-6ff5-233b-2ecf30423d5f, TEST_DOM_c9682393-6a70-6ff5-233b-2ecf30423d5f, 1);
+
+IF
+TextEvent("NPC", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(Humans_Male_Civilian_3278f064-5353-4c08-ab96-c2f432d0fda0, _Var1, 1, 0, "", 0, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_MyNPC(_Var2);
+DB_Dialogs(_Var2, TEST_NPC_13a1e844-c237-7f6d-7cd5-b9f80745794e);
+
+IF
+TextEvent("NPC-surrender", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MyNPC(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Surrender(_Var1, _Var2);
+
+IF
+TextEvent("NPC-dialog", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MyNPC(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(_Var1);
+DB_Dialogs(_Var1, TEST_NPC_13a1e844-c237-7f6d-7cd5-b9f80745794e);
+
+IF
+TextEvent("NPC-OM", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MyNPC(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(_Var1);
+DB_Dialogs(_Var1, TEST_OriginMoment_Shadowheart_1074ada6-3995-b680-c551-6d7efaf56e9c);
+PROC_DefineSingleOriginMoment(TEST_OriginMoment_Shadowheart_1074ada6-3995-b680-c551-6d7efaf56e9c, REALLY_SHADOWHEART_642d2aee-e3df-47e3-9f47-bbcd441bb9e0, TEST_OriginMoment_Shadowheart_1074ada6-3995-b680-c551-6d7efaf56e9c);
+DB_OriginMoment_PartnerDateExclusive(TEST_OriginMoment_Shadowheart_1074ada6-3995-b680-c551-6d7efaf56e9c);
+
+IF
+TextEvent("shrom", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_State_PartneredWithShadowheart_3808ae35-ad4e-465b-800b-63d32b77211e, _Var1, 0);
+
+IF
+TextEvent("NPC-come", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MyNPC(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Walk", "");
+
+IF
+TextEvent("NPC-purge", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MyNPC(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PurgeOsirisQueue(_Var1);
+
+IF
+TextEvent("NPC-purgecome", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MyNPC(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PurgeOsirisQueue(_Var1);
+PROC_CharacterMoveTo(_Var1, _Var2, "Walk", "");
+
+IF
+TextEvent("NPC-purgecome2", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MyNPC(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PurgeOsirisQueue(_Var1, 0);
+PROC_CharacterMoveTo(_Var1, _Var2, "Walk", "");
+
+IF
+TextEvent("NPC-loot", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MyNPC(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+OpenCharacterLootUI(_Var2, _Var1, 0, _Var1, _Var1)
+THEN
+DebugBreak("Failed to open Loot");
+
+IF
+TextEvent("rest", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RestoreParty(_Var1);
+
+IF
+TextEvent("KeyboardShortcut1", _, _, _, _)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_Players(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+TeleportTo(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1);
+PROC_GLO_PartyMembers_Add(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1);
+SetFlag(SetPreset_Default_7eabc516-c15c-46ff-a99d-60d4a9f7037e, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+IF
+TextEvent("KeyboardShortcut1", _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, 1);
+TeleportTo(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1);
+PROC_GLO_PartyMembers_Add(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1);
+SetFlag(SetPreset_Default_7eabc516-c15c-46ff-a99d-60d4a9f7037e, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, 0);
+
+IF
+TextEvent("KeyboardShortcut1", _, _, _, _)
+AND NOT
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1);
+TeleportTo(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1);
+PROC_GLO_PartyMembers_Add(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1);
+SetFlag(SetPreset_Default_7eabc516-c15c-46ff-a99d-60d4a9f7037e, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0);
+
+IF
+TextEvent("KeyboardShortcut2", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(NIGHT_FirstNightContemplation_9e5cfbe2-f4f3-4249-a1b7-142a7899277a, NULL_00000000-0000-0000-0000-000000000000);
+DB_CampNight(NIGHT_FirstNightContemplation_9e5cfbe2-f4f3-4249-a1b7-142a7899277a, 7100);
+DB_CampNight_Camp(NIGHT_FirstNightContemplation_9e5cfbe2-f4f3-4249-a1b7-142a7899277a, _Var1);
+DB_CampNight_AvatarDream(NIGHT_FirstNightContemplation_9e5cfbe2-f4f3-4249-a1b7-142a7899277a, CAMP_FirstNight_AvD_PostEA_69e79939-6148-1b93-d654-e54374ef9353);
+
+IF
+TextEvent("KeyboardShortcut3", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+RealSum(_Var2, 2, _Var5, _Var1, _Var1)
+AND
+CreateAt(Wolf_41da0eff-b533-43cc-a014-218f7d23fa11, _Var5, _Var3, _Var4, 1, 0, "", _Var6, _Var1, _Var1)
+THEN
+SetFaction(_Var6, Evil_4be9261a-e481-8d9d-3528-f36956a19b17);
+PROC_MakeNPCHostile(_Var6, _Var1);
+
+IF
+TextEvent("KeyboardShortcut4", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("KeyboardShortcut5", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SILENCED", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("KeyboardShortcut6", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(Recruiter_55d1fd15-76ac-c6de-3011-272044122ca1, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("KeyboardShortcut7", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("KeyboardShortcut8", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("KeyboardShortcut9", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(DebugBook_3af7dec4-4c08-9e44-9064-ec038ebad0ea, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("g3", _, _, _, _)
+AND
+QRY_GetRandom("DB_Players", 1, "DB_SendAMessage", _, _)
+AND
+DB_SendAMessage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 0);
+NOT DB_SendAMessage(_Var1);
+
+IF
+TextEvent("vb", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(TUT_Start_VB_Start_b72d4f7f-4b22-700c-efe2-ae93f991d3c7, _Var1);
+
+IF
+TextEvent("banter", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StartWorldGossip(_Var1);
+
+IF
+TextEvent("kdi", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "LONG_REST", 2, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("pom", _, _, _, _)
+THEN
+PROC_StartPartyOriginMoment(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, FOR_Village_OM_ShadowHeart_ACM_6d0e7e55-6bac-2dd0-ec89-f9905fed4c49, FOR_Village_OM_ShadowHeart_AOM_b3c4ed2e-bdfa-c92f-f1ca-70cc9dd4107c, FOR_Village_OM_ShadowHeart_COM_fe36e6f6-fd03-2891-b22b-5d542fe648b7, FOR_Village_OM_ShadowHeart_OOM_92461dc1-137e-1d24-17dc-2dc51f40d781);
+
+IF
+TextEvent("gdiag", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(TEST_Greever_e15eda4c-7c4b-d72f-4cca-0f92a9e9111b, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("aroll", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamString(1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamUUID(2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamString(3, _Var4, _Var1, _Var1, _Var1)
+THEN
+RequestActiveRoll(_Var1, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var3, _Var4);
+
+IF
+TextEvent("proll", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamString(1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamUUID(2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamString(3, _Var4, _Var1, _Var1, _Var1)
+THEN
+RequestPassiveRoll(_Var1, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var3, _Var4);
+
+IF
+TextEvent("enddialog", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStop(_Var1);
+
+IF
+TextEvent("plt1", _, _, _, _)
+THEN
+ActivatePersistentLevelTemplate(LEVELTEMPLATEGUID_LT_WLD_Campfire_A_000_125be137-b75e-46c2-a6e1-020175e3853b);
+
+IF
+TextEvent("plt2", _, _, _, _)
+THEN
+ActivatePersistentLevelTemplate(LEVELTEMPLATEGUID_LT_WLD_Campfire_A_000_4b0368ba-5e48-43e4-832d-d395e8c2e8e3);
+
+IF
+TextEvent("visible", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetTextEventParamInteger(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetVisible(_Var2, _Var1);
+
+IF
+TextEvent("crd", _, _, _, _)
+THEN
+PROC_CampRelationshipDialog(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901, DIALOGRESOURCEGUID_Test_RelationshipDialog_dbef58ac-27a0-be66-3e67-a5d1dba65325, 0);
+
+IF
+TextEvent("fadein", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearScreenFade(_Var1, 0.5, "");
+PROC_ClearScreenFadeTimeline(_Var1, 0.5);
+
+PROC
+PROC_CampfireMoment_PreDialog((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_CampfireMoment_FixedSpeakers(_Var1, S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901, TRIGGERGUID_S_CAMP_Corpse1_b024aded-80b6-46ef-83fd-ee90639eac02);
+
+PROC
+PROC_CampfireMoment_PostDialog((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_CampfireMoment_FixedSpeakers(_Var1, S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901, CHARACTERGUID_S_FOR_Courier_bf842d88-0c39-48b8-b4a1-f9ab140ee6ca);
+
+IF
+TextEvent("longrest", _, _, _, _)
+THEN
+PROC_LongRest();
+
+IF
+TextEvent("10u", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var2, _Var1, 0, 10, _)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("10u", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var1, _Var2, _, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var1, _Var2, 0, 10, _)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("10d", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var2, _Var1, 0, -10, _)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("10d", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var1, _Var2, _, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var1, _Var2, 0, -10, _)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("att", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+GetDisplayName(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+ResolveTranslatedString(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+IntegerToString(_Var3, _Var6, _Var1, _Var1, _Var1)
+AND
+Concatenate("Attitude (", _Var5, _Var7, _Var1, _Var1)
+AND
+Concatenate(_Var7, "): ", _Var8, _Var1, _Var1)
+AND
+Concatenate(_Var8, _Var6, _Var9, _Var1, _Var1)
+THEN
+DebugText(_Var1, _Var9);
+
+IF
+TextEvent("setapproval", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+GetTextEventParamInteger(1, _Var4, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var4, _Var3, _Var5, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var1, _Var2, 0, _Var5, _)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("setapproval", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+GetTextEventParamInteger(1, _Var4, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var4, _Var3, _Var5, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var2, _Var1, 0, _Var5, _)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("showattitude", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetDebugCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+IntegerToString(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, _Var4);
+
+IF
+TextEvent("setattitude", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetTextEventParamInteger(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDebugCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerToString(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_SetAttitude(_Var2, _Var3, _Var1);
+DebugText(_Var2, _Var4);
+
+IF
+TextEvent("tempfight", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetDebugCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationTemporaryHostile(_Var1, _Var2);
+
+IF
+TextEvent("setfactiongood", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetDebugCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Test_SaveOrigFaction(_Var1);
+SetFaction(_Var1, Good_b37bfd4c-baed-08f4-9866-290f8bb39e62);
+
+IF
+TextEvent("setfactionneutral", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetDebugCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Test_SaveOrigFaction(_Var1);
+SetFaction(_Var1, Neutral_a66b2d45-1b6c-082d-8a01-c6d975ead314);
+
+IF
+TextEvent("setfactionevil", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetDebugCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Test_SaveOrigFaction(_Var1);
+SetFaction(_Var1, Evil_4be9261a-e481-8d9d-3528-f36956a19b17);
+
+IF
+TextEvent("resetfaction", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetDebugCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_Test_SavedFaction(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var1, _Var2);
+DB_Test_SavedFaction(_Var1, _Var2);
+
+PROC
+PROC_Test_SaveOrigFaction((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Test_SavedFaction(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_Test_SavedFaction(_Var1, _Var3);
+
+IF
+TextEvent("close", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+GetTextEventParamUUID(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+Close(_Var1);
+
+IF
+TextEvent("open", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+GetTextEventParamUUID(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+Open(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

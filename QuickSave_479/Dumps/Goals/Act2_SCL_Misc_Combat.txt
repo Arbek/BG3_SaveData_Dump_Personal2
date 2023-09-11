@@ -1,0 +1,72 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SCL_ShamblingMound_Undead(S_SCL_BlightCombat2_ShadowCursed_01_291771df-35ef-4a27-866e-8ff7e84c2ecb);
+DB_SCL_ShamblingMound_Undead(S_SCL_BlightCombat2_ShadowCursed_02_f3caaa60-d094-47f4-9c32-7010910df17c);
+
+KBSECTION
+IF
+StatusApplied((GUIDSTRING)_Var1, "GARROTE_TARGET", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+THEN
+DB_Meazels_GarroteLinkedTarget(_Var2, _Var1);
+
+IF
+UsingSpell((GUIDSTRING)_Var1, "Target_ShadowTeleport_Meazel", _, _, _)
+AND
+DB_Meazels_GarroteLinkedTarget(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+PlayEffect(_Var5, VFX_Enemies_Meazel_ShadowTeleport_Root_01_4e39b69d-866c-3c8c-a298-e425dc4c1c52, "Dummy_Root");
+
+IF
+CastSpell((GUIDSTRING)_Var1, "Target_ShadowTeleport_Meazel", _, _, _)
+AND
+DB_Meazels_GarroteLinkedTarget(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var5, _Var1, "", 0, 0, 1, 0, 1);
+PlayEffect(_Var5, VFX_Enemies_Meazel_ShadowTeleport_Root_02_b2869ffa-1333-9b27-e9ad-c17d9a7417bc, "Dummy_Root");
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "GARROTE_TECHNICAL", _, _, (GUIDSTRING)_Var1)
+AND
+DB_Meazels_GarroteLinkedTarget(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var5 >= 5
+THEN
+RemoveStatus(_Var1, "GARROTE_SOURCE");
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "GARROTE_SOURCE", _, _, (GUIDSTRING)_Var1)
+AND
+DB_Meazels_GarroteLinkedTarget(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var4, "GARROTE_TARGET");
+NOT DB_Meazels_GarroteLinkedTarget(_Var1, _Var4);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "GARROTE_TARGET", _, _, (GUIDSTRING)_Var1)
+AND
+DB_Meazels_GarroteLinkedTarget(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var4, "GARROTE_SOURCE");
+NOT DB_Meazels_GarroteLinkedTarget(_Var4, _Var1);
+
+IF
+TurnStarted(S_SCL_BlightCombat2_Mound_01_1b294fe0-f1a1-4e81-9d4c-8d86bbda7d2b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_ShamblingMound_Undead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, S_SCL_BlightCombat2_Mound_01_1b294fe0-f1a1-4e81-9d4c-8d86bbda7d2b, _Var2, _Var1, _Var1)
+AND
+_Var2 < 32
+THEN
+ApplyStatus(_Var1, "SCL_SHADOW_CURSE_RISING", 3, 0, S_SCL_BlightCombat2_Mound_01_1b294fe0-f1a1-4e81-9d4c-8d86bbda7d2b);
+NOT DB_SCL_ShamblingMound_Undead(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

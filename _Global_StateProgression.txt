@@ -1,0 +1,173 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_State_Progress((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 != _Var3
+AND
+DB_State_Priority(_Var1, _Var2, _Var4, _Var5, _Var1)
+AND
+DB_State_Priority(_Var1, _Var2, _Var3, _Var6, _Var1)
+AND
+_Var5 <= _Var6
+THEN
+PROC_State_Changed(_Var1, _Var2, _Var4, _Var3);
+
+PROC
+PROC_State_IfCurrentProgress((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_State_Progress(_Var1, _Var2, _Var4);
+
+PROC
+PROC_State_IfCurrentProgressElse((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND
+DB_State_Current(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_State_IfCurrentElseProgressed(1);
+PROC_State_Progress(_Var1, _Var2, _Var4);
+
+PROC
+PROC_State_IfCurrentProgressElse((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND NOT
+DB_State_IfCurrentElseProgressed(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(_Var1, _Var2, _Var5);
+
+PROC
+PROC_State_IfCurrentProgressElse((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND
+DB_State_IfCurrentElseProgressed(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_State_IfCurrentElseProgressed(1);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+NOT DB_State_Current(_Var1, _Var2, _Var3);
+DB_State_Current(_Var1, _Var2, _Var4);
+PROC_State_Changed(_Var1, _Var2, _Var4);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (FLAG)_Var5)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_State_Flags(_Var1, _Var2, _Var4, _Var5, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var5);
+PROC_State_Changed(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+DB_State_Flags(_Var1, _Var2, _Var4, _, _Var1)
+THEN
+PROC_State_Changed(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (FLAG)_Var5)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_State_Flags(_Var1, _Var2, _Var3, _Var5, _Var1)
+AND NOT
+DB_State_Flags(_Var1, _Var2, _Var4, _Var5, _Var1)
+AND
+DB_GlobalFlag(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(_Var5);
+
+PROC
+PROC_State_Changed(_, (STRING)_Var2, (STRING)_Var3, _, _)
+AND
+DB_SoundStates_StateGroups(_Var2, _Var4, _, _, _)
+AND
+DB_SoundStates(_Var5, _Var2, _Var3, _Var6, _)
+THEN
+TriggerSetSoundState(_Var5, _Var4, _Var6, 1);
+
+QRY
+QRY_State_IsBeforeState((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Priority(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_State_Current(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+DB_State_Priority(_Var1, _Var2, _Var5, _Var6, _Var1)
+AND
+_Var6 < _Var4
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_State_Remove((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_State_Remove(_Var1, _Var2, 1);
+
+PROC
+PROC_State_Remove((GUIDSTRING)_Var1, (STRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_State_Flags(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_GlobalFlag(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var4);
+
+PROC
+PROC_State_Remove((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_State_Current(_Var1, _Var2, _Var4);
+
+PROC
+PROC_State_Remove((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Priority(_Var1, _Var2, _Var4, _Var5, _Var1)
+THEN
+NOT DB_State_Priority(_Var1, _Var2, _Var4, _Var5);
+
+PROC
+PROC_State_Remove((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Flags(_Var1, _Var2, _Var4, _Var5, _Var1)
+THEN
+NOT DB_State_Flags(_Var1, _Var2, _Var4, _Var5);
+
+IF
+TextEvent("state_progress", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetTextEventParamUUID(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamString(2, _Var2, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamString(3, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(_Var1, _Var2, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

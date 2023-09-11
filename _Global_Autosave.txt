@@ -1,0 +1,87 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DB_AutoSaveTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Subregion(_Var1, _, _, _, _Var1)
+THEN
+DB_OneShotPlayerTrigger(_Var1);
+
+IF
+DB_Subregion(_Var1, _, _, _, _Var1)
+AND
+DB_OneShotPlayerTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OneShotPlayerTrigger(_Var1);
+
+PROC
+PROC_OneShotTriggerEntered(_, (GUIDSTRING)_Var2, _, _, _)
+AND
+DB_AutoSaveTrigger(_Var2, _, _, _, _)
+AND
+DB_AutosaveGroup(_Var2, _Var3, _, _, _)
+AND
+DB_AutosaveGroup(_Var4, _Var3, _, _, _)
+AND
+_Var4 != _Var2
+THEN
+NOT DB_AutoSaveTrigger(_Var4);
+NOT DB_OneShotPlayerTrigger(_Var4);
+PROC_TriggerUnregisterForPlayers(_Var4);
+
+PROC
+PROC_OneShotTriggerEntered(_, (GUIDSTRING)_Var2, _, _, _)
+AND
+DB_AutoSaveTrigger(_Var2, _, _, _, _)
+THEN
+NOT DB_AutoSaveTrigger(_Var2);
+PROC_GLO_TryAutosave();
+
+PROC
+PROC_GLO_TryAutosave()
+AND
+DB_ActiveLevel(_, _, _, _, _)
+THEN
+AutoSave();
+
+PROC
+PROC_GLO_TryAutosave()
+AND NOT
+DB_ActiveLevel(_, _, _, _, _)
+THEN
+DB_GLO_PendingAutosave(1);
+
+IF
+DB_GLO_PendingAutosave(1, _, _, _, _)
+AND
+DB_ActiveLevel(_, _, _, _, _)
+THEN
+NOT DB_GLO_PendingAutosave(1);
+AutoSave();
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AutoSaveTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OneShotPlayerTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AutoSaveTrigger(_Var2);
+AutoSave();
+
+IF
+DB_AutosaveGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_AutoSaveTrigger(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

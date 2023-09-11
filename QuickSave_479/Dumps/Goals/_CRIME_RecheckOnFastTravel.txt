@@ -1,0 +1,73 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CrimeHasProperty(_Var6, RecheckOnFastTravel_e7567171-f97c-45ce-b1d5-35bc055f4b19, 1, _Var1, _Var1)
+THEN
+DB_CRIME_RecheckOnFastTravel_Criminals(_Var6, _Var1);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CrimeHasProperty(_Var6, CancelOnFastTravel_22851ef8-a2af-4f10-a3dd-d3e7e81d7ae6, 1, _Var1, _Var1)
+THEN
+DB_CRIME_CancelOnFastTravel_Criminals(_Var6, _Var1);
+
+IF
+OnCriminalMergedWithCrime((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+CrimeHasProperty(_Var1, RecheckOnFastTravel_e7567171-f97c-45ce-b1d5-35bc055f4b19, 1, _Var1, _Var1)
+THEN
+DB_CRIME_RecheckOnFastTravel_Criminals(_Var1, _Var2);
+
+IF
+OnCriminalMergedWithCrime((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+CrimeHasProperty(_Var1, CancelOnFastTravel_22851ef8-a2af-4f10-a3dd-d3e7e81d7ae6, 1, _Var1, _Var1)
+THEN
+DB_CRIME_CancelOnFastTravel_Criminals(_Var1, _Var2);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_RecheckOnFastTravel_Criminals(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_RecheckOnFastTravel_Criminals(_Var1, _Var2);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_CancelOnFastTravel_Criminals(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_CancelOnFastTravel_Criminals(_Var1, _Var2);
+
+PROC
+PROC_WaypointTeleported((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_RecheckOnFastTravel_Criminals(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_RecheckOnFastTravel(_Var3, _Var1);
+
+PROC
+PROC_CRIME_RecheckOnFastTravel((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_WaypointTeleported((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_CancelOnFastTravel_Criminals(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_CancelOnFastTravel_Criminals(_Var3, _Var1);
+CharacterStopCrimeWithID(_Var1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

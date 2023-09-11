@@ -1,0 +1,146 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Sound_ScriptedCombatMusic_Triggers("DEN_AttackOnDen", Amb_SV_RangerCamp_FZ_000_3fd38540-d846-770c-ba66-21c4924dacd6, 0);
+DB_Sound_ScriptedCombatMusic_Events("DEN_AttackOnDen", "In", "Fight_Theme_98_On");
+DB_Sound_ScriptedCombatMusic_Events("DEN_AttackOnDen", "In", "DEN_Goblins_Attack_Explo_reset");
+DB_Sound_ScriptedCombatMusic_Triggers("DEN_PleaAtTheGates", Amb_SV_RangerCamp_FZ_000_3fd38540-d846-770c-ba66-21c4924dacd6, 0);
+DB_Sound_ScriptedCombatMusic_Events("DEN_PleaAtTheGates", "In", "Fight_Theme_916_On");
+DB_Sound_ScriptedCombatMusic_Events("DEN_PleaAtTheGates", "Out", "Fight_Theme_98_On");
+DB_Sound_ScriptedCombatMusic_Triggers("DEN_Harpy", Amb_SV_Harpy_QD_61adb947-a706-45eb-b87e-72319ccf354f, 0);
+DB_Sound_ScriptedCombatMusic_States("DEN_Harpy", "In", "Music_ScriptedCombat", "DEN_Harpy");
+DB_Sound_ScriptedCombatMusic_States("DEN_Harpy", "out", "Music_ScriptedCombat", "None");
+PROC_TriggerRegisterForPlayers(S_CRA_TentacleSoundBox_7f3631ca-91a7-4ac3-9ec2-9675e562b3f4);
+PROC_TriggerRegisterForPlayers(S_CHA_LivingQuartersArea_85ea8631-d46d-47e9-8012-35e4792e3ef5);
+PROC_TriggerRegisterForPlayers(S_FOR_RabbitBirdsTriggerArea_a11e419e-d6e6-44e6-9468-58179e6ac1e6);
+PROC_SetInvulnerable(S_CHA_HoleEntranceWindSound_5c3653ee-8ed7-4a3d-99e1-bb40feca0abf, 1);
+TriggerSetSoundState(Amb_SV_WLD_Main_A_fa9108e1-d6d2-47ef-8609-dcdc74a09169, "Music_Toggle", "On", 1);
+TriggerSetSoundState(Amb_SV_Chapel_FZ_001_5da0aa93-b6a3-a21b-df9d-996b358eaca8, "Music_Toggle", "Off", 0);
+TriggerSetSoundState(S_SV_CHA_MusicCullTrigger_f4e43649-ad7c-41c9-90f2-4bc78b6c7265, "Music_Toggle", "Off", 0);
+TriggerSetSoundState(S_SV_Amb_CRA_MindflayerMusicArea_282c8eda-55f3-4156-95a4-eb1cc6a2a1d7, "Music_Toggle", "Off", 0);
+
+KBSECTION
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_CRA_TentacleSoundBox_7f3631ca-91a7-4ac3-9ec2-9675e562b3f4, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PlaySound(S_CRA_TentacleSound_3050bb75-f4ca-4ead-aac8-2f577ced2fdc, "SE_Amb_CRA_TentacleThrobbing");
+PROC_TriggerUnregisterForPlayers(S_CRA_TentacleSoundBox_7f3631ca-91a7-4ac3-9ec2-9675e562b3f4);
+
+IF
+PlatformDestroyed(S_PLT_CHA_OUTSIDE_FissureFloor_ee993520-86b7-4d75-a66d-818d9aeb4398, _, _, _, _)
+THEN
+TimerLaunch("CHA_PlatformWindSound", 3000);
+
+IF
+TimerFinished("CHA_PlatformWindSound", _, _, _, _)
+THEN
+PlaySound(S_CHA_HoleEntranceWindSound_5c3653ee-8ed7-4a3d-99e1-bb40feca0abf, "SE_CRA_Amb_ChapelHole_HowlingWind");
+
+PROC
+PROC_CHA_Chapel_UnlockExploreObjective((CHARACTER)_Var1, "BeachEntrance", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PlaySound(S_CHA_FL0_Entrance_Door_TEMP_73e52fe0-74d3-4b3a-b331-acf60066b1d2, "SE_Amb_Chapel_BatsTakeoff");
+
+PROC
+PROC_CHA_Chapel_UnlockExploreObjective((GUIDSTRING)_Var1, "WeirdDoorEntrance", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlaySound(S_CHA_FL0_Entrance_Door_TEMP_73e52fe0-74d3-4b3a-b331-acf60066b1d2, "SE_Amb_Chapel_BatsTakeoff");
+
+IF
+TextEvent("testwind", _, _, _, _)
+THEN
+PlaySound(S_CHA_HoleEntranceWindSound_5c3653ee-8ed7-4a3d-99e1-bb40feca0abf, "SE_CRA_Amb_ChapelHole_HowlingWind");
+
+IF
+TextEvent("testbats", _, _, _, _)
+THEN
+PlaySound(S_CHA_FL0_Entrance_Door_TEMP_73e52fe0-74d3-4b3a-b331-acf60066b1d2, "SE_Amb_Chapel_BatsTakeoff");
+
+IF
+TextEvent("testtentacle", _, _, _, _)
+THEN
+PlaySound(S_CRA_TentacleSound_3050bb75-f4ca-4ead-aac8-2f577ced2fdc, "SE_Amb_CRA_TentacleThrobbing");
+
+IF
+FlagSet(CRA_Escape_State_KilledMindflayer_85d96811-0978-3afa-d7c3-56035295c2dd, _, _, _, _)
+AND
+QRY_OnlyOnce("CRA_MindflayerMusicRestore", _, _, _, _)
+THEN
+TriggerSetSoundState(S_SV_Amb_CRA_MindflayerMusicArea_282c8eda-55f3-4156-95a4-eb1cc6a2a1d7, "Music_Toggle", "On", 0);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_CHA_Crypt_SUB_001_f8bc812e-1cb3-46bd-942a-9f572f66ef16, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CHA_LivingQuartersArea_85ea8631-d46d-47e9-8012-35e4792e3ef5, 0, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_Sound_EnableMusic", _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerSetSoundState(Amb_SV_Chapel_FZ_001_5da0aa93-b6a3-a21b-df9d-996b358eaca8, "Music_Toggle", "On", 0);
+PROC_TriggerUnregisterForPlayers(S_CHA_LivingQuartersArea_85ea8631-d46d-47e9-8012-35e4792e3ef5);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_CHA_LivingQuartersArea_85ea8631-d46d-47e9-8012-35e4792e3ef5, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_Sound_EnableMusic", _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerSetSoundState(Amb_SV_Chapel_FZ_001_5da0aa93-b6a3-a21b-df9d-996b358eaca8, "Music_Toggle", "On", 0);
+PROC_TriggerUnregisterForPlayers(S_CHA_LivingQuartersArea_85ea8631-d46d-47e9-8012-35e4792e3ef5);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_CHA_LivingQuartersArea_85ea8631-d46d-47e9-8012-35e4792e3ef5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CHA_Crypt_SUB_001_f8bc812e-1cb3-46bd-942a-9f572f66ef16, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_Sound_EnableMusic", _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerSetSoundState(Amb_SV_Chapel_FZ_001_5da0aa93-b6a3-a21b-df9d-996b358eaca8, "Music_Toggle", "On", 0);
+PROC_TriggerUnregisterForPlayers(S_CHA_LivingQuartersArea_85ea8631-d46d-47e9-8012-35e4792e3ef5);
+
+IF
+TextEvent("testmusicon", _, _, _, _)
+THEN
+TriggerSetSoundState(S_SV_Amb_CRA_MindflayerMusicArea_282c8eda-55f3-4156-95a4-eb1cc6a2a1d7, "Music_Toggle", "On", 0);
+
+IF
+TextEvent("testmusicoff", _, _, _, _)
+THEN
+TriggerSetSoundState(S_SV_Amb_CRA_MindflayerMusicArea_282c8eda-55f3-4156-95a4-eb1cc6a2a1d7, "Music_Toggle", "Off", 0);
+
+IF
+TextEvent("testmusiconmain", _, _, _, _)
+THEN
+TriggerSetSoundState(Amb_SV_WLD_Main_A_fa9108e1-d6d2-47ef-8609-dcdc74a09169, "Music_Toggle", "On", 1);
+
+IF
+TextEvent("testmusicoffmain", _, _, _, _)
+THEN
+TriggerSetSoundState(Amb_SV_WLD_Main_A_fa9108e1-d6d2-47ef-8609-dcdc74a09169, "Music_Toggle", "Off", 1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_FOR_RabbitBirdsTriggerArea_a11e419e-d6e6-44e6-9468-58179e6ac1e6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlaySound(S_FOR_BirdsTakeoff_Emitter_9c08ed2d-f1f1-4317-972e-13ec1fc8d6c3, "SE_Amb_CrashSite_BirdsTakeoff");
+PlaySound(S_FOR_RabbitRunaway_Emitter_aebdd6b3-2776-4979-ba94-1f226911f963, "SE_Amb_CrashSite_Rabbit_Runaway");
+PROC_TriggerUnregisterForPlayers(S_FOR_RabbitBirdsTriggerArea_a11e419e-d6e6-44e6-9468-58179e6ac1e6);
+
+IF
+UseFinished((GUIDSTRING)_Var1, S_CHA_FL0_ButtonToSecretDoor_51cdb6e6-e998-46ad-af8c-e6a531654137, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TriggerSetSoundState(S_SV_CHA_MusicCullTrigger_f4e43649-ad7c-41c9-90f2-4bc78b6c7265, "Music_Toggle", "On", 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

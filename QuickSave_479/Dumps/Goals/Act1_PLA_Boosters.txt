@@ -1,0 +1,243 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_PLA_BanditCave_BoulderTrap_BoulderPlatform(S_PLT_PLA_Platform_05_Scaffolding_01_d50a815a-327e-86ea-5d2b-7a413e8b319a, S_PLA_BanditCave_Trap_RollingBoulder_d29cf95e-f41e-4c1b-9ecc-23db6368311f);
+DB_PLA_BanditCave_BoulderTrap_Path(1, S_PLA_BanditCave_Trap_RollingBoulder_d29cf95e-f41e-4c1b-9ecc-23db6368311f, S_PLA_BanditCave_Trap_MoveTo_01_d3c97a73-fa48-4ab2-836f-b1950626c199);
+DB_PLA_BanditCave_BoulderTrap_Path(2, S_PLA_BanditCave_Trap_RollingBoulder_d29cf95e-f41e-4c1b-9ecc-23db6368311f, S_PLA_BanditCave_Trap_MoveTo_02_2e2166ce-4576-4769-b7a0-d55a950c0a83);
+DB_PLA_BanditCave_BoulderTrap_Path(3, S_PLA_BanditCave_Trap_RollingBoulder_d29cf95e-f41e-4c1b-9ecc-23db6368311f, S_PLA_BanditCave_Trap_MoveTo_03_759ab539-0fd0-479c-a84a-f77ec3d456f8);
+DB_PLA_BanditCave_BoulderTrap_Path(4, S_PLA_BanditCave_Trap_RollingBoulder_d29cf95e-f41e-4c1b-9ecc-23db6368311f, S_PLA_BanditCave_Trap_MoveTo_04_5d1534ba-0818-4501-8f08-df2d503aee9b);
+DB_ItemDialog_NarratorAD(S_PLA_DetourSign_576adc97-9eea-4c88-96cc-506d26d30aac, PLA_WarningSign_AD_Detour_8d140e1b-7183-e112-aa6b-06d494562e0b);
+DB_ItemDialog_NarratorAD(S_PLA_WarningSign_001_a86d84b5-c0f6-40e7-9df1-cadc6e4b87d1, PLA_WarningSign_AD_001_1967cb98-c5a0-6f24-8923-62f06cae84bf);
+DB_ItemDialog_NarratorAD(S_PLA_WarningSign_002_32072b83-3806-4572-80aa-40162545432a, PLA_WarningSign_AD_002_3ac3a80f-cddc-e369-1f11-ad52bcfbc641);
+DB_PLA_WarningSign(S_PLA_DetourSign_576adc97-9eea-4c88-96cc-506d26d30aac);
+DB_PLA_WarningSign(S_PLA_WarningSign_001_a86d84b5-c0f6-40e7-9df1-cadc6e4b87d1);
+DB_PLA_WarningSign(S_PLA_WarningSign_002_32072b83-3806-4572-80aa-40162545432a);
+DB_PLA_HarperSkeleton(S_PLA_HarperSkeleton_001_c0c5e34d-24b5-476e-b5a0-09d55674176b);
+DB_PLA_HarperSkeleton(S_PLA_HarperSkeleton_002_5c83e967-0ad6-4702-9793-8af3bbed01a5);
+DB_OneShot_VoiceBarkTrigger(S_PLA_DragonScratchSphere_ae0f0520-1474-4dcb-8c7b-8032d9e2cd4d, PLA_DragonScratch_VB_c6e46938-7e0f-3733-4783-e727523dc77d);
+SetOnStage(S_PLA_LOOT_GEM_Bloodstone_A_000_4a2c4559-fecd-4309-b7db-d23abff95cc2, 0);
+PROC_SetOnStage(S_GOB_Tripwire_A_000_54443088-de46-4382-9695-699ab07f4538, 0);
+PROC_SetOnStage(S_PLA_BanditCave_Tripwire_A_000_c054443a-8d91-4c02-8fd2-1350cd634841, 0);
+
+KBSECTION
+IF
+EntityEvent(_, "PLA_BanditCave_TrapActivate", _, _, _)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_TrapActivated(S_PLA_BanditCave_Trap_RollingBoulder_d29cf95e-f41e-4c1b-9ecc-23db6368311f, _, _, _, _)
+THEN
+PROC_PLA_BanditCave_ActivateTrap(S_PLA_BanditCave_Trap_RollingBoulder_d29cf95e-f41e-4c1b-9ecc-23db6368311f);
+
+IF
+DestroyedBy((ITEM)_Var1, (CHARACTER)_Var2, _, _, (ITEM)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_BoulderPlatform(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_TrapActivated(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_TrapActivator(_Var5, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_BanditCave_BoulderTrap_TrapActivator(_Var5, _Var2);
+
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_BoulderPlatform(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_TrapActivated(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PLA_BanditCave_ActivateTrap(_Var5);
+
+PROC
+PROC_PLA_BanditCave_ActivateTrap(_, (ITEM)_, (ITEM)_, (ITEM)_, (ITEM)_)
+THEN
+SetEntityEvent(S_PLA_BanditCave_Trap_TripwireInvisibleHelperIn_69b2f1cf-0ebe-4845-bb09-82dd421d8214, "PLA_BanditCave_TrapActivated");
+
+PROC
+PROC_PLA_BanditCave_ActivateTrap((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_TrapActivated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_BanditCave_BoulderTrap_TrapActivated(_Var1);
+PROC_PLA_BanditCave_BoulderTrap_StartMoving(_Var1);
+
+PROC
+PROC_PLA_BanditCave_ActivateTrap((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_BoulderPlatform(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_TrapActivator(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_DestroyedItems(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Destroyed(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_BanditCave_BoulderTrap_DestroyedItems(_Var2);
+Die(_Var2, 0, _Var3, 0, 1);
+
+PROC
+PROC_PLA_BanditCave_ActivateTrap((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_BoulderPlatform(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_TrapActivator(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_DestroyedItems(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Destroyed(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_BanditCave_BoulderTrap_DestroyedItems(_Var2);
+Die(_Var2);
+
+PROC
+PROC_PLA_BanditCave_BoulderTrap_StartMoving((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_TrapActivator(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_BoulderStopped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "CMB_SetAttackOwner");
+
+PROC
+PROC_PLA_BanditCave_BoulderTrap_StartMoving((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_BoulderStopped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetGravity(_Var1, 0);
+PlaySound(_Var1, "SE_GOB_Goblin_Checkpoint_Boulder");
+SetEntityEvent(_Var1, "CMB_BoulderActivate");
+ObjectTimerLaunch(_Var1, "CMB_ObjectOnMeChecker", 500);
+PROC_PlayLoopingAnimation(_Var1, OBJ_Stat_02_Start_d1889a5b-7ac0-4af9-9242-06397a134daa, OBJ_Stat_02_Loop_915be05b-7348-457a-a026-31e97fbfe8d8, OBJ_Stat_02_End_908080cd-446b-4728-93e0-9866f214dbd8);
+DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, 1);
+PROC_PLA_BanditCave_BoulderTrap_MoveToNext(_Var1);
+
+PROC
+PROC_PLA_BanditCave_BoulderTrap_MoveToNext((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_Path(_Var2, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_BoulderStopped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PLA_BanditCave_BoulderTrap_StopBoulder(_Var1);
+
+PROC
+PROC_PLA_BanditCave_BoulderTrap_MoveToNext((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_Path(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_BoulderStopped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ItemMoveTo(_Var1, _Var3, 3.5, 5, 0, "PLA_BanditCave_BoulderTrap_MoveToNext", 1);
+PROC_CameraShakeAroundObject(_Var1, 100, 30);
+PROC_PLA_BanditCave_BoulderTrap_IncrMoveToIndex(_Var1);
+
+PROC
+PROC_PLA_BanditCave_BoulderTrap_IncrMoveToIndex((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, _Var2);
+DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, _Var3);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "PLA_BanditCave_BoulderTrap_MoveToNext", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_BoulderStopped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PLA_BanditCave_BoulderTrap_MoveToNext(_Var1);
+
+PROC
+PROC_PLA_BanditCave_BoulderTrap_StopBoulder((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_BoulderStopped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_BanditCave_BoulderTrap_BoulderStopped(_Var1);
+SetEntityEvent(_Var1, "CMB_BoulderDeactivate");
+ObjectTimerCancel(_Var1, "CMB_ObjectOnMeChecker");
+PROC_CameraShakeAroundObject(_Var1, 100, 30);
+PROC_PLA_BanditCave_BoulderTrap_BreakBarricade(_Var1);
+StopAnimation(_Var1, 1);
+
+PROC
+PROC_PLA_BanditCave_BoulderTrap_StopBoulder((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PLA_BanditCave_BoulderTrap_NextMoveTo(_Var1, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CMB_ObjectOnMeChecker", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PLA_BanditCave_BoulderTrap_BoulderStopped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "CMB_ObjectOnMeChecker", 200);
+
+PROC
+PROC_PLA_BanditCave_BoulderTrap_BreakBarricade((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_Destroyed(S_PLA_BanditCave_PlatformBarricade_01_f82470f0-72b2-487e-9b0b-10a4a3388d99, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(S_PLA_BanditCave_PlatformBarricade_01_f82470f0-72b2-487e-9b0b-10a4a3388d99, 0, _Var1, _Var1, _Var1)
+AND
+GetHitpoints(S_PLA_BanditCave_PlatformBarricade_01_f82470f0-72b2-487e-9b0b-10a4a3388d99, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 > 0
+THEN
+ApplyDamage(S_PLA_BanditCave_PlatformBarricade_01_f82470f0-72b2-487e-9b0b-10a4a3388d99, _Var2, "Bludgeoning", _Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PLA_WarningSign(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(PLA_GithChokepoint_Event_DragonEventStarts_046af9e7-4d1a-4a9b-80a9-826c171a25b0, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_WarningSign_AfterDragon", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(PLA_WarningSign_PAD_AfterDragon_21e97e70-b9cc-8d04-3633-5f6c9d2c59c2, _Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PLA_HarperSkeleton(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_HarperSkeleton_VB", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(PLA_HarperSkeleton_VB_3a0c116c-5b90-8830-f262-6eacd891bcc9, _Var1);
+
+IF
+Moved(S_PLA_Rock_Boulder_C_Chair_A_001_ab2e53e6-93eb-4dfe-97d2-6279aaef5bb4, _, _, _, _)
+AND
+QRY_OnlyOnce("PLA_BoulderGem", _, _, _, _)
+THEN
+TimerLaunch("PLA_BoulderGem_Revealed", 1500);
+SetOnStage(S_PLA_LOOT_GEM_Bloodstone_A_000_4a2c4559-fecd-4309-b7db-d23abff95cc2, 1);
+
+IF
+TimerFinished("PLA_BoulderGem_Revealed", _, _, _, _)
+THEN
+PROC_PlayPerceptionRevealEffect(S_PLA_LOOT_GEM_Bloodstone_A_000_4a2c4559-fecd-4309-b7db-d23abff95cc2, "PLA_BoulderGem_PerceptionVFX");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

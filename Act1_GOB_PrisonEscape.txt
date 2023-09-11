@@ -1,0 +1,187 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_GOB_PrisonEscapeTunnelBlockedBody_092aa469-b6dd-4d7f-8736-8bc89d3f4780, 1);
+SetOnStage(S_GOB_PrisonEscapeTunnelBlockedNoBody_1a020f31-7612-4a79-87a9-846d838bf30e, 0);
+SetOnStage(S_GOB_PrisonEscapeTunnelTeleport_002_57ce572f-cdbc-487c-b6da-cb2dd856ecb9, 0);
+SetOnStage(S_GOB_PrisonEscapeTunnelTeleport_001_90ec6e77-0f9c-4ac1-b573-81272e50e01a, 0);
+PROC_TriggerRegisterForPlayers(S_GOB_PrisonDoorAreaBox_2c8bc261-53a1-4569-94fc-cafd9529b55e);
+PROC_TriggerRegisterForPlayers(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046);
+TriggerRegisterForCharacter(S_GOB_WolfPens_SUB_a9a4a7c2-87c6-4031-9859-7eddb0528ff6, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_RegionPrison("WLD_Main_A_GOB", S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_PrisonSpawnPoint_2e86d32a-30d6-42ee-814d-6356cd3e4776);
+DB_PlayerPrison(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, "WLD_GOB_PrisonEscape", "WLD_GOB_PrisonEscape_AD", "GB_FUGITIVE_GOB");
+DB_FugitiveArea(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_WolfPens_SUB_a9a4a7c2-87c6-4031-9859-7eddb0528ff6);
+DB_PrisonReactionTrigger(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_CrimeRegion_WolfPens_0bfb9344-38b6-4d8a-b33a-8e71e5e0eab0);
+DB_PrisonReactionTrigger(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_CrimeRegion_ThroneRoom_4e413a96-ed11-4877-8b5d-68536f77a116);
+DB_PrisonReactionTrigger(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_CrimeRegion_Festivities_1a01368e-d98e-43d2-8dec-4e997f367490);
+DB_PrisonReactionTrigger(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_Checkpoint_CrimeRegionTrigger_556b9e9f-99c9-45a1-9d85-5833775af521);
+DB_PlayerPrison_Door(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_PrisonDoor_9934571f-8f27-41ab-9614-96a4d28fc042, "GOB_PrisonEscape_PrisonKey");
+DB_PrisonChest(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_PlayerEquipmentChest_91b6994f-5f5f-4ed4-8ac8-f13b74fee987);
+DB_PrisonEvidenceChest(S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, S_GOB_EvidenceChest_ec418d0c-5c4e-4340-8d9f-969514e02d19);
+DB_GLO_CharacterCorpseDialog(S_GOB_FailedPrisonEscapee_243d2dfc-571b-43f1-a5de-94a5efe28ed9, GOB_PrisonEscape_Escapee_Dead_c58937c5-1806-6885-f2ac-e6035a95b9a2);
+SetTag(S_GOB_FailedPrisonEscapee_243d2dfc-571b-43f1-a5de-94a5efe28ed9, BLOCK_SPEAK_WITH_DEAD_70f9d685-b791-4ea2-88e4-fc8fc48b4234);
+
+KBSECTION
+IF
+FlagSet(GOB_PrisonEscape_State_BodyIsFree_8e9d4620-0bff-44db-91d1-39e7153ef49e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+TeleportTo(S_GOB_FailedPrisonEscapee_243d2dfc-571b-43f1-a5de-94a5efe28ed9, S_GOB_PrisonBodyFreePoint_85ee0bd2-5fd8-4931-8a60-f7099eee7fbc, "");
+ClearTag(S_GOB_FailedPrisonEscapee_243d2dfc-571b-43f1-a5de-94a5efe28ed9, BLOCK_SPEAK_WITH_DEAD_70f9d685-b791-4ea2-88e4-fc8fc48b4234);
+SetOnStage(S_GOB_PrisonEscapeTunnelBlockedBody_092aa469-b6dd-4d7f-8736-8bc89d3f4780, 0);
+SetOnStage(S_GOB_PrisonEscapeTunnelBlockedNoBody_1a020f31-7612-4a79-87a9-846d838bf30e, 1);
+
+PROC
+PROC_BlockLootCorpse((CHARACTER)_Var1, S_GOB_FailedPrisonEscapee_243d2dfc-571b-43f1-a5de-94a5efe28ed9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(GOB_PrisonEscape_State_BodyIsFree_8e9d4620-0bff-44db-91d1-39e7153ef49e, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomLootCorpseResponse(_Var1, S_GOB_FailedPrisonEscapee_243d2dfc-571b-43f1-a5de-94a5efe28ed9, 0);
+PROC_GOB_PrisonEscape_TryStartEscapeHoleDialog(_Var1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_GOB_PrisonEscapeTunnelBlockedBody_092aa469-b6dd-4d7f-8736-8bc89d3f4780, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_GOB_PrisonEscapeTunnelBlockedBody_092aa469-b6dd-4d7f-8736-8bc89d3f4780, 0);
+PROC_GOB_PrisonEscape_TryStartEscapeHoleDialog(_Var1);
+
+PROC
+PROC_GOB_PrisonEscape_TryStartEscapeHoleDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog(GOB_PrisonEscape_Tunnel_f36401ff-919f-262a-07bf-29e36b216a67, S_GOB_PrisonTunnelHelper_e50b7ef3-bff4-427a-87a0-f46987d4c1db, _Var1, S_GOB_FailedPrisonEscapee_243d2dfc-571b-43f1-a5de-94a5efe28ed9, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_GOB_PrisonEscapeTunnelBlockedNoBody_1a020f31-7612-4a79-87a9-846d838bf30e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_GOB_PrisonEscape_CanBreakThroughBlockage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_GOB_PrisonEscapeTunnelBlockedNoBody_1a020f31-7612-4a79-87a9-846d838bf30e, 0);
+StartVoiceBark(GOB_PrisonEscape_VB_TunnelBlocked_ea14b3e9-6207-1109-1c1c-36300a2c949b, _Var1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_GOB_PrisonEscapeTunnelBlockedNoBody_1a020f31-7612-4a79-87a9-846d838bf30e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GOB_PrisonEscape_CanBreakThroughBlockage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_GOB_PrisonEscapeTunnelBlockedNoBody_1a020f31-7612-4a79-87a9-846d838bf30e, 0);
+SetFlag(GOB_PrisonEscape_State_TunnelIsOpen_7bc5a5bb-8820-42c1-9a5d-aa3e57876be3);
+TeleportTo(_Var1, S_GOB_PrisonTunnelPoint_001_b8cff71e-9c9b-4d16-8559-1222f6e296ed, "");
+
+QRY
+QRY_GOB_PrisonEscape_CanBreakThroughBlockage((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+HasActiveStatus(_Var1, "WILDSHAPE_BADGER_PLAYER", 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GOB_PrisonEscape_CanBreakThroughBlockage((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_CheckCanSqueeze(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DestroyedBy(S_GOB_PrisonEscapeTunnelBlockedNoBody_1a020f31-7612-4a79-87a9-846d838bf30e, _, _, _, (CHARACTER)_)
+THEN
+SetFlag(GOB_PrisonEscape_State_TunnelIsOpen_7bc5a5bb-8820-42c1-9a5d-aa3e57876be3);
+
+IF
+FlagSet(GOB_PrisonEscape_State_TunnelIsOpen_7bc5a5bb-8820-42c1-9a5d-aa3e57876be3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetOnStage(S_GOB_PrisonEscapeTunnelBlockedNoBody_1a020f31-7612-4a79-87a9-846d838bf30e, 0);
+PROC_Foop(S_GOB_PrisonEscapeTunnelTeleport_002_57ce572f-cdbc-487c-b6da-cb2dd856ecb9, VFX_Script_TunnelOpening_01_7b1ae6fe-b740-d23d-a042-79c1640b6313);
+PROC_Foop(S_GOB_PrisonEscapeTunnelTeleport_001_90ec6e77-0f9c-4ac1-b573-81272e50e01a, VFX_Script_TunnelOpening_01_7b1ae6fe-b740-d23d-a042-79c1640b6313);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_GOB_PrisonDoorAreaBox_2c8bc261-53a1-4569-94fc-cafd9529b55e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_IsArrested(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GOB_PrisonEscape_State_PlayerIsAtPrisonDoor_089e5b7e-d8aa-418c-9b49-e79830973d98);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_GOB_PrisonDoorAreaBox_2c8bc261-53a1-4569-94fc-cafd9529b55e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_GOB_PrisonEscape_AnyArrestedPlayerInDoorTrigger()
+THEN
+ClearFlag(GOB_PrisonEscape_State_PlayerIsAtPrisonDoor_089e5b7e-d8aa-418c-9b49-e79830973d98);
+
+QRY
+QRY_GOB_PrisonEscape_AnyArrestedPlayerInDoorTrigger()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_IsArrested(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_GOB_PrisonDoorAreaBox_2c8bc261-53a1-4569-94fc-cafd9529b55e, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DestroyedBy(S_GOB_PrisonHangCocoon_001_db142dbb-5060-44e0-8659-bb347e52bcab, _, (CHARACTER)_Var2, _, (CHARACTER)_)
+THEN
+PlayEffect(S_GOB_PrisonHangCocoon_001_db142dbb-5060-44e0-8659-bb347e52bcab, VFX_Combat_GroundImpact_Projectile_01_Acid_2484214e-d09d-a36d-dfb9-fc5553fb1fe1);
+CreateSurface(S_GOB_PrisonHangCocoon_001_db142dbb-5060-44e0-8659-bb347e52bcab, "SurfaceAcid", 1, -1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsLocked(S_GOB_PrisonDoor_9934571f-8f27-41ab-9614-96a4d28fc042, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GOB_PrisonEscape_State_PlayerIsLocked_6e0a4853-32d7-4a36-96fd-8b15ec10d16a);
+
+PROC
+PROC_ItemCloseAndLock(S_GOB_PrisonDoor_9934571f-8f27-41ab-9614-96a4d28fc042, _, _, _, _)
+AND
+DB_InRegion(_Var2, S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(GOB_PrisonEscape_State_PlayerIsLocked_6e0a4853-32d7-4a36-96fd-8b15ec10d16a);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_CheckOtherPlayersInTrigger(NULL_00000000-0000-0000-0000-000000000000, S_GOB_PrisonPlayerCell_0d2ab4af-1776-4363-9200-f3a45e883046, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GOB_PrisonEscape_State_PlayerIsLocked_6e0a4853-32d7-4a36-96fd-8b15ec10d16a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(GOB_PrisonEscape_State_PlayerIsLocked_6e0a4853-32d7-4a36-96fd-8b15ec10d16a);
+
+IF
+EntityEvent(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "GOB_PrisonEscape_BearOpenPrison", _, _, _)
+THEN
+PROC_ItemUnlockAndOpen(S_GOB_PrisonDoor_9934571f-8f27-41ab-9614-96a4d28fc042);
+PROC_GlobalClearFlagAndCache(GOB_PrisonEscape_State_PlayerIsLocked_6e0a4853-32d7-4a36-96fd-8b15ec10d16a);
+
+IF
+Unlocked(S_GOB_PrisonDoor_9934571f-8f27-41ab-9614-96a4d28fc042, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_PrisonEscape_State_PlayerIsLocked_6e0a4853-32d7-4a36-96fd-8b15ec10d16a, _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(GOB_PrisonEscape_State_PlayerIsLocked_6e0a4853-32d7-4a36-96fd-8b15ec10d16a);
+
+IF
+FlagSet(GOB_WolfPens_State_Swept_fc032064-28cf-17cb-51bb-14ae6d8a85b6, _, _, _, _)
+AND
+DB_RegionPrison("WLD_Main_A_GOB", _Var3, _Var4, _, _)
+THEN
+NOT DB_RegionPrison("WLD_Main_A_GOB", _Var3, _Var4);
+
+IF
+TextEvent("gotogobprison", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RegionPrison("WLD_Main_A_GOB", _Var2, _Var3, _Var1, _Var1)
+AND
+DB_PlayerPrison(_Var4, _, _, _Var7, _Var1)
+THEN
+PROC_CrimeTeleportCharacterToPrison(S_GOB_PrisonGuard_000_96f411f3-5849-4608-b6fa-b7fb6ffaa7d6, _Var1, _Var2, _Var3, _Var7);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

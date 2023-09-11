@@ -1,0 +1,228 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_AnubisConfigsOverrideStack(NULL_00000000-0000-0000-0000-000000000000, "", 0);
+
+KBSECTION
+PROC
+PROC_SetAnubisConfig((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AnubisConfigs(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_AddAnubisConfigDB(_Var1);
+
+PROC
+PROC_AddAnubisConfigDB((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetAnubisConfig(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_AnubisConfigs(_Var1, _Var2);
+
+PROC
+PROC_SetAnubisConfig((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AnubisConfigs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SetAnubisConfig_Internal(_Var1, _Var2);
+
+PROC
+PROC_SetAnubisConfig_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AnubisConfigsOverrideStack(_Var1, _, _, _Var1, _Var1)
+THEN
+DEV_EnableAnubis(_Var1, _Var2);
+
+PROC
+PROC_SetAnubisConfig_Internal((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AnubisConfigs(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AnubisConfigs(_Var1, _Var3);
+
+PROC
+PROC_SetAnubisConfig_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_AnubisConfigs(_Var1, _Var2);
+
+QRY
+QRY_OverrideAnubisConfig((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_OverrideAnubisConfig_Internal(_Var1, _Var2);
+
+PROC
+PROC_OverrideAnubisConfig_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_AnubisConfigOverrideIndex(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_AnubisConfigOverrideIndex(_Var3);
+
+PROC
+PROC_OverrideAnubisConfig_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AnubisConfigs(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_AddAnubisConfigDB(_Var1);
+
+PROC
+PROC_OverrideAnubisConfig_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_QRYRTN_AnubisConfigOverrideIndex(0);
+
+PROC
+PROC_OverrideAnubisConfig_Internal((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_AnubisConfigsOverrideStack(_Var1, _, _Var4, _Var1, _Var1)
+AND
+DB_QRYRTN_AnubisConfigOverrideIndex(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 > _Var5
+THEN
+NOT DB_QRYRTN_AnubisConfigOverrideIndex(_Var5);
+DB_QRYRTN_AnubisConfigOverrideIndex(_Var4);
+
+PROC
+PROC_OverrideAnubisConfig_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_AnubisConfigOverrideIndex(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_AnubisConfigOverrideIndex(_Var3);
+DB_QRYRTN_AnubisConfigOverrideIndex(_Var4);
+DB_AnubisConfigsOverrideStack(_Var1, _Var2, _Var4);
+
+PROC
+PROC_OverrideAnubisConfig_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AnubisConfigs(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetAnubisConfig(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+SaveAnubisState(_Var1);
+DB_AnubisConfigs_CharacterSavedStates(_Var1, _Var3);
+PROC_AnubisConfigs_DelayAssignment(_Var1, _Var2);
+
+PROC
+PROC_AnubisConfigs_DelayAssignment((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_AnubisConfigs_DelayAssignment(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AnubisConfigs_DelayAssignment(_Var1, _Var3);
+
+PROC
+PROC_AnubisConfigs_DelayAssignment((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_AnubisConfigs_DelayAssignment(_Var1, _Var2);
+RealtimeObjectTimerCancel(_Var1, "GLO_AnubisConfig_DelayAssignemnt");
+RealtimeObjectTimerLaunch(_Var1, "GLO_AnubisConfig_DelayAssignemnt", 100);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_AnubisConfig_DelayAssignemnt", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AnubisConfigs_DelayAssignment(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AnubisConfigs_DelayAssignment(_Var1, _Var2);
+DEV_EnableAnubis(_Var1, _Var2);
+
+PROC
+PROC_OverrideAnubisConfig_Internal((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_AnubisConfigs_DelayAssignment(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+GetAnubisConfig(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DEV_EnableAnubis(_Var1, _Var2);
+
+PROC
+PROC_RemoveAnubisConfigOverride((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AnubisConfigsOverrideStack(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_AnubisConfigsOverrideStack(_Var1, _Var3, _Var2);
+
+PROC
+PROC_RemoveAnubisConfigOverride(_, _, _, _, _)
+AND
+DB_AnubisConfigOverride_NewConfig(_Var3, _Var4, _Var5, _, _)
+THEN
+NOT DB_AnubisConfigOverride_NewConfig(_Var3, _Var4, _Var5);
+
+PROC
+PROC_RemoveAnubisConfigOverride((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_AnubisConfigOverride_NewConfig(_Var1, "", -1);
+NOT DB_AnubisConfigOverride_UpdatedConfig(1);
+
+PROC
+PROC_RemoveAnubisConfigOverride((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_AnubisConfigsOverrideStack(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_AnubisConfigOverride_NewConfig(_Var1, _Var5, _Var6, _Var1, _Var1)
+THEN
+NOT DB_AnubisConfigOverride_NewConfig(_Var1, _Var5, _Var6);
+DB_AnubisConfigOverride_NewConfig(_Var1, _Var3, _Var4);
+
+PROC
+PROC_RemoveAnubisConfigOverride((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_AnubisConfigOverride_NewConfig(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 != -1
+AND NOT
+GetAnubisConfig(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DEV_EnableAnubis(_Var1, _Var3);
+DB_AnubisConfigOverride_UpdatedConfig(1);
+
+PROC
+PROC_RemoveAnubisConfigOverride((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_AnubisConfigOverride_UpdatedConfig(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AnubisConfigOverride_NewConfig(_Var1, _Var3, _, _Var1, _Var1)
+AND
+GetAnubisConfig(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_AnubisConfigOverride_UpdatedConfig(1);
+
+PROC
+PROC_RemoveAnubisConfigOverride((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AnubisConfigOverride_UpdatedConfig(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AnubisConfigs(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+GetAnubisConfig(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_AnubisRestoreBaseConfig(_Var1);
+
+PROC
+PROC_AnubisRestoreBaseConfig((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_AnubisConfigs(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_AnubisConfigs_CharacterSavedStates(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+DEV_EnableAnubis(_Var1, _Var2);
+NOT DB_AnubisConfigs_CharacterSavedStates(_Var1, _Var3);
+
+PROC
+PROC_AnubisRestoreBaseConfig((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AnubisConfigs(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_AnubisConfigs_CharacterSavedStates(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+RestoreAnubisState(_Var1);
+NOT DB_AnubisConfigs_CharacterSavedStates(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

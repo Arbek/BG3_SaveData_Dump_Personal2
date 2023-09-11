@@ -1,0 +1,3885 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_Camp_PersonalCornerGear("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_NightOnly_Decoration("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_NightOnly_LevelTemplate("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_DayOnly_LevelTemplate("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CampBed("", 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_MainCamp("", "");
+NOT DB_MiniCampTrigger("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_Ambiance("", NULL_00000000-0000-0000-0000-000000000000, "", "", NULL_00000000-0000-0000-0000-000000000000, "", "", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_RegionSafeSpot("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_LeaveCamp_ForbiddenReturnArea("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_PersonalCornerLevelTemplate("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_PersonalCornerLevelTemplate("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_Combatants(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_RequiredTalks(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_RequiredTalks(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_ORI_OriginCampData(NULL_00000000-0000-0000-0000-000000000000, "", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_BedAlternative(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_Camp(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_OriginCampFlags(_Var5, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var3, _Var5);
+
+IF
+DB_Camp(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_Origins(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var3, _Var5);
+
+IF
+DB_Camp(_, _, _Var3, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(_Var3);
+DB_CorpseCleanup_Area(_Var3);
+
+PROC
+PROC_GLO_PartyMembers_MakeNPCHook((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+DB_OriginCampFlags(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var4, _Var1);
+
+IF
+DB_MiniCampTrigger(_, _Var2, _, _, _)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TriggerRegisterForParty(_Var2);
+
+IF
+LevelUnloading((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_InCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CampLevelSwap_WasInCamp(_Var2);
+
+IF
+LevelUnloading((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LeaveCamp_ReturnPos(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+NOT DB_LeaveCamp_ReturnPos(_Var2, _Var3, _Var4, _Var5);
+
+IF
+LevelUnloading((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var2, _, _Var4, _, _Var1)
+THEN
+DeclutterArea(_Var4, 0, 1);
+
+IF
+LevelUnloading((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_MainCamp(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var2
+AND
+DB_Camp(_Var2, _, _Var5, _, _Var1)
+THEN
+DeclutterArea(_Var5, 0, 1);
+
+IF
+LevelUnloading((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ActiveCamp(_Var2);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampLevelSwap_WasInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InCamp(_Var2);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampLevelSwap_WasInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CampLevelSwap_WasInCamp(_Var2);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_ActiveCamp(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MainCamp(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_ActiveCamp(_Var3);
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(CAMP_GLO_State_InCamp_161b7223-039d-4ebe-986f-1dcd9a66733f, _Var1);
+SetTag(_Var1, IN_CAMP_7fe47378-d9dc-48b4-b7be-53efbfbdca20);
+DB_InCamp(_Var1);
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsDead(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_GetCamperPos(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Camp_GetCamperPos(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+MakePlayerActive(_Var1);
+PROC_Camp_TeleportToCamp(_Var2, _Var4);
+
+PROC
+PROC_Camp_ForceAvatarControl()
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+MakePlayerActive(_Var2);
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Camp_BlockCamperPosAdjustment(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_GetCamperPos(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_TeleportToCamp(_Var1, _Var2);
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_BlockCamperPosAdjustment(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_BlockCamperPosAdjustment(_Var1);
+
+IF
+CharacterMadePlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsSummon(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_BlockCamperPosAdjustment(_Var1);
+RealtimeObjectTimerLaunch(_Var1, "GLO_Camp_BlockSummonPosAdjust", 2000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_Camp_BlockSummonPosAdjust", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_BlockCamperPosAdjustment(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_BlockCamperPosAdjustment(_Var1);
+
+PROC
+PROC_Camp_TeleportToCamp((GUIDSTRING)_Var1, (TRIGGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CantMove(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Helper_SafeTeleportTo(_Var1, _Var2, "", 0);
+
+IF
+TeleportedFromCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(CAMP_GLO_State_InCamp_161b7223-039d-4ebe-986f-1dcd9a66733f, _Var1);
+ClearTag(_Var1, IN_CAMP_7fe47378-d9dc-48b4-b7be-53efbfbdca20);
+NOT DB_InCamp(_Var1);
+PROC_CAMP_LeftCamp(_Var1);
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CAMP_JustWokeUp(1);
+
+IF
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PlayerInCamp(_Var1);
+PROC_Camp_PlayerInCampChanged();
+
+IF
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PlayerInCamp(_Var1);
+PROC_Camp_PlayerInCampChanged();
+
+IF
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PlayerInCamp(_Var1);
+PROC_Camp_PlayerInCampChanged();
+
+PROC
+PROC_CAMP_LeftCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerInCamp(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CAMP_LastPlayerLeftCamp();
+
+IF
+TextEvent("campon", _, _, _, _)
+THEN
+DB_Camp_Unlocked(1);
+
+IF
+TextEvent("campoff", _, _, _, _)
+THEN
+NOT DB_Camp_Unlocked(1);
+
+IF
+DB_Camp(_, _, _, _, _)
+THEN
+DB_Camp_Unlocked(1);
+
+IF
+DB_Camp_Unlocked(1, _, _, _, _)
+THEN
+DB_Camp_Unlocked_Triggered(1);
+EnableSendToCamp(1);
+EnableCampWaypoint(1);
+SetEndTheDayState(1);
+
+IF
+DB_Camp_Unlocked_Triggered(1, _, _, _, _)
+AND NOT
+DB_Camp_Unlocked(1, _, _, _, _)
+THEN
+NOT DB_Camp_Unlocked_Triggered(1);
+EnableSendToCamp(0);
+EnableCampWaypoint(0);
+SetEndTheDayState(0);
+
+IF
+Teleported((GUIDSTRING)_Var1, _, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (REAL)_Var7, (REAL)_Var8, (STRING)_Var9, (GUIDSTRING)_Var1)
+AND
+_Var9 != "RegionSwap"
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var10, _Var11, _Var12, _, _Var1)
+AND NOT
+QRY_Real3Compare(_Var3, _Var4, _Var5, 0, 0, 0, _Var1, _Var1, _Var1, _Var1)
+AND
+PositionIsInTrigger(_Var6, _Var7, _Var8, _Var12, 1)
+AND
+PositionIsInTrigger(_Var3, _Var4, _Var5, _Var12, 0)
+THEN
+DB_LeaveCamp_ReturnPos(_Var1, _Var3, _Var4, _Var5);
+
+IF
+DB_LeaveCamp_ReturnPos(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LeaveCamp_ReturnPos(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_LeaveCamp_ReturnPos(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_LeaveCamp_ReturnPos(_Var1, _Var5, _Var6, _Var7, _Var1)
+AND NOT
+QRY_Real3Compare(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LeaveCamp_ReturnPos(_Var1, _Var5, _Var6, _Var7);
+
+IF
+TeleportToFromCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TeleportToFromCamp(_Var1);
+
+IF
+TeleportToFromCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_AD_CannotUseNow_Muted_79fe3a97-7e74-6f79-9afb-6a5d947a4b0b, _Var1);
+
+PROC
+PROC_TeleportToFromCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Camp_IsPlayerBlockedFromTeleportToCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_SwapCampIfNecessary(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var2, _, _, _Var5, _Var1)
+THEN
+PROC_WaypointTeleportTo(_Var1, _Var5);
+
+PROC
+PROC_TeleportToFromCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PlayerInCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_Leave(_Var3);
+
+IF
+EndTheDayRequested((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CAMP_JustWokeUp(1);
+
+IF
+EndTheDayRequested((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Camp_SwitchNightMode(_Var1);
+
+IF
+UseFinished((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var3, _Var2, _, _, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_Camp_SwitchNightMode(_Var1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CampBed(_Var3, _, _Var2, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_SwitchNightMode(_Var1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CampBed(_Var3, _, _, _Var2, _, _, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_SwitchNightMode(_Var1);
+
+PROC
+PROC_Camp_SwitchNightMode((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_AD_CannotUseNow_Muted_79fe3a97-7e74-6f79-9afb-6a5d947a4b0b, _Var1);
+
+PROC
+PROC_Camp_SwitchNightMode((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_TryEnterNightMode(_Var1);
+
+PROC
+PROC_Camp_SwitchNightMode((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_TryLeaveNightMode(_Var1);
+
+PROC
+PROC_Camp_TryEnterNightMode((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GoingToCamp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CampRequestHandled(1);
+
+PROC
+PROC_Camp_TryEnterNightMode((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CampRequestHandled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CAMP_JustWokeUp(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CampRequestHandled(1);
+PROC_TeleportToFromCamp(_Var1);
+
+PROC
+PROC_Camp_TryEnterNightMode((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CampRequestHandled(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GoingToCamp(1);
+DB_CampRequestHandled(1);
+DB_GatherAtCampRequester(_Var1);
+RequestGatherAtCamp(_Var1);
+
+IF
+DB_GatherAtCampRequester(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GatherAtCampRequester(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_GatherAtCampRequester(_Var2);
+
+PROC
+PROC_Camp_TryEnterNightMode((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_CampRequestHandled(1);
+
+IF
+RequestGatherAtCampFail((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_GoingToCamp(1);
+
+IF
+RequestGatherAtCampSuccess((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_RequestGatherAtCampSuccessHandled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_AllPlayersReadyForNightMode()
+THEN
+DB_RequestGatherAtCampSuccessHandled(1);
+DB_GoingToCamp(1);
+RequestEndTheDay(_Var1);
+
+IF
+RequestGatherAtCampSuccess((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_RequestGatherAtCampSuccessHandled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PlayerNotReadyForNightMode_CustomStoryReason(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_RequestGatherAtCampSuccessHandled(1);
+NOT DB_GoingToCamp(1);
+PROC_Camp_TryEnterNightModeFailed(_Var1, _Var2);
+NOT DB_Camp_PlayerNotReadyForNightMode_CustomStoryReason(_Var2);
+
+IF
+RequestGatherAtCampSuccess((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_RequestGatherAtCampSuccessHandled(1);
+
+PROC
+PROC_Camp_TryEnterNightModeFailed((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+RequestEndTheDaySuccess()
+THEN
+PROC_Camp_EnterNightMode();
+
+IF
+RequestEndTheDayFail()
+THEN
+NOT DB_GoingToCamp(1);
+
+IF
+SavegameLoaded()
+AND
+DB_GoingToCamp(1, _, _, _, _)
+THEN
+NOT DB_GoingToCamp(1);
+DB_BUGFIX_Marker("GUS-150045");
+
+IF
+SavegameLoaded()
+AND
+DB_Camp_GoingToSleep(1, _, _, _, _)
+THEN
+NOT DB_Camp_GoingToSleep(1);
+DB_BUGFIX_Marker("GUS-169355");
+
+IF
+DialogActorJoined(_, _, (CHARACTER)_Var3, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+DB_GoingToCamp(1, _, _, _, _)
+THEN
+NOT DB_GoingToCamp(1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GoingToCamp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GoingToCamp(1);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_JustWokeUp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_SetCampfireText(_Var1, "CAMP_EndTheDay");
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_JustWokeUp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_SetCampfireText(_Var1, "CAMP_TakeALongRest");
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CAMP_JustWokeUp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_SetCampfireText(_Var1, "CAMP_LeaveCamp");
+
+PROC
+PROC_Camp_SetCampfireText((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp(_Var1, _Var3, _, _, _Var1)
+THEN
+DB_Camp_CampfireText(_Var2);
+SetStoryDisplayName(_Var3, _Var2);
+
+IF
+DB_Camp_CampfireText(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_CampfireText(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_Camp_CampfireText(_Var2);
+
+PROC
+PROC_Camp_SetCampfireText((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampBed(_Var3, _, _Var5, _, _, _, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetStoryDisplayName(_Var5, _Var2);
+
+PROC
+PROC_Camp_SetCampfireText((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampBed(_Var3, _, _, _Var6, _, _, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetStoryDisplayName(_Var6, _Var2);
+
+IF
+LevelTemplateLoaded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CampBed(_, _, _Var4, _, _Var1, _, _, _Var1, _Var1, _Var1)
+AND
+DB_Camp_CampfireText(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetStoryDisplayName(_Var4, _Var8);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CampBed(_, _, _Var1, _, _, _, _, _Var1, _Var1, _Var1)
+AND
+DB_Camp_CampfireText(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetStoryDisplayName(_Var1, _Var8);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CampBed(_, _, _, _Var1, _, _, _, _Var1, _Var1, _Var1)
+AND
+DB_Camp_CampfireText(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetStoryDisplayName(_Var1, _Var8);
+
+PROC
+PROC_Camp_ForceEndTheDay((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GoingToCamp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GatherAtCampRequester(_Var1);
+DB_GoingToCamp(1);
+DB_Camp_ForceNextLongRest(1);
+NOT DB_OnlyOnce("GLO_Camp_GoToNight_Fade_Out_FORCED");
+PROC_Camp_EnterNight_PreFadeout_Hook();
+AllowNewPlayers(0);
+PROC_Camp_ForceEndTheDay_SetCampOverride(_Var2);
+PROC_Camp_ForceEndTheDay_Fadeout();
+
+PROC
+PROC_Camp_ForceEndTheDay_SetCampOverride((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != ""
+AND
+DB_Camp(_Var1, _, _, _, _Var1)
+THEN
+DB_Camp_ForceEndTheDay_CampOverride(_Var1);
+
+PROC
+PROC_Camp_EnterNight_PreFadeout_Hook()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Camp_ForceEndTheDay_Fadeout()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+ScreenFadeTo(_Var1, 0.5, 0, "GLO_Camp_GoToNight_Fade_Out_FORCED");
+DB_Camp_Faded(_Var1, "GLO_Camp_GoToNight_Fade_Out_FORCED");
+
+PROC
+PROC_CAMP_SafeFadeOutDone("GLO_Camp_GoToNight_Fade_Out_FORCED", _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_Camp_GoToNight_Fade_Out_FORCED", _, _, _, _)
+THEN
+NOT DB_GoingToCamp(1);
+PROC_Camp_SetModeToNight();
+PROC_Camp_ForcePlayersToCamp();
+PROC_Camp_RemoveSplatterFromCampers();
+PROC_Camp_ClearDisruptiveStatusses();
+PROC_Camp_DropAllPolymorphs();
+TimerLaunch("Camp_GoToNight_ClearStatusses_Fallback", 3000);
+DB_Camp_WaitingForPlayersCleaned("GoToNight");
+PROC_Camp_CheckIfPlayersReadyToTeleportToCamp();
+
+PROC
+PROC_Camp_ForcePlayersToCamp()
+AND
+DB_Camp_ForceEndTheDay_CampOverride(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ActiveCamp_Override(_Var1);
+DB_ActiveCamp(_Var1);
+
+PROC
+PROC_Camp_ForcePlayersToCamp()
+AND NOT
+DB_Camp_ForceEndTheDay_CampOverride(_, _, _, _, _)
+AND
+DB_GatherAtCampRequester(_Var2, _, _, _, _)
+AND
+QRY_Camp_SwapCampIfNecessary(_Var2, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Camp_ForcePlayersToCamp()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+PROC_Camp_PlayerForcedToCamp_Hook(_Var1);
+PROC_Camp_GoToNight_Teleport(_Var1);
+
+PROC
+PROC_Camp_ForcePlayersToCamp()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Hirelings_Hired(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterFullRestore(_Var1);
+
+PROC
+PROC_Camp_PlayerForcedToCamp_Hook((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Camp_PlayCampNight()
+AND
+DB_Camp_ForceEndTheDay_CampOverride(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_ForceEndTheDay_CampOverride(_Var1);
+NOT DB_ActiveCamp_Override(_Var1);
+
+PROC
+PROC_Camp_EnterNightMode()
+THEN
+PROC_Camp_EnterNight_PreFadeout_Hook();
+NOT DB_OnlyOnce("GLO_Camp_GoToNight_Fade_Out");
+AllowNewPlayers(0);
+
+PROC
+PROC_Camp_EnterNightMode()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ScreenFadeTo(_Var1, 0.5, 0, "GLO_Camp_GoToNight_Fade_Out");
+DB_Camp_Faded(_Var1, "GLO_Camp_GoToNight_Fade_Out");
+
+PROC
+PROC_CAMP_SafeFadeOutDone("GLO_Camp_GoToNight_Fade_Out", _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_Camp_GoToNight_Fade_Out", _, _, _, _)
+THEN
+NOT DB_GoingToCamp(1);
+PROC_Camp_SetModeToNight();
+PROC_Camp_ClearDisruptiveStatusses();
+PROC_Camp_RemoveSplatterFromCampers();
+PROC_Camp_DropAllPolymorphs();
+TimerLaunch("Camp_GoToNight_ClearStatusses_Fallback", 3000);
+DB_Camp_WaitingForPlayersCleaned("GoToNight");
+PROC_Camp_CheckIfPlayersReadyToTeleportToCamp();
+
+PROC
+PROC_Camp_CheckIfPlayersReadyToTeleportToCamp()
+AND
+DB_Camp_WaitingForPlayersCleaned("GoToNight", _, _, _, _)
+AND NOT
+QRY_Camp_PlayerNotReadyToTalk()
+THEN
+TimerCancel("Camp_GoToNight_ClearStatusses_Fallback");
+NOT DB_Camp_WaitingForPlayersCleaned("GoToNight");
+PROC_Camp_TeleportAllToCamp();
+
+QRY
+QRY_Camp_PlayerNotReadyToTalk()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TemporarilyMuted(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_PlayerNotReadyToTalk()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PolymorphedInto(_Var1, _, _, _, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StateCleared_CantTalk((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_WaitingForPlayersCleaned("GoToNight", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_CheckIfPlayersReadyToTeleportToCamp();
+
+IF
+ShapeshiftChanged((CHARACTER)_Var1, _, _, "", (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_WaitingForPlayersCleaned("GoToNight", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_CheckIfPlayersReadyToTeleportToCamp();
+
+IF
+TimerFinished("Camp_GoToNight_ClearStatusses_Fallback", _, _, _, _)
+THEN
+DebugBreak("Camp Error #1: Endless waiting to EndTheDay.");
+NOT DB_Camp_WaitingForPlayersCleaned("GoToNight");
+PROC_Camp_TeleportAllToCamp();
+
+PROC
+PROC_Camp_DropAllPolymorphs()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveAllPolymorphs(_Var1);
+
+PROC
+PROC_Camp_RemoveSplatterFromCampers()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveSplatters(_Var1);
+
+PROC
+PROC_Camp_ClearDisruptiveStatusses()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_BreakConcentration(_Var1);
+PROC_RemoveMutingStatusses(_Var1);
+
+PROC
+PROC_Camp_TeleportAllToCamp()
+AND NOT
+DB_CAMP_WalkingToCamp(_, _, _, _, _)
+AND NOT
+QRY_Camp_PlayerNotInCamp()
+AND
+QRY_Camp_GetPreferredPlayerForDialogs()
+AND
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var2, _, _, _, _)
+THEN
+MakePlayerActive(_Var2);
+PROC_Camp_PlayCampNight();
+
+PROC
+PROC_Camp_PlayCampNight()
+THEN
+PROC_Camp_ChangeToVanityArmor();
+PROC_CampNight_DecideCampNight();
+PROC_CAMP_METRIC_RECORD();
+PROC_CampNight_StartSelected();
+
+PROC
+PROC_Camp_ChangeToVanityArmor()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_StoreArmourSet(_Var1);
+PROC_SetArmourSet(_Var1, 0);
+
+PROC
+PROC_Camp_TeleportAllToCamp()
+AND
+DB_GatherAtCampRequester(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_SwapCampIfNecessary(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Camp_TeleportAllToCamp()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_IsPlayerBlockedFromTeleportToCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_Faded(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "LONG_REST", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Camp_Faded(_Var1, _Var2);
+ClearScreenFade(_Var1, 1, _Var2);
+
+PROC
+PROC_Camp_TeleportAllToCamp()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Camp_IsPlayerBlockedFromTeleportToCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_WaitForTeleporters(1);
+PROC_Camp_GoToNight_Teleport(_Var1);
+
+PROC
+PROC_Camp_TeleportAllToCamp()
+AND NOT
+DB_PlayerInCamp(_, _, _, _, _)
+AND NOT
+DB_Camp_WaitForTeleporters(1, _, _, _, _)
+AND
+DB_GatherAtCampRequester(_Var2, _, _, _, _)
+THEN
+TimerCancel("CAMP_SAFETYCHECK_EMPTYCAMP_AT_NIGHT");
+PROC_Camp_TryLeaveNightMode(_Var2);
+
+PROC
+PROC_Camp_GoToNight_Teleport((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var2, _, _Var4, _Var5, _Var1)
+AND
+IsInTrigger(_Var1, _Var4, 0, _Var1, _Var1)
+THEN
+PROC_WaypointTeleportTo(_Var1, _Var5);
+
+IF
+TeleportedToCamp(_, _, _, _, _)
+AND
+DB_Camp_WaitForTeleporters(1, _, _, _, _)
+AND NOT
+QRY_Camp_PlayerNotInCamp()
+AND NOT
+DB_CAMP_WalkingToCamp(_, _, _, _, _)
+AND
+QRY_Camp_GetPreferredPlayerForDialogs()
+AND
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var3, _, _, _, _)
+THEN
+NOT DB_Camp_WaitForTeleporters(1);
+MakePlayerActive(_Var3);
+PROC_Camp_PlayCampNight();
+
+PROC
+PROC_CampRelationshipDialog(_, _, _, _, _)
+AND
+DB_Camp_Faded(_Var6, _Var7, _, _, _)
+THEN
+NOT DB_Camp_Faded(_Var6, _Var7);
+ClearScreenFade(_Var6, 1, _Var7);
+
+IF
+DialogActorJoined(_, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND NOT
+DB_AutomatedDialog(_Var2, _, _, _, _)
+AND
+DB_Camp_Faded(_Var3, _, _, _, _)
+AND
+GetReservedUserID(_Var3, _Var6, _, _, _)
+AND
+DB_Camp_Faded(_Var7, _Var8, _, _, _)
+AND
+GetReservedUserID(_Var7, _Var6, _, _, _)
+THEN
+NOT DB_Camp_Faded(_Var7, _Var8);
+ClearScreenFade(_Var7, 1, _Var8);
+
+PROC
+PROC_Camp_NoEveningDialogs()
+AND
+DB_Camp_Faded(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_Faded(_Var1, _Var2);
+ClearScreenFade(_Var1, 1, _Var2);
+
+PROC
+PROC_Camp_NoEveningDialogs()
+AND
+DB_FallbackCamp_InCamp(_, _, _, _, _)
+THEN
+NOT DB_Camp_ForceNextLongRest(1);
+PROC_Camp_SetModeToDay();
+PROC_FallbackCamp_AllPlayersLeave();
+PROC_Camp_RestoreArmourSets();
+
+PROC
+PROC_FallbackCamp_AllPlayersLeave()
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "LONG_REST");
+PROC_Camp_Leave(_Var1);
+
+IF
+ScreenFadeCleared((INTEGER)_Var1, (STRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Camp_Faded(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugBreak("Camp Error #3: Remnant DB_Camp_Faded.");
+NOT DB_Camp_Faded(_Var3, _Var2);
+
+IF
+DB_Camp_Faded(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_Faded_Timer(_Var1, _Var2);
+RealtimeObjectTimerLaunch(_Var1, "GLO_Camp_Fade_EmergencyTimeout", 5000);
+
+IF
+DB_Camp_Faded_Timer(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_Faded(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_Faded_Timer(_Var1, _Var2);
+RealtimeObjectTimerCancel(_Var1, "GLO_Camp_Fade_EmergencyTimeout");
+
+IF
+ObjectTimerFinished(_, "GLO_Camp_Fade_EmergencyTimeout", _, _, _)
+AND
+DB_Camp_Faded(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_Camp_Faded(_Var2, _Var3);
+ClearScreenFade(_Var2, 1, _Var3);
+PROC_CAMP_SafeFadeOutDone(_Var3);
+
+IF
+ScreenFadeDone(_, (STRING)_Var2, _, _, _)
+AND
+DB_Camp_Faded(_Var3, _Var2, _, _, _)
+THEN
+PROC_CAMP_SafeFadeOutDone(_Var2);
+
+PROC
+PROC_Camp_TryLeaveNightMode((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Camp_GoingToSleep(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_LongRest_CodeIsWaiting(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Camp_PreventLeaveNightHook(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Camp_WouldPassLongRestCapabilities(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_GoingToSleep(1);
+DB_Camp_LongRestRequestedBy(_Var1);
+RequestLongRestDeny("");
+PROC_RequestLongRest(_Var1);
+
+QRY
+QRY_Camp_PreventLeaveNightHook((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_WouldPassLongRestCapabilities((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CanAllPartiesLongRest(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_GoingToSleep(1);
+DB_Camp_LongRestRequestedBy(_Var1);
+PROC_Camp_TryLeaveNightMode_CampNightCheck(_Var1);
+
+IF
+DB_Camp_LongRestRequestedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_LongRestRequestedBy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_Camp_LongRestRequestedBy(_Var2);
+
+PROC
+PROC_Camp_InstantLongRest()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_InstantLongRest_Requested(1);
+NOT DB_Camp_ForceNextLongRest(1);
+NOT DB_Camp_WokeUpAtNight(1);
+RequestLongRest(_Var1, 1);
+
+PROC
+PROC_Camp_InstantLongRestWithFade()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_ForceNextLongRest(1);
+NOT DB_Camp_WokeUpAtNight(1);
+DB_CAMP_SkipSleepCutscene(1);
+RequestLongRest(_Var1, 1);
+
+IF
+DB_Camp_RequiredTalks(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_RequiredTalks(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_Camp_RequiredTalks(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_LoopEffect(EFFECTRESOURCEGUID_VFX_UI_ExclamationMark_01_a3018cf0-3a25-06ee-206a-3dd079332d80, _Var1, "GLO_Camp_RequiredTalk", "__ANY__", "Dummy_OverheadFX");
+
+IF
+AttackedBy((GUIDSTRING)_Var1, (CHARACTER)_Var2, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_RequiredTalks(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectAndStartDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_RequiredTalks_Complete(_Var1);
+
+IF
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Camp_RequiredTalks(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_RequiredTalks_Complete(_Var1);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_RequiredTalks(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_RequiredTalks_Complete(_Var1);
+
+IF
+DialogActorJoined(_, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_Camp_RequiredTalks(_Var3, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND NOT
+DB_AutomatedDialog(_Var2, _, _, _, _)
+THEN
+PROC_Camp_RequiredTalks_Complete(_Var3);
+
+IF
+DialogActorJoined((DIALOGRESOURCE)_Var1, _, (GUIDSTRING)_Var3, _, (DIALOGRESOURCE)_Var1)
+AND
+DB_Camp_RequiredTalks(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_RequiredTalks_Complete(_Var3);
+
+PROC
+PROC_LongRest()
+AND
+DB_Camp_RequiredTalks(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_RequiredTalks_Complete(_Var1);
+
+PROC
+PROC_FallbackCamp_LeftCamp(_, _, _, _, _)
+AND
+DB_Camp_RequiredTalks(_Var2, _, _, _, _)
+THEN
+PROC_Camp_RequiredTalks_Complete(_Var2);
+
+IF
+TextEvent("clearrequiredtalks", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_RequiredTalks(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_RequiredTalks_Complete(_Var1);
+
+PROC
+PROC_Camp_RequiredTalks_Complete((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_RequiredTalks(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "GLO_Camp_RequiredTalk");
+NOT DB_Camp_RequiredTalks(_Var1);
+NOT DB_Camp_RequiredTalks(_Var1, _Var2);
+
+PROC
+PROC_Camp_TryLeaveNightMode_CampNightCheck((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("ReadyCheckContent_EndNight_TalksLeft", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_RequiredTalks(_, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ReadyCheckContent_EndNight_TalksLeft", _Var1, _Var1, _Var1, _Var1)
+THEN
+OpenMessageBox(_Var1, "ReadyCheck_EndNight_RequiredTalksLeft");
+NOT DB_Camp_GoingToSleep(1);
+
+PROC
+PROC_Camp_TryLeaveNightMode_CampNightCheck((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("ReadyCheckContent_EndNight_TalksLeft", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HandlingRelationshipDialog(_Var2, _, _, "CAMP", _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LoopEffect(_Var2, _, "RelationshipMarker", _, _, _, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ReadyCheckContent_EndNight_TalksLeft", _Var1, _Var1, _Var1, _Var1)
+THEN
+ReadyCheckGlobal("ReadyCheckContent_EndNight_TalksLeft", "ReadyCheck_EndNight_TalksLeft", 1, _Var1);
+
+PROC
+PROC_Camp_TryLeaveNightMode_CampNightCheck((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("ReadyCheckContent_EndNight_TalksLeft", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsMultiPlayer()
+AND
+QRY_OnlyOnce("ReadyCheckContent_EndNight_TalksLeft", _Var1, _Var1, _Var1, _Var1)
+THEN
+ReadyCheckGlobal("ReadyCheckContent_EndNight", "ReadyCheck_EndNight", 1, _Var1);
+
+PROC
+PROC_Camp_TryLeaveNightMode_CampNightCheck((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("ReadyCheckContent_EndNight_TalksLeft", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_LongRestRequestedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestLongRestDeny("");
+PROC_RequestLongRest(_Var1);
+
+IF
+ReadyCheckPassed("ReadyCheckContent_EndNight", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_LongRestRequestedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestLongRestDeny("");
+PROC_RequestLongRest(_Var1);
+
+IF
+ReadyCheckPassed("ReadyCheckContent_EndNight_TalksLeft", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_LongRestRequestedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestLongRestDeny("");
+PROC_RequestLongRest(_Var1);
+
+PROC
+PROC_RequestLongRest((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Camp_ForceNextLongRest(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestLongRest(_Var1, 0);
+
+PROC
+PROC_RequestLongRest((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_ForceNextLongRest(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestLongRest(_Var1, 1);
+
+IF
+ReadyCheckFailed("ReadyCheckContent_EndNight", _, _, _, _)
+THEN
+NOT DB_Camp_GoingToSleep(1);
+
+IF
+ReadyCheckFailed("ReadyCheckContent_EndNight_TalksLeft", _, _, _, _)
+THEN
+NOT DB_Camp_GoingToSleep(1);
+
+IF
+LongRestCancelled()
+THEN
+NOT DB_Camp_GoingToSleep(1);
+
+IF
+LongRestStartFailed()
+THEN
+NOT DB_Camp_GoingToSleep(1);
+
+IF
+LongRestStarted()
+AND
+DB_Camp_InstantLongRest_Requested(1, _, _, _, _)
+THEN
+DB_Camp_RestRequestHandled(1);
+NOT DB_Camp_InstantLongRest_Requested(1);
+RequestLongRestConfirmed();
+PROC_Camp_InstantLongRest_FinishForAllPlayers();
+
+PROC
+PROC_Camp_InstantLongRest_FinishForAllPlayers()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestLongRestFinish(_Var1);
+
+IF
+LongRestStarted()
+AND NOT
+DB_Camp_RestRequestHandled(1, _, _, _, _)
+THEN
+DB_Camp_RestRequestHandled(1);
+NOT DB_Camp_GoingToSleep(1);
+RequestLongRestConfirmed();
+RequestLongRestWaiting();
+RequestLongRestSyncedFinish();
+DB_Camp_LongRest_CodeIsWaiting(1);
+PROC_Camp_EndEvening();
+PROC_Camp_Rest();
+NOT DB_Camp_ForceNextLongRest(1);
+NOT DB_Camp_WokeUpAtNight(1);
+
+IF
+LongRestStarted()
+THEN
+NOT DB_Camp_RestRequestHandled(1);
+
+PROC
+PROC_Camp_Rest()
+THEN
+PROC_Camp_FadeOutForRest();
+
+PROC
+PROC_Camp_FadeOutForRest()
+THEN
+NOT DB_OnlyOnce("GLO_Camp_StartRest_Fade_Out");
+
+PROC
+PROC_Camp_FadeOutForRest()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ScreenFadeTo(_Var1, 0.5, 0, "GLO_Camp_StartRest_Fade_Out");
+DB_Camp_Faded(_Var1, "GLO_Camp_StartRest_Fade_Out");
+
+PROC
+PROC_CAMP_SafeFadeOutDone("GLO_Camp_StartRest_Fade_Out", _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_Camp_StartRest_Fade_Out", _, _, _, _)
+THEN
+PROC_Camp_DropAllPolymorphs();
+PROC_Camp_RemoveSplatterFromCampers();
+PROC_Camp_ClearDisruptiveStatusses();
+TimerLaunch("Camp_StartRest_ClearStatusses_Fallback", 3000);
+DB_Camp_WaitingForPlayersCleaned("StartRest");
+PROC_Camp_CheckIfPlayersReadyToRest();
+
+PROC
+PROC_Camp_CheckIfPlayersReadyToRest()
+AND
+DB_Camp_WaitingForPlayersCleaned("StartRest", _, _, _, _)
+AND NOT
+QRY_Camp_PlayerNotReadyToTalk()
+THEN
+TimerCancel("Camp_StartRest_ClearStatusses_Fallback");
+NOT DB_Camp_WaitingForPlayersCleaned("StartRest");
+PROC_Camp_PlacePlayersInBed();
+PROC_CampNight_StartSleepMoments_PreHook();
+PROC_CampNight_StartSleepMoments();
+
+PROC
+PROC_StateCleared_CantTalk((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_WaitingForPlayersCleaned("StartRest", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_CheckIfPlayersReadyToRest();
+
+IF
+TimerFinished("Camp_StartRest_ClearStatusses_Fallback", _, _, _, _)
+THEN
+DebugBreak("Camp Error #2: Endless waiting to Start Rest.");
+NOT DB_Camp_WaitingForPlayersCleaned("StartRest");
+PROC_Camp_PlacePlayersInBed();
+PROC_CampNight_StartSleepMoments_PreHook();
+PROC_CampNight_StartSleepMoments();
+
+PROC
+PROC_Camp_PlacePlayersInBed()
+THEN
+PROC_Camp_HideAllNonPlayers();
+
+PROC
+PROC_Camp_HideAllNonPlayers()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Camp_DoNotHideCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+DB_Camp_InvisibleCamper(_Var1);
+
+PROC
+PROC_Camp_ForceHideAllNonPlayers()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+DB_Camp_InvisibleCamper(_Var1);
+
+PROC
+PROC_Camp_HideAllNonPlayers()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Camp_DoNotHideCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+DB_Camp_InvisibleCamper(_Var1);
+
+PROC
+PROC_Camp_ForceHideAllNonPlayers()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+DB_Camp_InvisibleCamper(_Var1);
+
+QRY
+QRY_Camp_DoNotHideCamper((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_QueuedRomanceNight(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Camp_PlacePlayersInBed()
+AND
+QRY_Camp_GetPreferredPlayerForDialogs()
+AND
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMP_GetPlayerInCamp(_Var1, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+AND
+DB_QRYRTN_CAMP_GetPlayerInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMP_GetPlayerInCamp(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+AND
+DB_QRYRTN_CAMP_GetPlayerInCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMP_GetPlayerInCamp(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_QRYRTN_CAMP_GetPlayerInCamp(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_PlacePlayerInBed(_Var1, 4);
+PROC_Camp_PlacePlayerInBed(_Var2, 2);
+PROC_Camp_PlacePlayerInBed(_Var3, 1);
+PROC_Camp_PlacePlayerInBed(_Var4, 3);
+
+IF
+TextEvent("campbed", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_PlacePlayerInBed(_Var1, _Var2);
+
+IF
+TextEvent("campbedoff", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SysClear("DB_Camp_PlayerInBed", 3);
+RemoveStatus(_Var1, "LONG_REST", NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_Camp_PlacePlayerInBed((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CampBed(_Var3, _Var2, _, _Var5, _, _, _Var8, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_BedAlternative(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Camp_BedAlternative(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_StoreArmourSetIfNotPJ(_Var1);
+PROC_SetArmourSet(_Var1, 0);
+TeleportTo(_Var1, _Var9, "", 0, 0, 0);
+ApplyStatus(_Var1, "LONG_REST", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_Camp_PlayerInBed(_Var1, _Var5, _Var8);
+
+QRY
+QRY_Camp_BedAlternative((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_Camp_BedAlternative(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Camp_BedAlternative(_Var2);
+
+QRY
+QRY_Camp_BedAlternative((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_Camp_BedAlternative(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Camp_BedAlternative(_Var2);
+
+QRY
+QRY_Camp_BedAlternative((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_Camp_BedAlternative(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Camp_BedAlternative(_Var1);
+
+PROC
+PROC_Camp_PlacePlayerInBed((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_Camp_PlayerInBed(_Var1, _, _, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+Concatenate("Failed to find bed for player: ", _Var5, _Var6, _Var1, _Var1)
+THEN
+DebugBreak(_Var6);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "LONG_REST", _, _, (GUIDSTRING)_Var1)
+THEN
+DB_Camp_SleepingPlayer(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "LONG_REST", _, _, (GUIDSTRING)_Var1)
+THEN
+NOT DB_Camp_SleepingPlayer(_Var1);
+
+IF
+DB_Camp_SleepingPlayer(_, _, _, _, _)
+AND NOT
+DB_Camp_PlayersAreDreaming(1, _, _, _, _)
+THEN
+DB_Camp_PlayersAreDreaming(1);
+SetPlayersAreDreaming(1);
+
+IF
+DB_Camp_PlayersAreDreaming(1, _, _, _, _)
+AND NOT
+DB_Camp_SleepingPlayer(_, _, _, _, _)
+THEN
+NOT DB_Camp_PlayersAreDreaming(1);
+SetPlayersAreDreaming(0);
+
+PROC
+PROC_Campnight_SleepMomentsDone()
+AND NOT
+DB_Camp_PreventEndOfNight(1, _, _, _, _)
+THEN
+PROC_Camp_SleepUntilMorning();
+
+PROC
+PROC_Campnight_SleepMomentsDone()
+AND
+DB_Camp_PreventEndOfNight(1, _, _, _, _)
+THEN
+PROC_Camp_WakeUpAtNight();
+
+PROC
+PROC_Camp_WakeUpAtNight()
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var1, 1);
+RemoveStatus(_Var1, "LONG_REST");
+
+PROC
+PROC_Camp_WakeUpAtNight()
+THEN
+NOT DB_Camp_PreventEndOfNight(1);
+NOT DB_Camp_LongRest_CodeIsWaiting(1);
+RequestLongRestDeny("");
+DB_Camp_ForceNextLongRest(1);
+PROC_Camp_WakeUpAtNightHook();
+
+PROC
+PROC_Camp_WakeUpAtNightHook()
+THEN
+DB_Camp_WokeUpAtNight(1);
+
+PROC
+PROC_Camp_SleepUntilMorning()
+THEN
+NOT DB_OnlyOnce("CampNightFade_NightToMorning");
+NOT DB_Camp_AtLeastOnePlayerHasSleepCutscene(1);
+PROC_Camp_ForceHideAllNonPlayers();
+
+PROC
+PROC_Camp_SleepUntilMorning()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_TryDefaultSleepCutscene(_Var1);
+
+PROC
+PROC_Camp_TryDefaultSleepCutscene((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CAMP_SkipSleepCutscene(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_CustomSleepCutscene(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_AtLeastOnePlayerHasSleepCutscene(1);
+
+PROC
+PROC_Camp_TryDefaultSleepCutscene((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CAMP_SkipSleepCutscene(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(CAMP_SleepCutscene_69f925cf-1afd-4680-9532-8e80221aa93a, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_AtLeastOnePlayerHasSleepCutscene(1);
+
+IF
+DB_Camp_AtLeastOnePlayerHasSleepCutscene(1, _, _, _, _)
+AND NOT
+DB_DialogPlayers(_, _, _, _, _)
+AND NOT
+DB_DialogRequestCache_SpeakerList_Players(_, _, _, _, _)
+THEN
+NOT DB_Camp_AtLeastOnePlayerHasSleepCutscene(1);
+PROC_CAMP_SafeFadeOutDone("CampNightFade_NightToMorning");
+
+PROC
+PROC_Camp_SleepUntilMorning()
+AND NOT
+DB_Camp_AtLeastOnePlayerHasSleepCutscene(1, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_Faded(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+ScreenFadeTo(_Var1, 0.5, 0, "CampNightFade_NightToMorning");
+DB_Camp_Faded(_Var1, "CampNightFade_NightToMorning");
+
+PROC
+PROC_Camp_SleepUntilMorning()
+AND NOT
+DB_Camp_AtLeastOnePlayerHasSleepCutscene(1, _, _, _, _)
+AND NOT
+DB_Camp_Faded(_, "CampNightFade_NightToMorning", _, _, _)
+THEN
+PROC_Camp_LongRestFinishForAllPlayers();
+
+PROC
+PROC_CAMP_SafeFadeOutDone("CampNightFade_NightToMorning", _, _, _, _)
+AND
+QRY_OnlyOnce("CampNightFade_NightToMorning", _, _, _, _)
+THEN
+PROC_Camp_LongRestFinishForAllPlayers();
+
+PROC
+PROC_Camp_LongRestFinishForAllPlayers()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestLongRestFinish(_Var1);
+
+QRY
+QRY_Inclusion_BlockCompanionInclusion((GUIDSTRING)_Var1, CAMP_SleepCutscene_69f925cf-1afd-4680-9532-8e80221aa93a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_BlockCompanionInclusion((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_CustomSleepCutscene(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_DaisyDreams_BlockInclusion(CAMP_SleepCutscene_69f925cf-1afd-4680-9532-8e80221aa93a, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_DaisyDreams_BlockInclusion((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_CustomSleepCutscene(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TeleportedFromCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_PlayerInBed(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_Camp_PlayerInBed(_Var1, _Var2, _Var3);
+
+IF
+FlagSet(GLO_Companion_Leave_363c71f4-8b46-c0c0-4bbb-0e5a85e4652d, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_PlayerInBed(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_Camp_PlayerInBed(_Var1, _Var3, _Var4);
+
+IF
+FlagSet(GLO_Companion_LeaveDisappearInstantly_8d15c1c9-fa85-4c67-8f85-c5c1bb672b28, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_PlayerInBed(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_Camp_PlayerInBed(_Var1, _Var3, _Var4);
+
+IF
+FlagSet(GLO_Companion_Murder_2b416989-93e2-4853-b48a-7aeed3e69f7c, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_PlayerInBed(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_Camp_PlayerInBed(_Var1, _Var3, _Var4);
+
+IF
+FlagSet(GLO_Companion_Leave_363c71f4-8b46-c0c0-4bbb-0e5a85e4652d, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_InvisibleCamper(_Var1);
+
+IF
+FlagSet(GLO_Companion_LeaveDisappearInstantly_8d15c1c9-fa85-4c67-8f85-c5c1bb672b28, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_InvisibleCamper(_Var1);
+
+IF
+FlagSet(GLO_Companion_Murder_2b416989-93e2-4853-b48a-7aeed3e69f7c, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_InvisibleCamper(_Var1);
+
+IF
+UserCharacterLongRested((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CAMP_CharacterLongRested(_Var1);
+PROC_LongRest_Player(_Var1, _Var2);
+
+IF
+UserCharacterLongRested((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PlayerInBed(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, _Var4, "CAMP_WakeUpAtTrigger", 0, 0, 0, 0, 1);
+NOT DB_Camp_PlayerInBed(_Var1, _Var3, _Var4);
+
+PROC
+PROC_LongRest_Player((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Camp_Leave((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_LeaveCamp_ReturnPos(_Var1, _, _, _, _Var1)
+AND
+QRY_GetBestAvatarForCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_LeaveCamp_ReturnPos(_Var5, _Var6, _Var7, _Var8, _Var1)
+THEN
+DB_LeaveCamp_ReturnPos(_Var1, _Var6, _Var7, _Var8);
+
+PROC
+PROC_Camp_Leave((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LeaveCamp_ReturnPos(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND NOT
+DB_LeaveCamp_ReturnPos(_Var1, _, _, _, _Var1)
+THEN
+DB_LeaveCamp_ReturnPos(_Var1, _Var3, _Var4, _Var5);
+
+PROC
+PROC_Camp_Leave((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_LeaveCamp_ReturnPos(_Var1, _, _, _, _Var1)
+AND
+DB_ActiveCamp(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var5, _, _Var7, _, _Var1)
+AND
+DB_Players(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var9, _Var7, 0, _Var1, _Var1)
+AND
+GetPosition(_Var9, _Var10, _Var11, _Var12, _Var1)
+AND NOT
+DB_LeaveCamp_ReturnPos(_Var1, _, _, _, _Var1)
+THEN
+DB_LeaveCamp_ReturnPos(_Var1, _Var10, _Var11, _Var12);
+
+PROC
+PROC_Camp_Leave((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_LeaveCamp_ReturnPos(_Var1, _, _, _, _Var1)
+AND
+DB_CurrentLevel(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RegionSafeSpot(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+DB_LeaveCamp_ReturnPos(_Var1, _Var7, _Var8, _Var9);
+
+PROC
+PROC_Camp_Leave((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LeaveCamp_ReturnPos(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_CurrentLevel(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LeaveCamp_ForbiddenReturnArea(_Var5, _Var6, _Var7, _Var1, _Var1)
+AND
+PositionIsInTrigger(_Var2, _Var3, _Var4, _Var6, 1)
+AND
+GetPosition(_Var7, _Var8, _Var9, _Var10, _Var1)
+THEN
+NOT DB_LeaveCamp_ReturnPos(_Var1, _Var2, _Var3, _Var4);
+DB_LeaveCamp_ReturnPos(_Var1, _Var8, _Var9, _Var10);
+
+PROC
+PROC_Camp_Leave((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LeaveCamp_ReturnPos(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+SetSubRegionName(_Var1, "", 0);
+PROC_TeleportToSafePositionAndRestoreLinks(_Var1, _Var2, _Var3, _Var4);
+NOT DB_LeaveCamp_ReturnPos(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_CAMP_CharacterLongRested(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CAMP_CharacterNOTLongRested()
+THEN
+PROC_Camp_EveryoneWakeup();
+
+QRY
+QRY_CAMP_CharacterNOTLongRested()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_CharacterLongRested(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Camp_EveryoneWakeup()
+AND
+DB_CAMP_CharacterLongRested(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CAMP_CharacterLongRested(_Var1);
+
+PROC
+PROC_Camp_EveryoneWakeup()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "LONG_REST");
+
+PROC
+PROC_Camp_EveryoneWakeup()
+AND
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_InvisibleCamper(_Var1);
+
+PROC
+PROC_Camp_EveryoneWakeup()
+AND
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+NOT DB_Camp_InvisibleCamper(_Var1);
+
+PROC
+PROC_Camp_EveryoneWakeup()
+AND
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_InvisibleCamper(_Var1);
+
+PROC
+PROC_Camp_EveryoneWakeup()
+THEN
+PROC_Camp_RestoreArmourSets();
+NOT DB_Camp_LongRest_CodeIsWaiting(1);
+DB_CAMP_JustWokeUp(1);
+DB_CAMP_WaitForEveryoneAwake(1);
+NOT DB_CAMP_SkipSleepCutscene(1);
+TimerLaunch("Camp_EveryoneWakeup_SafetyTimeout", 3000);
+
+IF
+TimerFinished("Camp_EveryoneWakeup_SafetyTimeout", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_InvisibleCamper(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+Concatenate("PROC_Camp_EveryoneWakeup() timed out waiting for camper to come on stage: ", _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_Camp_InvisibleCamper(_Var1);
+DebugBreak(_Var3);
+
+IF
+DB_CAMP_WaitForEveryoneAwake(1, _, _, _, _)
+AND NOT
+DB_Camp_InvisibleCamper(_, _, _, _, _)
+THEN
+TimerCancel("Camp_EveryoneWakeup_SafetyTimeout");
+PROC_Camp_EveryoneAwake();
+NOT DB_CAMP_WaitForEveryoneAwake(1);
+
+PROC
+PROC_Camp_EveryoneAwake()
+THEN
+AutoSave();
+
+PROC
+PROC_Camp_EveryoneAwake()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var1, 1);
+
+PROC
+PROC_Camp_EveryoneAwake()
+AND
+DB_Camp_Faded(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_Faded(_Var1, _Var2);
+ClearScreenFade(_Var1, 1, _Var2);
+
+PROC
+PROC_Camp_EveryoneAwake()
+THEN
+PROC_Camp_EveryoneWakeupEndHook();
+
+PROC
+PROC_Camp_EveryoneAwake()
+AND
+DB_Camp_NightMode(1, _, _, _, _)
+THEN
+PROC_Camp_SetModeToDay();
+PROC_LongRest();
+
+PROC
+PROC_Camp_EveryoneAwake()
+AND
+DB_Camp_StayInCampAfterLongRest(1, _, _, _, _)
+THEN
+NOT DB_Camp_StayInCampAfterLongRest(1);
+
+PROC
+PROC_Camp_EveryoneAwake()
+THEN
+PROC_CampNight_StartMorningMoments();
+
+IF
+FlagSet(GLO_Camp_Event_SetDay_2d1a001d-2416-4b9c-b929-66b6367eceb4, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(GLO_Camp_Event_SetDay_2d1a001d-2416-4b9c-b929-66b6367eceb4, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_Camp_SetModeToDay();
+
+PROC
+PROC_Camp_EveryoneWakeupEndHook()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CAMP_METRIC_RECORD()
+AND
+QRY_IncreaseCounter("Camp_Rest_Count", _, _, _, _)
+AND
+DB_GlobalCounter("Camp_Rest_Count", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GatherAtCampRequester(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LeaveCamp_ReturnPos(_Var3, _Var4, _Var5, _Var6, _Var1)
+AND
+RealToInteger(_Var4, _Var7, _Var1, _Var1, _Var1)
+AND
+RealToInteger(_Var5, _Var8, _Var1, _Var1, _Var1)
+AND
+RealToInteger(_Var6, _Var9, _Var1, _Var1, _Var1)
+THEN
+DB_CAMP_METRIC(_Var1, _Var2, _Var7, _Var8, _Var9);
+
+PROC
+PROC_CAMP_METRIC_RECORD()
+AND
+DB_GlobalCounter("Camp_Rest_Count", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_QueuedNight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CAMP_METRIC_NIGHT(_Var1, _Var2);
+
+PROC
+PROC_CAMP_METRIC_RECORD()
+AND
+DB_GlobalCounter("Camp_Rest_Count", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CAMP_METRIC(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+ConcatenateInteger("FormatVersion:CNA1,NightIndex:", _Var1, _Var6, _Var1, _Var1)
+AND
+Concatenate(_Var6, ",ActiveCamp:", _Var7, _Var1, _Var1)
+AND
+Concatenate(_Var7, _Var2, _Var8, _Var1, _Var1)
+AND
+Concatenate(_Var8, ",X:", _Var9, _Var1, _Var1)
+AND
+ConcatenateInteger(_Var9, _Var3, _Var10, _Var1, _Var1)
+AND
+Concatenate(_Var10, ",Y:", _Var11, _Var1, _Var1)
+AND
+ConcatenateInteger(_Var11, _Var4, _Var12, _Var1, _Var1)
+AND
+Concatenate(_Var12, ",Z:", _Var13, _Var1, _Var1)
+AND
+ConcatenateInteger(_Var13, _Var5, _Var14, _Var1, _Var1)
+AND
+SysCount("DB_Camp_QueuedNight", 1, _Var15, _Var1, _Var1)
+AND
+Concatenate(_Var14, ",CampNightAmount:", _Var16, _Var1, _Var1)
+AND
+ConcatenateInteger(_Var16, _Var15, _Var17, _Var1, _Var1)
+THEN
+DB_CAMP_METRIC_SubString(_Var17);
+PROC_CAMP_METRIC_RECORD_Nights(_Var1);
+
+PROC
+PROC_CAMP_METRIC_RECORD_Nights((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_CAMP_METRIC_NIGHT(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_CAMP_METRIC_SubString(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var3, ",CampNights:None", _Var4, _Var1, _Var1)
+THEN
+NOT DB_CAMP_METRIC_SubString(_Var3);
+DB_CAMP_METRIC_SubString(_Var4);
+
+PROC
+PROC_CAMP_METRIC_RECORD_Nights((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_OnlyOnce_Reset("QRY_CAMP_METRIC_RECORD_Nights_AddPrefix", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CAMP_METRIC_NIGHT(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_CAMP_METRIC_RECORD_Nights_AddPrefix()
+AND
+DB_CAMP_METRIC_SubString(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlagName(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var3, _Var4, _Var5, _Var1, _Var1)
+THEN
+NOT DB_CAMP_METRIC_SubString(_Var3);
+DB_CAMP_METRIC_SubString(_Var5);
+
+QRY
+QRY_CAMP_METRIC_RECORD_Nights_AddPrefix()
+AND
+DB_CAMP_METRIC_SubString(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OnlyOnce("QRY_CAMP_METRIC_RECORD_Nights_AddPrefix", _Var1, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var1, ";", _Var2, _Var1, _Var1)
+THEN
+NOT DB_CAMP_METRIC_SubString(_Var1);
+DB_CAMP_METRIC_SubString(_Var2);
+
+QRY
+QRY_CAMP_METRIC_RECORD_Nights_AddPrefix()
+AND
+DB_CAMP_METRIC_SubString(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("QRY_CAMP_METRIC_RECORD_Nights_AddPrefix", _Var1, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var1, ",CampNights:", _Var2, _Var1, _Var1)
+THEN
+NOT DB_CAMP_METRIC_SubString(_Var1);
+DB_CAMP_METRIC_SubString(_Var2);
+
+PROC
+PROC_CAMP_METRIC_RECORD_Nights((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CAMP_METRIC_SubString(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TrackAnalyticsInfo("long_rest", _Var2, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CAMP_METRIC_SubString(_Var2);
+
+IF
+TextEvent("printrests", _, _, _, _)
+THEN
+PROC_CAMP_METRIC_PRINTRECURSIVE(1);
+
+PROC
+PROC_CAMP_METRIC_PRINTRECURSIVE((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CAMP_METRIC(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+ConcatenateInteger("CAMP REST METRIC: Camp Rest ", _Var1, _Var6, _Var1, _Var1)
+AND
+Concatenate(_Var6, " in camp ", _Var7, _Var1, _Var1)
+AND
+Concatenate(_Var7, _Var2, _Var8, _Var1, _Var1)
+AND
+Concatenate(_Var8, " started from position ", _Var9, _Var1, _Var1)
+AND
+ConcatenateInteger(_Var9, _Var3, _Var10, _Var1, _Var1)
+AND
+Concatenate(_Var10, " ", _Var11, _Var1, _Var1)
+AND
+ConcatenateInteger(_Var11, _Var5, _Var12, _Var1, _Var1)
+THEN
+DebugBreak(_Var12);
+
+PROC
+PROC_CAMP_METRIC_PRINTRECURSIVE((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CAMP_METRIC_NIGHT(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetFlagName(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("CAMP REST METRIC: -- Queued Night: ", _Var3, _Var4, _Var1, _Var1)
+THEN
+DebugBreak(_Var4);
+
+PROC
+PROC_CAMP_METRIC_PRINTRECURSIVE((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CAMP_METRIC(_Var1, _, _, _, _)
+AND NOT
+DB_CAMP_METRIC_NIGHT(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DebugBreak("CAMP REST METRIC: -- No Nights queued: No valid nights found.");
+
+PROC
+PROC_CAMP_METRIC_PRINTRECURSIVE((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CAMP_METRIC(_Var1, _, _, _, _)
+AND
+IntegerSum(_Var1, 1, _Var6, _Var1, _Var1)
+THEN
+PROC_CAMP_METRIC_PRINTRECURSIVE(_Var6);
+
+IF
+TextEvent("campnight", _, _, _, _)
+THEN
+PROC_Camp_SetModeToNight();
+
+IF
+TextEvent("campday", _, _, _, _)
+THEN
+PROC_Camp_SetModeToDay();
+
+PROC
+PROC_Camp_SetModeToDay()
+AND
+DB_Camp(_Var1, _, _Var3, _, _Var1)
+AND
+DB_Camp_Ambiance(_Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1)
+AND
+GetRegion(_Var3, _Var12, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var12, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerSetAtmosphere(_Var5, _Var6);
+TriggerSetLighting(_Var8, _Var9);
+TriggerSetSoundState(_Var11, "AMB_TimeofDay", "Day", 0);
+
+PROC
+PROC_Camp_SetModeToDay()
+AND
+DB_Camp(_Var1, _Var2, _Var3, _, _Var1)
+AND
+GetRegion(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetEntityEvent(_Var2, "turnOff", 1);
+
+PROC
+PROC_Camp_SetModeToDay()
+THEN
+NOT DB_Camp_NightMode(1);
+ClearFlag(GLO_CAMP_State_NightMode_fb53edc2-9a89-4ad2-af83-20b5fe425cdd, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_Camp_SetModeToNight()
+AND
+DB_Camp(_Var1, _, _Var3, _, _Var1)
+AND
+DB_Camp_Ambiance(_Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1)
+AND
+GetRegion(_Var3, _Var12, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var12, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerSetAtmosphere(_Var5, _Var7);
+TriggerSetLighting(_Var8, _Var10);
+TriggerSetSoundState(_Var11, "AMB_TimeofDay", "Night", 0);
+
+PROC
+PROC_Camp_SetModeToNight()
+THEN
+DB_Camp_NightMode(1);
+SetFlag(GLO_CAMP_State_NightMode_fb53edc2-9a89-4ad2-af83-20b5fe425cdd, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_Camp_SetModeToNight()
+AND
+DB_Camp(_Var1, _Var2, _Var3, _, _Var1)
+AND
+GetRegion(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetEntityEvent(_Var2, "turnOn", 1);
+
+IF
+DB_Camp_NightMode(1, _, _, _, _)
+AND
+DB_ActiveCamp(_, _, _, _, _)
+AND NOT
+DB_PlayerInCamp(_, _, _, _, _)
+AND NOT
+QRY_Camp_PreventEmptyCampAtNightSafetyCheck()
+THEN
+TimerLaunch("CAMP_SAFETYCHECK_EMPTYCAMP_AT_NIGHT", 5000);
+
+IF
+TimerFinished("CAMP_SAFETYCHECK_EMPTYCAMP_AT_NIGHT", _, _, _, _)
+AND
+DB_Camp_NightMode(1, _, _, _, _)
+AND NOT
+DB_PlayerInCamp(_, _, _, _, _)
+AND NOT
+QRY_Camp_PreventEmptyCampAtNightSafetyCheck()
+THEN
+DB_CampSafetyCheckTriggered("CAMP_SAFETYCHECK_EMPTYCAMP_AT_NIGHT");
+DebugBreak("CAMP_SAFETYCHECK_EMPTYCAMP_AT_NIGHT. Send Osirislog to @Greever");
+PROC_Camp_SetModeToDay();
+
+QRY
+QRY_Camp_PreventEmptyCampAtNightSafetyCheck()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginCampFlags(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OriginNPCAlignment(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_BlockCampFaction(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_PreCampFaction(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var9, _Var1, _Var1, _Var1)
+AND
+CanFight(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_PreCampFaction(_Var1, _Var9);
+SetFaction(_Var1, GLO_CampFollowers_4bfd476c-55f7-48e5-b078-e71adfc4624d);
+
+IF
+DB_Camp_PreCampFaction(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+SetFaction(_Var1, _Var2);
+NOT DB_Camp_PreCampFaction(_Var1, _Var2);
+
+IF
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginCampFlags(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginNPCAlignment(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_BlockCampFaction(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(_Var7, 100);
+PROC_SetRelation(_Var7, GLO_CampFollowers_4bfd476c-55f7-48e5-b078-e71adfc4624d, 100);
+
+IF
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginCampFlags(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginNPCAlignment(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_BlockCampFaction(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_BlockCampFaction(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var8 != _Var1
+AND
+DB_OriginNPCAlignment(_Var8, _Var9, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(_Var7, _Var9, 100);
+
+PROC
+PROC_CAMP_LeftCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OriginCampFlags(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginNPCAlignment(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+
+IF
+EnterCombatFailed((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CAMP_BlockCampFaction(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+
+IF
+EnterCombatFailed((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CAMP_BlockCampFaction(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+
+IF
+EnterCombatFailed((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CAMP_CampFaction_TemporaryHostile(_Var1);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CAMP_CampFaction_TemporaryHostile(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CAMP_CampFaction_TemporaryHostile(_Var1);
+
+PROC
+PROC_Camp_ClearCampFaction((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OriginNPCAlignment(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(_Var2, 50);
+PROC_SetRelation(_Var2, GLO_CampFollowers_4bfd476c-55f7-48e5-b078-e71adfc4624d, 50);
+
+PROC
+PROC_Camp_ClearCampFaction((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OriginNPCAlignment(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var1
+AND
+DB_OriginNPCAlignment(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(_Var2, _Var4, 50);
+
+PROC
+PROC_Camp_ClearCampFaction((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_PreCampFaction(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var1, _Var2);
+NOT DB_Camp_PreCampFaction(_Var1, _Var2);
+
+IF
+DB_HostileToIndivPlayerAfterDialog(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+
+IF
+DB_HostileToPlayerGroupAfterDialog(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+
+IF
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ClearCampFaction(_Var1);
+
+PROC
+PROC_SetRelationTemporaryHostile((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMP_BlockCampFaction(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CAMP_CampFaction_TemporaryHostile(_Var1);
+PROC_Camp_ClearCampFaction(_Var1);
+
+PROC
+PROC_CAMP_BlockCampFaction((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CAMP_BlockCampFaction(_Var1);
+PROC_Camp_ClearCampFaction(_Var1);
+
+PROC
+PROC_CAMP_UnblockCampFaction((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_CAMP_BlockCampFaction(_Var1);
+
+IF
+DB_Camp_PersonalCornerGear(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+SetOnStage(_Var3, 0);
+
+IF
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerGear(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+SetOnStage(_Var4, 1);
+DeclutterArea(_Var4, 1, 1);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheLoadLevelTemplate(_Var3);
+
+IF
+LevelTemplateLoaded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camper_TeleportOnLevelTemplateLoad(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_GetCamperPos(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Camp_GetCamperPos(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camper_TeleportOnLevelTemplateLoad(_Var3, _Var2);
+TeleportTo(_Var3, _Var4, "", 0, 0, 1, 1, 1);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var3);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var3);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheLoadLevelTemplate(_Var3);
+PROC_CacheUnloadLevelTemplate(_Var4);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var3);
+PROC_CacheLoadLevelTemplate(_Var4);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var3);
+PROC_CacheLoadLevelTemplate(_Var4);
+
+IF
+TextEvent("unloadcamplts", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_LevelTemplateLoaded(_Var3);
+PROC_CacheUnloadLevelTemplate(_Var3);
+DB_LevelTemplateLoaded(_Var4);
+PROC_CacheUnloadLevelTemplate(_Var4);
+
+IF
+TextEvent("unloadcamplts", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_LevelTemplateLoaded(_Var3);
+PROC_CacheUnloadLevelTemplate(_Var3);
+
+IF
+TextEvent("unloadcamplts", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampBed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_LevelTemplateLoaded(_Var5);
+PROC_CacheUnloadLevelTemplate(_Var5);
+DB_LevelTemplateLoaded(_Var6);
+PROC_CacheUnloadLevelTemplate(_Var6);
+
+IF
+LevelTemplateLoaded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_LevelTemplateToDeclutter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DeclutterLevelTemplate(_Var1, 1, 1);
+NOT DB_Camp_LevelTemplateToDeclutter(_Var1);
+
+IF
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ShowNightDeco(_Var1);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ShowDayDeco(_Var1);
+
+PROC
+PROC_Camp_UpdateDeco()
+AND NOT
+DB_Camp_NightMode(1, _, _, _, _)
+AND
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ShowDayDeco(_Var1);
+
+PROC
+PROC_Camp_UpdateDeco()
+AND
+DB_Camp_NightMode(1, _, _, _, _)
+AND
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ShowNightDeco(_Var1);
+
+PROC
+PROC_Camp_ShowNightDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_NightOnly_Decoration(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var2, 1);
+
+PROC
+PROC_Camp_ShowDayDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_NightOnly_Decoration(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var2, 0);
+
+PROC
+PROC_Camp_ShowNightDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_NightOnly_LevelTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheLoadLevelTemplate(_Var2);
+
+PROC
+PROC_Camp_ShowDayDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_NightOnly_LevelTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var2);
+
+PROC
+PROC_Camp_ShowNightDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_DayOnly_LevelTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var2);
+
+PROC
+PROC_Camp_ShowDayDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_DayOnly_LevelTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheLoadLevelTemplate(_Var2);
+
+PROC
+PROC_Camp_ShowDayDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampBed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+QRY_CampBed_PlayerPresent(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var6);
+PROC_CacheLoadLevelTemplate(_Var5);
+PROC_Camp_HideBedIfDifferent(_Var4, _Var3);
+PROC_Camp_ShowBed(_Var3, 1);
+
+PROC
+PROC_Camp_ShowDayDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampBed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CampBed_PlayerPresent(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var5);
+PROC_CacheLoadLevelTemplate(_Var6);
+PROC_Camp_HideBedIfDifferent(_Var4, _Var3);
+PROC_Camp_ShowBed(_Var3, 0);
+
+PROC
+PROC_Camp_ShowNightDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampBed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+QRY_CampBed_PlayerPresent(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var5);
+PROC_CacheUnloadLevelTemplate(_Var6);
+PROC_Camp_HideBedIfDifferent(_Var3, _Var4);
+PROC_Camp_ShowBed(_Var4, 1);
+
+PROC
+PROC_Camp_ShowNightDeco((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CampBed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CampBed_PlayerPresent(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CacheUnloadLevelTemplate(_Var5);
+PROC_CacheLoadLevelTemplate(_Var6);
+PROC_Camp_HideBedIfDifferent(_Var3, _Var4);
+PROC_Camp_ShowBed(_Var4, 0);
+
+PROC
+PROC_Camp_HideBedIfDifferent((ITEM)_Var1, (ITEM)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+_Var1 != _Var2
+THEN
+PROC_SetOnStage(_Var1, 0);
+
+PROC
+PROC_Camp_ShowBed((ITEM)_Var1, 1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+
+PROC
+PROC_Camp_ShowBed((ITEM)_Var1, 0, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+
+PROC
+PROC_CacheLoadLevelTemplate((LEVELTEMPLATE)_Var1, (LEVELTEMPLATE)_Var1, (LEVELTEMPLATE)_Var1, (LEVELTEMPLATE)_Var1, (LEVELTEMPLATE)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_LevelTemplateLoaded(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+LoadLevelTemplate(_Var1);
+DB_LevelTemplateLoaded(_Var1);
+DB_Camp_LevelTemplateToDeclutter(_Var1);
+
+PROC
+PROC_CacheUnloadLevelTemplate((LEVELTEMPLATE)_Var1, (LEVELTEMPLATE)_Var1, (LEVELTEMPLATE)_Var1, (LEVELTEMPLATE)_Var1, (LEVELTEMPLATE)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_LevelTemplateLoaded(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+UnloadLevelTemplate(_Var1);
+NOT DB_LevelTemplateLoaded(_Var1);
+
+QRY
+QRY_CampBed_PlayerPresent(4, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CampBed_PlayerPresent(2, _, _, _, _)
+AND
+DB_GlobalFlag(CAMP_PartySize_AtLeast2_3bf26823-3143-4d1a-85e6-8a7e04273d77, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CampBed_PlayerPresent(1, _, _, _, _)
+AND
+DB_GlobalFlag(CAMP_PartySize_AtLeast3_ed6c9959-36e4-4235-a841-63b395f0fe4e, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CampBed_PlayerPresent(3, _, _, _, _)
+AND
+DB_GlobalFlag(CAMP_PartySize_AtLeast4_62130ed1-4567-4f3a-82ed-7801dc58e01a, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Camp_CamperPosOverride((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_Camp_CamperPosOverride_Clear(_Var1);
+DB_Camp_CamperPosOverride(_Var1, _Var2);
+
+PROC
+PROC_Camp_CamperPosOverride_Clear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_CamperPosOverride(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_CamperPosOverride(_Var1, _Var2);
+
+QRY
+QRY_Camp_GetCamperPos((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Camp_GetCamperPos(_Var1, _Var2);
+
+QRY
+QRY_Camp_GetCamperPos((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_CamperPosOverride(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _Var2);
+
+QRY
+QRY_Camp_GetCamperPos((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_OriginCampData(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+Exists(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_GetCamperPos_ReactToExists(_Var1, _Var3, _Var5, _Var1, _Var1)
+AND
+_Var5 == 1
+THEN
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _Var4);
+
+QRY
+QRY_Camp_GetCamperPos_ReactToExists((GUIDSTRING)_Var1, (STRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_Camper_TeleportOnLevelTemplateLoad(_Var1, _Var2);
+
+QRY
+QRY_Camp_GetCamperPos_ReactToExists((GUIDSTRING)_Var1, (STRING)_Var2, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_Camper_TeleportOnLevelTemplateLoad(_Var1, _Var2);
+
+QRY
+QRY_Camp_GetCamperPos((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_Camp_GetCamperPos_Custom(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_GetCamperPos((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var3, _, _, _Var6, _Var1)
+THEN
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _Var6);
+
+QRY
+QRY_Camp_GetCamperPos((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetUUID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("Could not find a Camper Position for ", _Var3, _Var4, _Var1, _Var1)
+THEN
+DebugBreak(_Var4);
+
+QRY
+QRY_Camp_GetCamperPos_Custom((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+0 == 1
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_IncreaseCampQuality((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CampQuality(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 > _Var2
+THEN
+NOT DB_CampQuality(_Var2);
+DB_CampQuality(_Var1);
+SetCampQuality(_Var1);
+
+PROC
+PROC_IncreaseCampQuality((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_CampQuality(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CampQuality(_Var1);
+SetCampQuality(_Var1);
+
+IF
+TextEvent("campswap", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var1, _, _, _, _Var1)
+THEN
+DB_ActiveCamp(_Var1);
+
+IF
+DB_ActiveCamp_Override(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp_Override(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_ActiveCamp_Override(_Var2);
+
+IF
+LevelLoaded(_, _, _, _, _)
+AND
+DB_ActiveCamp_Override(_Var2, _, _, _, _)
+THEN
+NOT DB_ActiveCamp_Override(_Var2);
+
+QRY
+QRY_Camp_SwapCampIfNecessary((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_ActiveCamp_Override(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerInCamp(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("CAMP_SwapCamp_MinicampFound", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_MiniCampTrigger(_Var5, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CAMP_SwapCamp_MinicampFound", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ActiveCamp(_Var5);
+
+QRY
+QRY_Camp_SwapCampIfNecessary((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_ActiveCamp_Override(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerInCamp(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("CAMP_SwapCamp_MinicampFound", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MainCamp(_Var4, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_ActiveCamp(_Var5);
+
+QRY
+QRY_Camp_SwapCampIfNecessary((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_ActiveCamp_Override(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_SwapCampIfNecessary_Custom(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_SwapCampIfNecessary_Custom((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_SwapCampIfNecessary((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+SysCount("DB_ActiveCamp", 1, 1, _Var1, _Var1)
+THEN
+PROC_CampSwapped("", _Var1);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_ActiveCamp(_Var2);
+PROC_CampSwapped(_Var2, _Var1);
+
+PROC
+PROC_CampSwapped((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_OnlyOnce_Reset("DeclutterMiniCamp", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MiniCampTrigger(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var1, _, _Var5, _, _Var1)
+AND
+QRY_OnlyOnce("DeclutterMiniCamp", _Var1, _Var1, _Var1, _Var1)
+THEN
+DeclutterArea(_Var5, 0, 1);
+
+PROC
+PROC_CampSwapped((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_PlayerInCamp(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugBreak("CampSwap Requested while player is in camp! This is not allowed");
+
+PROC
+PROC_CampSwapped((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_SetModeToNight();
+
+PROC
+PROC_CampSwapped((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_SetModeToDay();
+
+PROC
+PROC_CampSwapped((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_InCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_GetCamperPos(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Camp_GetCamperPos(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var3, _Var4, "", 0, 0, 1, 1, 1);
+
+PROC
+PROC_CampSwapped((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_PartOfTheTeam(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CampSwap_UpdateAnubisCampPos(_Var2, _Var3);
+
+PROC
+PROC_ORI_SetupCamp((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CampSwap_UpdateAnubisCampPos(_Var3, _Var1);
+
+IF
+LevelTemplateLoaded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CampSwap_UpdateAnubisCampPos(_Var2, _Var3);
+
+IF
+LevelTemplateLoaded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_PersonalCornerLevelTemplate(_Var2, _Var3, _Var1, _, _Var1)
+THEN
+PROC_CampSwap_UpdateAnubisCampPos(_Var2, _Var3);
+
+PROC
+PROC_CampSwap_UpdateAnubisCampPos((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+Concatenate("CampSwapped_", _Var1, _Var3, _Var1, _Var1)
+AND
+QRY_Camp_GetCamperPos(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Camp_GetCamperPos(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+Concatenate("CAMP_CamperInCamp_", _Var1, _Var5, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var2, _Var3, 1);
+SetDualEntityEvent(_Var2, _Var4, "CampPositionChange", 1);
+SetEntityEvent(_Var2, _Var5);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CampPosRequest", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_Camp_GetCamperPos(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Camp_GetCamperPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+Concatenate("CAMP_CamperInCamp_", _Var3, _Var4, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "CampPositionChange", 1);
+SetEntityEvent(_Var1, _Var4);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CAMP_VanityArmour_BlockChangeForCharacterDuringFight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetArmourSet(_Var1, 0);
+
+QRY
+QRY_CAMP_VanityArmour_BlockChangeForCharacterDuringFight((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_WokeUpAtNight(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_GotFreeShortRestAtNightBeforeCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "ALCH_POTION_REST_SLEEP_LESSER_RESTORATION", 1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_Camp_GotFreeShortRestAtNightBeforeCombat(_Var1);
+
+IF
+LeftCombat(_, _, _, _, _)
+AND
+DB_Camp_NightMode(1, _, _, _, _)
+AND NOT
+QRY_CamperInCombat()
+AND
+DB_InCamp(_Var3, _, _, _, _)
+THEN
+PROC_SetArmourSet(_Var3, 0);
+
+QRY
+QRY_CamperInCombat()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_Camp_GotFreeShortRestAtNightBeforeCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_GotFreeShortRestAtNightBeforeCombat(_Var1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, (STRING)_Var2, _, _, _)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var2, "Vandalise", _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_PlayerNotInCamp()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Camp_IsPlayerBlockedFromTeleportToCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_IsPlayerBlockedFromTeleportToCamp((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_WaypointTeleport_PlayerBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_IsPlayerBlockedFromTeleportToCamp((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp(_Var3, _, _, _, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_IsPlayerBlockedFromTeleportToCamp((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_ActiveCamp(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_AllPlayersReadyForNightMode()
+AND
+QRY_Camp_CheckPlayersReadyForNightMode()
+AND NOT
+DB_Camp_PlayerNotReadyForNightMode_CustomStoryReason(_, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_CheckPlayersReadyForNightMode()
+AND
+DB_Camp_PlayerNotReadyForNightMode_CustomStoryReason(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_PlayerNotReadyForNightMode_CustomStoryReason(_Var1);
+
+QRY
+QRY_Camp_CheckPlayersReadyForNightMode()
+AND
+QRY_Camp_CheckPlayersReadyForNightModeStoryReasons()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_CheckPlayersReadyForNightModeStoryReasons()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Camp_GetPreferredPlayerForDialogs()
+AND
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var1);
+
+QRY
+QRY_Camp_GetPreferredPlayerForDialogs()
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 0, 1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var1);
+
+QRY
+QRY_Camp_GetPreferredPlayerForDialogs()
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var1);
+
+QRY
+QRY_Camp_GetPreferredPlayerForDialogs()
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var1);
+
+QRY
+QRY_Camp_GetPreferredPlayerForDialogs()
+AND
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Camp_GetPreferredPlayerForDialogs(_Var1);
+
+QRY
+QRY_CampPreventLeaveNightModeHook((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(CAMP_Origin_State_TiredOfTalkingTo_40225d88-6220-43ec-9427-c2ee73a3deb7, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 != 0
+AND NOT
+QRY_CAMP_TiredOfTalkingTo_WrongLocation(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CAMP_TiredOfTalkingTo_WrongDialog(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CAMP_TiredOfTalkingTo_CheckSpeaker(_Var1, _Var3);
+
+PROC
+PROC_CAMP_TiredOfTalkingTo_CheckSpeaker((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OriginInPartyDialog(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CAMP_TiredOfTalkingTo_WrongSpeaker(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_CampTiredOfTalkingTo(_Var3, _Var1);
+
+PROC
+PROC_CAMP_TiredOfTalkingTo_CheckSpeaker((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CampNight_CRD(_, _Var4, _Var2, _, _Var1)
+AND NOT
+QRY_CAMP_TiredOfTalkingTo_WrongSpeaker(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_CampTiredOfTalkingTo(_Var4, _Var1);
+
+QRY
+QRY_CAMP_TiredOfTalkingTo_WrongLocation((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(CAMP_Origin_State_TiredOfTalkingTo_40225d88-6220-43ec-9427-c2ee73a3deb7, _Var1);
+
+QRY
+QRY_CAMP_TiredOfTalkingTo_WrongDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_CAMP_TiredOfTalkingTo_ValidDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(CAMP_Origin_State_TiredOfTalkingTo_40225d88-6220-43ec-9427-c2ee73a3deb7, _Var1);
+DebugBreak("The flag 'CAMP_Origin_State_TiredOfTalkingTo' was set in a wrong dialog (it can only be used in an origin in party dialog or CRD).");
+
+QRY
+QRY_CAMP_TiredOfTalkingTo_WrongSpeaker((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(CAMP_Origin_State_TiredOfTalkingTo_40225d88-6220-43ec-9427-c2ee73a3deb7, _Var1);
+DebugBreak("The flag 'CAMP_Origin_State_TiredOfTalkingTo' was set on the wrong speaker (it must be set on the avatar).");
+
+QRY
+QRY_CAMP_TiredOfTalkingTo_WrongSpeaker((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 == _Var1
+THEN
+ClearFlag(CAMP_Origin_State_TiredOfTalkingTo_40225d88-6220-43ec-9427-c2ee73a3deb7, _Var1);
+DebugBreak("The flag 'CAMP_Origin_State_TiredOfTalkingTo' was set on the wrong speaker (it must be set on the avatar, not on the companion).");
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMP_TiredOfTalkingTo_ValidDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(CAMP_Origin_State_TiredOfTalkingTo_40225d88-6220-43ec-9427-c2ee73a3deb7, _Var3);
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_CampTiredOfTalkingTo(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_CAMP_TiredOfTalkingTo_ValidDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CAMP_Origin_State_TiredOfTalkingTo_40225d88-6220-43ec-9427-c2ee73a3deb7, _Var3, 0);
+
+QRY
+QRY_CAMP_TiredOfTalkingTo_ValidDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OriginInPartyDialog(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CAMP_TiredOfTalkingTo_ValidDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CampNight_CRD(_, _, _Var1, _, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TeleportedToCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CampTiredOfTalkingTo(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CampTiredOfTalkingTo(_Var2, _Var1);
+
+PROC
+PROC_LongRest()
+AND
+DB_CampTiredOfTalkingTo(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CampTiredOfTalkingTo(_Var1, _Var2);
+
+PROC
+PROC_Camp_HideCampFollowers()
+AND
+DB_Camp_Combatants(_, _, _, _, _)
+THEN
+PROC_Camp_HideCampFollowers_Internal();
+
+PROC
+PROC_Camp_HideCampFollowers_Internal()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_Combatants(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_HiddenDuringCombat(_Var1);
+SetOnStage(_Var1, 0);
+
+PROC
+PROC_Camp_RevealCampFollowers()
+AND
+DB_Camp_HiddenDuringCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_HiddenDuringCombat(_Var1);
+SetOnStage(_Var1, 1);
+
+PROC
+PROC_LongRest()
+AND
+DB_Camp_HiddenDuringCombat(_, _, _, _, _)
+THEN
+PROC_CAMP_RevealCampFollowers();
+
+IF
+SavegameLoadStarted()
+AND
+DB_Camp_UserCampChest(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_UserCampChest(_Var1, _Var2);
+
+IF
+UserCampChestChanged((INTEGER)_Var1, (ITEM)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Camp_UserCampChest(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var2
+THEN
+NOT DB_Camp_UserCampChest(_Var1, _Var3);
+
+IF
+UserCampChestChanged((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_Camp_UserCampChest(_Var1, _Var2);
+
+IF
+TextEvent("fullcamp", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OriginCampFlags(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "DebugTeleportedToCamp");
+
+IF
+EntityEvent((CHARACTER)_Var1, "DebugTeleportedToCamp", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OriginInPartyGlobal(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CheckFirstTimeRecruited(_Var1);
+RegisterAsCompanion(_Var1, _Var3);
+
+IF
+TextEvent("campnow", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_ForceEndTheDay(_Var1, "");
+
+IF
+TextEvent("fixrest", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestLongRestFinish(_Var1);
+
+IF
+TextEvent("skipsleep", _, _, _, _)
+THEN
+DB_CAMP_SkipSleepCutscene(1);
+
+IF
+TextEvent("preventsleep", _, _, _, _)
+THEN
+DB_Camp_PreventEndOfNight(1);
+
+IF
+DB_Camp_Ambiance(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+AND
+_Var8 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+TriggerSetSoundState(_Var8, "State_InCamp", "InCamp", 1);
+
+PROC
+PROC_SetArmourSet((GUIDSTRING)_Var1, (ARMOURSET)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetArmourSet(_Var1, _Var2);
+DB_CachedArmourSet(_Var1, _Var2);
+
+IF
+DB_CachedArmourSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CachedArmourSet(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+NOT DB_CachedArmourSet(_Var1, _Var3);
+
+IF
+ArmorSetChanged((GUIDSTRING)_Var1, (ARMOURSET)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CachedArmourSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CachedArmourSet(_Var1, _Var2);
+
+QRY
+QRY_GetArmourSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GetArmourSet(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GetArmourSet(_Var2);
+
+QRY
+QRY_GetArmourSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CachedArmourSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetArmourSet(_Var2);
+
+QRY
+QRY_GetArmourSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CachedArmourSet(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetArmourSet(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetArmourSet(_Var3);
+
+PROC
+PROC_Camp_StoreArmourSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GetArmourSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetArmourSet(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_StoredArmourSet(_Var1, _Var2);
+
+PROC
+PROC_Camp_StoreArmourSetIfNotPJ((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GetArmourSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetArmourSet(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != 0
+THEN
+DB_Camp_StoredArmourSet(_Var1, _Var2);
+
+PROC
+PROC_Camp_RestoreArmourSets()
+AND
+DB_Camp_StoredArmourSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SetArmourSet(_Var1, _Var2);
+NOT DB_Camp_StoredArmourSet(_Var1, _Var2);
+
+IF
+DB_Camp_StoredArmourSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Camp_StoredArmourSet(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+NOT DB_Camp_StoredArmourSet(_Var1, _Var3);
+
+PROC
+PROC_StartDialog_ChangeClothing((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogIsAutomated(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_Var1, _Var2, _Var3, _, _Var1)
+AND
+DB_PlayerInCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_TempVanityArmour(_Var3, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CAMP_VanityArmour_BlockChangeForCharacter(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetArmourSet(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetArmourSet(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetArmourSet(_Var3, 0);
+DB_Camp_TempVanityArmour(_Var3, _Var2);
+
+QRY
+QRY_CAMP_VanityArmour_BlockChangeForCharacter((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+DialogActorLeft(_, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_Camp_TempVanityArmour(_Var3, _Var2, _, _, _)
+THEN
+NOT DB_Camp_TempVanityArmour(_Var3, _Var2);
+PROC_SetArmourSet(_Var3, 0);
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_ForceSheathedWeaponsCharacter(_Var1);
+PROC_Camp_PushUnsheathedState(_Var1, 0);
+
+IF
+TeleportedFromCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PopUnsheathedState(_Var1);
+NOT DB_Camp_ForceSheathedWeaponsCharacter(_Var1);
+
+IF
+DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_ForceSheathedWeaponsCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var1, _Var2);
+PopUnsheathedState(_Var1);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PopUnsheathedState(_Var1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var1, _Var3);
+
+IF
+LeftCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_PushUnsheathedState(_Var1, 0);
+
+IF
+CharacterReservedUserIDChanged((CHARACTER)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var1, _Var2);
+PROC_Camp_PushUnsheathedState(_Var1, 0);
+
+IF
+GainedControl((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var1, _Var3);
+PopUnsheathedState(_Var1);
+
+IF
+GainedControl((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+AND
+QRY_SameUser(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var2, _Var3);
+PROC_Camp_PushUnsheathedState(_Var2, 0);
+
+IF
+Equipped((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var2, _, _Var1, _Var1, _Var1)
+AND
+IsWeapon(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PopUnsheathedState(_Var2);
+
+IF
+Equipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_ForceSheathedWeaponsCharacter_Controlled(_Var2, _, _Var1, _Var1, _Var1)
+AND
+IsWeapon(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "BURNING", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "BURNING");
+
+PROC
+PROC_Camp_PushUnsheathedState((GUIDSTRING)_Var1, (UNSHEATHSTATE)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PushUnsheathedState(_Var1, _Var2);
+
+PROC
+PROC_Camp_PushUnsheathedState((GUIDSTRING)_Var1, (UNSHEATHSTATE)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Camp_ForceSheathedWeaponsCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_WeaponSlots(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedItem(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+HasActiveStatus(_Var4, "BURNING", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var4, "BURNING");
+
+IF
+TextEvent("Camp_TestUnsheath", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetWeaponUnsheathed(_Var1, _Var2, _Var3);
+
+IF
+TextEvent("Camp_TestUnsheath_Push", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PushUnsheathedState(_Var1, 0);
+
+IF
+TextEvent("Camp_TestUnsheath_Pop", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PopUnsheathedState(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

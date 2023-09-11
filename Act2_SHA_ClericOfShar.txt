@@ -1,0 +1,49 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+UseFinished((CHARACTER)_Var1, S_SHA_TreasureRoomControl_fb9310b5-0583-4ffc-bfc8-88b0f3d48a0a, 0, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsLocked(S_SHA_TreasureRoomDoor_2ca0c1f1-e6bb-462b-9a0e-ed9338e0c006, 1, _Var1, _Var1, _Var1)
+THEN
+Unlock(S_SHA_TreasureRoomDoor_2ca0c1f1-e6bb-462b-9a0e-ed9338e0c006);
+Open(S_SHA_TreasureRoomDoor_2ca0c1f1-e6bb-462b-9a0e-ed9338e0c006);
+PROC_CameraShakeAroundObject(_Var1, 250, 30);
+PROC_TryStartAD(GLO_WhatDidThatDo_AD_e0f4869f-3902-00df-1775-28b0bce3c88e, _Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_SHA_TreasureRoomControl_fb9310b5-0583-4ffc-bfc8-88b0f3d48a0a, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsLocked(S_SHA_TreasureRoomDoor_2ca0c1f1-e6bb-462b-9a0e-ed9338e0c006, 0, _Var1, _Var1, _Var1)
+THEN
+Close(S_SHA_TreasureRoomDoor_2ca0c1f1-e6bb-462b-9a0e-ed9338e0c006);
+Lock(S_SHA_TreasureRoomDoor_2ca0c1f1-e6bb-462b-9a0e-ed9338e0c006, "SHA_TreasureRoom");
+PROC_CameraShakeAroundObject(_Var1, 250, 30);
+PROC_TryStartAD(GLO_WhatDidThatDo_AD_e0f4869f-3902-00df-1775-28b0bce3c88e, _Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_SHA_SharranCleric_TrapControlAltar_9aa70ec0-9c90-4a41-967c-df2f63904356, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(SHA_SharranCleric_TrapAltar_3de5e6a3-26ba-4e09-a2ae-e53b900a2594, S_SHA_SharranCleric_TrapControlAltar_9aa70ec0-9c90-4a41-967c-df2f63904356, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DestroyedBy(S_SHA_SharranCleric_TrapControlAltar_9aa70ec0-9c90-4a41-967c-df2f63904356, _, _, _, (CHARACTER)_)
+THEN
+PROC_GlobalSetFlagAndCache(SHA_Traps_State_Deactivated_21c0898a-21d5-4ed8-9c4d-bf392784a7a5);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

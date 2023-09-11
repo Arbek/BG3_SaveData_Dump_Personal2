@@ -1,0 +1,117 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_LOW_SWS_Bonecloak_Civ_000_119c5cd7-e968-4668-b97d-aab953041139, LOW_SWS_Bonecloak_Civ_000_66a4edda-9a85-7b04-eb8a-9f4ed4778a05);
+DB_Dialogs(S_LOW_SWS_Bonecloak_Civ_001_137e9a88-bfdd-4e35-ac80-f8777bd45a36, LOW_SWS_Bonecloak_Civ_001_96b69cbb-8715-6838-1d7c-faf1d23f9fb1);
+DB_Dialogs(S_LOW_SWS_Bonecloak_FF_000_1c25d7db-a379-4adc-9e06-3139e78356c1, LOW_SWS_Bonecloak_FF_000_bb544a21-78ce-6b22-a9a6-ed95e55fd9be);
+DB_Dialogs(S_LOW_SWS_Bonecloak_FF_001_b6d526d6-a592-4db9-bcfd-3d04d4fab7fe, LOW_SWS_Bonecloak_FF_001_8661b97c-6024-994e-0d9e-6293f782c2b9);
+DB_Dialogs(S_LOW_SWS_Bonecloak_FF_002_9a305cf0-f6b0-4d7b-bb44-f35f571f318a, LOW_SWS_Bonecloak_FF_002_a5d53e9d-d2c1-fe70-b368-03c82f4bba4f);
+DB_Dialogs(S_LOW_SWS_Bonecloak_Civ_002_16a71001-aad5-4cd5-bfc8-c7f37a4afe79, LOW_SWS_Bonecloak_Civ_002_9be13015-a6cb-6b7e-666b-9afb56ea7677);
+DB_Dialogs(S_LOW_SWS_Bonecloak_Civ_003_e18d081d-7acc-4f6f-bb31-2154ee5f3a3c, LOW_SWS_Bonecloak_Civ_003_1313fe10-b4a0-e76d-8073-c28090f19771);
+DB_LOW_SWS_Bonecloak_Guards(S_LOW_SWS_Bonecloak_FF_000_1c25d7db-a379-4adc-9e06-3139e78356c1);
+DB_LOW_SWS_Bonecloak_Guards(S_LOW_SWS_Bonecloak_FF_001_b6d526d6-a592-4db9-bcfd-3d04d4fab7fe);
+DB_LOW_SWS_Bonecloak_Guards(S_LOW_SWS_Bonecloak_FF_002_9a305cf0-f6b0-4d7b-bb44-f35f571f318a);
+DB_LOW_SWS_Bonecloak_CivRunPos(S_LOW_SWS_Bonecloak_Civ_000_119c5cd7-e968-4668-b97d-aab953041139, S_LOW_SWS_Bonecloak_Pos_Civ_Run_000_1acf0f6d-99f5-49c8-b8b6-a1c5e93b3979);
+DB_LOW_SWS_Bonecloak_CivRunPos(S_LOW_SWS_Bonecloak_Civ_001_137e9a88-bfdd-4e35-ac80-f8777bd45a36, S_LOW_SWS_Bonecloak_Pos_Civ_Run_001_c56b13be-7051-4df8-878b-ec84eab6c79e);
+DB_LOW_SWS_Bonecloak_Civ_Pos(S_LOW_SWS_Bonecloak_Civ_002_16a71001-aad5-4cd5-bfc8-c7f37a4afe79, S_LOW_SWS_Bonecloak_Pos_Civ_002_93e86fe5-def0-46ad-97a3-7c64e4fc6624);
+DB_LOW_SWS_Bonecloak_Civ_Pos(S_LOW_SWS_Bonecloak_Civ_003_e18d081d-7acc-4f6f-bb31-2154ee5f3a3c, S_LOW_SWS_Bonecloak_Pos_Civ_003_4f1f0feb-7942-41e0-8be2-1c8539a960dc);
+
+KBSECTION
+IF
+DB_LOW_SWS_Bonecloak_Civ_Pos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+DB_LOW_SWS_Bonecloak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReaction");
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReactionFallback");
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_Bonecloak_CivRunPos(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_SWS_Bonecloak_Guards(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_LOW_SWS_Bonecloak_Guard_Chosen(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs(_Var4, _Var6, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_SWS_Bonecloak_Guard_Chosen(_Var4);
+DB_SelectedDialog(_Var6, _Var4, _Var2);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LOW_SWS_Bonecloak_Guard_Chosen(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_SWS_Bonecloak_Guard_Chosen(_Var2);
+
+PROC
+PROC_LOW_SWS_Disabled()
+AND
+DB_LOW_SWS_Bonecloak_CivRunPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, _Var2, "Run", 1, "LOW_SWS_Bonecloack_Disappeared");
+
+IF
+EntityEvent((CHARACTER)_Var1, "LOW_SWS_Bonecloack_Disappeared", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_Bonecloak_CivRunPos(_Var1, S_LOW_SWS_Bonecloak_Pos_Civ_Run_000_1acf0f6d-99f5-49c8-b8b6-a1c5e93b3979, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(S_LOW_SWS_Bonecloak_FF_000_1c25d7db-a379-4adc-9e06-3139e78356c1, S_LOW_SWS_Bonecloak_Pos_Civ_Run_000_1acf0f6d-99f5-49c8-b8b6-a1c5e93b3979, "Run", 1, "");
+
+IF
+EntityEvent((CHARACTER)_Var1, "LOW_SWS_Bonecloack_Disappeared", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_Bonecloak_CivRunPos(_Var1, S_LOW_SWS_Bonecloak_Pos_Civ_Run_001_c56b13be-7051-4df8-878b-ec84eab6c79e, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(S_LOW_SWS_Bonecloak_FF_001_b6d526d6-a592-4db9-bcfd-3d04d4fab7fe, S_LOW_SWS_Bonecloak_Pos_Civ_Run_001_c56b13be-7051-4df8-878b-ec84eab6c79e, "Run", 1, "");
+PROC_DisappearOutOfSightTo(S_LOW_SWS_Bonecloak_FF_002_9a305cf0-f6b0-4d7b-bb44-f35f571f318a, S_LOW_SWS_Bonecloak_Pos_Civ_Run_001_c56b13be-7051-4df8-878b-ec84eab6c79e, "Run", 1, "");
+
+PROC
+PROC_LOW_SWS_Transition()
+AND
+IsInTrigger(S_LOW_SWS_Bonecloak_SW_b421af30-3673-4c75-b92d-859cd212cad6, S_LOW_SWS_Bonecloak_Zone_SW_ac589a73-9d07-4cd3-b0e3-65c406d593c5, 1, _, _)
+AND
+DB_LOW_SWS_Bonecloak_Civ_Pos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_AppearOutOfSightTo(_Var1, _Var2, _Var1, "");
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_Bonecloak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_SWS_Bonecloak_DisperseCivs();
+
+PROC
+PROC_LOW_SWS_Bonecloak_DisperseCivs()
+AND
+DB_LOW_SWS_Bonecloak_CivRunPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, _Var2, "Run", 1, "");
+
+PROC
+PROC_LOW_SWS_Bonecloak_DisperseCivs()
+AND
+DB_LOW_SWS_Bonecloak_Civ_Pos(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b_LOW_SteelWatchStreets"

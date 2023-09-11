@@ -1,0 +1,109 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_MovingObject(NULL_00000000-0000-0000-0000-000000000000, "", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0, 0, 0, "", 0);
+NOT DB_GLO_MovingObject(NULL_00000000-0000-0000-0000-000000000000, "", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0, 0, 0, "", 0);
+
+KBSECTION
+IF
+DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+AND NOT
+DB_GLO_MovingObject_CurrentPos(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_MovingObject_CurrentPos(_Var1, _Var3);
+
+IF
+DualEntityEvent(_, _, (STRING)_Var3, _, _)
+AND
+DB_GLO_MovingObject(_Var4, _Var3, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _)
+THEN
+PROC_GLO_MovingObject_Move(_Var4);
+
+PROC
+PROC_GLO_MovingObject_Move((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_GLO_MovingObject_IsMoving(_Var1, _, _, _, _Var1)
+AND
+DB_GLO_MovingObject_CurrentPos(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_GLO_MovingObject(_Var1, _Var6, _Var7, _Var5, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1)
+THEN
+DB_GLO_MovingObject_IsMoving(_Var1, _Var5, _Var7, _Var11);
+ItemMoveTo(_Var1, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+PROC_GLO_MovingObject_StartedMovement(_Var1, _Var5, _Var7, _Var11);
+
+PROC
+PROC_GLO_MovingObject_Move((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_GLO_MovingObject_IsMoving(_Var1, _, _, _, _Var1)
+AND
+DB_GLO_MovingObject_CurrentPos(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_GLO_MovingObject(_Var1, _Var6, _Var5, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1)
+THEN
+DB_GLO_MovingObject_IsMoving(_Var1, _Var5, _Var7, _Var11);
+ItemMoveTo(_Var1, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+PROC_GLO_MovingObject_StartedMovement(_Var1, _Var5, _Var7, _Var11);
+
+PROC
+PROC_GLO_MovingObject_StartedMovement((ITEM)_Var1, (TRIGGER)_Var2, (TRIGGER)_Var3, (STRING)_Var4, (ITEM)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_MovingObject_IsMoving(_Var1, _Var3, _Var4, _Var2, _Var1)
+THEN
+NOT DB_GLO_MovingObject_IsMoving(_Var1, _Var3, _Var4, _Var2);
+NOT DB_GLO_MovingObject_CurrentPos(_Var1, _Var3);
+DB_GLO_MovingObject_CurrentPos(_Var1, _Var4);
+PROC_GLO_MovingObject_FinishedMovement(_Var1, _Var3, _Var4, _Var2);
+
+PROC
+PROC_GLO_MovingObject_FinishedMovement((GUIDSTRING)_Var1, (TRIGGER)_Var2, (TRIGGER)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+NOT DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9);
+
+IF
+EntityEvent((ITEM)_Var1, "movobj_select", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+SysClear("DB_GLO_Debug_CurrentMovingObject", 1);
+DB_GLO_Debug_CurrentMovingObject(_Var1);
+
+IF
+TextEvent("movobj_speed", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_Debug_CurrentMovingObject(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+AND
+GetTextEventParamReal(1, _Var10, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9);
+DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var10, _Var6, _Var7, _Var8, _Var9);
+
+IF
+TextEvent("movobj_accel", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_Debug_CurrentMovingObject(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+AND
+GetTextEventParamReal(1, _Var10, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9);
+DB_GLO_MovingObject(_Var1, _Var2, _Var3, _Var4, _Var5, _Var10, _Var7, _Var8, _Var9);
+
+
+EXITSECTION
+ENDEXITSECTION
+

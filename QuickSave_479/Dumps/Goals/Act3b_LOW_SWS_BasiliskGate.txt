@@ -1,0 +1,139 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetHitpointsPercentage(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, 5);
+ApplyStatus(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, "UNCONSCIOUS", -1);
+DB_LOW_SWS_BasiliskGate_CriminalVignette(S_LOW_SWS_BasiliskGate_Civilian_000_f2aaa9c2-3b19-422f-93ac-bbceeb8100d2, LOW_SWS_BasiliskGate_Civilian_000_28107abb-9a2c-7c5a-4764-d3d04974e681);
+DB_LOW_SWS_BasiliskGate_CriminalVignette(S_LOW_SWS_BasiliskGate_Civilian_001_23f48ec8-e686-4f60-b12b-e6075045dd31, LOW_SWS_BasiliskGate_Civilian_001_171c89aa-5ef1-8934-3e43-b534f2de414b);
+DB_LOW_SWS_BasiliskGate_CriminalVignette(S_LOW_SWS_BasiliskGate_Civilian_002_2e746867-2f83-477a-b14e-24b84ecd480a, LOW_SWS_BasiliskGate_Civilian_002_6679ba8b-d773-ac72-7b7e-5e0a490ce470);
+DB_LOW_SWS_BasiliskGate_CriminalVignette(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, LOW_SWS_BasiliskGate_Criminal_db9d8b17-46cb-f870-1ade-56d592eb2a95);
+DB_LOW_SWS_BasiliskGate_CriminalVignette(S_LOW_SWS_BasiliskGate_FF_000_eae7283e-c73a-4355-af03-0963ee189af1, LOW_SWS_BasiliskGate_FF_000_f9e9c27e-a028-74b6-050c-b0eee718cd66);
+DB_LOW_SWS_BasiliskGate_CriminalVignette(S_LOW_SWS_BasiliskGate_FF_001_0f84f1c1-2321-47f9-be8b-46df8f5f1dec, LOW_SWS_BasiliskGate_FF_001_f4d5da51-52f5-42bb-44e2-1cd9d866adfb);
+DB_LOW_SWS_BasiliskGate_CriminalVignette(S_LOW_SWS_BasiliskGate_FF_002_436652ca-46ca-4e7c-bdf4-df75a40720ea, LOW_SWS_BasiliskGate_FF_002_2959ed2f-954c-a841-a60f-42345a9f088b);
+DB_LOW_SWS_BasiliskGate_Guards(S_LOW_SWS_BasiliskGate_FF_000_eae7283e-c73a-4355-af03-0963ee189af1);
+DB_LOW_SWS_BasiliskGate_Guards(S_LOW_SWS_BasiliskGate_FF_001_0f84f1c1-2321-47f9-be8b-46df8f5f1dec);
+DB_LOW_SWS_BasiliskGate_Guards(S_LOW_SWS_BasiliskGate_FF_002_436652ca-46ca-4e7c-bdf4-df75a40720ea);
+DB_LOW_SWS_BasiliskGate_Civs(S_LOW_SWS_BasiliskGate_Civilian_000_f2aaa9c2-3b19-422f-93ac-bbceeb8100d2);
+DB_LOW_SWS_BasiliskGate_Civs(S_LOW_SWS_BasiliskGate_Civilian_001_23f48ec8-e686-4f60-b12b-e6075045dd31);
+DB_LOW_SWS_BasiliskGate_Civs(S_LOW_SWS_BasiliskGate_Civilian_002_2e746867-2f83-477a-b14e-24b84ecd480a);
+DB_GLO_DefeatCounter(S_LOW_SWS_BasiliskGate_SW_489effa9-e6a0-43bd-9685-3a2ef877e8c6, "LOW_SWS_BasiliskGate");
+PROC_SelfHealing_Disable(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c);
+
+KBSECTION
+IF
+DB_LOW_SWS_BasiliskGate_CriminalVignette(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Dialogs(_Var1, _Var2);
+
+QRY
+QRY_CorpseLooting_ShouldMakeOwned(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_BasiliskGate_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DialogShouldIgnoreMutingStatusses(LOW_SWS_BasiliskGate_Criminal_db9d8b17-46cb-f870-1ade-56d592eb2a95, _, S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, "UNCONSCIOUS", _, _, (GUIDSTRING)_)
+THEN
+SetFlag(LOW_SWS_BasiliskGate_CriminalKnockedOut_b9cf3fc2-de97-40c8-bbab-cd59b19337c1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_LOW_SWS_Transition()
+THEN
+TriggerSetCrowdBehaviour(CCT_BsG_Anger_01_cfa23660-8062-4ea6-b238-24a6e61873c1, 0);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_BasiliskGate_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_SWS_BasiliskGate_DisperseCivs();
+
+PROC
+PROC_LOW_SWS_BasiliskGate_DisperseCivs()
+AND
+DB_LOW_SWS_BasiliskGate_Civs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "");
+
+PROC
+PROC_LOW_SWS_BasiliskGate_DisperseCivs()
+THEN
+TriggerSetCrowdBehaviour(CCT_BsG_Anger_01_cfa23660-8062-4ea6-b238-24a6e61873c1, 0);
+
+IF
+DB_LOW_SWS_BasiliskGate_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReaction");
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReactionFallback");
+DB_GLO_DefeatCounter(_Var1, "LOW_SWS_BasiliskGate");
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("LOW_SWS_BasiliskGate", _, _, _, _)
+THEN
+DB_LOW_SWS_BasiliskGate_NoGuards(1);
+
+IF
+DB_LOW_SWS_BasiliskGate_NoGuards(1, _, _, _, _)
+THEN
+PROC_LOW_SWS_BasiliskGate_DisperseCivs();
+
+IF
+Deactivated(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, _, _, _, _)
+AND
+DB_LOW_SWS_BasiliskGate_NoGuards(1, _, _, _, _)
+THEN
+SetOnStage(S_LOW_SWS_BasiliskGate_Criminal_c21a2d99-f10d-4211-8d6a-d04851bb177c, 0);
+PROC_LOW_SWS_BasiliskGate_DisperseCivs();
+
+IF
+DialogStarted((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_LOW_SWS_BasiliskGate_CriminalVignette(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_SWS_BasiliskGate_CriminalVignette_ScheduleRemove(1);
+
+PROC
+PROC_LongRest()
+AND NOT
+DB_LOW_SWS_BasiliskGate_NoGuards(1, _, _, _, _)
+AND
+DB_LOW_SWS_BasiliskGate_CriminalVignette_ScheduleRemove(1, _, _, _, _)
+AND
+DB_LOW_SWS_BasiliskGate_CriminalVignette(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+SetOnStage(_Var1, 0);
+NOT DB_LOW_SWS_BasiliskGate_CriminalVignette(_Var1, _Var2);
+
+PROC
+PROC_LongRest()
+AND NOT
+DB_LOW_SWS_BasiliskGate_NoGuards(1, _, _, _, _)
+AND
+DB_LOW_SWS_BasiliskGate_CriminalVignette_ScheduleRemove(1, _, _, _, _)
+THEN
+NOT DB_LOW_SWS_BasiliskGate_CriminalVignette_ScheduleRemove(1);
+TriggerDespawnCrowd(CCT_BsG_Anger_01_cfa23660-8062-4ea6-b238-24a6e61873c1);
+TriggerSetCrowdSpawningEnable(CCT_BsG_Anger_01_cfa23660-8062-4ea6-b238-24a6e61873c1, 0);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_BasiliskGate_CriminalVignette(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_SWS_BasiliskGate_CriminalVignette(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b_LOW_SteelWatchStreets"

@@ -1,0 +1,141 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_PartyDialogSuppressionZone(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_PartyDialogSuppression_CustomDialogForParty(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_PartyDialogSuppression_CustomDialogForCompanion(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_PartyDialogSuppression_AllowAllRelationshipDialogsForCompanion(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_PartyDialogSuppression_AllowSpecificRelationshipDialogForCompanion(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_PartyDialogSuppressionZone(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyDialogSuppressionZone(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyDialogSuppressed(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_PartyDialogSuppressed_Start(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyDialogSuppressionZone(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PartyDialogSuppressed(_Var1, _Var2);
+
+QRY
+QRY_PartyDialogSuppressed((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyDialogSuppressed(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PartyDialogSuppressionOverride(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PartyDialogSuppressionOverride((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyDialogSuppression_AllowAllRelationshipDialogsForCompanion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PartyDialogSuppressionOverride((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyDialogSuppression_AllowSpecificRelationshipDialogForCompanion(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var3, _Var4, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PartyDialogSuppressed_CheckRelationshipDialogAllowed((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PartyDialogSuppressed(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PartyDialogSuppressed_CheckRelationshipDialogAllowed((CHARACTER)_Var1, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyDialogSuppressed(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_PartyDialogSuppression_AllowAllRelationshipDialogsForCompanion(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PartyDialogSuppressed_CheckRelationshipDialogAllowed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyDialogSuppressed(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_PartyDialogSuppression_AllowSpecificRelationshipDialogForCompanion(_Var1, _Var4, _Var2, _Var3, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyDialogSuppressed(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PartyDialogSuppressed(_Var1, _Var2);
+PROC_PartyDialogSuppressed_CheckStop(_Var1);
+
+IF
+DB_PartyDialogSuppressed(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyDialogSuppressionZone(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PartyDialogSuppressed(_Var1, _Var2);
+PROC_PartyDialogSuppressed_CheckStop(_Var1);
+
+PROC
+PROC_PartyDialogSuppressed_CheckStop((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PartyDialogSuppressed(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_PartyDialogSuppressed_Stop(_Var1);
+
+PROC
+PROC_PartyDialogSuppressed_Start((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_PartyDialogSuppressed_Stop((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LongRest()
+THEN
+PROC_PartyDialogSuppression_SafetyCheck();
+
+IF
+SavegameLoaded()
+THEN
+PROC_PartyDialogSuppression_SafetyCheck();
+
+PROC
+PROC_PartyDialogSuppression_SafetyCheck()
+AND
+DB_PartyDialogSuppressed(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var2, 0, _Var1, _Var1)
+THEN
+NOT DB_PartyDialogSuppressed(_Var1, _Var2);
+PROC_PartyDialogSuppressed_CheckStop(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

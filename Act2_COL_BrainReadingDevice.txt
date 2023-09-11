@@ -1,0 +1,209 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_COL_BrainJars(S_COL_BrainJar_Mem_ButcherDoors_349f0c6d-bde7-4d52-86bf-55b29bb96853, COL_BrainReader_Memory_ButcherDoors_e554e559-b12d-04b4-039f-73e86db247e9);
+DB_COL_BrainJars(S_COL_BrainJar_Mem_Foreshadowing_1cbd9345-e851-4ce7-9fce-360a4c44fcaa, COL_BrainReader_Memory_Foreshadowing_3cd763ba-ffa0-9853-1032-2e0d652c57ee);
+DB_COL_BrainJars(S_COL_BrainJar_Mem_Raptured_f6d1e6f9-b08c-4111-abef-8faa37f0c3f1, COL_BrainReader_Memory_Raptured_085262e5-3cc5-8b17-6eea-f7b2366f3929);
+DB_COL_BrainJars(S_COL_BrainJar_Mem_DeviceExplained_45eef9df-05be-4ece-9fef-6bcac39b176d, COL_BrainReader_Memory_DeviceExplained_66372bcb-f890-5257-a79d-749bf5b3eeba);
+DB_COL_BrainJars(S_COL_BrainJar_Mem_TrueSoul_06f12e82-0a82-44c5-8df8-aa7e8f608898, COL_BrainReader_Memory_TrueSoul_ad186af2-f32c-683b-add2-5c7bfca5c1fc);
+DB_COL_BrainJars(S_COL_Vault_MemoryJar_193f87db-6a26-4f00-a289-63e247740176, COL_Brainreader_Memory_Vault_f45de8f9-c81b-37ac-4e3e-97acfc528fa2);
+DB_COL_BrainJars(S_TUT_Lab_AdventurerBrainJar_2c5bca7e-8649-4217-9ebb-52b20a506e99, COL_BrainReader_Memory_TutorialSlave_fbdafc26-30ee-bb62-6e7f-b95414625b89);
+DB_COL_BrainJars(S_TUT_Lab_ClericBrainJar_f938e0a4-fb50-4d69-8b40-18e9bba30a22, COL_BrainReader_Memory_TutorialDark_5dd8d2e4-376e-0041-6ae0-8b6e2d38229d);
+DB_DialogBlockAttackButton(COL_BrainReader_Memory_None_64b1cc35-29db-fda7-dbc2-f09ac3f2218f);
+DB_DialogBlockTradeButton(COL_BrainReader_Memory_None_64b1cc35-29db-fda7-dbc2-f09ac3f2218f);
+DB_COL_BrainReader(S_COL_BrainReadingDevice_Input_4ebddd96-48b3-4707-8560-d973777a59fe);
+DB_Dialogs(S_COL_BrainReader_Head_Character_034ec7e7-948b-4c1e-9a38-82efbe459ee4, S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90, COL_BrainReader_Memory_None_64b1cc35-29db-fda7-dbc2-f09ac3f2218f);
+SetOnStage(S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, 0);
+DB_FlagReactionAfterDialog(COL_BrainReader_Memory_Vault_ReceiveReward_def281a4-3806-b279-8bda-87fcb283ff79, COL_Brainreader_Memory_Vault_f45de8f9-c81b-37ac-4e3e-97acfc528fa2);
+DB_COL_Manuscripts(S_COL_MemLib_Manuscript_001_3da0434f-f7d1-45d9-a684-3cfec4b114f0, "BOOK_COL_Manuscript_001", "COL_Manuscript_001");
+DB_COL_Manuscripts(S_COL_MemLib_Manuscript_002_caf5ae99-db7b-41f7-a210-b60e852cde31, "BOOK_COL_Manuscript_002", "COL_Manuscript_002");
+DB_COL_Manuscripts(S_COL_MemLib_Manuscript_003_98cc9a56-4b16-4064-9cad-55ca461efd0e, "BOOK_COL_Manuscript_003", "COL_Manuscript_003");
+DB_COL_Manuscripts(S_COL_MemLib_Manuscript_004_15789759-d491-46f6-aec5-7bb59aa4024f, "BOOK_COL_Manuscript_004", "COL_Manuscript_004");
+DB_KnowledgeSkillcheck_AlwaysPlayAD("COL_MemLib_Manuscripts_NonTadpoled", NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+TextEvent("MemLib_TutorialJars", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_TUT_Lab_AdventurerBrainJar_2c5bca7e-8649-4217-9ebb-52b20a506e99, _Var1, 1, 1, 1);
+ToInventory(S_TUT_Lab_ClericBrainJar_f938e0a4-fb50-4d69-8b40-18e9bba30a22, _Var1, 1, 1, 1);
+
+IF
+TextEvent("MemLib_AllJars", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_COL_BrainReader_DEBUG_Point_1f1ff242-0885-4f9b-8f18-df4b66f2edbe, "", 1, 1, 1, 1, 1);
+
+IF
+TextEvent("MemLib_AllJars", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_COL_BrainJars(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+ToInventory(_Var2, _Var1, 1, 1, 1);
+
+IF
+DB_COL_Manuscripts(_, _Var2, _Var3, _, _)
+THEN
+AddEntryToCustomBook(_Var2, _Var3);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_Manuscripts(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+OpenReferencedBookUI(_Var1, _Var3, _Var2);
+
+IF
+CustomBookUIClosed((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_Manuscripts(_Var3, _Var2, _, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck(_Var1, "COL_MemLib_Manuscripts", NULL_00000000-0000-0000-0000-000000000000, "Arcana", Act2_Medium_89f0acd4-346f-479d-8b7a-1a3eb5382f6d, COL_MemoryLibrary_PAD_Manuscripts_14fd17ee-ac26-3f32-4187-10e83d722785, COL_MemoryLibrary_Manuscripts_ArcanaCheckSuccess_61a7f1be-3ed7-e079-5ee9-9029defb3ba1);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_COL_Manuscripts(_Var2, _, _, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck(_Var1, "COL_MemLib_Manuscripts_NonTadpoled", NULL_00000000-0000-0000-0000-000000000000, "Arcana", Act2_Medium_89f0acd4-346f-479d-8b7a-1a3eb5382f6d, COL_MemoryLibrary_PAD_Manuscripts_14fd17ee-ac26-3f32-4187-10e83d722785, COL_MemoryLibrary_Manuscripts_ArcanaCheckSuccess_NonTadpoled_cf87b746-48a5-2d22-7868-93467c1b9ac8);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_COL_Manuscripts(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+IF
+UseStarted(S_COL_Butcher_82ebdca0-f478-4c2b-a529-179a7e82b3db, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_COL_Manuscripts(_Var1, _Var2, _, _Var1, _Var1)
+AND
+QRY_StartDialog(COL_MemoryLibrary_AD_ButcherReadsManuscript_9188fb6e-39b1-0c7e-73ef-9863993c22c4, S_COL_Butcher_82ebdca0-f478-4c2b-a529-179a7e82b3db, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_COL_BrainJars(_, _Var2, _, _, _)
+THEN
+DB_DialogBlockAttackButton(_Var2);
+DB_DialogBlockTradeButton(_Var2);
+
+IF
+Combined((ITEM)_Var1, (ITEM)_Var2, _, _, _, (CHARACTER)_Var6, (ITEM)_Var7, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_COL_BrainReader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_BrainReader(_Var1);
+DB_COL_BrainReader(_Var7);
+PROC_COL_SetBrainReaderJar(_Var2, _Var6);
+
+PROC
+PROC_COL_SetBrainReaderJar((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_COL_BrainJars(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_DeviceRemoveBrainJar(_Var2);
+Transform(S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, _Var1, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+SetOnStage(S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, 1);
+TeleportTo(_Var1, S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719);
+SetOnStage(_Var1, 0);
+DB_COL_BrainReader_InsertedJar(_Var1);
+PROC_COL_BrainReadingDevice_SetDialog(_Var3);
+
+PROC
+PROC_COL_BrainReadingDevice_SetDialog(_, _, _, _, _)
+AND
+DB_Dialogs(S_COL_BrainReader_Head_Character_034ec7e7-948b-4c1e-9a38-82efbe459ee4, S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90, _Var2, _, _)
+THEN
+NOT DB_Dialogs(S_COL_BrainReader_Head_Character_034ec7e7-948b-4c1e-9a38-82efbe459ee4, S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90, _Var2);
+
+PROC
+PROC_COL_BrainReadingDevice_SetDialog(_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90);
+PROC_RemoveAllDialogEntriesForSpeaker(S_COL_BrainReader_Head_Character_034ec7e7-948b-4c1e-9a38-82efbe459ee4);
+
+PROC
+PROC_COL_BrainReadingDevice_SetDialog((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+THEN
+DB_Dialogs(S_COL_BrainReader_Head_Character_034ec7e7-948b-4c1e-9a38-82efbe459ee4, S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90, _Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_COL_BrainReader_InsertedJar(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_DeviceRemoveBrainJar(_Var1);
+PROC_COL_BrainReadingDevice_SetDialog(COL_BrainReader_Memory_None_64b1cc35-29db-fda7-dbc2-f09ac3f2218f);
+
+PROC
+PROC_COL_DeviceRemoveBrainJar((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_COL_BrainReader_InsertedJar(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var2, 1);
+ToInventory(_Var2, _Var1, 1, 0, 1);
+NOT DB_COL_BrainReader_InsertedJar(_Var2);
+SetOnStage(S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, 0);
+PROC_COL_BrainReadingDevice_SetDialog(COL_BrainReader_Memory_None_64b1cc35-29db-fda7-dbc2-f09ac3f2218f);
+
+IF
+WentOnStage(S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, 1, _, _, _)
+AND NOT
+DB_DialogNPCs(_, S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90, _, _, _)
+THEN
+SetCanInteract(S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, 1);
+
+IF
+DialogStarted((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Dialogs(S_COL_BrainReader_Head_Character_034ec7e7-948b-4c1e-9a38-82efbe459ee4, S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90, _Var1, _Var1, _Var1)
+AND
+DB_COL_BrainReader(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanInteract(_Var3, 0);
+SetCanInteract(S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, 0);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Dialogs(S_COL_BrainReader_Head_Character_034ec7e7-948b-4c1e-9a38-82efbe459ee4, S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90, _Var1, _Var1, _Var1)
+AND
+DB_COL_BrainReader(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanInteract(_Var3, 1);
+SetCanInteract(S_COL_BrainReader_Jar_Dummy_f1adcfc6-7657-48a7-b89a-c0e347327719, 1);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, COL_BrainReader_Memory_Vault_ReceiveReward_def281a4-3806-b279-8bda-87fcb283ff79, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyStatus(_Var1, "COL_GITHZERAI_MIND_TECHNIQUE", -1, 0, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

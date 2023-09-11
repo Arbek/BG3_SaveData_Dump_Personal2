@@ -1,0 +1,103 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_WildMagic_AD("Shout_WildMagic_TurnMagic", GLO_WildMagic_AD_TurnMagic_544e5cfb-ea0c-1b50-5814-1b00e7c5236c);
+DB_WildMagic_AD("Shout_WildMagic_Burning", GLO_WildMagic_AD_Burning_d1e2d251-e12c-c226-732a-d1234ad8afcd);
+DB_WildMagic_AD("Shout_WildMagic_Teleport", GLO_WildMagic_AD_Teleport_b08eed48-f531-7a68-93c2-6ea83cbfa7e7);
+DB_WildMagic_AD("Shout_WildMagic_Enchant", GLO_WildMagic_AD_Enchant_bf2f449a-2630-5367-96ba-3612debf2cc2);
+DB_WildMagic_AD("Shout_WildMagic_SorceryPoints", GLO_WildMagic_AD_SorceryPoints_4291bb00-2d08-4ae7-ef60-e7b793c30327);
+DB_WildMagic_AD("Shout_WildMagic_Fog", GLO_WildMagic_AD_Fog_36972b46-9846-8372-6b48-4537b6fc9d45);
+DB_WildMagic_AD("Shout_WildMagic_Blur", GLO_WildMagic_AD_Blur_1fbe352f-8f83-26c0-1054-179c7e51d99f);
+DB_WildMagic_AD("Shout_WildMagic_Heal", GLO_WildMagic_AD_Healing_8e6739f5-8884-a81d-ff35-e36980d10bd7);
+DB_WildMagic_AD("Shout_WildMagic_Mephit", GLO_WildMagic_AD_Mephit_ca35289b-e504-4948-9d84-9d7e6660ea83);
+DB_WildMagic_AD("Shout_WildMagic_Swap", GLO_WildMagic_AD_Swap_b23fc826-4bc6-2b21-416f-59ae8efae161);
+
+KBSECTION
+IF
+RandomCastProcessed((CHARACTER)_Var1, _, (STRING)_Var3, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WildMagic_TryAD(_Var1, _Var3);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WildMagic_ADCastCooldown(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_WildMagic_ADCastCooldown(_Var1, _Var2);
+DB_WildMagic_ADCastCooldown(_Var1, _Var3);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_WildMagic_ADCooldown", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_WildMagic_ADTimerCooldown(_Var1);
+
+IF
+DB_WildMagic_ADCastCooldown(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WildMagic_ADCastCooldown(_Var1, 0);
+
+PROC
+PROC_WildMagic_TryAD((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WildMagic_ADTimerCooldown(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WildMagic_AD(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_WildMagic_QueuedAD(_Var1, _Var4);
+ObjectTimerLaunch(_Var1, "GLO_WildMagic_ADDelay", 2000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "GLO_WildMagic_ADDelay", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WildMagic_QueuedAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var2, _Var1);
+DB_WildMagic_ADTimerCooldown(_Var1);
+ObjectTimerLaunch(_Var1, "GLO_WildMagic_ADCooldown", 60000);
+NOT DB_WildMagic_QueuedAD(_Var1, _Var2);
+
+PROC
+PROC_WildMagic_TryAD((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_WildMagic_ADCastCooldown(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WildMagic_ADCombatCooldown(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_WildMagic_AD(_Var2, _Var6, _Var1, _Var1, _Var1)
+AND
+Random(1, _Var7, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var7, 2, _Var8, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var6, _Var1);
+DB_WildMagic_ADCastCooldown(_Var1, _Var8);
+DB_WildMagic_ADCombatCooldown(_Var1, _Var2, _Var3);
+
+IF
+LeftCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WildMagic_ADCombatCooldown(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_WildMagic_ADCombatCooldown(_Var1, _Var3, _Var2);
+
+IF
+LeftCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WildMagic_ADCastCooldown(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WildMagic_ADCastCooldown(_Var1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

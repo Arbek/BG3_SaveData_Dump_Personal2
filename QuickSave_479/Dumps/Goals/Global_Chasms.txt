@@ -1,0 +1,174 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_GLO_Chasms_ChasmRecoveryAnimation(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+EnteredChasm((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Chasms_HasChasmImmunity(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_GLO_ChasmReturnType(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+EnterChasmProcessed(_Var1, 1);
+TeleportToPosition(_Var1, _Var4, _Var5, _Var6, "", 0, 0, 0, 0, 1);
+PROC_GLO_Chasms_RecoverFromChasm(_Var1, _Var7);
+NOT DB_QRY_RTN_GLO_ChasmReturnType(_Var7);
+
+PROC
+PROC_GLO_Chasms_RecoverFromChasm((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Chasms_ChasmRecoveryAnimation(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+ApplyStatus(_Var1, "CHASM_IMMUNITY_VFX_POOF", 0, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_Chasms_RecoverFromChasm((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Chasms_ChasmRecoveryAnimation(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+ApplyStatus(_Var1, "CHASM_IMMUNITY_VFX_SPLASH", 0, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_Chasms_RecoverFromChasm((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Chasms_ChasmRecoveryAnimation(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PlayAnimation(_Var1, _Var3, "");
+SetOnStage(_Var1, 1);
+
+QRY
+QRY_GLO_Chasms_HasChasmImmunity((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, CHASM_IMMUNE_1063224a-a5ab-41b1-b309-0ac730e4e8ce, 1, _Var1, _Var1)
+AND
+IsTagged(_Var2, DEEP_WATER_CHASM_fb59fa11-9bd3-4af4-a81d-b5ad1882102e, 0, _Var1, _Var1)
+THEN
+DB_GLO_Chasms_HasChasmImmunity(_Var1);
+DB_QRY_RTN_GLO_ChasmReturnType(0);
+
+QRY
+QRY_GLO_Chasms_HasChasmImmunity((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Chasms_HasChasmImmunity(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, CHASM_IMMUNE_1063224a-a5ab-41b1-b309-0ac730e4e8ce, 1, _Var1, _Var1)
+THEN
+DB_GLO_Chasms_HasChasmImmunity(_Var1);
+DB_QRY_RTN_GLO_ChasmReturnType(1);
+
+QRY
+QRY_GLO_Chasms_HasChasmImmunity((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Chasms_HasChasmImmunity(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, CHASM_IMMUNE_FLY_8803503b-64e0-49dd-ba5b-0c4f2c5cc0b5, 1, _Var1, _Var1)
+AND
+IsTagged(_Var2, DEEP_WATER_CHASM_fb59fa11-9bd3-4af4-a81d-b5ad1882102e, 0, _Var1, _Var1)
+THEN
+DB_GLO_Chasms_HasChasmImmunity(_Var1);
+DB_QRY_RTN_GLO_ChasmReturnType(0);
+
+QRY
+QRY_GLO_Chasms_HasChasmImmunity((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Chasms_HasChasmImmunity(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, CHASM_IMMUNE_SWIM_b7018e56-3185-4dde-8605-48bd9e782969, 1, _Var1, _Var1)
+AND
+IsTagged(_Var2, DEEP_WATER_CHASM_fb59fa11-9bd3-4af4-a81d-b5ad1882102e, 1, _Var1, _Var1)
+THEN
+DB_GLO_Chasms_HasChasmImmunity(_Var1);
+DB_QRY_RTN_GLO_ChasmReturnType(1);
+
+QRY
+QRY_GLO_Chasms_HasChasmImmunity((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Chasms_HasChasmImmunity(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Chasms_HasChasmImmunity(_Var1);
+
+IF
+EnteredChasm((CHARACTER)_Var1, (GUIDSTRING)_Var2, _, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_PlayerEnteredChasm(_Var1, _Var2, _Var4, _Var5, _Var6);
+
+PROC
+PROC_Camp_PlayerEnteredChasm((CHARACTER)_Var1, (GUIDSTRING)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5)
+THEN
+DB_ChasmRetrievalDelay(_Var1, _Var3, _Var4, _Var5);
+RealtimeObjectTimerLaunch(_Var1, "ChasmRetrievalDelay", 1000);
+SetVisible(_Var1, 0);
+Die(_Var1, 0, _Var2, 1, 1);
+EnterChasmProcessed(_Var1, 1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "ChasmRetrievalDelay", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsDead(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_ChasmRetrievalDelay(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+ApplyStatus(_Var1, "DEAD_WILL_O_WISP", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+TeleportToPosition(_Var1, _Var2, _Var3, _Var4, "ChasmCorpseTeleported", 0, 0, 1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "ChasmRetrievalDelay", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsDead(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_ChasmRetrieval_Clear(_Var1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "DEAD_WILL_O_WISP", _, _, (GUIDSTRING)_Var1)
+THEN
+DB_ChasmRetrieval_Requirement1(_Var1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "ChasmCorpseTeleported", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_ChasmRetrieval_Requirement2(_Var1);
+
+IF
+DB_ChasmRetrieval_Requirement1(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ChasmRetrieval_Requirement2(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ChasmRetrievalDelay(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_ChasmRetrievalDelay(_Var1, _Var2, _Var3, _Var4);
+NOT DB_ChasmRetrieval_Requirement1(_Var1);
+NOT DB_ChasmRetrieval_Requirement2(_Var1);
+SetVisible(_Var1, 1);
+
+IF
+Resurrected((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveStatus(_Var1, "DEAD_WILL_O_WISP", NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ChasmRetrieval_Clear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ChasmRetrievalDelay(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_ChasmRetrievalDelay(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_ChasmRetrieval_Clear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_ChasmRetrieval_Requirement1(_Var1);
+NOT DB_ChasmRetrieval_Requirement2(_Var1);
+SetVisible(_Var1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

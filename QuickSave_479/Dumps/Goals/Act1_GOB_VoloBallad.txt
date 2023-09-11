@@ -1,0 +1,761 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_SceneBox_9237b20a-8227-41fb-9de7-dc26729d77cf);
+PROC_TriggerRegisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_FirstHeardArea_7d714a14-2d80-44d4-ba90-479e8510c024);
+DB_Dialogs(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, DIALOGRESOURCEGUID_GOB_VoloBallad_Guard_17bcffb4-b779-f7ff-547c-dbd4f989f99d);
+DB_GOB_VoloBallad_CanTeleportToGoblinCamp(1);
+DB_HasItemEvent(S_GOB_VoloCage_Key_82df88e8-f42f-4dd7-bb11-34b8bed5e622, GOB_VoloBallad_GuardHasKey_2a96a079-d869-4cf0-8194-a17b39f7e6b9);
+DB_GiveItemToEvent(S_GOB_VoloCage_Key_82df88e8-f42f-4dd7-bb11-34b8bed5e622, GOB_VoloBallad_GuardGivesKey_ade25d8a-e00d-40cb-8c66-357cd5ed921e);
+DB_DialogMoneyTransfer(1, GOB_VoloBallad_Guard_AtCage_85b7cd39-6bcf-fbd2-da72-57020d75280e, 20);
+DB_DialogMoneyTransfer(2, GOB_VoloBallad_Guard_AtCage_85b7cd39-6bcf-fbd2-da72-57020d75280e, 100);
+DB_DialogMoneyTransfer(3, GOB_VoloBallad_Guard_AtCage_85b7cd39-6bcf-fbd2-da72-57020d75280e, 250);
+DB_DialogMoneyTransfer(4, GOB_VoloBallad_Guard_AtCage_85b7cd39-6bcf-fbd2-da72-57020d75280e, 500);
+DB_PermaDefeatedEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, GLO_Volo_State_PermaDefeated_90bacc1d-9755-4e24-adc3-9016698a7be6);
+DB_HasItemTemplateScriptFlag(1, GOB_VoloBallad_Volo_InCage_95702065-64ac-65ea-27fd-69a5a003db91, CONS_Potion_Invisible_A_809d5026-4896-4b3a-986e-95da58da77e2, 1);
+TriggerRegisterForCharacter(S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+Open(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd);
+SetCanInteract(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, 0);
+
+KBSECTION
+IF
+FlagSet(Debug_GOB_VoloBallad_ToPrison_ba34da35-845d-4471-bb97-7fe7af8a14ea, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GOB_VoloBallad_SetupOnSceneFlags();
+ClearFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_RemoveDialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+PROC_RemoveDialog(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+DB_Dialogs(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, GOB_VoloBallad_Volo_InCage_95702065-64ac-65ea-27fd-69a5a003db91);
+DB_Dialogs(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, GOB_VoloBallad_Guard_AtCage_85b7cd39-6bcf-fbd2-da72-57020d75280e);
+DB_GOB_VoloBallad_InterruptDialog(1);
+TeleportTo(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, TRIGGERGUID_S_GOB_VoloGuard_CagePoint_d3f2c1c1-fcc5-4a7d-85de-63fc7d1132c6, "");
+TeleportTo(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, TRIGGERGUID_S_GOB_Volo_CagePoint_696dcbd7-ef54-42ad-915d-665f44fb9fb3, "GOB_VoloBallad_VoloMovedToCage");
+ClearFlag(Debug_GOB_VoloBallad_ToPrison_ba34da35-845d-4471-bb97-7fe7af8a14ea, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_SetCustomTradeTreasure(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_Volo_Imprisoned_Trade");
+SetCanTrade(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 0);
+SetFlag(GOB_VoloBallad_Event_StartedEscorting_a434b9cc-ac7d-42a3-9bb5-097da1a6fe96, S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+
+IF
+FlagSet(Debug_Quest_VoloToCamp_fd40e1a2-b595-23f8-9147-e6842e12bd01, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+AppearAt(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, TRIGGERGUID_S_GOB_Volo_ScenePoint_bcb4ce23-d204-4d67-b96f-51ba34037cb0, 0, NULL_00000000-0000-0000-0000-000000000000, "");
+PROC_DEN_RemoveFromDenNPCs(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+PROC_GOB_VoloBallad_SetupOnSceneFlags();
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "DEN_VoloLeft", _, _, _)
+AND
+DB_GOB_VoloBallad_CanTeleportToGoblinCamp(1, _, _, _, _)
+THEN
+PROC_GOB_Festivities_TeleportNPCToFestivities(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_Event_VoloTeleported", TRIGGERGUID_S_GOB_Volo_ScenePoint_bcb4ce23-d204-4d67-b96f-51ba34037cb0);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_GOB_CampFirstHalfArea_d98ba3fa-743e-4d0e-98d8-2b3f79c17647, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GOB_VoloBallad_CanTeleportToGoblinCamp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GOB_Festivities_TeleportNPCToFestivities(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_Event_VoloTeleported", TRIGGERGUID_S_GOB_Volo_ScenePoint_bcb4ce23-d204-4d67-b96f-51ba34037cb0);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_Event_VoloTeleported", _, _, _)
+THEN
+NOT DB_GOB_VoloBallad_CanTeleportToGoblinCamp(1);
+PROC_DEN_RemoveFromDenNPCs(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+SetFlag(GLO_Volo_State_AtGoblinCamp_fc815506-028d-582d-a953-4182d682aa07, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_Event_VoloTeleported", _, _, _)
+AND NOT
+DB_Defeated(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _, _, _, _)
+THEN
+PROC_GOB_VoloBallad_SetupOnSceneFlags();
+PROC_NotifyWhenReadyToMoveOn(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, "VoloGuard_ToVoloStage");
+
+PROC
+PROC_GOB_VoloBallad_SetupOnSceneFlags()
+THEN
+PROC_SceneDialogOnly("GOB_VoloScene", S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBaladTrigger_91d3dd42-57ad-4d6f-a165-619176d79552);
+ClearFlag(GLO_Volo_State_AtDen_c1bb44ab-c358-46d1-a261-34356bf1d071, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_CRIME_MusicalPerformance_DisableAllReactions(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+IF
+FlagSet(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+DB_Dialogs(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, NULL_00000000-0000-0000-0000-000000000000, GOB_VoloBallad_Volo_FestivitiesArea_30ce4472-a341-1b45-48ef-1913293b80ed);
+PROC_SetCustomTradeTreasure(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_Volo_Imprisoned_Trade");
+SetCanTrade(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 0);
+SetRelation(ACT1_GOB_VoloGuard_5e50ffef-d250-4a18-a3d4-b3fe4f574a4b, GLO_Volo_6c49b752-0dc2-4f85-86cf-0c2bd418305c, 100);
+PROC_CharacterDisableAllCrimes(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+PROC
+PROC_ReadyToMoveOn(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, "VoloGuard_ToVoloStage", _, _, _)
+THEN
+TeleportTo(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GOB_VoloGuard_StagePoint_fe60b517-d8bf-4d8a-980e-bea1e0d71879);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_Event_VoloTeleported", _, _, _)
+AND
+DB_GlobalFlag(GOB_FestivitiesArea_State_Swept_01863b85-a514-473a-9fa9-2869612480a2, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+DB_Dialogs(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, GOB_VoloBallad_Volo_Massacre_828e7fea-2790-c7dc-0d2a-307387abe9c3);
+
+IF
+DialogEnded(GOB_VoloBallad_Volo_Massacre_828e7fea-2790-c7dc-0d2a-307387abe9c3, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_VoloBallad_State_SentToPartyCamp_f873df3f-0618-5859-1701-1cdab77ab126, _, _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "Run", 0, "GOB_VoloBallad_InvitedToCamp_GoblinMassacre");
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_InvitedToCamp_GoblinMassacre", _, _, _)
+THEN
+PROC_GOB_VoloBallad_MoveVoloToCamp(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_Event_VoloTeleported", _, _, _)
+AND NOT
+DB_GlobalFlag(GOB_FestivitiesArea_State_Swept_01863b85-a514-473a-9fa9-2869612480a2, _, _, _, _)
+AND
+DB_Defeated(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _, _, _, _)
+THEN
+PROC_GOB_VoloBallad_MoveVoloToCamp(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, TRIGGERGUID_S_GOB_VoloBallad_FirstHeardArea_7d714a14-2d80-44d4-ba90-479e8510c024, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(VOICEBARKRESOURCEGUID_GOB_VoloBallad_VB_HeardSinging_fa672712-28f2-6171-7a53-07167577cf62, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, TRIGGERGUID_S_GOB_VoloBallad_FirstHeardArea_7d714a14-2d80-44d4-ba90-479e8510c024, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_FirstHeardArea_7d714a14-2d80-44d4-ba90-479e8510c024);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, TRIGGERGUID_S_GOB_VoloBallad_SceneBox_9237b20a-8227-41fb-9de7-dc26729d77cf, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_FirstHeardArea_7d714a14-2d80-44d4-ba90-479e8510c024);
+
+QRY
+QRY_SelectCustomDialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AD_Dialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, GOB_VoloBallad_AD_Cower_5a6e8796-c03c-8c2c-a1e9-5ca415e097d2, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GOB_VoloBallad_Volo_FestivitiesArea_30ce4472-a341-1b45-48ef-1913293b80ed, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _Var1);
+
+QRY
+QRY_SelectCustomDialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AD_Dialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, GOB_VoloBallad_AD_Cower_5a6e8796-c03c-8c2c-a1e9-5ca415e097d2, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SpeakerIsAvailableAndInDialogRange(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GOB_VoloBallad_AD_PleaForHelp_1ce1361d-ee62-af9a-df20-9cb3530800f5, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+IF
+DB_Defeated(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GOB_VoloBallad_State_VoloIsCowering_f2fdd7e7-b5a5-4211-bbf6-89cee980c980, _, _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "Run", 0, "GOB_VoloBallad_VoloFled");
+
+IF
+FlagCleared(GOB_VoloBallad_State_VoloIsCowering_f2fdd7e7-b5a5-4211-bbf6-89cee980c980, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _, _, _, _)
+AND
+DB_Defeated(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, _, _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "Run", 0, "GOB_VoloBallad_VoloFled");
+
+IF
+DB_GlobalFlag(GOB_GoblinToast_State_RealizedPoison_0e867c08-b2b9-4f43-8260-168026663e2c, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_GoblinToast_Event_ToStations_0b555ee8-2b8e-3881-b35e-9811f6baf77a, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _, _, _, _)
+AND
+QRY_OnlyOnce("GOB_SetADsOnVoloDueToBattleStations_OnlyOnce", _, _, _, _)
+THEN
+PROC_SceneOver("GOB_VoloScene");
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+DB_AD_Dialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, GOB_VoloBallad_AD_Cower_5a6e8796-c03c-8c2c-a1e9-5ca415e097d2);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, TRIGGERGUID_S_GOB_VoloBallad_SceneBox_9237b20a-8227-41fb-9de7-dc26729d77cf, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GOB_FestivitiesArea_State_Hostile_d5ee4e10-d88b-4226-9607-41b7399a837f, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_VoloBallad_VoloPledForHelp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_VoloBallad_VoloIsPleadingForHelp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStopForDialog(DIALOGRESOURCEGUID_GOB_VoloBallad_AD_Song_623358f2-4477-b6b4-841f-df2c54a14820, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+DB_GOB_VoloBallad_VoloIsPleadingForHelp(1);
+DB_GOB_VoloBallad_VoloPledForHelp(_Var1);
+PROC_TryStartAD(DIALOGRESOURCEGUID_GOB_VoloBallad_AD_PleaForHelp_1ce1361d-ee62-af9a-df20-9cb3530800f5, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+PROC
+PROC_DialogFlagSetup(DIALOGRESOURCEGUID_GOB_VoloBallad_AD_PleaForHelp_1ce1361d-ee62-af9a-df20-9cb3530800f5, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1)
+AND
+CanSee(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, 1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GLO_Volo_HasMet_07ff1071-2535-f215-72d3-224e360af5f2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GOB_VoloBallad_State_SeenFamiliarPlayer_b08852ad-7864-4537-ac5c-64a44f3a8188, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+IF
+AutomatedDialogEnded(DIALOGRESOURCEGUID_GOB_VoloBallad_AD_PleaForHelp_1ce1361d-ee62-af9a-df20-9cb3530800f5, _, _, _, _)
+AND
+DB_GOB_VoloBallad_VoloIsPleadingForHelp(1, _, _, _, _)
+THEN
+NOT DB_GOB_VoloBallad_VoloIsPleadingForHelp(1);
+PROC_TriggerUnregisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_SceneBox_9237b20a-8227-41fb-9de7-dc26729d77cf);
+
+IF
+DialogEnded(GOB_VoloBallad_Volo_FestivitiesArea_30ce4472-a341-1b45-48ef-1913293b80ed, _, _, _, _)
+AND
+GetFlag(GOB_VoloBallad_Event_Leave_ae4173bc-b88a-3845-e5ca-498a9be1ad3e, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 1, _, _)
+THEN
+PROC_GOB_VoloBallad_LeaveEvent();
+PROC_GOB_VoloBallad_StartEscort();
+
+PROC
+PROC_GOB_VoloBallad_LeaveEvent()
+THEN
+PROC_SceneOver("GOB_VoloScene");
+SetFlag(GOB_VoloBallad_Event_StartedEscorting_a434b9cc-ac7d-42a3-9bb5-097da1a6fe96, S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+ClearFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9);
+PROC_RemoveDialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+PROC_RemoveDialog(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+DB_GOB_VoloBallad_InterruptDialog(1);
+DB_GOB_VoloBallad_EscortInProcess(1);
+
+IF
+DB_GOB_VoloBallad_EscortInProcess(1, _, _, _, _)
+THEN
+SetForceUpdate(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 1);
+SetForceUpdate(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, 1);
+
+PROC
+PROC_GOB_VoloBallad_StartEscort()
+THEN
+PROC_TryStartAD(DIALOGRESOURCEGUID_GOB_VoloBallad_AD_MovingToCage_8a9c2e6f-8d91-c8af-a06e-5fd77785ac60, S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+ClearFlag(GOB_VoloBallad_Event_Leave_ae4173bc-b88a-3845-e5ca-498a9be1ad3e, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+IF
+AutomatedDialogRequestFailed(DIALOGRESOURCEGUID_GOB_VoloBallad_AD_MovingToCage_8a9c2e6f-8d91-c8af-a06e-5fd77785ac60, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GOB_VoloBallad_StartMovingToCages();
+
+IF
+AutomatedDialogEnded(DIALOGRESOURCEGUID_GOB_VoloBallad_AD_MovingToCage_8a9c2e6f-8d91-c8af-a06e-5fd77785ac60, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GOB_VoloBallad_StartMovingToCages();
+
+PROC
+PROC_GOB_VoloBallad_StartMovingToCages()
+THEN
+SetWeaponUnsheathed(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, 1, 1);
+PROC_CharacterMoveTo(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "Walk", "GOB_VoloBallad_GuardClimbedToVolo");
+
+IF
+EntityEvent(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, "GOB_VoloBallad_GuardClimbedToVolo", _, _, _)
+THEN
+UseSpell(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, "Target_GOB_VoloGuard_Shove", S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+TimerLaunch("GOB_VoloBallad_GuardKickedVolo", 1500);
+
+IF
+TimerFinished("GOB_VoloBallad_GuardKickedVolo", _, _, _, _)
+THEN
+Follow(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+SetCombatGroupID(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, "");
+SetFlag(GOB_Volo_State_BeingEscorted_d5a9c68f-bf66-4462-b2bd-066b4547cd19, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_VoloArrivedAtDoor", _, _, _)
+AND NOT
+DB_CantMove(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, _, _, _, _)
+AND NOT
+DB_CantMove(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _, _, _, _)
+THEN
+TeleportTo(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_ThroneRoom_EntranceTarget_79fe7e37-8d9c-4e4e-bcbf-36783b6393b2, "", 0, 0, 0, 1, 1);
+TeleportTo(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GOB_ThroneRoom_EntranceTarget_79fe7e37-8d9c-4e4e-bcbf-36783b6393b2, "", 0, 0, 0, 1, 1);
+Follow(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged("WLD_Main_A", "Act1_GOB_UpperLevel", ACT1_GOB_VoloGuard_5e50ffef-d250-4a18-a3d4-b3fe4f574a4b, PERMA_DEFEATED_867f3a1e-1e4b-48c2-869e-343415231727);
+NOT DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged("WLD_Main_A", "Act1_GOB_Outside", ACT1_GOB_VoloGuard_5e50ffef-d250-4a18-a3d4-b3fe4f574a4b, PERMA_DEFEATED_867f3a1e-1e4b-48c2-869e-343415231727);
+DB_GOB_BattleStations_CombatGroupCharacters(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, "BattleStations_Priestess", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EnteredTrigger(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, _, _, _)
+AND
+DB_GOB_VoloBallad_EscortInProcess(1, _, _, _, _)
+THEN
+PROC_CharacterMoveTo(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, TRIGGERGUID_S_GOB_Volo_CagePoint_696dcbd7-ef54-42ad-915d-665f44fb9fb3, "Run", "GOB_VoloBallad_VoloMovedToCage");
+
+IF
+EnteredTrigger(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, _, _, _)
+THEN
+SetFlag(GOB_VoloBallad_State_InCage_a48a226c-9789-4d13-2771-0daa94f112b7);
+
+IF
+LeftTrigger(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, _, _, _)
+THEN
+ClearFlag(GOB_VoloBallad_State_InCage_a48a226c-9789-4d13-2771-0daa94f112b7);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_VoloMovedToCage", _, _, _)
+THEN
+NOT DB_GOB_VoloBallad_EscortInProcess(1);
+DB_Dialogs(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, GOB_VoloBallad_Volo_InCage_95702065-64ac-65ea-27fd-69a5a003db91);
+SetForceUpdate(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 0);
+SetForceUpdate(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, 0);
+ClearFlag(GOB_Volo_State_BeingEscorted_d5a9c68f-bf66-4462-b2bd-066b4547cd19, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_TriggerRegisterForPlayers(S_GOB_VoloBallad_PleaInCage_ADtrigger_701d181d-cba2-4e97-a2c9-46dd5e486a20);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_VoloMovedToCage", _, _, _)
+THEN
+SetCanInteract(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, 1);
+SetOwner(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93);
+StopFollow(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+DB_Dialogs(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, GOB_VoloBallad_Guard_AtCage_85b7cd39-6bcf-fbd2-da72-57020d75280e);
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_VoloMovedToCage", _, _, _)
+THEN
+TriggerRegisterForCharacter(S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+TriggerRegisterForCharacter(S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+
+IF
+DB_InRegion(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("DEN_VoloAdventure", "VoloPrison", _, _, _)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1)
+AND
+IsLocked(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, 1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("DEN_VoloAdventure", "VoloPrison");
+
+IF
+DB_Sees(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _)
+AND
+DB_GOB_VoloBallad_EscortInProcess(1, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_Halsin_Knows_IsFound_a0d83476-e2d0-4972-a76b-b23c39078cd7, _, _, _, _)
+THEN
+PROC_MakeNPCHostile(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+
+IF
+EnteredCombat(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _, _, _, _)
+AND
+DB_GOB_VoloBallad_EscortInProcess(1, _, _, _, _)
+AND
+IsInTrigger(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, TRIGGERGUID_S_GOB_Festivities_BingeArea_f4a4031d-7e0c-45b8-970b-47c62d4908d8, 0, _, _)
+THEN
+NOT DB_GOB_VoloBallad_EscortInProcess(1);
+SetForceUpdate(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 0);
+SetForceUpdate(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, 0);
+ClearFlag(GOB_Volo_State_BeingEscorted_d5a9c68f-bf66-4462-b2bd-066b4547cd19, NULL_00000000-0000-0000-0000-000000000000, 0);
+StopFollow(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+PROC_DisappearOutOfSight(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "Run", 0, "GOB_VoloBallad_VoloFled");
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_VoloFled", _, _, _)
+AND
+DB_QuestIsOpened("DEN_VoloAdventure", _, _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("DEN_VoloAdventure", "VoloFree", _, _, _)
+THEN
+QuestUpdate("DEN_VoloAdventure", "VoloEscaped");
+
+IF
+EntityEvent(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "GOB_VoloBallad_VoloFled", _, _, _)
+THEN
+TriggerUnregisterForCharacter(S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+TriggerUnregisterForCharacter(S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+ClearFlag(GOB_VoloBallad_State_InCage_a48a226c-9789-4d13-2771-0daa94f112b7);
+PROC_GOB_VoloBallad_MoveVoloToCamp(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2);
+
+IF
+DB_PermaDefeated(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _, _, _, _)
+THEN
+NOT DB_GOB_VoloBallad_EscortInProcess(1);
+SetForceUpdate(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 0);
+SetForceUpdate(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, 0);
+ClearFlag(GOB_Volo_State_BeingEscorted_d5a9c68f-bf66-4462-b2bd-066b4547cd19, NULL_00000000-0000-0000-0000-000000000000, 0);
+StopFollow(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+DB_Dialogs(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, GOB_VoloBallad_Guard_17bcffb4-b779-f7ff-547c-dbd4f989f99d);
+
+IF
+KilledBy(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, (CHARACTER)_Var1, _, _, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GOB_VoloBallad_State_GuardGaveVoloToPlayers_e1041faa-5c24-bb66-92e9-4826f46d7e90, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(ACT1_GOB_VoloGuard_5e50ffef-d250-4a18-a3d4-b3fe4f574a4b, 0);
+
+IF
+DB_Defeated(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_Volo_State_BeingEscorted_d5a9c68f-bf66-4462-b2bd-066b4547cd19, _, _, _, _)
+THEN
+NOT DB_GOB_VoloBallad_EscortInProcess(1);
+SetForceUpdate(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 0);
+SetForceUpdate(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, 0);
+ClearFlag(GOB_Volo_State_BeingEscorted_d5a9c68f-bf66-4462-b2bd-066b4547cd19, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(GOB_VoloBallad_State_VoloPrepsEscape_fef2b414-aa62-1b1d-4279-ae2a8ea4a2de);
+PROC_GOB_VoloBallad_Escape();
+
+QRY
+QRY_SelectCustomDialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GOB_VoloBallad_State_GuardGaveVoloToPlayers_e1041faa-5c24-bb66-92e9-4826f46d7e90, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GOB_VoloBallad_InterruptDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _Var1, _Var1, _Var1, _Var1)
+AND
+CanSee(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _Var1, 1, _Var1, _Var1)
+THEN
+DB_GOB_VoloBallad_SetInterruptedFlag(1);
+DB_SelectedDialog(GOB_VoloBallad_Guard_AtCage_85b7cd39-6bcf-fbd2-da72-57020d75280e, S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _Var1);
+
+PROC
+PROC_DialogFlagSetup(DIALOGGUID_GOB_VoloBallad_Guard_17bcffb4-b779-f7ff-547c-dbd4f989f99d, S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GOB_VoloBallad_SetInterruptedFlag(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GOB_VoloBallad_State_InterruptedVoloDialogue_d1bd1dd9-9011-e4f9-624a-51cd06917e4c, S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93);
+NOT DB_GOB_VoloBallad_SetInterruptedFlag(1);
+
+IF
+DB_GlobalFlag(GOB_VoloBallad_State_GuardGaveVoloToPlayers_e1041faa-5c24-bb66-92e9-4826f46d7e90, _, _, _, _)
+THEN
+ClearOwnership(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd);
+TriggerUnregisterForCharacter(S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+
+IF
+LeftTrigger(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(GOB_VoloBallad_State_GuardPresent_f84e156b-5de5-4ac1-a1b7-f54b8586793c);
+
+IF
+EnteredTrigger(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(GOB_VoloBallad_State_GuardPresent_f84e156b-5de5-4ac1-a1b7-f54b8586793c);
+
+IF
+Unlocked(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, _, _, (CHARACTER)_, (CHARACTER)_)
+THEN
+Open(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd);
+PROC_TriggerUnregisterForPlayers(S_GOB_VoloBallad_PleaInCage_ADtrigger_701d181d-cba2-4e97-a2c9-46dd5e486a20);
+
+IF
+DB_InRegion(_Var1, S_GOB_VoloBallad_PleaInCage_ADtrigger_701d181d-cba2-4e97-a2c9-46dd5e486a20, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1, _Var1)
+AND
+IsLocked(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GOB_VoloBallad_PleaInCage_fa541323-f4c6-9f40-b16e-4495e94a112b, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+IF
+DB_Defeated(S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93, _, _, _, _)
+AND
+IsInTrigger(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, 1, _, _)
+AND
+DB_InRegion(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, _, _, _)
+AND
+QRY_OnlyOnce("GOB_CagedVoloCommentedOnGuardDefeated_OnlyOnce", _, _, _, _)
+THEN
+PROC_TryStartAD(GOB_VoloBallad_AD_AtCage_GuardsDeath_4286ea4e-51c1-e5c4-bac7-5217b4d7c07f, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+IF
+LeftTrigger(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, _, _, _)
+AND NOT
+DB_GOB_VoloBallad_EscortInProcess(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GOB_VoloBallad_State_GuardGaveVoloToPlayers_e1041faa-5c24-bb66-92e9-4826f46d7e90, _, _, _, _)
+THEN
+PROC_GOB_GoblinsTurnHostileToVolo();
+
+PROC
+PROC_GOB_GoblinsTurnHostileToVolo()
+THEN
+PROC_SetRelationMutual(ACT1_GOB_VoloGuard_5e50ffef-d250-4a18-a3d4-b3fe4f574a4b, GLO_Volo_6c49b752-0dc2-4f85-86cf-0c2bd418305c, 0);
+PROC_SetRelationMutual(ACT1_GOB_GoblinWily_e7a1f0f7-5f59-438f-91c8-96d6b620495c, GLO_Volo_6c49b752-0dc2-4f85-86cf-0c2bd418305c, 0);
+PROC_SetRelationToPlayers(GLO_Volo_6c49b752-0dc2-4f85-86cf-0c2bd418305c, 100);
+
+IF
+StatusApplied(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, (STRING)_Var1, _, _, (STRING)_Var1)
+AND
+IsStatusFromGroup(_Var1, "SG_Invisible", 1, _Var1, _Var1)
+AND
+QRY_GOB_VoloInDialogOrCanMove()
+AND NOT
+QRY_GOB_VoloIsCaged()
+THEN
+PROC_ForceStopDialog(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+PROC_DisappearOutOfSight(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "Run", 0, "GOB_VoloBallad_VoloFled");
+
+IF
+StatusApplied(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, (STRING)_Var1, (CHARACTER)_Var2, _, (STRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var1, "SG_Invisible", 1, _Var1, _Var1)
+AND
+DB_Sees(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_VoloGuardSawPlayersApplyingInvisToPlayers(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GOB_VoloGuardSawPlayersApplyingInvisToPlayers(1);
+PROC_SetRelationToPlayers(ACT1_GOB_VoloGuard_5e50ffef-d250-4a18-a3d4-b3fe4f574a4b, 0);
+
+IF
+StatusApplied(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, (STRING)_Var1, _, _, (STRING)_Var1)
+AND
+IsStatusFromGroup(_Var1, "SG_Invisible", 1, _Var1, _Var1)
+AND NOT
+QRY_GOB_VoloInDialogOrCanMove()
+AND NOT
+QRY_GOB_VoloIsCaged()
+THEN
+PROC_GOB_GoblinsTurnHostileToVolo();
+PROC_GOB_VoloBallad_Escape();
+
+QRY
+QRY_GOB_VoloInDialogOrCanMove()
+AND
+DB_DialogNPCs(_, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GOB_VoloInDialogOrCanMove()
+AND NOT
+DB_CantMove(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GOB_VoloIsCaged()
+AND
+DB_InRegion(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, _, _, _)
+AND
+IsLocked(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, 1, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+RelationChanged(ACT1_GOB_VoloGuard_5e50ffef-d250-4a18-a3d4-b3fe4f574a4b, Hero_a1542c81-6895-929e-4522-10ce218bb360, 0, 1, _)
+THEN
+PROC_ForceStopDialog(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93);
+
+IF
+Unlocked(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GOB_VoloBallad_CageUnlocked(_Var1);
+
+PROC
+PROC_GOB_VoloBallad_CageUnlocked((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(GOB_VoloBallad_State_GuardGaveVoloToPlayers_e1041faa-5c24-bb66-92e9-4826f46d7e90, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "GOB_VoloBallad_UnlockedCage", S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_GOB_VoloBallad_VoloLibirator(_Var1);
+
+PROC
+PROC_GOB_VoloBallad_MoveVoloToCamp(_, _, _, _, _)
+AND
+DB_GOB_VoloBallad_VoloLibirator(_Var2, _, _, _, _)
+THEN
+CharacterStopCrime(_Var2, "GOB_VoloBallad_UnlockedCage", S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd);
+NOT DB_GOB_VoloBallad_VoloLibirator(_Var2);
+
+PROC
+PROC_GOB_VoloBallad_CageUnlocked((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InRegion(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GOB_VoloBallad_State_VoloPrepsEscape_fef2b414-aa62-1b1d-4279-ae2a8ea4a2de);
+DB_DropMutingStatussesDialog(GOB_VoloBallad_Volo_InCage_95702065-64ac-65ea-27fd-69a5a003db91);
+
+IF
+FlagSet(GOB_VoloBallad_State_VoloPrepsEscape_fef2b414-aa62-1b1d-4279-ae2a8ea4a2de, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CharacterEnableAllCrimes(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+
+PROC
+PROC_GOB_VoloBallad_CageUnlocked((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(GOB_VoloBallad_Volo_InCage_95702065-64ac-65ea-27fd-69a5a003db91, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DropMutingStatussesDialog(GOB_VoloBallad_Volo_InCage_95702065-64ac-65ea-27fd-69a5a003db91);
+PROC_GOB_VoloBallad_Escape();
+
+IF
+DialogEnded(GOB_VoloBallad_Volo_InCage_95702065-64ac-65ea-27fd-69a5a003db91, _, _, _, _)
+AND
+IsLocked(S_GOB_VoloBallad_CageDoor_e370ae71-e10a-4a6c-9635-94783ae772cd, 0, _, _, _)
+THEN
+PROC_GOB_TalkedWithUncagedVolo();
+PROC_GOB_VoloBallad_Escape();
+
+PROC
+PROC_GOB_TalkedWithUncagedVolo()
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("DEN_VoloAdventure", "VoloFree", _, _, _)
+THEN
+QuestUpdate("DEN_VoloAdventure", "VoloEscaped");
+
+PROC
+PROC_GOB_VoloBallad_Escape()
+AND
+QRY_OnlyOnce("GOB_VoloBallad_Escape_OnlyOnce", _, _, _, _)
+THEN
+PROC_GOB_VoloBallad_Escape_Internal();
+
+PROC
+PROC_GOB_VoloBallad_Escape_Internal()
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("DEN_VoloAdventure", "VoloFree", _, _, _)
+THEN
+QuestUpdate("DEN_VoloAdventure", "VoloEscaped");
+
+PROC
+PROC_GOB_VoloBallad_Escape_Internal()
+AND
+GetItemByTemplateInInventory(CONS_Potion_Invisible_A_809d5026-4896-4b3a-986e-95da58da77e2, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, _Var1, _Var1)
+THEN
+Use(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _Var1, "GOB_VoloBallad_VoloUsedInvisPotion");
+
+PROC
+PROC_GOB_VoloBallad_Escape_Internal()
+THEN
+PROC_SceneOver("GOB_VoloScene");
+DB_GOB_VoloBallad_VoloEscape(1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_GOB_ThroneRoom_SUB_bb81678b-641c-43fc-bd41-53295d59be03, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CheckOtherPlayersInTrigger(_Var1, S_GOB_ThroneRoom_SUB_bb81678b-641c-43fc-bd41-53295d59be03, _Var1, _Var1, _Var1)
+AND
+DB_GOB_VoloBallad_VoloEscape(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GOB_VoloBallad_VoloEscape(1);
+PROC_GOB_VoloBallad_MoveVoloToCamp(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2);
+
+IF
+FlagSet(GOB_BattleStations_Event_ToStation_03a8bd66-c23f-4989-9a7b-775cf475104b, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_GOB_VoloBallad_VoloEscape(_, _, _, _, _)
+AND
+IsInCombat(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, 0, _, _, _)
+THEN
+NOT DB_GOB_VoloBallad_VoloEscape(1);
+PROC_DisappearOutOfSight(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "Run", 0, "GOB_VoloBallad_VoloFled");
+
+PROC
+PROC_LongRest()
+AND
+DB_GOB_VoloBallad_VoloEscape(_, _, _, _, _)
+THEN
+NOT DB_GOB_VoloBallad_VoloEscape(1);
+PROC_GOB_VoloBallad_MoveVoloToCamp(CAMP_VoloOperation_ba7c506d-c743-5dc9-7d98-eeea7b4ef2a2);
+
+PROC
+PROC_GOB_VoloBallad_MoveVoloToCamp(_, _, _, _, _)
+AND
+HasActiveStatusWithGroup(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "SG_Invisible", 1, _, _)
+THEN
+RemoveStatusesWithGroup(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, "SG_Invisible");
+
+PROC
+PROC_GOB_VoloBallad_MoveVoloToCamp(_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_)
+THEN
+SetFlag(GOB_VoloBallad_State_VoloEscaped_13ae819f-b0b7-434d-9ebb-cee412b1a407);
+SetRelation(ACT1_GOB_VoloGuard_5e50ffef-d250-4a18-a3d4-b3fe4f574a4b, GLO_Volo_6c49b752-0dc2-4f85-86cf-0c2bd418305c, 50);
+PROC_CRIME_MusicalPerformance_EnableAllReactions(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93);
+DB_Dialogs(S_GOB_VoloGuard_000_c25f0e79-b9f7-453c-8138-964bca267d93, GOB_VoloBallad_Guard_17bcffb4-b779-f7ff-547c-dbd4f989f99d);
+NOT DB_GOB_VoloBallad_VoloEscape(1);
+GoalCompleted;
+
+IF
+DB_PermaDefeated(S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa, _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+FlagSet(LOW_VoloFate_State_VoloArrivedInBG_5faacb8c-836d-4626-bb7d-418c643e494d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+IF
+FlagSet(GOB_VoloBallad_HasMet_4629b154-d149-b0d3-d56b-7831f49088d2, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(GOB_VoloBallad_State_PlayersMetVolo_0c341094-ae74-4a72-b2b6-3cd98a43ae11);
+
+PROC
+PROC_GOB_GoblinHuntAftermath_Pacified()
+THEN
+PROC_TriggerUnregisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_SceneBox_9237b20a-8227-41fb-9de7-dc26729d77cf);
+PROC_TriggerUnregisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_FirstHeardArea_7d714a14-2d80-44d4-ba90-479e8510c024);
+
+
+EXITSECTION
+PROC_TriggerUnregisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_SceneBox_9237b20a-8227-41fb-9de7-dc26729d77cf);
+PROC_TriggerUnregisterForPlayers(TRIGGERGUID_S_GOB_VoloBallad_FirstHeardArea_7d714a14-2d80-44d4-ba90-479e8510c024);
+TriggerUnregisterForCharacter(S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, S_GOB_VoloGuard_c25f0e79-b9f7-453c-8138-964bca267d93);
+TriggerUnregisterForCharacter(S_GOB_VoloBallad_CageBox_d8f061e4-747e-48c9-a8e2-2b7521bda473, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+TriggerUnregisterForCharacter(S_GOB_VoloBallad_InCage_17b0e3c4-d1b1-4080-b64f-a0ca67f07b2c, S_GLO_Volo_2af25a85-5b9a-4794-85d3-0bd4c4d262fa);
+ClearFlag(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9);
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

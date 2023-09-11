@@ -1,0 +1,241 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_DangerZone_SafeOnDefeated("");
+NOT DB_DangerZone_SafeOnGlobalFlagSet("", NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_DangerZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_DangerZone_DATADOUBLE(_Var1, _Var2);
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+DB_DangerZone_SafeBubble(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DangerZone_SafeBubble_DATADOUBLE(_Var1);
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+DB_DangerZone_SafeBubble_DATADOUBLE(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DangerZone_SafeBubble(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_MarkPlayersDirty(_Var1);
+NOT DB_DangerZone_SafeBubble_DATADOUBLE(_Var1);
+
+IF
+DB_DangerZone_DATADOUBLE(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DangerZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_MarkPlayersDirty(_Var1);
+NOT DB_DangerZone_DATADOUBLE(_Var1, _Var2);
+
+PROC
+PROC_DangerZone_MarkPlayersDirty((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Dirty(_Var2);
+
+PROC
+PROC_DangerZone_Safe((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DangerZone(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DangerZone(_Var2, _Var1);
+
+IF
+DB_DangerZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Dirty(_Var3);
+
+IF
+DB_DangerZone_SafeBubble(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Dirty(_Var2);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DangerZone(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Dirty(_Var1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DangerZone_SafeBubble(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Dirty(_Var1);
+
+IF
+DB_InDangerZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Dirty(_Var1);
+
+PROC
+PROC_DangerZone_Dirty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DangerZone_PlayerInDZ_Temp(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DangerZone_PlayerInDZ_Temp(_Var1, _Var2);
+
+PROC
+PROC_DangerZone_Dirty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DangerZone(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DangerZone_IsInSafeBubble(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DangerZone_PlayerInDZ_Temp(_Var1, _Var3);
+
+PROC
+PROC_DangerZone_Dirty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InDangerZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DangerZone_PlayerInDZ_Temp(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InDangerZone(_Var1, _Var2);
+PROC_CharacterLeftDangerZone(_Var1, _Var2);
+
+PROC
+PROC_DangerZone_Dirty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DangerZone_PlayerInDZ_Temp(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InDangerZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InDangerZone(_Var1, _Var2);
+PROC_CharacterEnteredDangerZone(_Var1, _Var2);
+
+PROC
+PROC_DangerZone_Dirty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_InDangerZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetIsInDangerZone(_Var1, 0);
+
+PROC
+PROC_DangerZone_Dirty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InDangerZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetIsInDangerZone(_Var1, 1);
+
+QRY
+QRY_DangerZone_IsInSafeBubble((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DangerZone_SafeBubble(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DangerZone_ValidID((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DangerZone(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DangerZone_SafeOnDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Safe(_Var1);
+PROC_CorpseLooting_ClearRedOutlinesForDefeatCounter(_Var1);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_DangerZone_ValidID(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Safe(_Var1);
+PROC_CorpseLooting_ClearRedOutlinesForDefeatCounter(_Var1);
+
+PROC
+PROC_CorpseLooting_LootOwnershipCleared((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_DangerZone_ValidID(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Safe(_Var1);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DangerZone_SafeOnGlobalFlagSet(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Safe(_Var4);
+
+QRY
+QRY_DangerZone_IsInSafeBubble((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HACK_TO_DISABLE_DANGERZONES(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("danger", _, _, _, _)
+THEN
+NOT DB_HACK_TO_DISABLE_DANGERZONES(1);
+
+IF
+TextEvent("danger", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Dirty(_Var1);
+
+IF
+TextEvent("nodanger", _, _, _, _)
+THEN
+DB_HACK_TO_DISABLE_DANGERZONES(1);
+
+IF
+TextEvent("nodanger", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DangerZone_Dirty(_Var1);
+
+PROC
+PROC_CharacterEnteredDangerZone((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CharacterLeftDangerZone((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

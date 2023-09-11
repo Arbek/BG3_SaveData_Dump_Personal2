@@ -1,0 +1,94 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_LOW_SWS_AtWall_Civ_000_c52676d4-1925-4124-8901-6f206c706199, LOW_SWS_AtWall_Civ_000_0e8ecc5c-7771-0166-3ed9-8619558cbfb7);
+DB_Dialogs(S_LOW_SWS_AtWall_Civ_001_9ae6229a-43f5-40f5-8912-98fc454114df, LOW_SWS_AtWall_Civ_001_9c6fdb0e-ec17-963f-99ef-9adbbf646dff);
+DB_Dialogs(S_LOW_SWS_AtWall_Civ_002_456748f3-6720-43b1-8819-c2f67919bfc2, LOW_SWS_AtWall_Civ_002_19c652a4-abfd-ba15-83b8-7926807fd9bb);
+DB_Dialogs(S_LOW_SWS_AtWall_FF_000_01d5b697-8329-4735-88f9-15c869b12363, LOW_SWS_AtWall_FF_000_c7fa0980-1277-8ba1-9ebf-504dc6e62c2d);
+DB_Dialogs(S_LOW_SWS_AtWall_FF_001_c1e39d70-09f6-4760-8c46-9082ca341909, LOW_SWS_AtWall_FF_001_ef378093-73ba-1918-9c17-ca55e70bf7ce);
+DB_Dialogs(S_LOW_SWS_AtWall_FF_002_b5cdd880-0b98-4b64-80c7-ce4a98977fc4, LOW_SWS_AtWall_FF_002_edda864e-81b6-c2c8-befe-eb3ad3034eaa);
+DB_Dialogs(S_LOW_SWS_AtWall_Kid_000_3dc10f26-d233-450c-a32b-7245338b01e2, LOW_SWS_AtWall_Kid_000_00b9d31e-00ca-1b40-dc65-83eddcbabcae);
+DB_Dialogs(S_LOW_SWS_AtWall_Kid_001_a5c0fe0b-11e4-4c08-b202-50aa2ef4ec2a, LOW_SWS_AtWall_Kid_001_31c6f753-a10c-ea50-8444-23e34e7c596b);
+DB_LOW_SWS_AtWall_Civilians(S_LOW_SWS_AtWall_Civ_000_c52676d4-1925-4124-8901-6f206c706199);
+DB_LOW_SWS_AtWall_Civilians(S_LOW_SWS_AtWall_Civ_001_9ae6229a-43f5-40f5-8912-98fc454114df);
+DB_LOW_SWS_AtWall_Civilians(S_LOW_SWS_AtWall_Civ_002_456748f3-6720-43b1-8819-c2f67919bfc2);
+DB_LOW_SWS_AtWall_Guards(S_LOW_SWS_AtWall_FF_000_01d5b697-8329-4735-88f9-15c869b12363);
+DB_LOW_SWS_AtWall_Guards(S_LOW_SWS_AtWall_FF_001_c1e39d70-09f6-4760-8c46-9082ca341909);
+DB_LOW_SWS_AtWall_Guards(S_LOW_SWS_AtWall_FF_002_b5cdd880-0b98-4b64-80c7-ce4a98977fc4);
+DB_LOW_SWS_AtWall_Kids(S_LOW_SWS_AtWall_Kid_000_3dc10f26-d233-450c-a32b-7245338b01e2);
+DB_LOW_SWS_AtWall_Kids(S_LOW_SWS_AtWall_Kid_001_a5c0fe0b-11e4-4c08-b202-50aa2ef4ec2a);
+
+KBSECTION
+IF
+DB_LOW_SWS_AtWall_Kids(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Children(_Var1);
+SetOnStage(_Var1, 0);
+
+IF
+DB_LOW_SWS_AtWall_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReaction");
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReactionFallback");
+
+PROC
+PROC_LOW_SWS_Disabled()
+AND
+IsInTrigger(S_LOW_SWS_AtWall_SW_04fd807f-ca2c-401e-9972-ecce7ba14b42, S_LOW_SWS_AtWall_Zone_SW_0f0fcf95-9c72-48be-851e-928f9e6170be, 1, _, _)
+AND
+DB_LOW_SWS_AtWall_Kids(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_AppearOutOfSightTo(_Var1, S_LOW_SWS_AtWall_SW_04fd807f-ca2c-401e-9972-ecce7ba14b42, _Var1, "LOW_SWS_AtWall_KidAppears");
+
+IF
+EntityEvent((CHARACTER)_Var1, "LOW_SWS_AtWall_KidAppears", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_AtWall_Kids(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_LOW_SWS_AtWall_SW_04fd807f-ca2c-401e-9972-ecce7ba14b42, "Run", "");
+
+PROC
+PROC_LOW_SWS_Disabled()
+AND
+DB_LOW_SWS_AtWall_Civilians(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, S_LOW_SWS_AtWall_Pos_Civ_Disappear_000_e0e38b1c-384d-4770-84fe-2d3c7372fa21, "Walk", 0, "");
+
+PROC
+PROC_LOW_SWS_Disabled()
+AND
+DB_LOW_SWS_AtWall_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, S_LOW_SWS_AtWall_Pos_Civ_Disappear_001_4d3520ef-9330-4b3c-90bd-cd26b12e1af0, "Walk", 0, "");
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_AtWall_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_SWS_AtWall_DisperseCivs();
+
+PROC
+PROC_LOW_SWS_AtWall_DisperseCivs()
+AND
+DB_LOW_SWS_AtWall_Civilians(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "");
+
+PROC
+PROC_LOW_SWS_Bonecloak_DisperseCivs()
+AND
+DB_LOW_SWS_AtWall_Kids(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b_LOW_SteelWatchStreets"

@@ -1,0 +1,101 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_HAG_HagMask_SwitchStatusTo((CHARACTER)_Var1, "HAG_MASK", (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAG_Hagmasks(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var3, _Var1);
+
+IF
+DB_HAG_Hagmasks(S_LOW_BlushingMermaid_HagMask_01_4c1dfe00-dda3-4c8d-bf27-3104373591c5, S_LOW_BlushingMermaid_HagMask_Helper_01_862d8a74-6489-4df2-9541-708137bb2a34, _, _, _)
+AND NOT
+DB_LOW_HagMaskControlLiftedAD_Reset(1, _, _, _, _)
+AND
+QRY_OncePerUserAndNearbyPlayers_Reset("HAG_MASK_CONTROLLED_Removed", _, _, _, _)
+THEN
+DB_LOW_HagMaskControlLiftedAD_Reset(1);
+
+IF
+FlagSet(LOW_BlushingMermaid_State_HagMasksControlWearers_17fe9c38-dcb6-45f4-912d-bb0d11553d91, _, _, _, _)
+AND
+DB_HAG_Hagmasks(_Var3, _Var4, _, _, _)
+AND
+GetOwner(_Var3, _Var5, _, _, _)
+AND
+DB_Players(_Var5, _, _, _, _)
+AND
+IsEquipped(_Var3, 1, _, _, _)
+AND
+QRY_GLO_HagMasks_GetStatus(_Var5, _, _, _, _)
+AND
+DB_QRYRTN_GLO_HagMasks_GetStatus(_Var6, _, _, _, _)
+THEN
+PROC_HAG_HagMask_SwitchStatusTo(_Var5, _Var6, _Var3);
+
+QRY
+QRY_GLO_HagMasks_GetStatus((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_State_HagMasksControlWearers_17fe9c38-dcb6-45f4-912d-bb0d11553d91, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_HagMasks_GetStatus("HAG_MASK_HAGDEAD", _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "HAG_MASK_CONTROLIMMUNE", 0, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GLO_HagMasks_GetStatus("HAG_MASK_HAGDEAD");
+DB_QRYRTN_GLO_HagMasks_GetStatus("HAG_MASK");
+
+IF
+FlagCleared(LOW_BlushingMermaid_State_HagMasksControlWearers_17fe9c38-dcb6-45f4-912d-bb0d11553d91, _, _, _, _)
+AND
+DB_HAG_Hagmasks(_Var3, _, _, _, _)
+AND
+GetOwner(_Var3, _Var5, _, _, _)
+AND
+IsEquipped(_Var3, 1, _, _, _)
+AND
+QRY_GLO_HagMasks_GetStatus(_Var5, _, _, _, _)
+AND
+DB_QRYRTN_GLO_HagMasks_GetStatus(_Var6, _, _, _, _)
+THEN
+PROC_HAG_HagMask_SwitchStatusTo(_Var5, _Var6, _Var3);
+
+IF
+Equipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_State_HagInBaldursGate_68d1731c-7a20-4692-a093-5aa39b69d211, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsPartyMember(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_Hagmasks(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Hagmasks_Neutral(_Var2);
+
+IF
+BaseFactionChanged((CHARACTER)_Var1, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_State_HagInBaldursGate_68d1731c-7a20-4692-a093-5aa39b69d211, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Hagmasks_Neutral(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Hagmasks_ClearNeutral(_Var1);
+PROC_Hagmasks_Neutral(_Var1);
+
+IF
+Unequipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_State_HagInBaldursGate_68d1731c-7a20-4692-a093-5aa39b69d211, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_Hagmasks(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Hagmasks_ClearNeutral(_Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_Hag"

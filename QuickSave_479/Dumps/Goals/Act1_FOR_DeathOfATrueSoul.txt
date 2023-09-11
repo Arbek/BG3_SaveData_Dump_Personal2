@@ -1,0 +1,626 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_WLD_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, S_WLD_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, S_FOR_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, DIALOGRESOURCEGUID_FOR_PriestOfTheConqueringGod_Cultists_1dbae2f3-7df2-ec4a-3470-efa537d7c00f);
+DB_FOR_PriestsConqueringGod_Novice(S_WLD_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, DIALOGRESOURCEGUID_FOR_PriestConqueringGod_001_152c54d7-b825-85f5-16ee-ddba44cb6742, S_FOR_PriestsOfTheConqueringGod_OwlbearCavePoint_001_38e5cc37-7547-4978-b7a0-44e1c5fd6c8a, S_GOB_PriestsOfTheConqueringGod_GoblinCampPoint_001_8cf1639e-8c20-4c8e-81a9-7ab75f0edfcf, S_MOO_Novice1Point_9093bc9d-36a5-457d-b501-bb5f45ae978b);
+DB_FOR_PriestsConqueringGod_Novice(S_WLD_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, DIALOGRESOURCEGUID_FOR_PriestConqueringGod_002_7e7aace0-eb99-8abb-57d4-315b0fd10a74, S_FOR_PriestsOfTheConqueringGod_OwlbearCavePoint_002_2196f2ff-bd77-46c3-8213-b9e6dc496e42, S_GOB_PriestsOfTheConqueringGod_GoblinCampPoint_002_5277cd72-d223-4f6c-a8b6-f35c685f0309, S_MOO_Novice2Point_688dac1f-762f-45d1-95c9-6187fd17296f);
+DB_PriestsConqueringGod(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d);
+DB_DefeatedEvent(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, FOR_PriestConqueringGod_001_Defeated_e1e79ef1-9441-03bf-e24f-0af5e61a488d);
+DB_DefeatedEvent(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, FOR_PriestConqueringGod_002_Defeated_bc3a78ff-2665-575d-9b61-68bb383c45a6);
+DB_GlobalFlagReactionAfterDialog(WLD_PriestsConqueringGod_LeaveLevel_3ec19923-caf7-4aa6-b04a-a0c84e709dca, FOR_PriestOfTheConqueringGod_Cultist001_InCave_69f7554f-8b4c-9e7d-5f0e-5785139f6709);
+DB_GlobalFlagReactionAfterDialog(WLD_PriestsConqueringGod_GoToGoblinCamp_108030df-f5f1-e7da-dbd6-0d92e0e32189, FOR_PriestOfTheConqueringGod_Cultist001_InCave_69f7554f-8b4c-9e7d-5f0e-5785139f6709);
+DB_GlobalFlagReactionAfterDialog(WLD_PriestsConqueringGod_LeaveLevel_3ec19923-caf7-4aa6-b04a-a0c84e709dca, FOR_PriestOfTheConqueringGod_Cultist002_InCave_4a0bfb85-144f-af28-d3dd-056c5a764cae);
+DB_GlobalFlagReactionAfterDialog(WLD_PriestsConqueringGod_GoToGoblinCamp_108030df-f5f1-e7da-dbd6-0d92e0e32189, FOR_PriestOfTheConqueringGod_Cultist002_InCave_4a0bfb85-144f-af28-d3dd-056c5a764cae);
+DB_GLO_CharacterCorpseDialog(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, FOR_PriestOfTheConqueringGod_Cultist002_Dead_f6bd4df9-8eaa-0c8f-9857-6e2d6325e204);
+DB_GLO_CharacterCorpseDialog(S_FOR_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, FOR_PriestConqueringGod_003_Dead_33fac5ef-7e47-f946-ae09-ddb7c9d7c8cb);
+DB_KnowledgeCheckTrigger_AD("FOR_PriestsOfTheConqueringGods_OwlBearPrintsBox", S_FOR_PriestsOfTheConqueringGods_OwlBearPrintsBox_9e178b03-3f45-4a3b-a229-2ba530c26b21, "Survival", DC_Legacy_5_6e246ccd-6149-4ec4-a325-034309a18138, FOR_PriestsOfTheConqueringGods_VB_OwlBearPrints_c7a1e827-180c-1c62-75fb-663af5f5f269, WLD_PriestsOfTheConqueringGods_OwlBearPrints_PassedCheck_c15ccdf2-5143-c0c3-5453-f22af9d15eb4);
+PROC_TriggerRegisterForPlayers(S_WLD_PriestsOfTheConqueringGod_DiscoverVbTrigger_85b43676-8cef-4622-8c33-0462c9974ee9);
+PROC_TriggerRegisterForPlayers(S_FOR_PriestsOfTheConqueringGod_PriestLeaveTrigger_bf4cd2a5-42e9-423f-84d2-d1843d89f224);
+PROC_DeclareCounter("FOR_PriestsOfTheConqueringGod_PriestLeaveTrigger_Counter");
+SetHitpointsPercentage(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, 50);
+PROC_CharacterDisableAllCrimes(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, 1);
+SetCanTrade(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, 0);
+DB_NoLowAttitudeDialog(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d);
+ApplyStatus(S_FOR_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, "UNCONSCIOUS", -1, 1);
+SetCanTrade(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, 0);
+SetCanTrade(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, 0);
+DB_SpotPlayers(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, "WLD_PriestOfTheConqueringGod_SpotPlayer", NULL_00000000-0000-0000-0000-000000000000, FOR_PriestConqueringGod_StopSpotter_608d682f-863d-4b90-962b-b50f706beb0e);
+DB_SpotPlayers_CustomRadius(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, "WLD_PriestOfTheConqueringGod_SpotPlayer", 8);
+SetFlag(GOB_PriestConqueringGod_StopSpottingHostileAtGoblinCamp_99af10e7-b603-40cd-859e-6b0795e1d668, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer", GOB_PriestConqueringGod_StartSpottingHostileAtGoblinCamp_0a390d48-14c3-446f-82b2-04c126eecd5d, GOB_PriestConqueringGod_StopSpottingHostileAtGoblinCamp_99af10e7-b603-40cd-859e-6b0795e1d668);
+DB_SpotPlayers(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer", GOB_PriestConqueringGod_StartSpottingHostileAtGoblinCamp_0a390d48-14c3-446f-82b2-04c126eecd5d, GOB_PriestConqueringGod_StopSpottingHostileAtGoblinCamp_99af10e7-b603-40cd-859e-6b0795e1d668);
+DB_SpotPlayers_Continuous(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer");
+DB_SpotPlayers_Continuous(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer");
+DB_SpotPlayers_IgnoreCombat(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer");
+DB_SpotPlayers_IgnoreCombat(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer");
+DB_SpotPlayers_TargetIgnoreCantTalk(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer");
+DB_SpotPlayers_TargetIgnoreCantTalk(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer");
+DB_DoNotFaceDialog(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, FOR_PriestsOfTheConqueringGod_AD_Cultists_c5f297c9-1393-221e-f504-53b0146e4177);
+DB_DoNotFaceDialog(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, FOR_PriestsOfTheConqueringGod_AD_Cultists_c5f297c9-1393-221e-f504-53b0146e4177);
+
+KBSECTION
+IF
+DB_FOR_PriestsConqueringGod_Novice(_Var1, _, _, _, _)
+THEN
+DB_PriestsConqueringGod(_Var1);
+DB_NoLowAttitudeDialog(_Var1);
+
+IF
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SceneManager(_Var1, "FOR_PriestsOfTheConqueringGods_IntroDialog");
+DB_SceneAllowAllDisturbances("FOR_PriestsOfTheConqueringGods_IntroDialog");
+
+QRY
+QRY_CorpseLooting_BlockMakeOwned((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+AttackedBy((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_FOR_PriestsConqueringGodPermaHostileOnAttacked(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_PriestsConqueringGod_Novice(_Var1, _, _, _, _)
+AND NOT
+DB_FOR_PriestsConqueringGodArriveInGOB(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_FOR_PriestsConqueringGod_OwlbearCaveInProgress()
+THEN
+DB_FOR_PriestsConqueringGodPermaHostileOnAttacked(1);
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 0);
+
+IF
+Died((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PriestsConqueringGod(_Var1);
+
+IF
+DB_GlobalFlag(FOR_PriestConqueringGod_001_Defeated_e1e79ef1-9441-03bf-e24f-0af5e61a488d, _, _, _, _)
+AND
+DB_GlobalFlag(FOR_PriestConqueringGod_002_Defeated_bc3a78ff-2665-575d-9b61-68bb383c45a6, _, _, _, _)
+THEN
+Die(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, 0, 1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_WLD_PriestsOfTheConqueringGod_DiscoverVbTrigger_85b43676-8cef-4622-8c33-0462c9974ee9, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(WLD_PriestsConqueringGod_GoToGoblinCamp_108030df-f5f1-e7da-dbd6-0d92e0e32189, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PriestsConqueringGod(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "WLD_PriestsOfTheConqueringGod_DiscoverVbTrigger_Once", _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_PriestsOfTheConqueringGod_VB_DiscoverPriests_e8448855-59c7-a461-4100-3f87feb70969, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_WLD_PriestsOfTheConqueringGod_DiscoverVbTrigger_85b43676-8cef-4622-8c33-0462c9974ee9, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PriestsConqueringGod(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_PriestsOfTheConqueringGod_SawThePriests(1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_FOR_PriestsOfTheConqueringGod_PriestLeaveTrigger_bf4cd2a5-42e9-423f-84d2-d1843d89f224, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IncreaseCounter("FOR_PriestsOfTheConqueringGod_PriestLeaveTrigger_Counter");
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_FOR_PriestsOfTheConqueringGod_PriestLeaveTrigger_bf4cd2a5-42e9-423f-84d2-d1843d89f224, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DecreaseCounter("FOR_PriestsOfTheConqueringGod_PriestLeaveTrigger_Counter");
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_FOR_PriestsOfTheConqueringGod_PriestLeaveTrigger_bf4cd2a5-42e9-423f-84d2-d1843d89f224, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_PriestsOfTheConqueringGod_SawThePriests(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalCounter("FOR_PriestsOfTheConqueringGod_PriestLeaveTrigger_Counter", 0, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(WLD_PriestsConqueringGod_GoToGoblinCamp_108030df-f5f1-e7da-dbd6-0d92e0e32189, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp();
+NOT DB_FOR_PriestsOfTheConqueringGod_SawThePriests(1);
+
+IF
+TextEvent("FOR_TrueSouls_StartCombat", _, _, _, _)
+THEN
+PROC_ForceStopDialog(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1);
+PROC_ForceStopDialog(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49);
+Die(S_FOR_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 0);
+
+IF
+FlagSet(Debug_FOR_PriestsToOwlbear_a3878ceb-d7ec-42c4-8048-c08c9517c82d, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_FOR_PriestsConqueringGod_Novice(_Var2, _, _Var4, _, _)
+THEN
+SetFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, NULL_00000000-0000-0000-0000-000000000000, 0);
+Die(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, 0, 1);
+TeleportTo(_Var2, _Var4);
+SetFlag(FOR_PriestConqueringGod_InOwlbearCave_80f06963-ea5c-4e8f-a7bb-b98d6ad8a764, _Var2);
+DB_PriestsConqueringGod_QueuePriestsDie(1);
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, (CHARACTER)_Var2, "FOR_PriestsOfTheConqueringGods_IntroDialog", "Attacked", (GUIDSTRING)_Var1)
+THEN
+PROC_SceneOver("FOR_PriestsOfTheConqueringGods_IntroDialog");
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 0);
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp();
+
+IF
+DialogStarted(FOR_PriestOfTheConqueringGod_Cultists_1dbae2f3-7df2-ec4a-3470-efa537d7c00f, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_SceneOver("FOR_PriestsOfTheConqueringGods_IntroDialog");
+
+IF
+DialogEnded(FOR_PriestOfTheConqueringGod_Cultists_1dbae2f3-7df2-ec4a-3470-efa537d7c00f, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_PermaDefeated(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_DeathOfAtrueSoul_RemoveCultist_772e964c-5af4-788a-4098-7a42fe8ff9af, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 0);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_FOR_PriestsConqueringGodArriveInGOB(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_FOR_PlayersFoughtPriestsConqueringGod(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemy(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("FOR_TrackingPlayersFightingPriests_OnlyOnce", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_PlayersFoughtPriestsConqueringGod(1);
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 0);
+
+IF
+DB_FOR_PlayersFoughtPriestsConqueringGod(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _, _, _, _)
+AND
+DB_FOR_PriestsConqueringGod_Novice(_Var1, _, _, _, _)
+THEN
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp();
+
+IF
+FlagSet(FOR_DeathOfAtrueSoul_RemoveCultist_772e964c-5af4-788a-4098-7a42fe8ff9af, _, (INTEGER)_Var2, _, _)
+AND
+GetFlag(WLD_PriestsConqueringGod_LeaveLevel_3ec19923-caf7-4aa6-b04a-a0c84e709dca, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+AND
+DB_FOR_PriestsConqueringGod_Novice(_Var3, _, _, _, _)
+AND
+DialogRemoveActorFromDialog(_Var2, _Var3, 1, _, _)
+THEN
+PROC_DisappearOutOfSightTo(_Var3, S_FOR_Owlbear_CaveEntrance_70429e74-b08b-4190-9104-c7cd4053aedb, "Walk", 1, "");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WLD_PriestsConqueringGod_LeaveLevel_3ec19923-caf7-4aa6-b04a-a0c84e709dca, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, S_FOR_Owlbear_CaveEntrance_70429e74-b08b-4190-9104-c7cd4053aedb, "Walk", 1, "");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WLD_PriestsConqueringGod_GoToGoblinCamp_108030df-f5f1-e7da-dbd6-0d92e0e32189, _, _, _, _)
+THEN
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp();
+
+PROC
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp()
+THEN
+Die(S_WLD_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, 0, 1);
+SetFlag(FOR_PriestConqueringGod_StopSpotter_608d682f-863d-4b90-962b-b50f706beb0e, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp()
+AND
+QRY_OnlyOnce("FOR_PriestsConqueringGod_GoToGoblinCamp_OnlyOnce", _, _, _, _)
+AND
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(_Var1);
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp_Disappear(_Var1);
+
+PROC
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp_Disappear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInTrigger(_Var1, S_FOR_OwlBear_SUB_1fa871e1-4979-4259-9e5e-5017b06d077f, 1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_FOR_Owlbear_CaveExit_a68560bd-ab8e-4b32-88c7-344656e65ac4, "Run", "WLD_PriestsConqueringGod_CheckGoblinCampAvailable");
+
+PROC
+PROC_FOR_PriestsConqueringGod_GoToGoblinCamp_Disappear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInTrigger(_Var1, S_FOR_OwlBear_SUB_1fa871e1-4979-4259-9e5e-5017b06d077f, 0, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 0, "WLD_PriestsConqueringGod_CheckGoblinCampAvailable");
+
+PROC
+PROC_SpotPlayers_Spotted((GUIDSTRING)_Var1, "WLD_PriestOfTheConqueringGod_SpotPlayer", (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_WLD_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, S_WLD_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DIALOGRESOURCEGUID_FOR_PriestOfTheConqueringGod_Cultists_1dbae2f3-7df2-ec4a-3470-efa537d7c00f, S_WLD_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, S_WLD_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, S_FOR_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, _Var2)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(FOR_DeathOfAtrueSoul_RemoveCultist_772e964c-5af4-788a-4098-7a42fe8ff9af, _, (INTEGER)_Var2, _, _)
+AND
+GetFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+AND
+DB_FOR_PriestsConqueringGod_Novice(_Var3, _, _, _, _)
+AND
+DialogRemoveActorFromDialog(_Var2, _Var3, 1, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(FOR_PriestConqueringGod_InOwlbearCave_80f06963-ea5c-4e8f-a7bb-b98d6ad8a764, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(FOR_PriestConqueringGod_AtCaveEntrance_05807f2c-e34d-4ee5-8a70-7fd1578cefab, _Var1);
+
+IF
+DialogEnded(FOR_PriestOfTheConqueringGod_Cultists_1dbae2f3-7df2-ec4a-3470-efa537d7c00f, _, _, _, _)
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _, _, _, _)
+AND
+DB_PriestsConqueringGod(_Var2, _, _, _, _)
+THEN
+PROC_RemoveDialog(_Var2);
+SetFlag(FOR_PriestsConqueringGod_State_ProceedCave_9bf2938f-2498-4d52-ac55-7c69dced03a9, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(FOR_PriestConqueringGod_AtCaveEntrance_05807f2c-e34d-4ee5-8a70-7fd1578cefab, S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_Dialogs(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, FOR_PriestOfTheConqueringGod_Cultist001_InCave_69f7554f-8b4c-9e7d-5f0e-5785139f6709);
+
+IF
+FlagSet(FOR_PriestConqueringGod_AtCaveEntrance_05807f2c-e34d-4ee5-8a70-7fd1578cefab, S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_Dialogs(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, NULL_00000000-0000-0000-0000-000000000000, FOR_PriestOfTheConqueringGod_Cultist002_InCave_4a0bfb85-144f-af28-d3dd-056c5a764cae);
+
+IF
+Died(S_FOR_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(FOR_DeathOfATrueSoul_TalkedToCultists_0f066608-b0d5-cfd2-7ac9-d02c71fdc204, _Var1, 1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_DeathOfATrueSoul_PostSceneDone_ee66cc7e-cf79-631a-a836-6a2aa03cd199, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, S_FOR_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_DeathOfATrueSoul_PostScene_Queued(_Var1);
+
+IF
+DB_FOR_DeathOfATrueSoul_PostScene_Queued(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_, _Var1, _, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_PriestsOfTheConqueringGod_VB_PostScene_fe56bc89-584f-b93b-d811-61b32399a34b, _Var1);
+NOT DB_FOR_DeathOfATrueSoul_PostScene_Queued(_Var1);
+
+IF
+Died(S_WLD_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, _, _, _, _)
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _, _, _, _)
+THEN
+PROC_RemoveDialog(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49);
+DB_Dialogs(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, NULL_00000000-0000-0000-0000-000000000000, FOR_PriestOfTheConqueringGod_Cultist002_InCave_4a0bfb85-144f-af28-d3dd-056c5a764cae);
+
+IF
+Died(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, _, _, _, _)
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _, _, _, _)
+THEN
+PROC_RemoveDialog(S_FOR_PriestConqueringGod_001_d4a3b125-2b03-4fe8-bab2-7e485390bd49);
+DB_Dialogs(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, FOR_PriestOfTheConqueringGod_Cultist001_InCave_69f7554f-8b4c-9e7d-5f0e-5785139f6709);
+
+IF
+DialogEnded(FOR_PriestOfTheConqueringGod_Cultist001_InCave_69f7554f-8b4c-9e7d-5f0e-5785139f6709, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_FOR_PriestsMoveToOwlbearState();
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_FOR_OwlBear_SUB_1fa871e1-4979-4259-9e5e-5017b06d077f, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_PriestsMoveToOwlbearState();
+
+PROC
+PROC_FOR_PriestsMoveToOwlbearState()
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_State_ProceedCave_9bf2938f-2498-4d52-ac55-7c69dced03a9, _, _, _, _)
+THEN
+PROC_RemoveDialog(S_FOR_PriestConqueringGod_001_d4a3b125-2b03-4fe8-bab2-7e485390bd49);
+PROC_RemoveDialog(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49);
+DB_Dialogs(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, NULL_00000000-0000-0000-0000-000000000000, FOR_PriestOfTheConqueringGod_Cultist002_InCave_4a0bfb85-144f-af28-d3dd-056c5a764cae);
+DB_Dialogs(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, FOR_PriestOfTheConqueringGod_Cultist001_InCave_69f7554f-8b4c-9e7d-5f0e-5785139f6709);
+
+PROC
+PROC_FOR_PriestsMoveToOwlbearState()
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_State_ProceedCave_9bf2938f-2498-4d52-ac55-7c69dced03a9, _, _, _, _)
+AND
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 0);
+Use(_Var1, S_FOR_Owlbear_CaveEntrance_70429e74-b08b-4190-9104-c7cd4053aedb, "FOR_PriestConqueringGod_EnteredCave");
+
+PROC
+PROC_FOR_PriestsMoveToOwlbearState()
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_State_ProceedCave_9bf2938f-2498-4d52-ac55-7c69dced03a9, _, _, _, _)
+THEN
+ClearFlag(FOR_PriestsConqueringGod_State_ProceedCave_9bf2938f-2498-4d52-ac55-7c69dced03a9, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "FOR_PriestConqueringGod_EnteredCave", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetHasDialog(_Var1, 1);
+SetFlag(FOR_PriestConqueringGod_InOwlbearCave_80f06963-ea5c-4e8f-a7bb-b98d6ad8a764, _Var1);
+
+IF
+DialogStarted(FOR_PriestOfTheConqueringGod_Cultist001_InCave_69f7554f-8b4c-9e7d-5f0e-5785139f6709, _, _, _, _)
+AND
+QRY_FOR_PriestsConqueringGod_OwlbearCaveInProgress()
+THEN
+DB_PriestsConqueringGod_QueuePriestsDie(1);
+
+QRY
+QRY_FOR_PriestsConqueringGod_OwlbearCaveInProgress()
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WLD_PriestsConqueringGod_GoToGoblinCamp_108030df-f5f1-e7da-dbd6-0d92e0e32189, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WLD_PriestsConqueringGod_LeaveLevel_3ec19923-caf7-4aa6-b04a-a0c84e709dca, _, _, _, _)
+AND NOT
+DB_GlobalFlag(FOR_Owlbear_State_PermaDefeated_a2cd3c0f-95be-7155-d67c-edbdb2ca1104, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_GlobalFlag(FOR_Owlbear_State_PermaDefeated_a2cd3c0f-95be-7155-d67c-edbdb2ca1104, _, _, _, _)
+THEN
+NOT DB_PriestsConqueringGod_QueuePriestsDie(1);
+
+IF
+DB_GlobalFlag(WLD_PriestsConqueringGod_GoToGoblinCamp_108030df-f5f1-e7da-dbd6-0d92e0e32189, _, _, _, _)
+THEN
+NOT DB_PriestsConqueringGod_QueuePriestsDie(1);
+
+IF
+DB_GlobalFlag(WLD_PriestsConqueringGod_LeaveLevel_3ec19923-caf7-4aa6-b04a-a0c84e709dca, _, _, _, _)
+THEN
+NOT DB_PriestsConqueringGod_QueuePriestsDie(1);
+
+PROC
+PROC_CounterDecreased("FOR_OwlBear_LeaveAreaTrigger_Counter", 0, _, _, _)
+AND
+DB_PriestsConqueringGod_QueuePriestsDie(1, _, _, _, _)
+AND
+DB_FOR_PriestsConqueringGod_Novice(_Var1, _, _, _, _)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_FOR_OwlBear_e903a41f-8ef7-46dc-a847-7d0ec2804d08, "Run", "FOR_PriestConqueringGod_PriestDie");
+
+IF
+EntityEvent((CHARACTER)_Var1, "FOR_PriestConqueringGod_PriestDie", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PriestsConqueringGod(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, S_FOR_OwlBear_e903a41f-8ef7-46dc-a847-7d0ec2804d08, 1, 1);
+
+IF
+FlagSet(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SetRelationMutual(FOR_Owlbear_784be375-5641-e659-e4ea-a3ac17480d28, WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 0);
+
+IF
+CombatStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(S_FOR_OwlBear_e903a41f-8ef7-46dc-a847-7d0ec2804d08, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PriestsConqueringGod(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_PriestsConqueringGod_Behaviour_MoveToOwlbear_b64fdbcf-8a96-4b8c-bdac-0de0368b8bc8, _Var2);
+SetFlag(FOR_PriestsConqueringGod_Global_SetAlliedToPlayers_61fafd7d-f45c-51ca-8bf6-63b2f7ce34ce, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(FOR_PriestOfTheConqueringGod_Cultist001_InCave_69f7554f-8b4c-9e7d-5f0e-5785139f6709, _, _, _, _)
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_ChargeOwlbear_f5159b2e-23fd-85eb-e309-080f51a3d728, _, _, _, _)
+AND NOT
+DB_GlobalFlag(FOR_Owlbear_State_PermaDefeated_a2cd3c0f-95be-7155-d67c-edbdb2ca1104, _, _, _, _)
+AND
+DB_PriestsConqueringGod(_Var2, _, _, _, _)
+THEN
+SetFlag(FOR_PriestsConqueringGod_Behaviour_MoveToOwlbear_b64fdbcf-8a96-4b8c-bdac-0de0368b8bc8, _Var2);
+SetHasDialog(_Var2, 0);
+
+IF
+CombatStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PriestsConqueringGod(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(S_FOR_OwlBear_e903a41f-8ef7-46dc-a847-7d0ec2804d08, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MakeNPCHostile(S_FOR_OwlBear_e903a41f-8ef7-46dc-a847-7d0ec2804d08, _Var3);
+
+IF
+FlagSet(FOR_PriestsConqueringGod_Global_SetAlliedToPlayers_61fafd7d-f45c-51ca-8bf6-63b2f7ce34ce, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 100);
+
+IF
+FlagSet(FOR_Owlbear_State_PermaDefeated_a2cd3c0f-95be-7155-d67c-edbdb2ca1104, _, _, _, _)
+AND
+DB_GlobalFlag(FOR_PriestsConqueringGod_Global_GoToOwlbearCave_8ec1f489-609b-a15d-56d7-b16ffb2f9a2f, _, _, _, _)
+AND
+DB_PriestsConqueringGod(_Var3, _, _, _, _)
+AND
+IsInTrigger(_Var3, S_FOR_OwlBear_SUB_1fa871e1-4979-4259-9e5e-5017b06d077f, 1, _, _)
+AND
+QRY_FOR_PriestConqueringGod_CheckAliveForAD(FOR_PriestOfTheConqueringGod_AD_OwlbearDead_fcc1e40c-ccc9-3595-dd46-0f58ea2ef5b3, _, _, _, _)
+THEN
+SetHasDialog(_Var3, 1);
+
+QRY
+QRY_FOR_PriestConqueringGod_CheckAliveForAD((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_GlobalFlag(FOR_PriestConqueringGod_001_Defeated_e1e79ef1-9441-03bf-e24f-0af5e61a488d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_PriestConqueringGod_002_Defeated_bc3a78ff-2665-575d-9b61-68bb383c45a6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_PriestOfTheConqueringGod_StartAD(_Var1, S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49);
+
+QRY
+QRY_FOR_PriestConqueringGod_CheckAliveForAD((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_GlobalFlag(FOR_PriestConqueringGod_001_Defeated_e1e79ef1-9441-03bf-e24f-0af5e61a488d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(FOR_PriestConqueringGod_002_Defeated_bc3a78ff-2665-575d-9b61-68bb383c45a6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_PriestOfTheConqueringGod_StartAD(_Var1, S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_FOR_PriestConqueringGod_CheckAliveForAD((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GlobalFlag(FOR_PriestConqueringGod_001_Defeated_e1e79ef1-9441-03bf-e24f-0af5e61a488d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_PriestConqueringGod_002_Defeated_bc3a78ff-2665-575d-9b61-68bb383c45a6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_PriestOfTheConqueringGod_StartAD(_Var1, NULL_00000000-0000-0000-0000-000000000000, S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49);
+
+PROC
+PROC_FOR_PriestOfTheConqueringGod_StartAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_FOR_PriestConqueringGod_PlayedAD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var1, _Var2, _Var3);
+DB_FOR_PriestConqueringGod_PlayedAD(_Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Dialogs(S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, FOR_PriestOfTheConqueringGod_Cultist002_InCave_4a0bfb85-144f-af28-d3dd-056c5a764cae, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(FOR_Owlbear_State_PermaDefeated_a2cd3c0f-95be-7155-d67c-edbdb2ca1104, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(FOR_PriestOfTheConqueringGod_Cultist002_InCave_4a0bfb85-144f-af28-d3dd-056c5a764cae, S_FOR_PriestConqueringGod_002_d4a3b125-2b03-4fe8-bab2-7e485390bd49, S_FOR_PriestConqueringGod_001_2c9b967d-fbaa-43c0-9461-3e1598b5fbe1, _Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "WLD_PriestsConqueringGod_CheckGoblinCampAvailable", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(GLO_GoblinKing_State_PermaDefeated_d985480d-6158-0b0f-adfc-4bf3db785bf1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_PriestsConqueringGod_Novice(_Var1, _Var2, _, _Var4, _)
+THEN
+ClearFlag(FOR_PriestConqueringGod_InOwlbearCave_80f06963-ea5c-4e8f-a7bb-b98d6ad8a764, _Var1);
+SetFlag(FOR_PriestConqueringGod_InGoblinCamp_27c25c69-600e-4665-8def-cd1c54be08f5, _Var1);
+SetCanTrade(_Var1, 1);
+PROC_RemoveDialog(_Var1);
+DB_Dialogs(_Var1, _Var2);
+DB_FOR_PriestsConqueringGodArriveInGOB(1);
+PROC_AppearOutOfSightTo(_Var1, _Var4, _Var4, "PriestConqueringGod_AtGoblinCamp");
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 50);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "WLD_PriestsConqueringGod_CheckGoblinCampAvailable", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(GLO_GoblinKing_State_PermaDefeated_d985480d-6158-0b0f-adfc-4bf3db785bf1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+DB_FOR_PriestsConqueringGodArriveInGOB(1, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_FestivitiesArea_State_Hostile_d5ee4e10-d88b-4226-9607-41b7399a837f, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 0);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "PriestConqueringGod_AtGoblinCamp", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_PlayersFoughtPriestsConqueringGod(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GOB_PriestConqueringGod_StartSpottingHostileAtGoblinCamp_0a390d48-14c3-446f-82b2-04c126eecd5d, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "GOB_PriestOfTheConqueringGod_SpotHostilePlayer", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_StartDialogCustom(GOB_PriestsOfConqueringGod_SpottedHostilePlayer_3c2e1e7e-4e2b-6c87-220a-2111046ca023, _Var1, _Var2, 0, 0, 0, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GOB_PriestOfTheConqueringGodAggro();
+
+IF
+DialogEnded(GOB_PriestsOfConqueringGod_SpottedHostilePlayer_3c2e1e7e-4e2b-6c87-220a-2111046ca023, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GOB_PriestOfTheConqueringGodAggro();
+
+PROC
+PROC_GOB_PriestOfTheConqueringGodAggro()
+THEN
+SetFlag(GOB_PriestConqueringGod_StopSpottingHostileAtGoblinCamp_99af10e7-b603-40cd-859e-6b0795e1d668, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SetRelationToPlayers(WLD_FOR_CultistsOfTheConqueringGod_d3c4f994-2c6b-7b06-09ed-f184bb1b45c1, 0);
+
+IF
+FlagSet(FOR_PriestOfTheConqueringGod_Cultists_Knows_Owlbear_63b22e83-1389-735f-2d6c-23edfff0d078, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_, "FOR_PriestsOfTheConqueringGods_OwlBearPrintsBox", S_FOR_PriestsOfTheConqueringGods_OwlBearPrintsBox_9e178b03-3f45-4a3b-a229-2ba530c26b21, _, _Var1)
+AND
+QRY_OnlyOnce("FOR_LoweredDCForSpottingOwlbearTracks_OnlyOnce", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_KnowledgeCheckTrigger_AD("FOR_PriestsOfTheConqueringGods_OwlBearPrintsBox", S_FOR_PriestsOfTheConqueringGods_OwlBearPrintsBox_9e178b03-3f45-4a3b-a229-2ba530c26b21, "Survival", DC_Legacy_5_6e246ccd-6149-4ec4-a325-034309a18138, FOR_PriestsOfTheConqueringGods_VB_OwlBearPrints_c7a1e827-180c-1c62-75fb-663af5f5f269, WLD_PriestsOfTheConqueringGods_OwlBearPrints_PassedCheck_c15ccdf2-5143-c0c3-5453-f22af9d15eb4);
+DB_KnowledgeCheckTrigger_AD("FOR_PriestsOfTheConqueringGods_OwlBearPrintsBox", S_FOR_PriestsOfTheConqueringGods_OwlBearPrintsBox_9e178b03-3f45-4a3b-a229-2ba530c26b21, "Survival", DC_Legacy_0_98d69b07-f551-4d77-af31-41d074748dc0, FOR_PriestsOfTheConqueringGods_VB_OwlBearPrints_c7a1e827-180c-1c62-75fb-663af5f5f269, WLD_PriestsOfTheConqueringGods_OwlBearPrints_PassedCheck_c15ccdf2-5143-c0c3-5453-f22af9d15eb4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

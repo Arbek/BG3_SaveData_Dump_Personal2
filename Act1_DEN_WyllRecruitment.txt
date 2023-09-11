@@ -1,0 +1,155 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_TopicalGreeting(TG_ORI_WyllRecruited_c344917e-ca77-4422-875c-46c3e5333075);
+
+KBSECTION
+IF
+FlagSet(Debug_BecomeAvatar_34371b8e-a34b-3354-54e7-fcda800d703a, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _)
+AND
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+THEN
+PROC_DEN_WyllRecruitment_DefineAvatarOM();
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("WLD_Main_A", _, _, _, _)
+THEN
+PROC_DEN_WyllRecruitment_Init();
+
+PROC
+PROC_DEN_WyllRecruitment_Init()
+AND NOT
+DB_Players(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+SetLevel(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, 2);
+TeleportTo(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, S_DEN_WyllRaidStartingPos_80f54c8a-12ab-45dd-b0c4-cea9c709df3c);
+DB_DEN_NPC(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, "Cave", DEN_AttackOnDen_Wyll_97b1088e-095b-3382-82b6-c108f9f76013);
+
+PROC
+PROC_DEN_WyllRecruitment_Init()
+AND NOT
+DB_Avatars(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+SetFlag(DEN_TieflingLeader_State_InvitedPlayerToBG_83a2267e-8258-2117-eb3c-2c33220a6d21, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+PROC
+PROC_DEN_WyllRecruitment_Init()
+AND
+DB_Avatars(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+PROC_DEN_WyllRecruitment_DefineAvatarOM();
+
+PROC
+PROC_DEN_WyllRecruitment_DefineAvatarOM()
+THEN
+PROC_DefineSingleOriginMoment(DEN_Thieflings_Trainer_f2596c8f-2b4f-0c9c-f371-e7940f4405d4, REALLY_WYLL_5f40def5-d3ec-4698-a367-01a339888956, DEN_TrainingKids_OM_Wyll_AOM_de425ace-1e17-decd-4882-cff43fc532f8);
+DB_OriginMoment_ExtraNPCs(DEN_TrainingKids_OM_Wyll_AOM_de425ace-1e17-decd-4882-cff43fc532f8, S_DEN_Trainee_001_1f839ad2-2bcb-47d2-8de9-db7a1fb5d67f);
+DB_OriginMoment_ExtraNPCs(DEN_TrainingKids_OM_Wyll_AOM_de425ace-1e17-decd-4882-cff43fc532f8, S_DEN_Trainee_002_bd7f31a6-98e8-46cd-97be-4347fa45d387);
+DB_OriginMoment_ExtraNPCs(DEN_TrainingKids_OM_Wyll_AOM_de425ace-1e17-decd-4882-cff43fc532f8, S_DEN_Trainee_003_71bdc11d-b488-427d-8453-632e91178c7e);
+PROC_DEN_RemoveFromDenNPCs(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+IF
+DB_QRY_RTN_OM_FindValidOriginMoment(DEN_TrainingKids_OM_Wyll_AOM_de425ace-1e17-decd-4882-cff43fc532f8, _, _, _, _, _, _, _, _, _)
+AND
+QRY_DEN_TieflingRefugees_MakeKidAvailable(NULL_00000000-0000-0000-0000-000000000000, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_TieflingRefugees_MakeKidAvailable(_, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, "DEN_Wyll_Event_ArrivedAtCave", _, _, _)
+THEN
+PROC_GLO_Origins_SetRecruitmentDialog(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, Wyll_Recruitment_PostEA_c128e6d5-670d-b220-55c0-503d70694dbc);
+SetEntityEvent(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, "DEN_Trainer_Event_IsTrainer", 1);
+SetFlag(DEN_Wyll_State_TrainingChildren_b949d261-4c0f-5eae-bee9-fa0fa0a8cea7, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(DEN_Wyll_State_AtDefault_504b6043-033d-4a61-b56d-a5aad9b4bdf7, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(Wyll_Recruitment_PostEA_c128e6d5-670d-b220-55c0-503d70694dbc, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_DEN_TieflingRefugees_MakeKidAvailable(S_DEN_Trainee_001_1f839ad2-2bcb-47d2-8de9-db7a1fb5d67f, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_Wyll_KidIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Wyll_State_KidMissing_2f8520a5-e816-3baf-3689-fd87730facdb, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_DEN_Wyll_KidIsAvailable((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_DEN_Trainee_001_1f839ad2-2bcb-47d2-8de9-db7a1fb5d67f, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_DEN_Trainee_001_1f839ad2-2bcb-47d2-8de9-db7a1fb5d67f);
+
+IF
+DialogEnded(Wyll_Recruitment_PostEA_c128e6d5-670d-b220-55c0-503d70694dbc, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Wyll_State_KidMissing_2f8520a5-e816-3baf-3689-fd87730facdb, _, _, _, _)
+THEN
+ClearFlag(DEN_Wyll_State_KidMissing_2f8520a5-e816-3baf-3689-fd87730facdb, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+AND
+QRY_OnlyOnce("TG_ORI_WyllRecruited", _, _, _, _)
+THEN
+PROC_TopicalGreeting_UnlockTopic(TG_ORI_WyllRecruited_c344917e-ca77-4422-875c-46c3e5333075);
+
+IF
+FlagSet(GLO_Origin_PartOfTheTeam_Karlach_b1e6f12a-600a-4e2e-9871-b08a9fe3a617, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+SetHasDialog(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, 0);
+PROC_DisappearOutOfSight(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, "Run", 0, "ORI_Wyll_LeftFromDen");
+PROC_DEN_Wyll_CleanTraining();
+SetFlag(Wyll_Recruitment_Event_QueueNight_08a74992-a350-42b8-80d3-2685898281ba);
+
+IF
+DB_PermaDefeated(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(Wyll_Recruitment_Event_QueueNight_08a74992-a350-42b8-80d3-2685898281ba, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+PROC_ORI_Wyll_LeaveDen();
+
+IF
+DB_LevelLoadedOnce("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+PROC_ORI_Wyll_LeaveDen();
+ClearFlag(Wyll_Recruitment_Event_QueueNight_08a74992-a350-42b8-80d3-2685898281ba);
+
+IF
+DB_LevelLoadedOnce("CRE_Main_A", _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+PROC_ORI_Wyll_LeaveDen();
+ClearFlag(Wyll_Recruitment_Event_QueueNight_08a74992-a350-42b8-80d3-2685898281ba);
+
+PROC
+PROC_ORI_Wyll_LeaveDen()
+THEN
+SetHasDialog(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, 0);
+PROC_DisappearOutOfSight(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, "Run", 0, "ORI_Wyll_LeftFromDen");
+PROC_DEN_Wyll_CleanTraining();
+PROC_CampNight_ClearCampNight(NIGHT_WyllConfrontation_NotRecruited_b35ff12a-ceae-4bf8-94e2-5050576e4d6e);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

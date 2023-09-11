@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckLevelStart("WLD_Main_A");
+DB_RegionSafeSpot("WLD_Main_A", DOS2_StartPoint_000__000__000_b41c4f85-a580-cf6e-a4b9-9084e084452c);
+
+KBSECTION
+IF
+LevelLoaded("WLD_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("WLD_Main_A", _, _, _, _)
+AND
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

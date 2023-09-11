@@ -1,0 +1,29 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+EnteredChasm((CHARACTER)_Var1, (GUIDSTRING)_Var2, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_DuergarSquad(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+TriggerGetRandomPosition(S_UND_Raft_CorpseTrigger_2f2ae987-aaf8-4244-b790-63d5bc7f9a14, _Var7, _Var8, _Var9, _Var1)
+AND
+FindValidPosition(_Var7, _Var8, _Var9, 0.5, _Var1, 0, _Var10, _Var11, _Var12, _Var1)
+THEN
+TeleportToPosition(_Var1, _Var10, _Var11, _Var12, "", 0, 0, 1);
+Die(_Var1, 0, _Var2, 1, 1);
+EnterChasmProcessed(_Var1, 1);
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

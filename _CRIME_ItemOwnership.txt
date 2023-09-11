@@ -1,0 +1,79 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_Init_SetItemOwners((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ItemOwnerShipTriggers(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+TriggerSetItemsOwner(_Var2, _Var3);
+PROC_TriggerRegisterForPlayers(_Var2);
+NOT DB_ItemOwnerShipTriggers(_Var1, _Var2, _Var3);
+DB_OwnershipTrigger_Internal(_Var2, _Var3);
+
+IF
+DB_OwnershipTrigger_Internal(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_OwnershipTrigger_Internal(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+NOT DB_OwnershipTrigger_Internal(_Var1, _Var3);
+
+PROC
+PROC_Init_ClearItemOwners((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ItemOwnerShipClearItem(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ClearOwnership(_Var2);
+NOT DB_ItemOwnerShipClearItem(_Var1, _Var2);
+
+IF
+DB_ItemOwnerShipTriggers(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Init_SetItemOwners(_Var1);
+PROC_Init_ClearItemOwners(_Var1);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_Init_SetItemOwners(_Var1);
+PROC_Init_ClearItemOwners(_Var1);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ItemOwnerShipTriggersFallback(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ItemOwnerShipTriggersFallback(_Var2, _Var1);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OwnershipTrigger_Internal(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OwnershipTrigger_Internal(_Var2, _Var1);
+PROC_ItemOwnership_TrySetFallbackOwner(_Var2);
+
+PROC
+PROC_ItemOwnership_TrySetFallbackOwner((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_SetFallbackOwner", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ItemOwnerShipTriggersFallback(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_SetFallbackOwner", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ItemOwnerShipTriggersFallback(_Var1, _Var2);
+TriggerSetItemsOwner(_Var1, _Var2);
+DB_OwnershipTrigger_Internal(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

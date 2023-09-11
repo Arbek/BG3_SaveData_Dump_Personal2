@@ -1,0 +1,79 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetTag(S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590);
+SetTag(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590);
+SetTag(S_FOR_SeluneStash_Chest_3121a64d-b19f-43eb-aade-b641429366c4, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590);
+
+KBSECTION
+IF
+UsingSpellOnTarget((GUIDSTRING)_Var1, S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507, "Target_Knock", _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_DangerousBook_State_BookUnlocked_fd215551-a14c-8cfa-ba34-7ac32d1ada28, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("FOR_DangerousBook_Knock_SummonShades", _Var1, _Var1, _Var1, _Var1)
+THEN
+TimerLaunch("FOR_DangerousBook_Knock_SummonShades_Timer", 1500);
+
+IF
+TimerFinished("FOR_DangerousBook_Knock_SummonShades_Timer", (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+GetPosition(S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507, _Var1, _Var2, _Var3, _Var1)
+THEN
+CreateSurface(S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507, "SurfaceDarknessCloud", 2, 3, S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507);
+PROC_FOR_DangerousBook_SummonShades(1, _Var1, _Var2, _Var3);
+
+IF
+FlagSet(FOR_DangerousBook_State_BookUnlocked_fd215551-a14c-8cfa-ba34-7ac32d1ada28, _, _, _, _)
+AND
+IsTagged(S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590, 1, _, _)
+THEN
+ClearTag(S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590);
+
+IF
+UsingSpellOnTarget((GUIDSTRING)_Var1, S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, "Target_Knock", _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_BookOfRestoredGods_Event_NonDialogOpen_a6fe026e-8335-9258-6268-503469a0b5fd, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_BookOfRestoredGods_Event_NonDialogOpen_a6fe026e-8335-9258-6268-503469a0b5fd);
+
+IF
+FlagSet(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, _, _, _, _)
+AND
+IsTagged(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590, 1, _, _)
+THEN
+ClearTag(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590);
+
+IF
+FlagSet(GLO_BookOfRestoredGods_Event_NonDialogOpen_a6fe026e-8335-9258-6268-503469a0b5fd, _, _, _, _)
+AND
+IsTagged(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590, 1, _, _)
+THEN
+ClearTag(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590);
+
+IF
+UsingSpellOnTarget((GUIDSTRING)_Var1, S_FOR_SeluneStash_Chest_3121a64d-b19f-43eb-aade-b641429366c4, "Target_Knock", _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(S_FOR_SeluneStash_Chest_3121a64d-b19f-43eb-aade-b641429366c4, "FOR_SELUNESTASH_CHESTSEAL", 1, _Var1, _Var1)
+THEN
+RemoveStatus(S_FOR_SeluneStash_Chest_3121a64d-b19f-43eb-aade-b641429366c4, "FOR_SELUNESTASH_CHESTSEAL");
+
+IF
+StatusRemoved(S_FOR_SeluneStash_Chest_3121a64d-b19f-43eb-aade-b641429366c4, "FOR_SELUNESTASH_CHESTSEAL", _, _, _)
+AND
+IsTagged(S_FOR_SeluneStash_Chest_3121a64d-b19f-43eb-aade-b641429366c4, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590, 1, _, _)
+THEN
+ClearTag(S_FOR_SeluneStash_Chest_3121a64d-b19f-43eb-aade-b641429366c4, KNOCK_TARGET_b0cf1015-6367-4f54-82ef-92cd9df72590);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

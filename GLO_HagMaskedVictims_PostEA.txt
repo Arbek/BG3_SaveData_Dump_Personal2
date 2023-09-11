@@ -1,0 +1,42 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+QRY
+QRY_GLO_HagCanPossessMaskedVictims()
+AND
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_State_HagInBaldursGate_68d1731c-7a20-4692-a093-5aa39b69d211, _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_BlushingMermaid_State_HagIsTrulyDead_c7c3e64d-dcfc-431b-a224-535a0c4a8e9c, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(LOW_BlushingMermaid_State_HagIsTrulyDead_c7c3e64d-dcfc-431b-a224-535a0c4a8e9c, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GLO_RemoveHagMaskNPCStatuses();
+
+IF
+Unequipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_State_HagInBaldursGate_68d1731c-7a20-4692-a093-5aa39b69d211, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_BlushingMermaid_State_HagIsTrulyDead_c7c3e64d-dcfc-431b-a224-535a0c4a8e9c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_Hagmasks(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_HAG_MaskedVictims(_Var2, _, _, _, _Var1)
+THEN
+Die(_Var2, 0, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_Hag"

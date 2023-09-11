@@ -1,0 +1,151 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GEB_UnavailableDialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GEB_UnavailableDialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (INTEGER)_Var1)
+AND NOT
+DB_CRIME_RestoreDialogAfterCrimeHandling(_, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_HandlingCrime(_, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var4 != "Idle"
+AND
+CrimeGetTension(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND
+_Var7 > 0
+AND NOT
+QRY_CRIME_KeepDialogDuringHandling(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_CRIME_HandlingCrime(_Var1, _Var2);
+
+IF
+DB_CRIME_HandlingCrime(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogNPCs(_, _Var2, _, _Var1, _Var1)
+THEN
+NOT DB_CRIME_HandlingCrime(_Var1, _Var2);
+PROC_CRIME_CheckSetBusyDialog(_Var1, _Var2);
+
+IF
+OnCrimeMergedWith((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_HandlingCrime(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_HandlingCrime(_Var1, _Var3);
+DB_CRIME_HandlingCrime(_Var2, _Var3);
+
+IF
+DB_CRIME_HandlingCrime(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var3, _Var2, _, _Var1, _Var1)
+AND
+DB_AutomatedDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_HandlingCrime(_Var1, _Var2);
+PROC_CRIME_CheckSetBusyDialog(_Var1, _Var2);
+
+PROC
+PROC_CRIME_CheckSetBusyDialog((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetHandlingCrimeID(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_RestoreDialogAfterCrimeHandling(_Var1, _Var2);
+PROC_GenericsSetBusyDialog(_Var2);
+
+IF
+OnCrimeMergedWith((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_RestoreDialogAfterCrimeHandling(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_RestoreDialogAfterCrimeHandling(_Var1, _Var3);
+DB_CRIME_RestoreDialogAfterCrimeHandling(_Var2, _Var3);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, _, "Idle", (INTEGER)_Var1)
+AND
+DB_CRIME_RestoreDialogAfterCrimeHandling(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_RestoreDialogAfterCrimeHandling(_Var1, _Var2);
+PROC_GenericsClearBusyDialog(_Var2);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_RestoreDialogAfterCrimeHandling(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_RestoreDialogAfterCrimeHandling(_Var1, _Var2);
+PROC_GenericsClearBusyDialog(_Var2);
+
+QRY
+QRY_CRIME_KeepDialogDuringHandling((INTEGER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (INTEGER)_Var1)
+AND
+CrimeHasProperty(_Var1, AllowStartingDialogs_eb59183a-7011-48c4-9cc5-6b9fd35e134a, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GenericsSetBusyDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ObjectCountHelper(_Var1, "GEB_BusyDialog", 1);
+
+PROC
+PROC_GenericsClearBusyDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ObjectCountHelper(_Var1, "GEB_BusyDialog", -1);
+
+QRY
+QRY_SelectCrimeBusyDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CRIME_DialogsBlockedByCrimeHandling(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_StartedBusyDialog(1);
+PROC_CRIME_SelectBusyDialog(_Var1, _Var2);
+
+PROC
+PROC_CRIME_SelectBusyDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GEB_UnavailableDialog(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(_Var3, _Var1, _Var2);
+DB_CRIME_StartedBusyDialog(1);
+
+PROC
+PROC_CRIME_SelectBusyDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CRIME_StartedBusyDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, BEAST_890b5a2a-e773-48df-b191-c887d87bec16, _Var3, _Var1, _Var1)
+AND
+IsTagged(_Var1, MONSTER_90101158-141e-4896-8e60-f8db03f6dde3, _Var4, _Var1, _Var1)
+AND
+DB_LogicOr(_Var3, _Var4, 1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(CMB_AD_CombatFallback_300686d9-9f7e-c18d-9d64-3f176c78b98b, _Var1, _Var2);
+DB_CRIME_StartedBusyDialog(1);
+
+PROC
+PROC_CRIME_SelectBusyDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_StartedBusyDialog(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GEB_AD_CantTalkNow_ae991ba1-8a2e-9cc7-b4c2-379af7f058c5, _Var1, _Var2);
+
+QRY
+QRY_CRIME_DialogsBlockedByCrimeHandling((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ObjectCountHelper(_Var1, "GEB_BusyDialog", _Var2, _Var1, _Var1)
+AND
+_Var2 != 0
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

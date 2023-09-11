@@ -1,0 +1,88 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+KilledBy(S_UND_KuoToaGod_BOOOAL_abede50d-0d73-412b-8912-c9a4b900493f, (CHARACTER)_Var1, _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_KuoToaGod_BOOOALFollowers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_KuoToaGod_MakeFrightened(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_KuoToaGod_MakeFrightened(_Var4, _Var1);
+RemoveStatus(_Var4, "UND_BOOOALSERVANT");
+
+IF
+StatusRemoved((CHARACTER)_Var1, "UND_BOOOALSERVANT", _, _, (CHARACTER)_Var1)
+AND
+DB_UND_KuoToaGod_MakeFrightened(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_KuoToaGod_MakeFrightened(_Var1, _Var4);
+ApplyStatus(_Var1, "FRIGHTENED", 12, 1, _Var4);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_KuoToaGod_BOOOALFollowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_KuoToaGod_DeathReactionInCombat(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_KuoToaGod_DeathReactionInCombat(1);
+PROC_TryStartAD(UND_KuoToaGod_AD_GodDead_bc7f5bbf-114d-1941-06df-f3bc7a4c5f33, _Var1);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "UND_BOOOALSERVANT", _, _, (CHARACTER)_Var1)
+THEN
+PROC_UND_KuoToaGod_CheckUpdateStatusDuration(_Var1);
+
+PROC
+PROC_UND_KuoToaGod_CheckUpdateStatusDuration((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != S_UND_Kuotoa_Sacrifice_f52a2d24-e75e-44e3-8209-268c66dad728
+THEN
+PROC_UND_KuoToaGod_UpdateStatus(6);
+
+PROC
+PROC_UND_KuoToaGod_UpdateStatus((REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+IsInCombat(S_UND_KuoToaGod_BOOOAL_abede50d-0d73-412b-8912-c9a4b900493f, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(S_UND_KuoToaGod_BOOOAL_abede50d-0d73-412b-8912-c9a4b900493f, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_UND_KuoToaGod_UpdateStatusDuration(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_UND_KuoToaGod_UpdateStatusDuration((REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+HasActiveStatus(S_UND_KuoToaGod_BOOOAL_abede50d-0d73-412b-8912-c9a4b900493f, "BLOODLUST_REDCAP", 1, _Var1, _Var1)
+AND
+GetStatusTurns(S_UND_KuoToaGod_BOOOAL_abede50d-0d73-412b-8912-c9a4b900493f, "BLOODLUST_REDCAP", _Var2, _Var1, _Var1)
+AND
+IntegerProduct(_Var2, 6, _Var3, _Var1, _Var1)
+AND
+IntegerToReal(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+RealSum(_Var4, _Var1, _Var5, _Var1, _Var1)
+THEN
+ApplyStatus(S_UND_KuoToaGod_BOOOAL_abede50d-0d73-412b-8912-c9a4b900493f, "BLOODLUST_REDCAP", _Var5, 1);
+
+QRY
+QRY_UND_KuoToaGod_UpdateStatusDuration((REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+HasActiveStatus(S_UND_KuoToaGod_BOOOAL_abede50d-0d73-412b-8912-c9a4b900493f, "BLOODLUST_REDCAP", 0, _Var1, _Var1)
+THEN
+ApplyStatus(S_UND_KuoToaGod_BOOOAL_abede50d-0d73-412b-8912-c9a4b900493f, "BLOODLUST_REDCAP", _Var1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

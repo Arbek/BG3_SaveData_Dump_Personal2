@@ -1,0 +1,122 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_AmbushTrigger(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_AmbushDetectTrigger_f40a6f98-230d-48c8-aa42-e0f8d82505ab, Act2_NearlyImpossible_52918812-bc1c-43b5-881a-58443902f5fa);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_01_506a0ac8-f9f5-4679-a94d-7d1ad6abd173, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_02_81cead3c-d55e-4a1c-bfdd-7758a532c9fd, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_03_61122493-13f4-49f8-8441-76260c8d57fa, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_04_ff24c261-fe97-4451-a79a-04cdf16bc016, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_05_767879dc-4e7a-4d1a-98f3-029ce28752e5, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_06_4a99ee81-35bd-4a20-bcd7-36dfb2bbbf80, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_07_80d5c307-054d-4240-8e08-f52ef24a799b, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_08_1f8eb891-48eb-4804-8ae2-e495c19ed8f8, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_09_83a1863c-2188-4c98-93be-c6437a532332, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_10_78978ec1-6e8b-436a-9df6-81e4fdf53f5c, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_11_1544060f-0538-4e22-8dfc-18147a067eae, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_12_cceac3bb-08ba-4226-ad6b-6bff72c96b36, 1);
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, S_SCL_FishermansHut_CursedKuoToa_Champion_03524330-c6ca-4078-8fbf-12ec4ffa389a, 1);
+PROC_TriggerRegisterForParty(S_SCL_FishermansHut_HutArea_d4f07bca-5e25-4cc6-bd56-1f0e82d3a3b6);
+DB_SCL_FishermansHut_Barricades(S_SCL_FishermansHut_Barricade01_b4e61fb6-b614-4408-a9de-d61c8ac871a6);
+DB_SCL_FishermansHut_Barricades(S_SCL_FishermansHut_Barricade02_884a96f3-de3c-49fe-8a69-0f64583a38f0);
+DB_TriggerEvents_AllPartyMembersLeft(S_SCL_FishermansHut_HutArea_d4f07bca-5e25-4cc6-bd56-1f0e82d3a3b6, "SCL_FishermansHut_LeaveHutArea");
+
+KBSECTION
+IF
+DB_AmbushTrigger_Ambusher(S_SCL_FishermansHut_AmbushTrigger_debbd443-f3d9-4e76-a6be-db59b466f8e7, _Var1, _, _Var1, _Var1)
+THEN
+DB_SCL_FishermansHut_KuoToa(_Var1);
+
+IF
+DB_SCL_FishermansHut_KuoToa(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AddPreferredAiTargetTag(_Var1, ACT2_SCL_FISHERMANSHUT_PRIORITYTARGET_8112eae1-d98d-4d47-a6b6-88589aefb455);
+
+IF
+DB_InRegion(_Var1, S_SCL_FishermansHut_HutArea_d4f07bca-5e25-4cc6-bd56-1f0e82d3a3b6, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_FishermansHut_PartyMemberInHut(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_FishermansHut_PartyMemberInHut(1);
+
+IF
+EntityEvent(_, "SCL_FishermansHut_LeaveHutArea", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_SCL_FishermansHut_PartyMemberInHut(1);
+
+IF
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_FishermansHut_PartyMemberInHut(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, ACT2_SCL_FISHERMANSHUT_NETIGNORETARGET_de82eeb4-9595-4ed3-9f1d-9d08b8d17930);
+
+IF
+DB_SCL_FishermansHut_Barricades(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_FishermansHut_KuoToa(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_FishermansHut_PartyMemberInHut(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_FishermansHut_BarricadesBroken(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AiAddInterestingItem(_Var2, _Var1);
+
+IF
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_FishermansHut_PartyMemberInHut(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, ACT2_SCL_FISHERMANSHUT_NETIGNORETARGET_de82eeb4-9595-4ed3-9f1d-9d08b8d17930);
+
+IF
+DB_SCL_FishermansHut_Barricades(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_FishermansHut_KuoToa(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_FishermansHut_PartyMemberInHut(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_FishermansHut_BarricadesBroken(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AiRemoveInterestingItem(_Var2, _Var1);
+
+IF
+DB_SCL_FishermansHut_Barricades(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHitpoints(_Var1, 16);
+
+IF
+DB_Destroyed(S_SCL_FishermansHut_Barricade01_b4e61fb6-b614-4408-a9de-d61c8ac871a6, _, _, _, _)
+AND
+DB_Destroyed(S_SCL_FishermansHut_Barricade02_884a96f3-de3c-49fe-8a69-0f64583a38f0, _, _, _, _)
+THEN
+DB_SCL_FishermansHut_BarricadesBroken(1);
+
+IF
+DB_SCL_FishermansHut_BarricadesBroken(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, ACT2_SCL_FISHERMANSHUT_NETIGNORETARGET_de82eeb4-9595-4ed3-9f1d-9d08b8d17930);
+
+IF
+DB_SCL_FishermansHut_BarricadesBroken(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_SCL_FishermansHut_HutArea_d4f07bca-5e25-4cc6-bd56-1f0e82d3a3b6, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, ACT2_SCL_FISHERMANSHUT_PRIORITYTARGET_8112eae1-d98d-4d47-a6b6-88589aefb455);
+
+IF
+DB_SCL_FishermansHut_BarricadesBroken(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_SCL_FishermansHut_HutArea_d4f07bca-5e25-4cc6-bd56-1f0e82d3a3b6, _Var1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, ACT2_SCL_FISHERMANSHUT_PRIORITYTARGET_8112eae1-d98d-4d47-a6b6-88589aefb455);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

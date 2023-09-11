@@ -1,0 +1,200 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+TextEvent("applythorn1", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "DEN_APPRENTICE_THORN_1", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("applythorn2", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "DEN_APPRENTICE_THORN_2", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("applythorn3", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "DEN_APPRENTICE_THORN_3", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("progressthorn", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_ThornStatus(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+PROC_DEN_Apprentice_ProgressThornStatus(_Var1, _Var4);
+
+PROC
+PROC_DEN_Apprentice_InitiatePoison((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_DEN_Apprentice_ThornStatus(1, "DEN_APPRENTICE_THORN_1");
+DB_DEN_Apprentice_ThornStatus(2, "DEN_APPRENTICE_THORN_2");
+DB_DEN_Apprentice_ThornStatus(3, "DEN_APPRENTICE_THORN_3");
+SetFlag(DEN_Apprentice_State_SomeoneGotPoisoned_35ce5ccc-aa41-48f4-aae2-cf0d64572740, NULL_00000000-0000-0000-0000-000000000000);
+ApplyStatus(_Var1, "DEN_APPRENTICE_THORN_1", -1, 1, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+
+IF
+StatusApplied((CHARACTER)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_ThornStatus(_, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var6
+THEN
+NOT DB_DEN_Apprentice_Poisoned(_Var1, _Var6);
+DB_DEN_Apprentice_Poisoned(_Var1, _Var2);
+
+IF
+StatusApplied((CHARACTER)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_ThornStatus(_, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Apprentice_Poisoned(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Apprentice_Poisoned(_Var1, _Var2);
+
+IF
+StatusRemoved((CHARACTER)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_ThornStatus(_Var5, _Var2, _Var1, _Var1, _Var1)
+AND
+IsDead(_Var1, 0, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_Apprentice_ApplyingNextStatus(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Apprentice_Poisoned(_Var1, _Var2);
+SetFlag(DEN_Apprentice_State_CuredThornStatus_2baaa180-2041-4e21-8072-e43193d333c9, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Apprentice_ThornCured(_Var1, _Var5);
+PROC_DEN_Apprentice_CheckReactToLostAntidote();
+
+QRY
+QRY_DEN_Apprentice_ApplyingNextStatus((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_ThornStatus(_, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var4
+AND
+HasAppliedStatus(_Var1, _Var4, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Apprentice_ThornCured((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 > 1
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DEN_Apprentice_PAD_Relieved_71f2d41c-a061-3fe7-b412-34f7b3c7623f, _Var1);
+
+PROC
+PROC_LongRest_Player((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_ThornStatus(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+PROC_DEN_Apprentice_ProgressThornStatus(_Var1, _Var5);
+
+PROC
+PROC_DEN_Apprentice_ProgressThornStatus((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 > 3
+THEN
+ObjectTimerLaunch(_Var1, "DEN_Apprentice_DieFromThorn", 2000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "DEN_Apprentice_DieFromThorn", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(DEN_Apprentice_PAD_Dying_3116adff-15f3-9c6c-f2c6-19d95068eb6f, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 0);
+
+IF
+AutomatedDialogEnded(DEN_Apprentice_PAD_Dying_3116adff-15f3-9c6c-f2c6-19d95068eb6f, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+Die(_Var2, 0, 0);
+
+PROC
+PROC_DEN_Apprentice_ProgressThornStatus((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 <= 3
+AND
+DB_DEN_Apprentice_ThornStatus(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, _Var3, -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+ObjectTimerLaunch(_Var1, "DEN_Apprentice_ReactToSickness", 2000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "DEN_Apprentice_ReactToSickness", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DEN_Apprentice_PAD_FeelingSick_c9324512-fb12-1a6a-112f-6ad547167a6a, _Var1);
+
+IF
+Resurrected((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "DEN_APPRENTICE_THORN_1", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_DEN_Apprentice_CheckThornAvoided()
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_State_SomeoneGotPoisoned_35ce5ccc-aa41-48f4-aae2-cf0d64572740, _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+FlagSet(DEN_Apprentice_State_CuredThornStatus_2baaa180-2041-4e21-8072-e43193d333c9, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_DEN_Apprentice_ThornStatus(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_DEN_Apprentice_ThornStatus(_Var2, _Var3);
+
+IF
+FlagSet(DEN_Apprentice_State_CuredThornStatus_2baaa180-2041-4e21-8072-e43193d333c9, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

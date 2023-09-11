@@ -1,0 +1,150 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, GLO_CursedIronFlask_a9a90b77-e020-86fb-cc42-e45da013f778);
+DB_FlagReactionAfterDialog(GLO_CursedIronFlask_Event_BreakSeal_6497257d-de38-50d5-f863-79446f292272, GLO_CursedIronFlask_a9a90b77-e020-86fb-cc42-e45da013f778);
+DB_HasItemEvent(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, GLO_CursedIronFlask_State_HasFlask_9c9d36f1-eadb-4e45-a4ad-61edf52364a7);
+DB_GiveItemToEventWithClear(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, GLO_CursedIronFlask_Event_GiveFlask_d8cc1663-f56f-44bf-b28c-e99a8b5218ce);
+PROC_GLO_CursedIronFlask_InitCreature(S_PLA_ZhentShipment_Spectator_2c214b80-1d72-431d-bc0b-1997a646c99b);
+
+KBSECTION
+IF
+TextEvent("debug_ironFlask_get", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, _Var1, 1, 1, 1);
+
+IF
+TextEvent("debug_ironFlask_reset", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Resurrect(S_PLA_ZhentShipment_Spectator_2c214b80-1d72-431d-bc0b-1997a646c99b);
+PROC_GLO_CursedIronFlask_InitCreature(S_PLA_ZhentShipment_Spectator_2c214b80-1d72-431d-bc0b-1997a646c99b);
+
+PROC
+PROC_GLO_CursedIronFlask_InitCreature((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_IronFlasked(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_IronFlasked(_Var1);
+PROC_SetOnStage(_Var1, 0);
+PROC_GlobalSetFlagAndCache(GLO_CursedIronFlask_State_HasCreature_3e4af18c-8227-6100-34e0-716d7a3be27c);
+ApplyStatus(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, "GLO_CURSEDIRONFLASK_GLOW", -1);
+
+IF
+DialogEnded(GLO_CursedIronFlask_a9a90b77-e020-86fb-cc42-e45da013f778, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(GLO_CursedIronFlask_Event_Open_8f328b7c-0c75-b1c6-84d4-e9eac4292aca, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(GLO_CursedIronFlask_Event_Open_8f328b7c-0c75-b1c6-84d4-e9eac4292aca);
+PROC_GLO_CursedIronFlask_ReleaseCreatureAtPosition(_Var3, _Var4, _Var5, _Var2);
+
+IF
+EnteredChasm(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, _, _, _, _, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_GLO_CursedIronFlask_EnteredChasm(1);
+
+IF
+OnThrown(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, _, (CHARACTER)_Var2, _, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, _, _, _)
+AND NOT
+DB_GLO_CursedIronFlask_EnteredChasm(1, _, _, _, _)
+THEN
+PROC_GLO_CursedIronFlask_ReleaseCreatureAtPosition(_Var4, _Var5, _Var6, _Var2);
+
+PROC
+PROC_GLO_CursedIronFlask_ReleaseCreatureAtPosition((REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (CHARACTER)_Var4, (REAL)_Var1)
+AND
+DB_IronFlasked(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_IronFlasked(_Var5);
+PlayEffect(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, VFX_Script_IronFlask_Poof_01_e770f08f-38d7-a1a7-91ca-380b3444f834, "", 1);
+AppearAtPosition(_Var5, _Var1, _Var2, _Var3, 1, CUST_Spawn_01_e37e9b01-bb97-45d8-b3ce-0e81a58b7a6e, "");
+SetFaction(_Var5, GLO_CreaturesFromFlask_26291f6a-132f-4c44-845e-8594e9b25152);
+DB_GLO_CursedIronFlask_ADAfterRelease(_Var5);
+PROC_GlobalClearFlagAndCache(GLO_CursedIronFlask_State_HasCreature_3e4af18c-8227-6100-34e0-716d7a3be27c);
+PROC_GlobalSetFlagAndCache(GLO_CursedIronFlask_State_WasOpened_0ae70cae-7a4a-709c-dc66-d7b38899af12);
+PROC_GLO_CursedIronFlask_CreatureWasReleased(_Var5, _Var4);
+RealtimeObjectTimerLaunch(_Var5, "GLO_CursedIronFlask_Timer_MakeCreatureEvil", 1000);
+RealtimeObjectTimerLaunch(_Var4, "GLO_CursedIronFlask_Timer_PlayReactionVoiceBark", 1000);
+
+PROC
+PROC_GLO_CursedIronFlask_CreatureWasReleased((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+Transform(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, QUEST_GLO_CursedIronFlask_Empty_c5f0d632-be10-4a64-9482-f3df021a3654, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+RemoveStatus(S_GLO_CursedIronFlask_83b010d4-7f1a-448c-9475-176347962cb2, "GLO_CURSEDIRONFLASK_GLOW");
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "GLO_CursedIronFlask_Timer_PlayReactionVoiceBark", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("GLO_CursedIronFlask_ReflectionDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(GLO_CursedIronFlask_VB_PlayerAfterReleasingCreatureFirstTime_41c94871-68bc-d8e2-b698-151f7e64fc07, _Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_CursedIronFlask_Event_CreatureCreated", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_CursedIronFlask_ADAfterRelease(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_CursedIronFlask_ADAfterRelease(_Var1);
+PROC_TryStartAD(GLO_CursedIronFlask_AD_CapturedCreatureOnRelease_3c601aee-6d8d-2a5c-12c6-0dcf015b1bcb, _Var1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_CursedIronFlask_Timer_MakeCreatureEvil", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CursedIronFlask_Spotting(_Var1);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CursedIronFlask_Spotting(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CursedIronFlask_Spotting(_Var1);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CursedIronFlask_Spotting(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 == GLO_CreaturesFromFlask_26291f6a-132f-4c44-845e-8594e9b25152
+AND
+GetFaction(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+GetRelation(_Var3, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var5 > 0
+THEN
+PROC_SetRelationMutual(_Var3, _Var4, 0);
+
+IF
+BaseFactionChanged((CHARACTER)_Var1, _, (FACTION)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 == GLO_CreaturesFromFlask_26291f6a-132f-4c44-845e-8594e9b25152
+AND
+GetRelation(_Var5, _Var3, _Var6, _Var1, _Var1)
+AND
+_Var6 > 0
+THEN
+PROC_SetRelationMutual(_Var5, _Var3, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

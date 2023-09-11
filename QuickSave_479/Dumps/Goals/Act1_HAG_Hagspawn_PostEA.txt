@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_TopicalGreeting(TG_HAG_Inlair_eb4e51e0-b1d9-4a24-992b-af3fb0ffca50);
+DB_TopicalGreetingEndCondition_LeaveTrigger(TG_HAG_Inlair_eb4e51e0-b1d9-4a24-992b-af3fb0ffca50, S_HAG_HagLair_f84e3319-4a1d-483c-a718-dee3bff70d07);
+
+KBSECTION
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_HAG_HagLair_f84e3319-4a1d-483c-a718-dee3bff70d07, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(TG_HAG_Inlair_eb4e51e0-b1d9-4a24-992b-af3fb0ffca50, _Var1, 0);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

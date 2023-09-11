@@ -1,0 +1,70 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+FlagSet(DEBUG_UND_GetUnfortunateGnome_8d09f67c-255a-da14-ff7d-bedb844c1f1d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetForceUpdate(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, 1);
+ObjectTimerLaunch(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "DEBUG_UND_UnfortunateGnome_ToDuergar", 50);
+
+IF
+ObjectTimerFinished(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "DEBUG_UND_UnfortunateGnome_ToDuergar", _, _, _)
+THEN
+EndRepose(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+DB_UND_DEBUG_GetUnfortunateGnome(1);
+
+PROC
+PROC_UND_DEBUG_UnfortunateGnome_Setup()
+AND
+DB_UND_DEBUG_GetUnfortunateGnome(_, _, _, _, _)
+THEN
+PROC_ClearStoryMove(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+PROC_SpotPlayers_StopSpotting(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_UnfortunateGnome");
+PROC_RemoveAllDialogEntriesForSpeaker(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+SetEntityEvent(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_UnfortunateGnome_RanAway", 1);
+SetForceUpdate(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, 0);
+
+IF
+EntityEvent(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_UnfortunateGnome_RanAway", _, _, _)
+AND NOT
+DB_GlobalFlag(UND_DuergarGuards_State_PermaDefeated_b2211d1b-3dea-9b74-b19c-71938ac4b218, _, _, _, _)
+THEN
+DB_Dialogs(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, UND_UnfortunateGnome_9b485467-6333-15a7-9c79-15757b5fb547);
+DB_UND_GnomeWorkers(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+TeleportTo(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, S_UND_UnfortunateGnome_HomeTrigger_d7cc3cdc-9e53-453c-ae2e-b3639d90a4b7, "UND_UnfortunateGnome_AtDuergar");
+SetFaction(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, ACT1_UND_GnomeWorkers_196ce147-a664-9984-8526-66471d417c44);
+SetFlag(UND_UnfortunateGnome_State_Present_3bfdff8e-c1fc-4031-9910-c9cfca2135ef, NULL_00000000-0000-0000-0000-000000000000);
+SetOnStage(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, 1);
+CharacterGiveEquipmentSet(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "UND_Gnome_MinePickaxe");
+
+IF
+DialogEnded(UND_UnfortunateGnome_9b485467-6333-15a7-9c79-15757b5fb547, _, _, _, _)
+AND
+DB_GlobalFlag(UND_UnfortunateGnome_Event_GoCamp_ce63b2ca-4692-551f-db78-0bff8dd0da6d, _, _, _, _)
+THEN
+NOT DB_UND_GnomeWorkers(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+ClearFlag(UND_UnfortunateGnome_State_Present_3bfdff8e-c1fc-4031-9910-c9cfca2135ef);
+PROC_RemoveAllDialogEntriesForSpeaker(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+PROC_DisappearOutOfSight(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "Run", 0, "UND_UnfortunateGnome_RanAwayToCamp");
+
+IF
+DB_UND_GnomeWorkers(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, _, _, _, _)
+THEN
+DB_UND_UnfortunateGnome_WasInUND(1);
+
+IF
+DB_UND_UnfortunateGnome_WasInUND(1, _, _, _, _)
+AND NOT
+DB_UND_GnomeWorkers(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, _, _, _, _)
+THEN
+NOT DB_UND_UnfortunateGnome_WasInUND(1);
+SetFlag(HAV_WrootRequest_State_ReadyForHAV_ebc6fb5b-32ac-41bf-bfc7-5fb5a7d24298, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

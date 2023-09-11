@@ -1,0 +1,800 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, DEN_Thieflings_HideoutKid_001_3bca0fee-d45c-a95f-2c45-200cb8c1f0db);
+DB_Dialogs(S_DEN_TieflingKid_004_6644185d-385e-4dfc-973c-bb854cbfd540, DEN_Thieflings_HideoutGuard_002_3c985dd7-0ab8-4989-4dd1-7a6a70ac3d22);
+DB_DEN_Thieflings_HideoutCrimes("DEN_HideoutKidAlarm_Investigate");
+DB_DEN_Thieflings_HideoutCrimes("DEN_ThieflingHideoutTrespass");
+DB_DEN_Thieflings_HideoutCrimes("DEN_WaitForMol");
+PROC_TriggerRegisterForPlayers(S_DEN_Hideout_DiscoveryArea_1a634c88-c2aa-47ba-b2d1-9c3dddb0869a);
+PROC_TriggerRegisterForPlayers(S_DEN_Hideout_AbandonedADArea_5cf09039-e7fd-4d70-b001-1aced4695bc9);
+TriggerRegisterForItems(S_DEN_Hideout_DiscoveryArea_1a634c88-c2aa-47ba-b2d1-9c3dddb0869a);
+TriggerRegisterForCharacter(S_DEN_HideoutKidDenTarget_4a6db080-e49c-48c6-a175-20914fff76d7, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+TriggerRegisterForCharacter(S_DEN_Hideout_ThiefSpotBox_de0d46cf-d0bf-4879-b79e-bcec68bf64f4, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+TriggerRegisterForCharacter(S_DEN_Hideout_ThiefSpotBox_de0d46cf-d0bf-4879-b79e-bcec68bf64f4, S_DEN_TieflingKid_004_6644185d-385e-4dfc-973c-bb854cbfd540);
+TriggerRegisterForCharacter(S_DEN_Hideout_ThiefSpotBox_de0d46cf-d0bf-4879-b79e-bcec68bf64f4, S_DEN_CharmedKid_3b92c689-6024-4446-a6c9-584e9e8d77ca);
+TriggerRegisterForCharacter(S_DEN_Hideout_ThiefSpotBox_de0d46cf-d0bf-4879-b79e-bcec68bf64f4, S_DEN_RobberKid_94e865e9-790d-4633-a378-8fb50832b5e9);
+TriggerRegisterForCharacter(S_DEN_Hideout_ThiefSpotBox_de0d46cf-d0bf-4879-b79e-bcec68bf64f4, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+TriggerRegisterForCharacter(S_DEN_Hideout_ThiefSpotBox_de0d46cf-d0bf-4879-b79e-bcec68bf64f4, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af);
+DB_TrespassTrigger(S_DEN_Thieflings_HideoutCrimeRegion_5e96478b-d5df-41d3-a20e-4ae522f75144, NULL_00000000-0000-0000-0000-000000000000, "DEN_ThieflingHideoutTrespass", S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+DB_DialogMoneyTransfer(1, DEN_Thieflings_HideoutKid_001_3bca0fee-d45c-a95f-2c45-200cb8c1f0db, 40);
+DB_DialogMoneyTransfer(2, DEN_Thieflings_HideoutKid_001_3bca0fee-d45c-a95f-2c45-200cb8c1f0db, 50);
+DB_DEN_Thieflings_Hideout_CaveGuards(S_DEN_Tiefling_008_03b6fae4-d250-4ce9-9a01-19cb427deb17);
+DB_DEN_Thieflings_Hideout_CaveGuards(S_GLO_IrritatedTiefling_65ad9da0-0efb-4cc3-bf82-c006f43dda6c);
+DB_DEN_Thieflings_Hideout_CaveGuards(S_DEN_Tiefling_004_c9562174-44af-4ffa-9e5e-da58538f23d8);
+DB_DEN_Thieflings_Hideout_CaveGuards(S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f);
+DB_DEN_Thieflings_LooseStash(S_DEN_Thieflings_Stash_Shield_d705df85-f41e-404e-82a1-fa8858e5d08d);
+DB_DEN_Thieflings_LooseStash(S_DEN_Thieflings_Stash_Cup_a8840bc3-f728-448b-97f4-d365103c3d1e);
+DB_DEN_Thieflings_LooseStash(S_DEN_Thieflings_Stash_Bear_515f163b-7bbe-49c6-bb63-94a619f3a330);
+DB_DEN_Thieflings_LooseStash(S_DEN_Thieflings_Stash_Bottle_00bcdaca-7174-409a-b22c-3003d1987d47);
+DB_DEN_Thieflings_LooseStash(S_DEN_Thieflings_Stash_Plate_0d74a2ad-5314-407d-be23-37c9835513be);
+DB_DEN_Thieflings_LooseStash(S_DEN_Thieflings_Stash_Pouch_5b5a68bd-4f54-48d7-a011-a4ea0f38cde2);
+SetOnStage(S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b, 0);
+SetOnStage(S_DEN_Thieflings_MolNote_4702ee45-1876-4fe0-9d6a-81c66e4bab7b, 0);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count10_6dcb1260-5723-31ce-e919-9322eb0742f8);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count9_6e0662ca-065f-e8cf-c761-bebc56aec4d0);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count8_672fe091-89b4-43ce-1dcc-2ba3afe180a3);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count7_f50902a2-48b1-1fa3-ed94-4593cdee08e2);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count6_23181891-b691-a2e1-48d1-17171f4368c8);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count5_ffd33d5b-cdb6-9779-e64f-712552bdc8e1);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count4_77fa041b-2da0-21f1-02a3-ff1c5f251e8d);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count3_0b56eddb-6c21-a91e-35a2-f1228cdb3de2);
+DB_DEN_Thieflings_CountdownFlags(DEN_Hideout_Event_Count2_ff3352ea-6a10-034b-cbbb-7cc121a12d42);
+DB_DEN_Thieflings_HideoutKids(S_DEN_TieflingKid_004_6644185d-385e-4dfc-973c-bb854cbfd540);
+DB_DEN_Thieflings_HideoutKids(S_DEN_RobberKid_94e865e9-790d-4633-a378-8fb50832b5e9);
+DB_DEN_Thieflings_HideoutKids(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+DB_DEN_Thieflings_HideoutKids(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af);
+DB_Children(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+DB_Children(S_DEN_TieflingKid_004_6644185d-385e-4dfc-973c-bb854cbfd540);
+DB_Children(S_DEN_RobberKid_94e865e9-790d-4633-a378-8fb50832b5e9);
+DB_Children(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+DB_Children(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af);
+DB_Children(S_GLO_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+DB_DEN_Thieflings_TotalValueOfStolenGoods(20);
+DB_DialogMoneyTransfer(1, DEN_Thieflings_HideoutKid_001_3bca0fee-d45c-a95f-2c45-200cb8c1f0db, 20);
+SetVisible(S_DEN_GruntingKidHatch_4309dd70-89b1-44c7-a000-5790125ae6d1, 0);
+SetOnStage(S_DEN_GruntingKid_Ladder_8bc74024-f380-4fb4-8c1d-17ecf31a1449, 0);
+DB_DialogMoneyTransfer(1, DEN_General_GruntingKid_37a3539d-3d6a-111b-8a76-283e6915248f, 10);
+DB_HasItemEvent(S_DEN_SilvanusIdol_a841d36c-9a00-4a26-943e-c0af6895bb16, DEN_Thieflings_State_HasIdol_9b6a429f-3e24-4569-ba30-de7bf2b12ace);
+DB_GiveItemToEvent(S_DEN_SilvanusIdol_a841d36c-9a00-4a26-943e-c0af6895bb16, DEN_Thieflings_Event_TransferIdol_7c52b506-a746-463e-95f8-4b891cea3e7a);
+DB_DeadEvent(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, DEN_Thieflings_State_MolIsDead_fc37dc09-e234-4b40-aa18-3287db01bec5);
+PROC_DEN_Thieflings_SetupKidSpotting();
+
+KBSECTION
+PROC
+PROC_DEN_Thieflings_SetupKidSpotting()
+AND
+DB_DEN_Thieflings_HideoutKids(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers(_Var1, "DEN_Thieflings_HideoutKid", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_Continuous(_Var1, "DEN_Thieflings_HideoutKid");
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, "DEN_Thieflings_HideoutKid");
+DB_SpotPlayers_IncludeFollowers(_Var1, "DEN_Thieflings_HideoutKid");
+TriggerRegisterForCharacter(S_DEN_Hideout_SUB_8016de65-4be3-4083-960f-4d14a7455d4b, _Var1);
+TriggerSetItemsOwner(S_DEN_Hideout_DiscoveryArea_1a634c88-c2aa-47ba-b2d1-9c3dddb0869a, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+
+IF
+CharacterOnCrimeSensibleActionNotification((CHARACTER)_Var1, "S_DEN_Thieflings_HideoutCrimeRegion", (INTEGER)_Var2, _, _, (CHARACTER)_Var5, _, _, _, _)
+AND
+DB_DEN_Thieflings_HideoutKids(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var2, _Var10, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Thieflings_HideoutCrimes(_Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18);
+SetFlag(DEN_Thieflings_Event_HideoutCallForHelp_d653abaf-f717-344e-5b04-cc7853ee3ba8);
+PROC_TryStartAD(DEN_Thieflings_AD_HideoutTrespass_ced07a44-4432-80c0-7394-b587e02d9d2e, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+
+IF
+FlagSet(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7, _, _, _, _)
+AND
+DB_DEN_Thieflings_HideoutKids(_Var3, _, _, _, _)
+THEN
+PROC_CharacterDisableCrime(_Var3, "DEN_ThieflingHideoutTrespass");
+
+IF
+FlagSet(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CharacterDisableCrime(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "DEN_ThieflingHideoutTrespass");
+
+IF
+FlagSet(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+AND
+DB_DEN_Thieflings_HideoutKids(_Var3, _, _, _, _)
+THEN
+PROC_CharacterDisableCrime(_Var3, "DEN_HideoutKidAlarm_Investigate");
+
+IF
+FlagSet(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CharacterDisableCrime(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "DEN_ThieflingHideoutTrespass");
+
+IF
+FlagSet(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _, _, _, _)
+AND
+DB_DEN_Thieflings_HideoutKids(_Var3, _, _, _, _)
+THEN
+PROC_CharacterDisableCrime(_Var3, "DEN_HideoutKidAlarm_Investigate");
+
+IF
+FlagSet(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CharacterDisableCrime(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "DEN_ThieflingHideoutTrespass");
+
+IF
+FlagSet(DEN_Thieflings_State_MessedWithMolsKids_017f7709-c709-acc6-663d-790b9f9da7ec, _, _, _, _)
+AND
+DB_DEN_Thieflings_HideoutKids(_Var3, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+THEN
+ClearFlag(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7);
+PROC_CharacterEnableCrime(_Var3, "DEN_ThieflingHideoutTrespass");
+
+IF
+FlagSet(DEN_Thieflings_State_MessedWithMolsKids_017f7709-c709-acc6-663d-790b9f9da7ec, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+THEN
+ClearFlag(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7);
+PROC_CharacterEnableCrime(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "DEN_ThieflingHideoutTrespass");
+
+IF
+Saw(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, (CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DEN_SpottedPlayerTrespassers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_SpottedPlayerTrespassers(_Var1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "KeepAnEyeOnMe", _, _, _)
+AND
+DB_InRegion(_Var1, S_DEN_Hideout_SUB_8016de65-4be3-4083-960f-4d14a7455d4b, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "DEN_Thieflings_HideoutKid", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Thieflings_WaitingCrimeRegistered(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_HideoutKids(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_DEN_Hideout_SUB_8016de65-4be3-4083-960f-4d14a7455d4b, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "DEN_Thieflings_Event_SpottedPlayer", 1);
+PROC_CharacterRegisterCrime(_Var2, "DEN_WaitForMol", NULL_00000000-0000-0000-0000-000000000000, _Var1, 0);
+
+PROC
+PROC_CharacterRegisterCrime_Success((CHARACTER)_Var1, "DEN_WaitForMol", (INTEGER)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var4, (INTEGER)_Var5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Thieflings_HideoutKids(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Thieflings_KidFollowing(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_SpottedPlayerTrespassers(_Var1);
+DB_DEN_Thieflings_WaitingCrimeRegistered(_Var1, _Var5);
+PROC_CRIME_OsirisArrest(_Var6, "WLD_Main_A_HIDEOUT", _Var5, "DEN_WaitForMol", NULL_00000000-0000-0000-0000-000000000000, _Var1, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Thieflings_CheckSightCrime(_Var6, _Var1, _Var4, _Var5);
+
+PROC
+PROC_SpotPlayers_Unspotted((CHARACTER)_Var1, "DEN_Thieflings_HideoutKid", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_SpottedPlayerTrespassers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_WaitingCrimeRegistered(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_KidFollowing(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+CharacterStopCrime(_Var2, "DEN_WaitForMol", NULL_00000000-0000-0000-0000-000000000000);
+SetEntityEvent(_Var1, "DEN_Thielfings_Event_StopFollow", 1);
+NOT DB_DEN_SpottedPlayerTrespassers(_Var2);
+NOT DB_DEN_Thieflings_WaitingCrimeRegistered(_Var2, _Var3);
+NOT DB_DEN_Thieflings_KidFollowing(_Var1, _Var2);
+
+PROC
+PROC_DEN_Thieflings_CheckSightCrime((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (INTEGER)_Var4, (CHARACTER)_Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_Thieflings_CanSeeVictim(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var2, 0, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Thieflings_KidFollowing(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Thieflings_KidFollowing(_, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_Thiefling_ShouldIgnorePlayer()
+THEN
+PROC_DEN_Thieflings_FollowIntruder(_Var1, _Var2);
+PROC_CRIME_Guards_Call(_Var4, _Var1, "Arrest");
+
+QRY
+QRY_DEN_Thieflings_CanSeeVictim((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Thieflings_CanSeeVictim((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 == _Var2
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Thieflings_FollowIntruder((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DEN_Thieflings_KidFollowing(_, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Thieflings_KidFollowing(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DEN_Thieflings_AD_Trespassing_f002f19f-e641-fb5d-750f-afad6c7938a4, _Var1);
+DB_DEN_Thieflings_KidFollowing(_Var1, _Var2);
+SetDualEntityEvent(_Var2, _Var1, "DEN_thieflings_Event_Follow", 1);
+
+QRY
+QRY_DEN_Thiefling_ShouldIgnorePlayer()
+AND
+DB_GlobalFlag(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Thiefling_ShouldIgnorePlayer()
+AND
+DB_GlobalFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Thiefling_ShouldIgnorePlayer()
+AND
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Thiefling_ShouldIgnorePlayer()
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_HideoutAbandoned_f3808740-25b9-4393-a947-7a1f7a88ebda, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Thiefling_ShouldIgnorePlayer()
+AND
+DB_GlobalFlag(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Guards_InvestigationRelocationPos((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 == S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925
+AND
+DB_DEN_Thieflings_HideoutKids(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_Guards_InvestigationRelocationPos(_Var1, S_DEN_Thieflings_LeaderHideoutPoint_03_81640fc3-8c81-4b10-9b7f-fd178ec45c88);
+
+PROC
+PROC_DisappearOutOfSightTo(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, S_DEN_Thieflings_LeaderHideoutPoint_03_81640fc3-8c81-4b10-9b7f-fd178ec45c88, "Run", 1, "CRIME_Guards_Relocated")
+THEN
+PROC_ClearStoryMove(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+PROC_CancelDisappearOutOfSight(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+CharacterMoveTo(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, S_DEN_Thieflings_LeaderHideoutPoint_03_81640fc3-8c81-4b10-9b7f-fd178ec45c88, "Run", "CRIME_Guards_Relocated", 0);
+
+IF
+FlagSet(DEN_GruntingKid_Event_DisappearIntoWall_3c2644fa-05e4-c922-3949-69f3596760a8, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DialogRemoveActorFromDialog(_Var2, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, _, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+PROC_CharacterMoveTo(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, S_DEN_GruntingKidHatch_Target_d4a35eb8-4205-4235-8379-8c027cb97394, "Run", "DEN_GruntingKid_TryEnterHideout");
+ClearFlag(DEN_GruntingKid_Event_DisappearIntoWall_3c2644fa-05e4-c922-3949-69f3596760a8, _Var1, _Var2);
+DB_DEN_Thieflings_HideoutKids(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+
+IF
+EntityEvent(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, "DEN_GruntingKid_TryEnterHideout", _, _, _)
+THEN
+TeleportTo(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, S_DEN_GruntingKid_Ladder_Target_492744e3-00a1-4463-9bd1-0ef8954912c9, "DEN_GruntingKid_EnterHideout", 0, 0, 1);
+SetFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+DB_DEN_Thieflings_HideoutKids(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+
+PROC
+PROC_LongRest()
+AND
+QRY_DEN_CheckPeaceState()
+AND
+GetFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, 1, _, _)
+THEN
+TeleportTo(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, S_DEN_GruntingKidHatch_Target_d4a35eb8-4205-4235-8379-8c027cb97394, "", 0, 0, 1);
+ClearFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, 0);
+NOT DB_DEN_Thieflings_HideoutKids(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+
+PROC
+PROC_DEN_AllPlayersLeftDen()
+AND
+GetFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, 1, _, _)
+AND
+QRY_DEN_CheckPeaceState()
+THEN
+TeleportTo(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, S_DEN_GruntingKidHatch_Target_d4a35eb8-4205-4235-8379-8c027cb97394, "", 0, 0, 1);
+ClearFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, 0);
+NOT DB_DEN_Thieflings_HideoutKids(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+
+IF
+FlagSet(DEN_HarpyMeal_Event_KidReturnHideout_8180a3b3-8db8-c60f-4df9-e8b95adb14f4, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+GetFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, 1, _, _)
+THEN
+PROC_CharacterMoveTo(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, S_DEN_GruntingKid_Ladder_Target_492744e3-00a1-4463-9bd1-0ef8954912c9, "Run", "DEN_GruntingKid_TryLeaveHideout");
+
+IF
+FlagSet(DEN_Thieflings_Event_HideoutCallForHelp_d653abaf-f717-344e-5b04-cc7853ee3ba8, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_DEN_GruntingKid_Abandon();
+
+PROC
+PROC_DEN_GruntingKid_Abandon()
+AND
+GetFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, 1, _, _)
+THEN
+PROC_CharacterMoveTo(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, S_DEN_GruntingKid_Ladder_Target_492744e3-00a1-4463-9bd1-0ef8954912c9, "Run", "DEN_GruntingKid_TryLeaveHideout");
+ClearFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+NOT DB_DEN_Thieflings_HideoutKids(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+
+PROC
+PROC_DEN_GruntingKid_Abandon()
+THEN
+PROC_ForceStopDialog(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+ClearFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+NOT DB_DEN_Thieflings_HideoutKids(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+
+IF
+EntityEvent(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, "DEN_GruntingKid_TryLeaveHideout", _, _, _)
+THEN
+ClearFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0);
+TeleportTo(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, S_DEN_GruntingKidHatch_Target_d4a35eb8-4205-4235-8379-8c027cb97394, "", 0, 0, 1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_DEN_GruntingKid_HatchPullRope_f37ea684-1179-4a62-a79e-c0df1d9d25e7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_GruntingKid_State_HatchOpened_0ff8129d-c04b-4b7d-bf9b-60b55b40fbcc, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+Unlocked(S_DEN_GruntingKidHatch_4309dd70-89b1-44c7-a000-5790125ae6d1, _, _, (CHARACTER)_, (CHARACTER)_)
+THEN
+SetFlag(DEN_GruntingKid_State_HatchOpened_0ff8129d-c04b-4b7d-bf9b-60b55b40fbcc, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GlobalFlag(DEN_GruntingKid_State_HatchOpened_0ff8129d-c04b-4b7d-bf9b-60b55b40fbcc, _, _, _, _)
+THEN
+SetFlag(DEN_GruntingKid_State_NoticedDoor_5e0abedc-87d2-230d-2b3b-748a8d1e9399, NULL_00000000-0000-0000-0000-000000000000, 0);
+Unlock(S_DEN_GruntingKidHatch_4309dd70-89b1-44c7-a000-5790125ae6d1);
+SetOnStage(S_DEN_GruntingKid_Ladder_8bc74024-f380-4fb4-8c1d-17ecf31a1449, 1);
+SetVisible(S_DEN_GruntingKidHatch_4309dd70-89b1-44c7-a000-5790125ae6d1, 1);
+
+IF
+DB_GlobalFlag(DEN_GruntingKid_State_NoticedDoor_5e0abedc-87d2-230d-2b3b-748a8d1e9399, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_GruntingKid_State_HatchOpened_0ff8129d-c04b-4b7d-bf9b-60b55b40fbcc, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(DEN_GruntingKid_State_HatchOpened_0ff8129d-c04b-4b7d-bf9b-60b55b40fbcc);
+
+IF
+UseStarted((CHARACTER)_Var1, S_DEN_GruntingKid_Ladder_8bc74024-f380-4fb4-8c1d-17ecf31a1449, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInvisible(S_DEN_GruntingKidHatch_4309dd70-89b1-44c7-a000-5790125ae6d1, 0, _Var1, _Var1, _Var1)
+THEN
+SetVisible(S_DEN_GruntingKidHatch_4309dd70-89b1-44c7-a000-5790125ae6d1, 1);
+Unlock(S_DEN_GruntingKidHatch_4309dd70-89b1-44c7-a000-5790125ae6d1);
+
+QRY
+QRY_SelectCustomDialog(S_GLO_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Dialogs(S_DEN_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, DEN_General_GruntingKid_37a3539d-3d6a-111b-8a76-283e6915248f, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_GruntingKid_State_InHideout_f90cdb76-bb4f-bf03-e1f1-4a228799ce85, S_GLO_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, 1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(DEN_General_GruntingKid_Hideout_31f2c9e2-0fd7-9583-6a12-c531a58dff71, S_GLO_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0, _Var1);
+
+PROC
+PROC_DEN_Thieflings_TallyStolenTotalValue()
+AND
+DB_DEN_Thieflings_TalliedStealable(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_TotalValueOfStolenGoods(20, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(0, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_DEN_Thieflings_TotalValueOfStolenGoods(20);
+DB_DEN_Thieflings_TotalValueOfStolenGoods(_Var3);
+NOT DB_DEN_Thieflings_TalliedStealable(_Var1, _Var2);
+
+PROC
+PROC_DEN_Thieflings_TallyStolenTotalValue()
+AND
+DB_DEN_Thieflings_TalliedStealable(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_TotalValueOfStolenGoods(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_DEN_Thieflings_TotalValueOfStolenGoods(_Var3);
+DB_DEN_Thieflings_TotalValueOfStolenGoods(_Var4);
+NOT DB_DEN_Thieflings_TalliedStealable(_Var1, _Var2);
+
+IF
+FlagCleared(DEN_Thieflings_CarryingStolenItem_fa3c6306-8f42-49c6-9289-ef615670d65c, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _, _, _)
+AND
+DB_DEN_Thieflings_TotalValueOfStolenGoods(_Var2, _, _, _, _)
+THEN
+NOT DB_DialogMoneyTransfer(1, DEN_Thieflings_HideoutKid_001_3bca0fee-d45c-a95f-2c45-200cb8c1f0db, 20);
+DB_DialogMoneyTransfer(1, DEN_Thieflings_HideoutKid_001_3bca0fee-d45c-a95f-2c45-200cb8c1f0db, _Var2);
+
+IF
+FlagSet(DEN_Hideout_Event_PriceRaised_777af447-2072-a681-e541-d7269ebfdb46, _, _, _, _)
+AND
+DB_DEN_Thieflings_TotalValueOfStolenGoods(_Var3, _, _, _, _)
+AND
+IntegerSum(_Var3, 20, _Var4, _, _)
+THEN
+NOT DB_DEN_Thieflings_TotalValueOfStolenGoods(_Var3);
+DB_DEN_Thieflings_TotalValueOfStolenGoods(_Var4);
+DB_DialogMoneyTransfer(2, DEN_Thieflings_HideoutKid_001_3bca0fee-d45c-a95f-2c45-200cb8c1f0db, _Var4);
+
+IF
+CharacterStoleItem((CHARACTER)_Var1, (ITEM)_Var2, _, _, _, _, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, _, _)
+AND
+DB_Players(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_LooseStash(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_StolenItems(_Var10, _Var2, _Var11, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_State_StolenGoodsTamperedWith_63f06ca0-b207-bb74-9b95-b86636e65509);
+NOT DB_DEN_Thieflings_LooseStash(_Var2);
+NOT DB_DEN_Thieflings_StolenItems(_Var10, _Var2, _Var11);
+
+IF
+FlagSet(DEN_Thieflings_Event_ReturnStolenGoods_7a5a798d-604d-9e91-aaaa-5323b53aa320, _, _, _, _)
+AND NOT
+DB_DEN_Thieflings_StolenItems(_, _, _, _, _)
+THEN
+PROC_DEN_Thieflings_GivePlayerGoodsBag(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(DEN_Thieflings_Event_ReturnStolenGoods_7a5a798d-604d-9e91-aaaa-5323b53aa320, _, _, _, _)
+AND
+DB_DEN_Thieflings_StolenItems(_Var3, _Var4, _Var5, _, _)
+THEN
+PROC_DEN_Thieflings_GivePlayerGoodsBag(_Var3, _Var4, _Var5);
+
+PROC
+PROC_DEN_Thieflings_GivePlayerGoodsBag((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInInventoryOf(_Var2, S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, 0, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_State_StolenGoodsTamperedWith_63f06ca0-b207-bb74-9b95-b86636e65509, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_DEN_Thieflings_StolenItems(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DEN_Thieflings_GivePlayerGoodsBag((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetGold(S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 < _Var3
+THEN
+SetFlag(DEN_Thieflings_State_StolenGoodsTamperedWith_63f06ca0-b207-bb74-9b95-b86636e65509, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_DEN_Thieflings_StolenItems(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DEN_Thieflings_GivePlayerGoodsBag((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInInventoryOf(_Var2, ITEMGUID_S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, 1, _Var1, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+ToInventory(_Var2, S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b, 1, 0, 0);
+NOT DB_DEN_Thieflings_StolenItems(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DEN_Thieflings_GivePlayerGoodsBag((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetGold(S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 == NULL_00000000-0000-0000-0000-000000000000
+AND
+_Var3 != 0
+AND
+_Var4 >= _Var3
+AND
+IntegerProduct(-1, _Var3, _Var5, _Var1, _Var1)
+THEN
+AddGold(S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, _Var5);
+AddGold(S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b, _Var3);
+NOT DB_DEN_Thieflings_StolenItems(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DEN_Thieflings_GivePlayerGoodsBag((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_State_StolenGoodsTamperedWith_63f06ca0-b207-bb74-9b95-b86636e65509, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_DEN_Thieflings_MolNote_4702ee45-1876-4fe0-9d6a-81c66e4bab7b, S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b, 1, 0, 0);
+SetOnStage(S_DEN_Thieflings_MolNote_4702ee45-1876-4fe0-9d6a-81c66e4bab7b, 1);
+
+PROC
+PROC_DEN_Thieflings_GivePlayerGoodsBag((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_State_StolenGoodsTamperedWith_63f06ca0-b207-bb74-9b95-b86636e65509, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_PaidForReturn_69559f4b-6b3d-dc1b-bd17-33112e289f66, _Var1, _Var1, _Var1, _Var1)
+THEN
+AddGold(S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b, 50);
+
+PROC
+PROC_DEN_Thieflings_GivePlayerGoodsBag((CHARACTER)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_IsEmptyDB("DB_DEN_Thieflings_StolenItems", 3, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var4, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, _, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var4, _Var6, 1, _Var1, _Var1)
+THEN
+ToInventory(S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b, _Var6, 1, 0, 0);
+SetOnStage(S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b, 1);
+ClearOwnership(S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b);
+ClearFlag(DEN_Thieflings_State_HoldingStolenGoods_b21939d8-362b-cafc-91ee-ad2fa26df511, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+AddedTo(S_DEN_StolenGoodsBag_06b3d3ec-5cda-4384-bebd-0fe66008dd3b, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Thieflings", "DoneTookGoods", 0, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Thieflings", "DoneTookGoods");
+
+IF
+UseStarted((CHARACTER)_Var1, S_DEN_ThieflingSmallExit_de898878-dbd1-4616-b6af-74cf06ccae32, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_SpottedPlayerTrespassers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_SpottedPlayerTrespassers(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_DEN_ThieflingSmallExit_de898878-dbd1-4616-b6af-74cf06ccae32, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DEN_SpottedPlayerTrespassers(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+ClearFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a);
+ClearFlag(DEN_Thieflings_State_CanTrespassInHideout_55848ceb-564b-1831-e1ff-4c62808dcb87);
+PROC_DEN_ThieflingHideout_ClearSetCountdownFlags();
+
+IF
+UseStarted((CHARACTER)_Var1, S_DEN_GruntingKid_Ladder_8bc74024-f380-4fb4-8c1d-17ecf31a1449, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_SpottedPlayerTrespassers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_SpottedPlayerTrespassers(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_DEN_GruntingKid_Ladder_8bc74024-f380-4fb4-8c1d-17ecf31a1449, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DEN_SpottedPlayerTrespassers(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+ClearFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a);
+ClearFlag(DEN_Thieflings_State_CanTrespassInHideout_55848ceb-564b-1831-e1ff-4c62808dcb87);
+PROC_DEN_ThieflingHideout_ClearSetCountdownFlags();
+
+IF
+DialogEnded(DEN_Thieflings_HideoutKid_001_3bca0fee-d45c-a95f-2c45-200cb8c1f0db, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogSpeakers(_Var1, _Var2, 2, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_WaitingCrimeRegistered(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a, _Var1, _Var1, _Var1, _Var1)
+THEN
+CharacterStopCrimeWithID(_Var2, _Var3);
+CharacterDisableAllCrimes(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+SetHasDialog(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 0);
+PROC_TryStartAD(DEN_Thieflings_AD_HideoutTrespass_ced07a44-4432-80c0-7394-b587e02d9d2e, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+
+IF
+FlagSet(DEN_Thieflings_Event_CountdownFinished_f1fe5d3f-69cb-d5d6-8fab-9181ccd2db7d, _, _, _, _)
+AND
+DB_DEN_SpottedPlayerTrespassers(_, _, _, _, _)
+THEN
+SetFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18);
+
+IF
+AutomatedDialogEnded(DEN_Thieflings_AD_HideoutTrespass_ced07a44-4432-80c0-7394-b587e02d9d2e, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+THEN
+ClearFlag(DEN_Hideout_Event_LeaveCountdown_e51c07b5-b27b-0614-c38e-feebb0d28f2a);
+SetFlag(DEN_Thieflings_Event_Abandoning_883a6c02-9091-4b29-8bc3-99e070e3648b, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+PROC_DEN_Thieflings_CollectTreasures();
+
+IF
+AutomatedDialogEnded(DEN_Thieflings_AD_HideoutTrespass_ced07a44-4432-80c0-7394-b587e02d9d2e, _, _, _, _)
+AND
+DB_DEN_Thieflings_Hideout_CaveGuards(_Var2, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+AutomatedDialogRequestFailed(DEN_Thieflings_AD_HideoutTrespass_ced07a44-4432-80c0-7394-b587e02d9d2e, _, _, _, _)
+AND
+DB_DEN_SpottedPlayerTrespassers(_, _, _, _, _)
+THEN
+PROC_DEN_Thieflings_CollectTreasures();
+
+IF
+FlagSet(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+AND
+DB_DEN_SpottedPlayerTrespassers(_, _, _, _, _)
+THEN
+PROC_DEN_Thieflings_CollectTreasures();
+PROC_DEN_ThieflingHideout_GiveKidItem();
+
+PROC
+PROC_DEN_Thieflings_CollectTreasures()
+AND
+DB_DEN_SpottedPlayerTrespassers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "DEN_HideoutKidAlarm", NULL_00000000-0000-0000-0000-000000000000, _Var1, 0);
+
+PROC
+PROC_DEN_Thieflings_CollectTreasures()
+AND
+DB_DEN_Thieflings_HideoutKids(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var2);
+
+PROC
+PROC_DEN_Thieflings_CollectTreasures()
+AND
+DB_DEN_Thieflings_HideoutKids(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_GruntingKid_0f8ef61e-cb63-49e1-a242-677173bff5e0
+AND
+GetFlag(DEN_Thieflings_State_AtHideoutPoint_5f768dc1-8294-49ee-b2d2-964fcb22f5ff, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_DEN_Hideout_StashArea_11d74325-2323-4f77-8be8-24a9054a3573, "Run", "DEN_Thieflings_EmptyStash");
+PROC_CharacterDisableAllCrimes(_Var1);
+BlockNewCrimeReactions(_Var1, 1);
+PROC_TryStopDialogFor(_Var1);
+SetHasDialog(_Var1, 0);
+DB_DEN_ThieflingHideout_KidsForItems(_Var1);
+
+PROC
+PROC_DEN_ThieflingHideout_GiveKidItem()
+AND
+DB_DEN_ThieflingHideout_KidsForItems(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_LooseStash(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearOwnership(_Var2);
+ToInventory(_Var2, _Var1);
+NOT DB_DEN_ThieflingHideout_KidsForItems(_Var1);
+SetFlag(DEN_Thieflings_Event_Abandoning_883a6c02-9091-4b29-8bc3-99e070e3648b, _Var1);
+SetEntityEvent(_Var1, "DEN_Thieflings_AbandonedHideout", 1);
+
+PROC
+PROC_DEN_ThieflingHideout_ClearSetCountdownFlags()
+AND
+DB_DEN_Thieflings_CountdownFlags(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1);
+
+IF
+FlagSet(DEN_Thieflings_Event_HideoutTrespassCrimeResolved_8778b66b-4219-878c-42ac-94b5656bf450, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Thieflings_Hideout_CaveGuards(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHandlingCrimeID(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var4, "DEN_HideoutKidAlarm", _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var4);
+
+IF
+FlagSet(DEN_ShadowDruid_State_KidFreed_8d9e9065-7bb5-a516-15c3-c9d8c1f4f5e2, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7, _, _, _, _)
+THEN
+SetFlag(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_DEN_DefaultStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Thieflings_DeactivateHideout();
+
+PROC
+PROC_DEN_Thieflings_DeactivateHideout()
+THEN
+PROC_RemoveDBTrespassTrigger(S_DEN_Thieflings_HideoutCrimeRegion_5e96478b-d5df-41d3-a20e-4ae522f75144, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_DEN_Thieflings_DeactivateHideout()
+AND
+DB_DEN_Thieflings_HideoutKids(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+PROC_CharacterDisableCrime(_Var1, "DEN_ThieflingHideoutTrespass_Guard");
+
+PROC
+PROC_DEN_Thieflings_DeactivateHideout()
+THEN
+SetHasDialog(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 1);
+PROC_CharacterDisableCrime(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "DEN_ThieflingHideoutTrespass");
+
+PROC
+PROC_LevelLoadedOnce("SCL_Main_A", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestIsClosed("DEN_Thieflings", 0, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Thieflings", "DoneLeftAct");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_DEN_Hideout_SUB_8016de65-4be3-4083-960f-4d14a7455d4b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Thieflings_EnteredHideoutFirstTime", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Thieflings", "EnteredHideout");
+
+IF
+FlagSet(DEN_Hideout_Event_BefriendedThieflings_a1a932ee-f66a-08af-4bf0-bf77790052f7, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "HIDDEN_WLD_Boosters", "DEN_Thieflings_BefriendedMol");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

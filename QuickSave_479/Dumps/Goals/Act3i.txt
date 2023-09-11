@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckLevelStart("IRN_Main_A");
+DB_RegionSafeSpot("IRN_Main_A", StartPoint_000__000_3b6520df-91f5-41e1-9ed5-2bc5d3d01902);
+
+KBSECTION
+IF
+LevelLoaded("IRN_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("IRN_Main_A", _, _, _, _)
+AND
+DB_CurrentLevel("IRN_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

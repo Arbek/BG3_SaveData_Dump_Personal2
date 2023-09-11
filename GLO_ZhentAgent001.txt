@@ -1,0 +1,36 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+QRY
+QRY_LOW_Guildhall_RuganDied()
+AND
+DB_Defeated(S_PLA_ZhentShipment_Agent_001_fd9b4edd-7828-4e22-85a9-ead2ba9d29e4, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_LOW_Guildhall_RuganDied()
+AND
+GetFlag(PLA_ZhentDungeon_State_Zhent01Arrived_444dcaeb-3de2-4199-a066-5e85eabdb0ed, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_LOW_Guildhall_RuganDied()
+AND
+GetFlag(PLA_ZhentDungeon_State_Zhent01Arrived_444dcaeb-3de2-4199-a066-5e85eabdb0ed, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+AND
+GetFlag(PLA_ZhentShipment_State_ChestLost_a672d90e-72fa-4ce3-8152-6969e39ab521, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+AND
+GetFlag(PLA_ZhentDungeon_State_AgentFreed_c76fac51-f641-3c4b-9710-8b1fb93db25f, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

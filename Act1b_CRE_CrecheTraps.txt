@@ -1,0 +1,87 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRE_CrecheTraps_PsionicBarriers(S_CRE_LathanderBarrier_Corridor01_a7ab0437-1474-4d3b-9aba-1ce04629ede2, S_CRE_PsionicBarrierPlaceholder_Pipe_Corridor01_On_3884113c-bd80-4c83-a530-f4ebbcf1f27a, S_CRE_PsionicBarrierPlaceholder_Pipe_Corridor01_Off_2a4a6eca-d188-4d36-87e7-147da2a9e325, S_CRE_LathanderBarrier_Corridor01_VFXPos_149dcfdd-1e57-4854-aa83-19cc88196fad);
+DB_CRE_CrecheTraps_PsionicBarriers(S_CRE_LathanderBarrier_Corridor02_967b8ea7-124c-4aa3-a166-13fac09583ef, S_CRE_PsionicBarrierPlaceholder_Pipe_Corridor02_On_5f8793fd-193d-4cf4-a6ba-b5b964109f01, S_CRE_PsionicBarrierPlaceholder_Pipe_Corridor02_Off_e32a2a87-d323-46d8-82e3-34c450265ffd, S_CRE_LathanderBarrier_Corridor02_VFXPos_dddf1aad-4d4b-4b6a-8ac8-4684e24ba9bd);
+DB_CRE_CrecheTraps_PsionicBarriers(S_CRE_LathanderBarrier_Corridor03_c2d3eb3d-f3bb-4bc3-8257-25d751325d30, S_CRE_PsionicBarrierPlaceholder_Pipe_Corridor03_On_ace642ff-9034-4350-836d-de064c69329d, S_CRE_PsionicBarrierPlaceholder_Pipe_Corridor03_Off_ad9cb427-d34b-44e6-8206-aa744a45c4b6, S_CRE_LathanderBarrier_Corridor03_VFXPos_dcdbd7fc-3c62-4fd3-a239-25ed6bf4b90f);
+
+KBSECTION
+IF
+TextEvent("Cre_TrapsOff", _, _, _, _)
+THEN
+SetFlag(CRE_ChainOfCommand_State_TrapsDisabled_914065e7-5b71-42e1-9dbe-f2c536eb534c, NULL_00000000-0000-0000-0000-000000000000);
+SetEntityEvent(S_PulseTraps_Helper_DisableEvent_207129c7-91d6-4140-abc2-4b831e25b43b, "CRE_Gauntlet_Disable", 1);
+
+IF
+TextEvent("Cre_TrapsOn", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRE_CrecheTraps_PsionicBarriers(_Var1, _, _, _, _Var1)
+THEN
+ClearFlag(CRE_ChainOfCommand_State_TrapsDisabled_914065e7-5b71-42e1-9dbe-f2c536eb534c);
+PROC_CRE_CrecheTraps_PsionicBarriers_Activate(_Var1);
+
+PROC
+PROC_CRE_CrecheTraps_PsionicBarriers_Activate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRE_CrecheTraps_PsionicBarriers(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+PROC_SetOnStage(_Var2, 1);
+PROC_SetOnStage(_Var3, 0);
+PROC_LoopEffect(VFX_Script_ForceFieldBarrier_01_79f97549-116d-d964-5198-c32ad5218334, _Var4, "CRE_LathanderBarrier", "CRE_Main_A", "");
+
+PROC
+PROC_CRE_CrecheTraps_PsionicBarriers_Deactivate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRE_CrecheTraps_PsionicBarriers(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+PROC_StopLoopEffect(_Var4, "CRE_LathanderBarrier");
+
+PROC
+PROC_CRE_CrecheTraps_PsionicBarriers_Break((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRE_CrecheTraps_PsionicBarriers(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+PROC_StopLoopEffect(_Var4, "CRE_LathanderBarrier");
+NOT DB_CRE_CrecheTraps_PsionicBarriers(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_CRE_CrecheTraps_PsionicBarriers(_Var1, _, _, _, _Var1)
+THEN
+PROC_CRE_CrecheTraps_PsionicBarriers_Activate(_Var1);
+
+IF
+DB_Destroyed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRE_CrecheTraps_PsionicBarriers(_Var2, _Var1, _Var3, _, _Var1)
+THEN
+PROC_CRE_CrecheTraps_PsionicBarriers_Break(_Var2);
+
+IF
+DB_GlobalFlag(CRE_ChainOfCommand_State_TrapsDisabled_914065e7-5b71-42e1-9dbe-f2c536eb534c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRE_CrecheTraps_PsionicBarriers(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+PROC_CRE_CrecheTraps_PsionicBarriers_Deactivate(_Var1);
+QuestUpdate("CRE_BloodOfLathander", "GotThroughTraps");
+
+IF
+UsingSpellOnTarget(_, (ITEM)_Var2, "Target_DispelMagic", _, _, _, _, _, _, _)
+AND
+DB_CRE_CrecheTraps_PsionicBarriers(_Var2, _, _, _, _)
+THEN
+RealtimeObjectTimerLaunch(_Var2, "CRE_Lance_LathanderBarrierDispelTimer", 1000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRE_Lance_LathanderBarrierDispelTimer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CRE_CrecheTraps_PsionicBarriers_Deactivate(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1b"

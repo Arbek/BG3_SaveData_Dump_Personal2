@@ -1,0 +1,50 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_FOR_ShadowheartOM_FindStatue_8c59dd2a-9c26-4fee-abdd-2e0ce2f1a19b);
+PROC_TriggerRegisterForPlayers(S_GOB_TempleBox_001_754d69fd-f1aa-486d-8f9f-ee8957215780);
+PROC_TriggerRegisterForPlayers(S_GOB_TempleBox_OM_Trigger_032e964d-1a38-4bce-8a6d-f5df80efc4e7);
+
+KBSECTION
+PROC
+PROC_LongRest()
+THEN
+ClearFlag(ORI_Shadowheart_State_DailySharAsked_83d60840-bb71-4d22-9e98-3e7a81cfc384, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_InRegion(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, S_GOB_TempleBox_OM_Trigger_032e964d-1a38-4bce-8a6d-f5df80efc4e7, _, _, _)
+AND NOT
+DB_OnlyOnce("GOB_SeluneTemple_OM_Shadowheart", _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+QRY_ORI_Shadowheart_COM("SeluneTemple", _, _, _, _)
+AND
+QRY_StartDialog_Fixed(GOB_SeluneTemple_OM_ShadowHeart_AOM_OOM_e5b60eb6-bfa8-b36c-1bcf-7ac1537636a4, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _)
+THEN
+DB_OnlyOnce("GOB_SeluneTemple_OM_Shadowheart");
+
+QRY
+QRY_ORI_Shadowheart_COM("SeluneTemple", _, _, _, _)
+AND
+QRY_GetBestAvatarForCompanion(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, 1, _, _)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GOB_SeluneTemple_OM_ShadowHeart_COM_e24b3ed5-82f8-6799-aa35-17ad5921e711, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("GOB_SeluneTemple_OM_Shadowheart");
+
+IF
+TextEvent("FOR_MoonhavenOM_AddCrown", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(QUEST_FOR_ShadowheartOM_SharCrown_e3783967-575a-83c7-0a07-5c80a938fdf9, _Var1, 1, 1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

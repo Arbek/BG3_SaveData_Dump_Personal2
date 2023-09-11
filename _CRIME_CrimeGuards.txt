@@ -1,0 +1,1702 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_CRIME_Guards_RegionSpawnPool("", "", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0, 0);
+NOT DB_CRIME_Guards_RegionSpawnPoolGroupTemplate("", "", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CRIME_Guards_PatrolGroup("", NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_CRIME_RegionGuardsKey("", "", "", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CRIME_Guards_Called(0, 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "", "", 0, 0, 0);
+NOT DB_CRIME_Guards_Relocating(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_CRIME_Guards_NoSummonBy(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CRIME_Guards_RegionGuard("", "", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CRIME_Guards_RegionInfo("", "", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CRIME_Guards_RegionReinforcements("", 0);
+NOT DB_CRIME_Guards_NPCInterrogation(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CRIME_Guards_PatrolInterrogation(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_CRIME_Guards_NPCInterrogation("Murder", "Guard_NPCInterrogate_Murder", GEB_NPCInterrogation_State_Murder_1693e3c1-5d5e-4c07-b287-62d0700b6b7b);
+DB_CRIME_Guards_NPCInterrogation("Assault", "Guard_NPCInterrogate_Assault", GEB_NPCInterrogation_State_Assault_a6ae9ba4-d5fe-4ed7-9eeb-d974571f2493);
+DB_CRIME_Guards_NPCInterrogation("Theft", "Guard_NPCInterrogate_Theft", GEB_NPCInterrogation_State_Theft_ba40739c-1bc1-493e-8617-846c625496db);
+DB_CRIME_Guards_NPCInterrogation("", "Guard_NPCInterrogate_Fallback", NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+QRY
+QRY_CRIME_ClearSetupGuardNPCInterrogation((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_NPCInterrogation(_, _, _Var4, _Var1, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+ClearFlag(_Var4, _Var1);
+
+QRY
+QRY_CRIME_ClearSetupGuardNPCInterrogation((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_CRIME_SetupGuardNPCInterrogation(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_SetupGuardNPCInterrogation(_Var2);
+
+QRY
+QRY_CRIME_SetupGuardNPCInterrogation((STRING)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CRIME_ClearSetupGuardNPCInterrogation(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_SetupGuardNPCInterrogation_Custom(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_SetupGuardNPCInterrogation((STRING)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_CRIME_SetupGuardNPCInterrogation(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_GetCrimeFamily(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_GetCrimeFamily(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_NPCInterrogation(_Var5, _Var6, _Var7, _Var1, _Var1)
+THEN
+SetFlag(_Var7, _Var2);
+DB_QRYRTN_CRIME_SetupGuardNPCInterrogation(_Var6);
+
+QRY
+QRY_CRIME_SetupGuardNPCInterrogation((STRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_CRIME_SetupGuardNPCInterrogation(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_NPCInterrogation("", _Var5, _, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_SetupGuardNPCInterrogation(_Var5);
+
+QRY
+QRY_CRIME_SetupGuardNPCInterrogation_Custom((STRING)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CRIME_StoryCallGuardsArrest", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetVarInteger(_Var1, "CRIME_ArrestCrime", _Var2, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_Called(_Var2, _, _Var1, _, _, _, _, _, _, _)
+THEN
+PROC_CRIME_Guards_Call(_Var2, _Var1, "Arrest");
+
+IF
+EntityEvent((CHARACTER)_Var1, "CRIME_StoryCallGuardsAttack", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_Called(_Var2, _, _Var1, _, _, _, _, _, _, _)
+THEN
+PROC_CRIME_Guards_Call(_Var2, _Var1, "Attack");
+
+IF
+EntityEvent((CHARACTER)_Var1, "CRIME_StoryCallGuardsArrest_WithReinforcements", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_Called(_Var2, _, _Var1, _, _, _, _, _, _, _)
+THEN
+PROC_CRIME_Guards_Call(_Var2, _Var1, "Arrest");
+PROC_CRIME_Guards_CallReinforcements(_Var2);
+
+IF
+EntityEvent((CHARACTER)_Var1, "CRIME_StoryCallGuardsAttack_WithReinforcements", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_Called(_Var2, _, _Var1, _, _, _, _, _, _, _)
+THEN
+PROC_CRIME_Guards_Call(_Var2, _Var1, "Attack");
+PROC_CRIME_Guards_CallReinforcements(_Var2);
+
+PROC
+PROC_CRIME_Guards_Call((INTEGER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetVarObject(_Var2, "Criminal1", _Var4, _Var1, _Var1)
+AND
+GetVarObject(_Var2, "Criminal2", _Var5, _Var1, _Var1)
+AND
+GetVarObject(_Var2, "Criminal3", _Var6, _Var1, _Var1)
+AND
+GetVarObject(_Var2, "Criminal4", _Var7, _Var1, _Var1)
+THEN
+PROC_CRIME_Guards_FindGuardToCall(_Var2, _Var1, _Var4, _Var3);
+PROC_CRIME_Guards_FindGuardToCall(_Var2, _Var1, _Var5, _Var3);
+PROC_CRIME_Guards_FindGuardToCall(_Var2, _Var1, _Var6, _Var3);
+PROC_CRIME_Guards_FindGuardToCall(_Var2, _Var1, _Var7, _Var3);
+PROC_CRIME_Guards_CallFoundGuard(_Var2, _Var1, _Var3);
+
+QRY
+QRY_CRIME_GuardStopDialogs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogNPCs(_, _Var1, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_GuardStopDialogs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogNPCs(_Var2, _Var1, _, _Var1, _Var1)
+AND
+DB_AutomatedDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStop(_Var1);
+
+QRY
+QRY_CRIME_GuardStopDialogs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogNPCs(_Var2, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_AutomatedDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogIsCrimeDialog(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+QRY_TryStopDialogFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_GuardAvailable((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_Guards_Called(_, _, _, _Var1, _, _, _, _, _, _)
+AND NOT
+DB_CRIME_Guards_CalledReinforcement(_, _, _, _Var1, _, _, _, _, _, _)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SceneManager(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CharacterAllCrimesDisabled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CRIME_GuardDisabled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_GuardStopDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_GuardDisabled((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+DB_CRIME_RegionGuardsKey(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var3 != ""
+THEN
+DB_TaggedItemTracker(_Var3, _Var4);
+
+QRY
+QRY_CRIME_GuardDisabled((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_RegionGuard(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_RegionGuardsKey(_Var2, _Var3, _, _Var5, _Var1)
+AND
+GetFlag(_Var5, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Guards_InvestigationRelocationPos((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_CRIME_Guards_ClearInvestigationRelocationPos()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Guards_ClearInvestigationRelocationPos()
+AND
+DB_QRYRTN_CRIME_Guards_InvestigationRelocationPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_Guards_InvestigationRelocationPos(_Var1, _Var2);
+
+QRY
+QRY_CRIME_Guards_NoCancelFlag((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+GetFlag(_Var1, NULL_00000000-0000-0000-0000-000000000000, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Guards_NoCancelFlag(NULL_00000000-0000-0000-0000-000000000000, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Guards_GetClosestGuard_Reset()
+AND
+DB_QRYRTN_Guards_GetClosestGuard(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_QRYRTN_Guards_GetClosestGuard(_Var1, _Var2, _Var3, _Var4);
+
+QRY
+QRY_CRIME_Guards_GetClosestGuard((STRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CRIME_Guards_GetClosestGuard_Reset()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Guards_GetClosestGuard((STRING)_Var1, (CHARACTER)_Var2, 1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_RegionInfo(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_NoCancelFlag(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_RegionSpawnPool(_Var1, _Var3, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var8 < _Var7
+AND
+GetDistanceTo(_Var5, _Var2, _Var9, _Var1, _Var1)
+AND
+RealSum(_Var9, 20, _Var10, _Var1, _Var1)
+THEN
+DB_QRYRTN_Guards_GetClosestGuard(NULL_00000000-0000-0000-0000-000000000000, _Var10, _Var3, "Spawn");
+
+QRY
+QRY_CRIME_Guards_GetClosestGuard((STRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_RegionInfo(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_NoCancelFlag(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_RegionGuard(_Var1, _Var4, _Var6, _Var1, _Var1)
+AND
+QRY_CRIME_GuardAvailable(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var6, _Var7, _Var1, _Var1)
+THEN
+DB_QRYRTN_Guards_GetClosestGuard(_Var6, _Var7, _Var4, "Local");
+
+IF
+DB_QRYRTN_Guards_GetClosestGuard(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_QRYRTN_Guards_GetClosestGuard(_Var5, _Var6, _Var7, _Var4, _Var1)
+AND
+_Var5 != _Var1
+AND
+_Var6 >= _Var2
+THEN
+NOT DB_QRYRTN_Guards_GetClosestGuard(_Var5, _Var6, _Var7, _Var4);
+
+IF
+DB_QRYRTN_Guards_GetClosestGuard(_Var1, _Var2, _Var3, "Spawn", _Var1)
+AND
+DB_QRYRTN_Guards_GetClosestGuard(_Var4, _Var5, _Var6, "Local", _Var1)
+AND
+_Var5 >= _Var2
+THEN
+NOT DB_QRYRTN_Guards_GetClosestGuard(_Var4, _Var5, _Var6, "Local");
+
+IF
+DB_QRYRTN_Guards_GetClosestGuard(_Var1, _Var2, _Var3, "Spawn", _Var1)
+AND
+DB_QRYRTN_Guards_GetClosestGuard(_Var4, _Var5, _Var6, "Local", _Var1)
+AND
+_Var5 < _Var2
+THEN
+NOT DB_QRYRTN_Guards_GetClosestGuard(_Var1, _Var2, _Var3, "Spawn");
+DB_QRYRTN_Guards_GetClosestGuard(_Var1, _Var2, _Var3, "SpawnReinforcement");
+
+QRY
+QRY_CRIME_Guards_NoSummonForCrime((INTEGER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_NoSummonBy(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Guards_HomePos((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_CRIME_Guards_HomePos(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_Guards_HomePos(_Var2, _Var3, _Var4);
+
+QRY
+QRY_CRIME_Guards_HomePos((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_QRYRTN_CRIME_Guards_HomePos(_Var2, _Var3, _Var4);
+
+QRY
+QRY_CRIME_Guards_HomePos((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_CRIME_Guards_HomePos(_, _, _, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var5, _Var6, _Var7, _Var1)
+THEN
+DB_QRYRTN_CRIME_Guards_HomePos(_Var5, _Var6, _Var7);
+
+PROC
+PROC_CRIME_Guards_FindGuardToCall((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_Called(_Var2, _, _Var1, _, _, _, _, _, _, _)
+AND NOT
+QRY_CRIME_Guards_NoSummonForCrime(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+CharacterGetCrimeRegion(_Var3, _Var13, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_GetClosestGuard(_Var13, _Var3, 1, _Var1, _Var1)
+AND
+DB_QRYRTN_Guards_GetClosestGuard(_Var14, _, _Var16, _Var17, _Var1)
+THEN
+PROC_CRIME_Guards_SummonFoundGuard(_Var1, _Var2, _Var3, _Var4, _Var14, _Var13, _Var16, _Var17);
+
+PROC
+PROC_CRIME_Guards_SummonFoundGuard((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (CHARACTER)_Var5, (STRING)_Var6, (STRING)_Var7, "Local", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var5 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_CRIME_Guards_DefineMainGuard(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_CRIME_Guards_SummonFoundGuard((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (CHARACTER)_Var5, (STRING)_Var6, (STRING)_Var7, (STRING)_Var8, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var8 != "Local"
+THEN
+PROC_CRIME_Guards_SpawnGuards(_Var1, _Var2, _Var3, _Var4, _Var6, _Var7, _Var8);
+
+PROC
+PROC_CRIME_Guards_DefineMainGuard((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (CHARACTER)_Var5, (STRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CRIME_Guards_HomePos(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_Guards_HomePos(_Var7, _Var8, _Var9, _Var1, _Var1)
+AND
+QRY_CRIME_CrimeTypeResolveSourceInvestigation(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_CrimeTypeResolveSourceInvestigation(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_SetupGuardNPCInterrogation(_Var10, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_SetupGuardNPCInterrogation(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var12, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_Leaving(_Var5, _Var7, _Var8, _Var9);
+DB_CRIME_Guards_Called(_Var2, _Var12, _Var1, _Var5, _Var3, _Var11, _Var6, _Var7, _Var8, _Var9);
+
+PROC
+PROC_CRIME_Guards_CallFoundGuard((GUIDSTRING)_Var1, (INTEGER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND NOT
+QRY_CRIME_Guards_InvestigationRelocationPos(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearStoryMove(_Var5);
+PROC_CancelDisappearOutOfSight(_Var5);
+CrimeSuspend(_Var2);
+PROC_CRIME_Guards_CallActivateGuard(_Var1, _Var2, _Var5);
+
+PROC
+PROC_CRIME_Guards_CallFoundGuard((CHARACTER)_Var1, (INTEGER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND
+DB_QRYRTN_CRIME_Guards_InvestigationRelocationPos(_Var5, _Var12, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearStoryMove(_Var5);
+PROC_CancelDisappearOutOfSight(_Var5);
+CrimeSuspend(_Var2);
+DB_CRIME_Guards_Relocating(_Var5, _Var12, _Var1, _Var2);
+PROC_DisappearOutOfSightTo(_Var5, _Var12, "Run", 1, "CRIME_Guards_Relocated");
+
+PROC
+PROC_CRIME_Guards_CallFoundGuard((CHARACTER)_Var1, (INTEGER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CRIME_Guards_Called(_Var2, _, _Var1, _, _, _, _, _, _, _)
+AND NOT
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _, _, _, _, _, _, _Var1, _Var1)
+THEN
+SetVarString(_Var1, "GuardSummonFailedReaction", _Var3);
+SetEntityEvent(_Var1, "CRIME_CallGuardsFailed", 1);
+
+IF
+WentOnStage((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Relocating(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_AppearOutOfSightTo(_Var1, _Var3, _Var2, "CRIME_Guards_CallRelocatedGuard");
+
+IF
+WentOnStage((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Relocating(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_CRIME_Guards_Relocating(_Var1, _Var2, _Var3, _Var4);
+PROC_CRIME_Guards_CallActivateGuard(_Var3, _Var4, _Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+DB_CRIME_Guards_Relocating(_Var4, _Var11, _Var3, _Var2, _Var1)
+THEN
+NOT DB_CRIME_Guards_Relocating(_Var4, _Var11, _Var3, _Var2);
+
+PROC
+PROC_CRIME_Guards_CallActivateGuard((GUIDSTRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetForceUpdate(_Var3, 1);
+
+PROC
+PROC_CRIME_Guards_CallActivateGuard((GUIDSTRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsActive(_Var3, 1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var4, _Var1, _Var3, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+PROC_CRIME_Guards_CallFoundGuardDelayed(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CRIME_Guards_CallActivateGuard((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsActive(_Var3, 0, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var4, _Var1, _Var3, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+DB_CRIME_Guards_WaitForGuardActivation(_Var3, _Var4);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+DB_CRIME_Guards_WaitForGuardActivation(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_WaitForGuardActivation(_Var4, _Var1);
+
+IF
+Activated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_WaitForGuardActivation(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var3, _Var2, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+NOT DB_CRIME_Guards_WaitForGuardActivation(_Var1, _Var2);
+PROC_CRIME_Guards_CallFoundGuardDelayed(_Var4, _Var3, _Var1);
+
+PROC
+PROC_CRIME_Guards_CallFoundGuardDelayed((GUIDSTRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var4, _Var1, _Var3, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+GetPosition(_Var3, _Var11, _Var12, _Var13, _Var1)
+AND
+GetPosition(_Var1, _Var14, _Var15, _Var16, _Var1)
+AND
+CrimeGetVictim(_Var2, _Var17, _Var1, _Var1, _Var1)
+THEN
+PROC_StartNPCSightEvents(_Var1);
+DB_CRIME_Guards_NPCSightEventsStarted(_Var1, _Var2);
+PROC_CharacterRegisterCrimeWithPosition(_Var1, _Var6, NULL_00000000-0000-0000-0000-000000000000, _Var11, _Var12, _Var13, _Var3, _Var4);
+DB_CRIME_CrimeInvestigationPos(_Var4, _Var14, _Var15, _Var16);
+DB_CRIME_InvestigationNoWalkingTalking(_Var4);
+
+PROC
+PROC_CrimeSetupWarning_Custom((STRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var5, (CHARACTER)_Var6, (CHARACTER)_Var7, (DIALOGRESOURCE)_Var8, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var9, _Var2, _Var4, _Var3, _Var10, _Var11, _Var12, _Var13, _Var14, _Var15)
+AND
+CrimeGetVictim(_Var9, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GEB_Crime_IsVictim_5e9f6262-7bab-4e25-894e-32ee674208b2, _Var4);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_NPCSightEventsStarted(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopNPCSightEvents(_Var2);
+NOT DB_CRIME_Guards_NPCSightEventsStarted(_Var2, _Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+SetForceUpdate(_Var4, 0);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, _, "Idle", (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var1, _Var4, _Var2, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND NOT
+DB_CRIME_Guards_WaitingForGuardID(_Var4, _, _Var1, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var13, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var6, "WaitingForCalledGuard", NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var13);
+DB_CRIME_Guards_WaitingForGuardID(_Var4, _Var13);
+DB_CRIME_Guards_InterrogtionCrimeActive(_Var4);
+PROC_CRIME_Guards_MaybeStartCriminalSpotting(_Var5, _Var6, _Var2, _Var4);
+
+PROC
+PROC_CRIME_Guards_MaybeStartCriminalSpotting((CHARACTER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, (CHARACTER)_Var1)
+AND
+QRY_CRIME_CanSeeCriminal(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller");
+DB_SpotPlayers_IncludeExtra(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller", _Var2);
+DB_SpotPlayers_IncludeExtra(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller", _Var3);
+DB_SpotPlayers_IncludeDefeated(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller");
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller");
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller");
+DB_SpotPlayers_Continuous(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller");
+DB_SpotPlayers_IncludeInconspicuous(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller");
+DB_SpotPlayers(_Var1, "CRIME_Guards_CanSeeCriminalAndCaller", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_CRIME_Guards_StopSpottingOnFinished(_Var4, _Var3, _Var1, _Var2);
+
+IF
+FlagCleared(GLO_State_Hiding_ad57af70-2300-4c49-b713-ba0bd8e77ea3, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var3, _Var4, _Var5, _Var6, _Var1, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND
+DB_CRIME_Guards_InterrogtionCrimeActive(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_StopSpottingOnFinished(_Var4, _, _, _, _Var1)
+AND
+CanSee(_Var6, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_CRIME_Guard_SawCallerAndCriminalOnTheWay(_Var3, _Var5, _Var6, _Var1, _Var4);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (CHARACTER)_Var2, _, "Confronting", (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var5, _Var1, _Var6, _Var2, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12)
+THEN
+NOT DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var4);
+CrimeConfrontationDone(_Var4, _Var6);
+
+PROC
+PROC_Crime_Guards_CallReinforcements((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+DB_CRIME_Guards_RegionGuard(_Var7, _Var11, _Var4, _Var1, _Var1)
+AND
+DB_CRIME_Guards_RegionReinforcements(_Var7, _Var12, _Var1, _Var1, _Var1)
+THEN
+PROC_Crime_Guards_TryFindReinforcements(_Var3, _Var1, _Var5, _Var12, _Var7);
+PROC_CRIME_Guards_CallFoundReinforcements(_Var3, _Var1);
+
+PROC
+PROC_Crime_Guards_TryFindReinforcements((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (INTEGER)_Var4, (STRING)_Var5)
+THEN
+PROC_CRIME_Guards_FindReinforcementToCall(_Var1, _Var2, _Var3, _Var5);
+
+PROC
+PROC_Crime_Guards_TryFindReinforcements((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (INTEGER)_Var4, (STRING)_Var5)
+AND
+IntegerSubtract(_Var4, 1, _Var6, _Var1, _Var1)
+AND
+_Var6 > 0
+THEN
+PROC_Crime_Guards_TryFindReinforcements(_Var1, _Var2, _Var3, _Var6, _Var5);
+
+PROC
+PROC_CRIME_Guards_FindReinforcementToCall((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (CHARACTER)_Var1)
+AND
+QRY_CRIME_Guards_GetClosestGuard(_Var4, _Var3, 0, _Var1, _Var1)
+AND
+DB_QRYRTN_Guards_GetClosestGuard(_Var5, _, _, _, _Var1)
+THEN
+PROC_CRIME_Guards_DefineReinforcement(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_CRIME_Guards_DefineReinforcement((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (CHARACTER)_Var5)
+AND
+QRY_CRIME_Guards_HomePos(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_Guards_HomePos(_Var6, _Var7, _Var8, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_Leaving(_Var5, _Var6, _Var7, _Var8);
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var9, _Var1, _Var5, _Var3, "Guard_Reinforcement", _Var4, _Var6, _Var7, _Var8);
+
+PROC
+PROC_CRIME_Guards_CallFoundReinforcements((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var3, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+GetPosition(_Var4, _Var11, _Var12, _Var13, _Var1)
+AND
+GetPosition(_Var1, _Var14, _Var15, _Var16, _Var1)
+AND
+CrimeGetVictim(_Var2, _Var17, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearStoryMove(_Var4);
+PROC_CancelDisappearOutOfSight(_Var4);
+PROC_CharacterRegisterCrimeWithPosition(_Var1, _Var6, NULL_00000000-0000-0000-0000-000000000000, _Var11, _Var12, _Var13, _Var4, _Var3);
+DB_CRIME_CrimeInvestigationPos(_Var3, _Var14, _Var15, _Var16);
+DB_CRIME_Guards_ReRegisterOnFinish(_Var3, _Var4, _Var1, _Var4, _Var6, 1);
+SetForceUpdate(_Var4, 1);
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "CRIME_Guards_GoHome", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var11, _, _Var13, _, _, _, _, _, _)
+THEN
+PROC_CRIME_Guards_UnsummonReinforcement(_Var13);
+
+PROC
+PROC_ReadyToMoveOn_Failed((CHARACTER)_Var1, "CRIME_Guards_GoHome", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var11, _, _Var13, _, _, _, _, _, _)
+THEN
+PROC_CRIME_Guards_UnsummonReinforcement(_Var13);
+
+PROC
+PROC_CRIME_Guards_UnsummonReinforcement((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var2, _Var1, _Var3, _Var1, _Var4, _Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_ReRegisterOnFinish(_Var2, _Var1, _Var3, _Var1, _Var4, _Var5);
+
+PROC
+PROC_CRIME_Guards_UnsummonReinforcement((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+SetForceUpdate(_Var1, 0);
+PROC_CRIME_StopForAllCriminals(_Var3);
+PROC_NotifyWhenReadyToMoveOn(_Var1, "CRIME_Guards_GoHome_Reinforcement");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "CRIME_Guards_GoHome_Reinforcement", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+GetDistanceToPosition(_Var1, _Var8, _Var9, _Var10, _Var11)
+THEN
+NOT DB_CRIME_Guards_CalledReinforcement(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10);
+PROC_CRIME_Guards_ReturnHome(_Var1, _Var8, _Var9, _Var10, _Var11);
+
+PROC
+PROC_ReadyToMoveOn_Failed((CHARACTER)_Var1, "CRIME_Guards_GoHome_Reinforcement", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+PROC_CRIME_Guards_CleanUp(_Var1);
+
+PROC
+PROC_CRIME_SetRelationTemporaryHostile((INTEGER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var1, _Var5, _Var6, _Var3, _Var4, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var1, _, _, _Var14, _, _, _, _, _, _)
+AND NOT
+DB_CRIME_Guards_GuardMadeHostile(_Var1, _Var14, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_Guards_GuardMadeHostile(_Var1, _Var3);
+DB_CRIME_Guards_GuardMadeHostile(_Var1, _Var14);
+PROC_CRIME_SetRelationTemporaryHostile(_Var1, _Var2, _Var14, _Var4);
+
+PROC
+PROC_CRIME_SetRelationTemporaryHostile((INTEGER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var1, _, _, _Var3, _, _, _, _, _, _)
+AND
+DB_CRIME_Guards_Called(_Var1, _Var13, _Var14, _Var15, _Var4, _Var16, _Var17, _Var18, _Var19, _Var20)
+AND NOT
+DB_CRIME_Guards_GuardMadeHostile(_Var1, _Var15, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_Guards_GuardMadeHostile(_Var1, _Var15);
+DB_CRIME_Guards_GuardMadeHostile(_Var1, _Var3);
+PROC_CRIME_SetRelationTemporaryHostile(_Var1, _Var2, _Var15, _Var4);
+
+IF
+EnterCombatFailed((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_GuardMadeHostile(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_GuardMadeHostile(_Var3, _Var1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_GuardMadeHostile(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_GuardMadeHostile(_Var3, _Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_GuardMadeHostile(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_GuardMadeHostile(_Var1, _Var2);
+
+IF
+DB_CRIME_Guards_Called(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND NOT
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_Spotted(_Var4, "CRIME_Guards_CanSeeCriminalAndCaller", _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_Spotted(_Var4, "CRIME_Guards_CanSeeCriminalAndCaller", _Var5, _Var1, _Var1)
+THEN
+PROC_CRIME_Guard_SawCallerAndCriminalOnTheWay(_Var1, _Var3, _Var4, _Var5, _Var2);
+
+IF
+DB_CRIME_Guards_Called(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_Spotted(_Var4, "CRIME_Guards_CanSeeCriminalAndCaller", _Var3, _Var1, _Var1)
+THEN
+DB_CRIME_Guards_DefeatedCaller(_Var3, _Var2);
+PROC_CRIME_StopForAllCriminals(_Var2);
+
+PROC
+PROC_CRIME_Guard_SawCallerAndCriminalOnTheWay((INTEGER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (INTEGER)_Var5)
+AND NOT
+DB_CRIME_Guards_WaitingForGuardID(_Var5, _, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var3);
+CrimeConfrontationDone(_Var5, _Var3);
+
+PROC
+PROC_CRIME_Guard_SawCallerAndCriminalOnTheWay((INTEGER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND
+DB_CRIME_Guards_WaitingForGuardID(_Var5, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+CrimeConfrontationDone(_Var6, _Var2);
+NOT DB_CRIME_Guards_WaitingForGuardID(_Var5, _Var6);
+PROC_CRIME_StopForAllCriminals(_Var5);
+PROC_CRIME_Guards_ResumeOriginalCrime(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_StopSpottingOnFinished(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_CRIME_Guards_StopSpottingOnFinished(_Var1, _Var2, _Var3, _Var4);
+PROC_SpotPlayers_StopSpotting(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller");
+NOT DB_SpotPlayers(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller");
+NOT DB_SpotPlayers_IncludeExtra(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller", _Var2);
+NOT DB_SpotPlayers_IncludeDefeated(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller");
+NOT DB_SpotPlayers_IncludeExtra(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller", _Var4);
+NOT DB_SpotPlayers_IncludeWildshapedPlayers(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller");
+NOT DB_SpotPlayers_IncludeInconspicuous(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller");
+NOT DB_SpotPlayers_TargetIgnoreCantTalk(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller");
+NOT DB_SpotPlayers_Continuous(_Var3, "CRIME_Guards_CanSeeCriminalAndCaller");
+
+QRY
+QRY_CrimeGetCustomInterrogationDialog((STRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var5, (CHARACTER)_Var6, (CHARACTER)_Var7, (DIALOGRESOURCE)_Var8, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var9, _Var2, _Var10, _Var3, _Var11, _Var12, _Var13, _Var14, _Var15, _Var16)
+AND
+DB_CRIME_Guards_NPCInterrogation(_Var3, _Var17, _Var1, _Var1, _Var1)
+THEN
+DB_CrimeInterrogationDialog(_Var17);
+
+QRY
+QRY_CrimeGetCustomInterrogationDialog((STRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var5, (CHARACTER)_Var6, (CHARACTER)_Var7, (DIALOGRESOURCE)_Var8, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_Patrolling(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_PatrolInterrogation(_Var3, _Var9, _Var1, _Var1, _Var1)
+THEN
+DB_CrimeInterrogationDialog(_Var9);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (CHARACTER)_Var2, "Investigation", "LookingForSuspectsToInterrogate", (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var4, _Var1, _Var5, _Var2, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND
+DB_Defeated(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+CharacterStopCrimeWithID(_Var2, _Var1);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (CHARACTER)_Var2, "Confronting", "LookingForSuspectsToInterrogate", (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var3, _Var1, _Var4, _Var2, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+CharacterStopCrimeWithID(_Var4, _Var1);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (CHARACTER)_Var2, "Confronting", _, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var4, _Var1, _Var5, _Var2, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+THEN
+PROC_CRIME_Guards_ResumeOriginalCrime(_Var4, _Var5, _Var2, _Var6);
+
+PROC
+PROC_CRIME_Guards_ResumeOriginalCrime((INTEGER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var1)
+AND
+IsInCombat(_Var3, 0, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var3, _Var5, _Var6, _Var7, _Var1)
+THEN
+CrimeIgnoreCrime(_Var1, _Var2);
+CrimeResumeWithPosition(_Var1, _Var5, _Var6, _Var7);
+DB_CRIME_Guards_ResumedCrime(_Var1, _Var3);
+
+PROC
+PROC_CRIME_Guards_ResumeOriginalCrime((INTEGER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (INTEGER)_Var1)
+AND
+IsInCombat(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var1);
+PROC_SetRelationTemporaryHostile(_Var3, _Var4);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (CHARACTER)_Var2, _, "Idle", (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var1, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Guards_ReinforcementFinished(_Var1, _Var2, _Var7);
+
+IF
+CharacterSelectedAsBestUnavailableFallbackLead((CHARACTER)_Var1, _, (INTEGER)_Var3, _, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var3, _Var1, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Guards_ReinforcementFinished(_Var3, _Var1, _Var8);
+
+IF
+OnCrimeRemoved((INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var1, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Guards_ReinforcementFinished(_Var1, _Var7, _Var11);
+
+PROC
+PROC_Guards_ReinforcementFinished((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var1, _Var2, _Var4, _Var5, _Var6, _Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 >= 5
+THEN
+PROC_CRIME_Guards_UnsummonReinforcement(_Var2);
+
+PROC
+PROC_Guards_ReinforcementFinished((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var1, _Var2, _Var4, _Var5, _Var6, _Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 < 5
+AND
+QRY_CRIME_Guards_GetHandlingNonBackgroundDisturbance(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Guards_GetHandlingNonBackgroundDisturbance(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_Guards_RestartOrWaitAgain(_Var1, _Var7);
+
+PROC
+PROC_CRIME_Guards_RestartOrWaitAgain((INTEGER)_Var1, -1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var7, _Var8, _Var9, _Var1)
+AND
+CrimeGetNewID(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var6, 1, _Var11, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrimeWithPosition(_Var3, _Var5, NULL_00000000-0000-0000-0000-000000000000, _Var7, _Var8, _Var9, _Var4, _Var10);
+DB_CRIME_Guards_ReRegisterOnFinish(_Var10, _Var2, _Var3, _Var4, _Var5, _Var11);
+
+PROC
+PROC_CRIME_Guards_RestartOrWaitAgain((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var2 != -1
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_Guards_ReRegisterOnFinish(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_CRIME_Guards_GetHandlingNonBackgroundDisturbance((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_Guards_GetHandlingNonBackgroundDisturbance(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Guards_GetHandlingNonBackgroundDisturbance(_Var2);
+
+QRY
+QRY_CRIME_Guards_GetHandlingNonBackgroundDisturbance((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var2, BackgroundReaction_db918cfb-a484-437c-93bb-8bc36fe98a9c, 0, _Var1, _Var1)
+THEN
+DB_QRYRTN_Guards_GetHandlingNonBackgroundDisturbance(_Var2);
+
+QRY
+QRY_CRIME_Guards_GetHandlingNonBackgroundDisturbance((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_Guards_GetHandlingNonBackgroundDisturbance(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Guards_GetHandlingNonBackgroundDisturbance(-1);
+
+IF
+DB_CRIME_Guards_ReRegisterOnFinish(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var7, _Var2, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var7
+THEN
+NOT DB_CRIME_Guards_ReRegisterOnFinish(_Var7, _Var2, _Var8, _Var9, _Var10, _Var11);
+
+IF
+DB_CRIME_Guards_ReRegisterOnFinish(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_ReRegisterOnFinish(_Var7, _Var2, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var6 != _Var11
+THEN
+NOT DB_CRIME_Guards_ReRegisterOnFinish(_Var7, _Var2, _Var8, _Var9, _Var10, _Var11);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, _, "Confronting", (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_ResumedCrime(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_ResumedCrime(_Var1, _Var4);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_ResumedCrime(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_ResumedCrime(_Var1, _Var2);
+PROC_CRIME_Guards_LeaveAfterStandardPatrol(_Var2, _Var1, "Guard_ArrestPatrol");
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Patrolling(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_Patrolling(_Var2, _Var1);
+
+PROC
+PROC_CRIME_Guards_LeaveAfterStandardPatrol((CHARACTER)_Var1, (INTEGER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var4, _Var5, _Var1, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND
+GetPosition(_Var1, _Var12, _Var13, _Var14, _Var1)
+AND
+CrimeGetNewID(_Var15, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrimeWithPosition(_Var6, _Var3, NULL_00000000-0000-0000-0000-000000000000, _Var12, _Var13, _Var14, _Var1, _Var15);
+DB_CRIME_Guards_Patrolling(_Var1, _Var15);
+NOT DB_CRIME_Guards_Called(_Var2, _Var4, _Var5, _Var1, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11);
+DB_CRIME_Guards_Called(_Var15, _Var4, _Var5, _Var1, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11);
+PROC_CRIME_Guards_SwitchReinforcementsToPatrol(_Var2, _Var15, _Var3);
+
+PROC
+PROC_CRIME_Guards_SwitchReinforcementsToPatrol((INTEGER)_Var1, (INTEGER)_Var2, (STRING)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12)
+AND
+GetPosition(_Var6, _Var13, _Var14, _Var15, _Var1)
+AND
+CrimeGetNewID(_Var16, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var4);
+PROC_CharacterRegisterCrimeWithPosition(_Var7, _Var3, NULL_00000000-0000-0000-0000-000000000000, _Var13, _Var14, _Var15, _Var6, _Var16);
+NOT DB_CRIME_Guards_CalledReinforcement(_Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var16, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+DB_CRIME_Guards_ReRegisterOnFinish(_Var16, _Var6, _Var7, _Var6, _Var3, 1);
+
+PROC
+PROC_CRIME_Interrogation_InterrogatedSuspect((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var1, _, _, _, _, _, _, _, _, _)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var1, _Var12, _, _, _, _, _, _, _, _)
+THEN
+DB_CRIME_Interrogation_InterrogatedSuspect(_Var12, _Var2);
+
+PROC
+PROC_CRIME_Interrogation_InterrogatedSuspect((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var3, _Var1, _, _, _, _, _, _, _, _)
+THEN
+PROC_CRIME_Interrogation_InterrogatedSuspect(_Var3, _Var2);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var3, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND NOT
+GetHandlingCrimeID(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var2);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var3, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND
+GetHandlingCrimeID(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+CrimeConfrontationDone(_Var2, _Var4);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GEB_Investigation_SceneUnreachable", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var3);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GEB_Investigation_SceneUnreachable", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_CalledReinforcement(_Var2, _Var3, _Var4, _Var1, _Var5, _, _Var7, _Var8, _Var9, _Var10)
+THEN
+PROC_CRIME_Guards_UnsummonReinforcement(_Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var3, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND NOT
+DB_CRIME_Guards_DefeatedCaller(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var4, "CRIME_CallGuardsFailed", 1);
+PROC_CRIME_StopForAllCriminals(_Var3);
+PROC_CRIME_Guards_StartPatrolIfCloseTo(_Var5, _Var3, _Var4);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_Called(_Var3, _Var1, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11)
+AND
+DB_CRIME_Guards_DefeatedCaller(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_DefeatedCaller(_Var4, _Var1);
+PROC_CRIME_Guards_ResumeOriginalCrime(_Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_InterrogtionCrimeActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_InterrogtionCrimeActive(_Var1);
+
+PROC
+PROC_CRIME_Guards_StartPatrolIfCloseTo((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetDistanceTo(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 <= 13
+THEN
+PROC_CRIME_Guards_LeaveAfterStandardPatrol(_Var1, _Var2, "Guard_Patrolling");
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_WaitingForGuardID(_Var1, _Var2);
+
+PROC
+PROC_CRIME_Guards_UnsummonGuard((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "CRIME_Guards_GoHome");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "CRIME_Guards_GoHome", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND
+GetDistanceToPosition(_Var1, _Var8, _Var9, _Var10, _Var11)
+THEN
+NOT DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10);
+PROC_CRIME_Guards_ReturnHome(_Var1, _Var8, _Var9, _Var10, _Var11);
+
+PROC
+PROC_ReadyToMoveOn_Failed((CHARACTER)_Var1, "CRIME_Guards_GoHome", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+PROC_CRIME_Guards_CleanUp(_Var1);
+
+PROC
+PROC_CRIME_Guards_ReturnHome((GUIDSTRING)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5)
+THEN
+DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4);
+SetEntityEvent(_Var1, "ClearPeaceReturn", 1);
+
+PROC
+PROC_CRIME_Guards_ReturnHome((CHARACTER)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5)
+AND NOT
+DB_CRIME_Guards_SpawnedGuard(_Var1, _, _, _Var1, _Var1)
+AND
+_Var5 < 30
+THEN
+PROC_CharacterMoveToPosition(_Var1, _Var2, _Var3, _Var4, "Walk", "CRIME_Guards_BackHome");
+
+PROC
+PROC_CRIME_Guards_ReturnHome((CHARACTER)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5)
+AND
+DB_CRIME_Guards_SpawnedGuard(_Var1, _Var6, _Var7, _Var1, _Var1)
+AND
+_Var5 < 30
+AND
+DB_CRIME_Guards_RegionSpawnPool(_Var6, _Var7, _Var8, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, _Var8, "Walk", 0, "CRIME_Guards_ReturnHomeDisappeared");
+
+PROC
+PROC_CRIME_Guards_ReturnHome((GUIDSTRING)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5)
+AND
+_Var5 >= 30
+THEN
+PROC_DisappearOutOfSight(_Var1, "Walk", 0, "CRIME_Guards_ReturnHomeDisappeared");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CRIME_Guards_ReturnHomeDisappeared", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_CRIME_Guards_SpawnedGuard(_Var1, _, _, _Var1, _Var1)
+THEN
+AppearOutOfSightToPosition(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, 0, NULL_00000000-0000-0000-0000-000000000000, "CRIME_Guards_ReturnHomeAppeared");
+
+IF
+EntityEvent((CHARACTER)_Var1, "CRIME_Guards_ReturnHomeDisappeared", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_CRIME_Guards_SpawnedGuard(_Var1, _Var5, _Var6, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4);
+PROC_CRIME_Guards_RecoverSpawnedGuard(_Var1, _Var5, _Var6);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CRIME_Guards_ReturnHomeAppeared", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_CharacterMoveToPosition(_Var1, _Var2, _Var3, _Var4, "Walk", "CRIME_Guards_BackHome");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CRIME_Guards_BackHome", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _, _, _)
+THEN
+PROC_CRIME_Guards_UnsummonGuard(_Var4);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+PROC_CRIME_Guards_CleanUp(_Var1);
+
+PROC
+PROC_CRIME_Guards_CleanUp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND NOT
+DB_CRIME_Guards_Leaving(_Var1, _, _, _, _Var1)
+THEN
+SetEntityEvent(_Var4, "CRIME_CallGuardsFailed", 1);
+
+PROC
+PROC_CRIME_Guards_CleanUp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+NOT DB_CRIME_Guards_Called(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10);
+NOT DB_CRIME_Guards_Leaving(_Var1, _Var8, _Var9, _Var10);
+
+PROC
+PROC_CRIME_Guards_CleanUp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_SpawnedGuard(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_SpawnedGuard(_Var1, _Var2, _Var3);
+NOT DB_CRIME_Guards_SpawnedGuard_WaitOnStage(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CRIME_Guards_CleanUp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_CRIME_Guards_Leaving(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_CRIME_Guards_RegionSpawnPoolGroupTemplate(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_Guards_NewRegionSpawnPoolGroupTemplate(_Var1, _Var2);
+
+PROC
+PROC_CRIME_Guards_NewRegionSpawnPoolGroupTemplate((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_End(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Count(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+SysCount("DB_CRIME_Guards_RegionSpawnPoolGroupTemplate", 6, _Var5, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var6, _Var1, _Var1)
+THEN
+PROC_CRIME_Guards_CheckSpawnPoolTemplatesResorting(_Var1, _Var2, _Var3, _Var5);
+NOT DB_CRIME_InternGuards_SpawnPoolGroupTemplate_End(_Var1, _Var2, _Var3);
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_End(_Var1, _Var2, _Var5);
+NOT DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Count(_Var1, _Var2, _Var4);
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Count(_Var1, _Var2, _Var6);
+
+PROC
+PROC_CRIME_Guards_CheckSpawnPoolTemplatesResorting((STRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (STRING)_Var1)
+AND NOT
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+TimerCancel("CRIME_Guards_ResortSpawnPoolTemplateDB");
+TimerLaunch("CRIME_Guards_ResortSpawnPoolTemplateDB", 0);
+
+IF
+DB_CRIME_Guards_RegionSpawnPoolGroupTemplate(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Begin(_Var1, _Var2, _, _Var1, _Var1)
+AND
+SysCount("DB_CRIME_Guards_RegionSpawnPoolGroupTemplate", 6, _Var8, _Var1, _Var1)
+THEN
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Begin(_Var1, _Var2, _Var8);
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_End(_Var1, _Var2, _Var8);
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Count(_Var1, _Var2, 1);
+
+QRY
+QRY_CRIME_Guards_GetSpawnTemplateGroup((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_CRIME_Guards_GetSpawnTemplateGroup(_Var3, _Var4, _Var5, _Var6, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_Guards_GetSpawnTemplateGroup(_Var3, _Var4, _Var5, _Var6);
+
+QRY
+QRY_CRIME_Guards_GetSpawnTemplateGroup((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Begin(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_End(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Count(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+Random(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, _Var6, _Var7, _Var1, _Var1)
+AND
+SysFactAtIndex("DB_CRIME_Guards_RegionSpawnPoolGroupTemplate", 6, _Var7, "DB_CRIME_Guards_SelectedSpawnTemplates", _Var1)
+AND
+DB_CRIME_Guards_SelectedSpawnTemplates(_Var1, _Var2, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_SelectedSpawnTemplates(_Var1, _Var2, _Var8, _Var9, _Var10, _Var11);
+DB_QRYRTN_CRIME_Guards_GetSpawnTemplateGroup(_Var8, _Var9, _Var10, _Var11);
+
+QRY
+QRY_CRIME_Guards_SpawnGuard((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (CHARACTERROOT)_Var4, (STRING)_Var5)
+AND
+DB_QRYRTN_CRIME_Guards_SpawnGuard(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_Guards_SpawnGuard(_Var6);
+
+QRY
+QRY_CRIME_Guards_SpawnGuard((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (CHARACTERROOT)_Var4, (STRING)_Var5)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_CRIME_Guards_RegionSpawnPool(_Var1, _Var2, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var9 < _Var8
+AND
+CreateOutOfSightAtDirectionFromObject(_Var4, _Var3, _Var6, 1, 0, _Var5, _Var10, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var9, 1, _Var11, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_Guards_SpawnGuard(_Var10);
+NOT DB_CRIME_Guards_RegionSpawnPool(_Var1, _Var2, _Var6, _Var7, _Var8, _Var9);
+DB_CRIME_Guards_RegionSpawnPool(_Var1, _Var2, _Var6, _Var7, _Var8, _Var11);
+
+QRY
+QRY_CRIME_Guards_SpawnGuard((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (CHARACTERROOT)_Var4, (STRING)_Var5)
+AND NOT
+DB_QRYRTN_CRIME_Guards_SpawnGuard(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_Guards_SpawnGuard(NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CRIME_Guards_SpawnGuardGroup((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(_Var5);
+
+QRY
+QRY_CRIME_Guards_SpawnGuardGroup((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+QRY_CRIME_Guards_GetSpawnTemplateGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_Guards_GetSpawnTemplateGroup(_Var5, _Var6, _Var7, _Var8, _Var1)
+AND
+QRY_CRIME_Guards_SpawnGuard(_Var1, _Var2, _Var3, _Var5, _Var4)
+AND
+DB_QRYRTN_CRIME_Guards_SpawnGuard(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_SpawnGuard(_Var1, _Var2, _Var3, _Var6, _Var4)
+AND
+DB_QRYRTN_CRIME_Guards_SpawnGuard(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_SpawnGuard(_Var1, _Var2, _Var3, _Var7, _Var4)
+AND
+DB_QRYRTN_CRIME_Guards_SpawnGuard(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_SpawnGuard(_Var1, _Var2, _Var3, _Var8, _Var4)
+AND
+DB_QRYRTN_CRIME_Guards_SpawnGuard(_Var12, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(_Var9);
+DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(_Var10);
+DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(_Var11);
+DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(_Var12);
+
+IF
+DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(NULL_00000000-0000-0000-0000-000000000000, _, _, _, _)
+THEN
+NOT DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CRIME_Guards_SpawnGuardGroup((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+DB_CRIME_Guards_Intern_SpawningGuard(_Var3, NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_Intern_SpawningGuard(_Var3, NULL_00000000-0000-0000-0000-000000000000, _Var4);
+
+PROC
+PROC_CRIME_Guards_SpawnGuards((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, (STRING)_Var7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_CRIME_Guards_SpawnGuardGroup(_Var5, _Var6, _Var3, "CRIME_Guards_SpawnedGuard", _Var1)
+AND
+DB_QRYRTN_CRIME_Guards_SpawnGuardGroup(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var8, _Var5, _Var6, _Var7);
+DB_CRIME_Guards_SpawnedGuard_WaitOnStage(_Var8, _Var5, _Var6);
+DB_CRIME_Guards_SpawnGuards_SpawningReinforcements(_Var1, _Var2);
+
+IF
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "Spawn", _Var1, _Var1)
+THEN
+PROC_CRIME_Guards_CheckIfReinforcement(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_CRIME_Guards_CheckIfReinforcement((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (GUIDSTRING)_Var5, (STRING)_Var6, (STRING)_Var7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("DB_CRIME_Guards_SpawnGuards_WaitForSpawn", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var8, _Var6, _Var7, "Spawn", _Var1, _Var1)
+AND
+_Var8 != _Var5
+AND
+QRY_OnlyOnce("DB_CRIME_Guards_SpawnGuards_WaitForSpawn", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "Spawn");
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "SpawnReinforcement");
+
+IF
+EntityEvent((CHARACTER)_Var1, "CRIME_Guards_SpawnedGuard", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var2, _Var3, _Var4, _Var5, _Var1, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+DB_CRIME_Guards_SpawnedGuard(_Var1, _Var6, _Var7);
+
+IF
+WentOnStage((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_SpawnedGuard_WaitOnStage(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_SpawnedGuard_WaitOnStage(_Var1, _Var2, _Var3);
+
+IF
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "Spawn", _Var1, _Var1)
+AND
+DB_CRIME_Guards_SpawnedGuard(_Var5, _Var6, _Var7, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_SpawnedGuard_WaitOnStage(_Var5, _Var6, _Var7, _Var1, _Var1)
+THEN
+PROC_CRIME_Guards_DefineMainGuard(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+PROC_CRIME_Guards_CallFoundGuard(_Var1, _Var2, _Var4);
+NOT DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "Spawn");
+
+IF
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "SpawnReinforcement", _Var1, _Var1)
+AND
+DB_CRIME_Guards_SpawnedGuard(_Var5, _Var6, _Var7, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_SpawnedGuard_WaitOnStage(_Var5, _Var6, _Var7, _Var1, _Var1)
+THEN
+DB_CRIME_Guards_AtLeastOneReinforcement(_Var1, _Var2);
+PROC_CRIME_Guards_DefineReinforcement(_Var1, _Var2, _Var3, _Var6, _Var5);
+NOT DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "SpawnReinforcement");
+
+IF
+DB_CRIME_Guards_AtLeastOneReinforcement(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _, _, _, _, _, _, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_AtLeastOneReinforcement(_Var1, _Var2);
+PROC_CRIME_Guards_CallFoundReinforcements(_Var1, _Var2);
+
+IF
+DB_CRIME_Guards_SpawnGuards_SpawningReinforcements(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_SpawnGuards_WaitForSpawn(_Var1, _Var2, _, _, _, _, _, _, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_SpawnGuards_SpawningReinforcements(_Var1, _Var2);
+
+PROC
+PROC_CRIME_Guards_RecoverSpawnedGuard((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_RegionSpawnPool(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var7, 1, _Var8, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_RegionSpawnPool(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+DB_CRIME_Guards_RegionSpawnPool(_Var2, _Var3, _Var4, _Var5, _Var6, _Var8);
+PROC_CRIME_Guards_TransferSpawnedGuardItems(_Var1, _Var5);
+NOT DB_CRIME_Guards_SpawnedGuard(_Var1, _Var2, _Var3);
+NOT DB_CRIME_Guards_SpawnedGuard_WaitOnStage(_Var1, _Var2, _Var3);
+RequestDeleteTemporary(_Var1);
+
+IF
+AddedTo((GUIDSTRING)_Var1, (CHARACTER)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_SpawnedGuard(_Var2, _Var4, _Var5, _Var1, _Var1)
+AND NOT
+DB_CRIME_Guards_SpawnedGuard_WaitOnStage(_Var2, _Var4, _Var5, _Var1, _Var1)
+AND
+IsItem(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_Guards_SpawnedGuardAdded(_Var1, _Var2, _Var6);
+
+PROC
+PROC_CRIME_Guards_SpawnedGuardAdded((GUIDSTRING)_Var1, (CHARACTER)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsStoryItem(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_Guards_SpawnedGuard_AddedObject(_Var2, _Var1);
+
+PROC
+PROC_CRIME_Guards_SpawnedGuardAdded((GUIDSTRING)_Var1, (CHARACTER)_Var2, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CRIME_Guards_SpawnedGuard_AddedObject(_Var2, _Var1);
+
+IF
+RemovedFrom((GUIDSTRING)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_SpawnedGuard_AddedObject(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_SpawnedGuard_AddedObject(_Var2, _Var1);
+
+PROC
+PROC_CRIME_Guards_TransferSpawnedGuardItems((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_SpawnedGuard_AddedObject(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_SpawnedGuard_AddedObject(_Var1, _Var3);
+ToInventory(_Var3, _Var2, -1, 0, 1);
+
+IF
+TimerFinished("CRIME_Guards_ResortSpawnPoolTemplateDB", _, _, _, _)
+THEN
+PROC_CRIME_InternGuards_SortSpawnPoolResort();
+
+PROC
+PROC_CRIME_InternGuards_SortSpawnPoolResort()
+AND
+DB_CRIME_Guards_RegionSpawnPoolGroupTemplate(_Var1, _Var2, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Sorted(_Var1, _Var2, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_InternGuards_SortSpawnPoolGroupTemplates(_Var1, _Var2);
+
+PROC
+PROC_CRIME_InternGuards_SortSpawnPoolGroupTemplates((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_RegionSpawnPoolGroupTemplate(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_RegionSpawnPoolGroupTemplate(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Sorted(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_CRIME_InternGuards_SortSpawnPoolResort()
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Begin(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Begin(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CRIME_InternGuards_SortSpawnPoolResort()
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_End(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_InternGuards_SpawnPoolGroupTemplate_End(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CRIME_InternGuards_SortSpawnPoolResort()
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Count(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Count(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CRIME_InternGuards_SortSpawnPoolResort()
+AND
+DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Sorted(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_InternGuards_SpawnPoolGroupTemplate_Sorted(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+DB_CRIME_Guards_RegionSpawnPoolGroupTemplate(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+QRY
+QRY_SelectCustomDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_BlockPrisonerDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(IsInPrison_c9b75b21-6eba-065e-7680-fc9a0c5838e4, _Var2, 1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(NGB_PrisonerTalksToGuard_1bdc2606-3ab5-e753-4e4b-5ed1275eaa08, _Var1, _Var2);
+
+IF
+Activated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_Guards_PatrolGroup(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+DB_CRIME_Guards_PatrolGroup(_Var2, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var3 != _Var5
+THEN
+TeleportTo(_Var4, _Var1);
+
+IF
+DB_CRIME_Guards_PatrolGroup(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+EscortAddCharacter(_Var2, _Var1);
+
+IF
+DB_CRIME_Guards_PatrolGroup(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 > -1
+THEN
+EscortSetLeaderPriority(_Var2, _Var1, _Var3);
+
+PROC
+PROC_CRIME_Guards_SetPatrolLeader((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CRIME_Guards_GetPatrolLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_Guards_GetPatrolLeader_Leader(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+EscortSetLeader(_Var2, _Var1);
+
+QRY
+QRY_CRIME_Guards_GetPatrolLeader((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_CRIME_Guards_GetPatrolLeader_Leader(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_Guards_GetPatrolLeader_Leader(_Var2);
+
+QRY
+QRY_CRIME_Guards_GetPatrolLeader((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_CRIME_Guards_PotentialLeader(NULL_00000000-0000-0000-0000-000000000000, -1);
+
+QRY
+QRY_CRIME_Guards_GetPatrolLeader((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_PatrolGroup(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CRIME_Guards_PotentialLeader(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var3 > _Var5
+THEN
+NOT DB_CRIME_Guards_PotentialLeader(_Var4, _Var5);
+DB_CRIME_Guards_PotentialLeader(_Var2, _Var3);
+
+QRY
+QRY_CRIME_Guards_GetPatrolLeader((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_PotentialLeader(NULL_00000000-0000-0000-0000-000000000000, -1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_PotentialLeader(NULL_00000000-0000-0000-0000-000000000000, -1);
+
+QRY
+QRY_CRIME_Guards_GetPatrolLeader((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_PotentialLeader(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_PotentialLeader(_Var2, _Var3);
+DB_QRYRTN_CRIME_Guards_GetPatrolLeader_Leader(_Var2);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability_Custom((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var5, (GUIDSTRING)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+IsTagged(_Var3, GUARD_0b52f35e-fb1f-4865-bcd2-5d21ef7343cd, 1, _Var1, _Var1)
+AND
+CrimeGetVictim(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var7, GUARD_0b52f35e-fb1f-4865-bcd2-5d21ef7343cd, 1, _Var1, _Var1)
+AND
+IsAlly(_Var3, _Var7, 1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom("no");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

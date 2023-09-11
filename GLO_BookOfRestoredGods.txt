@@ -1,0 +1,89 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_FlagReactionAfterDialog(GLO_BookOfRestoredGods_Event_GotScroll_4e550249-a360-aecd-9087-57f9aed890ae, GLO_BookOfRestoredGods_466309d6-c4c1-3f49-9238-7c0f9e505a45);
+DB_IgnoreMutingStatussesDialog(GLO_BookOfRestoredGods_466309d6-c4c1-3f49-9238-7c0f9e505a45);
+DB_GlobalFlagReactionAfterDialog(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, GLO_BookOfRestoredGods_466309d6-c4c1-3f49-9238-7c0f9e505a45);
+
+KBSECTION
+IF
+Unlocked(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, _, _, _, _)
+THEN
+SetFlag(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, _, _, _, _)
+AND
+IsLocked(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, 1, _, _, _)
+THEN
+PROC_ForceStopDialog(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d);
+Unlock(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d);
+
+IF
+FlagSet(GLO_BookOfRestoredGods_Event_FailedToOpenTheBook_b83f0498-4de8-d5c2-4615-14e719f908e0, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_BookOfRestoredGods_TriedToOpenBook(_Var1);
+
+IF
+FlagSet(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, _, _, _, _)
+AND
+DB_GLO_BookOfRestoredGods_TriedToOpenBook(_Var3, _, _, _, _)
+THEN
+NOT DB_GLO_BookOfRestoredGods_TriedToOpenBook(_Var3);
+ClearFlag(GLO_BookOfRestoredGods_Event_FailedToOpenTheBook_b83f0498-4de8-d5c2-4615-14e719f908e0, _Var3);
+
+PROC
+PROC_BlockUseOfItem((GUIDSTRING)_Var1, S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_BookOfGods_TryStartDialog(_Var1);
+DB_CustomUseItemResponse(_Var1, S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, 0);
+
+PROC
+PROC_GLO_BookOfGods_TryStartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8, 1, _Var1, _Var1)
+AND
+QRY_StartDialog(GLO_BookOfRestoredGods_466309d6-c4c1-3f49-9238-7c0f9e505a45, S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, GLO_BookOfRestoredGods_Event_GotScroll_4e550249-a360-aecd-9087-57f9aed890ae, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TemplateAddTo(LOOT_SCROLL_RayOfEnfeeblement_cd1da9c5-c9ea-4d2a-93ce-e201c97eded9, _Var1, 1);
+SetFlag(GLO_BookOfRestoredGods_State_ScrollTakenFromBook_58373ac4-1e81-41ed-9429-a21c6695f98b, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+GameBookInterfaceClosed(S_CHA_Crypt_BookOfRestoredGods_a480a240-b8ea-4e6a-b4b9-a8edc8fd4a3d, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(GLO_BookOfRestoredGods_State_BookOpened_4f33a346-8ae4-47a9-8787-79126046827f, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_BookOfRestoredGods_State_ScrollTakenFromBook_58373ac4-1e81-41ed-9429-a21c6695f98b, _Var1, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(LOOT_SCROLL_RayOfEnfeeblement_cd1da9c5-c9ea-4d2a-93ce-e201c97eded9, _Var1, 1);
+SetFlag(GLO_BookOfRestoredGods_State_ScrollTakenFromBook_58373ac4-1e81-41ed-9429-a21c6695f98b, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_GLO_BookOfGods_OptionsLeft((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GLO_BookofRestoredGods_TriedForce_ba2408b3-e843-dd04-5718-13208e4ca960, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_BookOfGods_OptionsLeft((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GLO_BookOfRestoredGods_TriedMagic_39d5024e-ae47-ef46-cd44-d4150d19e538, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

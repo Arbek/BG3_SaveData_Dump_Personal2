@@ -1,0 +1,32 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+HitpointsChanged((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_PlayerComments_Blocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 > 0
+AND
+_Var2 < 20
+AND
+QRY_StartDialog_Fixed(GLO_PAD_LowHealth_aa35f5b5-d50f-d02b-d0e0-80262a304929, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_PlayerComments_Blocked(_Var1);
+ObjectTimerLaunch(_Var1, "GLO_PlayerComments_Blocked", 6000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_PlayerComments_Blocked", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_GLO_PlayerComments_Blocked(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

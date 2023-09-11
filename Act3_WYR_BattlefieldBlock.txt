@@ -1,0 +1,39 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_WYR_Rivington_FlamingFist_001_c2dc31f3-7e26-44b8-b3c6-984fdbd3d554, WYR_Rivington_FlamingFist_001_940f8a15-f3e5-9944-4302-c23c806ae288);
+DB_Dialogs(S_WYR_Rivington_FlamingFist_004_36d86e86-d3de-45c0-a421-c5489231d4e4, WYR_Rivington_FlamingFist_004_54f8b7b1-ef4e-12c2-464b-475af3b8baae);
+PROC_TriggerRegisterForPlayers(S_WYR_Rivington_SeeBattlefieldZone_8b7cf526-cb2a-487b-84a8-2ed1dd9b4750);
+DB_ItemOwnerShipTriggers("BGO_Main_A", S_WYR_BattlefieldBlock_Ownership_cf4e9165-ebc8-4007-a436-9ab7df952df7, S_WYR_Rivington_FlamingFist_004_36d86e86-d3de-45c0-a421-c5489231d4e4);
+
+KBSECTION
+IF
+TextEvent("wyr_battlefield_off", _, _, _, _)
+THEN
+UnloadLevelTemplate(LT_PLT_BGO_Battlefield_A_000_ba443dcd-a60a-4778-a667-713eff097d83);
+
+IF
+TextEvent("wyr_battlefield_on", _, _, _, _)
+THEN
+LoadLevelTemplate(LT_PLT_BGO_Battlefield_A_000_ba443dcd-a60a-4778-a667-713eff097d83);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_WYR_Rivington_SeeBattlefieldZone_8b7cf526-cb2a-487b-84a8-2ed1dd9b4750, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(WYR_Rivington_Knows_PileOfCorpses_54a5526f-9129-44ec-8a6f-7117e037a545, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(WYR_Rivington_Knows_PileOfCorpses_54a5526f-9129-44ec-8a6f-7117e037a545, _, _, _, _)
+THEN
+UnloadLevelTemplate(LT_PLT_BGO_Battlefield_A_000_ba443dcd-a60a-4778-a667-713eff097d83);
+GoalCompleted;
+
+
+EXITSECTION
+PROC_TriggerUnregisterForPlayers(S_WYR_Rivington_SeeBattlefieldZone_8b7cf526-cb2a-487b-84a8-2ed1dd9b4750);
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

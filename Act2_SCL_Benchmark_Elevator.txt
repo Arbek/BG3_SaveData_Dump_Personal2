@@ -1,0 +1,42 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SCL_Benchmark_ElevatorPoints(1, S_PointTrigger_MindFlayerColony_Elevator_B_Top_c33521ed-e6ec-4d04-a6b0-5380183817ed, "TUT_Elevator_002_MoveStart_Up");
+DB_SCL_Benchmark_ElevatorPoints(0, S_PointTrigger_MindFlayerColony_Elevator_B_Bottom_ecf9e1e2-4829-4b1f-bddc-b8c309cccd2c, "TUT_Elevator_002_MoveStart_Down");
+DB_SCL_Benchmark_ElevatorMoveTo(0);
+
+KBSECTION
+IF
+UseStarted(_, S_SCL_MindFlayerColony_Elevator_B__ElevatorSwitch_7f6d12b1-1390-80ad-4018-1c6ca231b1c4, _, _, _)
+AND
+DB_SCL_Benchmark_ElevatorMoveTo(_Var2, _, _, _, _)
+AND
+DB_SCL_Benchmark_ElevatorPoints(_Var2, _Var3, _Var4, _, _)
+AND
+GetPosition(_Var3, _Var5, _Var6, _Var7, _)
+THEN
+PlatformMoveTo(S_LT_PLT_SCL_MindFlayerColony_Elevator_B_000_7b7c5d99-e011-4a96-af60-a556fbceeb0b, _Var5, _Var6, _Var7, 3, "SCL_Benchmark_ElevatorMoved", 0);
+ItemMoveToPosition(S_SCL_MindFlayerColony_SoundHelper_fab2cf8c-f204-4ec3-9a00-e16231fd13ff, _Var5, _Var6, _Var7, 3, 0, "", 0);
+PlaySound(S_SCL_MindFlayerColony_SoundHelper_fab2cf8c-f204-4ec3-9a00-e16231fd13ff, _Var4);
+
+IF
+PlatformMovementFinished(S_LT_PLT_SCL_MindFlayerColony_Elevator_B_000_7b7c5d99-e011-4a96-af60-a556fbceeb0b, "SCL_Benchmark_ElevatorMoved", _, _, _)
+THEN
+PlaySound(S_SCL_MindFlayerColony_SoundHelper_fab2cf8c-f204-4ec3-9a00-e16231fd13ff, "TUT_Elevator_002_MoveStop");
+
+IF
+PlatformMovementFinished(S_LT_PLT_SCL_MindFlayerColony_Elevator_B_000_7b7c5d99-e011-4a96-af60-a556fbceeb0b, "SCL_Benchmark_ElevatorMoved", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SCL_Benchmark_ElevatorMoveTo(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Benchmark_ElevatorMoveTo(_Var1);
+DB_SCL_Benchmark_ElevatorMoveTo(_Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2_SCL_Benchmark"

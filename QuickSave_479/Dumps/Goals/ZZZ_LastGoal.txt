@@ -1,0 +1,217 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ClearAutomatedDialog((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_ClearDialogPlayers(_Var1);
+PROC_ClearDialogNPCs(_Var1);
+PROC_ClearDialogSpeakers(_Var1);
+PROC_ClearDialogCounts(_Var1);
+NOT DB_AutomatedDialog(_Var1);
+
+IF
+VoiceBarkEnded(_, (INTEGER)_Var2, (VOICEBARKRESOURCE)_, (VOICEBARKRESOURCE)_, (VOICEBARKRESOURCE)_)
+THEN
+NOT DB_AutomatedDialogIsVB(_Var2);
+PROC_ClearAutomatedDialog(_Var2);
+
+IF
+AutomatedDialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND NOT
+DB_AutomatedDialogIsVB(_Var2, _, _, _, _)
+THEN
+PROC_ClearAutomatedDialog(_Var2);
+
+IF
+AutomatedDialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_DialogName(_Var1, _Var2);
+NOT DB_DialogRequestFailed(_Var1, _Var2);
+NOT DB_DialogEnding(_Var1, _Var2);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ClearDialogPlayers(_Var2);
+PROC_ClearDialogNPCs(_Var2);
+PROC_ClearDialogSpeakers(_Var2);
+PROC_ClearDialogCounts(_Var2);
+NOT DB_DialogName(_Var1, _Var2);
+NOT DB_DialogRequestFailed(_Var1, _Var2);
+NOT DB_DialogEnding(_Var1, _Var2);
+
+IF
+DialogActorLeft((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, 0, (DIALOGRESOURCE)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_DialogPlayers(_Var2, _Var3, _Var4);
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, 0, (GUIDSTRING)_Var1)
+AND
+DB_DialogNPCs(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_DialogNPCs(_Var2, _Var3, _Var4);
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, 0, (GUIDSTRING)_Var1)
+AND
+DB_DialogSpeakers(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_DialogSpeakers(_Var2, _Var3, _Var4);
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, 0, (GUIDSTRING)_Var1)
+THEN
+PROC_SetNumberOfInvolvedActors(_Var2);
+
+PROC
+PROC_ClearDialogPlayers((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_DialogPlayers(_Var1, _Var2, _Var3);
+
+PROC
+PROC_ClearDialogNPCs((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogNPCs(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_DialogNPCs(_Var1, _Var2, _Var3);
+
+PROC
+PROC_ClearDialogSpeakers((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogSpeakers(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_DialogSpeakers(_Var1, _Var2, _Var3);
+
+PROC
+PROC_ClearDialogCounts((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogNumPlayers(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogNumNPCs(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DialogNumPlayers(_Var1, _Var2);
+NOT DB_DialogNumNPCs(_Var1, _Var3);
+
+IF
+CharacterCreationFinished()
+THEN
+NotifyCharacterCreationFinished();
+
+IF
+OnCrimeMergedWith((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_CRIME_Finished(_Var1);
+
+IF
+OnCrimeRemoved((INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_CRIME_Finished(_Var1);
+
+IF
+OnCrimeResolved((INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_CRIME_Finished(_Var1);
+
+PROC
+PROC_CharacterRegisterCrime_Blocked((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CRIME_Finished(_Var6);
+
+IF
+CharacterLeftParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_IsOrWasInParty(_Var1);
+NOT DB_PlayerSummons(_Var1);
+
+IF
+CharacterLeftParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyFollowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PartyFollowers(_Var1);
+
+IF
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyFollowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TutorialCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PartyMembers(_Var1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_CRIME_WaitingForDialogStop(_Var3, _Var2, _, _, _)
+THEN
+NOT DB_CRIME_WaitingForDialogStop(_Var3, _Var2);
+
+IF
+AutomatedDialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_CRIME_WaitingForDialogStop(_Var3, _Var2, _, _, _)
+THEN
+NOT DB_CRIME_WaitingForDialogStop(_Var3, _Var2);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_ZZZ_LevelLoaded(_Var1);
+
+IF
+DB_ZZZ_LevelLoaded(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CharacterCreationStarted(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_LevelLoadedOnce(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LevelLoadedOnce(_Var1);
+PROC_LevelLoadedOnce(_Var1);
+
+PROC
+PROC_LevelLoadedOnce((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_Origins_SetupRecruitment((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_LevelGameplayLoadedOnce_WaitForGameplay(_Var1);
+
+IF
+LevelGameplayStarted((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LevelGameplayLoadedOnce_WaitForGameplay(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LevelGameplayLoadedOnce_WaitForGameplay(_Var1);
+PROC_LevelGameplayLoadedOnce(_Var1);
+
+PROC
+PROC_LevelGameplayLoadedOnce((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EnteredChasm((GUIDSTRING)_Var1, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+EnterChasmProcessed(_Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+

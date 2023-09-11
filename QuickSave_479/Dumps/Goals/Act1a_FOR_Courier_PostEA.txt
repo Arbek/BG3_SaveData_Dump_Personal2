@@ -1,0 +1,532 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_BookFlags(S_FOR_Courier_Letter1_e599debc-5e67-4baa-a4da-5cc6c6c64b23, LOW_KurwinCoffin_Knows_ReadNineFingersNote_8b458528-dc75-4332-b817-5e887ec8bb93);
+SetTag(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f);
+DB_FOR_Courier_AlwaysOn(1);
+
+KBSECTION
+IF
+LevelLoaded(_, _, _, _, _)
+AND
+Exists(S_CAMP_Courier_Dog_FakeBoo_LT_WLD_Campfire_A_000_f27c3558-a69e-440c-a00d-611178e5d07f, 1, _, _, _)
+AND
+QRY_OnlyOnce("FOR_Courier_Init", _, _, _, _)
+THEN
+PROC_SetOnStage(S_CAMP_Courier_Dog_FakeBoo_LT_WLD_Campfire_A_000_f27c3558-a69e-440c-a00d-611178e5d07f, 0);
+
+IF
+FlagSet(CAMP_Courier_Dog_Event_GiveFakeBoo_d868c86b-08b7-8300-ff3a-70290d1a5dbe, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_SetOnStage(S_CAMP_Courier_Dog_FakeBoo_LT_WLD_Campfire_A_000_f27c3558-a69e-440c-a00d-611178e5d07f, 1);
+ToInventory(S_CAMP_Courier_Dog_FakeBoo_LT_WLD_Campfire_A_000_f27c3558-a69e-440c-a00d-611178e5d07f, _Var1, 1, 1, 1);
+
+IF
+AddedTo(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f, 1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_CourierDog_AddSpell_FindFamiliarDog(_Var1);
+
+IF
+TagSet(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_FOR_CourierDog_AddSpell_FindFamiliarDog(_Var1);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var1, 1, _Var1, _Var1)
+AND
+IsTagged(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f, 1, _Var1, _Var1)
+THEN
+PROC_FOR_CourierDog_AddSpell_FindFamiliarDog(_Var1);
+
+PROC
+PROC_FOR_CourierDog_AddSpell_FindFamiliarDog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasSpell(_Var1, "Target_FindFamiliar_Dog", 0, _Var1, _Var1)
+THEN
+DB_FOR_CourierDog_CurrentSummoner(_Var1);
+AddSpell(_Var1, "Target_FindFamiliar_Dog", 1, 0);
+SetFlag(FOR_Courier_State_CanSummonDog_dded6f0a-25ea-a278-30e1-37d79e4e63c7, _Var1);
+
+IF
+TagCleared(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_CurrentSummoner(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_CourierDog_RemoveSpell_FindFamiliarDog(_Var1);
+
+IF
+DB_FOR_CourierDog_CurrentSummoner(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_CourierDog_CurrentSummoner(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+PROC_FOR_CourierDog_RemoveSpell_FindFamiliarDog(_Var2);
+
+PROC
+PROC_FOR_CourierDog_RemoveSpell_FindFamiliarDog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_FOR_CourierDog_KillActiveSummon();
+RemoveSpell(_Var1, "Target_FindFamiliar_Dog", 0);
+NOT DB_FOR_CourierDog_CurrentSummoner(_Var1);
+ClearFlag(FOR_Courier_State_CanSummonDog_dded6f0a-25ea-a278-30e1-37d79e4e63c7, _Var1);
+
+IF
+CastSpell((GUIDSTRING)_Var1, "Target_FindFamiliar_Dog", _, _, _)
+THEN
+DB_FOR_CourierDog_SummonSpellUsedBy(_Var1);
+
+IF
+ShortRested((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_SummonSpellUsedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_CourierDog_SummonSpellUsedBy(_Var1);
+
+PROC
+PROC_LongRest()
+AND
+DB_FOR_CourierDog_SummonSpellUsedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_CourierDog_SummonSpellUsedBy(_Var1);
+
+IF
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, DogFamiliar_Scratch_Summon_b5deaa14-03b5-41c6-8372-7a9d758b4dfb, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_CourierDog_FamiliarSummoned(_Var1);
+
+PROC
+PROC_FOR_CourierDog_FamiliarSummoned((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetHasDialog(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901, 0);
+PROC_Poof(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901);
+DB_FOR_CourierDog_ActiveSummon(_Var1);
+
+IF
+CharacterLeftParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var1, 1, _Var1, _Var1)
+THEN
+ToInventory(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901);
+
+IF
+CharacterLeftParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_CourierDog_FamiliarUnsummoned(_Var1);
+
+PROC
+PROC_FOR_CourierDog_FamiliarUnsummoned((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_Foop(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901);
+SetHasDialog(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901, 1);
+NOT DB_FOR_CourierDog_ActiveSummon(_Var1);
+
+IF
+TeleportedToCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901, _Var1);
+PROC_DismissToCamp(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901);
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0, 0);
+
+PROC
+PROC_FOR_CourierDog_KillActiveSummon()
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0, 0);
+
+IF
+DB_FOR_CourierDog_CanSummon(1, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_CourierDog_State_IsPermaDefeated_4d17c54b-9507-4948-bbcc-0fe307f79f0b, _, _, _, _)
+THEN
+NOT DB_FOR_CourierDog_CanSummon(1);
+ClearTag(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f);
+
+IF
+DB_FOR_CourierDog_CanSummon(1, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_CourierDog_State_UnavailableForSummon_0fef1fa5-9216-4833-94c1-5fe1da7da7c7, _, _, _, _)
+THEN
+NOT DB_FOR_CourierDog_CanSummon(1);
+ClearTag(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f);
+
+IF
+DB_FOR_Courier_AlwaysOn(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_CourierDog_State_IsPermaDefeated_4d17c54b-9507-4948-bbcc-0fe307f79f0b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_CourierDog_State_UnavailableForSummon_0fef1fa5-9216-4833-94c1-5fe1da7da7c7, _, _, _, _)
+THEN
+DB_FOR_CourierDog_CanSummon(1);
+SetTag(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SCRATCH_AURA_DISCOVERED", _, _, (GUIDSTRING)_Var1)
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var4, "SCRATCH_DISCOVERED", 0, _Var1, _Var1)
+THEN
+PROC_FOR_CourierDog_Aura_DetectedItem(_Var1);
+
+PROC
+PROC_FOR_CourierDog_Aura_DetectedItem(_, _, _, _, _)
+AND NOT
+DB_FOR_CourierDog_Aura_TimerLaunched(1, _, _, _, _)
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var2, _, _, _, _)
+THEN
+PROC_FOR_CourierDog_Aura_ClearDetectedItems();
+ObjectTimerLaunch(_Var2, "FOR_CourierDog_Aura_WaitedBeforeRevealing", 4000, 0);
+DB_FOR_CourierDog_Aura_TimerLaunched(1);
+
+PROC
+PROC_FOR_CourierDog_Aura_ClearDetectedItems()
+AND
+DB_FOR_CourierDog_Aura_DetectedItems(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_CourierDog_Aura_DetectedItems(_Var1);
+
+PROC
+PROC_FOR_CourierDog_Aura_DetectedItem((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_CourierDog_Aura_TimerLaunched(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, DISCOVERABLE_ebe17d12-23a8-4554-8bf4-20589d42ea52);
+DB_FOR_CourierDog_Aura_DetectedItems(_Var1);
+
+IF
+TagCleared((GUIDSTRING)_Var1, DISCOVERABLE_ebe17d12-23a8-4554-8bf4-20589d42ea52, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_CourierDog_Aura_DetectedItems(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_CourierDog_Aura_DetectedItems(_Var1);
+
+IF
+ObjectTimerFinished(_, "FOR_CourierDog_Aura_WaitedBeforeRevealing", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_FOR_CourierDog_Aura_TimerLaunched(1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "FOR_CourierDog_Aura_WaitedBeforeRevealing", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_FOR_CourierDog_Aura_FindClosestItem()
+AND
+DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "FOR_CourierDog_Aura_MoveToDiscoveredItem", 1);
+
+QRY
+QRY_FOR_CourierDog_Aura_FindClosestItem()
+AND
+DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_Var1, _Var2);
+
+QRY
+QRY_FOR_CourierDog_Aura_FindClosestItem()
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_CourierDog_Aura_DetectedItems(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetRegion(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var1, _Var4, _Var1, _Var1)
+AND
+_Var4 <= 30
+THEN
+PROC_FOR_CourierDog_Aura_FindClosestItem(_Var2, _Var4);
+
+PROC
+PROC_FOR_CourierDog_Aura_FindClosestItem((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_Var1, _Var2);
+
+PROC
+PROC_FOR_CourierDog_Aura_FindClosestItem((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 < _Var4
+THEN
+NOT DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_Var3, _Var4);
+DB_QRYRTN_FOR_CourierDog_Aura_FindClosestItem(_Var1, _Var2);
+
+QRY
+QRY_CourierDog_BallThrown_PostEA()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_ItemThrownByPlayer((CHARACTER)_Var1, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f, 0, _Var1, _Var1)
+THEN
+PROC_TryStartAD(Scratch_SummonUnavailable_PAD_84aafd7d-0e0c-74d8-7be4-791021a771a4, _Var1);
+
+PROC
+PROC_ItemThrownByPlayer((GUIDSTRING)_Var1, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, ALLOW_FIND_DOG_FAMILIAR_4fe9c7b8-2f74-4467-901e-00be49468c9f, 1, _Var1, _Var1)
+THEN
+PROC_FOR_Courier_BallThrown(_Var1);
+
+PROC
+PROC_FOR_Courier_BallThrown(_, _, _, _, _)
+AND
+DB_FOR_CourierDog_IsFetching(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_FOR_CourierDog_IsFetching(_Var2, _Var3);
+
+PROC
+PROC_FOR_Courier_BallThrown(_, _, _, _, _)
+AND
+DB_FOR_CourierDog_ActiveScratch(_Var2, _, _, _, _)
+THEN
+NOT DB_FOR_CourierDog_ActiveScratch(_Var2);
+
+PROC
+PROC_FOR_Courier_BallThrown(_, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+DialogRequestStop(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901);
+
+PROC
+PROC_FOR_Courier_BallThrown((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_CourierDog_ActiveScratch(_Var2);
+
+PROC
+PROC_FOR_Courier_BallThrown((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_FOR_CourierDog_ActiveSummon(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_CourierDog_ActiveScratch(S_FOR_Courier_Dog_3059f69c-068d-4e28-8491-55953c027901);
+
+PROC
+PROC_FOR_Courier_BallThrown((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_FOR_CourierDog_IsFetching(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_FOR_CourierDog_ActiveScratch(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetInnerDistanceTo(_Var3, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var4, _Var1, _Var1)
+AND
+_Var4 < 30
+THEN
+DB_FOR_CourierDog_IsFetching(_Var1, _Var3);
+PROC_CharacterMoveTo(_Var3, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, "Run", "FOR_CourierDog_AtBall2");
+
+PROC
+PROC_CharacterMoveToCancelled((CHARACTER)_Var1, "FOR_CourierDog_AtBall2", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_IsFetching(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "FOR_CourierDog_ReadyToMoveToBall");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "FOR_CourierDog_ReadyToMoveToBall", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, "Run", "FOR_CourierDog_AtBall2");
+
+PROC
+PROC_FOR_Courier_BallThrown((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_FOR_CourierDog_IsFetching(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_FOR_CourierDog_ActiveScratch(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_CourierDog_IsFetching(_Var1, _Var3);
+PROC_DisappearOutOfSightTo(_Var3, _Var1, "Run", 1, "FOR_CourierDog_Disappear_FromCamp2");
+
+IF
+EntityEvent((CHARACTER)_Var1, "FOR_CourierDog_Disappear_FromCamp2", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_IsFetching(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_AppearOutOfSightTo(_Var1, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, S_HAG_HagLair_PointAtInfinity_130a0b93-cacd-4f2b-a64d-b2cb2d887c59, "FOR_CourierDog_BlinkedBeforePickup2");
+
+PROC
+PROC_FOR_Courier_BallThrown((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_FOR_CourierDog_IsFetching(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_FOR_CourierDog_SummonSpellUsedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasSpell(_Var1, "Target_FindFamiliar_Dog", 1, _Var1, _Var1)
+THEN
+UseSpell(_Var1, "Target_FindFamiliar_Dog", S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f);
+DB_FOR_CourierDog_IsFetching(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_FOR_Courier_BallThrown((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_FOR_CourierDog_IsFetching(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(Scratch_SummonUnavailable_PAD_84aafd7d-0e0c-74d8-7be4-791021a771a4, _Var1);
+
+PROC
+PROC_FOR_CourierDog_FamiliarSummoned((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_IsFetching(_Var2, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_CourierDog_IsFetching(_Var2, NULL_00000000-0000-0000-0000-000000000000);
+DB_FOR_CourierDog_IsFetching(_Var2, _Var1);
+SetEntityEvent(_Var1, "FOR_CourierDog_BlinkedBeforePickup2");
+
+IF
+EntityEvent((CHARACTER)_Var1, "FOR_CourierDog_BlinkedBeforePickup2", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_IsFetching(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, "Run", "FOR_CourierDog_AtBall2");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "FOR_CourierDog_AtBall2", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_CourierDog_IsFetching(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, 0, _Var1, _Var1, _Var1)
+AND
+GetInnerDistanceTo(_Var1, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var3, _Var1, _Var1)
+AND
+_Var3 < 5
+THEN
+SetHasDialog(_Var1, 0);
+Pickup(_Var1, S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, "");
+
+IF
+AddedTo(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_CourierDog_IsFetching(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetInnerDistanceTo(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 < 50
+THEN
+PROC_CharacterMoveTo(_Var1, _Var3, "Run", "FOR_CourierDog_AtPlayer2");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "FOR_CourierDog_AtPlayer2", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_CourierDog_IsFetching(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetInnerDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 5
+THEN
+PROC_FOR_CourierDog_FetchedBallAchievementHook(_Var2);
+ToInventory(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var2, 1, 1, 1);
+NOT DB_FOR_CourierDog_IsFetching(_Var2, _Var1);
+SetHasDialog(_Var1, 1);
+
+PROC
+PROC_FOR_CourierDog_FetchedBallAchievementHook((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CAMP_LeftCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_IsFetching(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_CourierDog_IsFetching(_Var1, _Var2);
+SetHasDialog(_Var2, 1);
+PROC_ClearStoryMove(_Var2);
+PROC_FOR_CourierDog_MagicPickupBall(_Var2);
+
+PROC
+PROC_FOR_CourierDog_MagicPickupBall((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInInventory(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, 0, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var1, 1, 0, 1);
+
+IF
+TextEvent("dog2camp2", _, _, _, _)
+THEN
+PROC_FOR_Courier_Dog2Camp2();
+
+IF
+TextEvent("Scratch_KillSummon", _, _, _, _)
+THEN
+PROC_FOR_CourierDog_KillActiveSummon();
+
+IF
+FlagSet(WYR_Posthouse_Debug_Dog2Camp2_92f442e1-e948-6593-9637-ef18c7fa52dd, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(WYR_Posthouse_Debug_Dog2Camp2_92f442e1-e948-6593-9637-ef18c7fa52dd);
+PROC_FOR_Courier_Dog2Camp2();
+
+PROC
+PROC_FOR_Courier_Dog2Camp2()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_Courier_Dog_MoveToCamp();
+ToInventory(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var1);
+PROC_SetOnStage(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, 1);
+
+IF
+TextEvent("Debug_CourierDog_SetTag", _, _, _, _)
+THEN
+SetTag(PUZ_GEN_Button_A_000_98b7bb9e-8077-4314-8e15-5488c9fd8425, DISCOVERABLE_ebe17d12-23a8-4554-8bf4-20589d42ea52);
+
+IF
+TextEvent("Scratch_WhatIsItBoy", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_CourierDog_ActiveSummon(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "FOR_CourierDog_Aura_MoveToDiscoveredItem", 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

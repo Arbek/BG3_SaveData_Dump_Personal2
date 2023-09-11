@@ -1,0 +1,93 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DestroyingBy(S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507, _, _, _, _)
+AND NOT
+DB_FOR_DangerousBook_BookDestoyedPos(_, _, _, _, _)
+AND
+GetPosition(S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507, _Var7, _Var8, _Var9, _)
+THEN
+DB_FOR_DangerousBook_BookDestoyedPos(_Var7, _Var8, _Var9);
+
+IF
+DB_FOR_DangerousBook_DestroyedNoVB(1, _, _, _, _)
+THEN
+PROC_FOR_DangerousBook_OnBookDestroyed();
+
+IF
+VoiceBarkEnded(FOR_DangerousBook_VB_BookDestroyed_b3dd9bc6-1967-378c-d7dc-9c1b70eddebc, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_FOR_DangerousBook_OnBookDestroyed();
+
+IF
+VoiceBarkFailed(FOR_DangerousBook_VB_BookDestroyed_b3dd9bc6-1967-378c-d7dc-9c1b70eddebc, _, _, _, _)
+THEN
+PROC_FOR_DangerousBook_OnBookDestroyed();
+
+PROC
+PROC_FOR_DangerousBook_OnBookDestroyed()
+AND
+QRY_OnlyOnce("FOR_DangerousBook_BookDestroyed_SummonShades", _, _, _, _)
+THEN
+TimerLaunch("FOR_DangerousBook_BookDestroyed_SummonShades_Timer", 1200);
+
+IF
+TimerFinished("FOR_DangerousBook_BookDestroyed_SummonShades_Timer", (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+DB_FOR_DangerousBook_BookDestoyedPos(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+CreateSurfaceAtPosition(_Var1, _Var2, _Var3, "SurfaceDarknessCloud", 3, 3, NULL_00000000-0000-0000-0000-000000000000);
+PROC_FOR_DangerousBook_SummonShades(3, _Var1, _Var2, _Var3);
+
+PROC
+PROC_FOR_DangerousBook_SummonShades((INTEGER)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (INTEGER)_Var1)
+AND
+QRY_DoNTimes(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_DoNTimes(_, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAt(Shadow_A_749b1e7d-63a1-4a3d-b0ca-f237b9ada5c4, _Var2, _Var3, _Var4, 0, 1, "", _Var6, _Var1, _Var1)
+THEN
+DB_FOR_DangerousBook_Shadows(_Var6);
+SetFaction(_Var6, GLO_DangerousBook_Shadows_df957427-b9f5-4f28-8671-ed5ae2512840);
+
+IF
+Saw((CHARACTER)_Var1, (CHARACTER)_Var2, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_DangerousBook_Shadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_FOR_DangerousBook_Shadows(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(GLO_DangerousBook_Shadows_df957427-b9f5-4f28-8671-ed5ae2512840, _Var4, 0);
+
+IF
+BaseFactionChanged((CHARACTER)_Var1, _, (FACTION)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_DangerousBook_Shadows(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_FOR_DangerousBook_Shadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(GLO_DangerousBook_Shadows_df957427-b9f5-4f28-8671-ed5ae2512840, _Var3, 0);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_DangerousBook_Shadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_DangerousBook_Shadows(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

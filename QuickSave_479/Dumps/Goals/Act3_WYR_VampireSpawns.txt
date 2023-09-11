@@ -1,0 +1,193 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_WYR_VampireSpawns_Dalyria_204a74d2-e6ad-4e9b-a275-f03cb5f3d975, WYR_VampireSpawns_Dalyria_6b2df18f-a498-146e-13c3-c2a5d3c02287);
+DB_Dialogs(S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b, WYR_VampireSpawns_Petra_4270d451-e31a-9da8-e0bb-d9ee8aa5a5e4);
+DB_SceneManager(S_WYR_VampireSpawns_Dalyria_204a74d2-e6ad-4e9b-a275-f03cb5f3d975, "WYR_Flophouse_Spawns");
+DB_SceneManager(S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b, "WYR_Flophouse_Spawns");
+DB_SceneTriggerManager("WYR_Flophouse_Spawns", S_WYR_Flophouse_FirstFloor_b4100439-799e-49a8-acc0-1934465f4845);
+DB_SceneNoHostileContinuousDisturbance("WYR_Flophouse_Spawns");
+PROC_DefineSingleOriginMoment(WYR_VampireSpawns_NoAstarion_88b7cbfa-265d-c4fb-485c-f41c78d948d8, ASTARION_23a46e79-e73c-4043-940f-cb0aace9ab2e, WYR_VampireSpawns_OM_Astarion_AOM_OOM_bdd29b6e-7dca-2aab-8558-10260f1f5f88, WYR_VampireSpawns_OM_Astarion_COM_edfd3209-d298-7854-c369-3a5c153a642f, WYR_VampireSpawns_OM_Astarion_AOM_OOM_bdd29b6e-7dca-2aab-8558-10260f1f5f88);
+DB_OriginMoment_ExtraNPCs(WYR_VampireSpawns_OM_Astarion_AOM_OOM_bdd29b6e-7dca-2aab-8558-10260f1f5f88, S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b);
+DB_OriginMoment_ExtraNPCs(WYR_VampireSpawns_OM_Astarion_COM_edfd3209-d298-7854-c369-3a5c153a642f, S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b);
+DB_WYR_VampireSpawns_Spawns(S_WYR_VampireSpawns_Dalyria_204a74d2-e6ad-4e9b-a275-f03cb5f3d975);
+DB_WYR_VampireSpawns_Spawns(S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b);
+DB_WYR_VampireSpawns_OriginMomentDialogs(WYR_VampireSpawns_OM_Astarion_AOM_OOM_bdd29b6e-7dca-2aab-8558-10260f1f5f88);
+DB_WYR_VampireSpawns_OriginMomentDialogs(WYR_VampireSpawns_OM_Astarion_COM_edfd3209-d298-7854-c369-3a5c153a642f);
+
+KBSECTION
+IF
+DB_WYR_VampireSpawns_Spawns(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetImmortal(_Var1, 1);
+
+PROC
+PROC_SceneInterrupted(_, (CHARACTER)_Var2, "WYR_Flophouse_Spawns", (STRING)_Var3, _)
+AND
+DB_GLO_GenericSceneManager_ViolenceReason(_Var3, _, _, _, _)
+THEN
+PROC_WYR_VampireSpawns_SendToCazador();
+
+PROC
+PROC_SceneInterrupted(_, (CHARACTER)_Var2, "WYR_Flophouse_Spawns", "DisturbanceRegistering", _)
+AND
+DB_SceneManager_DisturbanceRegistering(_Var2, _Var3, _, _, _, _, _, _, _, _)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var3, "Steal", _, _, _)
+THEN
+PROC_WYR_VampireSpawns_SendToCazador();
+
+PROC
+PROC_SceneInterrupted(_, (CHARACTER)_Var2, "WYR_Flophouse_Spawns", "LeftTrigger", (GUIDSTRING)_)
+THEN
+PROC_WYR_VampireSpawns_SendToCazador();
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_VampireSpawns_Spawns(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_VampireSpawns_State_MovedToCazador_a03cf538-552c-a672-db83-10e9ceaf99e2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_VampireSpawns_NoAstarion_88b7cbfa-265d-c4fb-485c-f41c78d948d8, S_WYR_VampireSpawns_Dalyria_204a74d2-e6ad-4e9b-a275-f03cb5f3d975, S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b, _Var2);
+
+IF
+DialogStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_VampireSpawns_OriginMomentDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(WYR_VampireSpawns_Knows_AstarionInCity_d8b89f75-b06f-bc60-684c-6010a061b6c8);
+
+IF
+FlagSet(WYR_VampireSpawns_State_ToldAscension_a48047ea-da16-4451-838d-d129ed8ecbae, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(WYR_VampireSpawns_Event_TurnedToPlayer_8374d4e4-9436-4a6a-b8fb-306fe3ef35c0);
+
+IF
+FlagSet(WYR_VampireSpawns_Event_TurnedToPlayer_8374d4e4-9436-4a6a-b8fb-306fe3ef35c0, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(WYR_VampireSpawns_Event_TurnedToPlayer_8374d4e4-9436-4a6a-b8fb-306fe3ef35c0);
+LookFromTrigger(S_WYR_VampireSpawns_Dalyria_204a74d2-e6ad-4e9b-a275-f03cb5f3d975, S_WYR_VampireSpawns_LookFromTrigger_3f8ac17e-d9e7-41a1-8081-9d8d54731c2b, 0);
+LookFromTrigger(S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b, S_WYR_VampireSpawns_LookFromTrigger_3f8ac17e-d9e7-41a1-8081-9d8d54731c2b, 0);
+NOT DB_DoNotFace(S_WYR_VampireSpawns_Dalyria_204a74d2-e6ad-4e9b-a275-f03cb5f3d975);
+NOT DB_DoNotFace(S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b);
+
+IF
+FlagSet(WYR_VampireSpawns_Event_RemoveSpawnsFromDialog_59f7c9cb-e064-428d-83a1-eaed1d338d5b, _, (INTEGER)_Var2, _, _)
+AND
+DB_WYR_VampireSpawns_Spawns(_Var3, _, _, _, _)
+AND
+DialogRemoveActorFromDialog(_Var2, _Var3, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(WYR_VampireSpawns_Event_RemoveSpawnsFromDialog_59f7c9cb-e064-428d-83a1-eaed1d338d5b, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _, _)
+THEN
+DB_WYR_VampireSpawns_QueuedVB(_Var2, _Var3);
+PROC_WYR_VampireSpawns_SendToCazador();
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_WYR_VampireSpawns_QueuedVB(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+TimerLaunch("WYR_VampireSpawns_QueuedVB", 500);
+
+IF
+TimerFinished("WYR_VampireSpawns_QueuedVB", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_WYR_VampireSpawns_QueuedVB(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_VampireSpawns_QueuedVB(_Var1, _Var2);
+PROC_Act3_VampireSpawns_CommentOnSpawnEscape(_Var2);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_WYR_VampireSpawns_OriginMomentDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_VampireSpawns_SendToCazador();
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(WYR_VampireSpawns_State_InvitedToPalace_34a280bd-f3d1-473f-b0df-e5615dcb7705, _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_VampireSpawns_State_InvitedToPalaceAndWentHome", _, _, _, _)
+THEN
+PROC_WYR_VampireSpawns_SendToCazador();
+
+IF
+FlagSet(CURRENTREGION_BGO_Main_A_11239767-48ad-4879-8312-b9164b6e4978, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_VampireSpawns_State_InvitedToPalace_34a280bd-f3d1-473f-b0df-e5615dcb7705, _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_VampireSpawns_State_InvitedToPalaceAndWentHome", _, _, _, _)
+THEN
+PROC_WYR_VampireSpawns_SendToCazador();
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog((DIALOGRESOURCE)_Var1, _, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_WYR_VampireSpawns_OriginMomentDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_WYR_VampireSpawns_SendToCazador()
+AND
+QRY_OnlyOnce("WYR_VampireSpawns_SendToCazador", _, _, _, _)
+THEN
+PROC_WYR_VampireSpawns_SendToCazador_Intern();
+
+PROC
+PROC_WYR_VampireSpawns_SendToCazador_Intern()
+THEN
+PROC_SceneOver("WYR_Flophouse_Spawns");
+
+PROC
+PROC_WYR_VampireSpawns_SendToCazador_Intern()
+AND
+DB_WYR_VampireSpawns_Spawns(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Act3_VampireSpawns_SendToPalace(_Var1);
+
+PROC
+PROC_WYR_VampireSpawns_SendToCazador_Intern()
+AND NOT
+DB_WYR_VampireSpawns_QueuedVB(_, _, _, _, _)
+AND
+DB_WYR_VampireSpawns_Spawns(_Var3, _, _, _, _)
+AND NOT
+DB_OnlyOnce("Act3_VampireSpawns_CommentOnSpawnEscape", _, _, _, _)
+AND
+GetClosestAlivePlayer(_Var3, _Var4, _, _, _)
+THEN
+PROC_Act3_VampireSpawns_CommentOnSpawnEscape(_Var4);
+
+PROC
+PROC_WYR_VampireSpawns_SendToCazador_Intern()
+THEN
+PROC_GlobalSetFlagAndCache(WYR_VampireSpawns_State_MovedToCazador_a03cf538-552c-a672-db83-10e9ceaf99e2);
+
+IF
+FlagSet(WYR_VampireSpawns_State_ToldAscension_a48047ea-da16-4451-838d-d129ed8ecbae, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Astarion_Knows_RitualsPurpose_d1dc0f8a-b77d-4e40-a501-a66e163b8376, _, _, _, _)
+THEN
+PROC_TopicalGreeting_UnlockTopic(TG_ORI_Astarion_SpawnToldRitual_fdee3e48-b521-49f3-9cc6-29a9442164e5);
+
+IF
+FlagSet(WYR_VampireSpawns_State_MovedToCazador_a03cf538-552c-a672-db83-10e9ceaf99e2, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

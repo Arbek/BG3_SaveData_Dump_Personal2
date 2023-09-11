@@ -1,0 +1,32 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_LOW_PrisonGuard_01_6dd2049c-413c-4c68-b58f-2a0cf5094053, LOW_PrisonGuard_01_b6a43fac-c08c-6534-53c1-04bd51fa48ec);
+DB_Dialogs(S_LOW_PrisonGuard_02_f7773813-75fe-4aae-99cb-7160f64f630d, LOW_PrisonGuard_02_c7203b1f-b40c-43b3-1e1f-600ae9c2dc57);
+DB_Dialogs(S_LOW_PrisonGuard_03_aebea090-1245-4d27-a105-46e37c5852b0, LOW_PrisonGuard_03_613a8602-5f75-70a6-c389-744bad559f5f);
+DB_RegionPrison("CTY_Main_A_LowerCity", S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, S_LOW_Prison_SpawnPoint_df3573d9-9748-44dc-880c-88d17e89b1ac);
+DB_FugitiveArea(S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, S_LOW_BasiliskGate_Prison_SUB_02fab939-1f5f-4cc5-8fe8-acae0b864576);
+DB_PrisonReactionTrigger(S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, S_LOW_Prison_CrimeRegion_65df8e10-39b5-4f28-aa10-fa438dc2249d);
+DB_PrisonReactionTrigger(S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, S_LOW_CrimeRegion_2cd89377-b7a7-4f24-a454-2db9f4adbf76);
+DB_PlayerPrison(S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, "PrisonEscape", "PrisonEscape_AD", "GB_FUGITIVE");
+DB_PlayerPrison_Door(S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, S_LOW_Prison_PlayerCellDoor_f3625de3-e2c1-433b-a05c-aa467e587879, "LOW_PRISON_PLAYERCELL");
+DB_PrisonChest(S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, S_LOW_Prison_PrisonChest_b3021c84-2d3b-438c-9b9e-9c6edba04ed3);
+DB_PrisonEvidenceChest(S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, S_LOW_Prison_EvidenceChest_3f5be8e6-84c8-44ec-abb8-31cd88fe1424);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_Prison_Ownership_2a56abb8-11cb-4bfa-bcb4-2abc0694a655, S_LOW_PrisonGuard_01_6dd2049c-413c-4c68-b58f-2a0cf5094053);
+DB_ItemOwnerShipTriggersFallback(S_LOW_Prison_Ownership_2a56abb8-11cb-4bfa-bcb4-2abc0694a655, S_LOW_PrisonGuard_02_f7773813-75fe-4aae-99cb-7160f64f630d);
+ClearOwnership(S_LOW_Prison_Door_f341a974-d5ba-46aa-9fd4-a55f65aab044);
+
+KBSECTION
+IF
+TextEvent("lcprison", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CrimeTeleportCharacterToPrison(S_LOW_PrisonGuard_03_aebea090-1245-4d27-a105-46e37c5852b0, _Var1, S_LOW_Prison_PlayerCell_5e186d0c-b640-4239-8174-b58eb1dd3b86, S_LOW_Prison_SpawnPoint_df3573d9-9748-44dc-880c-88d17e89b1ac, "GB_FUGITIVE");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

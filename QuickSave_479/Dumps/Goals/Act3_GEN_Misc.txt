@@ -1,0 +1,58 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_WorldGossip_RegionTrigger(S_WYR_PartyBanter_DanthelonDancingAxe_6a624a0f-10e7-4268-906f-fb66500fc2f1, BANTERREGION_WYR_Danthelon_dabe00a2-2d3a-4285-8414-60f367d4187b);
+DB_WorldGossip_RegionTrigger(S_WYR_PartyBanter_RefugeeCamp_ff9d4ead-5eb9-45f2-b601-12b627ed5ed6, BANTERREGION_WYR_RefugeeCamp_bea55687-aa1e-43b8-837e-ccab89b44ff6);
+DB_WorldGossip_RegionTrigger(S_WYR_PartyBanter_RiverBank_21cbb77e-053f-4250-a831-dcdc9f5969a7, BANTERREGION_WYR_RiverBank_59fcafec-b5f7-441e-905c-f2535ee4605a);
+DB_WorldGossip_RegionTrigger(S_WYR_PartyBanter_Rivington_6e284977-d031-4f6f-bdac-32861050b0b6, BANTERREGION_WYR_Rivington_93c7ddda-d487-485b-a7af-48a2185a03d3);
+DB_WorldGossip_RegionTrigger(S_WYR_PartyBanter_SouthSpanEntrance_3af25c48-fa64-4720-916d-8a6e1da1bf98, BANTERREGION_WYR_SouthSpanEntrance_3a6e641b-acdb-451a-83f8-6c8f0d9c56f4);
+DB_WorldGossip_RegionTrigger(S_WYR_PartyBanter_WyrmsRock_88780113-c3be-43ab-b718-44f72fd16c70, BANTERREGION_WYR_WyrmsRock_662a9448-029a-4cad-996b-5b975f683730);
+DB_WorldGossip_RegionTrigger(S_WYR_PartyBanter_Wyrmway_4612ec2e-60e6-4d1d-8f90-d008f3d47f2f, BANTERREGION_WYR_Wyrmway_247b5cae-2edc-4c0c-a6d9-2ca44e718447);
+PROC_RegisterWorldGossipTrigger(S_WYR_PartyBanter_DanthelonDancingAxe_6a624a0f-10e7-4268-906f-fb66500fc2f1);
+PROC_RegisterWorldGossipTrigger(S_WYR_PartyBanter_RefugeeCamp_ff9d4ead-5eb9-45f2-b601-12b627ed5ed6);
+PROC_RegisterWorldGossipTrigger(S_WYR_PartyBanter_RiverBank_21cbb77e-053f-4250-a831-dcdc9f5969a7);
+PROC_RegisterWorldGossipTrigger(S_WYR_PartyBanter_Rivington_6e284977-d031-4f6f-bdac-32861050b0b6);
+PROC_RegisterWorldGossipTrigger(S_WYR_PartyBanter_SouthSpanEntrance_3af25c48-fa64-4720-916d-8a6e1da1bf98);
+PROC_RegisterWorldGossipTrigger(S_WYR_PartyBanter_WyrmsRock_88780113-c3be-43ab-b718-44f72fd16c70);
+PROC_RegisterWorldGossipTrigger(S_WYR_PartyBanter_Wyrmway_4612ec2e-60e6-4d1d-8f90-d008f3d47f2f);
+DB_OneShot_VoiceBarkTrigger(S_WYR_Axe_VB_Gale_Karlach_f2427766-1fe0-4699-9863-2ea26af73072, WYR_Axe_VB_Gale_Karlach_1012402f-c7a7-1f5f-8abf-2f5336ba5561, "Global", S_WYR_Axe_VB_Gale_Karlach_Cancel_695d2c17-05e2-4023-81e3-cd488fefe15a);
+DB_GLO_ItemEvents_Bells(TOOL_GEN_Tower_Bell_A_003_8e6210b3-fa45-4796-9be1-2d2a1c55f784);
+DB_GLO_ItemEvents_Bells(TOOL_GEN_Tower_Bell_A_000_b0c069c6-7173-49f6-84c2-120ca4ffb39b);
+
+KBSECTION
+IF
+DB_WaypointUnlocked("WAYP_WYR_WyrmRock", _, _, _, _)
+THEN
+DB_WYR_WyrmRock_WaypointWasDiscovered(1);
+
+IF
+FlagSet(IRN_IronThrone_State_Destroyed_91795368-af06-4b56-9ac1-b78995aa9ea9, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_WYR_WyrmRock_CheckBlockWaypoint();
+
+IF
+FlagSet(GLO_Foundry_State_ControlCentreDestroyed_456906c5-40a6-429e-8e1c-7120a2ef631b, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_WYR_WyrmRock_CheckBlockWaypoint();
+
+PROC
+PROC_WYR_WyrmRock_CheckBlockWaypoint()
+AND
+DB_WYR_WyrmRock_WaypointWasDiscovered(1, _, _, _, _)
+THEN
+PROC_LockWaypointForAll("WAYP_WYR_WyrmRock");
+DB_WYR_WyrmRock_WaypointIsLocked(1);
+
+IF
+FlagSet(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769, _, _, _, _)
+AND
+DB_WYR_WyrmRock_WaypointIsLocked(1, _, _, _, _)
+THEN
+PROC_UnlockWaypointForAll("WAYP_WYR_WyrmRock");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

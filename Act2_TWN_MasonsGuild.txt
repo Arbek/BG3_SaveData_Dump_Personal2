@@ -1,0 +1,487 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ItemDialog_NarratorAD(S_TWN_MasonsGuild_MasonPlaque_fc0b2ed9-d912-4717-9b93-132ccda2f9e1, TWN_MasonsGuild_AD_MasonPlaque_8e31c2a9-3ff9-1e26-2792-105405ef9601);
+DB_GLO_MovingObject(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, "TWN_MasonsGuild_TrapWall_Move", S_TWN_MasonsGuild_TrapWall_DefaultPos_e90d9140-f629-4fbe-8477-a941b9dcc871, S_TWN_MasonsGuild_TrapWall_NewPos_ce1860df-bf36-4b80-8076-d3668886b4d0, 2, 0, 0, "TWN_MasonsGuild_TrapWall_Moved", 0);
+DB_GLO_MovingObject(S_TWN_MasonsGuild_Blocker_001_3509e836-cf2c-4df5-9665-16ad6ca9fa46, "TWN_MasonsGuild_Blocker_Move", S_TWN_MasonsGuild_Blocker_001_DefaultPos_521187e4-ec42-4424-916c-023d50fa394c, S_TWN_MasonsGuild_Blocker_001_NewPos_fa00437a-6398-44c3-a2b0-9189499bbf04, 12, 0, 0, "TWN_MasonsGuild_Blocker_001_Moved", 0);
+DB_GLO_MovingObject(S_TWN_MasonsGuild_Blocker_002_b6829a21-9e2e-47af-996b-5c2ba61ebfb8, "TWN_MasonsGuild_Blocker_Move", S_TWN_MasonsGuild_Blocker_002_DefaultPos_394e4231-011c-42d3-ad87-376812134873, S_TWN_MasonsGuild_Blocker_002_NewPos_de4d31eb-dc63-4c63-ab12-f84d88be58f3, 12, 0, 0, "TWN_MasonsGuild_Blocker_002_Moved", 0);
+DB_TWN_MasonsGuild_DamageDealers(S_TWN_MasonsGuild_DamageDealer_000_e7053ba8-8f50-4214-b908-728d04349a02);
+DB_TWN_MasonsGuild_DamageDealers(S_TWN_MasonsGuild_DamageDealer_001_04ec4d69-ede3-42ec-8175-7db4a9a18e58);
+DB_TWN_MasonsGuild_DamageDealers(S_TWN_MasonsGuild_DamageDealer_002_3b25a38d-e864-4b2d-91c6-44de662701fd);
+DB_TWN_MasonsGuild_Gratings(S_TWN_MasonsGuild_Blocker_001_3509e836-cf2c-4df5-9665-16ad6ca9fa46, S_TWN_MasonsGuild_Blocker_001_Area_e5345ea2-96a0-4da9-a903-5079d3886af3, S_TWN_MasonsGuild_Blocker_001_Helper_b2c7eee8-5ab1-41a1-86b4-bbadb8b8b808);
+DB_TWN_MasonsGuild_Gratings(S_TWN_MasonsGuild_Blocker_002_b6829a21-9e2e-47af-996b-5c2ba61ebfb8, S_TWN_MasonsGuild_Blocker_002_Area_07bdd194-5774-47fa-a992-e41d8b2b4baf, S_TWN_MasonsGuild_Blocker_002_Helper_53bd1f5f-312a-4740-ac2e-66ede13dac36);
+PROC_TriggerRegisterForParty(S_TWN_MasonsGuild_TrapArea_5691684e-407b-4898-9412-fefc5d57b273);
+DB_TWN_MasonsGuild_PushObjectsAreas(S_TWN_MasonsGuild_Blocker_001_Area_e5345ea2-96a0-4da9-a903-5079d3886af3);
+DB_TWN_MasonsGuild_PushObjectsAreas(S_TWN_MasonsGuild_Blocker_002_Area_07bdd194-5774-47fa-a992-e41d8b2b4baf);
+DB_TWN_MasonsGuild_PushObjectsAreas(S_TWN_MasonsGuild_TrapWall_ProblemArea_8bda35b1-1c4c-446b-8e9c-9fa31cc30fe0);
+DB_GLO_ExclusiveFlag("TWN_MasonsGuild_TrapState", TWN_MasonsGuild_Trap_State_Deactivated_8348a548-b0ce-4ecb-aa6a-a9f762bf6b7c);
+DB_GLO_ExclusiveFlag("TWN_MasonsGuild_TrapState", TWN_MasonsGuild_Trap_State_Activating_ccee51cd-05b8-4881-8347-6179803eb8c2);
+DB_GLO_ExclusiveFlag("TWN_MasonsGuild_TrapState", TWN_MasonsGuild_Trap_State_Activated_7197cc96-d0d5-4866-b148-fc49db58e717);
+DB_GLO_ExclusiveFlag("TWN_MasonsGuild_TrapState", TWN_MasonsGuild_Trap_State_Deactivating_cb3e78be-5fd9-42f1-a667-872463fc4605);
+PROC_GlobalSetFlagAndCache(TWN_MasonsGuild_Trap_State_Deactivated_8348a548-b0ce-4ecb-aa6a-a9f762bf6b7c);
+DB_TWN_MasonsGuild_Trap_MaxShots(5);
+DB_ItemDialog_NarratorAD(S_TWN_Masonry_FakeMasonBones_b02a9ee9-19c4-4fe3-961d-01cf6450cb4f, TWN_MasonGuild_AD_FakeMasonBones_269356a9-32ee-dc30-68bd-968b3d77feed);
+DB_ItemDialog_NarratorAD(S_TWN_MasonApprentice_02_e34c404d-b237-4706-b39c-402e8ecca229, TWN_Masonry_AD_MasonApprentice_01_25d2c4df-a3a6-1847-77c1-469ae57ac5a6);
+
+KBSECTION
+IF
+TextEvent("mg_gr1", _, _, _, _)
+THEN
+SetEntityEvent(S_TWN_MasonsGuild_Blocker_001_Helper_b2c7eee8-5ab1-41a1-86b4-bbadb8b8b808, "TWN_MasonsGuild_Push");
+
+IF
+TextEvent("mg_gr2", _, _, _, _)
+THEN
+SetEntityEvent(S_TWN_MasonsGuild_Blocker_002_Helper_53bd1f5f-312a-4740-ac2e-66ede13dac36, "TWN_MasonsGuild_Push");
+
+IF
+TextEvent("mg_sw", _, _, _, _)
+THEN
+SetEntityEvent(S_TWN_MasonsGuild_TrapWall_Helper_fe8a3c9b-e213-416e-aafe-70cf13ea432e, "TWN_MasonsGuild_Push");
+
+IF
+TextEvent("mg_sw_on", _, _, _, _)
+THEN
+PROC_SetOnStage(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, 1);
+
+IF
+TextEvent("mg_sw_off", _, _, _, _)
+THEN
+PROC_SetOnStage(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, 0);
+
+IF
+TextEvent("mg_push", _, _, _, _)
+THEN
+PROC_TWN_MasonsGuild_CheckMoveObjectsOut(S_TWN_MasonsGuild_TrapWall_ProblemArea_8bda35b1-1c4c-446b-8e9c-9fa31cc30fe0);
+PROC_TWN_MasonsGuild_CheckMoveObjectsOut(S_TWN_MasonsGuild_Blocker_001_Area_e5345ea2-96a0-4da9-a903-5079d3886af3);
+PROC_TWN_MasonsGuild_CheckMoveObjectsOut(S_TWN_MasonsGuild_Blocker_002_Area_07bdd194-5774-47fa-a992-e41d8b2b4baf);
+
+IF
+TextEvent("explodetrap", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_TWN_MasonsGuild_Gratings(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var4, _Var2, 1, _Var1, _Var1)
+THEN
+CreateExplosion(_Var4, "Projectile_TWN_MasonsGuild_Grating", -1, _Var3);
+
+IF
+TextEvent("mg_activatetrap", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_Activate(_Var1);
+
+IF
+TextEvent("mg_deactivatetrap", _, _, _, _)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_Deactivate();
+
+IF
+TextEvent("mg_basement", _, _, _, _)
+THEN
+PROC_TeleportPartiesTo(S_Debug_TWN_MasonsGuild_Basement_81854678-2b13-4287-99c3-3a7432308173, "");
+
+IF
+TextEvent("mg_oopen", _, _, _, _)
+THEN
+Open(S_TWN_MasonsGuild_OuterSlidingWall_d6a70398-f14f-4462-be77-06a4a02a3b38);
+
+IF
+TextEvent("mg_oclose", _, _, _, _)
+THEN
+Close(S_TWN_MasonsGuild_OuterSlidingWall_d6a70398-f14f-4462-be77-06a4a02a3b38);
+
+IF
+TextEvent("mg_iopen", _, _, _, _)
+THEN
+Open(S_TWN_MasonsGuild_InnerSlidingWall_405982d4-e4b2-4181-a21a-eb748b32e1d2);
+
+IF
+TextEvent("mg_iclose", _, _, _, _)
+THEN
+Close(S_TWN_MasonsGuild_InnerSlidingWall_405982d4-e4b2-4181-a21a-eb748b32e1d2);
+
+IF
+DB_TWN_MasonsGuild_Gratings(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+TriggerRegisterForItems(_Var2);
+
+IF
+UseStarted((CHARACTER)_Var1, S_TWN_MasonsGuild_OuterSlidingWallBackupLever_0c144415-8ad1-4ec6-96f0-9e1245da757b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsLocked(S_TWN_MasonsGuild_OuterSlidingWallActivator_9b41b366-52ca-4812-8d23-18b407334b2f, 1, _Var1, _Var1, _Var1)
+THEN
+DB_PerceptionSkillCheckADBlocked(S_TWN_MasonsGuild_OuterSlidingWallActivator_9b41b366-52ca-4812-8d23-18b407334b2f);
+SetEntityEvent(S_TWN_MasonsGuild_OuterSlidingWallActivator_9b41b366-52ca-4812-8d23-18b407334b2f, "StoryReveal");
+Unlock(S_TWN_MasonsGuild_OuterSlidingWallActivator_9b41b366-52ca-4812-8d23-18b407334b2f);
+PROC_TWN_MasonsGuild_ActivateOuterSlidingWall();
+
+IF
+Unlocked(S_TWN_MasonsGuild_OuterSlidingWallActivator_9b41b366-52ca-4812-8d23-18b407334b2f, _, _, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_TWN_MasonsGuild_ActivateOuterSlidingWall();
+
+PROC
+PROC_TWN_MasonsGuild_ActivateOuterSlidingWall()
+AND
+QRY_OnlyOnce("TWN_MasonsGuild_ActivateOuterSlidingWall", _, _, _, _)
+THEN
+PROC_TWN_MasonsGuild_OpenCloseSlidingWall(S_TWN_MasonsGuild_OuterSlidingWall_d6a70398-f14f-4462-be77-06a4a02a3b38);
+
+IF
+DualEntityEvent(_, (ITEM)_Var2, "TWN_MasonsGuild_OuterSlidingWall_Move", (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TWN_MasonsGuild_OpenCloseSlidingWall(S_TWN_MasonsGuild_OuterSlidingWall_d6a70398-f14f-4462-be77-06a4a02a3b38);
+
+IF
+DualEntityEvent(_, (GUIDSTRING)_Var2, "TWN_MasonsGuild_InnerSlidingWall_Move", (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TWN_MasonsGuild_OpenCloseSlidingWall(S_TWN_MasonsGuild_InnerSlidingWall_405982d4-e4b2-4181-a21a-eb748b32e1d2);
+
+PROC
+PROC_TWN_MasonsGuild_OpenCloseSlidingWall((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+QRY_TWN_MasonsGuild_SlidingWallIsNotMoving(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsClosed(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+Open(_Var1);
+
+PROC
+PROC_TWN_MasonsGuild_OpenCloseSlidingWall((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+QRY_TWN_MasonsGuild_SlidingWallIsNotMoving(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOpened(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+Close(_Var1);
+
+QRY
+QRY_TWN_MasonsGuild_SlidingWallIsNotMoving((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsClosing(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsOpening(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_TWN_MasonsGuild_PushObjectsAreas(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForItems(_Var1);
+PROC_TriggerRegisterForParty(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TWN_MasonsGuild_PushObjectsAreas(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, ACT2_TWN_MASONSGUILD_VALIDTRAPTARGET_dda79ecf-88ae-4ac7-a714-1530e395783c);
+DB_TWN_MasonsGuild_PushableObjects(_Var2, _Var1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TWN_MasonsGuild_PushObjectsAreas(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, ACT2_TWN_MASONSGUILD_VALIDTRAPTARGET_dda79ecf-88ae-4ac7-a714-1530e395783c);
+NOT DB_TWN_MasonsGuild_PushableObjects(_Var2, _Var1);
+
+IF
+ItemEnteredTrigger((GUIDSTRING)_Var1, (TRIGGER)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TWN_MasonsGuild_PushObjectsAreas(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TWN_MasonsGuild_Gratings(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3
+THEN
+SetTag(_Var1, ACT2_TWN_MASONSGUILD_VALIDTRAPTARGET_dda79ecf-88ae-4ac7-a714-1530e395783c);
+DB_TWN_MasonsGuild_PushableObjects(_Var2, _Var1);
+
+IF
+ItemLeftTrigger((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TWN_MasonsGuild_PushObjectsAreas(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TWN_MasonsGuild_Gratings(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3
+THEN
+ClearTag(_Var1, ACT2_TWN_MASONSGUILD_VALIDTRAPTARGET_dda79ecf-88ae-4ac7-a714-1530e395783c);
+NOT DB_TWN_MasonsGuild_PushableObjects(_Var4, _Var1);
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, "TWN_MasonsGuild_TrappedChestUsed", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CharacterGetOwnerOrSelf(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_Activate(_Var2);
+
+IF
+DestroyedBy(S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, _, (CHARACTER)_Var2, _, _)
+AND
+IsInTrigger(S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, S_TWN_MasonsGuild_TrapArea_5691684e-407b-4898-9412-fefc5d57b273, 1, _, _)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_Activate(_Var2);
+
+IF
+Moved(S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetClosestPlayer(S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, _Var1, _, _Var1, _Var1)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_Activate(_Var1);
+
+IF
+PreMovedBy(S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInTrigger(S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, S_TWN_MasonsGuild_TrapArea_5691684e-407b-4898-9412-fefc5d57b273, 1, _Var1, _Var1)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_Activate(_Var1);
+
+IF
+AddedTo(S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInTrigger(S_TWN_MasonsGuild_Bait_60017535-5852-4122-9f55-7416d6c60f28, S_TWN_MasonsGuild_TrapArea_5691684e-407b-4898-9412-fefc5d57b273, 1, _Var1, _Var1)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_Activate(_Var1);
+
+PROC
+PROC_TWN_MasonsGuild_BaitTrap_Activate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(TWN_MasonsGuild_Trap_State_Deactivated_8348a548-b0ce-4ecb-aa6a-a9f762bf6b7c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_MasonsGuild_Trap_State_Activating_ccee51cd-05b8-4881-8347-6179803eb8c2);
+DB_DangerZone(S_TWN_MasonsGuild_TrapArea_5691684e-407b-4898-9412-fefc5d57b273, "TWN_MasonsGuild_TrapArea");
+DB_TWN_MasonsGuild_BaitTrap_Victim(_Var1);
+PROC_TWN_MasonsGuild_BaitTrap_ActivateGratings();
+ObjectTimerLaunch(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, "TWN_MasonsGuild_TrapWallMove", 1000);
+
+PROC
+PROC_TWN_MasonsGuild_BaitTrap_ActivateGratings()
+AND
+DB_TWN_MasonsGuild_Gratings(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_MovingObject_Move(_Var1);
+SetCanInteract(_Var1, 1);
+
+PROC
+PROC_TWN_MasonsGuild_BaitTrap_ActivateGratings()
+AND
+DB_TWN_MasonsGuild_Gratings(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var3, "TWN_MasonsGuild_Push");
+
+IF
+ObjectTimerFinished(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, "TWN_MasonsGuild_TrapWallMove", _, _, _)
+THEN
+PROC_GLO_MovingObject_Move(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3);
+
+PROC
+PROC_GLO_MovingObject_FinishedMovement(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, _, S_TWN_MasonsGuild_TrapWall_NewPos_ce1860df-bf36-4b80-8076-d3668886b4d0, _, (TRIGGER)_)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_ActivateDamageDealers();
+
+PROC
+PROC_TWN_MasonsGuild_BaitTrap_ActivateDamageDealers()
+AND
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "TWN_MasonsGuild_ActivateDamageDealer");
+PROC_LoopEffect(VFX_Script_UND_KathericCity_FireTrap_Large_Pilot_01_03983ec4-9cf0-3167-502a-9d7929c865c1, _Var1, "TWN_MasonsGuild_DamageDealerFireVFX", "SCL_Main_A", "");
+
+PROC
+PROC_GLO_MovingObject_FinishedMovement(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, _, S_TWN_MasonsGuild_TrapWall_NewPos_ce1860df-bf36-4b80-8076-d3668886b4d0, _, (TRIGGER)_)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_MasonsGuild_Trap_State_Activated_7197cc96-d0d5-4866-b148-fc49db58e717);
+
+PROC
+PROC_GLO_MovingObject_FinishedMovement(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, _, S_TWN_MasonsGuild_TrapWall_NewPos_ce1860df-bf36-4b80-8076-d3668886b4d0, _, _)
+AND
+DB_TWN_MasonsGuild_BaitTrap_Victim(_Var3, _, _, _, _)
+AND
+QRY_TriggerEvents_AnyPartyMemberInTrigger(S_TWN_MasonsGuild_TrapArea_5691684e-407b-4898-9412-fefc5d57b273, _, _, _, _)
+THEN
+ForceTurnBasedMode(_Var3, 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "TWN_MasonsGuild_ShotMade", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TWN_MasonsGuild_DamageDealersShots(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_TWN_MasonsGuild_DamageDealersShots(_Var1, _Var2);
+DB_TWN_MasonsGuild_DamageDealersShots(_Var1, _Var3);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "TWN_MasonsGuild_ShotMade", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TWN_MasonsGuild_DamageDealersShots(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_TWN_MasonsGuild_DamageDealersShots(_Var1, 1);
+
+IF
+DestroyedBy((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "TWN_MasonsGuild_DamageDealerFireVFX");
+
+IF
+DestroyedBy((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TWN_MasonsGuild_HasActiveDamageDealers()
+THEN
+RealtimeObjectTimerLaunch(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, "TWN_MasonsGuild_BaitTrap_Deactivate", 1000);
+
+IF
+DB_TWN_MasonsGuild_DamageDealersShots(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_TWN_MasonsGuild_Trap_MaxShots(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TWN_MasonsGuild_HasActiveDamageDealers()
+THEN
+RealtimeObjectTimerLaunch(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, "TWN_MasonsGuild_BaitTrap_Deactivate", 1000);
+
+QRY
+QRY_TWN_MasonsGuild_HasActiveDamageDealers()
+AND
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(_Var1, 0, _Var1, _Var1, _Var1)
+AND NOT
+DB_TWN_MasonsGuild_DamageDealersShots(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TWN_MasonsGuild_HasActiveDamageDealers()
+AND
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_TWN_MasonsGuild_DamageDealersShots(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_TWN_MasonsGuild_Trap_MaxShots(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 < _Var3
+THEN
+DB_NOOP(1);
+
+IF
+ObjectTimerFinished(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, "TWN_MasonsGuild_BaitTrap_Deactivate", _, _, _)
+THEN
+PROC_TWN_MasonsGuild_BaitTrap_Deactivate();
+
+PROC
+PROC_TWN_MasonsGuild_BaitTrap_Deactivate()
+AND NOT
+DB_GlobalFlag(TWN_MasonsGuild_Trap_State_Deactivating_cb3e78be-5fd9-42f1-a667-872463fc4605, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_MasonsGuild_Trap_State_Deactivating_cb3e78be-5fd9-42f1-a667-872463fc4605);
+PROC_TWN_MasonsGuild_BaitTrap_DeactiveDamageDealers();
+SysClear("DB_TWN_MasonsGuild_DamageDealersShots", 2);
+SysClear("DB_TWN_MasonsGuild_BaitTrap_Victim", 1);
+SetEntityEvent(S_TWN_MasonsGuild_TrapWall_InvisibleHelper_fe8a3c9b-e213-416e-aafe-70cf13ea432e, "TWN_MasonsGuild_Push");
+PROC_GLO_MovingObject_Move(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3);
+PROC_GLO_MovingObject_Move(S_TWN_MasonsGuild_Blocker_001_3509e836-cf2c-4df5-9665-16ad6ca9fa46);
+PROC_GLO_MovingObject_Move(S_TWN_MasonsGuild_Blocker_002_b6829a21-9e2e-47af-996b-5c2ba61ebfb8);
+PROC_DangerZone_Safe("TWN_MasonsGuild_TrapArea");
+
+PROC
+PROC_TWN_MasonsGuild_BaitTrap_DeactiveDamageDealers()
+AND
+DB_TWN_MasonsGuild_DamageDealers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "TWN_MasonsGuild_DeactivateDamageDealer");
+PROC_StopLoopEffect(_Var1, "TWN_MasonsGuild_DamageDealerFireVFX");
+
+PROC
+PROC_GLO_MovingObject_FinishedMovement(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, _, S_TWN_MasonsGuild_TrapWall_DefaultPos_e90d9140-f629-4fbe-8477-a941b9dcc871, _, (TRIGGER)_)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_MasonsGuild_Trap_State_Deactivated_8348a548-b0ce-4ecb-aa6a-a9f762bf6b7c);
+
+PROC
+PROC_GLO_MovingObject_FinishedMovement(S_TWN_MasonsGuild_TrapWall_d5d0851a-8a0a-4194-b5fb-2be3255dd1e3, _, S_TWN_MasonsGuild_TrapWall_DefaultPos_e90d9140-f629-4fbe-8477-a941b9dcc871, _, (TRIGGER)_)
+THEN
+PROC_TWN_MasonsGuild_CheckMoveObjectsOut(S_TWN_MasonsGuild_TrapWall_ProblemArea_8bda35b1-1c4c-446b-8e9c-9fa31cc30fe0);
+
+PROC
+PROC_GLO_MovingObject_FinishedMovement((GUIDSTRING)_Var1, _, (TRIGGER)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_GLO_MovingObject(_Var1, "TWN_MasonsGuild_Blocker_Move", _, _Var3, _, _, _, _, _, _Var1)
+AND
+DB_TWN_MasonsGuild_Gratings(_Var1, _Var11, _, _Var1, _Var1)
+THEN
+PROC_TWN_MasonsGuild_CheckMoveObjectsOut(_Var11);
+
+PROC
+PROC_TWN_MasonsGuild_CheckMoveObjectsOut((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_TWN_MasonsGuild_PushableObjects(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, _Var1, 1, _Var1, _Var1)
+AND
+GetPosition(S_TWN_MasonsGuild_TrapWall_FallbackTeleportPos_0e508696-bd06-4035-b756-ec19fa14e9d2, _Var3, _Var4, _Var5, _Var1)
+THEN
+PROC_TWN_MasonsGuild_MoveStuckObjectOut(_Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_TWN_MasonsGuild_MoveStuckObjectOut((GUIDSTRING)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+QRY_TWN_MasonsGuild_FindValidPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+TeleportTo(_Var1, S_TWN_MasonsGuild_TrapWall_FallbackTeleportPos_0e508696-bd06-4035-b756-ec19fa14e9d2, "", 0, 1, 1, 1, 1);
+
+QRY
+QRY_TWN_MasonsGuild_FindValidPosition((GUIDSTRING)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (GUIDSTRING)_Var1)
+AND
+FindValidPosition(_Var2, _Var3, _Var4, 2, _Var1, 0, _Var5, _Var6, _Var7, _Var1)
+THEN
+TeleportToPosition(_Var1, _Var5, _Var6, _Var7, "", 0, 1, 1, 1, 1);
+
+IF
+GameBookInterfaceClosed(S_TWN_MasonsGuild_TreasureMap_cbd3d1da-eae7-4714-8fd8-3e32b53e6134, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ShowMarker(_Var1, "MOO_Prison_MasonMarker");
+
+PROC
+PROC_Shovel_CleanupMound(S_MOO_BuriedMound_02_635e4ec7-0bd1-4c6f-847f-9c1500d62efb, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HideMarker(_Var1, "MOO_Prison_MasonMarker");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

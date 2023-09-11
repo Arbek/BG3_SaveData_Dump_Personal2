@@ -1,0 +1,84 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DB_GLO_ADManager_Category(_Var1, _, _, _, _Var1)
+AND
+Concatenate("GLO_ADManager_AdBlockerTimer", _Var1, _Var5, _Var1, _Var1)
+THEN
+DB_GLO_ADManager_TimerName(_Var1, _Var5);
+
+IF
+DB_GLO_ADManager_TimerName(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_ADManager_Category(_Var1, _, _, _, _Var1)
+THEN
+NOT DB_GLO_ADManager_TimerName(_Var1, _Var2);
+
+IF
+AutomatedDialogStarted((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ADManager_AD(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_GLO_ADManager_Category(_Var3, _Var5, _, _, _Var1)
+THEN
+DB_GLO_ADManager_AD(_Var3, _Var2);
+SetFlag(_Var5, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+AutomatedDialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_GLO_ADManager_AD(_Var3, _Var2, _, _, _)
+THEN
+NOT DB_GLO_ADManager_AD(_Var3, _Var2);
+PROC_GLO_ADManager_CheckADsOver(_Var3);
+
+PROC
+PROC_GLO_ADManager_CheckADsOver((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_ADManager_AD(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ADManager_Category(_Var1, _, _Var4, _Var5, _Var1)
+AND
+Random(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var4, _Var6, _Var7, _Var1, _Var1)
+AND
+DB_GLO_ADManager_TimerName(_Var1, _Var8, _Var1, _Var1, _Var1)
+THEN
+TimerLaunch(_Var8, _Var7);
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_ADManager_TimerName(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ADManager_Category(_Var2, _Var3, _, _, _Var1)
+THEN
+ClearFlag(_Var3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+AutomatedDialogStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ADManager_AD(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_GLO_ADManager_AD(_Var3, _Var5, _Var6, _Var1, _Var1)
+AND
+_Var1 != _Var5
+THEN
+ClearFlag(_Var6, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+AutomatedDialogStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_ADManager_AD(_Var3, _Var1, _Var4, _Var1, _Var1)
+THEN
+SetFlag(_Var4, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,42 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Absolute_Entails(GLO_Absolute_Knows_Symbol_83f32ae2-fc51-a337-e07f-07e1ed666aab, GLO_Absolute_Knows_Name_1b7fa14e-1a35-342a-5aa9-6342116578b6);
+DB_GLO_Absolute_Entails(GOB_Absolute_Knows_GoblinsWorship_78ecaeae-023b-cddf-6ad4-ac06ec05ca19, GLO_Absolute_Knows_Name_1b7fa14e-1a35-342a-5aa9-6342116578b6);
+DB_GLO_Absolute_Entails(GLO_Absolute_Knows_MoonriseTowers_7253b35b-2ac8-ce7f-6181-689ef27536d9, GLO_Absolute_Knows_Name_1b7fa14e-1a35-342a-5aa9-6342116578b6);
+DB_GLO_Absolute_TrueSoul(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+DB_GLO_Absolute_TrueSoul(S_GOB_GoblinPriest_b983c336-9a14-4e9b-adb9-4689e7e0afa9);
+DB_GLO_Absolute_TrueSoul(S_UND_TheDrowNere_06bf05c5-216b-4eaf-91f5-8f1dd3d57f30);
+
+KBSECTION
+IF
+TagSet((GUIDSTRING)_Var1, BRANDED_ABSOLUTE_310f7186-bb0b-4905-b8f6-dfc2fe62570a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Absolute_Knows_Symbol_83f32ae2-fc51-a337-e07f-07e1ed666aab, NULL_00000000-0000-0000-0000-000000000000, 0);
+QuestUpdate(_Var1, "GOB_GoblinPriest_Brand", "HIDDEN_WLD_Boosters");
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Absolute_Entails(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var4, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogActorLeft(_, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var5, _, _, _)
+AND
+DB_GLO_Absolute_TrueSoul(_Var3, _, _, _, _)
+THEN
+StartVoiceBark(GLO_Absolute_VB_Cultists_1a78bd06-a6fa-7d30-7d1c-55fc6a2740c5, _Var5);
+SysClear("DB_GLO_Absolute_TrueSoul", 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

@@ -1,0 +1,50 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_FOR_ApothecaryGoblins(S_FOR_ApothecaryGoblin_000_a8c54070-5b72-4911-afd9-28be53296fd7);
+DB_FOR_ApothecaryGoblins(S_FOR_ApothecaryGoblin_001_da57be42-f01a-459d-96b0-93cea8a95489);
+DB_FOR_ApothecaryGoblins(S_FOR_ApothecaryGoblin_002_301accc9-d618-43ba-819a-834216a12e4e);
+DB_Dialogs(S_FOR_ApothecaryGoblin_000_a8c54070-5b72-4911-afd9-28be53296fd7, FOR_ApothecaryGoblins_AD_Goblin_00_5a782a50-731c-ffb7-5df9-dc1857dbed0b);
+DB_Dialogs(S_FOR_ApothecaryGoblin_001_da57be42-f01a-459d-96b0-93cea8a95489, FOR_ApothecaryGoblins_Goblin_01_a71c478e-3d12-3cef-150a-b47d614af10b);
+DB_Dialogs(S_FOR_ApothecaryGoblin_002_301accc9-d618-43ba-819a-834216a12e4e, FOR_ApothecaryGoblins_Goblin_02_02417bc8-5381-ae02-0c70-d6ea5aced4be);
+PROC_TriggerRegisterForPlayers(S_FOR_VillageArea_9249a10e-b9d1-439b-8584-f5be38e8e6ae);
+PROC_TriggerRegisterForPlayers(S_FOR_ApothecaryGoblinArea_85a357d3-bed2-41c3-b3b8-841631877b0b);
+
+KBSECTION
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_FOR_ApothecaryGoblinArea_85a357d3-bed2-41c3-b3b8-841631877b0b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_OncePerUserAndNearbyPlayers_IsSet(_Var1, "FOR_GoblinLootersAD", _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(FOR_ApothecaryGoblins_AD_GoblinsLooting_c1a07bb5-4d9a-7c0f-5b6f-696d5e59f6d0, S_FOR_ApothecaryGoblin_000_a8c54070-5b72-4911-afd9-28be53296fd7, S_FOR_ApothecaryGoblin_001_da57be42-f01a-459d-96b0-93cea8a95489, S_FOR_ApothecaryGoblin_002_301accc9-d618-43ba-819a-834216a12e4e, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "FOR_GoblinLootersAD", _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_FOR_ApothecaryGoblinArea_85a357d3-bed2-41c3-b3b8-841631877b0b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_ApothecaryGoblins_State_PlayersInsideGoblinsArea_58e93e89-c411-4039-91d4-652072a6f416, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_ApothecaryGoblins_State_PlayersInsideGoblinsArea_58e93e89-c411-4039-91d4-652072a6f416, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_FOR_ApothecaryGoblinArea_85a357d3-bed2-41c3-b3b8-841631877b0b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(FOR_ApothecaryGoblins_State_PlayersInsideGoblinsArea_58e93e89-c411-4039-91d4-652072a6f416, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_FOR_Thayan_ApothecaryHouseTrigger_2c46c830-8f1c-45b0-aa3e-feb66e2d3c53, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(FOR_ApothecaryGoblins_State_PlayersInsideGoblinsArea_58e93e89-c411-4039-91d4-652072a6f416, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

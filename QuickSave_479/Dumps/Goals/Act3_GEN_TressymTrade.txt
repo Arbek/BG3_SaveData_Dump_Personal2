@@ -1,0 +1,49 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+ClearFlag(LOW_TressymTrade_Debug_MoveTressymToLOW_87b6df86-9ca2-fcf5-5f27-80b1d49bd90d);
+
+KBSECTION
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(WYR_Posthouse_State_TressymHasGivenReward_939d0367-8bc7-487f-b8ef-15c5c9fd0faf, _, _, _, _)
+AND
+DB_WYR_Posthouse_Tressym(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 == S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236
+AND
+QRY_OnlyOnce("GEN_TressymTrade_TressymLeavesForLOW", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+DB_LOW_TressymTrade_InitialSetup(1);
+
+IF
+LevelLoaded("CTY_Main_A", _, _, _, _)
+AND
+DB_GlobalFlag(WYR_Posthouse_State_TressymHasGivenReward_939d0367-8bc7-487f-b8ef-15c5c9fd0faf, _, _, _, _)
+AND
+DB_WYR_Posthouse_Tressym(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 == S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236
+AND
+QRY_OnlyOnce("GEN_TressymTrade_TressymLeavesForLOW", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+DB_LOW_TressymTrade_InitialSetup(1);
+
+IF
+FlagSet(GLO_TressymTrade_Event_GiveFishToTressym_9e4fc233-6a04-410b-901b-80dba93b570f, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetItemByTagInInventory("FISH_ec16c2d2-2943-41cf-9796-0439ef65b2cf", _Var1, _Var3, _Var1, _Var1)
+THEN
+MagicPocketsDrop(_Var1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

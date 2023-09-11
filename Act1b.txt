@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckLevelStart("CRE_Main_A");
+DB_RegionSafeSpot("CRE_Main_A", StartPoint_000__000_fff434fb-523d-4975-9cfa-783d22471ee9);
+
+KBSECTION
+IF
+LevelLoaded("CRE_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("CRE_Main_A", _, _, _, _)
+AND
+DB_CurrentLevel("CRE_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

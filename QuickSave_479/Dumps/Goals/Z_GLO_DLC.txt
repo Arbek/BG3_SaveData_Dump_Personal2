@@ -1,0 +1,430 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_DLC(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DLC_Installed(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DLC_SharingType(NULL_00000000-0000-0000-0000-000000000000, "_SharingType");
+NOT DB_DLC_StageObjects(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, "_CurrentLevel");
+NOT DB_DLC_StageObjects_ShouldGoOnStage(NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_DLC_OneTimeRewards(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 1);
+
+KBSECTION
+IF
+DLCUpdated((DLC)_Var1, _, _, (DLC)_Var1, (DLC)_Var1)
+THEN
+PROC_DLC_CheckInstalled(_Var1);
+
+IF
+SavegameLoaded()
+AND
+DB_DLC(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DLC_CheckInstalled(_Var1);
+
+IF
+DB_Avatars(_, _, _, _, _)
+THEN
+TimerCancel("GLO_DLC_Check");
+TimerLaunch("GLO_DLC_Check", 100);
+
+IF
+TimerFinished("GLO_DLC_Check", _, _, _, _)
+AND NOT
+GetHostCharacter(_, _, _, _, _)
+THEN
+TimerLaunch("GLO_DLC_Check", 1000);
+
+IF
+TimerFinished("GLO_DLC_Check", _, _, _, _)
+AND
+GetHostCharacter(_, _, _, _, _)
+AND
+DB_DLC(_Var2, _, _, _, _)
+THEN
+PROC_DLC_CheckInstalled(_Var2);
+
+PROC
+PROC_DLC_CheckInstalled((DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND NOT
+QRY_DLC_ShouldInstallDLC(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DLC_SetInstalled(_Var1, 0);
+
+PROC
+PROC_DLC_CheckInstalled((DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND NOT
+DB_DLC_Installed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DLC_ShouldInstallDLC(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DLC_SetInstalled(_Var1, 1);
+
+PROC
+PROC_DLC_SetInstalled((DLC)_Var1, 0, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND
+DB_DLC_Installed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DLC_Installed(_Var1);
+
+PROC
+PROC_DLC_SetInstalled((DLC)_Var1, 1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND NOT
+DB_DLC_Installed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DLC_Installed(_Var1);
+
+QRY
+QRY_DLC_ShouldInstallDLC((DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND NOT
+DB_DLC_SharingType(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterHasDLC(_Var3, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DLC_ShouldInstallDLC((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DLC_SharingType(_Var1, "AllowNonHostSharing", _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterHasDLC(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DLC_ShouldInstallDLC((DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND
+DB_DLC_SharingType(_Var1, "DisallowSharing", _Var1, _Var1, _Var1)
+AND NOT
+QRY_DLC_SomeUserDoesntOwnDLC(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DLC_SomeUserDoesntOwnDLC((DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterHasDLC(_Var2, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DLC_SetInstalled((DLC)_Var1, 1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND
+DB_DLC_StageObjects(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+PROC_DLC_StageObjects_SetOnStage(_Var2, _Var3);
+
+PROC
+PROC_DLC_SetInstalled((DLC)_Var1, 0, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND
+DB_DLC_StageObjects(_Var1, _Var2, 1, _, _Var1)
+THEN
+PROC_DLC_StageObjects_SetOnStage(_Var2, 0);
+
+PROC
+PROC_DLC_SetInstalled((DLC)_Var1, 0, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND
+DB_DLC_StageObjects(_Var1, _Var2, 0, _, _Var1)
+THEN
+PROC_DLC_StageObjects_SetOnStage(_Var2, 1);
+
+PROC
+PROC_DLC_StageObjects_SetOnStage((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DLC_StageObjects_ShouldGoOnStage(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+NOT DB_DLC_StageObjects_ShouldGoOnStage(_Var1, _Var3);
+
+PROC
+PROC_DLC_StageObjects_SetOnStage((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DLC_StageObjects_ShouldGoOnStage(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_DLC_StageObjects_ShouldGoOnStage(_Var1, _Var2);
+
+IF
+DB_DLC_StageObjects_ShouldGoOnStage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DLC_StageObjects(_, _Var1, _, _Var5, _Var1)
+AND
+DB_CurrentLevel(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DLC_StageObjects_SetOnStage_Internal(_Var1, _Var2);
+NOT DB_DLC_StageObjects_ShouldGoOnStage(_Var1, _Var2);
+
+IF
+DB_DLC_StageObjects_ShouldGoOnStage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DLC_StageObjects(_, _Var1, _, "", _Var1)
+THEN
+PROC_DLC_StageObjects_SetOnStage_Internal(_Var1, _Var2);
+NOT DB_DLC_StageObjects_ShouldGoOnStage(_Var1, _Var2);
+
+PROC
+PROC_DLC_StageObjects_SetOnStage_Internal((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+IsOnStage(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+PROC_DLC_RemoveObjectInInventory(_Var1);
+
+PROC
+PROC_DLC_StageObjects_SetOnStage_Internal((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+PROC_DLC_RestoreObjectInInventory(_Var1);
+
+IF
+EnteredLevel((GUIDSTRING)_Var1, _, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DLC_StageObjects(_Var4, _Var1, _Var5, _Var6, _Var1)
+THEN
+NOT DB_DLC_StageObjects(_Var4, _Var1, _Var5, _Var6);
+DB_DLC_StageObjects(_Var4, _Var1, _Var5, _Var3);
+
+IF
+AddedTo((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DLC_StageObjects(_Var5, _Var1, _Var6, _Var7, _Var1)
+THEN
+NOT DB_DLC_StageObjects(_Var5, _Var1, _Var6, _Var7);
+DB_DLC_StageObjects(_Var5, _Var1, _Var6, "");
+
+IF
+RemovedFrom((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DLC_StageObjects(_Var4, _Var1, _Var5, _Var6, _Var1)
+AND
+DB_CurrentLevel(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DLC_StageObjects(_Var4, _Var1, _Var5, _Var6);
+DB_DLC_StageObjects(_Var4, _Var1, _Var5, _Var7);
+
+PROC
+PROC_DLC_RemoveObjectInInventory((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsInInventory(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetDirectInventoryOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_DLC_ObjectWasInInventory(_Var1, _Var2);
+TeleportTo(_Var1, _Var2, "", 0, 0, 0, 1, 1);
+
+PROC
+PROC_DLC_RestoreObjectInInventory((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DLC_ObjectWasInInventory(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ToInventory(_Var1, _Var2, 1, 0, 1);
+NOT DB_DLC_ObjectWasInInventory(_Var1, _Var2);
+
+PROC
+PROC_DLC_SetInstalled((DLC)_Var1, 1, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DLC_OneTimeRewards_Check(_Var1, _Var2);
+
+IF
+LevelGameplayStarted((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+IsGameLevel(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_DLC_Installed(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DLC_OneTimeRewards_Check(_Var3, _Var4);
+
+IF
+CharacterReservedUserIDChanged((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DLC_Installed(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DLC_OneTimeRewards_Check(_Var4, _Var1);
+
+PROC
+PROC_DLC_OneTimeRewards_Check((DLC)_Var1, (GUIDSTRING)_Var2, (DLC)_Var1, (DLC)_Var1, (DLC)_Var1)
+AND
+GetReservedUserID(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_DLC_OneTimeRewards_Check(_Var1, _Var2, _Var3);
+
+IF
+DB_DLC_OneTimeRewards_Check(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_ActiveLevel(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_UserCampChest(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+Exists(_Var5, 1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetUserProfileID(_Var3, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DLC_OneTimeRewards(_Var1, _Var7, _Var8, _Var9, _Var10)
+AND NOT
+DB_DLC_OneTimeRewards_Received(_Var1, _Var7, _Var6, _Var1, _Var1)
+AND
+QRY_DoNTimes(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_DoNTimes(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DLC_OneTimeRewards_BlockReceive(_Var2, _Var1, _Var7, _Var8, _Var9, _Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(_Var7, _Var2, 0, 0, "", 0, _Var12, _Var1, _Var1, _Var1)
+THEN
+DB_DLC_OneTimeRewards_Received(_Var1, _Var7, _Var6);
+PROC_DLC_GiveReward(_Var12, _Var2, _Var9);
+DB_DLC_StageObjects(_Var1, _Var12, 1, _Var4);
+
+IF
+DB_DLC_OneTimeRewards_Check(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Camp_UserCampChest(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DLC_OneTimeRewards_Check(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DLC_GiveReward((GUIDSTRING)_Var1, (CHARACTER)_Var2, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ToInventory(_Var1, _Var2, 1, 0, 1);
+
+PROC
+PROC_DLC_GiveReward((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_DLC_TrackCampReward(_Var1, _Var2);
+SendToCampChest(_Var1, _Var2);
+
+IF
+AddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DLC_TrackCampReward(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DLC_CampChestWithReward(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DLC_TrackCampReward(_Var1, _Var4);
+
+IF
+AddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DLC_TrackCampReward(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_DLC_CampChestWithReward(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DLC_TrackCampReward(_Var1, _Var4);
+DB_DLC_CampChestWithReward(_Var2, _Var4);
+
+IF
+DB_PlayerInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DLC_CampChestWithReward(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOncePerUser(_Var1, "GLO_DLC_PingCampChest", _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "GLO_DLC_PingCampChest", 5000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_DLC_PingCampChest", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DLC_CampChestWithReward(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DLC_PingCampChest(_Var2, _Var1);
+
+IF
+DB_DLC_PingCampChest(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_, _Var2, _, _Var1, _Var1)
+AND
+DB_InCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var5, _Var6, _Var7, _Var1)
+THEN
+NOT DB_DLC_PingCampChest(_Var1, _Var2);
+RequestPing(_Var5, _Var6, _Var7, _Var1, _Var2);
+
+IF
+TextEvent("pingcampchest", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DLC_CampChestWithReward(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+RequestPing(_Var3, _Var4, _Var5, _Var2, _Var1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DLC_CampChestWithReward(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DLC_CampChestWithReward(_Var2, _Var1);
+
+QRY
+QRY_DLC_OneTimeRewards_BlockReceive((CHARACTER)_Var1, (DLC)_Var2, _, _, _, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+CharacterHasDLC(_Var1, _Var2, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DLC_OneTimeRewards_BlockReceive((CHARACTER)_Var1, (DLC)_Var2, _, _, _, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DLC_Installed(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DLC_OneTimeRewards_BlockReceive((CHARACTER)_Var1, _, (ITEMROOT)_Var3, (INTEGER)_Var4, 0, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+TemplateIsInInventory(_Var3, _Var1, _Var6, _Var1, _Var1)
+AND
+_Var6 >= _Var4
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DLC_OneTimeRewards_BlockReceive((CHARACTER)_Var1, _, (ITEMROOT)_Var3, (INTEGER)_Var4, 1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetReservedUserID(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_Camp_UserCampChest(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+TemplateIsInInventory(_Var3, _Var7, _Var8, _Var1, _Var1)
+AND
+_Var8 >= _Var4
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DLC_OneTimeRewards_BlockReceive((GUIDSTRING)_Var1, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CurrentLevel(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+IsGameLevel(_Var7, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

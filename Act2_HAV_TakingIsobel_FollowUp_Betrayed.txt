@@ -1,0 +1,164 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_HAV_TakingIsobel_Followup_Betrayed_Setup();
+
+KBSECTION
+PROC
+PROC_HAV_TakingIsobel_Followup_Betrayed_Setup()
+AND
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_HAV_TakingIsobel_Followup_Betrayed_Setup()
+AND
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DialogEnded(HAV_Siege_Intro_5ec5abc1-a0d5-5c4e-05bf-b65766c05b99, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+AND
+DB_State_Current(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_FollowUp_DefeatedInHaven", _, _)
+THEN
+PROC_HAV_TakingIsobel_Followup_Betrayed_Setup(1);
+
+IF
+DialogEnded(HAV_Siege_Intro_5ec5abc1-a0d5-5c4e-05bf-b65766c05b99, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+AND
+DB_State_Current(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_DefeatedInHaven", _, _)
+THEN
+PROC_HAV_TakingIsobel_Followup_Betrayed_Setup(1);
+
+PROC
+PROC_HAV_TakingIsobel_Followup_Betrayed_Setup(1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAV_TakingIsobel_FlyingGhouls(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Poof(_Var1);
+
+PROC
+PROC_HAV_TakingIsobel_Followup_Betrayed_Setup(1, _, _, _, _)
+AND
+DB_State_Current(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_DefeatedInHaven", _, _)
+AND
+DB_HAV_TakingIsobel_Kidnapper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, 0);
+SetOnStage(_Var1, 0);
+SetFlag(HAV_TakingIsobel_State_IsobelTakenAway_b1c15a65-8060-4b9e-a73f-bde4cc143f7d, NULL_00000000-0000-0000-0000-000000000000, 0);
+RemovePreferredAiTargetTag(_Var1, ACT2_HAV_AI_HINT_ISOBELFLEE_3f261d03-8132-4f0d-a954-689a040f9f58);
+ClearTag(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, ACT2_HAV_AI_HINT_ISOBELFLEE_3f261d03-8132-4f0d-a954-689a040f9f58);
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_AtMoonrise");
+
+IF
+DB_DefeatedCauses(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+AND
+DB_Is_InCombat(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _Var3, _, _, _)
+AND
+DB_HAV_TakingIsobel_MainRoomCombat(_Var3, _, _, _, _)
+THEN
+EndCombat(_Var3);
+
+IF
+TimerFinished("HAV_TakingIsobel_FollowUpDelay", _, _, _, _)
+AND
+DB_HAV_TakingIsobel_FollowUpDialog(_, _, _, _, _)
+AND
+DB_HAV_SpyCapture_PrioPlayer(_Var2, _, _, _, _)
+AND
+IsInTrigger(_Var2, S_HAV_InnInteriorFollowUpBox_c1d2d3f4-5461-4d30-a774-86e1867326cc, _Var3, _, _)
+AND
+IsInTrigger(_Var2, S_HAV_IsobelRoomFollowUpBox_1ddc9945-3187-4eee-a2f3-8e2c06e5c06f, _Var4, _, _)
+AND
+QRY_HAV_TakingIsobel_TryFollowUpSamePlayer(_Var2, _Var3, _Var4, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(S_HAV_InnInteriorFollowUpBox_c1d2d3f4-5461-4d30-a774-86e1867326cc);
+PROC_TriggerRegisterForPlayers(S_HAV_IsobelRoomFollowUpBox_1ddc9945-3187-4eee-a2f3-8e2c06e5c06f);
+
+QRY
+QRY_HAV_TakingIsobel_TryFollowUpSamePlayer((CHARACTER)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LogicOr(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+DB_HAV_TakingIsobel_FollowUpPlayer(_Var1);
+
+QRY
+QRY_HAV_TakingIsobel_TryFollowUpSamePlayer((CHARACTER)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_InRegion(_Var1, S_HAV_IsobelRoomFollowUpBox_1ddc9945-3187-4eee-a2f3-8e2c06e5c06f, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_TakingIsobel_FollowUpPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_TakingIsobel_FollowUpPlayer(_Var1);
+
+IF
+DB_InRegion(_Var1, S_HAV_InnInteriorFollowUpBox_c1d2d3f4-5461-4d30-a774-86e1867326cc, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_TakingIsobel_FollowUpPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_TakingIsobel_FollowUpPlayer(_Var1);
+
+IF
+DB_HAV_TakingIsobel_FollowUpPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_HAV_IsobelRoomFollowUpBox_1ddc9945-3187-4eee-a2f3-8e2c06e5c06f, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_HAV_InnInteriorFollowUpBox_c1d2d3f4-5461-4d30-a774-86e1867326cc, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAV_TakingIsobel_FollowUpPlayer(_Var1);
+
+IF
+DB_HAV_TakingIsobel_FollowUpPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_TakingIsobel_FollowUpDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_OnlyOnce("HAV_TakingIsobel_FollowUpCapture", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(HAV_TakingIsobel_AD_FollowUp_cccf85eb-7788-c2b1-3dd1-eb7e59a08183, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1);
+
+PROC
+PROC_SCE_SetupDebrief()
+THEN
+GoalCompleted;
+
+PROC
+PROC_State_Changed(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", _, "HAV_Isobel_State_AtMoonrise", (STRING)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2_HAV_TakingIsobel_AfterAbduction"

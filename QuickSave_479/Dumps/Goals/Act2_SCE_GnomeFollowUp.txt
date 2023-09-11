@@ -1,0 +1,325 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SCE_GnomeFollowUp_Gnomes(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5);
+DB_SCE_GnomeFollowUp_Gnomes(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5);
+DB_SCE_Debrief_Participant(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, S_SCE_UnfortunateGnomePoint_bef88552-b2a8-4d6f-95a2-e1835cb40ed4, SCE_UnfortunateGnome_7abbfa7a-1570-4fb4-a4ad-85229255a758);
+DB_SCE_Debrief_Participant(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, S_SCE_WulbrenPoint_91e4717f-a731-470e-82ac-d4b73fdbde0e, SCE_Wulbren_4faea1b8-5b42-702c-8e42-40b0a6e9b770);
+DB_SCE_Debrief_Participant(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, S_SCE_GnomePrisonerPoint_001_72f56a99-c8f9-4e5c-bd10-29a0a08aa5e0, SCE_GnomePrisoner_001_970b199a-81ce-a6ea-fd2e-972f3816112a);
+DB_SCE_Debrief_Participant(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, S_SCE_GnomePrisonerPoint_002_634f4056-78be-47af-8b0f-23f968d6a1c9, SCE_GnomePrisoner_002_3f727684-977c-2cd8-1578-ba01482b67c1);
+DB_SCE_Debrief_Participant_Config(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "SCE_Barcus");
+DB_SCE_Debrief_Participant_Config(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "SCE_Wulbren");
+DB_SCE_Debrief_Participant_Config(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, "SCE_GnomePrisoner001");
+DB_SCE_Debrief_Participant_Config(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, "SCE_GnomePrisoner002");
+PROC_TriggerRegisterForParty(S_SCE_GnomeFollowUp_PartyNearby_Box_5d968fcc-1ff6-47be-a0a7-8c174c45c412);
+
+KBSECTION
+IF
+TextEvent("SCE_SetupGnomes_AllGnomes", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(FOR_UnfortunateGnome_State_Freed_c829895d-aba7-46e5-bc10-eb2516c8ddd6);
+PROC_GlobalSetFlagAndCache(HAV_SavingPrisoners_State_WulbrenReturned_73a0c737-a7d1-9945-01d3-003fde6ed946);
+SetFlag(HAV_WrootRequest_Wulbren_AskedAboutPlan_44f2df08-02a6-9ceb-1b8b-28012a8981e2, _Var1);
+SetFlag(HAV_WrootRequest_Wulbren_AskedAboutBarcus_ffac8e24-6f7f-d59c-84e3-a6391dbb9d7e, _Var1);
+PROC_SetAnubisConfig(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "SCE_Wulbren");
+PROC_SetAnubisConfig(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "SCE_Barcus");
+
+IF
+TextEvent("SCE_SetupGnomes_NoBarcus", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(HAV_SavingPrisoners_State_WulbrenReturned_73a0c737-a7d1-9945-01d3-003fde6ed946);
+Die(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+PROC_SetAnubisConfig(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "SCE_Wulbren");
+
+IF
+TextEvent("SCE_SetupGnomes_DeadN", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(FOR_UnfortunateGnome_State_Freed_c829895d-aba7-46e5-bc10-eb2516c8ddd6);
+PROC_GlobalSetFlagAndCache(HAV_SavingPrisoners_State_WulbrenReturned_73a0c737-a7d1-9945-01d3-003fde6ed946);
+PROC_SetAnubisConfig(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "SCE_Wulbren");
+PROC_SetAnubisConfig(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "SCE_Barcus");
+Die(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5);
+Die(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5);
+
+IF
+TextEvent("SCE_SetupGnomes_DeadWulbren", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(FOR_UnfortunateGnome_State_Freed_c829895d-aba7-46e5-bc10-eb2516c8ddd6);
+PROC_GlobalSetFlagAndCache(HAV_SavingPrisoners_State_WulbrenReturned_73a0c737-a7d1-9945-01d3-003fde6ed946);
+PROC_GlobalSetFlagAndCache(GLO_Wulbren_State_Defeated_1e67b51c-a13d-484b-9bf4-65fbc178b152);
+ClearFlag(MOO_Jailbreak_State_WulbrenFreed_f2b40211-ba53-43c1-a0a1-9827c5910018);
+PROC_SetAnubisConfig(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "SCE_Barcus");
+Die(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf);
+
+IF
+TextEvent("SCE_SetupGnomes_SetFlags", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(HAV_Nightsong_State_AtInn_a54c06a7-2b9f-47fa-9821-3d346f378237);
+
+PROC
+PROC_SCE_DEBUG_SituationSpecificFlagSet()
+THEN
+PROC_SetAnubisConfig(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, "SCE_Wulbren");
+PROC_SetAnubisConfig(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "SCE_Barcus");
+
+IF
+TextEvent("SCE_Gnomes_Assault", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_MOO_Assault_DynamicObject(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var4, _Var6, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, _Var5);
+SetOnStage(_Var2, _Var6);
+DebugText(_Var7, "Assault Dynamic Item Toggled");
+
+IF
+TextEvent("SCE_Gnomes_Assault", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_MOO_Assault_DynamicObject(NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, _Var3);
+DebugText(_Var4, "Assault Dynamic Item Toggled");
+
+QRY
+QRY_SCE_Debrief_BlockCharacter(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+AND
+DB_COL_NecromancerLab_AllZombies(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCE_Debrief_BlockCharacter((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCE_GnomeFollowUp_Gnomes(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_SavingPrisoners_State_WulbrenReturned_73a0c737-a7d1-9945-01d3-003fde6ed946, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCE_SetupDebrief()
+THEN
+NOT DB_GLO_LevelTraveler(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "SCL_Main_A", "GLO_UnfortunateGnome_Act2");
+DB_GLO_LevelTraveler(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "SCL_Main_A", "SCE_Barcus");
+
+PROC
+PROC_SCE_CharacterInEpilogueHook(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+THEN
+SetFlag(SCE_GnomeFollowUp_Wulbren_State_AtStoneWork_b728e652-c3f2-44b4-bd50-a86ed0f9d8cb);
+
+IF
+FlagSet(SCE_GnomeFollowUp_Wulbren_HasMet_cf7be0bc-042f-cc79-18e1-a5c294a12955, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(SCE_GnomeFollowUp_Wulbren_State_AtStoneWork_b728e652-c3f2-44b4-bd50-a86ed0f9d8cb);
+
+PROC
+PROC_SCE_UpdateBehaviours()
+AND NOT
+QRY_SCE_GnomeFollowUp_AnyADInQueue()
+THEN
+PROC_SCE_GnomeFollowUp_DetermineADQueue();
+
+PROC
+PROC_SCE_GnomeFollowUp_DetermineADQueue()
+AND
+DB_SCE_GnomeFollowUp_ADQueue(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SCE_GnomeFollowUp_ADQueue(_Var1, _Var2, _Var3);
+
+PROC
+PROC_SCE_GnomeFollowUp_DetermineADQueue()
+AND
+DB_SCE_Debrief_CharactersInEpilogue(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+THEN
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_Wulbren_b39f6eda-5163-2fba-bb27-2f9cd000ea78, S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCE_GnomeFollowUp_DetermineADQueue()
+AND
+DB_SCE_Debrief_CharactersInEpilogue(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, _, _, _, _)
+THEN
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_UnfortunateGnome_338d2580-cf52-5856-aa1e-a059d3ac2a98, S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCE_GnomeFollowUp_DetermineADQueue()
+AND
+DB_SCE_Debrief_CharactersInEpilogue(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, _, _, _, _)
+AND
+DB_Dead(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+THEN
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_Nimble_45a03c8a-e545-4988-7c2d-ddfee3fbc074, S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCE_GnomeFollowUp_DetermineADQueue()
+AND NOT
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_Nimble_45a03c8a-e545-4988-7c2d-ddfee3fbc074, _, _, _, _)
+AND
+DB_SCE_Debrief_CharactersInEpilogue(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, _, _, _, _)
+AND
+DB_Dead(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, _, _, _, _)
+THEN
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_Nimble_45a03c8a-e545-4988-7c2d-ddfee3fbc074, S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCE_GnomeFollowUp_DetermineADQueue()
+AND
+DB_SCE_Debrief_CharactersInEpilogue(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, _, _, _, _)
+AND
+DB_Dead(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, _, _, _, _)
+THEN
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_Nickels_a0816ebe-450d-d4c2-8ab3-d739bc2ebc4f, S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCE_GnomeFollowUp_DetermineADQueue()
+AND NOT
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_Nimble_45a03c8a-e545-4988-7c2d-ddfee3fbc074, _, _, _, _)
+AND NOT
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_Nickels_a0816ebe-450d-d4c2-8ab3-d739bc2ebc4f, _, _, _, _)
+AND
+DB_SCE_Debrief_CharactersInEpilogue(S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, _, _, _, _)
+AND
+DB_SCE_Debrief_CharactersInEpilogue(S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5, _, _, _, _)
+THEN
+DB_SCE_GnomeFollowUp_ADQueue(SCE_AD_NimbleAndNickels_eeffcf38-74c1-e4e2-aa07-889662b08681, S_GLO_GnomePrisoner_001_4fbd62e8-a486-471e-8a65-00966b058dd5, S_GLO_GnomePrisoner_002_c9a7d921-bef0-4829-8792-d48c529daee5);
+
+PROC
+PROC_SCE_GnomeFollowUp_DetermineADQueue()
+AND
+QRY_SCE_GnomeFollowUp_AnyADInQueue()
+THEN
+TimerCancel("SCE_GnomeFollowUp_ADQueue");
+TimerLaunch("SCE_GnomeFollowUp_ADQueue", 8000);
+
+IF
+TimerFinished("SCE_GnomeFollowUp_ADQueue", _, _, _, _)
+AND
+QRY_AnyCharacterInTrigger(S_SCE_GnomeFollowUp_PartyNearby_Box_5d968fcc-1ff6-47be-a0a7-8c174c45c412, _, _, _, _)
+AND
+DB_SCE_GnomeFollowUp_ADQueue(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCE_GnomeFollowUp_SelectedAD", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SCE_AvailableForBehaviorAD(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SCE_AvailableForBehaviorAD(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCE_GnomeFollowUp_StartDialog(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SCE_GnomeFollowUp_ADQueue(_Var1, _Var2, _Var3);
+PROC_SCE_GnomeFollowUp_AdvanceADQueue(3000);
+
+IF
+TimerFinished("SCE_GnomeFollowUp_ADQueue", _, _, _, _)
+AND NOT
+DB_OnlyOnce("SCE_GnomeFollowUp_SelectedAD", _, _, _, _)
+THEN
+PROC_SCE_GnomeFollowUp_AdvanceADQueue(3000);
+
+IF
+TimerFinished("SCE_GnomeFollowUp_ADQueue", _, _, _, _)
+AND
+DB_OnlyOnce("SCE_GnomeFollowUp_SelectedAD", _, _, _, _)
+AND NOT
+DB_SCE_GnomeFollowUp_PlayingDialog(_, _, _, _, _)
+AND
+QRY_OnlyOnce_Reset("SCE_GnomeFollowUp_SelectedAD", _, _, _, _)
+AND
+DB_SCE_GnomeFollowUp_ADQueue(_Var2, _Var3, _Var4, _, _)
+AND
+QRY_OnlyOnce("SCE_GnomeFollowUp_SelectedAD", _, _, _, _)
+THEN
+NOT DB_SCE_GnomeFollowUp_ADQueue(_Var2, _Var3, _Var4);
+PROC_SCE_GnomeFollowUp_AdvanceADQueue(3000);
+
+IF
+TimerFinished("SCE_GnomeFollowUp_ADQueue", _, _, _, _)
+AND
+DB_OnlyOnce("SCE_GnomeFollowUp_SelectedAD", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("SCE_GnomeFollowUp_SelectedAD");
+
+QRY
+QRY_SCE_GnomeFollowUp_StartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_SCE_GnomeFollowUp_PlayingDialog(_Var1);
+
+IF
+AutomatedDialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCE_GnomeFollowUp_PlayingDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCE_GnomeFollowUp_ADQueue(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_SCE_GnomeFollowUp_PlayingDialog(_Var1);
+NOT DB_SCE_GnomeFollowUp_ADQueue(_Var1, _Var3, _Var4);
+PROC_SCE_GnomeFollowUp_AdvanceADQueue(15000);
+
+QRY
+QRY_SCE_AvailableForBehaviorAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_MusicalPerformance(_, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_NPCs(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_HandlingCrime(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCE_AvailableForBehaviorAD(NULL_00000000-0000-0000-0000-000000000000, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCE_GnomeFollowUp_AdvanceADQueue((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_SCE_GnomeFollowUp_AnyADInQueue()
+THEN
+TimerLaunch("SCE_GnomeFollowUp_ADQueue", _Var1);
+
+PROC
+PROC_SCE_GnomeFollowUp_AdvanceADQueue(_, _, _, _, _)
+AND NOT
+DB_SCE_GnomeFollowUp_ADQueue(_, _, _, _, _)
+THEN
+PROC_SCE_GnomeFollowUp_DetermineADQueue();
+
+QRY
+QRY_SCE_GnomeFollowUp_AnyADInQueue()
+AND
+DB_SCE_GnomeFollowUp_ADQueue(_, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+LevelLoaded("INT_Main_A", _, _, _, _)
+THEN
+TimerCancel("SCE_GnomeFollowUp_ADQueue");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

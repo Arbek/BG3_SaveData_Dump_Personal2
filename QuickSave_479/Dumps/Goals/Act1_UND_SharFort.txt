@@ -1,0 +1,364 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForParty(S_UND_SharFortBox_3419cfbf-5ad0-473b-bfa6-f10cb1e4a415);
+PROC_TriggerRegisterForParty(S_UND_SharFort_RatTrigger_8f98e0c0-cf81-48d2-b408-ee7d32f3204b);
+PROC_TriggerRegisterForPlayers(S_UND_SharFortTraps_PADAutoStartTrigger_15fcc7d8-5315-44af-abf2-75f202ea9c15);
+PROC_UND_SharFort_ActivateTurrets();
+SetOnStage(S_UND_SharFort_Lever_Trap_306bf197-89d2-4440-b6aa-b58f8b5f03da, 0);
+PROC_CharacterDisableAllCrimes(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, 1);
+PROC_SetHitpointsPercentage_BlockSelfHealing(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, 30);
+DB_UND_SharFort_StatuesEyes(S_UND_SharFort_SeluneEyes_Left_aec729ee-4e10-444f-87c7-cd4cef0f0c93, S_UND_SharFort_LeftTurretHelper_e34ca904-cbc8-4327-a30b-923bb337f3cb, UND_DEC_GEN_Statue_Selune_Flipped_A_Eyes_9676d66b-9387-4325-820e-d99c3ae4ee5e, UND_DEC_GEN_Statue_Selune_Flipped_A_Eyes_NoGlow_0c7d5be3-89cf-483f-b490-efc25bde9798);
+DB_UND_SharFort_StatuesEyes(S_UND_SharFort_SeluneEyes_Right_d3b7c1f9-bb42-4f2d-8571-e961f8990598, S_UND_SharFort_RightTurretHelper_09f9f657-2d19-4e0c-8b50-90d6083d0551, UND_DEC_GEN_Statue_Selune_Normal_A_Eyes_827421ea-d85d-432a-ae14-8e64b29bac0b, UND_DEC_GEN_Statue_Selune_Normal_A_Eyes_NoGlow_fa671dce-4ca0-4708-a650-75f85f928c57);
+
+KBSECTION
+IF
+DualEntityEvent((GUIDSTRING)_Var1, S_UND_SharFort_Lever_Door_b871b4d0-493e-479c-bda5-e8c918443a7c, "UND_SharFort_Door_Open", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ItemUnlockAndOpen(S_UND_SharFort_Door_89f297fb-f018-4fe5-8a91-7d5f3248f687);
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, S_UND_SharFort_Lever_Door_b871b4d0-493e-479c-bda5-e8c918443a7c, "UND_SharFort_Door_Closed", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ItemCloseAndLock(S_UND_SharFort_Door_89f297fb-f018-4fe5-8a91-7d5f3248f687, "NOKEY");
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, S_UND_SharFort_Lever_Trap_306bf197-89d2-4440-b6aa-b58f8b5f03da, "UND_SharFort_Trap_On", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_UND_SharFort_ActivateTurrets();
+
+PROC
+PROC_UND_SharFort_ActivateTurrets()
+AND NOT
+DB_UND_SharFort_Turrets_On(1, _, _, _, _)
+AND
+IsDestroyed(S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, 0, _, _, _)
+THEN
+DB_UND_SharFort_Turrets_On(1);
+SetEntityEvent(S_UND_SharFort_RightTurretHelper_09f9f657-2d19-4e0c-8b50-90d6083d0551, "UND_SharFort_Trap_On", 1);
+SetEntityEvent(S_UND_SharFort_LeftTurretHelper_e34ca904-cbc8-4327-a30b-923bb337f3cb, "UND_SharFort_Trap_On", 1);
+PROC_UND_SharFort_TryTurnBeamsOn();
+
+PROC
+PROC_UND_SharFort_TryTurnBeamsOn()
+AND
+QRY_OnlyOnce("UND_SharFort_BeamsOn", _, _, _, _)
+THEN
+PROC_LoopBeamEffect(VFX_Script_Underdark_SharFort_Beam_02_050af654-6165-84bf-d4b7-c5d015d6a10f, S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, S_UND_SharFort_InnerHole_Left_1a123f71-b3b4-49b9-a48e-8fad6fdd07fd, "Dummy_FX", "Dummy_FX", "GemBeam_Left01", "WLD_Main_A");
+PROC_LoopBeamEffect(VFX_Script_Underdark_SharFort_Beam_02_050af654-6165-84bf-d4b7-c5d015d6a10f, S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, S_UND_SharFort_InnerHole_Right_65cc1432-af79-4558-ae7c-1070b8a26942, "Dummy_FX", "Dummy_FX", "GemBeam_Right01", "WLD_Main_A");
+PROC_LoopBeamEffect(VFX_Script_Underdark_SharFort_Beam_03_55b8e0ad-1328-e580-d755-2215638316ac, S_UND_SharFort_LeftTurretHelper_e34ca904-cbc8-4327-a30b-923bb337f3cb, S_UND_SharFort_OuterHole_Left_13d99ba2-6a4b-4179-96c8-dd09db9f407b, "Dummy_FX", "Dummy_FX", "GemBeam_Left02", "WLD_Main_A");
+PROC_LoopBeamEffect(VFX_Script_Underdark_SharFort_Beam_03_55b8e0ad-1328-e580-d755-2215638316ac, S_UND_SharFort_RightTurretHelper_09f9f657-2d19-4e0c-8b50-90d6083d0551, S_UND_SharFort_OuterHole_Right_2df5f274-0e3c-4e5d-8c38-629d3090c335, "Dummy_FX", "Dummy_FX", "GemBeam_Right02", "WLD_Main_A");
+
+PROC
+PROC_UND_SharFort_TryTurnBeamsOff()
+AND
+DB_OnlyOnce("UND_SharFort_BeamsOn", _, _, _, _)
+AND
+QRY_OnlyOnce_Reset("UND_SharFort_BeamsOn", _, _, _, _)
+THEN
+PROC_StopLoopBeamEffect(S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, "GemBeam_Left01");
+PROC_StopLoopBeamEffect(S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, "GemBeam_Right01");
+PROC_StopLoopBeamEffect(S_UND_SharFort_LeftTurretHelper_e34ca904-cbc8-4327-a30b-923bb337f3cb, "GemBeam_Left02");
+PROC_StopLoopBeamEffect(S_UND_SharFort_RightTurretHelper_09f9f657-2d19-4e0c-8b50-90d6083d0551, "GemBeam_Right02");
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, S_UND_SharFort_Lever_Trap_306bf197-89d2-4440-b6aa-b58f8b5f03da, "UND_SharFort_Trap_Off", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_UND_SharFort_DeactivateTurrets();
+
+IF
+DestroyedBy(S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, _, _, _, (CHARACTER)_)
+THEN
+PROC_TriggerUnregisterForPlayers(S_UND_SharFortTraps_PADAutoStartTrigger_15fcc7d8-5315-44af-abf2-75f202ea9c15);
+PROC_TriggerUnregisterForParty(S_UND_SharFort_RatTrigger_8f98e0c0-cf81-48d2-b408-ee7d32f3204b);
+PROC_UND_SharFort_DeactivateTurrets();
+PROC_GlobalSetFlagAndCache(UND_SharFort_Event_LightMyFire_fe0a82f1-b5b0-47d3-bab8-9cf4ecee255a);
+SetCanFight(S_UND_SharFort_LeftTurretHelper_e34ca904-cbc8-4327-a30b-923bb337f3cb, 0);
+SetCanFight(S_UND_SharFort_RightTurretHelper_09f9f657-2d19-4e0c-8b50-90d6083d0551, 0);
+
+PROC
+PROC_UND_SharFort_DeactivateTurrets()
+AND
+DB_UND_SharFort_Turrets_On(1, _, _, _, _)
+THEN
+NOT DB_UND_SharFort_Turrets_On(1);
+SetEntityEvent(S_UND_SharFort_RightTurretHelper_09f9f657-2d19-4e0c-8b50-90d6083d0551, "UND_SharFort_Trap_Off", 1);
+SetEntityEvent(S_UND_SharFort_LeftTurretHelper_e34ca904-cbc8-4327-a30b-923bb337f3cb, "UND_SharFort_Trap_Off", 1);
+PROC_UND_SharFort_TryTurnBeamsOff();
+
+IF
+FlagSet(UND_SharFort_Event_LightMyFire_fe0a82f1-b5b0-47d3-bab8-9cf4ecee255a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(UND_SharFort_Event_LightMyFire_fe0a82f1-b5b0-47d3-bab8-9cf4ecee255a);
+
+IF
+StatusApplied(S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, "UND_SUSSURTREEANTIMAGIC", _, _, (GUIDSTRING)_)
+THEN
+PROC_UND_SharFort_DeactivateTurrets();
+
+IF
+StatusRemoved(S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, "UND_SUSSURTREEANTIMAGIC", _, _, _)
+AND
+IsDestroyed(S_UND_Gem_42fed6e4-c2b9-415f-be94-0e4a0d873c7f, 0, _, _, _)
+THEN
+PROC_UND_SharFort_ActivateTurrets();
+
+PROC
+PROC_UND_SharFort_DeactivateTurrets()
+AND
+DB_UND_SharFort_StatuesEyes(_Var1, _, _, _Var4, _Var1)
+AND NOT
+DB_UND_SharFort_EyesDiactivated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Transform(_Var1, _Var4, PHYSICAL_4acc6277-6dcd-4110-9450-b9379beaedac);
+DB_UND_SharFort_EyesDiactivated(_Var1);
+
+IF
+AttackedBy((ITEM)_Var1, (CHARACTER)_Var2, _, _, _, _, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_UND_SharFort_Turrets_On(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_SharFort_StatuesEyes(_Var1, _Var8, _, _Var10, _Var1)
+AND NOT
+DB_UND_SharFort_EyesDiactivated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_SharFort_EyesBlinded(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_SharFort_EyesBlinded(_Var1);
+Transform(_Var1, _Var10, PHYSICAL_4acc6277-6dcd-4110-9450-b9379beaedac);
+SetEntityEvent(_Var8, "UND_SharFort_Trap_Blinded");
+ObjectTimerLaunch(_Var1, "UND_SharFort_Trap_BlindnessEnded_Timer", 11500);
+
+IF
+ObjectTimerFinished((ITEM)_Var1, "UND_SharFort_Trap_BlindnessEnded_Timer", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_UND_SharFort_Turrets_On(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_SharFort_StatuesEyes(_Var1, _Var2, _Var3, _, _Var1)
+AND NOT
+DB_UND_SharFort_EyesDiactivated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_SharFort_EyesBlinded(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_SharFort_EyesBlinded(_Var1);
+Transform(_Var1, _Var3, PHYSICAL_4acc6277-6dcd-4110-9450-b9379beaedac);
+SetEntityEvent(_Var2, "UND_SharFort_Trap_BlindnessEnded", 1);
+
+IF
+StatusApplied((ITEM)_Var1, "UND_SUSSURTREEANTIMAGIC", _, _, (ITEM)_Var1)
+AND
+DB_UND_SharFort_StatuesEyes(_Var1, _Var4, _, _, _Var1)
+THEN
+SetEntityEvent(_Var4, "UND_SharFort_Trap_SussurApplied", 1);
+
+IF
+StatusRemoved((ITEM)_Var1, "UND_SUSSURTREEANTIMAGIC", _, _, (ITEM)_Var1)
+AND
+DB_UND_SharFort_StatuesEyes(_Var1, _Var4, _, _, _Var1)
+THEN
+SetEntityEvent(_Var4, "UND_SharFort_Trap_SussurRemoved", 1);
+
+IF
+KilledBy(_, (GUIDSTRING)_Var2, _, _, _)
+AND
+DB_UND_SharFort_StatuesEyes(_, _Var6, _, _, _)
+THEN
+PROC_UND_SharFort_TurretVBStartTimer();
+
+IF
+AttackedBy(_, (GUIDSTRING)_Var2, _, _, _, _, _, _, _, _)
+AND
+DB_UND_SharFort_StatuesEyes(_, _Var2, _, _, _)
+AND
+DB_Players(_Var11, _, _, _, _)
+AND
+DB_InRegion(_Var11, S_UND_SharFort_RatTrigger_8f98e0c0-cf81-48d2-b408-ee7d32f3204b, _, _, _)
+AND
+DB_CantMove(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _, _, _, _)
+AND NOT
+QRY_OncePerUserAndNearbyPlayers_IsSet(_Var11, "UND_SharFort_TurretVB", _, _, _)
+THEN
+PROC_UND_SharFort_TurretVBStartTimer();
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_UND_SharFortTraps_PADAutoStartTrigger_15fcc7d8-5315-44af-abf2-75f202ea9c15, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_OncePerUserAndNearbyPlayers_IsSet(_Var1, "UND_SharFort_TurretVB", _Var1, _Var1, _Var1)
+THEN
+PROC_UND_SharFort_TurretVBStartTimer();
+
+PROC
+PROC_UND_SharFort_TurretVBStartTimer()
+AND NOT
+DB_UND_SharFort_TurretVB_TimerRunning(1, _, _, _, _)
+THEN
+DB_UND_SharFort_TurretVB_TimerRunning(1);
+TimerLaunch("UND_SharFort_TurretVB_Timer", 1500);
+
+IF
+TimerFinished("UND_SharFort_TurretVB_Timer", _, _, _, _)
+AND
+DB_UND_SharFort_TurretVB_TimerRunning(1, _, _, _, _)
+THEN
+NOT DB_UND_SharFort_TurretVB_TimerRunning(1);
+PROC_UND_SharFort_TryStartTrapsVB();
+
+PROC
+PROC_UND_SharFort_TryStartTrapsVB()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_SharFort_Turrets_On(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_UND_SharFort_PADAllowTrigger_dae97fb3-92fe-4f75-8499-dbd033441b02, 1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "UND_SharFort_TurretVB", _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(UND_BlockpostTraps_VB_3c7f30e7-b051-6cf1-d3bc-9fa15c86be9a, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_UND_SharFort_RatTrigger_8f98e0c0-cf81-48d2-b408-ee7d32f3204b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_SharFort_RatStartsMoving();
+
+IF
+Opened(S_UND_SharFort_Door_89f297fb-f018-4fe5-8a91-7d5f3248f687, _, _, _, _)
+THEN
+PROC_UND_SharFort_RatStartsMoving();
+
+IF
+DestroyedBy(S_UND_SharFort_Door_89f297fb-f018-4fe5-8a91-7d5f3248f687, _, _, _, (CHARACTER)_)
+THEN
+PROC_UND_SharFort_RatStartsMoving();
+
+PROC
+PROC_UND_SharFort_DeactivateTurrets()
+THEN
+PROC_UND_SharFort_RatStartsMoving();
+
+PROC
+PROC_UND_SharFort_RatStartsMoving()
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _, _, _, _)
+AND NOT
+DB_UND_SharFort_RatRushed(1, _, _, _, _)
+THEN
+DB_UND_SharFort_RatRushed(1);
+SetEntityEvent(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, "UND_SharFort_BaitStartsMoving", 1);
+
+PROC
+PROC_UND_SharFort_RatStartsMoving()
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _, _, _, _)
+THEN
+PROC_TriggerRegisterForParty(S_UND_SharFort_BridgeBox_52bc8107-2249-4844-bd18-06e9b47c8c83);
+
+IF
+AttackedBy(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, (CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_UND_SharFortBox_3419cfbf-5ad0-473b-bfa6-f10cb1e4a415, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_SharFort_EnableMinotaurCombatFull();
+
+IF
+AttackedBy(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, (CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_SharFort_Turrets_On(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_SharFort_EnableMinotaurCombatFull();
+
+IF
+DB_InRegion(_Var1, S_UND_SharFort_BridgeBox_52bc8107-2249-4844-bd18-06e9b47c8c83, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_SharFort_Turrets_On(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_SharFort_EnableMinotaurCombatFull();
+
+IF
+DestroyedBy(S_UND_SharFort_Door_89f297fb-f018-4fe5-8a91-7d5f3248f687, _, _, _, _)
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _, _, _, _)
+THEN
+PROC_UND_SharFort_EnableMinotaurCombatFull();
+
+IF
+Opened(S_UND_SharFort_Door_89f297fb-f018-4fe5-8a91-7d5f3248f687, _, _, _, _)
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _, _, _, _)
+THEN
+PROC_UND_SharFort_EnableMinotaurCombatFull();
+
+IF
+EnteredCombat(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _, _, _, _)
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _, _, _, _)
+THEN
+PROC_UND_SharFort_EnableMinotaurCombatFull();
+
+PROC
+PROC_UND_SharFort_EnableMinotaurCombatFull()
+AND
+QRY_OnlyOnce("PROC_UND_SharFort_EnableMinotaurCombatFull", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForParty(S_UND_SharFort_BridgeBox_52bc8107-2249-4844-bd18-06e9b47c8c83);
+PROC_CharacterEnableAllCrimes(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809);
+SetCanFight(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, 1);
+PROC_SelfHealing_Disable(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809);
+
+IF
+TextEvent("UND_SharFort_Event_LightMyFire", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_SharFort_Event_LightMyFire_fe0a82f1-b5b0-47d3-bab8-9cf4ecee255a);
+
+IF
+TextEvent("UND_SharFort_Event_DouseMyFire", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_SharFort_Event_DouseMyFire_d1f789b9-2998-48dd-8546-eacfd0cc4946);
+
+IF
+TextEvent("UND_SharFort_TestRat", _, _, _, _)
+AND
+QRY_OnlyOnce_Reset("PROC_UND_SharFort_EnableMinotaurCombatFull", _, _, _, _)
+THEN
+TeleportTo(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, S_UND_Bulette_BurrowPath_004_Start_1c0fe121-932e-4d03-92eb-76418e19379f);
+Resurrect(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809);
+SetHitpoints(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, 9999);
+NOT DB_UND_SharFort_RatRushed(1);
+PROC_UND_SharFort_RatStartsMoving();
+
+IF
+FlagSet(UND_SharFort_Event_DouseMyFire_d1f789b9-2998-48dd-8546-eacfd0cc4946, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(UND_SharFort_Event_DouseMyFire_d1f789b9-2998-48dd-8546-eacfd0cc4946);
+
+IF
+FlagSet(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+PROC_UND_SharFort_DeactivateTurrets();
+NOT DB_UND_SharFort_Turrets_On(1);
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

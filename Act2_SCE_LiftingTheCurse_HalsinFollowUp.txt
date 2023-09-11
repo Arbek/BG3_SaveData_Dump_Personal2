@@ -1,0 +1,63 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SCE_Debrief_Participant(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, S_SCE_HalsinPoint_42a37fda-9c3d-4a78-b7ff-482e2c5c38c2, SCE_Halsin_12ef293e-01cc-8884-ad52-22231c24fc1f);
+
+KBSECTION
+QRY
+QRY_SCE_Debrief_BlockCharacter(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND NOT
+DB_GlobalFlag(Debug_SCE_HalsinFollowUp_HalsinInclude_636aa603-e21b-4824-9177-76517725e4ba, _, _, _, _)
+AND
+QRY_State_IsBeforeState(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinInAct2", _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCE_Debrief_BlockCharacter(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND NOT
+DB_GlobalFlag(Debug_SCE_HalsinFollowUp_HalsinInclude_636aa603-e21b-4824-9177-76517725e4ba, _, _, _, _)
+AND NOT
+QRY_SCE_Debrief_BlockCharacter(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCE_Debrief_BlockCharacter(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND NOT
+DB_GlobalFlag(Debug_SCE_HalsinFollowUp_HalsinInclude_636aa603-e21b-4824-9177-76517725e4ba, _, _, _, _)
+AND
+DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinInShadowFell", _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCE_Debrief_BlockCharacter(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND
+DB_GlobalFlag(Debug_SCE_HalsinFollowUp_HalsinBlock_48281ef2-1795-4532-a7d9-44145da2584a, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCE_Debrief_BlockCharacter(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND
+DB_PartyMembers(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(GLO_LiftingTheCurse_State_BreathHasBeenRestored_2113b54e-a140-4aa0-97ac-219fa7b7d038, _, _, _, _)
+AND
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+THEN
+TeleportTo(S_HAV_SpiritOfTheLand_1403cdfd-0660-4592-90c6-bfe4607ccd3a, S_SCE_SpiritPoint_f540bdee-3239-40a7-a9c9-b03200e0bace, "SCE_TeleportThanielToExit_Late", 0, 0, 0, 0, 1);
+PROC_RemoveDialog(S_HAV_SpiritOfTheLand_1403cdfd-0660-4592-90c6-bfe4607ccd3a);
+PROC_GlobalSetFlagAndCache(SCL_ShadowCurse_State_CurseLifted_af78af4a-48b2-46a8-be6f-f25dfa579471);
+DB_Dialogs(S_HAV_SpiritOfTheLand_1403cdfd-0660-4592-90c6-bfe4607ccd3a, HAV_HalsinQuest_Spirit_85232c87-9912-7c37-c068-3196688f88b3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

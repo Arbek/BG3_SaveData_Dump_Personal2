@@ -1,0 +1,892 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c);
+DB_HostileToPlayerGroupCancelFlag(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8, ACT1_UND_Myconids_5a3114c3-1a49-4cd8-2b4e-92f536913e30);
+DB_IgnoreMutingStatussesDialog(UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c);
+DB_IgnoreMutingStatussesDialog(UND_Myconid_BroodingSovereign_Raft_f6f33683-5889-e6b0-e6a9-0810856ec3ea);
+DB_IgnoreMutingStatussesDialog(UND_MyconidCircle_BroodingSovereign_Leave_d7968940-c47a-7f64-28d6-6cd9a6c0aaca);
+DB_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c);
+DB_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, UND_MyconidCircle_BroodingSovereign_Leave_d7968940-c47a-7f64-28d6-6cd9a6c0aaca);
+DB_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, UND_Myconid_BroodingSovereign_Raft_f6f33683-5889-e6b0-e6a9-0810856ec3ea);
+DB_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_Event_BetrayGlut_bc02af6d-dc65-7322-a28c-9e68dc4ea875, UND_MyconidSovereign_934d97d0-922c-7c31-05fe-054bcc630447);
+DB_GlobalFlagReactionAfterDialog(UND_BroodingSovereign_State_RefusedCircle_d0237569-b266-24c9-60f8-06eda3131892, UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c);
+DB_UND_BroodingSovereign_Home(S_UND_MyconidCircle_BroodingSovereign_Home_ad46b61d-35f3-40e7-a010-62a9d89b30e3);
+DB_UND_BroodingSpovereign_FollowingRegions(S_UND_MyconidCircle_UnderdarkRegion_Main_fdf3b75f-4488-449d-bced-a936b0590bf1);
+DB_UND_BroodingSpovereign_FollowingRegions(S_UND_MyconidCircle_UnderdarkRegion_KuoToa_d5626641-d631-4983-b5a5-77d5c07c872a);
+DB_UND_BroodingSovereign_ExitPoints(S_SHA_TempleAccess_StairsDownstairs_3780fa8f-9257-4998-81c4-1b28c293b26e);
+DB_UND_BroodingSovereign_ExitPoints(S_UND_Elevator_ToCaravanserai_b0bafa5b-ca00-4c94-af1c-12ced8562b4e);
+DB_UND_BroodingSovereign_ExitPoints(S_UND_FairyRings_Main_MushroomRing_ToSwamp_b71a59f4-52c6-4ed2-9d91-8c76815280e6);
+DB_UND_BroodingSovereign_ExitPoints_WithinUnderdark(S_UND_EbonLake_RaftAtCave_FullRaft_a24aa852-9f72-48bc-8d94-7a92da7ca4c1);
+DB_UND_BroodingSovereign_ExitPoints_WithinUnderdark(S_UND_DuergarCamp_BoatAtCave_f350ecc8-67ab-4ffa-ba0f-2ca6a4bc9845);
+DB_GLO_DefeatCounter(S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265, "UND_BroodingSovereign_DefeatCounter_Spaw");
+DB_GLO_DefeatCounter(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, "UND_BroodingSovereign_DefeatCounter_Glut");
+TriggerRegisterForCharacter(S_UND_MyconidCircle_SUB_4b5cc8fc-88f4-465e-bf82-4c20b055c019, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+DB_UND_BroodingSovereign_LeftUNDEntries(0, "KillDuergar_LeftUND");
+DB_UND_BroodingSovereign_LeftUNDEntries(1, "AfterKill_LeftUND");
+DB_QuestDef_State(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, "UND_BroodingSovereign", "KilledDuergar");
+DB_QuestDef_State_ConditionalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, "UND_BroodingSovereign", "RefusedThenAccepted", 1, UND_MyconidCircle_State_DeclinedBroodingSovereign_a8d48927-5819-08af-fc29-502c5751e3c9);
+DB_QuestDef_State_ConditionalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, "UND_BroodingSovereign", "AcceptedJoin", 0, UND_MyconidCircle_State_DeclinedBroodingSovereign_a8d48927-5819-08af-fc29-502c5751e3c9);
+DB_UND_BroodingSovereign_CantReachSuspectibleEntries("RefusedEscort");
+DB_UND_BroodingSovereign_CantReachSuspectibleEntries("AcceptedEscort");
+DB_UND_BroodingSovereign_CantReachSuspectibleEntries("AfterKill_LeftUND");
+DB_QuestDef_State(UND_MyconidCircle_BroodingSovereign_State_Dead_da7ae2b1-fa67-0889-6003-48d6aef7271d, "UND_BroodingSovereign", "GlutDead");
+DB_QuestDef_State(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, "UND_BroodingSovereign", "Left");
+DB_DeadEvent(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, UND_MyconidCircle_BroodingSovereign_State_LoneDuergar_IsDead_5f622802-d6d9-48df-8cb2-8b5a3ec573c2);
+
+KBSECTION
+IF
+FlagSet(UND_BroodingSovereign_Event_Enlarged_cab76d90-68b1-40d9-95ce-74274c425d85, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+SetIsBoss(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, 1);
+ApplyStatus(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, "UND_GLUT_ENRAGE", -1, 0, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+
+IF
+DB_UND_BroodingSpovereign_FollowingRegions(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+
+QRY
+QRY_UND_BroodingSovereign_StillUND((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_BroodingSpovereign_FollowingRegions(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+PositionIsInTrigger(_Var3, _Var4, _Var5, _Var2, 1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_UND_BroodingSovereign_Leader(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_Leader(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_UND_BroodingSovereign_Leader(_Var2);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _, (INTEGER)_Var2, _, _)
+AND NOT
+DB_UND_BroodingSoveign_PrepareLeave_Leader(_, _, _, _, _)
+AND
+DialogGetInvolvedPlayer(_Var2, 1, _Var4, _, _)
+THEN
+PROC_UND_BroodingSovereign_Join(_Var4);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _, (INTEGER)_Var2, _, _)
+AND
+DB_UND_BroodingSoveign_PrepareLeave_Leader(_Var3, _, _, _, _)
+THEN
+PROC_UND_BroodingSovereign_Join(_Var3);
+
+PROC
+PROC_UND_BroodingSovereign_Join((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+AddPartyFollower(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1);
+
+PROC
+PROC_UND_BroodingSovereign_Join((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_UND_BroodingSovereign_Leader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_BroodingSovereign_Leader(_Var1);
+
+PROC
+PROC_UND_BroodingSovereign_Join((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_NecroMushrooms_Corpse(_Var2, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+AddPartyFollower(_Var2, _Var1);
+
+PROC
+PROC_UND_BroodingSovereign_LeaveDialog((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_StartDialog(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var2, _Var1, _Var1)
+THEN
+DB_UND_BroodingSoveign_PrepareLeave_Leader(_Var3);
+
+IF
+DB_PermaDefeated(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_Leader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_BroodingSovereign_GoHome(_Var1);
+
+IF
+DB_PermaDefeated(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_NecroMushrooms_Corpse(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_NecroMushrooms_Corpse(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+
+IF
+FlagCleared(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _, _, _, _)
+AND
+DB_UND_BroodingSovereign_Leader(_Var3, _, _, _, _)
+THEN
+PROC_UND_BroodingSovereign_GoHome(_Var3);
+
+PROC
+PROC_UND_BroodingSovereign_GoHome((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _Var1, 0);
+NOT DB_UND_BroodingSovereign_Leader(_Var1);
+RemovePartyFollower(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1);
+PROC_UND_BroodingSovereign_Triggers(_Var1, 0);
+ClearFlag(UND_MyconidCircle_BroodingSovereign_Event_Leave_60785a26-f4dd-4353-8963-4b44283bb7d3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_UND_BroodingSovereign_GoHome((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_NecroMushrooms_Corpse(_Var2, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1)
+AND
+IsPartyMember(_Var2, 1, 1, _Var1, _Var1)
+THEN
+RemovePartyFollower(_Var2, _Var1);
+
+IF
+DB_UND_BroodingSovereign_Leader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_BroodingSovereign_Triggers(_Var1, 1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_Event_Leave_60785a26-f4dd-4353-8963-4b44283bb7d3, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSovereign_Leader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_BroodingSovereign_GoHome(_Var1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_UND_BroodingSovereign_LeaveAreaLift_602be009-55bb-4b2a-a086-339169e3d4fd, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsPartyFollower(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, 1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(UND_MyconidCircle_BroodingSovereign_Leave_d7968940-c47a-7f64-28d6-6cd9a6c0aaca, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_UND_BroodingSovereign_Triggers((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+TriggerRegisterForCharacter(S_UND_BroodingSovereign_LeaveAreaLift_602be009-55bb-4b2a-a086-339169e3d4fd, _Var1);
+
+PROC
+PROC_UND_BroodingSovereign_Triggers((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+TriggerUnregisterForCharacter(S_UND_BroodingSovereign_LeaveAreaLift_602be009-55bb-4b2a-a086-339169e3d4fd, _Var1);
+
+PROC
+PROC_UND_BroodingSovereign_Triggers((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSpovereign_FollowingRegions(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var2, _Var1);
+
+PROC
+PROC_UND_BroodingSovereign_Triggers((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSpovereign_FollowingRegions(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var2, _Var1);
+
+IF
+LeftTrigger(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _, _, _, _)
+AND NOT
+QRY_UND_BroodingSovereign_StillUND(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _, _, _, _)
+AND
+DB_UND_BroodingSovereign_Leader(_Var2, _, _, _, _)
+THEN
+PROC_UND_BroodingSovereign_QuestUpdate_LeftUND(_Var2);
+PROC_UND_BroodingSovereign_GoHome(_Var2);
+
+IF
+UsingSpellOnTarget(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, (CHARACTER)_Var1, "Target_AnimatingSpores", _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_UND_NecroMushrooms_Corpse(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+
+IF
+DB_UND_NecroMushrooms_Corpse(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_BroodyngSovereign_CorpseAD", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(UND_BroodingMyconid_AD_Resurrecting_573eb343-94fc-676e-699b-371c849659a8, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+
+IF
+EntityEvent((CHARACTER)_Var1, "UND_NecroMushrooms_Event_CorpseResurrected", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_NecroMushrooms_Corpse(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_Leader(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, S_UND_BroodingSovereign_FollowingRegion_fdf3b75f-4488-449d-bced-a936b0590bf1, 1, _Var1, _Var1)
+THEN
+AddPartyFollower(_Var1, _Var2);
+
+IF
+DialogEnded(UND_MyconidSovereign_934d97d0-922c-7c31-05fe-054bcc630447, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_AcceptedQuest_3aa48080-074b-457d-acbc-fcb970d9912b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_AcceptedHelp_642e8dfe-867b-c408-bf0b-7b2392e44472, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, "UND_MyconidCircle_BroodingSovereignSpot", NULL_00000000-0000-0000-0000-000000000000, UND_MyconidCircle_BroodingSovereign_Spoke_b22db7e4-ee0f-4621-a242-c6f5cfbae1ce);
+
+PROC
+PROC_SpotPlayers_Spotted(_, "UND_MyconidCircle_BroodingSovereignSpot", (CHARACTER)_Var2, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+QRY_StartDialog(UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var2, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_Spoke_b22db7e4-ee0f-4621-a242-c6f5cfbae1ce, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("UND_BroodingSovereign_KillCounter_LoneDuergar", _, _, _, _)
+THEN
+SetFlag(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DialogFlagSetup(UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_Leader(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, S_UND_BroodingSovereign_LoneDuergarNoticeArea_1370c6a0-d6e6-4ca7-a64c-fc11829e6138, 1, _Var1, _Var1)
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EnteredCombat(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_UND_BroodingSovereign_DuergarFight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CombatGetGuidFor(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var1 == _Var2
+THEN
+DB_UND_BroodingSovereign_DuergarFight(_Var1);
+
+IF
+EnteredCombat(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_UND_BroodingSovereign_DuergarFight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CombatGetGuidFor(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var1 == _Var2
+THEN
+DB_UND_BroodingSovereign_DuergarFight(_Var1);
+
+PROC
+PROC_StateSet_Defeated(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CombatGetGuidFor(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_DuergarFight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_BroodingSovereign_DuergarFight_PrepareFlag(_Var1);
+NOT DB_UND_BroodingSovereign_DuergarFight(_Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_BroodingSovereign_DuergarFight_PrepareFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_BroodingSovereign_DuergarFight_PrepareFlag(_Var1);
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+LeftCombat(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_BroodingSovereign_DuergarFight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_BroodingSovereign_DuergarFight(_Var1);
+
+IF
+LeftCombat(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_BroodingSovereign_DuergarFight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_BroodingSovereign_DuergarFight(_Var1);
+
+IF
+FlagSet(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+GetDistanceTo(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, _Var2, _, _)
+AND
+_Var2 <= 20
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+Saw(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, _, _, _)
+AND
+GetFlag(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EnteredChasm(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, _, _, _, _, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_CantReachDuergar_68069e1d-a9e5-4fdd-8664-22942b1afa96, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_Surrender_Fled(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, _, _, _, _)
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_CantReachDuergar_68069e1d-a9e5-4fdd-8664-22942b1afa96, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_IronFlasked(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, _, _, _, _)
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_CantReachDuergar_68069e1d-a9e5-4fdd-8664-22942b1afa96, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, _, _, _, _)
+AND
+DB_UND_BroodingSovereign_Leader(_Var3, _, _, _, _)
+AND
+IsInCombat(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, 0, _, _, _)
+AND
+QRY_OnlyOnce("UND_BroodingSovereign_DuergarDead_Reaction", _, _, _, _)
+THEN
+PROC_TryStartAD(UND_BroodingMyconid_AD_DuergarDead_0e3153d0-7539-3e6f-9e8d-c442f877fba6, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+
+IF
+LeftCombat(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _, _, _, _)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, _, _, _, _)
+AND
+QRY_OnlyOnce("UND_BroodingSovereign_DuergarDead_Reaction", _, _, _, _)
+AND
+DB_UND_BroodingSovereign_Leader(_Var2, _, _, _, _)
+THEN
+PROC_TryStartAD(UND_BroodingMyconid_AD_DuergarDead_0e3153d0-7539-3e6f-9e8d-c442f877fba6, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+
+PROC
+PROC_DialogFlagSetup(UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_Leader(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, _Var2, _Var1, _Var1)
+AND
+_Var2 <= 25
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_SawDuergar_3ed49391-a703-466c-819e-1c1a5c10c6d9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+AttackedBy((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Quest_AcceptedCircleWipe_279e0906-6562-4542-9799-8ca79175f2be, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_MyconidCircle_Myconids(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46
+THEN
+SetFaction(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, ACT1_UND_BroodingSovereign_CircleEnemy_60b2534f-a05e-4768-8410-14d988201c5b);
+PROC_SetRelationToPlayers(ACT1_UND_Myconids_5a3114c3-1a49-4cd8-2b4e-92f536913e30, 0);
+
+IF
+AttackedBy((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_MyconidCircle_DuergarSlaves(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Quest_AcceptedCircleWipe_279e0906-6562-4542-9799-8ca79175f2be, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFaction(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, ACT1_UND_BroodingSovereign_CircleEnemy_60b2534f-a05e-4768-8410-14d988201c5b);
+PROC_SetRelationToPlayers(ACT1_UND_Myconids_5a3114c3-1a49-4cd8-2b4e-92f536913e30, 0);
+
+IF
+FlagSet(UND_MyconidCircle_Event_CombatWithPlayers_0f8aee24-7971-4de4-9294-9ab91d63bb3c, _, _, _, _)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Quest_AcceptedCircleWipe_279e0906-6562-4542-9799-8ca79175f2be, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8, _, _, _, _)
+THEN
+SetFaction(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, ACT1_UND_BroodingSovereign_CircleEnemy_60b2534f-a05e-4768-8410-14d988201c5b);
+
+IF
+DB_PermaDefeated(S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _, _, _, _)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Quest_AcceptedCircleWipe_279e0906-6562-4542-9799-8ca79175f2be, _, _, _, _)
+AND
+DB_InRegion(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, S_UND_MyconidCircle_SUB_4b5cc8fc-88f4-465e-bf82-4c20b055c019, _, _, _)
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8, _, _, _, _)
+THEN
+SetFaction(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, ACT1_UND_Myconids_BroodingMyconid_d12b2d24-f7fe-43f6-b267-30082c324400);
+PROC_SetRelationToPlayers(ACT1_UND_Myconids_5a3114c3-1a49-4cd8-2b4e-92f536913e30, 50);
+ClearFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8, _, _, _, _)
+AND NOT
+DB_PartyMembers(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _, _, _, _)
+AND
+QRY_OnlyOnce("UND_BroodingSovereign_CelebrationSpotting_OnlyOnce", _, _, _, _)
+THEN
+DB_SpotPlayers(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, "UND_BroodingSovereign_CelebrationSpotting", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_Event_BetrayGlut_bc02af6d-dc65-7322-a28c-9e68dc4ea875, UND_MyconidSovereign_934d97d0-922c-7c31-05fe-054bcc630447, _, _, _)
+THEN
+SetFaction(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, ACT1_UND_BroodingSovereign_CircleEnemy_60b2534f-a05e-4768-8410-14d988201c5b);
+
+IF
+BaseFactionChanged(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _, ACT1_UND_BroodingSovereign_CircleEnemy_60b2534f-a05e-4768-8410-14d988201c5b, _, _)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Event_BetrayGlut_bc02af6d-dc65-7322-a28c-9e68dc4ea875, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT1_UND_BroodingSovereign_CircleEnemy_60b2534f-a05e-4768-8410-14d988201c5b, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_BroodingSovereign_State_RefusedCircle_d0237569-b266-24c9-60f8-06eda3131892, UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Event_BetrayGlut_bc02af6d-dc65-7322-a28c-9e68dc4ea875, _, _, _, _)
+THEN
+SetFaction(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, Act1_UND_BroodingSovereign_Refused_25b89bcf-68ce-4327-820f-780d714b398f);
+
+PROC
+PROC_WaypointTeleported((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSovereign_Leader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_BroodingSovereign_WaypointWait(_Var1);
+TimerLaunch("UND_BroodingSovereign_Waypoint_Teleport", 500);
+
+IF
+TimerFinished("UND_BroodingSovereign_Waypoint_Teleport", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSovereign_WaypointWait(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_UND_BroodingSovereign_StillUND(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, "UND_BroodingSovereign_Event_WaypointTeleport");
+
+IF
+TimerFinished("UND_BroodingSovereign_Waypoint_Teleport", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSovereign_WaypointWait(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_BroodingSovereign_WaypointWait(_Var1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSovereign_ExitPoints_WithinUnderdark(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_UND_BroodingSovereign_NeedsToStopPlayer(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+PROC_UND_BroodingSovereign_GoHome(_Var3);
+PROC_UND_BroodingSovereign_LeaveDialog(UND_Myconid_BroodingSovereign_Raft_f6f33683-5889-e6b0-e6a9-0810856ec3ea, _Var1, _Var3);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSovereign_ExitPoints(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_UND_BroodingSovereign_NeedsToStopPlayer(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+PROC_UND_BroodingSovereign_GoHome(_Var3);
+PROC_UND_BroodingSovereign_LeaveDialog(UND_MyconidCircle_BroodingSovereign_Leave_d7968940-c47a-7f64-28d6-6cd9a6c0aaca, _Var1, _Var3);
+
+QRY
+QRY_GLO_BlockTeleportToWaypoint((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_UND_BroodingSovereign_StillUND(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_UND_BroodingSovereign_HimselfOrLeadersMinion(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_UND_BroodingSovereign_NeedsToStopPlayer(NULL_00000000-0000-0000-0000-000000000000, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_BroodingSovereign_GoHome(_Var3);
+PROC_UND_BroodingSovereign_LeaveDialog(UND_MyconidCircle_BroodingSovereign_Leave_d7968940-c47a-7f64-28d6-6cd9a6c0aaca, _Var3, _Var3);
+
+QRY
+QRY_GLO_BlockTeleportToWaypoint((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_UND_BroodingSovereign_StillUND(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_UND_BroodingSovereign_HimselfOrLeadersMinion(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_UND_BroodingSovereign_NeedsToStopPlayer(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_BroodingSovereign_GoHome(_Var3);
+PROC_UND_BroodingSovereign_LeaveDialog(UND_MyconidCircle_BroodingSovereign_Leave_d7968940-c47a-7f64-28d6-6cd9a6c0aaca, _Var1, _Var3);
+
+QRY
+QRY_UND_BroodingSovereign_HimselfOrLeadersMinion(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_UND_BroodingSovereign_HimselfOrLeadersMinion((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+CharacterGetOwner(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 == _Var3
+THEN
+DB_NOOP(1);
+
+IF
+TeleportedToCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_WaitingForParty_acaea6bf-9bf1-436f-ab41-c2f77ded4a41, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_UND_BroodingSovereign_WaitingForLeader(_Var2);
+PROC_UND_BroodingSovereign_GoHome(_Var2);
+
+IF
+TeleportedFromCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_WaitingForParty_acaea6bf-9bf1-436f-ab41-c2f77ded4a41, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_WaitingForLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_UND_BroodingSovereign_StillUND(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_BroodingSovereign_AfterCamp_Teleport(_Var1);
+PROC_UND_BroodingSovereign_Join(_Var1);
+SetFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_UND_BroodingSovereign_AfterCamp_Teleport((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetDistanceTo(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var2, _Var1, _Var1)
+AND
+_Var2 >= 10
+THEN
+PlayEffect(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, VFX_Script_Stub_Poof_01_f0cf792a-0f74-d17e-ad0d-6052a6131416);
+TeleportTo(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, "UND_BroodingSovereign_Event_WaypointTeleport");
+PlayEffect(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, VFX_Script_Stub_Poof_01_f0cf792a-0f74-d17e-ad0d-6052a6131416);
+
+IF
+TeleportedFromCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_WaitingForParty_acaea6bf-9bf1-436f-ab41-c2f77ded4a41, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_WaitingForLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_UND_BroodingSovereign_StillUND(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_BroodingSovereign_QuestUpdate_LeftUND(_Var1);
+
+IF
+TeleportedFromCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_BroodingSovereign_WaitingForLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(UND_MyconidCircle_BroodingSovereign_State_WaitingForParty_acaea6bf-9bf1-436f-ab41-c2f77ded4a41, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_UND_BroodingSovereign_WaitingForLeader(_Var1);
+
+QRY
+QRY_UND_BroodingSovereign_NeedsToStopPlayer(NULL_00000000-0000-0000-0000-000000000000, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_UND_BroodingSovereign_NeedsToStopPlayer((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 == _Var2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_UND_BroodingSovereign_NeedsToStopPlayer((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != _Var2
+AND
+IsInPartyWith(_Var2, _Var1, 1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(UND_MyconidCircle_Sovereign_State_Dead_bcfa3d32-7250-4c44-9eff-fbf30cef2b6e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_UND_BroodingSovereign_Home(S_UND_MyconidCircle_SovereignIdlePoint_304a2732-9882-4084-b7ad-4e38c3b4e989);
+
+IF
+DB_UND_BroodingSovereign_Home(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_Home(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+SetEntityEvent(_Var1, "UND_BroodingSovereign_NewHome");
+NOT DB_UND_BroodingSovereign_Home(_Var2);
+
+IF
+EntityEvent(_, "UND_BroodingSovereign_GetHome", _, _, _)
+AND
+DB_UND_BroodingSovereign_Home(_Var2, _, _, _, _)
+THEN
+SetEntityEvent(_Var2, "UND_BroodingSovereign_NewHome");
+
+PROC
+PROC_SpotPlayers_Spotted(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, "UND_BroodingSovereign_CelebrationSpotting", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SpeakerIsInDialogRange(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("UND_BroodingSovereign_KillLoneDuergar", _, _, _, _)
+THEN
+PROC_UND_BroodingSovereign_Join(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255);
+Die(S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+TeleportTo(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, S_UND_LoneDuergar_05c338d9-4590-4c4b-b87e-8c27ea2c2b18, "", 1, 1, 1);
+
+IF
+TextEvent("Debug_UND_GetGlut", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, "Debug_UND_GlutTeleportedToPlayer");
+
+IF
+EntityEvent(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, "Debug_UND_GlutTeleportedToPlayer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_BroodingSovereign_Join(_Var1);
+
+IF
+TextEvent("UND_BroodingSovereign_AddSpell", _, _, _, _)
+THEN
+AddSpell(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, "Target_UND_MyconidSovereign_FakeAnimatingSpores", 1, 1);
+
+IF
+TextEvent("UND_BroodingSovereign_TestPostCircle", _, _, _, _)
+THEN
+SetEntityEvent(S_UND_SocietyOfBrilliance_Hobgoblin_db424bf6-81ad-463d-8974-f73f1df5af09, "UND_BroodingSovereign_MyconidCorpse");
+SetEntityEvent(S_UND_MyconidCricle_Corpses_DuergarCorpse_000_ad1c88ec-9f08-405a-9b35-38f0e0b6da15, "UND_BroodingSovereign_MyconidCorpse_OnMushroom");
+PROC_GlobalSetFlagAndCache(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8);
+
+IF
+TextEvent("UND_BroodingSovereign_TestPostCircle_Big", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_MyconidCircle_Myconids(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46
+THEN
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+IF
+FlagSet(UND_MyconidCircle_BroodingSovereign_Done_f80e93f9-53b5-4537-96a7-583508ba1cb8, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+IterateCharactersAround(S_UND_BroodingSovereign_Mushroom_21e8275f-5bd9-4bf7-9dd2-0e0704f22067, 25, "UND_BroodingSovereign_GetMushroomCorpses", "UND_BroodingSovereign_GetMushroomCorpses_Done");
+
+IF
+EntityEvent((CHARACTER)_Var1, "UND_BroodingSovereign_GetMushroomCorpses", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265
+AND
+IsPartyMember(_Var1, 1, 0, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "UND_BroodingSovereign_MyconidCorpse");
+DebugText(_Var1, "UND_BroodingSovereign_MyconidCorpse");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "UND_BroodingSovereign_MyconidCorpse", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetDistanceTo(_Var1, S_UND_BroodingSovereign_Mushroom_21e8275f-5bd9-4bf7-9dd2-0e0704f22067, _Var2, _Var1, _Var1)
+AND
+_Var2 <= 7
+THEN
+SetEntityEvent(_Var1, "UND_BroodingSovereign_MyconidCorpse_OnMushroom");
+DebugText(_Var1, "UND_BroodingSovereign_MyconidCorpse_OnMushroom");
+
+PROC
+PROC_UND_BroodingSovereign_QuestUpdate_LeftUND((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, _Var1)
+AND
+DB_UND_BroodingSovereign_LeftUNDEntries(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_BroodingSovereign", _Var3);
+
+IF
+FlagSet(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_QuestDef_State_ConditionalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, "UND_BroodingSovereign", "RefusedThenAccepted", 1, UND_MyconidCircle_State_DeclinedBroodingSovereign_a8d48927-5819-08af-fc29-502c5751e3c9);
+NOT DB_QuestDef_State_ConditionalFlag(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, "UND_BroodingSovereign", "AcceptedJoin", 0, UND_MyconidCircle_State_DeclinedBroodingSovereign_a8d48927-5819-08af-fc29-502c5751e3c9);
+DB_QuestDef_State(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, "UND_BroodingSovereign", "AcceptedEscort");
+DB_QuestDef_State(UND_MyconidCircle_Event_CombatWithPlayers_0f8aee24-7971-4de4-9294-9ab91d63bb3c, "UND_BroodingSovereign", "AttackedCircle");
+
+IF
+DB_PermaDefeated(S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265, _, _, _, _)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_Quest_AcceptedCircleWipe_279e0906-6562-4542-9799-8ca79175f2be, _, _, _, _)
+THEN
+QuestUpdate("UND_BroodingSovereign", "KilledCircle");
+
+IF
+QuestUpdateUnlocked(_, "UND_BroodingSovereign", (STRING)_Var2, _, _)
+AND
+DB_UND_BroodingSovereign_CantReachSuspectibleEntries(_Var2, _, _, _, _)
+THEN
+DB_UND_BroodingSovereign_PossiblyCantReach(1);
+
+IF
+QuestUpdateUnlocked(_, "UND_BroodingSovereign", (STRING)_Var2, _, _)
+AND
+DB_UND_BroodingSovereign_CantReachSuspectibleEntries(_Var2, _, _, _, _)
+AND
+DB_UND_BroodingSovereign_CantReachSuspectibleEntries(_Var3, _, _, _, _)
+THEN
+NOT DB_UND_BroodingSovereign_CantReachSuspectibleEntries(_Var3);
+
+IF
+DB_UND_BroodingSovereign_PossiblyCantReach(1, _, _, _, _)
+AND
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_CantReachDuergar_68069e1d-a9e5-4fdd-8664-22942b1afa96, _, _, _, _)
+THEN
+NOT DB_UND_BroodingSovereign_PossiblyCantReach(1);
+QuestUpdate("UND_BroodingSovereign", "CantReachDuergar");
+
+IF
+EnteredCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_UND_MyconidCircleCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_MyconidCircle_Myconids(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46
+AND
+CombatGetInvolvedPlayer(_Var2, 1, _Var3, _Var1, _Var1)
+AND
+IsEnemy(_Var3, _Var1, 1, _Var1, _Var1)
+THEN
+SetFlag(UND_MyconidCircle_Event_CombatWithPlayers_0f8aee24-7971-4de4-9294-9ab91d63bb3c, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_UND_MyconidCircleCombat(_Var2);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_MyconidCircleCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_MyconidCircleCombat(_Var1);
+ClearFlag(UND_MyconidCircle_Event_CombatWithPlayers_0f8aee24-7971-4de4-9294-9ab91d63bb3c, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_PermaDefeated(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_BroodingSoverign", "GlutDead");
+
+PROC
+PROC_StateSet_PermaDefeated(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_MyconidCircle_BroodingSovereign_State_Dead_da7ae2b1-fa67-0889-6003-48d6aef7271d);
+
+IF
+FlagSet(Debug_Teleport_UND_MyconidCircle_854f7d8a-bd2f-4655-85ee-1e7244f2ed82, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+TeleportTo(_Var3, S_Debug_Teleport_UND_MyconidCircle_77d4a413-b784-45d1-92b5-324e52f709a5, "Debug_Teleport_MyconidCircle", 1, 1, 1);
+ClearFlag(Debug_Teleport_UND_MyconidCircle_854f7d8a-bd2f-4655-85ee-1e7244f2ed82, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+TextEvent("UND_BroodingSovereign_LoneDuergar_KO", _, _, _, _)
+THEN
+SetFlag(UND_MyconidCircle_Quest_LoneDuergar_Defeated_414e8493-33b0-25e8-c83b-a34b8f128394, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_GlobalSetFlagAndCache(UND_MyconidCircle_BroodingSovereign_State_LoneDuergar_IsDead_5f622802-d6d9-48df-8cb2-8b5a3ec573c2);
+SetFlag(UND_MyconidCircle_AcceptedQuest_3aa48080-074b-457d-acbc-fcb970d9912b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("UND_BroodingSovereign_DefeatCounter_Glut", _, _, _, _)
+AND
+DB_GlobalFlag(UND_BroodingSovereign_State_RefusedCircle_d0237569-b266-24c9-60f8-06eda3131892, _, _, _, _)
+AND
+GetClosestAlivePlayer(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 <= 20
+THEN
+StartVoiceBark(UND_MyconidCircle_VB_GlutDead_0b731b59-928b-83ac-36ee-68a2ad5d94b2, _Var1);
+
+IF
+CharacterJoinedParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CMB_SporeServantFollower(_Var1, _, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var1)
+AND
+GetDistanceTo(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, _Var1, _Var3, _Var1, _Var1)
+AND
+_Var3 >= 10
+THEN
+PlayEffect(_Var1, VFX_Script_Stub_Poof_01_f0cf792a-0f74-d17e-ad0d-6052a6131416);
+TeleportTo(_Var1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, "");
+PlayEffect(_Var1, VFX_Script_Stub_Poof_01_f0cf792a-0f74-d17e-ad0d-6052a6131416);
+
+
+EXITSECTION
+NOT DB_Dialogs(S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46, UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c);
+NOT DB_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_State_InParty_a2571718-2bbd-48f7-8ea6-d3ef4c5b5210, UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c);
+NOT DB_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_Event_Leave_60785a26-f4dd-4353-8963-4b44283bb7d3, UND_MyconidCircle_BroodingSovereign_Leave_d7968940-c47a-7f64-28d6-6cd9a6c0aaca);
+NOT DB_GlobalFlagReactionAfterDialog(UND_MyconidCircle_BroodingSovereign_State_PreparingArmy_d21dba46-e9c1-4332-8f97-350bd89dafcd, UND_MyconidCircle_BroodingSovereign_4a1577b3-2d32-68a1-3092-e9014053b35c);
+TriggerUnregisterForCharacter(S_UND_BroodingSovereign_FollowingRegion_fdf3b75f-4488-449d-bced-a936b0590bf1, S_UND_Myconid_BroodingSovereign_82af0858-d739-4c9d-84c8-5e6760e22e46);
+SysClear("DB_UND_BroodingSovereign_Home", 1);
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

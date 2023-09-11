@@ -1,0 +1,508 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Debug_LevelToAct("TUT_Avernus_C", "Act0");
+DB_Debug_LevelToAct("WLD_Main_A", "Act1");
+DB_Debug_LevelToAct("CRE_Main_A", "Act1b");
+DB_Debug_LevelToAct("SCL_Main_A", "Act2");
+DB_Debug_LevelToAct("INT_Main_A", "Act2b");
+DB_Debug_LevelToAct("BGO_Main_A", "Act3");
+DB_Debug_LevelToAct("CTY_Main_A", "Act3b");
+DB_Debug_LevelToAct("IRN_Main_A", "Act3b");
+DB_Debug_LevelToAct("END_Main", "Act3c");
+DB_Debug_PreviousActs("Act1", "Act0");
+DB_Debug_PreviousActs("Act1b", "Act1");
+DB_Debug_PreviousActs("Act2", "Act1b");
+DB_Debug_PreviousActs("Act2b", "Act2");
+DB_Debug_PreviousActs("Act3", "Act2b");
+DB_Debug_PreviousActs("Act3b", "Act3");
+DB_Debug_PreviousActs("Act3c", "Act3b");
+DB_Debug_ActStoryParents("Act0", "Tutorial");
+DB_Debug_ActStoryParents("Act1", "Act1");
+DB_Debug_ActStoryParents("Act1", "Act1_NOT_EA");
+DB_Debug_ActStoryParents("Act1b", "Act1b");
+DB_Debug_ActStoryParents("Act2", "Act2");
+DB_Debug_ActStoryParents("Act2b", "Act2b");
+DB_Debug_ActStoryParents("Act3", "Act3");
+DB_Debug_ActStoryParents("Act3b", "Act3b");
+DB_Debug_ActStoryParents("Act3b", "Act3i");
+DB_Debug_ActStoryParents("Act3c", "Act3c");
+NOT DB_Debug_ActFlag("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Debug_ActObjectFlags(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_Debug_ActWaypoints("");
+NOT DB_BlockActWaypoints("", "");
+
+KBSECTION
+QRY
+QRY_Debug_GetActForLevel(_, _, _, _, _)
+AND
+DB_QRYRTN_Debug_GetActForLevel(_Var2, _, _, _, _)
+THEN
+NOT DB_QRYRTN_Debug_GetActForLevel(_Var2);
+
+QRY
+QRY_Debug_GetActForLevel((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_LevelToAct(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Debug_GetActForLevel(_Var2);
+
+QRY
+QRY_Debug_GetPreviousActs(_, _, _, _, _)
+AND
+DB_QRYRTN_GetPreviousActs(_Var2, _, _, _, _)
+THEN
+NOT DB_QRYRTN_GetPreviousActs(_Var2);
+
+QRY
+QRY_Debug_GetPreviousActs((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_Debug_GetPreviousActs(_Var1);
+
+QRY
+QRY_Debug_GetPreviousActs(_, (STRING)_, (STRING)_, (STRING)_, (STRING)_)
+THEN
+PROC_Debug_ReverseActDatabase();
+
+QRY
+QRY_Debug_GetPreviousActs(_, _, _, _, _)
+AND
+DB_Temp_GetPreviousActs(_Var2, _, _, _, _)
+THEN
+NOT DB_Temp_GetPreviousActs(_Var2);
+
+PROC
+PROC_Debug_GetPreviousActs((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_PreviousActs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Temp_GetPreviousActs(_Var2);
+PROC_Debug_GetPreviousActs(_Var2);
+
+IF
+FlagLoadedInPresetEvent((GUIDSTRING)_Var1, (FLAG)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_Debug_PresetFlags(_Var1, _Var2);
+
+IF
+AllLoadedFlagsInPresetReceivedEvent()
+THEN
+DB_Debug_PresetFlagsLoaded(1);
+
+IF
+DB_Debug_PresetFlagsLoaded(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsGameLevel(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Debug_TryProcessStoryState();
+
+PROC
+PROC_Debug_TryProcessStoryState()
+AND
+QRY_Debug_GetStateLevel()
+AND
+DB_QRYRTN_GetStateLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Debug_GetActForLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Debug_GetActForLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Debug_RestoringState(1);
+PROC_Debug_ProcessFlagsForPreviousAct(_Var2);
+PROC_Debug_ProcessGlobalFlags();
+PROC_Debug_TeleportToAct(_Var2);
+PROC_Debug_CheckInventoryState();
+PROC_Debug_RestoreWaypoints(_Var2);
+PROC_Debug_StoryStateRestored_Hook();
+PROC_Debug_StoryStateHasBeenRestored();
+
+PROC
+PROC_Debug_StoryStateRestored_Hook()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Debug_ProcessGlobalFlags()
+AND
+DB_Debug_ActFlag("GLO", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Debug_PresetFlags(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var1, _Var2, 0);
+PROC_Debug_FlagRestoredFromState(_Var1, _Var2);
+PROC_Debug_SetObjectFlagsForActFlag(_Var1);
+
+PROC
+PROC_Debug_ProcessFlagsForPreviousAct((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_Debug_GetPreviousActs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetPreviousActs(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Debug_ActivateActScripting(_Var2);
+PROC_Debug_NotfiyActLoad(_Var2);
+PROC_Debug_SetActFlags(_Var2);
+PROC_Debug_ActSkipped(_Var2);
+PROC_Debug_NotifyActUnload(_Var2);
+
+PROC
+PROC_Debug_SetActFlags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_ActFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Debug_PresetFlags(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2, _Var3, 0);
+PROC_Debug_FlagRestoredFromState(_Var2, _Var3);
+PROC_Debug_SetObjectFlagsForActFlag(_Var2);
+
+PROC
+PROC_Debug_SetObjectFlagsForActFlag((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Debug_ActObjectFlags(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_Debug_SetObjectFlag(_Var2, _Var3, _Var4);
+
+PROC
+PROC_Debug_SetObjectFlag((FLAG)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (FLAG)_Var1, (FLAG)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetFlag(_Var1, _Var2, 0);
+PROC_Debug_FlagRestoredFromState(_Var1, _Var2);
+
+PROC
+PROC_Debug_SetObjectFlag((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, 0, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var1, _Var2, 0);
+PROC_Debug_FlagRestoredFromState(_Var1, _Var2);
+
+PROC
+PROC_Debug_SetObjectFlag((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, 1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+QRY_OnlyOnce_Reset("DEBUG_Flag_PartyProcess", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEBUG_Flag_PartyProcess", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var1, _Var2, 0);
+PROC_Debug_FlagRestoredFromState(_Var1, _Var2);
+
+PROC
+PROC_Debug_ActivateActScripting((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_ActStoryParents(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SysCompleteGoal(_Var2);
+
+IF
+PartyPresetLoaded(_, _, _, _, _)
+AND
+DB_Debug_PartyPreset_Level(_Var3, _, _, _, _)
+THEN
+NOT DB_Debug_PartyPreset_Level(_Var3);
+
+IF
+PartyPresetLoaded(_, (STRING)_Var2, (STRING)_, (STRING)_, (STRING)_)
+THEN
+DB_Debug_PartyPreset_Level(_Var2);
+
+IF
+AllLoadedFlagsInPresetReceivedEvent()
+AND
+DB_Debug_PartyPreset_Level(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Debug_PartyPreset_Level(_Var1);
+
+QRY
+QRY_Debug_GetStateLevel()
+AND
+DB_QRYRTN_GetStateLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GetStateLevel(_Var1);
+
+QRY
+QRY_Debug_GetStateLevel()
+AND
+DB_Debug_PartyPreset_Level(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetStateLevel(_Var1);
+
+QRY
+QRY_Debug_GetStateLevel()
+AND NOT
+DB_Debug_PartyPreset_Level(_, _, _, _, _)
+AND
+DB_CurrentLevel(_Var2, _, _, _, _)
+THEN
+DB_QRYRTN_GetStateLevel(_Var2);
+
+PROC
+PROC_Debug_TeleportToAct((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_OnlyOnce_Reset("DEBUG_Flag_TeleportToAct", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Debug_LevelToAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var2
+AND
+QRY_OnlyOnce("DEBUG_Flag_TeleportToAct", _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportPartiesToLevelWithMovie(_Var2, "", "");
+DB_Debug_RestoringAct(_Var1, _Var2);
+
+PROC
+PROC_Debug_NotifyActUnload((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_LevelToAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LevelUnloading(_Var2);
+
+PROC
+PROC_Debug_NotfiyActLoad((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_LevelToAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LevelLoadedOnce(_Var2);
+PROC_LevelLoadedOnce(_Var2);
+
+IF
+LevelGameplayStarted((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_RestoringAct(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Debug_RestoringAct(_Var3, _Var1);
+PROC_Debug_ActRestored(_Var3, _Var1);
+NOT DB_Debug_RestoringState(1);
+
+PROC
+PROC_Debug_StoryStateHasBeenRestored()
+AND NOT
+DB_Debug_RestoringAct(_, _, _, _, _)
+THEN
+PROC_Debug_StoryStateRestoredAndLevelLoaded_Hook();
+
+PROC
+PROC_Debug_StoryStateHasBeenRestored()
+AND
+DB_Debug_RestoringAct(_, _, _, _, _)
+THEN
+DB_Debug_WaitForLevelToLoad(1);
+
+IF
+DB_Debug_WaitForLevelToLoad(1, _, _, _, _)
+AND NOT
+DB_Debug_RestoringState(1, _, _, _, _)
+THEN
+NOT DB_Debug_WaitForLevelToLoad(1);
+PROC_Debug_StoryStateRestoredAndLevelLoaded_Hook();
+
+PROC
+PROC_Debug_StoryStateRestoredAndLevelLoaded_Hook()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Debug_RestoringState()
+AND
+DB_Debug_RestoringState(1, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Debug_FlagRestoredFromState((FLAG)_Var1, (GUIDSTRING)_Var2, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Debug_ActSkipped((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Debug_ActRestored((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_CampNight(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_Debug_ActFlag("GLO", _Var1);
+
+IF
+DB_DeadEvent(_, _Var2, _, _, _)
+THEN
+DB_Debug_ActFlag("GLO", _Var2);
+
+IF
+DB_PermaDefeatedEvent(_, _Var2, _, _, _)
+THEN
+DB_Debug_ActFlag("GLO", _Var2);
+
+IF
+DB_DefeatedEvent(_, _Var2, _, _, _)
+THEN
+DB_Debug_ActFlag("GLO", _Var2);
+
+PROC
+PROC_Debug_FlagRestoredFromState((FLAG)_Var1, _, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_DeadEvent(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Dead(_Var3);
+Die(_Var3, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+PROC
+PROC_Debug_FlagRestoredFromState((FLAG)_Var1, _, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_PermaDefeatedEvent(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PermaDefeated(_Var3);
+PROC_StateSet_PermaDefeated(_Var3);
+
+PROC
+PROC_Debug_FlagRestoredFromState((FLAG)_Var1, _, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_DefeatedEvent(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Defeated(_Var3);
+PROC_StateSet_Defeated(_Var3);
+
+PROC
+PROC_Debug_TryProcessStoryState()
+THEN
+NOT DB_Debug_PresetFlagsLoaded(1);
+
+PROC
+PROC_Debug_TryProcessStoryState()
+AND
+DB_Debug_PresetFlags(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Debug_PresetFlags(_Var1, _Var2);
+
+PROC
+PROC_Debug_ClearFlagOnParty((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, _Var2, 0);
+
+PROC
+PROC_Debug_ReverseActDatabase()
+AND
+SysCount("DB_Temp_GetPreviousActs", 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Debug_DoReverseActDatabase(_Var1);
+
+PROC
+PROC_Debug_DoReverseActDatabase((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var1 > 0
+AND
+SysFactAtIndex("DB_Temp_GetPreviousActs", 1, _Var1, "DB_Temp_PreviousAct", _Var1)
+AND
+IntegerSubtract(_Var1, 1, _Var2, _Var1, _Var1)
+AND
+DB_Temp_PreviousAct(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GetPreviousActs(_Var3);
+NOT DB_Temp_PreviousAct(_Var3);
+PROC_Debug_DoReverseActDatabase(_Var2);
+
+PROC
+PROC_Debug_CheckInventoryState()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HasItemEvent(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+ItemIsInPartyInventory(_Var2, _Var1, 0, 1, _Var1)
+AND
+GetOwner(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_Debug_ClearFlagOnParty(_Var3);
+PROC_SetMagicPocketsOwnershipFlag(_Var4, _Var3);
+
+PROC
+PROC_Debug_CheckInventoryState()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PlayerHasTemplateItem(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+TemplateIsInPartyInventory(_Var2, _Var1, _Var4, 0, _Var1)
+AND
+_Var4 > 0
+THEN
+PROC_Debug_ClearFlagOnParty(_Var3);
+PROC_Debug_SetFlagOnTemplateOwners(_Var3, _Var2);
+
+PROC
+PROC_Debug_SetFlagOnTemplateOwners((FLAG)_Var1, (ITEMROOT)_Var2, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+TemplateIsInInventory(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 > 0
+THEN
+PROC_SetMagicPocketsOwnershipFlag(_Var3, _Var1);
+
+PROC
+PROC_Debug_FindBlockedWaypointActs((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_BlockActWaypoints(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Debug_BlockedWaypointAct(_Var2);
+
+PROC
+PROC_Debug_FindBlockedWaypointActs((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_PreviousActs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Debug_FindBlockedWaypointActs(_Var2);
+
+PROC
+PROC_Debug_RestoreWaypoints((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+SysClear("DB_Debug_BlockedWaypointAct", 1);
+PROC_Debug_FindBlockedWaypointActs(_Var1);
+PROC_Debug_ExecuteRestoreWaypoints(_Var1);
+
+PROC
+PROC_Debug_ExecuteRestoreWaypoints((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_PreviousActs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Debug_DoRestoreWaypoints(_Var2);
+
+PROC
+PROC_Debug_DoRestoreWaypoints((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Debug_BlockedWaypointAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Debug_ActWaypoints(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WaypointInfo(_Var1, _Var3, _, _Var5, _Var1)
+THEN
+UnlockWaypoint(_Var3, _Var5, _Var2);
+
+PROC
+PROC_Debug_DoRestoreWaypoints((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_Debug_ExecuteRestoreWaypoints(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

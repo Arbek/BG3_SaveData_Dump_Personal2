@@ -1,0 +1,400 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_FOR_BugBearLove_Couple(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d);
+DB_FOR_BugBearLove_Couple(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc);
+DB_DeadEvent(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, FOR_BugBearLove_State_OgreDead_b493f81a-f5b6-4954-b59d-c7d29ef74b57);
+DB_KilledEvent(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, FOR_BugBearLove_State_KilledOgre_3e5e515d-d4d8-42dd-8c0f-be404218d739);
+DB_GlobalFlagReactionAfterDialog(FOR_BugBear_Event_Intimidated_21daed99-a2dc-4895-9bb2-8f6fec083e59, FOR_BugBear_c4b9c6ba-da3f-211a-68ba-1a2191e7b0b0);
+PROC_TriggerRegisterForParty(S_FOR_BugBearSound_62fa1bc3-b9d4-4159-9a2e-58cf00f0e775);
+PROC_TriggerRegisterForParty(S_FOR_BugBearLove_Interrupt_Trigger_6921e8a8-c158-4618-b4a5-82afa2b6c18a);
+PROC_TriggerRegisterForPlayers(S_FOR_DoorProximity_099db38b-0b2f-4b74-9e39-b6f1f0cc44f9);
+TriggerRegisterForCharacter(S_FOR_DoorProximity_099db38b-0b2f-4b74-9e39-b6f1f0cc44f9, S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc);
+TriggerRegisterForCharacter(S_FOR_DoorProximity_099db38b-0b2f-4b74-9e39-b6f1f0cc44f9, S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d);
+DB_GLO_CharacterCorpseDialog(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, FOR_Bugbear_Ogre_Dead_d9022e94-779d-6dc4-d071-238dfc7124f0);
+DB_GLO_CharacterCorpseDialog(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, FOR_Bugbear_Bugbear_Dead_1ec4f717-c970-f148-8d0e-70fbf0b43824);
+DB_FOR_BugBearLove_PresentFlags(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, FOR_BugBearLove_State_ShadowheartFound_d98214d1-f181-4572-853e-fe4488326600);
+DB_FOR_BugBearLove_PresentFlags(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, FOR_BugBearLove_State_WyllFound_c0200031-d84f-41ba-85cf-56f499ce85c2);
+DB_FOR_BugBearLove_PresentFlags(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, FOR_BugBearLove_State_AstarionFound_50581a6a-aada-4bf6-a4a8-c9791439875c);
+DB_SpotPlayers_SpotTrigger_ManualRegistering(S_FOR_BugBearLove_Interrupt_Trigger_6921e8a8-c158-4618-b4a5-82afa2b6c18a);
+DB_SceneTriggerManager("FOR_BugbearLove_Mating", S_FOR_BugBearLove_Interrupt_Trigger_6921e8a8-c158-4618-b4a5-82afa2b6c18a, 1);
+DB_CombatReact_AD_OnDeathOther(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, FOR_Bugbear_AD_BugbearKilled_a8de5b71-6b4e-8f73-9ae0-b2467d2d2b12);
+DB_CombatReact_AD_OnDeathOther(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, FOR_Bugbear_AD_OgreKilled_5e80e9e9-608c-d899-7ec7-c0f1b0719e78);
+DB_CombatReact_AD_OnNextTurn(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, FOR_BugBear_AD_Combat_6c089a73-e15e-d9ef-32a5-59ddf6253abd);
+
+KBSECTION
+IF
+TextEvent("bugbearsurprised", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, NULL_00000000-0000-0000-0000-000000000000, 0, _Var1, _Var1)
+THEN
+SetFlag(FOR_BugBearLove_State_Surprised_b4877bb4-ed82-4020-b180-f6dff008f787, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_FOR_BugBearLove_Surprise(_Var1);
+
+IF
+DB_FOR_BugBearLove_Couple(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SceneManager(_Var1, "FOR_BugbearLove_Mating");
+DB_SpotPlayers_SpotTrigger(_Var1, "FOR_BugbearLove_Mating", S_FOR_BugBearLove_Interrupt_Trigger_6921e8a8-c158-4618-b4a5-82afa2b6c18a);
+DB_SpotPlayers(_Var1, "FOR_BugbearLove_Mating", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_IncludeFollowers(_Var1, "FOR_BugbearLove_Mating");
+DB_SpotPlayers_IncludeSummons(_Var1, "FOR_BugbearLove_Mating");
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, "FOR_BugbearLove_Mating");
+
+PROC
+PROC_SceneInterrupted(_, (CHARACTER)_Var2, "FOR_BugbearLove_Mating", "Spotted", _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+PROC_FOR_BugBearLove_Surprise(_Var2);
+
+IF
+FlagSet(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SceneInterrupted(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "FOR_BugbearLove_Mating", "EnteredCombat");
+
+PROC
+PROC_SceneInterrupted(_, _, "FOR_BugbearLove_Mating", _, (GUIDSTRING)_)
+THEN
+PROC_SceneOver("FOR_BugbearLove_Mating");
+
+PROC
+PROC_SceneOver("FOR_BugbearLove_Mating", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForParty(S_FOR_BugBearSound_62fa1bc3-b9d4-4159-9a2e-58cf00f0e775);
+PROC_TriggerUnregisterForParty(S_FOR_BugBearLove_Interrupt_Trigger_6921e8a8-c158-4618-b4a5-82afa2b6c18a);
+PlaySound(S_FOR_BugBearSoundOrigin_f43c8ccd-99bc-47f8-8a25-4c9b5adec2f8, "FOR_BugBear_Sex_Stop");
+
+QRY
+QRY_FOR_BugBearLove_SceneOngoing()
+AND
+DB_SceneManager(_, "FOR_BugbearLove_Mating", _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_InRegion(_Var1, S_FOR_BugBearSound_62fa1bc3-b9d4-4159-9a2e-58cf00f0e775, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_BugbearLove_SoundStart", _Var1, _Var1, _Var1, _Var1)
+THEN
+PlaySound(S_FOR_BugBearSoundOrigin_f43c8ccd-99bc-47f8-8a25-4c9b5adec2f8, "FOR_BugBear_Sex_Loop");
+
+IF
+UseStarted((CHARACTER)_Var1, S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_BugBear_Event_Intimidated_21daed99-a2dc-4895-9bb2-8f6fec083e59, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_FOR_BugBear_CharacterMovingCinematically(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_BugBearLove_State_Surprised_b4877bb4-ed82-4020-b180-f6dff008f787, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_FOR_BugBearLove_Surprise(_Var1);
+
+IF
+DestroyingBy(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, _, (CHARACTER)_Var2, _, _)
+AND
+QRY_FOR_BugBearLove_SceneOngoing()
+AND
+GetDistanceTo(_Var2, S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, 10, _, _)
+THEN
+PROC_SceneInterrupted(NULL_00000000-0000-0000-0000-000000000000, _Var2, "FOR_BugbearLove_Mating", "DestroyedItem");
+SetFlag(FOR_BugBearLove_State_DestroyedDoor_cfc9052a-ca56-428d-a51a-4591741e739c, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_FOR_BugBearLove_Surprise(_Var2);
+
+IF
+DestroyingBy(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, _, (CHARACTER)_Var2, _, _)
+AND
+QRY_FOR_BugBearLove_SceneOngoing()
+AND NOT
+GetDistanceTo(_Var2, S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, 10, _, _)
+AND
+GetClosestAlivePlayer(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, _Var4, _Var5, _, _)
+AND
+_Var5 <= 10
+THEN
+PROC_SceneInterrupted(NULL_00000000-0000-0000-0000-000000000000, _Var2, "FOR_BugbearLove_Mating", "DestroyedItem");
+SetFlag(FOR_BugBearLove_State_DestroyedDoor_cfc9052a-ca56-428d-a51a-4591741e739c, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_FOR_BugBearLove_Surprise(_Var4);
+
+IF
+DestroyingBy(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, _, (CHARACTER)_Var2, _, _)
+AND
+QRY_FOR_BugBearLove_SceneOngoing()
+AND NOT
+GetDistanceTo(_Var2, S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, 10, _, _)
+AND
+GetClosestAlivePlayer(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, _Var4, _Var5, _, _)
+AND
+_Var5 > 10
+THEN
+PROC_SceneInterrupted(NULL_00000000-0000-0000-0000-000000000000, _Var2, "FOR_BugbearLove_Mating", "DestroyedItem");
+SetFlag(FOR_BugBearLove_State_DestroyedDoor_cfc9052a-ca56-428d-a51a-4591741e739c, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_FOR_BugBearLove_PrepareCombat(_Var2);
+
+QRY
+QRY_FOR_BugBear_CharacterMovingCinematically((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogName(FOR_BugBear_c4b9c6ba-da3f-211a-68ba-1a2191e7b0b0, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var1, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DestroyedBy(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, _, (CHARACTER)_Var2, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+SetFlag(FOR_BugbearLove_State_InterruptedCouple_5eb6da8c-d5a4-433b-ab0f-6c2da5af934f, _Var2, 0);
+
+IF
+Opened(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, _, _, _, _)
+AND
+QRY_FOR_BugBearLove_SceneOngoing()
+THEN
+PROC_SceneInterrupted(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "FOR_BugbearLove_Mating", "Spotted");
+
+IF
+FlagSet(FOR_BugBearLove_Event_OpenDoor_258ef2b2-4414-42b8-bc37-4c8455678949, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+Open(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376);
+
+PROC
+PROC_BlockUseOfItem((GUIDSTRING)_Var1, S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_FOR_BugBearLove_SceneOngoing()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "SILENCED", 0, _Var1, _Var1)
+AND NOT
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(FOR_BugBear_c4b9c6ba-da3f-211a-68ba-1a2191e7b0b0, S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, 0);
+SetFlag(FOR_BugBearLove_State_UsingDoor_725a2f84-b30d-4362-a922-a376b84ffadb, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_FOR_BugBearLove_DoorInteraction(_Var1);
+
+IF
+DialogEnded(FOR_BugBear_c4b9c6ba-da3f-211a-68ba-1a2191e7b0b0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_FOR_BugBearLove_DoorInteraction(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_BugBearLove_DoorInteraction(_Var2);
+ClearFlag(FOR_BugBearLove_State_UsingDoor_725a2f84-b30d-4362-a922-a376b84ffadb, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(FOR_BugBearLove_Event_MovePlayerInside_cfa18a8d-4e7e-4b07-92a3-6525c39b1a4f, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_FOR_BugBearPlayerMove_42bc3bbd-9aa8-4920-938e-39d299f40d82, "Walk", "");
+
+PROC
+PROC_FOR_BugBearLove_Surprise((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_FOR_BugBearLove_Surprise((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsSpeakerReserved(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc);
+PROC_ForceStopDialog(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d);
+PROC_FOR_BugBearLove_PrepareCombat(_Var1);
+
+PROC
+PROC_FOR_BugBearLove_Surprise((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsSpeakerReserved(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, 0, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(FOR_BugBear_c4b9c6ba-da3f-211a-68ba-1a2191e7b0b0, S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, _Var1, _Var1)
+THEN
+PROC_FOR_BugBearLove_PrepareCombat(_Var1);
+
+PROC
+PROC_FOR_BugBearLove_Surprise((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_BugBearLove_PrepareCombat(_Var1);
+
+IF
+FlagSet(FOR_BugBearLove_State_FindCompanions_7a7080b1-5dc9-4173-bea4-d8255e34af64, _, _, _, _)
+AND
+DB_FOR_BugBearLove_PresentFlags(_Var3, _Var4, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+DB_InRegion(_Var3, S_FOR_DoorProximity_099db38b-0b2f-4b74-9e39-b6f1f0cc44f9, _, _, _)
+AND
+QRY_SpeakerIsAvailable(_Var3, _, _, _, _)
+THEN
+SetFlag(_Var4, _Var3, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(FOR_BugBear_Event_Intimidated_21daed99-a2dc-4895-9bb2-8f6fec083e59, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_BugBearLove_Couple(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Walk", 0, "");
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_BugBearLove_Couple(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_SetRelationToPlayers(_Var3, 0);
+
+IF
+KilledBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_FOR_BugBearLove_Couple(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_BugBearLove_Couple(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetCharacterOwnerIfItemSummon(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_FOR_BugBearLove_PrepareCombat(_Var6);
+
+IF
+DialogEnded(FOR_BugBear_c4b9c6ba-da3f-211a-68ba-1a2191e7b0b0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(FOR_BugBearLove_Event_CoupleHostile_03873ff2-e030-4889-9447-12b74927aaf2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_FOR_BugBearLove_PrepareCombat(_Var2);
+
+PROC
+PROC_FOR_BugBearLove_PrepareCombat((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(FOR_BugbearLove_State_MoveToDoor_4ef14274-a7b0-4b69-bf57-e9220cf60209, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, S_FOR_OgreDoorMove_a81973e0-ed71-4f31-b8f7-698cda671863, "", 0, 0, 0);
+
+PROC
+PROC_FOR_BugBearLove_PrepareCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsDestroyed(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, 0, _Var1, _Var1, _Var1)
+THEN
+Open(S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376);
+
+PROC
+PROC_FOR_BugBearLove_PrepareCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_BugBearLove_Couple(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(_Var3, 0);
+PROC_FOR_BugBearLove_EnterCombat(_Var2, _Var1);
+
+PROC
+PROC_FOR_BugBearLove_EnterCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EnterCombat(_Var1, _Var2);
+
+IF
+FlagSet(FOR_Bugbear_Event_QuestionAsked_bf9a86e8-1d30-4d33-8c41-be81010e3b70, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_BugBearLove_Couple(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(FOR_Bugbear_Event_QuestionAsked_bf9a86e8-1d30-4d33-8c41-be81010e3b70, _Var1, 0);
+PROC_ObjectCountHelper(_Var1, "FOR_Bugbear_SwDQuestionCount");
+
+IF
+DB_ObjectCountHelper(_Var1, "FOR_Bugbear_SwDQuestionCount", 3, _Var1, _Var1)
+AND
+DB_FOR_BugBearLove_Couple(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_Bugbear_State_LastQuestion_284c4348-b297-4458-bd4d-1e357d3573ed, _Var1, 0);
+
+IF
+FlagSet(FOR_BugBearLove_State_CheckBodyDistance_7f69e1aa-e284-411a-9530-9570cb126ad1, _, (INTEGER)_Var2, _, _)
+AND
+GetDistanceTo(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, _Var3, _, _)
+AND
+_Var3 <= 10
+AND
+HasLineOfSight(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, 1, _, _)
+THEN
+ClearFlag(FOR_BugBearLove_State_CheckBodyDistance_7f69e1aa-e284-411a-9530-9570cb126ad1, NULL_00000000-0000-0000-0000-000000000000, _Var2);
+SetFlag(FOR_BugBearLove_State_BodyClose_a309db3a-e3cc-4fe4-b4b5-a7ab6578ef93, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogEnded(FOR_BugBear_c4b9c6ba-da3f-211a-68ba-1a2191e7b0b0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(FOR_BugBearLove_Knows_Lovemaking_1aa68475-384a-4139-9fb5-89e23bd52db6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, S_FOR_CottageDoor_a3083cd4-313e-88a3-5bfe-1b04df964376, _Var3, _Var1, _Var1)
+AND
+_Var3 <= 10
+AND
+QRY_OnlyOnce("FOR_BugBearLove_ScholarComment", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TrySkillCheck(_Var2, S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, "Nature", Act1_Medium_fa621d38-6f83-4e42-a55c-6aa651a75d46, "GLO_BugBearCheck");
+
+PROC
+PROC_RollResult("GLO_BugBearCheck", (GUIDSTRING)_Var1, _, 1, (GUIDSTRING)_Var1)
+THEN
+StartVoiceBark(FOR_BugBear_VB_Scholar_29757b82-4081-617b-eda2-99e1522c9a7e, _Var1);
+
+IF
+DB_Dead(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, _, _, _, _)
+AND
+DB_Dead(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, _, _, _, _)
+AND
+DB_FOR_BugBearLove_Couple(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsInRange(_Var2, _Var1, 12, _Var1, _Var1)
+AND
+QRY_OnlyOnce("FOR_BugBearLove_CoupleDead", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_BugbearLove_VB_AfterFight_ecf2e7f9-a1c7-1aa3-34c7-ebd5d9350910, _Var2);
+
+IF
+DB_Dead(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, _, _, _, _)
+AND NOT
+CheckRulesetModifierString(cac2d8bd-c197-4a84-9df1-f86f54ad4521, "HARD", 1, _, _)
+THEN
+AddSpell(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, "Shout_FOR_Ogre_Enrage");
+
+IF
+DB_Dead(S_FOR_BugBearMate_b6c6764f-ba9d-4109-8b4e-c0d1da72be7d, _, _, _, _)
+AND
+CheckRulesetModifierString(cac2d8bd-c197-4a84-9df1-f86f54ad4521, "HARD", 1, _, _)
+THEN
+AddSpell(S_FOR_OgreMate_489c7f56-b461-41a6-b519-7ef5f1a1bbdc, "Shout_FOR_Ogre_Enrage_Hardcore");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

@@ -1,0 +1,461 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_Achievements("AchievementID", -1, "GLOBAL");
+NOT DB_Achievements_UnlockAfterDialogGlobalFlag("AchievementID", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Achievements_UnlockAfterDialogPlayerFlag("AchievementID", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Achievements_Completed("Achievement", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Achievements_Progress("Achievement", 0);
+NOT DB_Achievements_Progress_Character("Achievement", 0, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Achievements_Progress_User("Achievement", 0, "UserProfileID");
+
+KBSECTION
+IF
+TextEvent("unlockachievement", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Unlock(_Var1);
+
+IF
+TextEvent("achievementunlock", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Unlock(_Var1);
+
+IF
+TextEvent("achievementprogress", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(2, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress(_Var1, _Var2);
+
+IF
+TextEvent("displayachievementprogress", _, _, _, _)
+THEN
+DB_Achievements_DEBUG_DisplayProgress(1);
+
+IF
+DB_Achievements_Progress(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Achievements_DEBUG_DisplayProgress(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_DEBUG_DisplayProgress(_Var1, _Var2, _Var4);
+
+IF
+DB_Achievements_Progress_Character(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Achievements_DEBUG_DisplayProgress(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Achievements(_Var1, _, "PER_CHARACTER", _Var1, _Var1)
+THEN
+PROC_Achievements_DEBUG_DisplayProgress(_Var1, _Var2, _Var3);
+
+IF
+DB_Achievements_Progress_User(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Achievements_DEBUG_DisplayProgress(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Achievements(_Var1, _, "PER_USER", _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+GetUserProfileID(_Var6, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_DEBUG_DisplayProgress(_Var1, _Var2, _Var5);
+
+PROC
+PROC_Achievements_DEBUG_DisplayProgress((STRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _Var4, _, _Var1, _Var1)
+AND
+IntegerToString(_Var2, _Var6, _Var1, _Var1, _Var1)
+AND
+IntegerToString(_Var4, _Var7, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var1, " progress: ", _Var8, _Var1, _Var1)
+AND
+Concatenate(_Var8, _Var6, _Var9, _Var1, _Var1)
+AND
+Concatenate(_Var9, "/", _Var10, _Var1, _Var1)
+AND
+Concatenate(_Var10, _Var7, _Var11, _Var1, _Var1)
+THEN
+DebugText(_Var3, _Var11);
+
+PROC
+PROC_Achievements_Unlock((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+THEN
+PROC_Achievements_Unlock(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_Achievements_Unlock((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Unlock(_Var1, _Var3);
+
+PROC
+PROC_Achievements_Unlock((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Internal_Unlock(_Var1, _Var4);
+
+PROC
+PROC_Achievements_Unlock((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_CHARACTER", _Var1, _Var1)
+THEN
+PROC_Achievements_Internal_Unlock(_Var1, _Var2);
+
+PROC
+PROC_Achievements_Unlock((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_USER", _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Internal_Unlock(_Var1, _Var4);
+
+PROC
+PROC_Achievements_Unlock_User((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Internal_Unlock(_Var1, _Var3);
+
+PROC
+PROC_Achievements_Unlock((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Achievements(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Internal_Unlock(_Var1, _Var5);
+
+PROC
+PROC_Achievements_Internal_Unlock((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Achievements_Completed(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+Concatenate("Unlocked achievement ", _Var1, _Var3, _Var1, _Var1)
+THEN
+DebugText(_Var2, _Var3);
+
+PROC
+PROC_Achievements_Internal_Unlock((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Achievements_Completed(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+UnlockAchievement(_Var1, _Var2);
+DB_Achievements_Completed(_Var1, _Var2);
+PROC_Achievements_Unlocked(_Var1, _Var2);
+
+PROC
+PROC_Achievements_Unlocked((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, _, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+AND
+DB_Achievements_Progress(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 != _Var2
+THEN
+NOT DB_Achievements_Progress(_Var1, _Var5);
+DB_Achievements_Progress(_Var1, _Var2);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, _, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+AND NOT
+DB_Achievements_Progress(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_Achievements_Progress(_Var1, _Var2);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress(_Var1, _Var2, _Var3);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Achievements_Completed(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Achievements(_Var1, _Var4, _, _Var1, _Var1)
+AND
+_Var2 >= _Var4
+THEN
+PROC_Achievements_Unlock(_Var1, _Var3);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_CHARACTER", _Var1, _Var1)
+AND
+DB_Achievements_Progress_Character(_Var1, _Var5, _Var3, _Var1, _Var1)
+AND
+_Var5 != _Var2
+THEN
+NOT DB_Achievements_Progress_Character(_Var1, _Var5, _Var3);
+DB_Achievements_Progress_Character(_Var1, _Var2, _Var3);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_CHARACTER", _Var1, _Var1)
+AND NOT
+DB_Achievements_Progress_Character(_Var1, _, _Var3, _Var1, _Var1)
+THEN
+DB_Achievements_Progress_Character(_Var1, _Var2, _Var3);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Achievements_Completed(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetAchievementProgressForPlayer(_Var1, _Var3, _Var2);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Achievements_Completed(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Achievements(_Var1, _Var4, _, _Var1, _Var1)
+AND
+_Var2 >= _Var4
+THEN
+PROC_Achievements_Unlock(_Var1, _Var3);
+
+PROC
+PROC_Achievements_SetProgress((STRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_USER", _Var1, _Var1)
+AND
+GetReservedUserID(_Var3, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress_User(_Var1, _Var2, _Var5);
+
+PROC
+PROC_Achievements_SetProgress_User((STRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+GetUserProfileID(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress_UserProfile(_Var1, _Var2, _Var4);
+
+PROC
+PROC_Achievements_SetProgress_UserProfile((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_USER", _Var1, _Var1)
+AND
+DB_Achievements_Progress_User(_Var1, _Var5, _Var3, _Var1, _Var1)
+AND
+_Var5 != _Var2
+THEN
+NOT DB_Achievements_Progress_User(_Var1, _Var5, _Var3);
+DB_Achievements_Progress_User(_Var1, _Var2, _Var3);
+
+PROC
+PROC_Achievements_SetProgress_UserProfile((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_USER", _Var1, _Var1)
+AND NOT
+DB_Achievements_Progress_User(_Var1, _, _Var3, _Var1, _Var1)
+THEN
+DB_Achievements_Progress_User(_Var1, _Var2, _Var3);
+
+PROC
+PROC_Achievements_SetProgress_UserProfile((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Achievements_Completed(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetAchievementProgressForPlayer(_Var1, _Var4, _Var2);
+
+PROC
+PROC_Achievements_SetProgress_UserProfile((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _Var4, _, _Var1, _Var1)
+AND
+_Var2 >= _Var4
+AND
+DB_Players(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+GetUserProfileID(_Var7, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Achievements_Completed(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Unlock(_Var1, _Var6);
+
+PROC
+PROC_Achievements_IncrementProgress((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+AND
+DB_Achievements_Progress(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress(_Var1, _Var4);
+
+PROC
+PROC_Achievements_IncrementProgress((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+AND NOT
+DB_Achievements_Progress(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress(_Var1, 1);
+
+PROC
+PROC_Achievements_IncrementProgress((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "GLOBAL", _Var1, _Var1)
+THEN
+PROC_Achievements_IncrementProgress(_Var1);
+
+PROC
+PROC_Achievements_IncrementProgress((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_CHARACTER", _Var1, _Var1)
+AND
+DB_Achievements_Progress_Character(_Var1, _Var4, _Var2, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress(_Var1, _Var5, _Var2);
+
+PROC
+PROC_Achievements_IncrementProgress((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_CHARACTER", _Var1, _Var1)
+AND NOT
+DB_Achievements_Progress_Character(_Var1, _, _Var2, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress(_Var1, 1, _Var2);
+
+PROC
+PROC_Achievements_IncrementProgress((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_USER", _Var1, _Var1)
+AND
+GetReservedUserID(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_IncrementProgress_User(_Var1, _Var4);
+
+PROC
+PROC_Achievements_IncrementProgress_User((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetUserProfileID(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_IncrementProgress_UserProfile(_Var1, _Var3);
+
+PROC
+PROC_Achievements_IncrementProgress_UserProfile((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements_Progress_User(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress_UserProfile(_Var1, _Var4, _Var2);
+
+PROC
+PROC_Achievements_IncrementProgress_UserProfile((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Achievements(_Var1, _, "PER_USER", _Var1, _Var1)
+AND NOT
+DB_Achievements_Progress_User(_Var1, _, _Var2, _Var1, _Var1)
+THEN
+PROC_Achievements_SetProgress_UserProfile(_Var1, 1, _Var2);
+
+IF
+DB_Achievements_UnlockAfterDialogGlobalFlag(_, _Var2, _Var3, _, _)
+AND NOT
+DB_GlobalFlagReactionAfterDialog(_Var2, _Var3, _, _, _)
+THEN
+DB_GlobalFlagReactionAfterDialog(_Var2, _Var3);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog((FLAG)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Achievements_UnlockAfterDialogGlobalFlag(_Var3, _Var1, _Var2, _Var1, _Var1)
+AND
+DB_Achievements(_Var3, _, "GLOBAL", _Var1, _Var1)
+THEN
+PROC_Achievements_Unlock(_Var3);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog((GUIDSTRING)_Var1, (DIALOGRESOURCE)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Achievements_UnlockAfterDialogGlobalFlag(_Var4, _Var1, _Var2, _Var1, _Var1)
+AND NOT
+DB_Achievements(_Var4, _, "GLOBAL", _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var3, _Var6, _, _Var1, _Var1)
+THEN
+PROC_Achievements_Unlock(_Var4, _Var6);
+
+IF
+DB_Achievements_UnlockAfterDialogPlayerFlag(_, _Var2, _Var3, _, _)
+AND NOT
+DB_FlagReactionAfterDialog(_Var2, _Var3, _, _, _)
+THEN
+DB_FlagReactionAfterDialog(_Var2, _Var3);
+
+PROC
+PROC_FlagReactionAfterDialog(_, (FLAG)_Var2, (DIALOGRESOURCE)_Var3, _, _)
+AND
+DB_Achievements_UnlockAfterDialogPlayerFlag(_Var4, _Var2, _Var3, _, _)
+AND
+DB_Achievements(_Var4, _, "GLOBAL", _, _)
+THEN
+PROC_Achievements_Unlock(_Var4);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Achievements_UnlockAfterDialogPlayerFlag(_Var4, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Achievements(_Var4, _, "GLOBAL", _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Achievements_Unlock(_Var4, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

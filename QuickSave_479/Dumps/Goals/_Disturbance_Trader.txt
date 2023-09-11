@@ -1,0 +1,195 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_ItemShopTrigger(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CRIME_BuyFromTrader_Excluded(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_ItemShopTrigger_Delete((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_CRIME_BuyFromTrader_Excluded(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_BuyFromTrader_Excluded(_Var1, _Var2);
+
+PROC
+PROC_ItemShopTrigger_Delete((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_ItemShopTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ItemShopTrigger(_Var1, _Var2);
+TriggerUnregisterForItems(_Var1);
+
+IF
+DB_ItemShopTrigger(_Var1, _, _Var1, _Var1, _Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+TriggerRegisterForItems(_Var1);
+
+IF
+ItemEnteredTrigger((ITEM)_Var1, (TRIGGER)_Var2, (GUIDSTRING)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_ItemShopTrigger(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_BuyFromTrader_Teleporting(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var4
+THEN
+DB_CRIME_BuyFromTrader_Excluded(_Var2, _Var1);
+
+IF
+ItemEnteredTrigger((ITEM)_Var1, (TRIGGER)_Var2, (GUIDSTRING)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRIME_BuyFromTrader_Teleporting(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_BuyFromTrader_Teleporting(_Var1);
+
+IF
+ItemLeftTrigger((ITEM)_Var1, (TRIGGER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRIME_BuyFromTrader_Excluded(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_BuyFromTrader_Excluded(_Var2, _Var1);
+
+PROC
+PROC_BlockMoveOfItem((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CRIME_BuyFromTrader_Check(_Var1, _Var2, _Var3);
+
+PROC
+PROC_BlockPickupOfItem((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CRIME_BuyFromTrader_Check(_Var1, _Var2, _Var3);
+
+PROC
+PROC_BlockUseOfItem((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetCanPickUp(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_BuyFromTrader_Check(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CRIME_BuyFromTrader_Check((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetOwner(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CRIME_BuyFromTrader(_Var1, _Var2, _Var4, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var4, TRADER_91d5ebc6-91ea-44db-8a51-216860d69b5b, 1, _Var1, _Var1)
+AND
+QRY_CRIME_BuyFromTrader_IsInShopTrigger(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, SHOPTRIGGER_FOR_SALE_b148cfca-53d8-4b73-b052-de08394a235e, _Var8, _Var1, _Var1)
+AND
+IsTagged(_Var2, SHOPTRIGGER_NOT_FOR_SALE_f8fca7c4-c06b-4c2c-a9d4-43d959df51ec, _Var9, _Var1, _Var1)
+AND
+CanTrade(_Var4, _Var10, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var8, _Var11, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var10, _Var12, _Var1, _Var1, _Var1)
+AND
+DB_LogicOr(_Var11, _Var9, _Var13, _Var1, _Var1)
+AND
+DB_LogicOr(_Var13, _Var12, _Var14, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var15, _Var16, _Var17, _Var1)
+AND
+CrimeGetNewID(_Var18, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HandledRequest(_Var1, _Var2, _Var3);
+DB_CRIME_BuyFromTrader(_Var1, _Var2, _Var4, _Var18, _Var3, _Var14);
+DB_CRIME_BuyFromTrader_OriginalPosition(_Var18, _Var15, _Var16, _Var17);
+PROC_CharacterRegisterCrime(_Var1, "BuyFromTrader", _Var2, _Var4, _Var18);
+
+IF
+CrimeProcessingStarted((INTEGER)_Var1, 0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_BuyFromTrader(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_BuyFromTrader_OriginalPosition(_Var7, _Var8, _Var9, _Var10, _Var1)
+THEN
+RequestProcessed(_Var2, _Var5, 1);
+NOT DB_CRIME_BuyFromTrader(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6);
+NOT DB_CRIME_BuyFromTrader_OriginalPosition(_Var7, _Var8, _Var9, _Var10);
+
+IF
+CrimeProcessingStarted((INTEGER)_Var1, 1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_BuyFromTrader(_Var2, _Var3, _Var4, _Var1, _Var5, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestProcessed(_Var2, _Var5, 0);
+ClearFlag(GEB_ShopTrigger_State_NotForSale_48c7bdbc-f83a-4890-a178-200bc9e127cc, _Var4);
+SetTag(_Var3, SEPARATE_STACK_MERGING_f5071dac-7a94-4302-a3e6-a631d0d53619);
+
+IF
+CrimeProcessingStarted((INTEGER)_Var1, 1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_BuyFromTrader(_Var2, _Var3, _Var4, _Var1, _Var5, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GEB_ShopTrigger_State_NotForSale_48c7bdbc-f83a-4890-a178-200bc9e127cc, _Var4);
+RequestProcessed(_Var2, _Var5, 0);
+
+IF
+TagSet((ITEM)_Var1, SEPARATE_STACK_MERGING_f5071dac-7a94-4302-a3e6-a631d0d53619, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRIME_BuyFromTrader(_Var2, _Var1, _Var3, _Var4, _Var5, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(_Var1, _Var3, -1, 0, 0);
+
+QRY
+QRY_CRIME_BuyFromTrader_IsInShopTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ItemShopTrigger(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_BuyFromTrader_Excluded(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_BuyFromTrader(_Var2, _Var3, _Var4, _Var1, _Var5, _, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var3, _Var4, 1, _Var1, _Var1)
+AND
+DB_CRIME_BuyFromTrader_OriginalPosition(_Var1, _Var7, _Var8, _Var9, _Var1)
+THEN
+DB_CRIME_BuyFromTrader_Teleporting(_Var3);
+TeleportToPosition(_Var3, _Var7, _Var8, _Var9, "", 0, 0, 0, 0, 0);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_BuyFromTrader(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_BuyFromTrader_OriginalPosition(_Var1, _Var7, _Var8, _Var9, _Var1)
+THEN
+ClearTag(_Var3, SEPARATE_STACK_MERGING_f5071dac-7a94-4302-a3e6-a631d0d53619);
+NOT DB_CRIME_BuyFromTrader(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6);
+NOT DB_CRIME_BuyFromTrader_OriginalPosition(_Var1, _Var7, _Var8, _Var9);
+
+QRY
+QRY_Trade_GetInitiallySelectedTradeObject((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHandlingCrimeID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_BuyFromTrader(_Var1, _Var4, _Var2, _Var5, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Trade_GetInitiallySelectedTradeObject(_Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

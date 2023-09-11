@@ -1,0 +1,296 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_OneShot_VoiceBarkTrigger_GlobalKinds("Global");
+DB_OneShot_VoiceBarkTrigger_GlobalKinds("GlobalIgnoreFailure");
+
+KBSECTION
+IF
+DB_OneShot_ADTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_OneShotPlayerTrigger(_Var1);
+DB_OneShot_ADSpeakerCount(_Var1, _Var2, 1);
+DB_OneShot_ADSpeakers(_Var1, _Var3, 1);
+
+IF
+DB_OneShot_ADTrigger(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_OneShotPlayerTrigger(_Var1);
+DB_OneShot_ADSpeakerCount(_Var1, _Var2, 2);
+DB_OneShot_ADSpeakers(_Var1, _Var3, 1);
+DB_OneShot_ADSpeakers(_Var1, _Var4, 2);
+
+PROC
+PROC_DoStartOneShotAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_ADSpeakerCount(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+DB_OneShot_ADSpeakers(_Var2, _Var4, 1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var4);
+
+PROC
+PROC_DoStartOneShotAD((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OneShot_ADSpeakerCount(_Var2, _Var3, 2, _Var1, _Var1)
+AND
+DB_OneShot_ADSpeakers(_Var2, _Var4, 1, _Var1, _Var1)
+AND
+DB_OneShot_ADSpeakers(_Var2, _Var5, 2, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var4, _Var5);
+
+PROC
+PROC_ClearOneShotADCount((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_ADSpeakerCount(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+DB_OneShot_ADTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_OneShot_ADTrigger(_Var1, _Var2, _Var3);
+
+PROC
+PROC_ClearOneShotADCount((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_OneShot_ADSpeakerCount(_Var1, _Var2, 2, _Var1, _Var1)
+AND
+DB_OneShot_ADTrigger(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_OneShot_ADTrigger(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_ClearOneShotADSpeakers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_ADSpeakers(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_OneShot_ADSpeakers(_Var1, _Var2, _Var3);
+
+PROC
+PROC_OneShotADCleanup((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+THEN
+PROC_ClearOneShotADCount(_Var1);
+PROC_ClearOneShotADSpeakers(_Var1);
+
+PROC
+PROC_RemoveOneShotAD((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+THEN
+PROC_OneShotADCleanup(_Var1);
+PROC_TriggerUnregisterForPlayers(_Var1);
+NOT DB_OneShotPlayerTrigger(_Var1);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OneShot_ADSpeakers(_Var2, _Var1, _, _Var1, _Var1)
+THEN
+PROC_RemoveOneShotAD(_Var2);
+
+PROC
+PROC_OneShotTriggerEntered((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_ADSpeakerCount(_Var2, _, _, _Var1, _Var1)
+AND
+DB_OneShot_ADSpeakers(_Var2, _Var5, 1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DoStartOneShotAD(_Var1, _Var2);
+PROC_OneShotADCleanup(_Var2);
+
+IF
+AutomatedDialogStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_ADSpeakerCount(_Var3, _Var1, _Var4, _Var1, _Var1)
+THEN
+PROC_OneShotADCleanup(_Var3);
+PROC_TriggerUnregisterForPlayers(_Var3);
+
+IF
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var2, "PerUserAndNearbyPlayers");
+
+IF
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+PROC
+PROC_RemoveOneShotVoiceBarkTrigger((TRIGGER)_Var1, (VOICEBARKRESOURCE)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+_Var5 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+PROC
+PROC_RemoveOneShotVoiceBarkTrigger((TRIGGER)_Var1, (VOICEBARKRESOURCE)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var3, _Var4, _Var5, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+NOT DB_OneShot_VoiceBarkTrigger(_Var1, _Var3, _Var4, _Var5);
+
+PROC
+PROC_RemoveOneShotVoiceBarkTrigger((TRIGGER)_Var1, (VOICEBARKRESOURCE)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_OneShot_VoiceBarkTrigger(_Var1, _Var3, _Var4);
+
+PROC
+PROC_RemoveOneShotVoiceBarkTrigger((TRIGGER)_Var1, (VOICEBARKRESOURCE)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var1, _Var3, _Var2, _Var4, _Var1)
+THEN
+NOT DB_OneShot_VoiceBarkTrigger_InProgress(_Var1, _Var3, _Var2, _Var4);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+DB_OneShot_VoiceBarkTrigger_GlobalKinds(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var2, _, _, _, _Var1)
+THEN
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var2, _Var1, _Var3, _Var5);
+PROC_OneShot_VoiceBarkStartGlobal(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_OneShot_VoiceBarkStartGlobal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (VOICEBARKRESOURCE)_Var3, (STRING)_Var4, (TRIGGER)_Var5)
+THEN
+StartVoiceBark(_Var3, _Var1);
+
+PROC
+PROC_OneShot_VoiceBarkStartGlobal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (VOICEBARKRESOURCE)_Var3, "GlobalIgnoreFailure", (TRIGGER)_Var4)
+THEN
+NOT DB_OneShot_VoiceBarkTrigger(_Var2, _Var3, "GlobalIgnoreFailure", _Var4);
+NOT DB_OneShot_VoiceBarkTrigger(_Var2, _Var3, "GlobalIgnoreFailure");
+
+IF
+VoiceBarkStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var3, _Var1, "Global", _Var4, _Var1)
+THEN
+NOT DB_OneShot_VoiceBarkTrigger(_Var3, _Var1, "Global", _Var4);
+NOT DB_OneShot_VoiceBarkTrigger(_Var3, _Var1, "Global");
+
+IF
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_OneShot_VoiceBarkTrigger(_Var1, _, _, _, _Var1)
+THEN
+NOT DB_OneShot_VoiceBarkTrigger_InProgress(_Var1, _Var2, _Var3, _Var4);
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var2, _Var3, "PerUserAndNearbyPlayers", _Var4, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers_VoiceBarkID(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_OncePerUserAndNearbyPlayers_VoiceBarkID(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_OncePerUserAndNearbyPlayers_IsSet(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var2, _, _Var3, _, _Var1)
+THEN
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var2, _Var1, _Var3, _Var4);
+StartVoiceBark(_Var3, _Var1);
+
+IF
+VoiceBarkStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var3, _Var1, "PerUserAndNearbyPlayers", _Var4, _Var1)
+AND
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var3, _Var5, _Var1, _Var4, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers_VoiceBarkID(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_OncePerUserAndNearbyPlayers_VoiceBarkID(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var5, _Var6, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+VoiceBarkFailed((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var2, _Var1, _, _, _Var1)
+AND
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var2, _Var5, _Var1, _Var6, _Var1)
+THEN
+NOT DB_OneShot_VoiceBarkTrigger_InProgress(_Var2, _Var5, _Var1, _Var6);
+
+IF
+VoiceBarkEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var3, _Var1, _, _, _Var1)
+AND
+DB_OneShot_VoiceBarkTrigger_InProgress(_Var3, _Var6, _Var1, _Var7, _Var1)
+THEN
+NOT DB_OneShot_VoiceBarkTrigger_InProgress(_Var3, _Var6, _Var1, _Var7);
+
+QRY
+QRY_OncePerUserAndNearbyPlayers_VoiceBarkID((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GUIDToString(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+Concatenate("OneShot_VoiceBarkTrigger_", _Var2, _Var3, _Var1, _Var1)
+THEN
+SysClear("DB_QRYRTN_OncePerUserAndNearbyPlayers_VoiceBarkID", 1);
+DB_QRYRTN_OncePerUserAndNearbyPlayers_VoiceBarkID(_Var3);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var3, _Var4, _Var5, _Var2, _Var1)
+AND
+DB_OneShot_VoiceBarkTrigger_GlobalKinds(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveOneShotVoiceBarkTrigger(_Var3, _Var4);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OneShot_VoiceBarkTrigger(_Var3, _Var4, "PerUserAndNearbyPlayers", _Var2, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers_VoiceBarkID(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_OncePerUserAndNearbyPlayers_VoiceBarkID(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

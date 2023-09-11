@@ -1,0 +1,672 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_UND_FurnaceSearch_DisguisedItem(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, UNI_UND_FurnaceSearch_MyconidDrowJournal_Real_b4d60093-28b0-4076-b2f4-c7c3d3aa9d50, UNI_UND_FurnaceSearch_MyconidDrowJournal_Disguised_09d63912-2a69-499e-9497-dc832487e426);
+DB_UND_FurnaceSearch_DisguisedBook(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9);
+PROC_UND_FurnaceSearch_ApplyDisguise(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9);
+PROC_TriggerRegisterForPlayers(S_UND_FurnaceSearch_RocheRubbleTrigger_9fc27fa6-c8d7-47b5-bac8-09e08742700e);
+DB_QuestDef_State(UND_FurnaceSearch_Knows_Weakness_ae69461f-bb43-2902-cbc2-8801dd1b01c5, "UND_AdamantineForge", "LearnedWeakness");
+DB_QuestDef_State(UND_FurnaceSearch_Knows_Rivalry_cf41059d-a66f-29c2-0210-695b142e7117, "UND_AdamantineForge", "LearnedRivalry");
+DB_QuestDef_BookReadState("UND_AdamantineForge", "LearnedManual", S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9);
+DB_QuestDef_State(UND_FurnaceSearch_State_ReadMap_ddc0dbb0-5b6e-4667-aee7-092da062cbd9, "UND_AdamantineForge", "FoundMap");
+DB_QuestDef_State_ConditionalFlag(UND_FurnaceSearch_Event_DuergarMentionsForge_b0c2033d-d85a-baf7-6edc-97f726be041a, "UND_AdamantineForge", "LearnedDuergarFirst", 0, UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+DB_QuestDef_State_ConditionalFlag(UND_FurnaceSearch_Event_DuergarMentionsForge_b0c2033d-d85a-baf7-6edc-97f726be041a, "UND_AdamantineForge", "LearnedDuergarQuest", 1, UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+DB_QuestDef_State_ConditionalFlag(UND_FurnaceSearch_Event_DuergarMentionsForge_b0c2033d-d85a-baf7-6edc-97f726be041a, "UND_AdamantineForge", "LearnedRubble", 0, UND_AdamantineForge_Knows_SawForge_c29d5e4c-39a5-4ec0-8fe7-03e3a426fe96);
+DB_QuestDef_State(UND_AdamantineForge_State_GolemSpawned_15052ed5-27d1-497c-bb70-bf19512f4943, "UND_AdamantineForge", "ForgeActivated");
+DB_QuestDef_DefeatedState("UND_AdamantineForge", "GolemDefeated", S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255);
+DB_QuestDef_State(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, "UND_AdamantineForge", "LeftActRubble");
+DB_QuestDef_State(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, "UND_AdamantineForge", "LeftAct");
+DB_QuestDef_State(UND_FearfulRothe_State_RubbleDestroyed_f20c21ab-db2f-495d-ad0c-986187ec0570, "UND_AdamantineForge", "DestroyedRubble");
+DB_QuestDef_ChainedState("UND_AdamantineForge", "EnteredForgeQuest", "PassedRubble");
+DB_QuestDef_State(UND_AdamantineForge_Knows_SawForge_c29d5e4c-39a5-4ec0-8fe7-03e3a426fe96, "UND_AdamantineForge", "PassedRubble");
+DB_GLO_CharacterCorpseDialog(S_UND_FurnaceSearch_MyconidDrow_a38523e2-7630-402e-8036-17cfe5397fe0, UND_FurnaceSearch_MyconidDrow_Dead_3dd0f694-1a23-2f21-46aa-1b3081a8b8ec);
+DB_GLO_CharacterCorpseDialog(S_UND_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610, UND_HookHorror_Hermit_Dead_ad1f623e-96db-4b26-4fd9-6657403fbdaf);
+DB_GlobalFlagReactionAfterDialog(UND_MyconidDrowDead_State_ToldFurnaceSearch_04c86a5f-0649-b27d-3c38-0a62d902720b, UND_FurnaceSearch_MyconidDrow_Dead_3dd0f694-1a23-2f21-46aa-1b3081a8b8ec);
+DB_GlobalFlagReactionAfterDialog(UND_HookHorrorDrowDead_State_MentionedForge_10ca3f0d-6558-9333-285c-a4d063d01241, UND_HookHorror_Hermit_Dead_ad1f623e-96db-4b26-4fd9-6657403fbdaf);
+PROC_DeclareCounter("UND_FurnaceSearch_LearnedForgeCounter");
+DB_DeadEvent(S_UND_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610, UND_FurnaceSearch_State_FliroDead_94942993-aafa-4c81-beff-4092cdfdba2f);
+DB_BookFlags(S_UND_FurnaceSearch_MadRecords_833be3b9-9492-4c28-aee4-21c64af4e675, UND_FurnaceSearch_State_FoundMadRecords_ca62d3a3-dbcd-4119-956d-8aa450928b21);
+DB_BookFlags(S_UND_FurnaceSearch_MadRecords_833be3b9-9492-4c28-aee4-21c64af4e675, UND_FurnaceSearch_State_LearnedForgeFromMadDrowRecords_2a6267f3-8389-4e27-b74d-acf700a11a9f);
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB(UND_FurnaceSearch_VB_LearnedForge_3241b511-5c26-c085-4457-827cc8e512fd, 1);
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB(UND_FurnaceSearch_VB_SecondForgeMention_c94da114-1c6f-5785-836c-f9f1d880ac10, 2);
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB(UND_FurnaceSearch_VB_ThirdForgeMention_d57236c3-08c8-3140-78c7-f85181cfa88f, 3);
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB_SourceBlockers("PetrifiedDrow", UND_FurnaceSearch_State_PetrifiedDrowLinesBlocked_0613ca02-a650-4203-b904-4e3d1fbe4e07);
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB_SourceBlockers("MyconidDrow", UND_FurnaceSearch_State_MyconidDrowLinesBlocked_5a33c67b-1859-4c20-b47b-fc990bbdc303);
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB_SourceBlockers("MadDrow", UND_FurnaceSearch_State_MadDrowLinesBlocked_135ffef8-4ab2-4b4f-961a-2246beb29ca5);
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB_SourceBlockers("Duergar", UND_FurnaceSearch_State_DuergarLinesBlocked_f201480c-1f67-4a26-8416-55ba4d99806c);
+
+KBSECTION
+IF
+DB_GlobalFlag(UND_FurnaceSearch_Knows_AdamantFurnace_340ce276-b98d-1e30-5414-d15156b31be6, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_Knows_AdamantFurnace_NotFromSight_0248b153-a5bb-4c1a-8595-034534a4ff14, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_AdamantFurnace_NotFromSight_0248b153-a5bb-4c1a-8595-034534a4ff14);
+
+IF
+DB_GlobalFlag(UND_AdamantineForge_Knows_SawForge_c29d5e4c-39a5-4ec0-8fe7-03e3a426fe96, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+
+IF
+FlagSet(UND_MyconidDrowDead_State_ToldFurnaceSearch_04c86a5f-0649-b27d-3c38-0a62d902720b, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_MyconidDrowDead_State_ToldFurnaceSearch_04c86a5f-0649-b27d-3c38-0a62d902720b, UND_FurnaceSearch_MyconidDrow_Dead_3dd0f694-1a23-2f21-46aa-1b3081a8b8ec, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var2, "MyconidDrow", 1);
+
+IF
+GameBookInterfaceClosed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_UND_FurnaceSearch_Transformed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_LearnedForgeFromMyconidDrowJounal_efd89cba-c8cd-4209-a766-05765e58fe07);
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var1, "MyconidDrow", 1);
+
+IF
+CustomBookUIClosed((CHARACTER)_Var1, "BOOK_UND_FurnaceSearch_ForgeManual", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_LearnedForgeFromMyconidDrowJounal_efd89cba-c8cd-4209-a766-05765e58fe07);
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var1, "MyconidDrow", 1);
+
+PROC
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace((GUIDSTRING)_Var1, "MadDrow", _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_LearnedForgeFromMadDrowFirst_1dbf96ae-f458-4fc0-be35-c96aae14005f);
+
+PROC
+PROC_BookFlags_FlagSet(S_UND_FurnaceSearch_MadRecords_833be3b9-9492-4c28-aee4-21c64af4e675, UND_FurnaceSearch_State_LearnedForgeFromMadDrowRecords_2a6267f3-8389-4e27-b74d-acf700a11a9f, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var1, "MadDrow", 0);
+
+IF
+FlagSet(UND_HookHorrorDrowDead_State_MentionedForge_10ca3f0d-6558-9333-285c-a4d063d01241, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_HookHorrorDrowDead_State_MentionedForge_10ca3f0d-6558-9333-285c-a4d063d01241, UND_HookHorror_Hermit_Dead_ad1f623e-96db-4b26-4fd9-6657403fbdaf, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var2, "MadDrow", 1);
+
+IF
+FlagSet(UND_PetrifiedDrow_State_MentionedForge_36fd33c7-f0f2-432d-ac6e-7c5bcb5b110a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+PROC_GlobalSetFlagAndCache(UND_MyconidDrowDead_Knows_DhournSearchingForge_6541a043-ba3a-4b97-94df-73ec0cf68457);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_PetrifiedDrow_State_MentionedForge_36fd33c7-f0f2-432d-ac6e-7c5bcb5b110a, UND_PetrifiedDrow_Dead_Wizard_fc9a8d4c-9ab9-7751-1a06-5e97cd36446e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var2, "PetrifiedDrow", 1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_PetrifiedDrow_State_MentionedForge_36fd33c7-f0f2-432d-ac6e-7c5bcb5b110a, UND_PetrifiedDrow_Wizard_7a4fc9ca-c472-ab4a-669a-549fdf1b5758, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var2, "PetrifiedDrow", 1);
+
+IF
+FlagSet(UND_PetrifiedDrow_State_LearnedForgeFromMap_7ccd223a-6df5-49ea-9e62-44dace429b94, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_PetrifiedDrow_State_LearnedForgeFromMap_7ccd223a-6df5-49ea-9e62-44dace429b94, UND_PetrifiedDrow_MemoryCrystal_320d13c5-7de7-633e-fde2-54b93865aa2a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var2, "PetrifiedDrow", 1);
+SetFlag(UND_FurnaceSearch_State_ReadMap_ddc0dbb0-5b6e-4667-aee7-092da062cbd9, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(UND_FurnaceSearch_Event_DuergarMentionsForge_b0c2033d-d85a-baf7-6edc-97f726be041a, NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+DB_UND_FurnaceSearch_DuergarFlagID(_Var1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_UND_FurnaceSearch_DuergarFlagID(_Var2, _, _, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_UND_FurnaceSearch_DuergarFlagID(_Var2);
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_Var3, "Duergar", 1);
+
+PROC
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace(_, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Forge_340ce276-b98d-1e30-5414-d15156b31be6);
+
+PROC
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace((GUIDSTRING)_Var1, (STRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_FurnaceSearch_LearnedForgeSource(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IncreaseCounter("UND_FurnaceSearch_LearnedForgeCounter");
+
+PROC
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace((CHARACTER)_Var1, (STRING)_Var2, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_FurnaceSearch_LearnedForgeSource(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalCounter("UND_FurnaceSearch_LearnedForgeCounter", _Var3, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_PlayLearningAboutFurnaceVB(_Var4, _Var1, _Var2);
+
+PROC
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace((GUIDSTRING)_Var1, (STRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_FurnaceSearch_LearnedForgeSource(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_FurnaceSearch_LearnedForgeSource(_Var2);
+
+PROC
+PROC_UND_FurnaceSearch_PlayLearningAboutFurnaceVB((VOICEBARKRESOURCE)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND NOT
+DB_GlobalFlag(UND_AdamantineForge_Knows_SawForge_c29d5e4c-39a5-4ec0-8fe7-03e3a426fe96, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_FurnaceSearch_LearningFurnaceVB_InProgress(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB_SourceBlockers(_Var3, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_LearningFurnaceVB_InProgress(_Var1);
+PROC_GlobalSetFlagAndCache(_Var5);
+StartVoiceBark(_Var1, _Var2);
+
+IF
+VoiceBarkEnded((VOICEBARKRESOURCE)_Var1, _, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_UND_FurnaceSearch_LearningFurnaceVB_InProgress(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB_SourceBlockers(_, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(_Var4);
+NOT DB_UND_FurnaceSearch_LearningFurnaceVB_InProgress(_Var1);
+
+IF
+VoiceBarkFailed((VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_UND_FurnaceSearch_LearningFurnaceVB_InProgress(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_LearningAboutFurnaceVB_SourceBlockers(_, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(_Var3);
+NOT DB_UND_FurnaceSearch_LearningFurnaceVB_InProgress(_Var1);
+
+IF
+AddedTo(S_UND_FurnaceSearch_MadRecords_833be3b9-9492-4c28-aee4-21c64af4e675, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_State_FoundMadRecords_ca62d3a3-dbcd-4119-956d-8aa450928b21, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_FoundMadRecords_ca62d3a3-dbcd-4119-956d-8aa450928b21);
+
+IF
+GameBookInterfaceClosed(S_UND_FurnaceSearch_MadRecords_833be3b9-9492-4c28-aee4-21c64af4e675, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_Event_SucceedMadRecords_6a5a24cf-4277-026b-50af-4b5ca4ecbc3d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_StartMadRecordsCheck(_Var1);
+
+PROC
+PROC_UND_FurnaceSearch_StartMadRecordsCheck((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_Knows_Weakness_ae69461f-bb43-2902-cbc2-8801dd1b01c5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_FurnaceSearch_MadRecordsCheck_LastManipulatedCharacter(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_FurnaceSearch_TriedMadRecordsCheck(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_FurnaceSearch_MadRecordsCheck_InProgress(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_MadRecordsCheck_InProgress(_Var3);
+DB_UND_FurnaceSearch_MadRecordsCheck_LastManipulatedCharacter(_Var1);
+PROC_TrySkillCheck(_Var3, S_UND_FurnaceSearch_MadRecords_833be3b9-9492-4c28-aee4-21c64af4e675, "Investigation", DC_Legacy_15_bddbb9b8-a242-4c3e-a2eb-3fd274c0c539, "UND_FurnaceSearch_MadRecords");
+
+PROC
+PROC_RollResult("UND_FurnaceSearch_MadRecords", (GUIDSTRING)_Var1, _, (INTEGER)_Var3, (GUIDSTRING)_Var1)
+AND
+_Var3 != 2
+AND
+DB_UND_FurnaceSearch_MadRecordsCheck_InProgress(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_TriedMadRecordsCheck(_Var1);
+
+PROC
+PROC_RollResult("UND_FurnaceSearch_MadRecords", (GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1)
+AND
+DB_UND_FurnaceSearch_MadRecordsCheck_InProgress(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_FurnaceSearch_MadRecordsCheck_InProgress(_Var1);
+
+PROC
+PROC_RollResult("UND_FurnaceSearch_MadRecords", (GUIDSTRING)_Var1, _, 1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_Event_SucceedMadRecords_6a5a24cf-4277-026b-50af-4b5ca4ecbc3d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Event_SucceedMadRecords_6a5a24cf-4277-026b-50af-4b5ca4ecbc3d);
+StartVoiceBark(UND_FurnaceSearch_VB_MadRecords_c74e5594-1ff4-f962-dda1-3cd9701ad275, _Var1);
+
+PROC
+PROC_RollResult("UND_FurnaceSearch_MadRecords", (CHARACTER)_Var1, _, 0, (CHARACTER)_Var1)
+AND NOT
+DB_UND_FurnaceSearch_MadRecordsCheck_InProgress(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_MadRecordsCheck_LastManipulatedCharacter(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_Event_SucceedMadRecords_6a5a24cf-4277-026b-50af-4b5ca4ecbc3d, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(UND_FurnaceSearch_VB_MadRecords_c74e5594-1ff4-f962-dda1-3cd9701ad275, _Var4);
+
+PROC
+PROC_RollResult("UND_FurnaceSearch_MadRecords", _, _, _, _)
+AND
+DB_UND_FurnaceSearch_MadRecordsCheck_LastManipulatedCharacter(_Var4, _, _, _, _)
+THEN
+NOT DB_UND_FurnaceSearch_MadRecordsCheck_LastManipulatedCharacter(_Var4);
+
+IF
+DB_GlobalFlag(UND_FurnaceSearch_Event_SucceedMadRecords_6a5a24cf-4277-026b-50af-4b5ca4ecbc3d, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Weakness_ae69461f-bb43-2902-cbc2-8801dd1b01c5);
+
+IF
+AddedTo(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_Transformed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_OnDisguisedJournalAdded(_Var1);
+PROC_UND_FurnaceSearch_OnDisguisedJournalFound();
+
+IF
+RemovedFrom(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, S_UND_FurnaceSearch_MyconidDrow_a38523e2-7630-402e-8036-17cfe5397fe0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_Transformed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_OnDisguisedJournalAdded(_Var1);
+PROC_UND_FurnaceSearch_OnDisguisedJournalFound();
+
+PROC
+PROC_UND_FurnaceSearch_OnDisguisedJournalAdded((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_UND_FurnaceSearch_JournalAdded_TimerLaunched(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+GetFlag(UND_FurnaceSearch_State_InteractedWithDisguisedJournal_dbaad324-310d-4dd8-b2e1-6ab5994f2fe8, _Var1, 1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "UND_FurnaceSearch_DisguisedJournalAddedVBPlayed", _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_JournalAdded_TimerLaunched(1);
+ObjectTimerLaunch(_Var1, "UND_FurnaceSearch_JournalAdded_Timer", 1000);
+
+IF
+ObjectTimerFinished(_, "UND_FurnaceSearch_JournalAdded_Timer", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_UND_FurnaceSearch_JournalAdded_TimerLaunched(1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "UND_FurnaceSearch_JournalAdded_Timer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_FurnaceSearch_Transformed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(UND_FurnaceSearch_VB_DisguisedJournal_d95f0846-9d3c-5b81-9ef1-efdfed48418b, _Var1);
+
+IF
+DialogStarted(UND_FurnaceSearch_DisguisedJournal_f0535942-5283-e27d-7697-53242224531d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DialogGetInvolvedPlayer(_Var1, 1, _Var2, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_FurnaceSearch_DisguisedJournalDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_OnDisguisedJournalFound();
+
+PROC
+PROC_UND_FurnaceSearch_OnDisguisedJournalFound()
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_State_FoundDisguisedJournal_8413922f-9c5b-d938-839e-e8098dff04c4, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_FoundDisguisedJournal_8413922f-9c5b-d938-839e-e8098dff04c4);
+
+IF
+DB_GlobalFlag(UND_MyconidDrowDead_State_ToldBook_d4b363cd-19ae-eaea-b89e-8cc734775fb7, _, _, _, _)
+AND
+DB_GlobalFlag(UND_FurnaceSearch_State_FoundDisguisedJournal_8413922f-9c5b-d938-839e-e8098dff04c4, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_State_FoundForgeManual_ca7f9a3c-119e-4564-aa5a-267b5b84a0fb, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_FoundForgeManual_ca7f9a3c-119e-4564-aa5a-267b5b84a0fb);
+
+IF
+GameBookInterfaceClosed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_UND_FurnaceSearch_Transformed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_State_FoundForgeManual_ca7f9a3c-119e-4564-aa5a-267b5b84a0fb, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_DisguisedJournal_PlayedTransformPAD(1);
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_DisguisedJournalIllusionDropped_8f5eb93f-17f2-4cfa-870a-45dca7bca3a4);
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_FoundForgeManual_ca7f9a3c-119e-4564-aa5a-267b5b84a0fb);
+
+IF
+CustomBookUIClosed((CHARACTER)_Var1, "BOOK_UND_FurnaceSearch_ForgeManual", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_UND_FurnaceSearch_DisguisedJournal_PlayedTransformPAD(1);
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_State_FoundForgeManual_ca7f9a3c-119e-4564-aa5a-267b5b84a0fb);
+QuestUpdate(_Var1, "UND_AdamantineForge", "LearnedManual");
+
+IF
+DialogEnded(UND_FurnaceSearch_DisguisedJournal_f0535942-5283-e27d-7697-53242224531d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(UND_FurnaceSearch_State_DisguisedJournalIllusionDropped_8f5eb93f-17f2-4cfa-870a-45dca7bca3a4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_FurnaceSearch_State_DisguisedJournalIllusionDropped", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_DisguisedJournal_PlayedTransformPAD(1);
+PROC_UND_FurnaceSearch_RemoveDisguise(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9);
+
+IF
+DB_UND_FurnaceSearch_DisguisedItem(_Var1, _, _, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "UND_DISGUISEDJOURNAL", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusApplied((ITEM)_Var1, "UND_SUSSURTREEANTIMAGIC", _, _, (ITEM)_Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedItem(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_RemoveDisguise(_Var1);
+
+IF
+StatusRemoved((ITEM)_Var1, "UND_SUSSURTREEANTIMAGIC", _, _, (ITEM)_Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedItem(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_ApplyDisguise(_Var1);
+
+IF
+StatusApplied((CHARACTER)_Var1, "UND_SUSSURTREEANTIMAGIC", _, _, (CHARACTER)_Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedItem(_Var4, _, _, _Var1, _Var1)
+AND
+GetInventoryOwner(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_RemoveDisguise(_Var4);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "UND_SUSSURTREEANTIMAGIC", _, _, (CHARACTER)_Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedItem(_Var4, _, _, _Var1, _Var1)
+AND
+GetInventoryOwner(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_ApplyDisguise(_Var4);
+
+IF
+StatusRemoved((ITEM)_Var1, "UND_DISGUISEDJOURNAL", _, _, (ITEM)_Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedItem(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_UND_FurnaceSearch_RemoveDisguise(_Var1);
+
+PROC
+PROC_UND_FurnaceSearch_RemoveDisguise((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+HasAppliedStatus(_Var1, "UND_DISGUISEDJOURNAL", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "UND_DISGUISEDJOURNAL", NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_UND_FurnaceSearch_ApplyDisguise((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_UND_FurnaceSearch_Transformed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedItem(_Var1, _, _Var3, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "UND_SUSSURTREEANTIMAGIC", 0, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_State_DisguisedJournalIllusionDropped_8f5eb93f-17f2-4cfa-870a-45dca7bca3a4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_Transformed(_Var1);
+Transform(_Var1, _Var3, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+PROC_UND_FurnaceSearch_ItemTransformed(_Var1, _Var3);
+
+PROC
+PROC_UND_FurnaceSearch_RemoveDisguise((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_UND_FurnaceSearch_Transformed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedItem(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+NOT DB_UND_FurnaceSearch_Transformed(_Var1);
+Transform(_Var1, _Var2, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+PROC_UND_FurnaceSearch_ItemTransformed(_Var1, _Var2);
+
+PROC
+PROC_UND_FurnaceSearch_ItemTransformed((ITEM)_Var1, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_LoopEffect(_Var1, _, "UND_FurnaceSearch_DisguisedJournal_VFX", _, _, _, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_FurnaceSearch_DisguisedJournal_VFXBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_DisguisedJournal_VFXBlocked(_Var1);
+PlayEffect(_Var1, VFX_Script_ChestOfMundane_01_ac66b4c8-0a75-2edf-e9a5-3e7511689359);
+ObjectTimerLaunch(_Var1, "UND_FurnaceSearch_DisguisedJournal_VFX", 1);
+
+IF
+ObjectTimerFinished((ITEM)_Var1, "UND_FurnaceSearch_DisguisedJournal_VFX", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedJournal_VFXBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_FurnaceSearch_DisguisedJournal_VFXBlocked(_Var1);
+
+PROC
+PROC_UND_FurnaceSearch_ItemTransformed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, UNI_UND_FurnaceSearch_MyconidDrowJournal_Real_b4d60093-28b0-4076-b2f4-c7c3d3aa9d50, _, _, _)
+AND NOT
+DB_UND_FurnaceSearch_DisguisedJournal_PlayedTransformPAD(1, _, _, _, _)
+AND
+DB_GlobalFlag(UND_FurnaceSearch_State_FoundDisguisedJournal_8413922f-9c5b-d938-839e-e8098dff04c4, _, _, _, _)
+AND NOT
+DB_UND_FurnaceSearch_JournalTransformed_TimerLaunched(1, _, _, _, _)
+AND
+IsInInventory(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, 0, _, _, _)
+AND
+QRY_GetClosestAvailableCharacterTo(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, 0, _, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var2, _Var1, _Var1)
+AND
+_Var2 < 15
+THEN
+DB_UND_FurnaceSearch_JournalTransformed_TimerLaunched(1);
+ObjectTimerLaunch(_Var1, "UND_FurnaceSearch_JournalTransformed_Timer", 1500);
+
+PROC
+PROC_UND_FurnaceSearch_ItemTransformed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, UNI_UND_FurnaceSearch_MyconidDrowJournal_Real_b4d60093-28b0-4076-b2f4-c7c3d3aa9d50, _, _, _)
+AND NOT
+DB_UND_FurnaceSearch_DisguisedJournal_PlayedTransformPAD(1, _, _, _, _)
+AND
+DB_GlobalFlag(UND_FurnaceSearch_State_FoundDisguisedJournal_8413922f-9c5b-d938-839e-e8098dff04c4, _, _, _, _)
+AND NOT
+DB_UND_FurnaceSearch_JournalTransformed_TimerLaunched(1, _, _, _, _)
+AND
+GetInventoryOwner(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_JournalTransformed_TimerLaunched(1);
+ObjectTimerLaunch(_Var1, "UND_FurnaceSearch_JournalTransformed_Timer", 1700);
+
+IF
+ObjectTimerFinished(_, "UND_FurnaceSearch_JournalTransformed_Timer", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_UND_FurnaceSearch_JournalTransformed_TimerLaunched(1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "UND_FurnaceSearch_JournalTransformed_Timer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_UND_FurnaceSearch_Transformed(S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_FurnaceSearch_DisguisedJournal_PlayedTransformPAD(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(UND_FurnaceSearch_VB_JournalTransformed_1fd99e49-be6b-edf5-3bfc-88c708a4baf2, _Var1);
+DB_UND_FurnaceSearch_DisguisedJournal_PlayedTransformPAD(1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_FurnaceSearch_Transformed(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_DisguisedBook(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(UND_FurnaceSearch_DisguisedJournal_f0535942-5283-e27d-7697-53242224531d, S_UND_FurnaceSearch_MyconidDrowJournal_b437af92-c9f1-4657-961b-32ad0dbf39d9, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+
+IF
+FlagSet(UND_FurnaceSearch_State_DisguisedJournalIllusionDropped_8f5eb93f-17f2-4cfa-870a-45dca7bca3a4, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND NOT
+DB_UND_FurnaceSearch_Book_CustomAdded("BOOK_UND_FurnaceSearch_ForgeManual", "UND_FurnaceSearch_RealDrowJournal", _, _, _)
+THEN
+DB_UND_FurnaceSearch_Book_CustomAdded("BOOK_UND_FurnaceSearch_ForgeManual", "UND_FurnaceSearch_RealDrowJournal");
+AddEntryToCustomBook("BOOK_UND_FurnaceSearch_ForgeManual", "UND_FurnaceSearch_RealDrowJournal");
+
+IF
+DialogEnded(UND_FurnaceSearch_DisguisedJournal_f0535942-5283-e27d-7697-53242224531d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(UND_FurnaceSearch_State_DisguisedJournalIllusionDropped_8f5eb93f-17f2-4cfa-870a-45dca7bca3a4, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogGetInvolvedPlayer(_Var1, 1, _Var2, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var2, "UND_FurnaceSearch_ForgeManual", 100);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "UND_FurnaceSearch_ForgeManual", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+OpenCustomBookUI(_Var1, "BOOK_UND_FurnaceSearch_ForgeManual");
+
+IF
+DB_Was_InCombat(S_UND_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_FurnaceSearch_Knows_Filro_3983634a-8c5e-425b-b676-d605360c0509, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_FurnaceSearch_Knows_Filro_3983634a-8c5e-425b-b676-d605360c0509);
+
+PROC
+PROC_UND_FurnaceSearch_OnLearningAboutFurnace((GUIDSTRING)_Var1, (STRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != "Duergar"
+AND NOT
+DB_GlobalFlag(UND_AdamantineForge_Knows_SawForge_c29d5e4c-39a5-4ec0-8fe7-03e3a426fe96, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "UND_AdamantineForge", "LearnedForgeDrow");
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_UND_AdamantineForge_NearForge_37281033-b274-46eb-97d7-f56441598e6c, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "UND_AdamantineForge", "EnteredForge");
+
+IF
+DB_UND_AdamantineForge_ItemSpawned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_FurnaceSearch_CraftedItem(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_FurnaceSearch_CraftedItem(_Var1);
+
+IF
+AddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_FurnaceSearch_CraftedItem(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_FurnaceSearch_CraftedItem(_Var1);
+QuestUpdate("UND_AdamantineForge", "ItemPickedUp");
+
+IF
+DB_UND_FurnaceSearch_CraftedItem(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInMagicPockets(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+NOT DB_UND_FurnaceSearch_CraftedItem(_Var1);
+QuestUpdate("UND_AdamantineForge", "ItemPickedUp");
+
+IF
+EnteredChasm((ITEM)_Var1, _, _, _, _, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_UND_FurnaceSearch_CraftedItem(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_FurnaceSearch_CraftedItem(_Var1);
+QuestUpdate("UND_AdamantineForge", "LostItem");
+
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_UND_FurnaceSearch_CraftedItem(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_FurnaceSearch_CraftedItem(_Var1);
+QuestUpdate("UND_AdamantineForge", "LostItem");
+
+IF
+DB_InRegion(_Var1, S_UND_FurnaceSearch_RocheRubbleTrigger_9fc27fa6-c8d7-47b5-bac8-09e08742700e, _Var1, _Var1, _Var1)
+AND
+DB_QuestIsAccepted("UND_AdamantineForge", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(S_UND_FurnaceSearch_RocheRubbleTrigger_9fc27fa6-c8d7-47b5-bac8-09e08742700e);
+QuestUpdate(_Var1, "UND_AdamantineForge", "PassedRubble");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

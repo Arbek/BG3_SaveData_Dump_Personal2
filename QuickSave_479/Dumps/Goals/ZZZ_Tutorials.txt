@@ -1,0 +1,24 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_BlockUseOfItem((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Tutorials_LockpickTutorialItem(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CustomUseItemResponse(_Var1, _Var2, 0, _Var1, _Var1)
+AND
+IsLocked(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimerStart(_Var1, "GLO_Tutorials_Timer_LockedItemTutorial", 500);
+DB_GLO_Tutorials_LockpickTutorialItem(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,747 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_InfernalBox_BoxTeleport(S_GLO_InfernalBox_BoxCampTeleport_2fd5026c-9a26-45ac-8cc7-669238fface8);
+DB_HasItemEvent(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, GLO_InfernalBox_State_CharacterHasBox_2ff44b15-a351-401b-8da9-cf42364af274);
+DB_IgnoreMutingStatussesDialog(GLO_InfernalBox_PAD_ShadowheartBlock_40d3822e-e12f-2d51-ed0a-bc35356ff11d);
+PROC_GLO_InfernalBox_SetCurrentInteractiveDialog(GLO_InfernalBox_BoxInteraction_e7c6ec8e-833d-ba54-087c-b0a6345022ac, 0);
+SetFlag(GLO_InfernalBox_State_PartyNeverHadBox_c6bb9588-6916-4afa-b011-e4d7f8d1ffc3, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_InfernalBox_ValidOwners(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_InfernalBox_ValidOwners(NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+DB_DialogBlockAttackButton(GLO_InfernalBox_LootingBoxFromShadowheart_c500e2ed-a882-29b2-58fe-4533ae493300);
+
+KBSECTION
+PROC
+PROC_GLO_Origins_SetupRecruitment("TUT_Avernus_C", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+DB_GLO_InfernalMetal_BlockCompanionShadowheartTransfers(1);
+
+PROC
+PROC_GLO_Origins_SetupRecruitment((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != "TUT_Avernus_C"
+THEN
+NOT DB_GLO_InfernalMetal_BlockCompanionShadowheartTransfers(1);
+
+IF
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_GLO_InfernalMetal_BlockCompanionShadowheartTransfers(1, _, _, _, _)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_SHJoined", _, _, _, _)
+THEN
+NOT DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+PROC_GLO_InfernalBox_ClearPartyNeverHadBoxFlag();
+
+PROC
+PROC_GLO_Origins_SetupRecruitment((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != "TUT_Avernus_C"
+AND
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_SHJoined", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+PROC_GLO_InfernalBox_ClearPartyNeverHadBoxFlag();
+
+IF
+FlagSet(GLO_InfernalBox_State_CharacterHasBox_2ff44b15-a351-401b-8da9-cf42364af274, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveLevel("TUT_Avernus_C", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var3, 1, _Var1, _Var1)
+THEN
+NOT DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+PROC_GLO_InfernalBox_SetPlayerOwner(_Var1);
+
+IF
+FlagSet(GLO_InfernalBox_State_CharacterHasBox_2ff44b15-a351-401b-8da9-cf42364af274, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ActiveLevel("TUT_Avernus_C", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+PROC_GLO_InfernalBox_SetPlayerOwner(_Var1);
+
+IF
+DB_Dead(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_GLO_InfernalBox_TryRemoveShadowheart();
+
+IF
+DB_KnockedOut(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_GLO_InfernalBox_TryRemoveShadowheart();
+
+IF
+DB_PermaDefeated(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_GLO_InfernalBox_TryRemoveShadowheart();
+
+PROC
+PROC_GLO_InfernalBox_TryRemoveShadowheart()
+AND NOT
+DB_CurrentLevel("TUT_Avernus_D", _, _, _, _)
+THEN
+NOT DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+SetFlag(GLO_InfernalBox_Event_CampNightCanTrigger_02d4ce08-c435-499d-8109-d993cb9293dd, NULL_00000000-0000-0000-0000-000000000000);
+RemoveStatus(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, "GLO_INFERNALBOX_BOUNDEDTO", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(ORI_Shadowheart_Event_BoxMissionBackground_d63c3541-b55a-307f-7aef-b453aeea2b41, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(GLO_InfernalBox_State_ShadowheartTrustsPlayers_54f9f897-de81-4a6a-a9fc-66c5b62a42bf);
+
+IF
+FlagSet(ShadowHeart_InParty_Knows_SharWorshipper_634f858d-9b54-0711-e31f-075d304422ab, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(GLO_InfernalBox_State_ShadowheartTrustsPlayers_54f9f897-de81-4a6a-a9fc-66c5b62a42bf);
+
+IF
+UseStarted(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _, _, _)
+THEN
+SetFlag(ORI_ShadowHeart_Event_UsedBox_b4882bf2-3a8b-33ea-cb90-567f57e595d3, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+UseStarted((CHARACTER)_Var1, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_GLO_InfernalBox_UseInteraction(_Var1);
+
+PROC
+PROC_GLO_InfernalBox_UseInteraction((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_InfernalBox_UsedBox", _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_InfernalBox_CanUseBox(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var2, _Var1, _Var1)
+AND
+_Var2 < 15
+AND
+QRY_StartDialog_Fixed(GLO_InfernalBox_PAD_ShadowheartBlock_40d3822e-e12f-2d51-ed0a-bc35356ff11d, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_UsedBox", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_InfernalBox_CanUseBox((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(GLO_InfernalBox_State_ShadowheartTrustsPlayers_54f9f897-de81-4a6a-a9fc-66c5b62a42bf, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_InfernalBox_CanUseBox((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInInventoryOf(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_InfernalBox_CanUseBox((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(CRE_AstralPrison_Event_LeftAstralPlane_58ec28f6-be1a-4044-8fbf-4229d8482bac, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_InfernalBox_UseInteraction((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("GLO_InfernalBox_UsedBox", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_InfernalBox_CanStartBoxInteractionDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 0, 1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_UseInteraction_Internal(_Var1);
+
+PROC
+PROC_GLO_InfernalBox_UseInteraction_Internal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("GLO_InfernalBox_UsedBox", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_InfernalBox_CurrentInteractiveDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_UsedBox", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_InfernalBox_UseInteraction_Internal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("GLO_InfernalBox_UsedBox", _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 == S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679
+AND
+QRY_StartDialog_Fixed(GLO_InfernalBox_BoxInteraction_e7c6ec8e-833d-ba54-087c-b0a6345022ac, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_UsedBox", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_InfernalBox_UseInteraction_Internal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("GLO_InfernalBox_UsedBox", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(CHA_ShadowHeartRecruitment_VB_Box_45280190-0803-db1b-d76c-aaafd78807c1, _Var1);
+
+QRY
+QRY_GLO_InfernalBox_CanStartBoxInteractionDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_InfernalBox_IgnoreChecks(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_InfernalBox_CanStartBoxInteractionDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GLO_InfernalBox_Event_TriedInvestigateBox_3d0bfe0d-43a8-43ff-a9a8-817c45ef7a87, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_InfernalBox_CanStartBoxInteractionDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GLO_InfernalBox_Event_TriedOpenBox_6e89fd89-15dd-4f0f-b09a-4e9adc3325e0, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+VoiceBarkFailed(CHA_ShadowHeartRecruitment_VB_Box_45280190-0803-db1b-d76c-aaafd78807c1, _, _, _, _)
+AND
+GetFlag(ORI_ShadowHeart_Event_UsedBox_b4882bf2-3a8b-33ea-cb90-567f57e595d3, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+ClearFlag(ORI_ShadowHeart_Event_UsedBox_b4882bf2-3a8b-33ea-cb90-567f57e595d3, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+VoiceBarkEnded(CHA_ShadowHeartRecruitment_VB_Box_45280190-0803-db1b-d76c-aaafd78807c1, _, _, _, _)
+AND
+GetFlag(ORI_ShadowHeart_Event_UsedBox_b4882bf2-3a8b-33ea-cb90-567f57e595d3, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+ClearFlag(ORI_ShadowHeart_Event_UsedBox_b4882bf2-3a8b-33ea-cb90-567f57e595d3, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+PROC
+PROC_GLO_InfernalBox_SetCurrentInteractiveDialog((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_InfernalBox_CurrentInteractiveDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_InfernalBox_CurrentInteractiveDialog(_Var3);
+NOT DB_IgnoreMutingStatussesDialog(_Var3);
+
+PROC
+PROC_GLO_InfernalBox_SetCurrentInteractiveDialog((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+THEN
+DB_GLO_InfernalBox_CurrentInteractiveDialog(_Var1);
+DB_IgnoreMutingStatussesDialog(_Var1);
+
+PROC
+PROC_GLO_InfernalBox_SetCurrentInteractiveDialog((DIALOGRESOURCE)_Var1, 0, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+THEN
+DB_GLO_InfernalBox_IgnoreChecks(1);
+
+PROC
+PROC_GLO_InfernalBox_SetCurrentInteractiveDialog((DIALOGRESOURCE)_Var1, 1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+THEN
+NOT DB_GLO_InfernalBox_IgnoreChecks(1);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_InfernalBox_ValidOwners(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_InfernalBox_ValidOwners(_Var1);
+
+PROC
+PROC_GLO_InfernalBox_SetPlayerOwner((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsInInventoryOf(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_ClearPartyNeverHadBoxFlag();
+PROC_GLO_InfernalBox_SetNewOwner(_Var1);
+PROC_GlobalClearFlagAndCache(GLO_InfernalBox_Event_CampNightCanTrigger_02d4ce08-c435-499d-8109-d993cb9293dd);
+
+PROC
+PROC_GLO_InfernalBox_ClearPartyNeverHadBoxFlag()
+AND
+DB_GlobalFlag(GLO_InfernalBox_State_PartyNeverHadBox_c6bb9588-6916-4afa-b011-e4d7f8d1ffc3, _, _, _, _)
+THEN
+ClearFlag(GLO_InfernalBox_State_PartyNeverHadBox_c6bb9588-6916-4afa-b011-e4d7f8d1ffc3, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+AddedTo(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_InfernalBox_ValidOwners(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_SetNewOwner(_Var1);
+
+IF
+AddedTo(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_SetNewOwner(_Var1);
+
+PROC
+PROC_GLO_InfernalBox_SetNewOwner((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_InfernalBox_Owner(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+THEN
+NOT DB_GLO_InfernalBox_Owner(_Var2);
+
+PROC
+PROC_GLO_InfernalBox_SetNewOwner((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_InfernalBox_Owner(_Var1);
+PROC_GLO_InfernalBox_TryApplyBoundStatus();
+
+PROC
+PROC_GLO_InfernalBox_TryApplyBoundStatus()
+AND
+HasAppliedStatus(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, "GLO_INFERNALBOX_BOUNDEDTO", 0, _, _)
+THEN
+ApplyStatus(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, "GLO_INFERNALBOX_BOUNDEDTO", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_GLO_InfernalBox_IsInValidNPCInventory()
+AND
+DB_GLO_InfernalBox_Owner(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_InfernalBox_ValidOwners(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_PartyMembers_Remove((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_InfernalBox_PartyMemberDismiss(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Origins_CompanionLeavePermanently((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInInventoryOf(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_InfernalBox_CompanionPermanentlyLeaves", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_CompanionPermanentlyLeaves", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_MoveBoxToCharacter(_Var3);
+
+QRY
+QRY_GLO_InfernalBox_PartyMemberDismiss((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(GLO_InfernalBox_State_CharacterHasBox_2ff44b15-a351-401b-8da9-cf42364af274, _Var1, 1, _Var1, _Var1)
+AND
+IsInInventoryOf(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_MoveBoxToCharacter(_Var2);
+
+PROC
+PROC_GLO_InfernalBox_MoveBoxToCharacter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasAppliedStatus(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, "GLO_INFERNALBOX_BOUNDEDTO", 0, _Var1, _Var1)
+THEN
+ToInventory(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 1, 1, 1);
+
+PROC
+PROC_GLO_InfernalBox_MoveBoxToCharacter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasAppliedStatus(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, "GLO_INFERNALBOX_BOUNDEDTO", 1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_SendToCharacter(_Var1);
+RemoveStatus(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, "GLO_INFERNALBOX_BOUNDEDTO", NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_InfernalBox_SendToCharacter((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_InfernalBox_SendToCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+THEN
+NOT DB_GLO_InfernalBox_SendToCharacter(_Var2);
+
+PROC
+PROC_GLO_InfernalBox_SendToCharacter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_InfernalBox_SendToCharacter(_Var1);
+
+IF
+InventoryBoundChanged(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, 1, _, _, _)
+THEN
+DB_GLO_InfernalBox_HasBoundStatusActive(1);
+
+IF
+InventoryBoundChanged(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, 0, _, _, _)
+THEN
+NOT DB_GLO_InfernalBox_HasBoundStatusActive(1);
+
+IF
+DB_GLO_InfernalBox_SendToCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_InfernalBox_HasBoundStatusActive(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_InfernalBox_SendToCharacter(_Var1);
+ToInventory(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 1, 0, 1);
+
+IF
+AddedTo(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CheckPuzzleBoxInventory();
+
+IF
+RemovedFrom(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CheckPuzzleBoxInventory();
+
+PROC
+PROC_CheckPuzzleBoxInventory()
+AND
+DB_GLO_InfernalBox_CharacterWithBox(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 0, _Var1, _Var1)
+THEN
+ClearFlag(GLO_InfernalBox_State_BoxBoundedTo_f4d2be66-0443-4069-8ca2-570143f17e27, _Var1);
+NOT DB_GLO_InfernalBox_CharacterWithBox(_Var1);
+
+PROC
+PROC_CheckPuzzleBoxInventory()
+AND
+GetInventoryOwner(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_InfernalBox_CharacterWithBox(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_InfernalBox_State_BoxBoundedTo_f4d2be66-0443-4069-8ca2-570143f17e27, _Var1);
+DB_GLO_InfernalBox_CharacterWithBox(_Var1);
+
+IF
+DB_GLO_InfernalBox_CharacterWithBox(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_InfernalBox_CanBeOwner(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_SetNewOwner(_Var1);
+
+QRY
+QRY_GLO_InfernalBox_CanBeOwner((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_InfernalBox_ValidOwners(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_InfernalBox_CanBeOwner((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_InfernalBox_CharacterWithBox(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_InfernalBox_State_TeamHasBox_d8b25e35-ec84-45e5-8395-5ce6faa36fbd, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_GLO_InfernalBox_CharacterWithBox(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_InfernalBox_State_TeamHasBox_d8b25e35-ec84-45e5-8395-5ce6faa36fbd, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_CheckPuzzleBoxInventory()
+AND
+DB_GLO_InfernalBox_CharacterWithBox(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_InfernalBox_State_TeamHasBox_d8b25e35-ec84-45e5-8395-5ce6faa36fbd, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_CheckPuzzleBoxInventory()
+AND NOT
+DB_GLO_InfernalBox_CharacterWithBox(_, _, _, _, _)
+THEN
+ClearFlag(GLO_InfernalBox_State_TeamHasBox_d8b25e35-ec84-45e5-8395-5ce6faa36fbd, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(GLO_InfernalBox_Event_ForceGiveBox_7addbb64-502f-48aa-9b71-da1b8d6c28eb, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(GLO_InfernalBox_Event_ForceGiveBox_7addbb64-502f-48aa-9b71-da1b8d6c28eb, _Var1);
+PROC_GLO_InfernalBox_MoveBoxToCharacter(_Var1);
+
+PROC
+PROC_Camp_TeleportAllToCamp()
+AND NOT
+DB_GlobalFlag(GLO_InfernalBox_State_PartyNeverHadBox_c6bb9588-6916-4afa-b011-e4d7f8d1ffc3, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_InfernalBox_State_TeamHasBox_d8b25e35-ec84-45e5-8395-5ce6faa36fbd, _, _, _, _)
+AND
+DB_GlobalFlag(NIGHT_InfernalBoxAppears_47942a99-c44e-4e90-a0a2-6956bed9dc5b, _, _, _, _)
+AND NOT
+QRY_GLO_InfernalBox_IsInValidNPCInventory()
+AND
+DB_GLO_InfernalBox_BoxTeleport(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearOwnership(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282);
+TeleportTo(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, "", 0, 0, 1);
+
+PROC
+PROC_Camp_TeleportAllToCamp()
+AND NOT
+DB_GlobalFlag(GLO_InfernalBox_State_TeamHasBox_d8b25e35-ec84-45e5-8395-5ce6faa36fbd, _, _, _, _)
+AND NOT
+DB_GlobalFlag(NIGHT_InfernalBoxAppears_47942a99-c44e-4e90-a0a2-6956bed9dc5b, _, _, _, _)
+AND NOT
+QRY_GLO_InfernalBox_IsInValidNPCInventory()
+THEN
+PROC_GlobalSetFlagAndCache(GLO_InfernalBox_Event_CampNightCanTrigger_02d4ce08-c435-499d-8109-d993cb9293dd);
+
+PROC
+PROC_Camp_EveryoneWakeupEndHook()
+AND NOT
+DB_GlobalFlag(GLO_InfernalBox_State_PartyNeverHadBox_c6bb9588-6916-4afa-b011-e4d7f8d1ffc3, _, _, _, _)
+AND
+DB_GlobalFlag(NIGHT_InfernalBoxAppears_47942a99-c44e-4e90-a0a2-6956bed9dc5b, _, _, _, _)
+AND NOT
+QRY_GLO_InfernalBox_IsInTeamInventory()
+AND NOT
+QRY_GLO_InfernalBox_IsInValidNPCInventory()
+THEN
+PROC_GLO_InfernalBox_AddToOwner();
+
+PROC
+PROC_GLO_InfernalBox_AddToOwner()
+AND
+DB_GLO_InfernalBox_Owner(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_GiveToOwner", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_MoveBoxToCharacter(_Var1);
+
+PROC
+PROC_GLO_InfernalBox_AddToOwner()
+AND
+QRY_OnlyOnce("GLO_InfernalBox_GiveToOwner", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_InfernalBox_MoveBoxToCharacter(_Var1);
+
+PROC
+PROC_GLO_InfernalBox_AddToOwner()
+THEN
+NOT DB_OnlyOnce("GLO_InfernalBox_GiveToOwner");
+
+QRY
+QRY_GLO_InfernalBox_IsInTeamInventory()
+AND
+DB_GLO_InfernalBox_CharacterWithBox(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_GLO_InfernalBox_BlockTakingBoxDialog(1, _, _, _, _)
+THEN
+DB_GLO_InfernalBox_BlockTakingBoxDialog(1);
+
+PROC
+PROC_BlockLootCorpse((CHARACTER)_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Dead(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_InfernalBox_BlockTakingBoxDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("GLO_InfernalBox_LootingSHDialog", _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_InfernalBox_State_CharacterHasBox_2ff44b15-a351-401b-8da9-cf42364af274, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_InfernalBox_LootingBoxFromShadowheart_c500e2ed-a882-29b2-58fe-4533ae493300, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_LootingSHDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_InfernalBox_BlockTakingBoxDialog(1);
+DB_CustomLootCorpseResponse(_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0);
+
+PROC
+PROC_StateSet_PermaDefeated(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_GLO_InfernalBox_BlockTakingBoxDialog(1, _, _, _, _)
+AND NOT
+DB_OnlyOnce("GLO_InfernalBox_LootingSHDialog", _, _, _, _)
+THEN
+TimerCancel("GLO_InfernalBox_LootingSHDialog");
+TimerLaunch("GLO_InfernalBox_LootingSHDialog", 500);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dead(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_InfernalBox_BlockTakingBoxDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("GLO_InfernalBox_LootingSHDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+TimerCancel("GLO_InfernalBox_LootingSHDialog");
+TimerLaunch("GLO_InfernalBox_LootingSHDialog", 500);
+
+IF
+TimerFinished("GLO_InfernalBox_LootingSHDialog", _, _, _, _)
+THEN
+PROC_GLO_InfernalBox_TryStartLootingSHDialog();
+
+PROC
+PROC_GLO_InfernalBox_TryStartLootingSHDialog()
+AND
+QRY_GetClosestAvailableCharacterTo(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var2, _Var1, _Var1)
+AND
+_Var2 < 10
+AND
+QRY_StartDialog_Fixed(GLO_InfernalBox_LootingBoxFromShadowheart_c500e2ed-a882-29b2-58fe-4533ae493300, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_InfernalBox_LootingSHDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_InfernalBox_BlockTakingBoxDialog(1);
+
+PROC
+PROC_GLO_PartyMembers_Remove(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_OnlyOnce("GLO_InfernalBox_LootingSHDialog", _, _, _, _)
+THEN
+NOT DB_GLO_InfernalBox_BlockTakingBoxDialog(1);
+
+IF
+CharacterPickpocketSuccess((CHARACTER)_Var1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_StartDialog_Fixed(ORI_Shadowheart_FindsPlayerStealingBox_030b06f6-7cba-b2c0-ad3c-4475180446e1, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "SHOCKED", 6, 0, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282);
+PROC_TryStartAD(GLO_InfernalBox_PAD_ShockedByBox_b179ba50-f370-c8a3-9087-8911599289a7, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+QRY
+QRY_CRIME_BlockRegisterCrime(_, _, S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+Resurrected(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_GLO_InfernalBox_RestartShadowheartOwnership();
+
+PROC
+PROC_GLO_InfernalBox_RestartShadowheartOwnership()
+AND NOT
+DB_GlobalFlag(NIGHT_InfernalBoxAppears_47942a99-c44e-4e90-a0a2-6956bed9dc5b, _, _, _, _)
+THEN
+ClearFlag(GLO_InfernalBox_Event_CampNightCanTrigger_02d4ce08-c435-499d-8109-d993cb9293dd, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_InfernalBox_RestartShadowheartOwnership()
+THEN
+DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+PROC
+PROC_GLO_InfernalBox_RestartShadowheartOwnership()
+AND
+IsInInventoryOf(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _, _)
+THEN
+PROC_GLO_InfernalBox_SetNewOwner(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+AddedTo(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _)
+AND
+DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND NOT
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_GLO_InfernalBox_SetNewOwner(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+TextEvent("resetbox", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("GLO_InfernalBox_LootingSHDialog");
+DB_GLO_InfernalBox_ValidOwners(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+Resurrect(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+SetFlag(GLO_InfernalBox_State_PartyNeverHadBox_c6bb9588-6916-4afa-b011-e4d7f8d1ffc3, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(GLO_InfernalBox_Event_ForceGiveBox_7addbb64-502f-48aa-9b71-da1b8d6c28eb, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679);
+
+IF
+TextEvent("receivebox", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("Debug_GLO_InfernalBox_ReceiveBox", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_InfernalBox_Event_ForceGiveBox_7addbb64-502f-48aa-9b71-da1b8d6c28eb, _Var1);
+
+IF
+LevelGameplayStarted((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != "TUT_Avernus_C"
+AND
+_Var1 != "TUT_Avernus_D"
+AND
+_Var1 != "WLD_Main_A"
+AND NOT
+DB_GlobalFlag(VISITEDREGION_WLD_Main_A_925c721d-686b-4fbe-8c3c-d1233bf863b7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("Debug_GLO_InfernalBox_SkippedAct1", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_InfernalBox_Event_ForceGiveBox_7addbb64-502f-48aa-9b71-da1b8d6c28eb, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

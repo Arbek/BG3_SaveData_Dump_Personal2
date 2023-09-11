@@ -1,0 +1,857 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_MOO_Assault_KethericLeaveCurrent(0);
+DB_MOO_Assault_KethericLeaveTarget(4);
+DB_MOO_BossFight_ValidStatesForDialog("MOO_State_Assault");
+DB_MOO_BossFight_ValidStatesForDialog("MOO_State_NightsongDeath");
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", S_MOO_NarrativeCombatRoofRegion_9a1c091e-f8da-4ab6-bdf0-e0db176e4ca3);
+DB_GLO_NarrativeCombat_GenericExceptionParticipant("MOO_Assault_KethericRoofFight", S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+DB_GLO_NarrativeCombat_GenericExceptionParticipant("MOO_Assault_KethericRoofFight", S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+DB_MOO_Assault_AttackedKethericLast(NULL_00000000-0000-0000-0000-000000000000);
+SetCanJoinCombat(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, 1);
+SetCanFight(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, 1);
+DB_MOO_Assault_NightsongFallTriggers(S_MOO_NightsongFallTrigger_001_62f5e9f4-2da3-46bd-828f-1de327c76c43);
+DB_MOO_Assault_NightsongFallTriggers(S_MOO_NightsongFallTrigger_002_813cde53-d109-4d86-8271-2c88023892d3);
+DB_MOO_Assault_NightsongFallTriggers(S_MOO_NightsongFallTrigger_003_9dfb053a-2353-4b69-ad32-bbb6d74210f3);
+DB_MOO_Assault_NightsongFallTriggers(S_MOO_NightsongFallTrigger_004_01dd4772-1fad-4ebb-8261-39eaed2a3598);
+DB_MOO_BossFight_NightsongReturnTrigger(S_MOO_NightsongReturnBox_001_ba1e8745-7c23-4b1d-ac82-e4bcf48d1f68);
+DB_MOO_BossFight_NightsongReturnTrigger(S_MOO_NightsongReturnBox_002_6ccedc7c-a8bd-4fa7-bb3e-97d89541a236);
+DB_MOO_BossFight_NightsongReturnTrigger(S_MOO_NightsongReturnBox_003_3ab45021-7fad-4c75-90dd-ed4ff5e8626d);
+DB_MOO_BossFight_NightsongReturnTrigger(S_MOO_NightsongReturnBox_004_71168124-7002-4ec1-b682-faf61d515e32);
+DB_MOO_BossFight_NightsongReturnTrigger(S_MOO_NightsongReturnBox_005_61aa0afe-74bd-4093-843b-b92da11dd0d9);
+DB_MOO_BossFight_NightsongReturnTrigger(S_MOO_NightsongReturnBox_006_fd304d14-2c2d-455d-ac16-b43c06157b5b);
+DB_MOO_BossFight_NightsongReturnTrigger(S_MOO_NightsongReturnBox_007_bd9da12f-9cbd-4fe5-8026-abdc57ef1210);
+DB_MOO_Assault_RoofNecromiteSummoners(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+DB_MOO_Assault_RoofNecromiteSummoners(S_MOO_RoofCultist_ebfd7bc7-0fd5-4dee-8fd5-308ded4d0a65);
+DB_SceneTriggerManager("MOO_Assault_BossFightIntroScene", S_MOO_BossFIghtIntroSceneTrigger_69621203-8925-440e-ba5d-b5d23ec7e3a4);
+DB_DropMutingStatussesDialog(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6);
+DB_GlobalFlagReactionAfterDialog(MOO_Assault_Event_BossFightDialogStarted_24b45396-35af-443a-f2fb-8671104ceebd, MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6);
+DB_AddCharactersInTriggerToDialog(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6, S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, 1, 1, 1);
+DB_DropMutingStatussesDialog(MOO_Assault_FirstKethericInterruption_af3d4480-a770-b93e-ad54-a2e6e55a19ef);
+DB_AddCharactersInTriggerToDialog(MOO_Assault_FirstKethericInterruption_af3d4480-a770-b93e-ad54-a2e6e55a19ef, S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, 1, 1, 1);
+PROC_TriggerRegisterForParty(S_MOO_HollowTowerPushBackBox_e542f485-e10f-4c94-b473-9e37b1ad1a18);
+PROC_TriggerRegisterForParty(S_MOO_NarrativeCombatRoofRegion_9a1c091e-f8da-4ab6-bdf0-e0db176e4ca3);
+PROC_MOO_Assault_BossFightInit();
+
+KBSECTION
+IF
+TextEvent("moobossfight_killnecromites", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Roof_Myrkulites(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, Undead_Skeleton_Necromite_460c48a7-cea5-44d5-9e01-b27c0c751a24, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 1);
+
+PROC
+PROC_MOO_Assault_BossFightInit()
+AND NOT
+QRY_MOO_Assault_CheckPrepareBossFightDialog()
+THEN
+PROC_MOO_Assault_StartBossFight();
+
+QRY
+QRY_MOO_Assault_CheckPrepareBossFightDialog()
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", _Var1, _Var1, _Var1)
+AND
+DB_MOO_BossFight_ValidStatesForDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_PrepareBossFightDialog(1);
+DB_MOO_Assault_ReadyPlayersToCombatPosition(1);
+
+PROC
+PROC_MOO_Assault_BossFightInit()
+AND
+DB_MOO_AssaultPositions(_Var1, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+THEN
+DB_SceneManager(_Var1, "MOO_Assault_BossFightIntroScene");
+
+PROC
+PROC_MOO_Assault_BossFightInit()
+AND
+DB_MOO_AssaultPositions(_Var1, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+AND
+_Var1 != S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f
+THEN
+TriggerRegisterForCharacter(S_MOO_HollowTowerPushBackBox_e542f485-e10f-4c94-b473-9e37b1ad1a18, _Var1);
+
+PROC
+PROC_MOO_Assault_BossFightInit()
+AND
+DB_MOO_AssaultPositions(_Var1, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_AssaultTriggerRegisteredEnemy(_Var1);
+TriggerRegisterForCharacter(_Var3, _Var1);
+
+IF
+DB_MOO_AssaultPositions(_Var1, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+AND NOT
+DB_MOO_AssaultTriggerRegisteredEnemy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_AssaultTriggerRegisteredEnemy(_Var1);
+TriggerRegisterForCharacter(_Var3, _Var1);
+
+IF
+DB_MOO_AssaultTriggerRegisteredEnemy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_AssaultPositions(_Var1, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_AssaultTriggerRegisteredEnemy(_Var1);
+TriggerUnregisterForCharacter(_Var3, _Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Assault_BossFightDialog_PreferPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Assault_BossFightDialog_PreferPlayer(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Assault_PrepareBossFightDialog(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_BossFightDialog_PreferPlayer(_Var1);
+
+IF
+UseFinished((CHARACTER)_Var1, S_MOO_RoofAccessDoor_0eca4cd0-6fa5-421f-80e9-446c2b758606, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Assault_BossFightDialog_PreferPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Assault_BossFightDialog_PreferPlayer(_Var1);
+
+IF
+DB_MOO_Assault_PrepareBossFightDialog(1, _, _, _, _)
+AND NOT
+DB_MOO_Assault_BossFightDialog_PreferPlayer(_, _, _, _, _)
+AND
+DB_InRegion(_Var2, S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, _, _, _)
+AND
+DB_PartyMembers(_Var2, _, _, _, _)
+AND NOT
+DB_Defeated(_Var2, _, _, _, _)
+THEN
+NOT DB_MOO_Assault_PrepareBossFightDialog(1);
+PROC_MOO_Assault_PrepareBossFightDialog(_Var2);
+
+IF
+DB_MOO_Assault_PrepareBossFightDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Assault_BossFightDialog_PreferPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Assault_PrepareBossFightDialog(1);
+PROC_MOO_Assault_PrepareBossFightDialog(_Var1);
+
+IF
+DB_MOO_Assault_ReadyPlayersToCombatPosition(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_MOO_PlayerAssaultStartPoint_001_dc09693a-8cfa-4db4-b0b3-b3c18efbb1ac);
+
+PROC
+PROC_MOO_Assault_PrepareBossFightDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6, S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_BossFightDialogStarted(1);
+
+PROC
+PROC_MOO_Assault_PrepareBossFightDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo_PreferAvatar(_Var2, _Var1, _Var3, 1, _Var1)
+AND
+IsInTrigger(_Var2, S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, 1, _Var1, _Var1)
+AND NOT
+DB_MOO_Assault_BossFightDialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6, S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _Var2, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_BossFightDialogStarted(1);
+
+PROC
+PROC_MOO_Assault_PrepareBossFightDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Assault_BossFightDialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6, S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_BossFightDialogStarted(1);
+
+PROC
+PROC_MOO_Assault_PrepareBossFightDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Assault_BossFightDialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6, S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _Var2, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_BossFightDialogStarted(1);
+
+PROC
+PROC_MOO_Assault_PrepareBossFightDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_MOO_Assault_GetNearestFightDialogPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_MOO_Assault_NearestPlayerForFightDialog(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Assault_BossFightDialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6, S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _Var2, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_BossFightDialogStarted(1);
+
+QRY
+QRY_MOO_Assault_GetNearestFightDialogPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+DB_QRYRTN_MOO_Assault_NearestPlayerForFightDialog(_Var2, _Var3);
+
+IF
+DB_QRYRTN_MOO_Assault_NearestPlayerForFightDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_MOO_Assault_NearestPlayerForFightDialog(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var1
+AND
+_Var4 >= _Var2
+THEN
+NOT DB_QRYRTN_MOO_Assault_NearestPlayerForFightDialog(_Var3, _Var4);
+
+PROC
+PROC_MOO_Assault_PrepareBossFightDialog(_, _, _, _, _)
+AND NOT
+DB_MOO_Assault_BossFightDialogStarted(1, _, _, _, _)
+THEN
+PROC_MOO_Assault_BossFightDialogFailed();
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_Defeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+
+PROC
+PROC_MOO_Assault_BossFightDialogFailed()
+THEN
+PROC_MOO_Assault_StartBossFight();
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(MOO_Assault_Event_BossFightDialogStarted_24b45396-35af-443a-f2fb-8671104ceebd, _, _, _, _)
+AND
+QRY_OnlyOnce("MOO_Assault_StartBossFightOnce", _, _, _, _)
+THEN
+PROC_MOO_Assault_StartBossFight();
+
+IF
+DialogEnded(MOO_Assault_BossFightIntro_9ab0d397-8e37-2037-a10b-bd082bdae9f6, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_Event_BossFightDialogStarted_24b45396-35af-443a-f2fb-8671104ceebd, _, _, _, _)
+AND
+QRY_OnlyOnce("MOO_Assault_StartBossFightOnce", _, _, _, _)
+THEN
+SetFlag(MOO_Assault_Event_BossFightDialogStarted_24b45396-35af-443a-f2fb-8671104ceebd);
+PROC_MOO_Assault_StartBossFight();
+
+PROC
+PROC_MOO_Assault_StartBossFight()
+THEN
+PROC_SceneOver("MOO_Assault_BossFightIntroScene");
+
+PROC
+PROC_MOO_Assault_StartBossFight()
+AND NOT
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _, _, _, _)
+THEN
+PROC_GLO_NarrativeCombat_StartCombat("MOO_Assault_KethericRoofFight");
+
+PROC
+PROC_GLO_NarrativeCombat_IDGenerated("MOO_Assault_KethericRoofFight", _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_MOO_Assault_ReadyPlayersToCombatPosition(1);
+SetFlag(MOO_Assault_State_KethericNarrativeCombatActive_d4b7534c-5bce-48c5-8aa7-5acc62d0c36a);
+
+PROC
+PROC_MOO_Assault_StartBossFight()
+AND
+DB_MOO_AssaultPositions(_Var1, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 != ACT2_MOO_Assault_Hostile_68597716-e217-4777-a391-026263f291b4
+THEN
+SetFaction(_Var1, ACT2_MOO_Assault_Hostile_68597716-e217-4777-a391-026263f291b4);
+
+PROC
+PROC_MOO_Assault_StartBossFight()
+AND
+DB_MOO_AssaultPositions(_Var1, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var3, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_JoinCombat("MOO_Assault_KethericRoofFight", _Var1);
+
+PROC
+PROC_MOO_Assault_StartBossFight()
+AND
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_Event_NightsongArrivedRoof_d0096e82-3126-4d5d-be07-2b43d1f0ff2a, _, _, _, _)
+THEN
+SetFlag(MOO_Assault_Event_NightsongArrivedRoof_d0096e82-3126-4d5d-be07-2b43d1f0ff2a);
+
+PROC
+PROC_MOO_Assault_StartBossFight()
+AND
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var1, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+PROC_GLO_NarrativeCombat_JoinCombat("MOO_Assault_KethericRoofFight", S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+
+PROC
+PROC_MOO_Assault_StartBossFight()
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var2, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_JoinCombat("MOO_Assault_KethericRoofFight", _Var1);
+
+PROC
+PROC_GLO_NarrativeCombat_ParticipantJoined("MOO_Assault_KethericRoofFight", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_MOO_Assault_UpdateEnemyParticipantDB(_Var1);
+
+PROC
+PROC_GLO_NarrativeCombat_ParticipantLeft("MOO_Assault_KethericRoofFight", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Assault_RoofNarrativeCombatEnemy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Assault_RoofNarrativeCombatEnemy(_Var1);
+PROC_MOO_Assault_CheckForRoofNarrativeCombatEnd();
+
+PROC
+PROC_MOO_Assault_UpdateEnemyParticipantDB((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b
+THEN
+DB_MOO_Assault_RoofNarrativeCombatEnemy(_Var1);
+
+PROC
+PROC_MOO_Assault_CheckForRoofNarrativeCombatEnd()
+AND NOT
+DB_MOO_Assault_RoofNarrativeCombatEnemy(_, _, _, _, _)
+THEN
+PROC_GLO_NarrativeCombat_EndCombat("MOO_Assault_KethericRoofFight");
+
+PROC
+PROC_GLO_NarrativeCombat_ParticipantJoined("MOO_Assault_KethericRoofFight", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_ID("MOO_Assault_KethericRoofFight", _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Assault_RoofNarrativeCombatIsPaused(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ResumeCombat(_Var2);
+NOT DB_MOO_Assault_RoofNarrativeCombatIsPaused(1);
+
+IF
+DB_Combat_DeathBloom_SpawnedNecromite(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Combat_DeathBloom(_Var2, _Var3, _, _, _Var1)
+AND
+DB_MOO_Assault_RoofNecromiteSummoners(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_ID("MOO_Assault_KethericRoofFight", _, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var7, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var7, _Var1);
+DB_MOO_Assault_RoofDeathbloomNecromite(_Var1);
+
+IF
+WentOnStage((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Assault_RoofDeathbloomNecromite(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_JoinCombat("MOO_Assault_KethericRoofFight", _Var1);
+
+IF
+DB_MOO_Assault_NightsongFallTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var1, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+
+IF
+EnteredTrigger(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_MOO_Assault_NightsongFallTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_BossFight_NightsongIsReturning(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_MOO_BossFight_NearestNightsongReturnTrigger()
+AND
+DB_QRYRTN_MOO_BossFight_NearestTrigger(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_BossFight_NightsongIsReturning(1);
+PROC_MOO_BossFight_ReturnNightsongToRoof(_Var2);
+
+PROC
+PROC_MOO_BossFight_ReturnNightsongToRoof(_, _, _, _, _)
+AND
+GetHitpoints(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var2, _, _, _)
+AND
+_Var2 < 1
+THEN
+SetHitpoints(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, 1);
+
+PROC
+PROC_MOO_BossFight_ReturnNightsongToRoof((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+TriggerGetRandomPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+FindValidPosition(_Var2, _Var3, _Var4, 5, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, 1, _Var5, _Var6, _Var7, _Var1)
+AND
+GetPosition(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var8, _Var9, _Var10, _Var1)
+THEN
+SetVisible(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, 0);
+PlayEffectAtPosition(VFX_Script_Stub_Poof_01_NoSound_de020641-4dbd-855e-9b2f-f008a32d6737, _Var8, _Var9, _Var10, 1);
+AppearAtPosition(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var5, _Var6, _Var7, 1, CUST_NightsongFlightRecovery_348ef802-c475-41e7-a8b3-cb38fbc66669, "MOO_BossFight_NightsongReturnAppeared", 0);
+
+IF
+EntityEvent(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "MOO_BossFight_NightsongReturnAppeared", _, _, _)
+THEN
+PROC_MOO_BossFight_NightsongReturnedToRoof();
+
+PROC
+PROC_MOO_BossFight_NightsongReturnedToRoof()
+AND
+DB_MOO_BossFight_NightsongIsReturning(1, _, _, _, _)
+THEN
+NOT DB_MOO_BossFight_NightsongIsReturning(1);
+
+QRY
+QRY_MOO_BossFight_NearestNightsongReturnTrigger()
+AND
+QRY_MOO_BossFight_ResetNearestNightsongReturnTrigger()
+AND
+DB_MOO_BossFight_NightsongReturnTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_QRYRTN_MOO_BossFight_NearestTrigger(_Var1, _Var2);
+
+IF
+DB_QRYRTN_MOO_BossFight_NearestTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_MOO_BossFight_NearestTrigger(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var1
+AND
+_Var4 >= _Var2
+THEN
+NOT DB_QRYRTN_MOO_BossFight_NearestTrigger(_Var3, _Var4);
+
+QRY
+QRY_MOO_BossFight_ResetNearestNightsongReturnTrigger()
+THEN
+SysClear("DB_QRYRTN_MOO_BossFight_NearestTrigger", 2);
+
+IF
+DB_Defeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_State_NightsongDowned_64cfde96-b6d3-4d55-86c2-993a97f82ea6, _, _, _, _)
+THEN
+SetFlag(MOO_Assault_State_NightsongDowned_64cfde96-b6d3-4d55-86c2-993a97f82ea6);
+
+IF
+Resurrected(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+THEN
+ClearFlag(MOO_Assault_State_NightsongDowned_64cfde96-b6d3-4d55-86c2-993a97f82ea6);
+
+IF
+DB_InRegion(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_Assault_State_KethericNarrativeCombatActive_d4b7534c-5bce-48c5-8aa7-5acc62d0c36a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_JoinCombat("MOO_Assault_KethericRoofFight", S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+
+IF
+DB_Dead(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+AND
+HasActiveStatus(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_SHARSPEAR_MORTALWOUND", 0, _, _)
+AND
+GetFaction(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(_Var1, 100);
+ApplyStatus(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "GLO_NIGHTSONGRESURRECTION", 6, 0, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+
+PROC
+PROC_GLO_NarrativeCombat_CharacterLeftRegion("MOO_Assault_KethericRoofFight", (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_LeaveCombat("MOO_Assault_KethericRoofFight", _Var1);
+
+PROC
+PROC_GLO_NarrativeCombat_AllPlayersLeftRegion((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_ID("MOO_Assault_KethericRoofFight", _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_RoofNarrativeCombatIsPaused(1);
+PauseCombat(_Var2);
+
+IF
+HitpointsChanged(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND NOT
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 < 40
+AND
+QRY_OnlyOnce("MOO_KethericHealthThresholdOnce", _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveHarmfulStatuses(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+PROC_MOO_Assault_StartKethericLeaving();
+
+IF
+TurnStarted(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_HostileAudience", _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_ID("MOO_Assault_KethericRoofFight", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Assault_IncreaseKethericRoundCount();
+
+PROC
+PROC_MOO_Assault_IncreaseKethericRoundCount()
+AND
+DB_MOO_Assault_KethericLeaveCurrent(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var1, 1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_MOO_Assault_KethericLeaveCurrent(_Var1);
+DB_MOO_Assault_KethericLeaveCurrent(_Var2);
+
+PROC
+PROC_MOO_Assault_IncreaseKethericRoundCount()
+AND
+DB_MOO_Assault_KethericLeaveCurrent(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Assault_KethericLeaveTarget(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 == _Var2
+THEN
+RemoveHarmfulStatuses(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+PROC_MOO_Assault_StartKethericLeaving();
+
+PROC
+PROC_GLO_NarrativeCombat_CharacterLeftRegion("MOO_Assault_KethericRoofFight", S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _, _, _, _)
+THEN
+PROC_GLO_NarrativeCombat_LeaveCombat("MOO_Assault_KethericRoofFight", S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+DB_MOO_Assault_KethericFell(1);
+
+IF
+DB_MOO_Assault_KethericFell(1, _, _, _, _)
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _, _, _, _)
+THEN
+NOT DB_MOO_Assault_KethericFell(1);
+RemoveHarmfulStatuses(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+PROC_MOO_Assault_StartKethericLeaving();
+
+IF
+AttackedBy(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, (GUIDSTRING)_Var1, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Assault_AttackedKethericLast(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Assault_AttackedKethericLast(_Var7);
+DB_MOO_Assault_AttackedKethericLast(_Var1);
+
+PROC
+PROC_MOO_Assault_StartKethericLeaving()
+AND
+DB_MOO_Assault_AttackedKethericLast(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+QRY_MOO_Assault_CanInitiateKethericLeaving(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(MOO_Assault_FirstKethericInterruption_af3d4480-a770-b93e-ad54-a2e6e55a19ef, S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, 0, 0, 0, _Var1, _Var1)
+THEN
+DB_MOO_Assault_KethericLeavingInitiator(_Var1);
+
+PROC
+PROC_MOO_Assault_StartKethericLeaving()
+AND NOT
+DB_MOO_Assault_KethericLeavingInitiator(_, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+QRY_MOO_Assault_CanInitiateKethericLeaving(_Var2, _, _, _, _)
+AND
+QRY_StartDialogCustomWithAvailableSpeakerInRange(MOO_Assault_FirstKethericInterruption_af3d4480-a770-b93e-ad54-a2e6e55a19ef, S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, NULL_00000000-0000-0000-0000-000000000000, _Var2, 38, 0, 0, 0, 0, _)
+THEN
+DB_MOO_Assault_KethericLeavingInitiator(_Var2);
+
+QRY
+QRY_MOO_Assault_CanInitiateKethericLeaving((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_Region("MOO_Assault_KethericRoofFight", _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(MOO_Assault_FirstKethericInterruption_af3d4480-a770-b93e-ad54-a2e6e55a19ef, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_PermaDefeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_BossFight_TryAddNightsongToDialog(_Var1);
+
+PROC
+PROC_MOO_BossFight_TryAddNightsongToDialog()
+AND
+GetHitpoints(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 < 1
+THEN
+SetHitpoints(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, 1);
+
+PROC
+PROC_MOO_BossFight_TryAddNightsongToDialog((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+
+PROC
+PROC_MOO_Assault_StartKethericLeaving()
+AND
+DB_MOO_Roof_Myrkulites(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogName(MOO_Assault_FirstKethericInterruption_af3d4480-a770-b93e-ad54-a2e6e55a19ef, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var4, _Var1);
+
+IF
+DialogStarted(MOO_Assault_FirstKethericInterruption_af3d4480-a770-b93e-ad54-a2e6e55a19ef, _, _, _, _)
+AND
+DB_GLO_NarrativeCombat_ID("MOO_Assault_KethericRoofFight", _Var2, _, _, _)
+THEN
+PauseCombat(_Var2);
+
+PROC
+PROC_MOO_Assault_StartKethericLeaving(_, _, _, _, _)
+AND NOT
+DB_MOO_Assault_KethericLeavingInitiator(_, _, _, _, _)
+THEN
+PROC_MOO_Assault_KethericLeavingDialogFailed();
+
+PROC
+PROC_MOO_Assault_StartKethericLeaving()
+AND
+DB_InRegion(_Var1, S_MOO_HollowTowerPushBackBox_e542f485-e10f-4c94-b473-9e37b1ad1a18, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_MOO_HollowTowerPushBackPoint_593bcb39-a00c-4b99-8224-e3e4d69bc214);
+
+PROC
+PROC_MOO_Assault_StartKethericLeaving()
+THEN
+UnloadLevelTemplate(LT_PLT_Moo_Tower_A_198721e9-46b7-490b-92f0-187953596539);
+UnloadLevelTemplate(LT_PLT_Moo_Chapel_A_7be4a120-79a2-413f-9ff0-4f45b61e923a);
+
+PROC
+PROC_MOO_Assault_KethericLeavingDialogFailed()
+THEN
+PROC_MOO_Assault_KethericLeaves();
+
+IF
+DialogEnded(MOO_Assault_FirstKethericInterruption_af3d4480-a770-b93e-ad54-a2e6e55a19ef, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_MOO_Assault_KethericLeaves();
+
+PROC
+PROC_MOO_Assault_KethericLeaves()
+THEN
+DB_AutoSaveTrigger(S_MOO_HollowTowerAutoSave_395ffa89-7522-4238-a2ba-a1fd139cd87f);
+ClearFlag(MOO_Assault_State_KethericNarrativeCombatActive_d4b7534c-5bce-48c5-8aa7-5acc62d0c36a);
+SetFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6);
+SetOnStage(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, 0);
+SetOnStage(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, 0);
+LoadLevelTemplate(LT_PLT_Moo_Tower_Broken_A_2356dc00-6d00-4138-b2f3-a46335d49fcf);
+LoadLevelTemplate(LT_PLT_Moo_Chapel_Broken_A_a3b01ac3-c6d4-466c-8185-f516b94e859a);
+PROC_GLO_NarrativeCombat_LeaveCombat("MOO_Assault_KethericRoofFight", S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+PROC_GLO_NarrativeCombat_LeaveCombat("MOO_Assault_KethericRoofFight", S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+DB_MOO_Assault_QueueFollowKethericPAD(1);
+
+PROC
+PROC_MOO_Assault_KethericLeaves()
+AND
+DB_GLO_NarrativeCombat_ID("MOO_Assault_KethericRoofFight", _Var1, _Var1, _Var1, _Var1)
+THEN
+ResumeCombat(_Var1);
+
+PROC
+PROC_MOO_Assault_KethericLeaves()
+THEN
+PROC_DangerZone_Safe("MOO_Assault_DangerZone");
+PROC_MusicPlayGeneral("Moonrise_Tower_Assault_finished");
+
+PROC
+PROC_MOO_Assault_KethericLeaves()
+THEN
+TimerLaunch("MOO_Assault_DaisyAD_FollowKetheric", 500);
+
+IF
+TimerFinished("MOO_Assault_DaisyAD_FollowKetheric", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var1, MOO_Assault_DaisyAD_FollowKetheric_87f498ea-27af-efd1-3a74-2888df4ebacb);
+
+IF
+DB_InRegion(_Var1, S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Assault_QueueFollowKethericPAD(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Assault_QueueFollowKethericPAD(1);
+DB_MOO_Assault_QueueFollowKethericPAD_Player(_Var1);
+RealtimeObjectTimerLaunch(_Var1, "MOO_Assault_PAD_AfterKethericCombat", 5500);
+
+IF
+DB_MOO_Assault_QueueFollowKethericPAD_Player(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Assault_FollowKethericPAD_Interrupt(_Var1);
+
+IF
+DB_MOO_Assault_QueueFollowKethericPAD_Player(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_MOO_Roof_SUB_77c94e75-2924-4ca3-b7bd-d631b18d6c73, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_Assault_FollowKethericPAD_Interrupt(_Var1);
+
+PROC
+PROC_MOO_Assault_FollowKethericPAD_Interrupt((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, "MOO_Assault_PAD_AfterKethericCombat");
+NOT DB_MOO_Assault_QueueFollowKethericPAD_Player(_Var1);
+DB_MOO_Assault_QueueFollowKethericPAD(1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "MOO_Assault_PAD_AfterKethericCombat", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+StartVoiceBark(MOO_Assault_VB_AfterKethericCombat_252bb717-d9e4-74a7-520d-816ba9592398, _Var1);
+NOT DB_MOO_Assault_QueueFollowKethericPAD_Player(_Var1);
+
+PROC
+PROC_COL_TeleportPartiesToColony(_, _, _, _, _)
+AND
+DB_MOO_Assault_QueueFollowKethericPAD_Player(_Var2, _, _, _, _)
+THEN
+RealtimeObjectTimerCancel(_Var2, "MOO_Assault_PAD_AfterKethericCombat");
+NOT DB_MOO_Assault_QueueFollowKethericPAD_Player(_Var2);
+
+PROC
+PROC_COL_TeleportPartiesToColony(_, _, _, _, _)
+AND
+DB_MOO_Assault_QueueFollowKethericPAD(1, _, _, _, _)
+THEN
+NOT DB_MOO_Assault_QueueFollowKethericPAD(1);
+
+PROC
+PROC_COL_TeleportPartiesToColony(_, (INTEGER)_, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2_MOO_PreAssault"

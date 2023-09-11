@@ -1,0 +1,100 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_QuestDef_SawPermaDefeatedState("COL_FindZevlor", "ZevlorPermaDefeated", S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+DB_QuestDef_State(COL_FindZevlor_Knows_MissingArabella_96443c08-01f4-6983-3b94-9f5af83fa2cf, "COL_FindZevlor", "IntroTwn");
+DB_QuestDef_State(COL_TadpolingCentre_Event_PurgePods_e9c700a3-5ba8-07e9-e13f-c2e081a3a1c5, "COL_FindZevlor", "ZevlorPurged");
+DB_QuestDef_LevelLoaded("COL_FindZevlor", "NeverFoundZevlor", "BGO_Main_A");
+
+KBSECTION
+IF
+Saw((CHARACTER)_Var1, S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_COL_TadpolingCentre_ZevlorInColony(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("COL_FindZevlor_FoundUpdate", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("COL_FindZevlor_FoundUpdate");
+QuestUpdate("COL_FindZevlor", "FoundZevlor");
+
+IF
+FlagSet(COL_FindZevlor_Knows_MissingParent_d615e30b-2cf6-0fe1-c62f-e27c789c9ca0, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_COL_FindZevlor_TwnUpdate();
+
+PROC
+PROC_COL_FindZevlor_TwnUpdate()
+AND
+DB_QuestIsOpened("COL_FindZevlor", _, _, _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("COL_FindZevlor", "IntroTwn", _, _, _)
+THEN
+QuestUpdate("COL_FindZevlor", "WhatZevlorDid");
+
+PROC
+PROC_COL_FindZevlor_TwnUpdate()
+AND NOT
+DB_QuestIsOpened("COL_FindZevlor", _, _, _, _)
+THEN
+QuestUpdate("COL_FindZevlor", "IntroTwnParents");
+
+IF
+FlagSet(COL_FindZevlor_Knows_MissingHav_9a55df27-5bc7-70ac-a4e8-a98b6912d8b7, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_COL_FindZevlor_HavUpdate();
+
+PROC
+PROC_COL_FindZevlor_HavUpdate()
+AND
+DB_QuestIsOpened("COL_FindZevlor", _, _, _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("COL_FindZevlor", "IntroTwn", _, _, _)
+THEN
+QuestUpdate("COL_FindZevlor", "WhatZevlorDid");
+
+PROC
+PROC_COL_FindZevlor_HavUpdate()
+AND NOT
+DB_QuestIsOpened("COL_FindZevlor", _, _, _, _)
+THEN
+QuestUpdate("COL_FindZevlor", "IntroHav");
+
+IF
+FlagSet(COL_FindZevlor_Knows_MissingTieflingPrisoner_573946ce-bb71-d3b5-95d6-3fefcc8a4508, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_COL_FindZevlor_PrisonerUpdate();
+
+PROC
+PROC_COL_FindZevlor_PrisonerUpdate()
+AND
+DB_QuestIsOpened("COL_FindZevlor", _, _, _, _)
+THEN
+QuestUpdate("COL_FindZevlor", "FoundPrisoners");
+
+PROC
+PROC_COL_FindZevlor_PrisonerUpdate()
+AND NOT
+DB_QuestIsOpened("COL_FindZevlor", _, _, _, _)
+THEN
+QuestUpdate("COL_FindZevlor", "IntroMoo");
+
+IF
+EnteredCombat(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, _, _, _)
+AND
+DB_QuestIsOpened("COL_FindZevlor", _, _, _, _)
+THEN
+QuestUpdate("COL_FindZevlor", "PodCombat");
+
+IF
+DialogEnded(COL_TadpolingCentre_PostCombat_Zevlor_5a2d0fdb-a603-b6a9-ff5e-10b57900b957, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate("COL_FindZevlor", "ZevlorSaved");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

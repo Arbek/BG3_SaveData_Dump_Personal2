@@ -1,0 +1,66 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+QRY
+QRY_PartyMember_IsZeroDamageAssault((STRING)_Var1, 0, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != "StatusEnter"
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CrimeCheckAssailant((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_PartyMember_IsZeroDamageAssault(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyDisturbanceReactionsBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsPartyMember(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+Random(5, 0, _Var1, _Var1, _Var1)
+AND
+QRY_PartyMemberAttackedDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_BlockPartyDisturbanceReactions(_Var1);
+
+QRY
+QRY_PartyMemberAttackedDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_Companion_PAD_Warning_Assault_f8940687-8665-d8ec-8b08-29574d858013, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PartyMemberAttackedDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GEB_PartyMember_AD_Warning_Assault_97e47f39-bb60-d884-c36c-f6d32c0520b3, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_BlockPartyDisturbanceReactions((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_PartyDisturbanceReactionsBlocked(_Var1);
+ObjectTimerLaunch(_Var1, "GLO_PartyMember_Warning_Assault", 10000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_PartyMember_Warning_Assault", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_PartyDisturbanceReactionsBlocked(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

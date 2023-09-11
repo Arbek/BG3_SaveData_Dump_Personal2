@@ -1,0 +1,32 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+TextEvent("mooresetthrone", _, _, _, _)
+AND
+DB_OnlyOnce("MOO_ExecutionThrone", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("MOO_ExecutionThrone");
+
+IF
+ReposeAdded((CHARACTER)_Var1, S_MOO_ExecutionThrone_b90102e8-28ad-4655-81c6-b20133733a2e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(MOO_GroundFloor_State_ExecutionOver_1560c0ae-5fec-4e7c-a6e7-35e9c33bbbeb, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("MOO_ExecutionThrone", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(MOO_ExecutionThrone_VB_Use_bcca5049-97ea-17e2-3606-c05636297f81, _Var1);
+
+IF
+VoiceBarkFailed(MOO_ExecutionThrone_VB_Use_bcca5049-97ea-17e2-3606-c05636297f81, _, _, _, _)
+THEN
+NOT DB_OnlyOnce("MOO_ExecutionThrone");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

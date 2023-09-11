@@ -1,0 +1,118 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_CRA_WakeUpCheckSkip();
+DB_DialogStarted_IgnoreStopConditions(CRA_Crash_c6870e25-3c45-386c-0264-965c48731036);
+
+KBSECTION
+PROC
+PROC_CRA_WakeUpCheckSkip()
+AND
+DB_CRA_SkipCrashCinematic(1, _, _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_LevelLoadedOnce("WLD_Main_A", _, _, _, _)
+AND NOT
+DB_IsEditor(1, _, _, _, _)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRA_Crash_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(CRA_Crash_c6870e25-3c45-386c-0264-965c48731036, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRA_Crash_Started(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(CRA_Crash_c6870e25-3c45-386c-0264-965c48731036, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InteractiveDialogSpeaker(_, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(CRA_Crash_c6870e25-3c45-386c-0264-965c48731036, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+SetLevelStartingDialog(_Var1, 1);
+
+PROC
+PROC_LevelLoadedOnce("WLD_Main_A", _, _, _, _)
+AND NOT
+DB_CRA_Crash_Started(1, _, _, _, _)
+THEN
+PROC_CRA_WakeupDone();
+
+IF
+DialogEnded(CRA_Crash_c6870e25-3c45-386c-0264-965c48731036, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(CRA_LaezelWakingUp_1994eda9-c2bb-cc14-554a-72883d7331eb, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(CRA_Crash_c6870e25-3c45-386c-0264-965c48731036, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+_Var2 != S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12
+AND
+QRY_StartDialog_Fixed(CRA_AvatarWakesUp_c67aba56-f03c-06a3-2f3c-a6a0a8625680, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(CRA_LaezelWakingUp_1994eda9-c2bb-cc14-554a-72883d7331eb, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_ClearScreenFadeTimeline(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0.5);
+
+IF
+DialogStarted(CRA_AvatarWakesUp_c67aba56-f03c-06a3-2f3c-a6a0a8625680, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var2, 0.5);
+
+IF
+DialogEnded(CRA_LaezelWakingUp_1994eda9-c2bb-cc14-554a-72883d7331eb, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CRA_Escape_CheckDone();
+
+IF
+DialogEnded(CRA_AvatarWakesUp_c67aba56-f03c-06a3-2f3c-a6a0a8625680, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CRA_Escape_CheckDone();
+
+PROC
+PROC_CRA_Escape_CheckDone()
+AND NOT
+DB_InteractiveDialogSpeaker(_, _, _, _, _)
+THEN
+PROC_CRA_WakeupDone();
+
+PROC
+PROC_CRA_WakeupDone()
+AND
+QuestUpdateExists("TUT_NautiloidEscape", "Start", 1, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "TUT_NautiloidEscape", "EscapedHell");
+
+PROC
+PROC_CRA_WakeupDone()
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+NOT DB_CRA_Crash_Started(1);
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

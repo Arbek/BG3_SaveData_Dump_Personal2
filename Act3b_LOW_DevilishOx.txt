@@ -1,0 +1,74 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetStoryDisplayName(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "GLO_DevilishOx_PolymorphedName");
+PROC_TeleportIfAlive();
+DB_DefeatedEvent(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, GLO_DevilishOx_State_Defeated_4061b72f-ce89-4b86-b18b-ed9c5fbc7cc8);
+DB_HasItemEvent(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, WYR_DevilishOx_State_AppleInInventory_5534ac16-ab3d-4dd9-8405-3a396cf628d4);
+
+KBSECTION
+IF
+TextEvent("KillDevilishOx", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 0, 0);
+
+IF
+TextEvent("LOW_PhasmNote", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(S_LOW_DevilishOx_FarewellNote_893a56a4-cf03-46dc-8eb5-d2c1624c9129, 1);
+ToInventory(S_LOW_DevilishOx_FarewellNote_893a56a4-cf03-46dc-8eb5-d2c1624c9129, _Var1);
+SetFlag(LOW_DevilishOx_State_HelpedPhasmToCity_d1498063-a466-4f43-8cb5-103baa46c753);
+
+PROC
+PROC_TeleportIfAlive()
+AND NOT
+DB_Defeated(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 1);
+TeleportTo(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, S_LOW_TeleportDevilishOxPos_Asylum_92e82dd3-f4a9-4c54-b736-efbff958aa65);
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("CTY_Main_A", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_NoAppleInInventory", _Var1, _Var1, _Var1, _Var1)
+AND
+IsInMagicPockets(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, _Var1, 0, _Var1, _Var1)
+THEN
+QuestUpdate("WYR_DevilishOx", "EnteredCityWithoutApple");
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("CTY_Main_A", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_HasAppleInInventory", _Var1, _Var1, _Var1, _Var1)
+AND
+IsInMagicPockets(S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_DevilishOx_AD_PhasmArrivesInCity_0d990d4e-1d55-2f84-8c0f-90807a5bba57, S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73);
+
+IF
+AutomatedDialogEnded(LOW_DevilishOx_AD_PhasmArrivesInCity_0d990d4e-1d55-2f84-8c0f-90807a5bba57, _, _, _, _)
+AND
+DB_Avatars(_Var2, _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_DevilishOx_LeaveNote", _, _, _, _)
+THEN
+MagicPocketsDrop(_Var2, S_GLO_DevilishOx_AppleForm_2fb8359f-7fa7-4dab-8e0f-c1edef958a73);
+PROC_SetOnStage(S_LOW_DevilishOx_FarewellNote_893a56a4-cf03-46dc-8eb5-d2c1624c9129, 1);
+ToInventory(S_LOW_DevilishOx_FarewellNote_893a56a4-cf03-46dc-8eb5-d2c1624c9129, _Var2);
+SetFlag(LOW_DevilishOx_State_HelpedPhasmToCity_d1498063-a466-4f43-8cb5-103baa46c753);
+QuestUpdate("WYR_DevilishOx", "EnteredCityWithApple");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

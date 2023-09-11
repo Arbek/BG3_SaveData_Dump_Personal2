@@ -1,0 +1,39 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_OneTimeAD_OneTimeReactions("CRIME_PlayADOnce");
+DB_CRIME_OneTimeAD_OneTimeReactions("CRIME_DoNothingOnce");
+
+KBSECTION
+IF
+CharacterOnCrimeSensibleActionNotification((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (DIALOGRESOURCE)_Var5, (CHARACTER)_Var6, (CHARACTER)_Var7, (CHARACTER)_Var8, (CHARACTER)_Var9, (INTEGER)_Var10)
+AND
+CrimeGetType(_Var3, _Var11, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_OneTimeAD_OneTimeReactions(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, _Var11);
+DB_CRIME_OneTimeAD_DisabledOneTimeCrimes(_Var1, _Var11);
+
+PROC
+PROC_CRIME_OneTimeAD_EnableOneTimeCrime((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_OneTimeAD_DisabledOneTimeCrimes(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterEnableCrime(_Var2, _Var1);
+NOT DB_CRIME_OneTimeAD_DisabledOneTimeCrimes(_Var2, _Var1);
+
+PROC
+PROC_CRIME_OneTimeAD_EnableOneTimeCrimeForCharacter((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_OneTimeAD_DisabledOneTimeCrimes(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterEnableCrime(_Var1, _Var2);
+NOT DB_CRIME_OneTimeAD_DisabledOneTimeCrimes(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

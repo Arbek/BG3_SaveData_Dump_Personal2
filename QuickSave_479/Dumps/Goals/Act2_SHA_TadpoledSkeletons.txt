@@ -1,0 +1,260 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SHA_TadpoledSkeletons_Scouts(S_SHA_TadpoledSkeletons_Skelly_000_bbbb5ea6-d637-466b-8191-bbf461a254e2);
+DB_SHA_TadpoledSkeletons_Scouts(S_SHA_TadpoledSkeletons_Skelly_001_fe0609ee-27cd-46c5-a1c7-3fd2465948b5);
+DB_SHA_TadpoledSkeletons_Scouts(S_SHA_TadpoledSkeletons_Skelly_002_7ae4bbc1-64de-4a8e-94aa-e2b4d1603685);
+DB_SHA_TadpoledSkeletons_SceneInterruptWhitelist("Spotted");
+DB_SHA_TadpoledSkeletons_SceneInterruptWhitelist("StartedDialog");
+DB_SHA_TadpoledSkeletons_Justiciars(S_SHA_TadpoledSkeletons_ShadowQuake_0_68513e92-7d3b-44e9-8454-f088c4f47679);
+DB_SHA_TadpoledSkeletons_Justiciars(S_SHA_TadpoledSkeletons_ShadowQuake_1_185be763-f4f1-474c-b810-5efecaff3485);
+DB_SHA_TadpoledSkeletons_Justiciars(S_SHA_TadpoledSkeletons_ShadowQuake_2_55844999-b524-42c4-a6ad-b91b9e958085);
+DB_SHA_TadpoledSkeletons_Justiciars(S_SHA_TadpoledSkeletons_Justiciar_Melee_01_77e2db6d-cdf7-4490-b444-37d49d3fb6e0);
+DB_SHA_TadpoledSkeletons_Justiciars(S_SHA_TadpoledSkeletons_Justiciar_Caster_01_027755e5-86ff-4d55-8704-6ae3b46cb974);
+DB_SHA_TadpoledSkeletons_Justiciars(S_SHA_TadpoledSkeletons_Justiciar_Ranged_01_997535c6-4c93-45cb-89d1-83d2f5bb78d1);
+DB_SHA_TadpoledSkeletons_Justiciars(S_SHA_TadpoledSkeletons_Justiciar_Melee_02_1987ecb9-9565-4fab-8b1f-0390ca250a01);
+DB_SHA_TadpoledSkeletons_Justiciars(S_SHA_TadpoledSkeletons_Justiciar_Melee_03_b7660aea-e4c8-4140-8198-3f9d516d4518);
+DB_IgnoreMutingStatussesDialog(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b);
+
+KBSECTION
+IF
+DB_SHA_TadpoledSkeletons_Scouts(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SHA_Necromancer_Undead(_Var1);
+PROC_SceneDialogOnly("SHA_TadpoledSkeletons_Scouting", _Var1, S_SHA_TadpoledSkeletons_SceneSpottingTrigger_2f269fb5-3870-4e8a-ad16-7c2eb06faf9d);
+
+IF
+DB_SceneManager(_Var1, "SHA_TadpoledSkeletons_Scouting", _Var1, _Var1, _Var1)
+THEN
+DB_Dialogs(_Var1, SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b);
+DB_SpotPlayers(_Var1, "SHA_TadpoledSkeletons_Scouting", NULL_00000000-0000-0000-0000-000000000000, SHA_TadpoledSkeletons_Event_StopSpotting_16ac7e00-43ec-47c0-8f72-872e08f90a54);
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, "SHA_TadpoledSkeletons_Scouting");
+DB_SpotPlayers_SpotterIgnoreCantTalk(_Var1, "SHA_TadpoledSkeletons_Scouting");
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, "SHA_TadpoledSkeletons_Scouting");
+
+IF
+DB_SHA_TadpoledSkeletons_Justiciars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanJoinCombat(_Var1, 0);
+SetCanFight(_Var1, 0);
+SetOnStage(_Var1, 0);
+
+IF
+DB_GlobalFlag(SHA_TadpoledSkeletons_Event_ShadowsAttack_c9d43981-22ca-2884-9204-6a6049243ae6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_TadpoledSkeletons_Justiciars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SHA_TadpoledSkeletons_JusticiarAppears(_Var1, _Var2);
+
+PROC
+PROC_SHA_TadpoledSkeletons_JusticiarAppears((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+AppearAt(_Var1, _Var1, 1, NULL_00000000-0000-0000-0000-000000000000, "SHA_TadpoledSkeletons_ShadowSpawned");
+
+PROC
+PROC_SHA_TadpoledSkeletons_JusticiarAppears((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetOnStage(_Var1, 1);
+
+IF
+DialogEnded(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b, _, _, _, _)
+AND
+QRY_OnlyOnce("SHA_TadpoledSkeletons_Attacked", _, _, _, _)
+AND
+DB_SHA_TadpoledSkeletons_Justiciars(_Var2, _, _, _, _)
+THEN
+SetCanJoinCombat(_Var2, 1);
+SetCanFight(_Var2, 1);
+
+IF
+DialogRequestFailed(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b, _, _, _, _)
+AND
+QRY_OnlyOnce("SHA_TadpoledSkeletons_Attacked", _, _, _, _)
+AND
+DB_SHA_TadpoledSkeletons_Justiciars(_Var2, _, _, _, _)
+THEN
+SetCanJoinCombat(_Var2, 1);
+SetCanFight(_Var2, 1);
+
+IF
+AttackedBy((GUIDSTRING)_Var1, _, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_TadpoledSkeletons_Justiciars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SHA_TadpoledSkeletons_Attacked", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_TadpoledSkeletons_Justiciars(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+CanFight(_Var8, 0, _Var1, _Var1, _Var1)
+AND
+CanJoinCombat(_Var8, 0, _Var1, _Var1, _Var1)
+THEN
+SetCanJoinCombat(_Var8, 1);
+SetCanFight(_Var8, 1);
+
+IF
+DialogEnded(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b, _, _, _, _)
+AND NOT
+DB_DialogRequestFailed(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b, _, _, _, _)
+THEN
+PROC_SceneOver("SHA_TadpoledSkeletons_Scouting");
+PROC_SHA_StartShadowquakeShakes();
+
+IF
+AutomatedDialogEnded(SHA_TadpoledSkeletons_AD_ScoutsRetreat_6d1e6e31-dd1a-7333-58af-278aa15ad39e, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SceneOver("SHA_TadpoledSkeletons_Scouting");
+PROC_SHA_StartShadowquakeShakes();
+
+IF
+AutomatedDialogRequestFailed(SHA_TadpoledSkeletons_AD_ScoutsRetreat_6d1e6e31-dd1a-7333-58af-278aa15ad39e, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SceneOver("SHA_TadpoledSkeletons_Scouting");
+PROC_SHA_StartShadowquakeShakes();
+
+QRY
+QRY_SelectCustomDialog((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SceneManager(_Var1, "SHA_TadpoledSkeletons_Scouting", _Var1, _Var1, _Var1)
+AND
+DB_SHA_TadpoledSkeletons_Scouts(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("SHA_TadpoledSkeletons_AddSkeletonToDialog", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SHA_TadpoledSkeletons_AddSkeletonToDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var2);
+
+QRY
+QRY_DialogShouldIgnoreMutingStatusses(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b, _, (GUIDSTRING)_Var2, _, _)
+AND
+HasActiveStatusWithGroup(_Var2, "SG_Polymorph", 0, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SceneManager(_Var2, "SHA_TadpoledSkeletons_Scouting", _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+PROC
+PROC_SceneInterrupted((CHARACTER)_Var1, (CHARACTER)_Var2, "SHA_TadpoledSkeletons_Scouting", "Spotted", (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("SHA_TadpoledSkeletons_SpotPlayerDialog", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(SHA_TadpoledSkeletons_Scouts_8c88348b-6302-76dc-54ec-fd3eb430f27b, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var2)
+THEN
+SetFlag(SHA_TadpoledSkeletons_Event_ShadowsAttack_c9d43981-22ca-2884-9204-6a6049243ae6);
+PROC_SHA_TadpoledSkeletons_StartBackupAD(_Var1);
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, (CHARACTER)_Var2, "SHA_TadpoledSkeletons_Scouting", (STRING)_Var3, (GUIDSTRING)_Var1)
+AND NOT
+DB_SHA_TadpoledSkeletons_SceneInterruptWhitelist(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SHA_TadpoledSkeletons_Event_ShadowsAttack_c9d43981-22ca-2884-9204-6a6049243ae6);
+PROC_SceneOver("SHA_TadpoledSkeletons_Scouting");
+
+PROC
+PROC_SceneOver("SHA_TadpoledSkeletons_Scouting", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SHA_TadpoledSkeletons_Scouts(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+SetFlag(SHA_TadpoledSkeletons_Event_StopSpotting_16ac7e00-43ec-47c0-8f72-872e08f90a54, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetEntityEvent(_Var1, "SHA_TadpoledSkeletons_FinishScouting");
+
+PROC
+PROC_SHA_TadpoledSkeletons_StartBackupAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("SHA_TadpoledSkeletons_Scouting");
+PROC_SHA_StartShadowquakeShakes();
+
+PROC
+PROC_SHA_TadpoledSkeletons_StartBackupAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(SHA_TadpoledSkeletons_AD_ScoutsRetreat_6d1e6e31-dd1a-7333-58af-278aa15ad39e, _Var1);
+
+IF
+DB_InRegion(_Var1, S_SHA_Necromancer_ShadowquakeArea_a41b16b6-d2ae-425c-a0bf-80183a66e7e6, _Var1, _Var1, _Var1)
+AND
+DB_SHA_TadpoledSkeletons_Scouts(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Dialogs(_Var1, SHA_Necromancer_Skeletons_9a891e71-530b-f11a-9450-6759e4fd51b8);
+SetFaction(_Var1, ACT2a_SHA_Necromancer_6a8d2366-831d-48ad-8d58-1f99a5cc7ca1);
+
+IF
+DB_InRegion(_Var1, S_SHA_Necromancer_ShadowquakeArea_a41b16b6-d2ae-425c-a0bf-80183a66e7e6, _Var1, _Var1, _Var1)
+AND
+DB_SHA_TadpoledSkeletons_Scouts(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_TadpoledSkeletons_ReturnForceUpdate(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetForceUpdate(_Var1, 0);
+NOT DB_SHA_TadpoledSkeletons_ReturnForceUpdate(_Var1);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_TadpoledSkeletons_Scouts(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_TadpoledSkeletons_ReturnForceUpdate(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetForceUpdate(_Var1, 0);
+NOT DB_SHA_TadpoledSkeletons_ReturnForceUpdate(_Var1);
+
+IF
+RelationChanged(ACT2a_SHA_Scouts_d5118536-414e-4d48-b6ca-3c6b003c2dee, (FACTION)_Var1, (INTEGER)_Var2, _, (FACTION)_Var1)
+AND
+_Var2 < 50
+AND
+DB_PartyMembers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var1 == _Var5
+THEN
+SetFlag(SHA_Necromancer_State_PlayerAttacked_d7a76908-fef8-1e43-7db2-12cb364ce67d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SHA_TadpoledSkeletons_FinishScouting", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_TadpoledSkeletons_Scouts(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SHA_TadpoledSkeletons_ReturnForceUpdate(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetForceUpdate(_Var1, 1);
+DB_SHA_TadpoledSkeletons_ReturnForceUpdate(_Var1);
+
+IF
+TextEvent("SHA_TadpoledSkeletons_EnableScouts", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SHA_TadpoledSkeletons_Scouts(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+
+IF
+TextEvent("SHA_TadpoledSkeletons_DisableScouts", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SHA_TadpoledSkeletons_Scouts(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

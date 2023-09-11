@@ -1,0 +1,159 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_ActivitiesPS5_ActivityDependencies("Act1", "Tutorial");
+DB_GLO_ActivitiesPS5_ActivityDependencies("Act2", "Act1");
+DB_GLO_ActivitiesPS5_ActivityDependencies("Act3", "Act2");
+
+KBSECTION
+IF
+TextEvent("activitystart", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Start_Activity(_Var1);
+
+IF
+TextEvent("activityend", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_End_Activity(_Var1);
+
+IF
+TextEvent("activityshow", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Show_Activity(_Var1);
+
+IF
+TextEvent("activityhide", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Hide_Activity(_Var1);
+
+IF
+TextEvent("activityshowall", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Show_All_Activities(_Var1);
+
+IF
+TextEvent("activityhideall", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Hide_All_Activities(_Var1);
+
+PROC
+PROC_Start_Activity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+StartActivity(_Var1);
+
+PROC
+PROC_End_Activity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+EndActivity(_Var1);
+
+PROC
+PROC_Show_Activity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+ShowActivity(_Var1);
+
+PROC
+PROC_Hide_Activity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+HideActivity(_Var1);
+
+PROC
+PROC_Show_All_Activities((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+ShowAllActivities(_Var1);
+
+PROC
+PROC_Hide_All_Activities((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+HideAllActivities(_Var1);
+
+PROC
+PROC_GLO_ActivitiesPS5_ExclusiveStartActivity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_GLO_ActivitiesPS5_AttemptEndPreviousActivity(_Var1);
+PROC_Hide_All_Activities("Progression");
+PROC_Start_Activity(_Var1);
+PROC_Show_Activity(_Var1);
+DB_GLO_ActivitiesPS5_CurrentActivity(_Var1);
+
+PROC
+PROC_GLO_ActivitiesPS5_AttemptEndPreviousActivity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_ActivitiesPS5_ActivityDependencies(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ActivitiesPS5_CurrentActivity(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+EndActivity("completed");
+
+PROC
+PROC_GLO_ActivitiesPS5_AttemptEndPreviousActivity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_ActivitiesPS5_CurrentActivity(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ActivitiesPS5_ActivityDependencies(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+EndActivity("abandoned");
+
+IF
+DB_GLO_ActivitiesPS5_CurrentActivity(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ActivitiesPS5_CurrentActivity(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_GLO_ActivitiesPS5_CurrentActivity(_Var2);
+
+IF
+SavegameLoadStarted()
+AND
+DB_GLO_ActivitiesPS5_CurrentActivity(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_ActivitiesPS5_ExclusiveStartActivity(_Var1);
+
+PROC
+PROC_GLO_ActivitiesPS5_TutorialStart()
+THEN
+PROC_GLO_ActivitiesPS5_ExclusiveStartActivity("Tutorial");
+
+PROC
+PROC_GLO_ActivitiesPS5_Act1Start()
+THEN
+PROC_GLO_ActivitiesPS5_ExclusiveStartActivity("Act1");
+
+IF
+LevelLoaded("SCL_Main_A", _, _, _, _)
+AND
+QRY_OnlyOnce("ActivitiesPS5_Act2", _, _, _, _)
+THEN
+PROC_GLO_ActivitiesPS5_ExclusiveStartActivity("Act2");
+
+IF
+LevelLoaded("CRE_Main_A", _, _, _, _)
+AND
+QRY_OnlyOnce("ActivitiesPS5_Act2", _, _, _, _)
+THEN
+PROC_GLO_ActivitiesPS5_ExclusiveStartActivity("Act2");
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+THEN
+PROC_GLO_ActivitiesPS5_ExclusiveStartActivity("Act3");
+
+
+EXITSECTION
+ENDEXITSECTION
+

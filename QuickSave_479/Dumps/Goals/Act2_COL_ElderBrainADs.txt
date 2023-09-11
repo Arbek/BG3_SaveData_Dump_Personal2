@@ -1,0 +1,659 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_COL_ElderBrainADs_RelevantTriggers(S_COL_ElderBrainADs_Upper_Area_Box_9d1b8b96-2a20-406c-b2f0-f1a8851a122a);
+DB_COL_ElderBrainADs_RelevantTriggers(S_COL_ElderBrainADs_Nearby_Area_Box_41951dee-a34d-4d0a-9895-82e9355058c6);
+PROC_TriggerRegisterForPlayers(S_COL_ElderBrainADs_Area_Corridor_Trigger_8ff36d9b-d3f0-426f-9423-8fb6f72fcfd1);
+DB_COL_ElderBrainADs_RapidSpeakers(S_COL_ElderBrainADs_RapidSpeaker1_73e3aed3-4188-4fd9-83ea-35599970a579, COL_ElderBrain_AD_Rapid01_5dd6feba-dfeb-9cb4-8966-64e8712a23ca);
+DB_COL_ElderBrainADs_RapidSpeakers(S_COL_ElderBrainADs_RapidSpeaker2_d9b52ba9-ec8c-47b5-ae93-3d7952745b0c, COL_ElderBrain_AD_Rapid02_56f7b5bc-a582-6b3c-27dd-cde0363a085d);
+DB_COL_ElderBrainADs_RapidSpeakers(S_COL_ElderBrainADs_RapidSpeaker3_6ba9c33e-b2c7-452b-9673-bb77238a8b47, COL_ElderBrain_AD_Rapid03_9d663b3d-c1b1-e992-457d-d3cdc18f6c7e);
+DB_COL_ElderBrainADs_RapidSpeakers(S_COL_ElderBrainADs_RapidSpeaker4_5ea4bd09-1720-4d07-9f1a-6b0ea0d574ad, COL_ElderBrain_AD_Rapid04_11159e37-5a1d-a9e6-6c93-7702d5024ecf);
+DB_COL_ElderBrainADs_RapidSpeakers(S_COL_ElderBrainADs_RapidSpeaker5_b9abe21f-65ec-434f-a772-00a477fd2296, COL_ElderBrain_AD_Rapid05_b598497c-1842-15b7-35d5-17fdc8b4880d);
+DB_COL_ElderBrainADs_RapidSpeakers(S_COL_ElderBrainADs_RapidSpeaker6_908287b7-4eff-4fbf-a503-789e22fb3a1a, COL_ElderBrain_AD_Rapid06_726230e8-56a7-1c62-7d78-ed91d841d0bb);
+
+KBSECTION
+PROC
+PROC_COL_KethericShowdown_ChosenThree_CleanUp()
+AND
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_RemoveAreaPlayer(_Var1, _Var2);
+
+PROC
+PROC_COL_KethericShowdown_ChosenThree_CleanUp()
+AND
+DB_COL_ElderBrainADs_RelevantTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+PROC
+PROC_COL_KethericShowdown_ChosenThree_CleanUp()
+THEN
+PROC_TriggerUnregisterForPlayers(S_COL_ElderBrainADs_Area_Corridor_Trigger_8ff36d9b-d3f0-426f-9423-8fb6f72fcfd1);
+PROC_COL_ElderBrainADs_ClearSelectedPlayer();
+TimerCancel("COL_ElderBrain_Gossip");
+GoalCompleted;
+
+IF
+TextEvent("EBAD_Fast", _, _, _, _)
+AND NOT
+DB_COL_ElderBrainADs_DEBUG_FastIntervals(1, _, _, _, _)
+THEN
+DB_COL_ElderBrainADs_DEBUG_FastIntervals(1);
+PROC_COL_ElderBrainADs_StartTimer();
+
+IF
+TextEvent("EBAD_Default", _, _, _, _)
+AND
+DB_COL_ElderBrainADs_DEBUG_FastIntervals(1, _, _, _, _)
+THEN
+NOT DB_COL_ElderBrainADs_DEBUG_FastIntervals(1);
+PROC_COL_ElderBrainADs_StartTimer();
+
+IF
+TextEvent("EBAD_Now", _, _, _, _)
+THEN
+TimerCancel("COL_ElderBrain_Gossip");
+TimerLaunch("COL_ElderBrain_Gossip", 500);
+
+IF
+TextEvent("EBAD_RapidMindmeld", _, _, _, _)
+AND NOT
+DB_GlobalFlag(COL_Barracks_State_HighAlert_982e34fb-f03d-4d4b-9e8e-e57b7d17d20d, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(COL_Barracks_State_HighAlert_982e34fb-f03d-4d4b-9e8e-e57b7d17d20d);
+
+IF
+TextEvent("EBAD_RapidMindmeld", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_StartRapidMindmeld(_Var1);
+
+PROC
+PROC_COL_ElderBrainADs_StartTimer()
+AND NOT
+DB_COL_ElderBrainADs_DEBUG_FastIntervals(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(COL_Barracks_State_HighAlert_982e34fb-f03d-4d4b-9e8e-e57b7d17d20d, _, _, _, _)
+AND
+Random(15000, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var1, 40000, _Var2, _Var1, _Var1)
+THEN
+TimerCancel("COL_ElderBrain_Gossip");
+TimerLaunch("COL_ElderBrain_Gossip", _Var2);
+
+PROC
+PROC_COL_ElderBrainADs_StartTimer()
+AND NOT
+DB_COL_ElderBrainADs_DEBUG_FastIntervals(1, _, _, _, _)
+AND
+DB_GlobalFlag(COL_Barracks_State_HighAlert_982e34fb-f03d-4d4b-9e8e-e57b7d17d20d, _, _, _, _)
+AND
+Random(9000, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var1, 30000, _Var2, _Var1, _Var1)
+THEN
+TimerCancel("COL_ElderBrain_Gossip");
+TimerLaunch("COL_ElderBrain_Gossip", _Var2);
+
+PROC
+PROC_COL_ElderBrainADs_StartTimer()
+AND
+DB_COL_ElderBrainADs_DEBUG_FastIntervals(1, _, _, _, _)
+THEN
+TimerCancel("COL_ElderBrain_Gossip");
+TimerLaunch("COL_ElderBrain_Gossip", 10000);
+
+PROC
+PROC_COL_ElderBrainADs_StartTimer()
+AND NOT
+DB_COL_ElderBrainADs_TimerRunning(1, _, _, _, _)
+THEN
+DB_COL_ElderBrainADs_TimerRunning(1);
+
+PROC
+PROC_COL_ElderBrainADs_CancelTimer()
+AND
+DB_COL_ElderBrainADs_TimerRunning(1, _, _, _, _)
+THEN
+TimerCancel("COL_ElderBrain_Gossip");
+NOT DB_COL_ElderBrainADs_TimerRunning(1);
+
+IF
+TimerFinished("COL_ElderBrain_Gossip", _, _, _, _)
+AND NOT
+DB_QRYRTN_COL_ElderBrainADs_SelectedPlayer(_, _, _, _, _)
+AND
+QRY_COL_ElderBrainADs_SelectRandomPlayer()
+AND
+DB_QRYRTN_COL_ElderBrainADs_SelectedPlayer(_Var2, _, _, _, _)
+AND NOT
+QRY_COL_ElderBrainADs_RequestRapidMindmeld(_Var2, _, _, _, _)
+AND NOT
+QRY_StartDialog(COL_ElderBrain_AD_Whispers_87348b85-0f88-9611-5084-f5c3cebcd0d7, S_COL_ElderBrainADs_Speaker1_Absolute_2ea4f360-3b90-4286-b183-820f9866d498, S_COL_ElderBrainADs_Speaker2_Illithid_217ad1f3-a1d7-46d1-b169-f8372f54dcf6, _Var2, _)
+THEN
+PROC_COL_ElderBrainADs_ClearSelectedPlayer();
+
+IF
+AutomatedDialogStarted(COL_ElderBrain_AD_Whispers_87348b85-0f88-9611-5084-f5c3cebcd0d7, _, _, _, _)
+AND
+DB_QRYRTN_COL_ElderBrainADs_SelectedPlayer(_Var2, _, _, _, _)
+THEN
+PROC_LoopEffect(VFX_Script_COL_Elderbrain_Mindmeld_HeadFX_01_b04868d7-93c5-63a4-267e-cc5e9a58c2ae, _Var2, "COL_ElderBrainAD_Psionic", "SCL_Main_A", "Dummy_HeadFX", 1);
+PROC_COL_ElderBrainADs_TeleportSpeaker(S_COL_ElderBrainADs_Speaker1_Absolute_2ea4f360-3b90-4286-b183-820f9866d498, _Var2);
+PROC_COL_ElderBrainADs_TeleportSpeaker(S_COL_ElderBrainADs_Speaker2_Illithid_217ad1f3-a1d7-46d1-b169-f8372f54dcf6, _Var2);
+
+QRY
+QRY_COL_ElderBrainADs_RequestRapidMindmeld((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(COL_Barracks_State_HighAlert_982e34fb-f03d-4d4b-9e8e-e57b7d17d20d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_COL_ElderBrainADs_Area_Corridor_Trigger_8ff36d9b-d3f0-426f-9423-8fb6f72fcfd1, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_StartRapidMindmeld(_Var1);
+
+IF
+TimerFinished("COL_ElderBrain_Gossip", _, _, _, _)
+THEN
+PROC_COL_ElderBrainADs_StartTimer();
+
+IF
+AutomatedDialogEnded(COL_ElderBrain_AD_Whispers_87348b85-0f88-9611-5084-f5c3cebcd0d7, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_COL_ElderBrainADs_ClearSelectedPlayer();
+
+IF
+AutomatedDialogRequestFailed(COL_ElderBrain_AD_Whispers_87348b85-0f88-9611-5084-f5c3cebcd0d7, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_COL_ElderBrainADs_ClearSelectedPlayer();
+
+IF
+DB_COL_ElderBrainADs_RapidSpeakers(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_COL_ElderBrainADs_StartRapidMindmeld((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_COL_ElderBrainADs_RapidMindmeld(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_COL_ElderBrainADs_RapidMindmeld(_Var1);
+RealtimeObjectTimerLaunch(_Var1, "COL_ElderBrain_RapidAD", 50);
+RealtimeObjectTimerLaunch(_Var1, "COL_ElderBrain_StopRapidAD", 7000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "COL_ElderBrain_RapidAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_ElderBrainADs_RapidMindmeld(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "COL_ElderBrain_RapidAD", 1000);
+PROC_COL_ElderBrainADs_RapidMindmeld_DoAD(_Var1);
+
+PROC
+PROC_COL_ElderBrainADs_RapidMindmeld_DoAD(_, _, _, _, _)
+AND NOT
+DB_COL_ElderBrainADs_RapidMindmeld_Index(_, _, _, _, _)
+THEN
+DB_COL_ElderBrainADs_RapidMindmeld_Index(1);
+
+PROC
+PROC_COL_ElderBrainADs_RapidMindmeld_DoAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_ElderBrainADs_RapidMindmeld_Index(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+SysFactAtIndex("DB_COL_ElderBrainADs_RapidSpeakers", 2, _Var2, "DB_COL_ElderBrainADs_SelectedSpeaker", _Var1)
+AND
+DB_COL_ElderBrainADs_SelectedSpeaker(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_TeleportSpeaker(_Var3, _Var1, 2.5, -0.5, 0.5, 1);
+PROC_TryStartAD(_Var4, _Var3);
+NOT DB_COL_ElderBrainADs_SelectedSpeaker(_Var3, _Var4);
+
+PROC
+PROC_COL_ElderBrainADs_RapidMindmeld_DoAD(_, _, _, _, _)
+AND
+DB_COL_ElderBrainADs_RapidMindmeld_Index(_Var2, _, _, _, _)
+AND
+IntegerSum(_Var2, 1, _Var3, _, _)
+AND
+SysCount("DB_COL_ElderBrainADs_RapidSpeakers", 2, _Var4, _, _)
+AND
+IntegerSum(_Var4, 1, _Var5, _, _)
+AND
+IntegerModulo(_Var3, _Var5, _Var6, _, _)
+THEN
+NOT DB_COL_ElderBrainADs_RapidMindmeld_Index(_Var2);
+DB_COL_ElderBrainADs_RapidMindmeld_Index(_Var6);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "COL_ElderBrain_StopRapidAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_ElderBrainADs_RapidMindmeld(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_ElderBrainADs_RapidMindmeld(_Var1);
+PROC_COL_ElderBrainADs_ClearSelectedPlayer();
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "COL_ElderBrain_StopRapidAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_ElderBrainADs_RapidMindmeld_Index(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_ElderBrainADs_RapidMindmeld_Index(_Var2);
+
+IF
+DB_COL_ElderBrainADs_RelevantTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+DB_COL_ElderBrainADs_RelevantTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var2, S_MOO_Oubliette_SUB_c6f54de0-1c8f-4cf8-bcf9-b13c8f53b05b, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_AddAreaPlayer(_Var2, _Var1);
+
+IF
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_COL_ElderBrainADs_RelevantTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_RemoveAreaPlayer(_Var1, _Var2);
+
+IF
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_COL_ElderBrainADs_RelevantTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_Oubliette_SUB_c6f54de0-1c8f-4cf8-bcf9-b13c8f53b05b, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_RemoveAreaPlayer(_Var1, _Var2);
+
+PROC
+PROC_COL_ElderBrainADs_RemoveAreaPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_COL_ElderBrainADs_RelevantTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_ElderBrainADs_PlayersInArea(_Var1, _Var2);
+
+PROC
+PROC_COL_ElderBrainADs_RemoveAreaPlayer(_, _, _, _, _)
+AND NOT
+DB_COL_ElderBrainADs_PlayersInArea(_, _, _, _, _)
+THEN
+PROC_COL_ElderBrainADs_CancelTimer();
+
+PROC
+PROC_COL_ElderBrainADs_AddAreaPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_COL_ElderBrainADs_PlayersInArea(_, _, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_StartTimer();
+
+PROC
+PROC_COL_ElderBrainADs_AddAreaPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_COL_ElderBrainADs_RelevantTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _Var2);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_COL_ElderBrainADs_Nearby_Area_Box_41951dee-a34d-4d0a-9895-82e9355058c6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(COL_ElderBrainADs_State_InArea_Nearby_02e82c9a-fbb7-38d1-e09c-871b398d6c35, _Var1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_COL_ElderBrainADs_Nearby_Area_Box_41951dee-a34d-4d0a-9895-82e9355058c6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(COL_ElderBrainADs_State_InArea_Nearby_02e82c9a-fbb7-38d1-e09c-871b398d6c35, _Var1);
+
+IF
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_, _Var1, _, _Var1, _Var1)
+THEN
+DB_COL_ElderBrainADs_Blocked(_Var1);
+
+IF
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_COL_ElderBrainADs_Blocked(_Var1);
+
+IF
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_COL_Vault_PuzzleBox3_caf88561-fad9-41b6-8963-4c612578695c, _Var1, _Var1, _Var1)
+THEN
+DB_COL_ElderBrainADs_Blocked(_Var1);
+
+IF
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_COL_TadpolingCentre_ZevlorAD_BlockElderBrainAD_Box_2767eac5-cefb-413a-987c-53fbe0bad018, _Var1, _Var1, _Var1)
+THEN
+DB_COL_ElderBrainADs_Blocked(_Var1);
+
+IF
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_COL_NecromancerLab_InCage(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_COL_ElderBrainADs_Blocked(_Var1);
+
+IF
+DB_COL_ElderBrainADs_Blocked(_, _, _, _, _)
+AND NOT
+DB_COL_ElderBrainADs_CheckUnblockedTimer(1, _, _, _, _)
+THEN
+TimerCancel("COL_ElderBrainADs_CheckUnblocked");
+TimerLaunch("COL_ElderBrainADs_CheckUnblocked", 2000);
+DB_COL_ElderBrainADs_CheckUnblockedTimer(1);
+
+IF
+DB_COL_ElderBrainADs_CheckUnblockedTimer(1, _, _, _, _)
+AND NOT
+DB_COL_ElderBrainADs_Blocked(_, _, _, _, _)
+THEN
+TimerCancel("COL_ElderBrainADs_CheckUnblocked");
+NOT DB_COL_ElderBrainADs_CheckUnblockedTimer(1);
+
+IF
+TimerFinished("COL_ElderBrainADs_CheckUnblocked", _, _, _, _)
+THEN
+TimerLaunch("COL_ElderBrainADs_CheckUnblocked", 8000);
+
+IF
+TimerFinished("COL_ElderBrainADs_CheckUnblocked", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_ElderBrainADs_Blocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_COL_Vault_PuzzleBox3_caf88561-fad9-41b6-8963-4c612578695c, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_COL_TadpolingCentre_ZevlorAD_BlockElderBrainAD_Box_2767eac5-cefb-413a-987c-53fbe0bad018, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_NecromancerLab_InCage(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, "COL_ElderBrainADs_Unblock");
+ObjectTimerLaunch(_Var1, "COL_ElderBrainADs_Unblock", 6000);
+
+IF
+DB_COL_ElderBrainADs_Blocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_ElderBrainADs_Blocked(_Var1);
+
+IF
+DB_COL_ElderBrainADs_Blocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, "COL_ElderBrainADs_Unblock");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "COL_ElderBrainADs_Unblock", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_ElderBrainADs_Blocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_ElderBrainADs_Blocked(_Var1);
+
+IF
+DB_COL_ElderBrainADs_Blocked(_, _, _, _, _)
+AND NOT
+QRY_COL_ElderBrainADs_AnyoneAvailable()
+THEN
+PROC_COL_ElderBrainADs_CancelTimer();
+
+QRY
+QRY_COL_ElderBrainADs_AnyoneAvailable()
+AND
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_ElderBrainADs_Blocked(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_ElderBrainADs_Blocked(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_ElderBrainADs_TimerRunning(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_StartTimer();
+
+QRY
+QRY_COL_ElderBrainADs_SelectRandomPlayer()
+AND
+DB_COL_ElderBrainADs_PlayersInArea(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_ElderBrainADs_PlayerOptions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_ElderBrainADs_Blocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_COL_ElderBrainADs_PlayerOptions(_Var1);
+
+QRY
+QRY_COL_ElderBrainADs_SelectRandomPlayer()
+AND
+QRY_GetRandom("DB_COL_ElderBrainADs_PlayerOptions", 1, "DB_QRYRTN_COL_ElderBrainADs_RandomSelection", _, _)
+AND
+DB_QRYRTN_COL_ElderBrainADs_RandomSelection(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_SetSelectedPlayer(_Var1);
+NOT DB_QRYRTN_COL_ElderBrainADs_RandomSelection(_Var1);
+
+QRY
+QRY_COL_ElderBrainADs_SelectRandomPlayer()
+AND
+DB_COL_ElderBrainADs_PlayerOptions(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_ElderBrainADs_PlayerOptions(_Var1);
+
+PROC
+PROC_COL_ElderBrainADs_SetSelectedPlayer(_, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_COL_ElderBrainADs_ClearSelectedPlayer();
+
+PROC
+PROC_COL_ElderBrainADs_SetSelectedPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_QRYRTN_COL_ElderBrainADs_SelectedPlayer(_Var1);
+
+PROC
+PROC_COL_ElderBrainADs_ClearSelectedPlayer()
+AND
+DB_QRYRTN_COL_ElderBrainADs_SelectedPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_COL_ElderBrainADs_SelectedPlayer(_Var1);
+PROC_StopLoopEffect(_Var1, "COL_ElderBrainAD_Psionic");
+
+QRY
+QRY_SpeakerIsAvailable(S_COL_ElderBrainADs_Speaker1_Absolute_2ea4f360-3b90-4286-b183-820f9866d498, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailable(S_COL_ElderBrainADs_Speaker2_Illithid_217ad1f3-a1d7-46d1-b169-f8372f54dcf6, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsInDialogRange(S_COL_ElderBrainADs_Speaker1_Absolute_2ea4f360-3b90-4286-b183-820f9866d498, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsInDialogRange(S_COL_ElderBrainADs_Speaker2_Illithid_217ad1f3-a1d7-46d1-b169-f8372f54dcf6, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(COL_ElderBrainADs_Event_TeleportSpeaker_92c47500-d0e8-3c7f-3319-f35165d0eae3, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_COL_ElderBrainADs_SelectedPlayer(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_ElderBrainADs_TeleportSpeaker(_Var1, _Var3);
+ClearFlag(COL_ElderBrainADs_Event_TeleportSpeaker_92c47500-d0e8-3c7f-3319-f35165d0eae3, _Var1, _Var2);
+
+PROC
+PROC_COL_ElderBrainADs_TeleportSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_COL_ElderBrainADs_TeleportSpeaker(_Var1, _Var2, 4, 2, 1, 1);
+
+PROC
+PROC_COL_ElderBrainADs_TeleportSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+Random(100, _Var7, _Var1, _Var1, _Var1)
+AND
+Random(100, _Var8, _Var1, _Var1, _Var1)
+AND
+Random(100, _Var9, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var7, _Var10, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var8, _Var11, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var9, _Var12, _Var1, _Var1, _Var1)
+AND
+RealDivide(_Var10, 100, _Var13, _Var1, _Var1)
+AND
+RealDivide(_Var11, 100, _Var14, _Var1, _Var1)
+AND
+RealDivide(_Var12, 100, _Var15, _Var1, _Var1)
+AND
+Random(4, _Var16, _Var1, _Var1, _Var1)
+AND
+QRY_COL_ElderBrainADs_DetermineRandomOffset(_Var16, _Var13, _Var14, _Var3, _Var5)
+AND
+DB_QRYRTN_COL_ElderBrainADs_RandomOffset(_Var17, _Var18, _Var1, _Var1, _Var1)
+AND
+RealProduct(_Var15, _Var6, _Var19, _Var1, _Var1)
+AND
+RealSum(_Var19, _Var4, _Var20, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var21, _Var22, _Var23, _Var1)
+AND
+RealSum(_Var21, _Var17, _Var24, _Var1, _Var1)
+AND
+RealSum(_Var23, _Var18, _Var25, _Var1, _Var1)
+AND
+RealSum(_Var22, _Var20, _Var26, _Var1, _Var1)
+THEN
+TeleportToPosition(_Var1, _Var24, _Var26, _Var25, "", 0, 0, 0, 0, 0);
+NOT DB_QRYRTN_COL_ElderBrainADs_RandomOffset(_Var17, _Var18);
+
+PROC
+PROC_COL_ElderBrainADs_TeleportSpeaker(_, _, _, _, _, _, _, _, _, _)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithOffset(_Var7, _, _, _, _)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithoutOffset(_Var8, _, _, _, _)
+THEN
+NOT DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithOffset(_Var7);
+NOT DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithoutOffset(_Var8);
+
+QRY
+QRY_COL_ElderBrainADs_DetermineRandomOffset(0, (REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4)
+AND
+QRY_COL_ElderBrainADs_CalcWithOffset(_Var1, _Var3, _Var4, 1, _Var1)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithOffset(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_COL_ElderBrainADs_CalcWithoutOffset(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithoutOffset(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_COL_ElderBrainADs_RandomOffset(_Var5, _Var6);
+
+QRY
+QRY_COL_ElderBrainADs_DetermineRandomOffset(1, (REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4)
+AND
+QRY_COL_ElderBrainADs_CalcWithOffset(_Var1, _Var3, _Var4, -1, _Var1)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithOffset(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_COL_ElderBrainADs_CalcWithoutOffset(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithoutOffset(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_COL_ElderBrainADs_RandomOffset(_Var5, _Var6);
+
+QRY
+QRY_COL_ElderBrainADs_DetermineRandomOffset(2, (REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4)
+AND
+QRY_COL_ElderBrainADs_CalcWithoutOffset(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithoutOffset(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_COL_ElderBrainADs_CalcWithOffset(_Var2, _Var3, _Var4, 1, _Var1)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithOffset(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_COL_ElderBrainADs_RandomOffset(_Var5, _Var6);
+
+QRY
+QRY_COL_ElderBrainADs_DetermineRandomOffset(3, (REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4)
+AND
+QRY_COL_ElderBrainADs_CalcWithoutOffset(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithoutOffset(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_COL_ElderBrainADs_CalcWithOffset(_Var2, _Var3, _Var4, -1, _Var1)
+AND
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithOffset(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_COL_ElderBrainADs_RandomOffset(_Var5, _Var6);
+
+QRY
+QRY_COL_ElderBrainADs_CalcWithOffset((REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var1)
+AND
+RealProduct(_Var1, _Var3, _Var5, _Var1, _Var1)
+AND
+RealSum(_Var5, _Var2, _Var6, _Var1, _Var1)
+AND
+RealProduct(_Var6, _Var4, _Var7, _Var1, _Var1)
+THEN
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithOffset(_Var7);
+
+QRY
+QRY_COL_ElderBrainADs_CalcWithoutOffset((REAL)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var1, (REAL)_Var1)
+AND
+RealSum(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+RealSubtract(_Var1, 0.5, _Var5, _Var1, _Var1)
+AND
+RealProduct(_Var5, 2, _Var6, _Var1, _Var1)
+AND
+RealProduct(_Var6, _Var4, _Var7, _Var1, _Var1)
+THEN
+DB_QRY_RTN_COL_ElderBrainADS_CalculatedWithoutOffset(_Var7);
+
+
+EXITSECTION
+SysClear("DB_COL_ElderBrainADs_RelevantTriggers", 1);
+SysClear("DB_COL_ElderBrainADs_PlayersInArea", 2);
+SysClear("DB_COL_ElderBrainADs_RapidSpeakers", 2);
+SysClear("DB_QRYRTN_COL_ElderBrainADs_SelectedPlayer", 1);
+SysClear("DB_COL_ElderBrainADs_Blocked", 1);
+SysClear("DB_COL_ElderBrainADs_TimerRunning", 1);
+TimerCancel("COL_ElderBrainADs_CheckUnblocked");
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

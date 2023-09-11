@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckLevelStart("INT_Main_A");
+DB_RegionSafeSpot("INT_Main_A", StartPoint_480ae5ee-9a76-4411-bfcf-771480379928);
+
+KBSECTION
+IF
+LevelLoaded("INT_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("INT_Main_A", _, _, _, _)
+AND
+DB_CurrentLevel("INT_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

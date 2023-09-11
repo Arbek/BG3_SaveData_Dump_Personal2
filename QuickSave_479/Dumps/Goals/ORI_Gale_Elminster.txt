@@ -1,0 +1,734 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SpotPlayers(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+SetHasDialog(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+PROC_DefineSingleOriginMoment(GLO_Elminster_c3844cd6-5c8f-ce4f-fd3d-666afa6178cd, GALE_a3907be6-50c2-407e-b159-8c53f9a3418e, GLO_Elminster_OM_Gale_AOM_OOM_c9fe5cc8-15a3-b4ac-41f2-a738134514fc, GLO_Elminster_OM_Gale_COM_03aeee07-c0d2-9e46-8785-93d3cc52c0f4, GLO_Elminster_OM_Gale_AOM_OOM_c9fe5cc8-15a3-b4ac-41f2-a738134514fc);
+DB_ORI_Gale_ElminsterOMs(GLO_Elminster_OM_Gale_AOM_OOM_c9fe5cc8-15a3-b4ac-41f2-a738134514fc);
+DB_ORI_Gale_ElminsterOMs(GLO_Elminster_OM_Gale_COM_03aeee07-c0d2-9e46-8785-93d3cc52c0f4);
+DB_ORI_Gale_ElminsterCampOMs(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5);
+DB_ORI_Gale_ElminsterCampOMs(GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4);
+DB_ORI_Gale_Elminster(1);
+DB_DefeatedEvent(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, GLO_Elminster_State_Defeated_7e56133f-7059-4191-9135-867ddb13ad1f);
+DB_FactionHostilityBlacklist(GLO_Elminster_eb1830e4-5a1c-4a44-aa01-627f32471f49);
+DB_CanBeResurrected(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+
+KBSECTION
+IF
+DB_CurrentLevel("CRE_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, _, _, _, _)
+AND NOT
+DB_Camp_NightMode(1, _, _, _, _)
+THEN
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_CRE_f5a225ef-d123-449f-98e2-53309a21979b, "", 0, 0, 0, 1, 1);
+SetDualEntityEvent(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_CRE_f5a225ef-d123-449f-98e2-53309a21979b, "GLO_Elminster_PositionChange");
+DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_Creche_4ed8b0fa-5ee8-4824-9d0c-2115a4ae0c04);
+NOT DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_SCL_ebf64475-18b0-45fd-9fa5-8ef57bc05dbd);
+
+IF
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, _, _, _, _)
+AND NOT
+DB_Camp_NightMode(1, _, _, _, _)
+THEN
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, "", 0, 0, 0, 1, 1);
+SetDualEntityEvent(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, "GLO_Elminster_PositionChange");
+NOT DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_Creche_4ed8b0fa-5ee8-4824-9d0c-2115a4ae0c04);
+DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_SCL_ebf64475-18b0-45fd-9fa5-8ef57bc05dbd);
+
+IF
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_MissedElminster_6ddb2a9a-10d6-4f4a-992d-d6a12d64d79b, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Gale_ElminsterToMOO", _, _, _, _)
+THEN
+TeleportTo(S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, S_MOO_AssaultDeadAllyPoint_003_182fdc54-4516-4f12-8e1f-9979131eda15, "", 0, 0, 0, 1, 1);
+TeleportTo(S_ORI_Gale_ElminsterSpotTrigger_SCL_ebf64475-18b0-45fd-9fa5-8ef57bc05dbd, S_MOO_AssaultDeadAllyPoint_003_182fdc54-4516-4f12-8e1f-9979131eda15, "", 0, 0, 0, 1, 1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_MOO_AssaultDeadAllyPoint_003_182fdc54-4516-4f12-8e1f-9979131eda15, "", 0, 0, 0, 1, 1);
+SetDualEntityEvent(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, "GLO_Elminster_PositionChange");
+
+PROC
+PROC_LongRest()
+AND
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_MissedElminster_6ddb2a9a-10d6-4f4a-992d-d6a12d64d79b, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Gale_ElminsterToMOO", _, _, _, _)
+THEN
+TeleportTo(S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, S_MOO_AssaultDeadAllyPoint_003_182fdc54-4516-4f12-8e1f-9979131eda15, "", 0, 0, 0, 1, 1);
+TeleportTo(S_ORI_Gale_ElminsterSpotTrigger_SCL_ebf64475-18b0-45fd-9fa5-8ef57bc05dbd, S_MOO_AssaultDeadAllyPoint_003_182fdc54-4516-4f12-8e1f-9979131eda15, "", 0, 0, 0, 1, 1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_MOO_AssaultDeadAllyPoint_003_182fdc54-4516-4f12-8e1f-9979131eda15, "", 0, 0, 0, 1, 1);
+
+PROC
+PROC_LongRest()
+AND
+DB_OffStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND
+DB_CurrentLevel("CRE_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, _, _, _, _)
+THEN
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_CRE_f5a225ef-d123-449f-98e2-53309a21979b, "", 0, 0, 0, 1, 1);
+SetDualEntityEvent(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_CRE_f5a225ef-d123-449f-98e2-53309a21979b, "GLO_Elminster_PositionChange");
+DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_Creche_4ed8b0fa-5ee8-4824-9d0c-2115a4ae0c04);
+NOT DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_SCL_ebf64475-18b0-45fd-9fa5-8ef57bc05dbd);
+
+PROC
+PROC_LongRest()
+AND
+DB_OffStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, _, _, _, _)
+THEN
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, "", 0, 0, 0, 1, 1);
+SetDualEntityEvent(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, "GLO_Elminster_PositionChange");
+NOT DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_Creche_4ed8b0fa-5ee8-4824-9d0c-2115a4ae0c04);
+DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_SCL_ebf64475-18b0-45fd-9fa5-8ef57bc05dbd);
+
+IF
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Gale_ElminsterFallbackTrigger", _, _, _, _)
+THEN
+DB_OneShotPartyTrigger(S_ORI_Gale_ElminsterFallbackTrigger_2a042a11-761e-424d-9719-15e50db98b53);
+
+PROC
+PROC_ORI_Gale_ElminsterSetupDebugOption()
+AND
+DB_CurrentLevel("CRE_Main_A", _, _, _, _)
+THEN
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_CRE_f5a225ef-d123-449f-98e2-53309a21979b, "", 0, 0, 0, 1, 1);
+SetDualEntityEvent(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_CRE_f5a225ef-d123-449f-98e2-53309a21979b, "GLO_Elminster_PositionChange");
+DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_Creche_4ed8b0fa-5ee8-4824-9d0c-2115a4ae0c04);
+NOT DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_SCL_ebf64475-18b0-45fd-9fa5-8ef57bc05dbd);
+
+PROC
+PROC_ORI_Gale_ElminsterSetupDebugOption()
+AND
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+THEN
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, "", 0, 0, 0, 1, 1);
+SetDualEntityEvent(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_ORI_Gale_ElminsterPoint_SCL_975ef355-b68e-4061-bda8-b774e8ff552f, "GLO_Elminster_PositionChange");
+NOT DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_Creche_4ed8b0fa-5ee8-4824-9d0c-2115a4ae0c04);
+DB_SpotPlayers_SpotTrigger(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_ORI_Gale_ElminsterSpotTrigger_SCL_ebf64475-18b0-45fd-9fa5-8ef57bc05dbd);
+
+IF
+DB_SpotPlayers_HasTag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", GALE_a3907be6-50c2-407e-b159-8c53f9a3418e, 1, _)
+AND
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+NOT DB_SpotPlayers_HasTag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", GALE_a3907be6-50c2-407e-b159-8c53f9a3418e, 1);
+
+IF
+DB_Players(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+AND
+DB_SpotPlayers_HasTag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1, _)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+NOT DB_SpotPlayers_HasObjectFlag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", GLO_Elminster_State_UserDeniedGale_51bc224c-d4a9-e540-7a9f-be55692adeb0, 0);
+NOT DB_SpotPlayers_HasTag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1);
+
+IF
+DB_SpotPlayers_HasTag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1, _)
+AND
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+AND NOT
+DB_InCamp(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+NOT DB_SpotPlayers_HasObjectFlag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", GLO_Elminster_State_UserDeniedGale_51bc224c-d4a9-e540-7a9f-be55692adeb0, 0);
+NOT DB_SpotPlayers_HasTag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1);
+
+IF
+DB_CantTalk(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+
+IF
+DB_InCamp(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_Camp_QueuedNight(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+THEN
+DB_SpotPlayers_HasTag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1);
+DB_SpotPlayers_HasObjectFlag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", GLO_Elminster_State_UserDeniedGale_51bc224c-d4a9-e540-7a9f-be55692adeb0, 0);
+PROC_SpotPlayers_RestartSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+
+IF
+DB_Players(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_Camp_QueuedNight(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+THEN
+DB_SpotPlayers_HasTag(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", GALE_a3907be6-50c2-407e-b159-8c53f9a3418e, 1);
+PROC_SpotPlayers_RestartSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+
+PROC
+PROC_SpotPlayers_Spotted(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604
+THEN
+PROC_ORI_Gale_ElminsterCOM_GaleAbsent(_Var1);
+
+PROC
+PROC_ORI_Gale_ElminsterCOM_GaleAbsent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_ORI_Gale_ElminsterCOM_GaleAbsentStarting(1);
+
+PROC
+PROC_ORI_Gale_ElminsterCOM_GaleAbsent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog_Fixed(GLO_Elminster_OM_Gale_COM_03aeee07-c0d2-9e46-8785-93d3cc52c0f4, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_ORI_Gale_ElminsterCOM_GaleAbsent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_ORI_Gale_ElminsterCOM_GaleAbsentStarting(1);
+
+QRY
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_ORI_Gale_ElminsterCOM_GaleAbsentStarting(1, _, _, _, _)
+AND
+QRY_SpeakerIsAvailable(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(GLO_Elminster_State_UserDeniedGale_51bc224c-d4a9-e540-7a9f-be55692adeb0, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+THEN
+PROC_SpotPlayers_RestartSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+
+PROC
+PROC_SpotPlayers_Spotted(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster", S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _)
+AND
+QRY_StartDialog_Fixed(GLO_Elminster_c3844cd6-5c8f-ce4f-fd3d-666afa6178cd, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Gale_ElminsterCOM_GaleAbsent(_Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailable(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SelectedDialog(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GLO_Elminster_c3844cd6-5c8f-ce4f-fd3d-666afa6178cd, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _Var1);
+
+IF
+DialogEnded(GLO_Elminster_OM_Gale_COM_03aeee07-c0d2-9e46-8785-93d3cc52c0f4, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 2, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_Gale_AvatarSentToCampWithElminster(_Var2);
+
+IF
+DialogEnded(GLO_Elminster_OM_Gale_COM_03aeee07-c0d2-9e46-8785-93d3cc52c0f4, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_ORI_Gale_PlayerSentToCampWithElminster(_Var2);
+PROC_TeleportToFromCamp(_Var2);
+
+IF
+FlagSet(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b, NULL_00000000-0000-0000-0000-000000000000, 0, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_Gale_PlayerSentToCampWithElminster(_Var1);
+PROC_TeleportToFromCamp(_Var1);
+
+IF
+DialogEnded(GLO_Elminster_OM_Gale_AOM_OOM_c9fe5cc8-15a3-b4ac-41f2-a738134514fc, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_Gale_PlayerSentToCampWithElminster(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+PROC_TeleportToFromCamp(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+IF
+FlagSet(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _, _)
+AND
+QRY_Camp_SwapCampIfNecessary(_Var3, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+PROC_ORI_SetupCamp(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+PROC_DefineSingleOriginMoment(GLO_Elminster_c3844cd6-5c8f-ce4f-fd3d-666afa6178cd, REALLY_GALE_9b0354c0-56d9-4723-8034-918ac9abab19, GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4);
+
+IF
+FlagSet(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+DB_Camp_RequiredTalks(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5);
+
+IF
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_Defeated(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_Camp_RequiredTalks(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND NOT
+DB_OffStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND NOT
+DB_Camp_QueuedNight(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, _, _, _, _)
+THEN
+DB_Camp_RequiredTalks(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+
+IF
+DB_OffStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND
+DB_Camp_RequiredTalks(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+THEN
+PROC_Camp_RequiredTalks_Complete(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+
+IF
+DB_Camp_QueuedNight(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, _, _, _, _)
+AND
+DB_Camp_RequiredTalks(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+THEN
+PROC_Camp_RequiredTalks_Complete(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+
+IF
+DB_Defeated(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_Camp_RequiredTalks(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+THEN
+PROC_Camp_RequiredTalks_Complete(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_UserException((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Gale_AvatarSentToCampWithElminster(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_ORI_Gale_ElminsterOMs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DefineSingleOriginMoment(GLO_Elminster_c3844cd6-5c8f-ce4f-fd3d-666afa6178cd, GALE_a3907be6-50c2-407e-b159-8c53f9a3418e, GLO_Elminster_OM_Gale_AOM_OOM_c9fe5cc8-15a3-b4ac-41f2-a738134514fc, GLO_Elminster_OM_Gale_COM_03aeee07-c0d2-9e46-8785-93d3cc52c0f4, GLO_Elminster_OM_Gale_AOM_OOM_c9fe5cc8-15a3-b4ac-41f2-a738134514fc);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_ORI_Gale_ElminsterCampOMs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DefineSingleOriginMoment(GLO_Elminster_c3844cd6-5c8f-ce4f-fd3d-666afa6178cd, REALLY_GALE_9b0354c0-56d9-4723-8034-918ac9abab19, GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4);
+
+IF
+DB_DialogSpeakers(_Var1, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_ElminsterOMs(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OM_OriginalSpeakers(_Var3, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _Var4, _Var1, _Var1)
+THEN
+SetFlag(OM_BlockChaining_9b8c01fc-8cc8-40d5-a8df-59a725a578c9, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_PlayerWaypointTeleported", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("ORI_Gale_PlayersWithElminsterToCamp", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Waypoint_Teleporting(_, _, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_AvatarSentWithElminster()
+AND
+DB_ORI_Gale_AvatarSentToCampWithElminster(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog_Fixed(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1)
+THEN
+DB_OnlyOnce("ORI_Gale_PlayersWithElminsterToCamp");
+ClearFlag(ORI_Gale_Event_PlayersWithElminsterToCampWithGale_c2adf784-4d14-f5b3-a03f-01d17135599b);
+ClearFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b);
+
+QRY
+QRY_ORI_Gale_AvatarSentWithElminster()
+AND
+DB_ORI_Gale_PlayerSentToCampWithElminster(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, _, _, _, (GUIDSTRING)_)
+THEN
+DB_OnlyOnce("ORI_Gale_PlayersWithElminsterToCamp");
+
+IF
+DialogEnded(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(ORI_Gale_Event_PlayersWithElminsterToCampWithGale_c2adf784-4d14-f5b3-a03f-01d17135599b);
+ClearFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_PlayerWaypointTeleported", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("ORI_Gale_PlayersWithElminsterToCamp", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Waypoint_Teleporting(_, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_ORI_Gale_AvatarSentWithElminster()
+AND NOT
+QRY_StartDialog_Fixed(GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1)
+THEN
+DB_OnlyOnce("ORI_Gale_PlayersWithElminsterToCamp");
+ClearFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b);
+
+PROC
+PROC_DialogFlagSetup(GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, _, _, _, (GUIDSTRING)_)
+THEN
+DB_OnlyOnce("ORI_Gale_PlayersWithElminsterToCamp");
+
+IF
+DialogEnded(GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(ORI_Gale_Event_PlayersWithElminsterToCamp_2c196799-faa2-3107-dd39-5ada1634c97b);
+
+PROC
+PROC_OneShotTriggerEntered(_, S_ORI_Gale_ElminsterFallbackTrigger_2a042a11-761e-424d-9719-15e50db98b53, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM();
+
+PROC
+PROC_CAMPDEBUG_QueueNight(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM();
+
+PROC
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM()
+THEN
+SetFlag(ORI_Gale_State_MissedElminster_6ddb2a9a-10d6-4f4a-992d-d6a12d64d79b, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_RemoveOneShotTrigger(S_ORI_Gale_ElminsterFallbackTrigger_2a042a11-761e-424d-9719-15e50db98b53);
+
+PROC
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM()
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+DB_CampNight_MorningCFM(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4);
+DB_CampfireMoment_FixedSpeakers(GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+DB_CampfireMoment_FixedPlayer(GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+PROC
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM()
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+DB_CampNight_MorningCFM(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5);
+DB_CampfireMoment_FixedSpeakers(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+IF
+DB_GlobalFlag(ORI_Gale_State_ElminsterAvailable_9b974420-f8b0-433d-accb-3361b80d1ce4, _, _, _, _)
+AND
+DB_CantTalk(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+THEN
+ClearFlag(ORI_Gale_State_ElminsterAvailable_9b974420-f8b0-433d-accb-3361b80d1ce4, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+AND NOT
+DB_CantTalk(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_ElminsterAvailable_9b974420-f8b0-433d-accb-3361b80d1ce4, _, _, _, _)
+THEN
+SetFlag(ORI_Gale_State_ElminsterAvailable_9b974420-f8b0-433d-accb-3361b80d1ce4, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DialogFlagSetup(GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, _, _, _, _)
+AND
+DB_Camp_QueuedMorningCFM(GLO_Elminster_CFM_GaleAlone_18fbb9de-dde3-bcdb-027e-f4c4dca138e4, _, _, _, _)
+THEN
+SetFlag(ORI_Gale_Event_ElminsterFallbackNight_163b8af8-6e83-49e2-91b7-a0e792a325fb);
+TeleportTo(GLO_Elminster_c3844cd6-5c8f-ce4f-fd3d-666afa6178cd, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+PROC
+PROC_DialogFlagSetup(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, _, _, _, _)
+AND
+DB_Camp_QueuedMorningCFM(GLO_Elminster_CFM_GaleCom_3ded0f21-9103-50f1-3e1c-1213ecb7f9a5, _, _, _, _)
+THEN
+SetFlag(ORI_Gale_Event_ElminsterFallbackNight_163b8af8-6e83-49e2-91b7-a0e792a325fb);
+TeleportTo(GLO_Elminster_c3844cd6-5c8f-ce4f-fd3d-666afa6178cd, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+PROC
+PROC_CampNight_StartSelected()
+AND
+DB_Camp_QueuedNight(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, _, _, _, _)
+THEN
+Resurrect(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetHitpointsPercentage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 100);
+RemoveHarmfulStatuses(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+PROC_SpotPlayers_StopSpotting(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "ORI_Gale_Elminster");
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+SetVisible(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 0);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+IF
+FlagSet(ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+DB_RelationshipDialog_WRD_TriggerInCamp(Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_ElminsterVisit_2b8afc02-f8ae-d386-a910-989767a06250);
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_ElminsterVisit_2b8afc02-f8ae-d386-a910-989767a06250, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0);
+
+IF
+FlagSet(ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, _, _, _, _)
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_InCamp(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, _, _, _, _)
+THEN
+DB_ORI_Gale_TaraCRD(1);
+PROC_LoopEffect(EFFECTRESOURCEGUID_VFX_UI_ExclamationMark_01_a3018cf0-3a25-06ee-206a-3dd079332d80, S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, "RelationshipMarker", "__ANY__", "Dummy_OverheadFX");
+
+IF
+DB_DialogName(CAMP_Gale_Tressym_00706ce9-cbf7-95ee-912d-b42909b483a7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1, _Var1, _Var1)
+AND
+DB_ORI_Gale_TaraCRD(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_TaraCRD(1);
+PROC_StopLoopEffect(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, "RelationshipMarker");
+
+IF
+DB_GlobalFlag(SCE_Epilogue_State_HasStarted_9b4bae0b-6464-4b0e-a0e3-41201c0c3c9e, _, _, _, _)
+AND
+DB_ORI_Gale_TaraCRD(1, _, _, _, _)
+THEN
+NOT DB_ORI_Gale_TaraCRD(1);
+PROC_StopLoopEffect(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, "RelationshipMarker");
+
+IF
+DB_GlobalFlag(ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, _, _, _, _)
+AND NOT
+DB_DialogNPCs(_, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _)
+THEN
+PROC_Poof(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+GoalCompleted;
+
+PROC
+PROC_COL_TeleportPartiesToColony(_, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+THEN
+DB_ORI_Gale_ColonyWithoutElminster(1);
+
+IF
+DB_ORI_Gale_Elminster(1, _, _, _, _)
+AND
+DB_ORI_Gale_ColonyWithoutElminster(1, _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+LevelLoaded("BGO_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("BGO_Main_A", _, _, _, _)
+AND
+DB_CurrentLevel("BGO_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+LevelLoaded("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("CTY_Main_A", _, _, _, _)
+AND
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_StateSet_Defeated(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND NOT
+DB_Dead(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+THEN
+SetFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_Poof(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM();
+
+IF
+Dying(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+THEN
+RealtimeObjectTimerLaunch(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "GLO_Elminster_DeathTimer", 1470);
+
+IF
+ObjectTimerFinished(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "GLO_Elminster_DeathTimer", _, _, _)
+THEN
+SetFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 0);
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM();
+
+IF
+DB_DialogSpeakers(_Var1, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _Var1, _Var1)
+AND
+DB_DialogSpeakers(_Var1, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_Elminster_Name", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetStoryDisplayName(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "GLO_ElminsterName");
+
+IF
+WentOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+MapMarkerChangeLevel("GLO_Elminster", _Var1);
+
+IF
+EnteredLevel(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, (STRING)_Var2, (ROOT)_, (ROOT)_)
+THEN
+MapMarkerChangeLevel("GLO_Elminster", _Var2);
+
+IF
+FlagSet(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+QuestUpdate(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Avatar_Gale", "MeetElminster");
+
+IF
+FlagSet(ORI_Gale_Event_ElminsterToCamp_4859cfd1-2e50-5003-d459-ebbfd23c5b2d, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_Avatars(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "ORI_COM_Gale", "MeetElminster");
+
+
+EXITSECTION
+NOT DB_ORI_Gale_ElminsterOMs(GLO_Elminster_OM_Gale_AOM_OOM_c9fe5cc8-15a3-b4ac-41f2-a738134514fc);
+NOT DB_ORI_Gale_ElminsterOMs(GLO_Elminster_OM_Gale_COM_03aeee07-c0d2-9e46-8785-93d3cc52c0f4);
+NOT DB_OnlyOnce("ORI_Gale_ElminsterFallbackTrigger");
+NOT DB_OnlyOnce("ORI_Gale_TeleportElminster");
+NOT DB_ORI_Gale_Elminster(1);
+NOT DB_ORI_Gale_ColonyWithoutElminster(1);
+PROC_CampNight_ClearCampNight(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5);
+PROC_Camp_RequiredTalks_Complete(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+ENDEXITSECTION
+
+ParentTargetEdge "ORI_Gale_Elminster_Setup"

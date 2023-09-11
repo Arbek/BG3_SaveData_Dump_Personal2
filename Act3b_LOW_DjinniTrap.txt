@@ -1,0 +1,273 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForParty(S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da);
+PROC_TriggerRegisterForParty(S_LOW_DjinniTrap_AntagonistDialogTrigger_d1c4f80d-c18c-4b28-b703-2386bded5963);
+TeleportTo(S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c, S_LOW_DjinniTrap_Teleport_d94445c6-1fea-4f0c-8172-a034f87fbf3a);
+DB_LOW_DjinniTrapVictim(S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c);
+PROC_Foop(S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c);
+DB_GlobalFlagReactionAfterDialog(LOW_DjinniTrap_State_CombatWithAntagonist_b04d7607-f1c8-41b8-aec3-015a85eefe4e, LOW_DjinniTrap_Antagonist_0188fd1b-39bb-ffa9-a80b-ea5cc7451d37);
+DB_GlobalFlagReactionAfterDialog(LOW_DjinniTrap_State_PacifiedAntagonist_562db724-1cf4-4838-9ce9-a5cfc2ef8cfd, LOW_DjinniTrap_Antagonist_0188fd1b-39bb-ffa9-a80b-ea5cc7451d37);
+DB_GlobalFlagReactionAfterDialog(LOW_DjinniTrap_State_CombatWithAntagonist_b04d7607-f1c8-41b8-aec3-015a85eefe4e, LOW_DjinniTrap_Antagonist_Interrupted_7c49c9e9-ee28-5d64-0d82-d3573998330e);
+DB_GlobalFlagReactionAfterDialog(LOW_DjinniTrap_State_PacifiedAntagonist_562db724-1cf4-4838-9ce9-a5cfc2ef8cfd, LOW_DjinniTrap_Antagonist_Interrupted_7c49c9e9-ee28-5d64-0d82-d3573998330e);
+DB_BlockedWaypointZone(S_LOW_DjinniTrap_BlockedWaypointZone_Trigger_3533eeda-f2da-4bb5-a98d-b9ec34ff3967);
+DB_DangerZone(S_LOW_DjinniTrap_BlockedWaypointZone_Trigger_3533eeda-f2da-4bb5-a98d-b9ec34ff3967, "LOW_DjinniTrap");
+DB_DropMutingStatussesDialog(LOW_DjinniTrap_Antagonist_InsideLamp_abc3b821-e3f3-312d-9d1e-87d16c1ffad8);
+DB_DialogMoneyTransfer(1, LOW_DjinniTrap_Antagonist_0188fd1b-39bb-ffa9-a80b-ea5cc7451d37, 1000);
+
+KBSECTION
+PROC
+PROC_BlockMoveOfItem((CHARACTER)_Var1, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CustomMoveItemResponse(_Var1, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, 0);
+PROC_LOW_DjinniTrapTeleport(_Var1);
+
+PROC
+PROC_BlockPickupOfItem((CHARACTER)_Var1, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CustomPickupItemResponse(_Var1, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, 0);
+PROC_LOW_DjinniTrapTeleport(_Var1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, 0);
+PROC_LOW_DjinniTrapTeleport(_Var1);
+
+PROC
+PROC_LOW_DjinniTrapTeleport((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogNPCs(_Var2, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, _, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e);
+
+PROC
+PROC_LOW_DjinniTrapTeleport((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_DjinniTrapVictim(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, _Var3, _Var4, _Var5, _Var1)
+THEN
+PlayEffect(_Var1, VFX_Script_Djinni_Teleport_7c79ada5-e179-5d0b-0557-29fca6201742);
+TeleportTo(_Var1, S_LOW_DjinniTrap_Teleport_d94445c6-1fea-4f0c-8172-a034f87fbf3a, "LOW_DjinnitTrap_VictimTeleportedInsideTrap", 0, 0, 0, 1, 1);
+ScatterAt(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, _Var3, _Var4, _Var5);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "LOW_DjinnitTrap_VictimTeleportedInsideTrap", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlayEffect(_Var1, VFX_Script_Djinni_Teleport_7c79ada5-e179-5d0b-0557-29fca6201742);
+
+IF
+DB_GlobalFlag(LOW_DjinniTrap_State_AntagonistFreed_35e97268-9ebc-4ef3-93d6-c8c545a703f3, _, _, _, _)
+AND
+QRY_LOW_IsAnyPlayerNearDjinniLamp()
+AND NOT
+QRY_LOW_StartDjinniTrapAntagonistDialog()
+THEN
+PROC_SetRelationToPlayers(ACT3_LOW_DjinniTrap_Antagonist_5cbb4f63-038c-4df4-9cb1-1a426796f13b, 0);
+
+QRY
+QRY_LOW_IsAnyPlayerNearDjinniLamp()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_LOW_DjinniTrap_AntagonistDialogTrigger_d1c4f80d-c18c-4b28-b703-2386bded5963, _Var1, _Var1, _Var1)
+AND NOT
+DB_LOW_FoundPlayerNearDjinniLamp(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_FoundPlayerNearDjinniLamp(1);
+
+IF
+DB_GlobalFlag(LOW_DjinniTrap_State_AntagonistFreed_35e97268-9ebc-4ef3-93d6-c8c545a703f3, _, _, _, _)
+AND NOT
+DB_LOW_FoundPlayerNearDjinniLamp(1, _, _, _, _)
+THEN
+PROC_Poof(S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c, VFX_Script_Djinni_Teleport_7c79ada5-e179-5d0b-0557-29fca6201742);
+
+QRY
+QRY_LOW_StartDjinniTrapAntagonistDialog()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_LOW_DjinniTrap_AntagonistDialogTrigger_d1c4f80d-c18c-4b28-b703-2386bded5963, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(LOW_DjinniTrap_Antagonist_0188fd1b-39bb-ffa9-a80b-ea5cc7451d37, S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c, _Var1, 0, 0, 0, 1, _Var1, _Var1, _Var1)
+THEN
+DB_AddCharactersInTriggerToDialog(LOW_DjinniTrap_Antagonist_0188fd1b-39bb-ffa9-a80b-ea5cc7451d37, S_LOW_DjinniTrap_AntagonistDialogTrigger_d1c4f80d-c18c-4b28-b703-2386bded5963, 1, 1, 1, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(LOW_DjinniTrap_State_CombatWithAntagonist_b04d7607-f1c8-41b8-aec3-015a85eefe4e, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT3_LOW_DjinniTrap_Antagonist_5cbb4f63-038c-4df4-9cb1-1a426796f13b, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(LOW_DjinniTrap_State_PacifiedAntagonist_562db724-1cf4-4838-9ce9-a5cfc2ef8cfd, _, _, _, _)
+THEN
+PROC_PeacefulResolve(S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c);
+PROC_Poof(S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c, VFX_Script_Djinni_Teleport_7c79ada5-e179-5d0b-0557-29fca6201742);
+
+IF
+FlagSet(LOW_DjinniTrap_Event_DjinniGivesGold_7dc5cda1-1dce-4d1a-bc3d-4fb7495e2150, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogMoneyTransfer(1, LOW_DjinniTrap_Antagonist_0188fd1b-39bb-ffa9-a80b-ea5cc7451d37, _Var3, _Var1, _Var1)
+THEN
+AddGold(_Var1, _Var3);
+
+IF
+DB_InRegion(_Var1, S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_DjinniTrapNewVictim(_Var1);
+
+IF
+DB_InRegion(_Var1, S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_DjinniTrap_State_AntagonistFreed_35e97268-9ebc-4ef3-93d6-c8c545a703f3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(LOW_DjinniTrap_State_FirstVictimIsSummon_ebba8f7e-b7a7-4b45-a9c3-013d8492ee8c);
+
+IF
+DB_InRegion(_Var1, S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_DjinniTrap_State_AntagonistFreed_35e97268-9ebc-4ef3-93d6-c8c545a703f3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_LOW_FirstPlayerInDjinniLamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_LOW_StartDialogInsideDjinniLamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_DjinniTrapNewVictim(_Var1);
+
+QRY
+QRY_LOW_StartDialogInsideDjinniLamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialogCustom(LOW_DjinniTrap_Antagonist_InsideLamp_abc3b821-e3f3-312d-9d1e-87d16c1ffad8, S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c, _Var1, 0, 0, 0, 1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_FirstPlayerInDjinniLamp(_Var1);
+ApplyStatus(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, "LOW_DJINNITRAP_LAMP_NONINTERACTIVE", -1);
+
+IF
+DialogEnded(LOW_DjinniTrap_Antagonist_InsideLamp_abc3b821-e3f3-312d-9d1e-87d16c1ffad8, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_LOW_FirstPlayerInDjinniLamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_DjinniTrapNewVictim(_Var2);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(LOW_DjinniTrap_State_AntagonistFreed_35e97268-9ebc-4ef3-93d6-c8c545a703f3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_DjinniTrapNewVictim(_Var1);
+
+PROC
+PROC_LOW_DjinniTrapNewVictim((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_DjinniTrapVictim(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_DjinniTrapVictim(_Var1);
+NOT DB_LOW_DjinniTrapVictim(_Var2);
+PlayEffect(_Var2, VFX_Script_Djinni_Teleport_7c79ada5-e179-5d0b-0557-29fca6201742);
+TeleportTo(_Var2, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, "LOW_DjinniTrapVictim_Out", 0, 0, 0, 1, 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "LOW_DjinniTrapVictim_Out", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlayEffect(_Var1, VFX_Script_Djinni_Teleport_7c79ada5-e179-5d0b-0557-29fca6201742);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "LOW_DjinniTrapVictim_Out", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var1 == S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c
+THEN
+SetFlag(LOW_DjinniTrap_State_AntagonistFreed_35e97268-9ebc-4ef3-93d6-c8c545a703f3);
+RemoveStatus(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, "LOW_DJINNITRAP_LAMP_NONINTERACTIVE");
+
+IF
+EntityEvent((CHARACTER)_Var1, "LOW_DjinniTrapVictim_Out", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c, _, _Var1, _Var1)
+AND NOT
+DB_LOW_DjinnitTrapVictim_GotOutMidDialogInst(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_DjinnitTrapVictim_GotOutMidDialogInst(_Var2);
+DB_LOW_DjinniTrap_EscapedPlayer(_Var1);
+PROC_ForceStopDialog(S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c);
+
+IF
+DialogEnded(LOW_DjinniTrap_Antagonist_0188fd1b-39bb-ffa9-a80b-ea5cc7451d37, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_LOW_DjinnitTrapVictim_GotOutMidDialogInst(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_LOW_StartDjinniTrapAntagonistDialog_Interrupted()
+THEN
+PROC_SetRelationToPlayers(ACT3_LOW_DjinniTrap_Antagonist_5cbb4f63-038c-4df4-9cb1-1a426796f13b, 0);
+
+QRY
+QRY_LOW_StartDjinniTrapAntagonistDialog_Interrupted()
+AND
+DB_LOW_DjinniTrap_EscapedPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(LOW_DjinniTrap_Antagonist_Interrupted_7c49c9e9-ee28-5d64-0d82-d3573998330e, S_LOW_DjinniTrap_Antagonist_e84d8eb3-89ab-4b65-b6e1-05b04afc2d1c, _Var1, 0, 0, 0, 1, _Var1, _Var1, _Var1)
+THEN
+DB_AddCharactersInTriggerToDialog(LOW_DjinniTrap_Antagonist_Interrupted_7c49c9e9-ee28-5d64-0d82-d3573998330e, S_LOW_DjinniTrap_AntagonistDialogTrigger_d1c4f80d-c18c-4b28-b703-2386bded5963, 1, 1, 1, 0);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_DjinniTrapVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_DjinniTrapVictim(_Var1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_LOW_DjinniTrapVictim(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Poof(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, VFX_Script_Djinni_Teleport_7c79ada5-e179-5d0b-0557-29fca6201742);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_AnyPlayerInTrigger(S_LOW_DjinniTrap_TrapAreaTrigger_a0f3551a-77fd-4829-bc07-3bd87e8468da, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("HIDDEN_CTY_Boosters", "LOW_DjinniTrap_Escaped");
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_DjinniTrapVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_DjinniTrapVictim(_Var1);
+TeleportTo(_Var1, S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, "LOW_DjinniTrapVictim_Out", 0, 0, 0, 1, 1);
+
+IF
+StatusApplied(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, "LOW_DJINNITRAP_LAMP_NONINTERACTIVE", _, _, (GUIDSTRING)_)
+THEN
+SetCanInteract(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, 0);
+
+IF
+StatusRemoved(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, "LOW_DJINNITRAP_LAMP_NONINTERACTIVE", _, _, (GUIDSTRING)_)
+THEN
+SetCanInteract(S_LOW_DjinniTrap_Lamp_41743414-bbea-4f42-8c2f-9c9fe3de1d1e, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

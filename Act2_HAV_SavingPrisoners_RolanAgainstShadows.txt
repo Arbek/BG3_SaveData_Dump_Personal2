@@ -1,0 +1,266 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForParty(S_SCL_ProdigyShadowsEncounterSpawn_e7b8934e-4b9b-4def-9f71-bf7051786990);
+DB_TriggerEvents_TriggerSet("HAV_HavenArea", S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab);
+DB_TriggerEvents_TriggerSet("HAV_HavenArea", S_HAV_Haven_SUB_Cellar_eee18cb6-443a-4b8f-ad19-58dff3d731d8);
+DB_SCL_ProdigyLament_Shadows(S_SCL_ProdigyFight_Shadow_000_2a6ee685-e36f-460f-a593-8aa5ceccbb03);
+DB_SCL_ProdigyLament_Shadows(S_SCL_ProdigyFight_Shadow_001_acdfb716-78c5-4260-9709-6a7227e2068e);
+DB_SCL_ProdigyLament_DeadShadows(S_SCL_ProdigyFight_DeadRaven_000_6d8bc188-efa6-46b6-ad43-1ebe25792942);
+DB_SCL_ProdigyLament_DeadShadows(S_SCL_ProdigyFight_DeadRaven_001_c1e67092-9e61-46d4-afcd-03ae5e880528);
+DB_SCL_ProdigyLament_DeadShadows(S_SCL_ProdigyFight_DeadRaven_002_a7dd158b-0582-4a1a-9c72-80e613a44fbb);
+DB_GlobalFlagReactionAfterDialog(SCL_ProdigyLament_Event_BackToHaven_54c9b573-305c-436e-61c6-543ed7c43e39, SCL_Prodigy_eeba45e8-8bb2-e3ca-7f8e-3225651491a5);
+DB_GlobalFlagReactionAfterDialog(SCL_ProdigyLament_Event_LeavingSCL_41f551e7-13af-41f7-a4d2-0045547975a2, SCL_Prodigy_eeba45e8-8bb2-e3ca-7f8e-3225651491a5);
+DB_SCL_Prodigy_ExtraShadows(S_SCL_Prodigy_ExtraStone1_cf7f912e-3f57-4110-935c-9a112971a915, SCL_AD_ShadowMemory25_3ab2f651-a8e1-2913-83c5-ee01115453f1);
+DB_SCL_Prodigy_ExtraShadows(S_SCL_Prodigy_ExtraStone2_bcc4085d-440e-40b2-a8d9-a994b4574d82, SCL_AD_ShadowMemory26_63b204de-7700-cca4-bf1c-6b3bb3af4dcd);
+
+KBSECTION
+IF
+DB_SCL_ProdigyLament_Shadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+DB_GLO_DefeatCounter(_Var1, "SCL_ProdigyLament_Shadows");
+AddPreferredAiTargetTag(_Var1, ROLAN_TARGET_8c7bdccd-132c-496a-a34f-75c39e721214);
+
+IF
+DB_SCL_ProdigyLament_DeadShadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TriggerEvents_TriggerSet("HAV_HavenArea", _Var2, _Var1, _Var1, _Var1)
+AND
+DB_HAV_ProdigyLament_RolanCanLeave(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTriggerSet("HAV_HavenArea", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HAV_ProdigyLament_RolanLeaves", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_ProdigyLament_RolanLeaves();
+
+PROC
+PROC_HAV_ProdigyLament_RolanLeaves()
+THEN
+NOT DB_HAV_ProdigyLament_RolanCanLeave(1);
+SetOnStage(S_HAV_ProdigyHologram_0bf4cdfe-ea4f-4683-86f4-815853c56086, 1);
+SetFlag(HAV_ProdigyLament_Event_Intro_95cd5597-af9a-1fac-aada-e857199dae88, NULL_00000000-0000-0000-0000-000000000000, 0);
+ClearFlag(GLO_Prodigy_State_InHaven_fe9b4527-9d66-45db-8e04-490fd51b7be5, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_CharacterMoveTo(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_SCL_ProdigyLeaveTowardsMOO_ea8a2f48-9643-49e5-bae8-80a8a4b94b05, "Run", "HAV_ProdigyLament_RolanLeaves");
+
+IF
+EntityEvent(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, "HAV_ProdigyLament_RolanLeaves", _, _, _)
+THEN
+PROC_DisappearOutOfSightTo(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_HAV_PrisonerReturnPos_a1ad7248-0e06-4a87-994d-aab8dba88675, "Run", 1, "HAV_ProdigyLament_RolanToFightShadows");
+
+IF
+EntityEvent(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, "HAV_ProdigyLament_RolanToFightShadows", _, _, _)
+THEN
+SetFlag(HAV_TieflingSurvivors_State_ProdigyLeftHaven_7b568bd0-76ee-426e-b7eb-f3ad430f5110, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_SCL_ProdigyLament_ShadowsEncounter();
+
+IF
+LeftTrigger(_, S_SCL_ProdigyShadowsEncounterSpawn_e7b8934e-4b9b-4def-9f71-bf7051786990, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_SCL_ProdigyLament_ShadowsEncounter();
+
+PROC
+PROC_SCL_ProdigyLament_ShadowsEncounter()
+AND
+DB_OnlyOnce("HAV_ProdigyLament_RolanLeaves", _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_ProdigyLament_State_InShadowlands_68d204cb-3017-455e-9d80-c02abbc9f477, _, _, _, _)
+AND NOT
+QRY_TriggerEvents_AnyPartyMemberInTrigger(S_SCL_ProdigyShadowsEncounterSpawn_e7b8934e-4b9b-4def-9f71-bf7051786990, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_ProdigyLament_SetUpShadowsEncounter", _, _, _, _)
+THEN
+PROC_SCL_ProdigyLament_ShadowsEncounter_Internal();
+
+PROC
+PROC_SCL_ProdigyLament_ShadowsEncounter_Internal()
+THEN
+Equip(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_SCL_ProdigyTorch_2ddc5dfe-e222-42a8-b4df-4ca823962e11, 1);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b);
+SetHasDialog(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, 0);
+AppearAt(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_SCL_ProdigyFendingOffShadowsPos_95a79018-5012-4682-802c-cb9fc652f1c6, 0, NULL_00000000-0000-0000-0000-000000000000, "SCL_ProdigyLament_FightingShadows");
+SetFaction(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, Act2_HAV_Tieflings_Rolan_c10978cd-2a88-4c2a-8246-ef4a28635522);
+DB_SceneManager(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, "SCL_ProdigyLament_ShadowsEncounter");
+SetFlag(HAV_ProdigyLament_State_InShadowlands_68d204cb-3017-455e-9d80-c02abbc9f477, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCL_ProdigyLament_ShadowsEncounter_Internal()
+AND
+GetCombatGroupID(S_SCL_ProdigyFight_Shadow_000_2a6ee685-e36f-460f-a593-8aa5ceccbb03, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _Var1);
+
+PROC
+PROC_SCL_ProdigyLament_ShadowsEncounter_Internal()
+AND
+DB_SCL_ProdigyLament_Shadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SceneManager(_Var1, "SCL_ProdigyLament_ShadowsEncounter");
+PROC_Foop(_Var1);
+
+PROC
+PROC_SCL_ProdigyLament_ShadowsEncounter_Internal()
+AND
+DB_SCL_ProdigyLament_DeadShadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+Die(_Var1, 0, _Var1, 0, 1, 0);
+CreateSurface(_Var1, "SurfaceFire", 1, -1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCL_ProdigyLament_ShadowsEncounter_Internal()
+AND
+DB_SCL_Prodigy_ExtraShadows(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(UNI_Quest_ShadowStone_5c6904cc-5bb0-4ed9-a97c-b2df9aa2a9b6, _Var1, 0, 0, "", 0, _Var3, _Var1, _Var1, _Var1)
+THEN
+CreateSurface(_Var1, "SurfaceFire", 1, -1, NULL_00000000-0000-0000-0000-000000000000);
+DB_ItemDialog_NarratorAD(_Var3, _Var2);
+
+PROC
+PROC_SceneInterrupted(_, _, "SCL_ProdigyLament_ShadowsEncounter", _, (GUIDSTRING)_)
+THEN
+PROC_SceneOver("SCL_ProdigyLament_ShadowsEncounter");
+
+PROC
+PROC_SceneOver("SCL_ProdigyLament_ShadowsEncounter", _, _, _, _)
+THEN
+SetHasDialog(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, 1);
+PROC_SetRelationMutual(Act2_HAV_Tieflings_Rolan_c10978cd-2a88-4c2a-8246-ef4a28635522, ACT2_SCL_Shadows_db6c0191-8663-7dbd-8706-b99062a7b442, 0);
+DB_Dialogs(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, SCL_Prodigy_eeba45e8-8bb2-e3ca-7f8e-3225651491a5);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_SCL_ProdigyShadowsEncounterSpawn_e7b8934e-4b9b-4def-9f71-bf7051786990, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(HAV_ProdigyLament_State_InShadowlands_68d204cb-3017-455e-9d80-c02abbc9f477, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("Played_Prodigy_VB_FoundRolan", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(SCL_Prodigy_VB_FoundRolan_1732288d-960c-adab-8a35-b39c921cb263, _Var1);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("SCL_ProdigyLament_Shadows", _, _, _, _)
+THEN
+SetFlag(SCL_Prodigy_State_SavedFromShadows_ad212abc-6ab6-9923-6c3f-ebae3d7ba8a7, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(SCL_Prodigy_State_SavedFromShadows_ad212abc-6ab6-9923-6c3f-ebae3d7ba8a7, _, _, _, _)
+AND
+GetClosestPlayer(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _Var3, _Var4, _, _)
+AND
+_Var4 < 15
+AND
+QRY_StartDialog(SCL_Prodigy_eeba45e8-8bb2-e3ca-7f8e-3225651491a5, S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _Var3, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_GlobalFlag(SCL_Prodigy_State_SavedFromShadows_ad212abc-6ab6-9923-6c3f-ebae3d7ba8a7, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_SCL_ProdigyShadowsEncounterSpawn_e7b8934e-4b9b-4def-9f71-bf7051786990, _, _, _)
+AND
+QRY_OnlyOnce("SCL_ProdigyLament_RolanReturns", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForParty(S_SCL_ProdigyShadowsEncounterSpawn_e7b8934e-4b9b-4def-9f71-bf7051786990);
+PROC_DisappearOutOfSightTo(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_SCL_ProdigyReturnTowards_ebc852ba-8655-4f42-98a5-02969399e7c5, "Run", 0, "SCL_ProdigyLament_RolanReturnsToHaven");
+
+IF
+DB_GlobalFlag(SCL_Prodigy_State_SavedFromShadows_ad212abc-6ab6-9923-6c3f-ebae3d7ba8a7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ShowMapMarker(_Var1, "HAV_SavingPrisonders_ProdigyFendingOffShadows", 0);
+
+IF
+DB_GlobalFlag(GLO_Prodigy_State_Defeated_54df9b47-fe34-3cbc-1a52-e539924c6613, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OnlyOnce("HAV_ProdigyLament_RolanLeaves", _Var1, _Var1, _Var1, _Var1)
+THEN
+ShowMapMarker(_Var1, "HAV_SavingPrisonders_ProdigyFendingOffShadows", 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_ProdigyLament_Event_BackToHaven_54c9b573-305c-436e-61c6-543ed7c43e39, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_ProdigyLament_RolanReturns", _, _, _, _)
+THEN
+ClearFlag(SCL_ProdigyLament_Event_BackToHaven_54c9b573-305c-436e-61c6-543ed7c43e39, NULL_00000000-0000-0000-0000-000000000000);
+PROC_TriggerUnregisterForParty(S_SCL_ProdigyShadowsEncounterSpawn_e7b8934e-4b9b-4def-9f71-bf7051786990);
+PROC_CharacterMoveTo(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_SCL_ProdigyReturnTowards_ebc852ba-8655-4f42-98a5-02969399e7c5, "Run", "SCL_ProdigyLament_RolanStartsLeaving");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_ProdigyLament_Event_LeavingSCL_41f551e7-13af-41f7-a4d2-0045547975a2, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_ProdigyLament_RolanReturns", _, _, _, _)
+THEN
+ClearFlag(SCL_ProdigyLament_Event_BackToHaven_54c9b573-305c-436e-61c6-543ed7c43e39, NULL_00000000-0000-0000-0000-000000000000);
+PROC_TriggerUnregisterForParty(S_SCL_ProdigyShadowsEncounterSpawn_e7b8934e-4b9b-4def-9f71-bf7051786990);
+PROC_CharacterMoveTo(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_SCL_ProdigyReturnTowards_ebc852ba-8655-4f42-98a5-02969399e7c5, "Run", "SCL_ProdigyLament_RolanStartsLeaving");
+
+IF
+EntityEvent(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, "SCL_ProdigyLament_RolanStartsLeaving", _, _, _)
+THEN
+PROC_DisappearOutOfSightTo(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_SCL_ProdigyFendingOffShadowsPos_95a79018-5012-4682-802c-cb9fc652f1c6, "Run", 1, "SCL_ProdigyLament_RolanReturnsToHaven");
+
+IF
+EntityEvent(_, "SCL_ProdigyLament_RolanReturnsToHaven", _, _, _)
+AND
+IsInInventoryOf(S_SCL_ProdigyTorch_2ddc5dfe-e222-42a8-b4df-4ca823962e11, S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, 1, _, _)
+THEN
+RemoveStatus(S_SCL_ProdigyTorch_2ddc5dfe-e222-42a8-b4df-4ca823962e11, "BURNING", NULL_00000000-0000-0000-0000-000000000000);
+Unequip(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_SCL_ProdigyTorch_2ddc5dfe-e222-42a8-b4df-4ca823962e11);
+
+IF
+EntityEvent(_, "SCL_ProdigyLament_RolanReturnsToHaven", _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_ProdigyLament_Event_LeavingSCL_41f551e7-13af-41f7-a4d2-0045547975a2, _, _, _, _)
+THEN
+ClearFlag(HAV_ProdigyLament_State_InShadowlands_68d204cb-3017-455e-9d80-c02abbc9f477, NULL_00000000-0000-0000-0000-000000000000);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b);
+DB_Dialogs(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, HAV_ProdigyLament_Rolan_ce19b6a1-2055-90e7-cc50-a141f424054d);
+PROC_AppearOutOfSightTo(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_HAV_PrisonerReturnPos_a1ad7248-0e06-4a87-994d-aab8dba88675, S_HAV_PrisonerReturnPos_a1ad7248-0e06-4a87-994d-aab8dba88675, "HAV_ProdigyLament_RolanAppearsAtHaven");
+PROC_CharacterMoveTo(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_HAV_ReunionProdigyPos_002_a8ce2fdf-09f5-4413-9154-bbad4edd3f95, "Run", "HAV_ProdigyLament_ReturnedToHaven");
+SetFaction(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, Act2_HAV_Tieflings_f4ff1850-c9fc-4ee5-80e7-fa6b2a958d39);
+
+IF
+EntityEvent(_, "SCL_ProdigyLament_RolanReturnsToHaven", _, _, _)
+AND
+DB_GlobalFlag(SCL_ProdigyLament_Event_LeavingSCL_41f551e7-13af-41f7-a4d2-0045547975a2, _, _, _, _)
+THEN
+ClearFlag(HAV_ProdigyLament_State_InShadowlands_68d204cb-3017-455e-9d80-c02abbc9f477, NULL_00000000-0000-0000-0000-000000000000);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b);
+
+IF
+TextEvent("rolanleaveshaven", _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_ProdigyLament_RolanLeaves", _, _, _, _)
+THEN
+DB_HAV_ProdigyLament_RolanCanLeave(1);
+PROC_HAV_ProdigyLament_RolanLeaves();
+
+IF
+TextEvent("rolanFightSetup", _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_ProdigyLament_RolanLeaves", _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_ProdigyLament_SetUpShadowsEncounter", _, _, _, _)
+THEN
+PROC_HAV_ProdigyLament_RolanLeaves();
+PROC_Purge_CancelMovement(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b);
+PROC_SCL_ProdigyLament_ShadowsEncounter_Internal();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

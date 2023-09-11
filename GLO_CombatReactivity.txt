@@ -1,0 +1,795 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CombatReact_Delay("CombatReact_OnEntered", 1000);
+DB_CombatReact_Delay("CombatReact_OnTurn", 500);
+DB_CombatReact_Delay("CombatReact_OnDeath", 0);
+DB_CombatReact_Delay("CombatReact_OnDeathOther", 500);
+DB_CombatReact_Delay("CombatReact_OnDeathPostCombatAD", 500);
+DB_CombatReact_Delay("CombatReact_OnDeathPostCombatVB", 500);
+DB_CombatReact_Delay("CombatReact_OnHPPercentage", 500);
+DB_CombatReact_Delay("CombatReact_OnMiss", 500);
+DB_CombatReact_Delay("CombatReact_OnCast", 500);
+DB_CombatReact_Delay("CombatReact_OnCastOther", 500);
+DB_CombatReact_Delay("CombatReact_AppliedStatus", 500);
+DB_CombatReact_Delay("CombatReact_RemovedStatus", 500);
+DB_CombatReact_Delay("CombatReact_AppliedStatusGroup", 500);
+DB_CombatReact_Delay("CombatReact_RemovedStatusGroup", 500);
+DB_CombatReact_Delay("CombatReact_AppliedStatusToPlayer", 500);
+DB_CombatReact_Delay("CombatReact_AppliedStatusToPlayerByOthers", 500);
+DB_CombatReact_OnDeathOther_Range(20);
+DB_CombatReact_PartyDeath_ApprovalThreshold(40);
+DB_DialogStarted_IgnoreStopConditions(GLO_PAD_CombatReact_PartyDeath_79a73729-fda2-b8f0-6103-e8d6105f71b0);
+
+KBSECTION
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnEntered(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_OnEntered");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnEntered", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnEntered(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnEntered(_Var1, _Var2);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnTurn(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var2, _Var6, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var5, _Var6, _Var7, _Var1, _Var1)
+AND
+QRY_OnlyOnce(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ObjectCountHelperReset(_Var1, "CombatReact_Turns");
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnTurn(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_CombatReact_IncrementedTurn(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ObjectCountHelper(_Var1, "CombatReact_Turns", _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_IncrementedTurn(_Var1);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnTurn(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_ObjectCountHelper(_Var1, "CombatReact_Turns", _Var3, _Var1, _Var1)
+THEN
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_OnTurn");
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnTurn(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CombatReact_IncrementedTurn(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_IncrementedTurn(_Var1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnTurn", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ObjectCountHelper(_Var1, "CombatReact_Turns", _Var2, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnTurn(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var1);
+NOT DB_CombatReact_AD_OnTurn(_Var1, _Var3, _Var2);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnNextTurn(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_OnTurn");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnTurn", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnNextTurn(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnNextTurn(_Var1, _Var2);
+
+IF
+Dying((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_OnDeath(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_DialogDeath(_Var1);
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_OnDeath");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnDeath", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnDeath(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnDeath(_Var1, _Var2);
+
+IF
+Dying((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnDeathOther(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_OnDeathOther_Range(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsInRange(_Var2, _Var1, _Var5, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_DeathOther(_Var2, _Var1);
+PROC_CombatReact_LaunchTimer(_Var2, "CombatReact_OnDeathOther");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnDeathOther", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_DeathOther(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnDeathOther(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnDeathOther(_Var1, _Var2, _Var3);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnDeathOther", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_DeathOther(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_DeathOther(_Var1, _Var2);
+
+IF
+HitpointsChanged((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnHPPercentage(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var2 <= _Var4
+THEN
+DB_CombatReact_Temp_HPPercentage(_Var1, _Var4);
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_OnHPPercentage");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnHPPercentage", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_HPPercentage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnHPPercentage(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnHPPercentage(_Var1, _Var3, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnHPPercentage", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_HPPercentage(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_HPPercentage(_Var1, _Var2);
+
+IF
+MissedBy((CHARACTER)_Var1, _, (CHARACTER)_Var3, _, (CHARACTER)_Var1)
+AND NOT
+QRY_CombatReact_MissSpecificTarget(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnMiss(_Var3, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_CombatReact_LaunchTimer(_Var3, "CombatReact_OnMiss");
+
+QRY
+QRY_CombatReact_MissSpecificTarget((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnMiss(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_MissedTarget(_Var2, _Var1);
+PROC_CombatReact_LaunchTimer(_Var2, "CombatReact_OnMiss");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnMiss", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CombatReact_Temp_MissedTarget(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnMiss(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnMiss(_Var1, _Var3);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnMiss", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_MissedTarget(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnMiss(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnMiss(_Var1, _Var3, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnMiss", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_MissedTarget(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_MissedTarget(_Var1, _Var2);
+
+IF
+UsingSpell((GUIDSTRING)_Var1, (STRING)_Var2, _, _, _)
+AND
+DB_CombatReact_AD_OnCast(_Var1, _Var6, _Var2, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_Cast(_Var1, _Var2);
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_OnCast");
+
+IF
+UsingSpell((GUIDSTRING)_Var1, (STRING)_Var2, _, _, _)
+AND
+DB_CombatReact_AD_OnCastOther(_Var6, _Var1, _Var7, _Var2, _Var1)
+AND
+DB_Is_InCombat(_Var6, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var8, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_Cast(_Var6, _Var2);
+PROC_CombatReact_LaunchTimer(_Var6, "CombatReact_OnCastOther");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnCast", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_Cast(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnCast(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnCast(_Var1, _Var3, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnCast", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_Cast(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_Cast(_Var1, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnCastOther", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_Cast(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnCastOther(_Var1, _Var3, _Var4, _Var2, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnCastOther(_Var1, _Var3, _Var4, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnCastOther", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_Cast(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_Cast(_Var1, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_AppliedStatus(_Var1, _, _Var2, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_Status(_Var1, _Var2);
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_AppliedStatus");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_AppliedStatus", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_Status(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_AppliedStatus(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatus(_Var1, _Var3, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_AppliedStatus", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_Status(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_Status(_Var1, _Var2);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_StatusRemoved(_Var1, _, _Var2, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_RemovedStatus(_Var1, _Var2);
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_RemovedStatus");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_RemovedStatus", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_RemovedStatus(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_StatusRemoved(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_StatusRemoved(_Var1, _Var3, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_RemovedStatus", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_RemovedStatus(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_RemovedStatus(_Var1, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_AppliedStatusGroup(_Var1, _, _Var6, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, _Var6, 1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_StatusGroup(_Var1, _Var6);
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_AppliedStatusGroup");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_AppliedStatusGroup", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_StatusGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_AppliedStatusGroup(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusGroup(_Var1, _Var3, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_AppliedStatusGroup", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_StatusGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_StatusGroup(_Var1, _Var2);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_StatusGroupRemoved(_Var1, _, _Var6, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, _Var6, 1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_RemovedStatusGroup(_Var1, _Var6);
+PROC_CombatReact_LaunchTimer(_Var1, "CombatReact_RemovedStatusGroup");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_RemovedStatusGroup", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_RemovedStatusGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_StatusGroupRemoved(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_StatusGroupRemoved(_Var1, _Var3, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_RemovedStatusGroup", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_RemovedStatusGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_RemovedStatusGroup(_Var1, _Var2);
+
+IF
+HitpointsChanged((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 <= 0
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CombatReact_PartyDeathIn(_Var1, _Var3);
+
+PROC
+PROC_CombatReact_PartyDeathIn((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CombatReact_PartyDeath_GetPartnerInSameCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CombatReact_PartyDeath_PartnerInSameCombat(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var1, 1, 0, _Var1)
+AND NOT
+DB_CombatReact_PartyDeath_SaidThisTurn(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DialogDeath(_Var1);
+DB_CombatReact_PartyDeath_SaidThisTurn(_Var2);
+PROC_TryStartAD(GLO_PAD_CombatReact_PartyDeath_79a73729-fda2-b8f0-6103-e8d6105f71b0, _Var3, _Var1);
+
+QRY
+QRY_CombatReact_PartyDeath_GetPartnerInSameCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SysClear("DB_QRYRTN_CombatReact_PartyDeath_PartnerInSameCombat", 3);
+
+QRY
+QRY_CombatReact_PartyDeath_GetPartnerInSameCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ApprovalRating(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_CombatReact_PartyDeath_ApprovalThreshold(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 >= _Var5
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CombatReact_PartyDeath_PartnerInSameCombat(_Var1, _Var3, _Var2);
+
+QRY
+QRY_CombatReact_PartyDeath_GetPartnerInSameCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ApprovalRating(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+DB_CombatReact_PartyDeath_ApprovalThreshold(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 >= _Var5
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CombatReact_PartyDeath_PartnerInSameCombat(_Var1, _Var3, _Var2);
+
+IF
+CombatRoundStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_PartyDeath_SaidThisTurn(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_PartyDeath_SaidThisTurn(_Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_PartyDeath_SaidThisTurn(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_PartyDeath_SaidThisTurn(_Var1);
+
+IF
+AutomatedDialogForceStopping(GLO_PAD_CombatReact_PartyDeath_79a73729-fda2-b8f0-6103-e8d6105f71b0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CombatReact_PartyDeath_SaidThisTurn(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_PartyDeath_SaidThisTurn(_Var2);
+
+IF
+AutomatedDialogRequestFailed(GLO_PAD_CombatReact_PartyDeath_79a73729-fda2-b8f0-6103-e8d6105f71b0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CombatReact_PartyDeath_SaidThisTurn(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_PartyDeath_SaidThisTurn(_Var2);
+
+IF
+AutomatedDialogEnded(GLO_PAD_CombatReact_PartyDeath_79a73729-fda2-b8f0-6103-e8d6105f71b0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_DialogDeath(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DialogDeath(_Var2);
+
+IF
+StatusApplied((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_AppliedStatusToPlayer(_Var3, _, _Var2, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var6, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_StatusToPlayer(_Var3, _Var2);
+PROC_CombatReact_LaunchTimer(_Var3, "CombatReact_AppliedStatusToPlayer");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_AppliedStatusToPlayer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_StatusToPlayer(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_AppliedStatusToPlayer(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusToPlayer(_Var1, _Var3, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_AppliedStatusToPlayer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_StatusToPlayer(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_StatusToPlayer(_Var1, _Var2);
+
+IF
+StatusApplied((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_AppliedStatusToPlayerByOthers(_Var3, _, _Var2, _Var6, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_StatusToPlayerByOthers(_Var6, _Var2);
+PROC_CombatReact_LaunchTimer(_Var6, "CombatReact_AppliedStatusToPlayerByOthers");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_AppliedStatusToPlayerByOthers", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_StatusToPlayerByOthers(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_AppliedStatusToPlayerByOthers(_Var3, _Var4, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(_Var3, _Var4, _Var2, _Var1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_AppliedStatusToPlayerByOthers", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_StatusToPlayerByOthers(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_StatusToPlayerByOthers(_Var2, _Var3);
+
+PROC
+PROC_CombatReact_LaunchTimer((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CombatReact_Timer(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_Delay(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_Timer(_Var1, _Var2);
+RealtimeObjectTimerLaunch(_Var1, _Var2, _Var3);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Timer(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Timer(_Var1, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnDeathOther", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_DeathOther(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_DeathOther(_Var1, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnHPPercentage", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_HPPercentage(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_HPPercentage(_Var1, _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnMiss", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_MissedTarget(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_MissedTarget(_Var1, _Var2);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CombatReact_RemoveCombatADs(_Var1);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnEntered(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnEntered(_Var1, _Var2);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnTurn(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnTurn(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnNextTurn(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnNextTurn(_Var1, _Var2);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnDeath(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnDeath(_Var1, _Var2);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnDeathOther(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnDeathOther(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_OnHPPercentage(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnHPPercentage(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_OnMiss(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnMiss(_Var1, _Var2);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_OnMiss(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnMiss(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnCast(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnCast(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_OnCastOther(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnCastOther(_Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_AD_AppliedStatus(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatus(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_StatusRemoved(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_StatusRemoved(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_AppliedStatusGroup(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusGroup(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_StatusGroupRemoved(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_StatusGroupRemoved(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_AppliedStatusToPlayer(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusToPlayer(_Var2, _Var3, _Var4);
+
+PROC
+PROC_CombatReact_RemoveCombatADs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_AD_AppliedStatusToPlayerByOthers(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(_Var1, _Var2, _Var3, _Var4);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Was_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnDeathPostCombat(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatReact_Temp_CombatEndedAD(_Var2, _, _, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_CombatEndedAD(_Var2, _Var4, _Var3);
+PROC_CombatReact_LaunchTimer(_Var4, "CombatReact_OnDeathPostCombatAD");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CombatReact_OnDeathPostCombatAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatReact_Temp_CombatEndedAD(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+DB_CombatReact_AD_OnDeathPostCombat(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_AD_OnDeathPostCombat(_Var2, _Var3);
+NOT DB_CombatReact_Temp_CombatEndedAD(_Var2, _Var1, _Var3);
+PROC_TryStartAD(_Var3, _Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Was_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CombatReact_VB_OnDeathPostCombat(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatReact_Temp_CombatEndedVB(_Var2, _, _, _Var1, _Var1)
+THEN
+DB_CombatReact_Temp_CombatEndedVB(_Var2, _Var4, _Var3);
+PROC_CombatReact_LaunchTimer(_Var4, "CombatReact_OnDeathPostCombatVB");
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "CombatReact_OnDeathPostCombatVB", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CombatReact_Temp_CombatEndedVB(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+DB_CombatReact_VB_OnDeathPostCombat(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatReact_Temp_CombatEndedVB(_Var2, _Var1, _Var3);
+NOT DB_CombatReact_VB_OnDeathPostCombat(_Var2, _Var3);
+StartVoiceBark(_Var3, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

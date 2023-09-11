@@ -1,0 +1,619 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HAV_SavingPrisoners_IntroDialog(HAV_LoneLover_Bex_4dafa77e-af5b-589c-c53d-7bb07700110c, HAV_SavingPrisoners_Event_BexJournalIntro_d0fb7f96-95d6-2531-21c7-700841464f91, "Bex", 0, "IntroBex");
+DB_HAV_SavingPrisoners_IntroDialog(HAV_LoneLover_Bex_4dafa77e-af5b-589c-c53d-7bb07700110c, HAV_SavingPrisoners_Event_BexJournalIntro_d0fb7f96-95d6-2531-21c7-700841464f91, "Bex", 1, "BexFollowup");
+DB_HAV_SavingPrisoners_IntroDialog(HAV_AlfiraTale_Bard_741330b4-77ee-f113-3974-4d4d61763d29, HAV_SavingPrisoners_Event_AlfiraAskedForHelp_c94ffaeb-eb06-6e40-8b14-65eb3ad69174, "Alfira", 0, "IntroAlfiraFollowup");
+DB_HAV_SavingPrisoners_IntroDialog(HAV_AlfiraTale_Bard_741330b4-77ee-f113-3974-4d4d61763d29, HAV_SavingPrisoners_Event_AlfiraAskedForHelp_c94ffaeb-eb06-6e40-8b14-65eb3ad69174, "Alfira", 1, "AlfiraFollowup");
+DB_HAV_SavingPrisoners_IntroDialog(HAV_BackupLeader_304e0466-0537-8efe-f4c3-181ad5806faa, HAV_SavingPrisoners_Knows_CapturedTieflings_961b3065-66ed-4c7b-886f-1c4eb68ee0cc, "Cerys", 0, "IntroCerys");
+DB_HAV_SavingPrisoners_IntroDialog(HAV_ProdigyLament_Rolan_ce19b6a1-2055-90e7-cc50-a141f424054d, HAV_ProdigyLament_Knows_SiblingsInMoonrise_07391db0-3e17-8ae8-a7e3-2e7cef42da66, "Rolan", 0, "IntroRolan");
+DB_HAV_SavingPrisoners_IntroDialog(HAV_ProdigyLament_Rolan_ce19b6a1-2055-90e7-cc50-a141f424054d, HAV_ProdigyLament_Knows_SiblingsInMoonrise_07391db0-3e17-8ae8-a7e3-2e7cef42da66, "Rolan", 1, "RolanFollowup");
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Boat", "BoatNotAllEscapedHav", 1, 1, 0);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Road", "NotAllEscapedHav", 1, 1, 0);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Boat", "BoatAllEscapedHav", 0, 1, 0);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Road", "AllEscapedHav", 0, 1, 0);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Boat", "BoatNotAllEscaped", 1, 0, 0);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Road", "NotAllEscaped", 1, 0, 0);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Boat", "BoatAllEscaped", 0, 0, 0);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Road", "AllEscaped", 0, 0, 0);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Boat", "BoatNotAllEscapedHavDestroyed", 1, 0, 1);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Road", "NotAllEscapedHavDestroyed", 1, 0, 1);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Boat", "BoatAllEscapedHavDestroyed", 0, 0, 1);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Road", "AllEscapedHavDestroyed", 0, 0, 1);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Boat", "BoatNotAllEscapedHavDestroyed", 1, 1, 1);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Road", "NotAllEscapedHavDestroyed", 1, 1, 1);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Boat", "BoatAllEscapedHavDestroyed", 0, 1, 1);
+DB_HAV_SavingPrisoners_TieflingEscapeEntries("Road", "AllEscapedHavDestroyed", 0, 1, 1);
+DB_HAV_SavingPrisoners_PermaDefeatedTieflingPrisoner(0);
+DB_HAV_SavingPrisoners_JournalEpilogueReturn(0);
+
+KBSECTION
+IF
+DB_HAV_SavingPrisoners_PendingReturn(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_TrackedPrisoner(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_HAV_SavingPrisoners_OtherPrisonersLeft(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_SavingPrisoners_JailbreakCompleteUpdate(_Var3, _Var2);
+
+IF
+DB_MOO_Jailbreak_EpilogueReturn(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_TrackedPrisoner(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_HAV_SavingPrisoners_OtherPrisonersLeft(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_SavingPrisoners_JailbreakCompleteUpdate(_Var3, _Var2);
+
+QRY
+QRY_HAV_SavingPrisoners_OtherPrisonersLeft((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var1
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HAV_SavingPrisoners_PrisonersOnRoad((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_HAV_SavingPrisoners_PendingReturn(_Var2, "Road", _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_TrackedPrisoner(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HAV_SavingPrisoners_PrisonersOnRoad((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_MOO_Jailbreak_EpilogueReturn(_Var2, "Road", _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_TrackedPrisoner(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_HAV_SavingPrisoners_JailbreakCompleteUpdate((STRING)_Var1, "Boat", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_HAV_SavingPrisoners_PrisonersOnRoad(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_SavingPrisoners_ReturnUpdate(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_SavingPrisoners_ReturnUpdate(_Var1);
+PROC_HAV_SavingPrisoners_ReturnUpdate(_Var1, "Road");
+
+PROC
+PROC_HAV_SavingPrisoners_JailbreakCompleteUpdate((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_HAV_SavingPrisoners_ReturnUpdate(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_SavingPrisoners_ReturnUpdate(_Var1);
+PROC_HAV_SavingPrisoners_ReturnUpdate(_Var1, _Var2);
+
+PROC
+PROC_HAV_SavingPrisoners_JailbreakCompleteUpdate((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_HAV_SavingPrisoners_ReturnUpdate(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_SavingPrisoners_ReturnUpdate(_Var1);
+PROC_HAV_SavingPrisoners_ReturnUpdate(_Var1, _Var2);
+
+IF
+DialogEnded(HAV_AlfiraTale_Bard_741330b4-77ee-f113-3974-4d4d61763d29, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_SavingPrisoners_Knows_CapturedTieflings_961b3065-66ed-4c7b-886f-1c4eb68ee0cc, _, _, _, _)
+AND NOT
+DB_QuestIsOpened("HAV_SaveTieflingPrisoners", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "IntroAlfira");
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogName(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_HAV_SavingPrisoners_IntroDialog(_Var4, _Var1, _Var5, _, _)
+THEN
+PROC_HAV_SavingPrisoners_ProcessIntroUpdate(_Var5);
+
+PROC
+PROC_HAV_SavingPrisoners_ProcessIntroUpdate((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QuestIsOpened("HAV_SaveTieflingPrisoners", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_SavingPrisoners_IntroJournalUpdate(_Var1, 1);
+
+PROC
+PROC_HAV_SavingPrisoners_ProcessIntroUpdate((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QuestIsOpened("HAV_SaveTieflingPrisoners", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_SavingPrisoners_IntroJournalUpdate(_Var1, 0);
+
+PROC
+PROC_HAV_SavingPrisoners_IntroJournalUpdate((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_HAV_SavingPrisoners_IntroDialog(_Var3, _Var4, _Var1, _Var2, _Var5)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", _Var5);
+
+IF
+DialogActorJoined((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("HAV_SaveTieflingPrisoners_FoundPrisoners", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var3, "Tieflings", _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Jailbreak_Escaping(_Var3, _, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("HAV_SaveTieflingPrisoners_FoundPrisoners");
+PROC_HAV_SavingPrisoners_FoundPrisonersUpdate();
+
+PROC
+PROC_HAV_SavingPrisoners_FoundPrisonersUpdate()
+AND
+DB_QuestIsAccepted("HAV_SaveTieflingPrisoners", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "FoundPrisoners");
+
+PROC
+PROC_HAV_SavingPrisoners_FoundPrisonersUpdate()
+AND NOT
+DB_QuestIsAccepted("HAV_SaveTieflingPrisoners", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "IntroFoundPrisoners");
+
+IF
+FlagSet(MOO_Jailbreak_Knows_SpeakWithGnomes_a7c40f1a-334d-7c46-c687-e3d006156a36, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_Knows_ToolsNeeded_c72f6921-97df-2ab3-6090-d20b1bd4e828, _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "TalkToGnomes");
+
+IF
+DB_GlobalFlag(HAV_SavingPrisoners_State_CheckForReturnCompletion_e57e5f98-503d-4a58-9737-2000bba7ed8b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_Started(1, _, _, _, _)
+AND NOT
+DB_OnlyOnce("HAV_SaveTieflingPrisoners_CheckIn", _, _, _, _)
+THEN
+DB_OnlyOnce("HAV_SaveTieflingPrisoners_CheckIn");
+PROC_HAV_SavingPrisoners_CheckInUpdate();
+
+PROC
+PROC_HAV_SavingPrisoners_CheckInUpdate()
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "CheckIn");
+
+PROC
+PROC_HAV_SavingPrisoners_CheckInUpdate()
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+THEN
+DB_HAV_SavingPrisoners_CheckInUpdateDelay(1);
+
+IF
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND
+DB_HAV_SavingPrisoners_CheckInUpdateDelay(1, _, _, _, _)
+THEN
+NOT DB_HAV_SavingPrisoners_CheckInUpdateDelay(1);
+QuestUpdate("HAV_SaveTieflingPrisoners", "CheckInFoundHaven");
+
+IF
+FlagSet(MOO_Jailbreak_Event_SaveTieflings_5383ab70-bd01-ff6b-f3d5-58c4f0c3477d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_MOO_Jailbreak_GnomesToTieflingsUpdate();
+
+PROC
+PROC_MOO_Jailbreak_GnomesToTieflingsUpdate()
+AND
+DB_QuestIsAccepted("HAV_SaveTieflingPrisoners", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "GnomesToTieflings");
+
+PROC
+PROC_MOO_Jailbreak_GnomesToTieflingsUpdate()
+AND NOT
+DB_QuestIsAccepted("HAV_SaveTieflingPrisoners", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "IntroGnomesToTieflings");
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, "Tieflings", _Var1, _Var1, _Var1)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "TieflingsToBoat", _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "TieflingsToBoat");
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, "Tieflings", _Var1, _Var1, _Var1)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "TieflingsToDocks", _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "TieflingsToDocks");
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, "Tieflings", _Var1, _Var1, _Var1)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "TieflingsToBoat", _Var1, _Var1, _Var1)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "TieflingsToDocks", _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "TieflingsToDocks");
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute((CHARACTER)_Var1, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, "Tieflings", _Var1, _Var1, _Var1)
+AND
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "TieflingsToBoat", _Var1, _Var1, _Var1)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "BoatChangeToDocks", _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "BoatChangeToDocks");
+
+PROC
+PROC_HAV_SavingPrisoners_PrisonerPermaDefeated("Tieflings", _, _, _, _)
+THEN
+NOT DB_HAV_SavingPrisoners_PermaDefeatedTieflingPrisoner(0);
+DB_HAV_SavingPrisoners_PermaDefeatedTieflingPrisoner(1);
+
+PROC
+PROC_HAV_SavingPrisoners_PrisonerPermaDefeated("Tieflings", _, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_TrackedPrisoner(_, "Tieflings", _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "RescueFailed");
+
+PROC
+PROC_HAV_SavingPrisoners_ReturnUpdate("Tieflings", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_HAV_SavingPrisoners_PermaDefeatedTieflingPrisoner(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_SavingPrisoners_JournalEpilogueReturn(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var1, _Var1)
+AND
+DB_HAV_SavingPrisoners_TieflingEscapeEntries(_Var1, _Var5, _Var2, _Var4, _Var3)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", _Var5);
+
+PROC
+PROC_State_Progress(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Area", "HAV_Area_State_BarrierIsOff", _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "CheckIn", _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "HavenDestroyed");
+
+PROC
+PROC_State_Progress(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Area", "HAV_Area_State_BarrierIsOff", _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "CheckInFoundHaven", _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "HavenDestroyed");
+
+PROC
+PROC_State_Progress(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+AND
+DB_QuestIsOpened("HAV_SaveTieflingPrisoners", _, _, _, _)
+THEN
+PROC_HAV_SavingPrisoners_JailbreakSkipForceClose();
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+AND
+DB_QuestIsOpened("HAV_SaveTieflingPrisoners", _, _, _, _)
+THEN
+PROC_HAV_SavingPrisoners_JailbreakSkipForceClose();
+
+PROC
+PROC_HAV_SavingPrisoners_JailbreakSkipForceClose()
+AND NOT
+DB_OnlyOnce("HAV_SaveTieflingPrisoners_FoundPrisoners", _, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_Started(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_Over_ce186cbb-3c45-8cb1-cc4a-b64196290ec3, _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "NeverFound");
+
+PROC
+PROC_HAV_SavingPrisoners_JailbreakSkipForceClose()
+AND
+DB_OnlyOnce("HAV_SaveTieflingPrisoners_FoundPrisoners", _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_Over_ce186cbb-3c45-8cb1-cc4a-b64196290ec3, _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "PrisonersIgnored");
+
+IF
+DB_GlobalFlag(HAV_SavingPrisoners_State_ReturnCompleted_3d6f8326-f5cc-c124-b810-3f03fe1d6b62, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_SavingPrisoners_State_TieflingsReturned_eef04b79-3cbe-a552-2748-3f1998670c5f, _, _, _, _)
+AND
+DB_HAV_SavingPrisoners_InHaven(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_SavingPrisoners_QueueAlfiraReward", _, _, _, _)
+THEN
+DB_HAV_SavingPrisoners_PendingReward(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, HAV_AlfiraTale_Bard_741330b4-77ee-f113-3974-4d4d61763d29, "AlfiraReward");
+
+PROC
+PROC_HAV_SavingPrisoners_CharacterReturns(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, _, _, _, _)
+AND
+DB_HAV_SavingPrisoners_InHaven(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_SavingPrisoners_QueueAlfiraReward", _, _, _, _)
+THEN
+DB_HAV_SavingPrisoners_PendingReward(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, HAV_AlfiraTale_ReunionWithFlirty_5f510493-83b8-feef-dbbb-2f918a093730, "AlfiraBigReward");
+DB_HAV_SavingPrisoners_PendingReward(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, HAV_AlfiraTale_ReunionWithFlirty_5f510493-83b8-feef-dbbb-2f918a093730, "AlfiraBigReward");
+
+PROC
+PROC_HAV_SavingPrisoners_CharacterReturns(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, _, _, _, _)
+AND
+DB_HAV_SavingPrisoners_InHaven(S_GLO_YoungLover_02_dcf597c0-36c5-4c81-957a-6fe9fca50a68, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_YoungLover_02_dcf597c0-36c5-4c81-957a-6fe9fca50a68, _, _, _, _)
+THEN
+DB_HAV_SavingPrisoners_PendingReward(S_GLO_YoungLover_02_dcf597c0-36c5-4c81-957a-6fe9fca50a68, HAV_LoneLover_Reunited_347d2502-b980-dafa-7a9e-b931d58d257e, "LoverReward");
+DB_HAV_SavingPrisoners_PendingReward(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, HAV_LoneLover_Reunited_347d2502-b980-dafa-7a9e-b931d58d257e, "LoverReward");
+
+PROC
+PROC_HAV_SavingPrisoners_CharacterReturns(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _, _, _, _)
+THEN
+DB_HAV_SavingPrisoners_PendingReward(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, HAV_ProdigyLament_Reunion_c7a2b462-56aa-3e03-f774-a746d4979596, "ProdigyReward");
+DB_HAV_SavingPrisoners_PendingReward(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, HAV_ProdigyLament_Reunion_c7a2b462-56aa-3e03-f774-a746d4979596, "ProdigyReward");
+DB_HAV_SavingPrisoners_PendingReward(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, HAV_ProdigyLament_Reunion_c7a2b462-56aa-3e03-f774-a746d4979596, "ProdigyReward");
+
+PROC
+PROC_HAV_SavingPrisoners_CharacterReturns((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Jailbreak_TrackedPrisoner(_Var1, "Tieflings", _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HAV_SavingPrisoners_RewardSetup", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_SavingPrisoners_RewardJournalDelay(1);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAV_SavingPrisoners_PendingReward(_, _Var1, _Var4, _Var1, _Var1)
+AND
+QRY_OnlyOnce(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_SavingPrisoners_RewardUpdate(_Var4);
+PROC_HAV_SavingPrisoners_ClearReward(_Var1);
+
+PROC
+PROC_HAV_SavingPrisoners_RewardUpdate("LoverReward", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "GotLoverReward");
+
+PROC
+PROC_HAV_SavingPrisoners_RewardUpdate("AlfiraBigReward", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "GotBardBigReward");
+
+PROC
+PROC_HAV_SavingPrisoners_RewardUpdate("AlfiraReward", _, _, _, _)
+AND
+DB_GlobalFlag(HAV_SavingPrisoners_State_AllTieflingsReturned_3f819a53-2fb8-c9e4-2d9d-1b3280812de7, _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "GotBardBigReward");
+
+PROC
+PROC_HAV_SavingPrisoners_RewardUpdate("AlfiraReward", _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_SavingPrisoners_State_AllTieflingsReturned_3f819a53-2fb8-c9e4-2d9d-1b3280812de7, _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "GotBardSmallReward");
+
+PROC
+PROC_HAV_SavingPrisoners_RewardUpdate("ProdigyReward", _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_SaveTieflingPrisoners_ProdigyRewardUpdate", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "GotProdigyBigReward");
+
+PROC
+PROC_HAV_SavingPrisoners_RewardUpdate("RolanReward", _, _, _, _)
+AND
+DB_GlobalFlag(HAV_ProdigyLament_Event_AngrySibling_3a835b03-f0c8-4369-8c68-604d8c9b6781, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_SaveTieflingPrisoners_ProdigyRewardUpdate", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "AngryProdigies");
+
+PROC
+PROC_HAV_SavingPrisoners_RewardUpdate("RolanReward", _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_ProdigyLament_Event_AngrySibling_3a835b03-f0c8-4369-8c68-604d8c9b6781, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_SaveTieflingPrisoners_ProdigyRewardUpdate", _, _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "GotProdigySmallReward");
+
+PROC
+PROC_HAV_SavingPrisoners_ClearReward((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAV_SavingPrisoners_PendingReward(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_HAV_SavingPrisoners_PendingReward(_Var2, _Var1, _Var3);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_SavingPrisoners_PendingReward(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_HAV_SavingPrisoners_ClearReward(_Var2);
+
+IF
+DB_GlobalFlag(HAV_SavingPrisoners_State_ReturnCompleted_3d6f8326-f5cc-c124-b810-3f03fe1d6b62, _, _, _, _)
+AND
+DB_HAV_SavingPrisoners_RewardJournalDelay(1, _, _, _, _)
+AND
+DB_HAV_SavingPrisoners_GotRolanMissingUpdate(1, _, _, _, _)
+AND
+DB_HAV_SavingPrisoners_PendingReward(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _, _, _, _)
+AND NOT
+DB_HAV_SavingPrisoners_PendingReward(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND NOT
+DB_HAV_SavingPrisoners_PendingReward(S_GLO_YoungLover_02_dcf597c0-36c5-4c81-957a-6fe9fca50a68, _, _, _, _)
+THEN
+NOT DB_HAV_SavingPrisoners_RewardJournalDelay(1);
+PROC_HAV_SavingPrisoners_RescueSuccessUpdate();
+
+IF
+DB_HAV_SavingPrisoners_RewardJournalDelay(1, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_SavingPrisoners_State_ReturnCompleted_3d6f8326-f5cc-c124-b810-3f03fe1d6b62, _, _, _, _)
+AND NOT
+DB_HAV_SavingPrisoners_PendingReward(_, _, _, _, _)
+THEN
+NOT DB_HAV_SavingPrisoners_RewardJournalDelay(1);
+PROC_HAV_SavingPrisoners_RescueSuccessUpdate();
+
+PROC
+PROC_HAV_SavingPrisoners_RescueSuccessUpdate()
+AND
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "RolanMissingForReward", _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "RescueSuccessNoRolan");
+
+PROC
+PROC_HAV_SavingPrisoners_RescueSuccessUpdate()
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("HAV_SaveTieflingPrisoners", "RolanMissingForReward", _, _, _)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "RescueSuccess");
+
+IF
+DB_Sees(_Var1, S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestIsOpened("HAV_FindRolan", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("HAV_FindRolan", "RolanPermaDefeated");
+
+PROC
+PROC_StateSet_PermaDefeated(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND
+DB_QuestIsOpened("HAV_FindRolan", _, _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "LiaPermaDefeated");
+
+PROC
+PROC_StateSet_PermaDefeated(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, _, _, _, _)
+AND
+DB_QuestIsOpened("HAV_FindRolan", _, _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "LiaPermaDefeated");
+
+IF
+FlagSet(HAV_ProdigyLament_Knows_RolanMissing_24d762a6-137d-d1fe-b578-271f1cbf862e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+QuestUpdate("HAV_SaveTieflingPrisoners", "RolanMissingForReward");
+QuestUpdate("HAV_FindRolan", "IntroFindRolan");
+DB_HAV_SavingPrisoners_GotRolanMissingUpdate(1);
+
+IF
+FlagSet(SCL_Prodigy_State_SavedFromShadows_ad212abc-6ab6-9923-6c3f-ebae3d7ba8a7, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+QuestUpdate("HAV_FindRolan", "RolanToHaven");
+
+IF
+DialogEnded(HAV_ProdigyLament_Reunion_c7a2b462-56aa-3e03-f774-a746d4979596, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_HAV_SavingPrisoners_ProdigySubCloseUpdate();
+
+PROC
+PROC_HAV_SavingPrisoners_ProdigySubCloseUpdate()
+AND
+DB_GlobalFlag(HAV_ProdigyLament_Event_AngrySibling_3a835b03-f0c8-4369-8c68-604d8c9b6781, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_SavingPrisoners_ProdigySubClose", _, _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "AngryProdigies");
+
+PROC
+PROC_HAV_SavingPrisoners_ProdigySubCloseUpdate()
+AND
+DB_PermaDefeated(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_SavingPrisoners_ProdigySubClose", _, _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "RolanAndLia");
+
+PROC
+PROC_HAV_SavingPrisoners_ProdigySubCloseUpdate()
+AND
+DB_PermaDefeated(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND
+QRY_OnlyOnce("HAV_SavingPrisoners_ProdigySubClose", _, _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "RolanAndCal");
+
+PROC
+PROC_HAV_SavingPrisoners_ProdigySubCloseUpdate()
+AND
+QRY_OnlyOnce("HAV_SavingPrisoners_ProdigySubClose", _, _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "SiblingsReunited");
+
+PROC
+PROC_State_Progress(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Area", "HAV_Area_State_BarrierIsOff", _, _)
+AND
+DB_QuestIsOpened("HAV_FindRolan", _, _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "HavenDestroyed");
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+AND
+DB_QuestIsOpened("HAV_FindRolan", _, _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("HAV_FindRolan", "RolanToHaven", _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "DidntBringRolanBack");
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+AND
+DB_QuestIsOpened("HAV_FindRolan", _, _, _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("HAV_FindRolan", "RolanToHaven", _, _, _)
+THEN
+QuestUpdate("HAV_FindRolan", "LeftWithoutReunion");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

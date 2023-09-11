@@ -1,0 +1,67 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+TemplateAddedTo(UNI_COL_Us_Summon_Brain_dbc5b484-26d6-41f3-bd50-dc74b8f9cc9b, _, (CHARACTER)_Var2, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+AddSpell(_Var2, "Target_ConjureIntellectDevour", 1, 1);
+
+IF
+TemplateRemovedFrom(UNI_COL_Us_Summon_Brain_dbc5b484-26d6-41f3-bd50-dc74b8f9cc9b, _, (CHARACTER)_Var2, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+RemoveSpell(_Var2, "Target_ConjureIntellectDevour", 1);
+
+IF
+UsingSpell(_, "Target_ConjureIntellectDevour", _, _, _)
+THEN
+PROC_GLO_Us_Summon_Dismiss();
+
+IF
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, Intellect_Devourer_PlayerWildshape_27b9089b-9aef-44e9-aaf7-100e3e320823, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Us_Summoned(_Var1);
+DB_Dialogs(_Var1, GLO_Us_Summon_7e34566d-ff87-f435-b050-0bc514bce084);
+
+PROC
+PROC_GLO_Us_Summon_Dismiss()
+AND
+DB_GLO_Us_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0, 0);
+NOT DB_GLO_Us_Summoned(_Var1);
+
+IF
+DB_GLO_Us_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(TUT_Lab_State_LobotomizedBrain_d303b55f-b9b1-4acc-b052-26622a337867, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "LOBOTOMIZED_US", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_GLO_Us_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(TUT_Lab_State_LobotomizedBrain_d303b55f-b9b1-4acc-b052-26622a337867, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "NORMAL_US", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+CharacterLeftParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Us_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Us_Summoned(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

@@ -1,0 +1,726 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LoopEffectDisabledInCombat(EFFECTRESOURCEGUID_VFX_UI_ExclamationMark_01_a3018cf0-3a25-06ee-206a-3dd079332d80);
+NOT DB_RelationshipDialog_Autostart(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_RelationshipDialog_AutostartTryOnce(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+FlagSet(GLO_DisableRelationshipDialogsPermanently_1b1d90ae-583f-4e91-9016-6cf6446a055a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+QRY
+QRY_SelectRelationShipDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_RelationshipDialog_SetDialog(_Var3, _Var4, _Var1, _Var2, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_RelationshipDialog_SetDialog((DIALOGRESOURCE)_Var1, (FLAG)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, 1, (INTEGER)_Var5, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_ORI_Partnered(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Dating(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var3);
+
+QRY
+QRY_RelationshipDialog_SetDialog((DIALOGRESOURCE)_Var1, (FLAG)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, _, (INTEGER)_Var6, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_SelectedDialog(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_RelationshipDialog_IgnoreApproval(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(_Var3, _Var4, _Var7, _Var1, _Var1)
+AND
+_Var7 < _Var6
+THEN
+DB_SelectedDialog(GLO_PAD_NotEnoughApprovalForCRD_fa524284-1538-70e5-1645-4171c72cd6e9, _Var3);
+
+QRY
+QRY_RelationshipDialog_SetDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SelectedDialog(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_SelectedDialog(GLO_PAD_NotEnoughApprovalForCRD_fa524284-1538-70e5-1645-4171c72cd6e9, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(_Var1, _Var3, _Var4);
+
+QRY
+QRY_RelationshipDialog_IgnoreApproval((GUIDSTRING)_Var1, (DIALOGRESOURCE)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetFlag(_Var3, _Var1, 0);
+DB_RelationshipDialog_FlagSet(_Var1, _Var2, _Var3);
+
+IF
+DB_RelationshipDialog_FlagSet(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var3, _Var1, 0);
+NOT DB_RelationshipDialog_FlagSet(_Var1, _Var2, _Var3);
+
+PROC
+PROC_RelationshipDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_RelationshipDialog(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, _Var3, 0, -100);
+
+PROC
+PROC_RelationshipDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+THEN
+PROC_RelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, -100);
+
+PROC
+PROC_RelationshipDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_RelationshipDialog_WRD_TriggerInCamp(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_RelationshipDialogsFinished(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GroupDiscussion_Queued(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var4, _Var11, _Var1, _Var1)
+AND
+_Var11 < 30
+AND
+QRY_IsValidAvatarAvailableForRelationshipDialog(_Var1, _Var5, _Var6, _Var1, _Var1)
+THEN
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLD", _Var5, _Var6);
+PROC_LaunchTestCompanionQueueTimer();
+
+PROC
+PROC_RelationshipDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_RelationshipDialog_WRD_TriggerInCamp(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_RelationshipDialogsFinished(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GroupDiscussion_Queued(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var4, _Var11, _Var1, _Var1)
+AND
+_Var11 < 30
+AND
+QRY_IsValidAvatarAvailableForRelationshipDialog(_Var1, _Var5, _Var6, _Var1, _Var1)
+THEN
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLDORCAMP", _Var5, _Var6);
+PROC_LaunchTestCompanionQueueTimer();
+
+QRY
+QRY_IsValidAvatarAvailableForRelationshipDialog((CHARACTER)_Var1, 1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Partnered(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 >= _Var2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsValidAvatarAvailableForRelationshipDialog((GUIDSTRING)_Var1, 1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Dating(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 >= _Var2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsValidAvatarAvailableForRelationshipDialog((GUIDSTRING)_Var1, 0, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 >= _Var2
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LaunchTestCompanionQueueTimer()
+AND NOT
+DB_TestingCompanionQueue(1, _, _, _, _)
+THEN
+DB_TestingCompanionQueue(1);
+TimerLaunch("Test_RelationshipDialog_Queue", 1500);
+
+IF
+TimerFinished("Test_RelationshipDialog_Queue", _, _, _, _)
+THEN
+NOT DB_TestingCompanionQueue(1);
+PROC_Test_RelationshipDialog_Queue();
+
+IF
+ApprovalRatingChanged((CHARACTER)_Var1, (CHARACTER)_Var2, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var4, _Var5, _Var6, _, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var8 != -100
+AND
+QRY_RelationshipDialog_WorldCategory(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(_Var1, _Var2, _Var9, _Var1, _Var1)
+AND
+_Var9 < _Var8
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var4, _Var5);
+
+IF
+ApprovalRatingChanged((CHARACTER)_Var1, (CHARACTER)_Var2, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var4, _Var5, _, _, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var8 != -100
+AND NOT
+QRY_RelationshipDialog_HasAvatarWithSufficientApproval(_Var1, _Var8, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var4, _Var5);
+
+IF
+CharacterReservedUserIDChanged(_, _, _, _, _)
+AND
+DB_ORI_Partnered(_Var4, _Var5, _, _, _)
+AND
+DB_HandlingRelationshipDialog(_Var5, _Var6, _Var7, _Var8, 1, _, _, _, _, _)
+AND
+QRY_RelationshipDialog_WorldCategory(_Var8, _, _, _, _)
+AND NOT
+QRY_SameUser(_Var5, _Var4, _, _, _)
+THEN
+PROC_CancelRelationshipDialog(_Var5, _Var6, _Var7);
+
+IF
+CharacterReservedUserIDChanged(_, _, _, _, _)
+AND
+DB_ORI_Dating(_Var4, _Var5, _, _, _)
+AND
+DB_HandlingRelationshipDialog(_Var5, _Var6, _Var7, _Var8, 1, _, _, _, _, _)
+AND
+QRY_RelationshipDialog_WorldCategory(_Var8, _, _, _, _)
+AND NOT
+QRY_SameUser(_Var5, _Var4, _, _, _)
+THEN
+PROC_CancelRelationshipDialog(_Var5, _Var6, _Var7);
+
+IF
+CharacterReservedUserIDChanged(_, _, _, _, _)
+AND
+DB_HandlingRelationshipDialog(_Var4, _Var5, _Var6, _, _, _Var9, _, _, _, _)
+AND
+_Var9 != -100
+AND NOT
+QRY_RelationshipDialog_HasAvatarWithSufficientApproval(_Var4, _Var9, _, _, _)
+THEN
+PROC_CancelRelationshipDialog(_Var4, _Var5, _Var6);
+
+IF
+DialogStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var3, _Var1, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var3, "RelationshipMarker");
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var3, _Var1, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HandlingRelationshipDialog(_Var3, _Var1, _Var4, _Var5, _Var6, _Var7);
+DB_RelationshipDialogsFinished(_Var3, _Var1, _Var4);
+
+PROC
+PROC_StateCleared_CantTalk((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, _Var4, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_RelationshipDialog_WorldCategory(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Test_RelationshipDialog_Queue();
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+AND
+DB_RelationshipDialog_Queue(_Var3, _Var5, _Var6, _Var7, _, _, _, _, _, _)
+AND
+QRY_RelationshipDialog_WorldCategory(_Var7, _, _, _, _)
+THEN
+PROC_Test_RelationshipDialog_Queue();
+
+PROC
+PROC_Test_RelationshipDialog_Queue()
+AND
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_RelationshipDialog_WorldCategory(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HandlingRelationshipDialog(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PartyDialogSuppressed_CheckRelationshipDialogAllowed(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_LoopEffect(EFFECTRESOURCEGUID_VFX_UI_ExclamationMark_01_a3018cf0-3a25-06ee-206a-3dd079332d80, _Var1, "RelationshipMarker", "__ANY__", "Dummy_OverheadFX");
+NOT DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_Test_RelationshipDialog_Queue()
+AND
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLDORCAMP", _Var4, _Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HandlingRelationshipDialog(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PartyDialogSuppressed_CheckRelationshipDialogAllowed(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_LoopEffect(EFFECTRESOURCEGUID_VFX_UI_ExclamationMark_01_a3018cf0-3a25-06ee-206a-3dd079332d80, _Var1, "RelationshipMarker", "__ANY__", "Dummy_OverheadFX");
+NOT DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLDORCAMP", _Var4, _Var5);
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, "WORLDORCAMP", _Var4, _Var5);
+
+QRY
+QRY_RelationshipDialog_WorldCategory("WORLD", _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_RelationshipDialog_WorldCategory("WORLDORCAMP", _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CancelAllRelationshipDialogsForAllCompanions()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 0, _Var1, _Var1)
+THEN
+PROC_CancelAllRelationshipDialogs(_Var1);
+
+PROC
+PROC_CancelAllRelationshipDialogs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "RelationshipMarker");
+NOT DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_CancelAllRelationshipDialogs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, "WORLD", _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ExclamationDialog_NeverStop(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var6, _Var7, _Var8, _Var1)
+THEN
+DB_ExclamationDialogAnchor(_Var1, _Var2, _Var3, _Var6, _Var7, _Var8);
+ObjectTimerCancel(_Var1, "ExclamationDialogDistanceCheck");
+ObjectTimerLaunch(_Var1, "ExclamationDialogDistanceCheck", 3000);
+
+PROC
+PROC_StopLoopEffect((CHARACTER)_Var1, "RelationshipMarker", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ExclamationDialogAnchor(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ExclamationDialogAnchor(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "ExclamationDialogDistanceCheck", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ExclamationDialogAnchor(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_ExclamationDialog_IsStillInRange(_Var1, _Var2, _Var4, _Var5, _Var6)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var2, _Var3);
+
+QRY
+QRY_ExclamationDialog_IsStillInRange((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5)
+AND
+GetDistanceToPosition(_Var1, _Var3, _Var4, _Var5, _Var6)
+AND
+_Var6 < 30
+THEN
+ObjectTimerCancel(_Var1, "ExclamationDialogDistanceCheck");
+ObjectTimerLaunch(_Var1, "ExclamationDialogDistanceCheck", 3000);
+
+IF
+Teleported((CHARACTER)_Var1, _, _, _, _, _, _, _, _, (CHARACTER)_Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ExclamationDialogAnchor(_Var1, _Var10, _Var11, _Var12, _Var13, _Var14, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_ExclamationDialog_IsStillInRange(_Var1, _Var10, _Var12, _Var13, _Var14)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var10, _Var11);
+ObjectTimerCancel(_Var1, "ExclamationDialogDistanceCheck");
+
+IF
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RelationshipDialog_AutostartTryOnce(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog_FindBestAvatarForDialog(_Var1, _Var2, _Var3, _Var5, _Var6);
+
+PROC
+PROC_RelationshipDialog_FindBestAvatarForDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (INTEGER)_Var4, (INTEGER)_Var5)
+AND
+QRY_GetBestAvatarForCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog_CheckAvatarAvailabilityAndStartDialog(_Var1, _Var2, _Var3, _Var6, _Var4, _Var5);
+
+IF
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RelationshipDialog_Autostart(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_RelationshipDialog_AutostartTryOnce(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog_CheckAvatarAvailabilityAndStartDialog(_Var1, _Var2, _Var3, _Var7, _Var5, _Var6);
+
+PROC
+PROC_RelationshipDialog_CheckAvatarAvailabilityAndStartDialog((GUIDSTRING)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_RelationshipDialog_PreventAutostart(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_RelationshipDialog_AvatarGoodEnough(_Var1, _Var4, _Var5, _Var6, _Var1)
+AND NOT
+DB_RelationshipDialog_AutostartSucceeded(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, _Var1, _Var4, _Var1, _Var1)
+THEN
+DB_RelationshipDialog_AutostartSucceeded(_Var1, _Var2, _Var3);
+
+IF
+DialogStarted((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Speakers(_Var1, _Var2, _Var3, 1, _Var1)
+AND
+DB_HandlingRelationshipDialog(_Var3, _Var1, _Var4, _, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RelationshipDialog_Autostart(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_RelationshipDialog_AutostartSucceeded(_Var3, _Var1, _Var4);
+
+QRY
+QRY_RelationshipDialog_PreventAutostart((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, NULL_00000000-0000-0000-0000-000000000000, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_RelationshipDialog_PreventAutostart(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_RelationshipDialog_PreventAutostart((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_RelationshipDialog_AvatarGoodEnough((CHARACTER)_Var1, (CHARACTER)_Var2, 1, (INTEGER)_Var3, (CHARACTER)_Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_GetPartnerOrDatingAvatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_ORI_PartnerOrDatingAvatar(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 == _Var4
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, _Var1, 0, 1, _Var1)
+AND
+GetApprovalRating(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+_Var5 >= _Var3
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_RelationshipDialog_AvatarGoodEnough((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 0, (INTEGER)_Var3, (GUIDSTRING)_Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, _Var1, 0, 1, _Var1)
+AND
+GetApprovalRating(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 >= _Var3
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_PartyDialogSuppressed_Start((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ExclamationDialog_NeverStop(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_RelationshipDialog_WorldCategory(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var2, _Var3);
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLD", _Var5, _Var6);
+
+PROC
+PROC_PartyDialogSuppressed_Start((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ExclamationDialog_NeverStop(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_RelationshipDialog_WorldCategory(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var2, _Var3);
+
+PROC
+PROC_PartyDialogSuppressed_Stop((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Test_RelationshipDialog_Queue();
+
+IF
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, "WORLD", _Var4, _Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ExclamationDialog_NeverStop(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var2, _Var3);
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLD", _Var4, _Var5);
+
+IF
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, "WORLDORCAMP", _Var4, _Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ExclamationDialog_NeverStop(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var2, _Var3);
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLDORCAMP", _Var4, _Var5);
+
+IF
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, "CAMP", _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLDORCAMP", _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var2, _Var3);
+
+PROC
+PROC_Camp_Rest()
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, "CAMP", _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "WORLDORCAMP", _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var2, _Var3);
+
+IF
+FlagCleared(CAMP_GLO_State_InCamp_161b7223-039d-4ebe-986f-1dcd9a66733f, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_RelationshipDialog_Queue(_Var1, _Var3, _Var4, _Var5, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_RelationshipDialog_WorldCategory(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Test_RelationshipDialog_Queue();
+
+PROC
+PROC_CampRelationshipDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CampRelationshipDialog(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, _Var3, -100);
+
+PROC
+PROC_CampRelationshipDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (INTEGER)_Var4, (CHARACTER)_Var1)
+THEN
+PROC_CampRelationshipDialog(_Var1, _Var2, _Var3, _Var4, -100);
+
+PROC
+PROC_CampRelationshipDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (INTEGER)_Var4, (INTEGER)_Var5)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_RelationshipDialogsFinished(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "CAMP", _Var4, _Var5);
+
+QRY
+QRY_ValidForCRD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HandlingRelationshipDialog(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Try_CampRelationshipDialog((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "CAMP", _Var4, _Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ValidForCRD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, "CAMP", _Var4, _Var5);
+NOT DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, "CAMP", _Var4, _Var5);
+PROC_LoopEffect(EFFECTRESOURCEGUID_VFX_UI_ExclamationMark_01_a3018cf0-3a25-06ee-206a-3dd079332d80, _Var1, "RelationshipMarker", "__ANY__", "Dummy_OverheadFX");
+
+PROC
+PROC_Try_CampRelationshipDialog((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_RelationshipDialog_Queue(_Var1, _Var3, _Var4, "CAMP", _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ValidForCRD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HandlingRelationshipDialog(_Var1, _Var3, _Var4, "CAMP", _Var5, _Var6);
+NOT DB_RelationshipDialog_Queue(_Var1, _Var3, _Var4, "CAMP", _Var5, _Var6);
+
+QRY
+QRY_RelationshipDialog_HasAvatarWithSufficientApproval((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 >= _Var2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_RelationshipDialog_HasAvatarWithSufficientApproval((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 >= _Var2
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CancelRelationshipDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_CancelRelationshipDialog((GUIDSTRING)_Var1, (DIALOGRESOURCE)_Var2, (FLAG)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "RelationshipMarker");
+NOT DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+PROC_Test_RelationshipDialog_Queue();
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "RelationshipMarker");
+NOT DB_HandlingRelationshipDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+DB_RelationshipDialog_Queue(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+Resurrected((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Try_CampRelationshipDialog(_Var1, 0);
+
+IF
+Resurrected((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_LaunchTestCompanionQueueTimer();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

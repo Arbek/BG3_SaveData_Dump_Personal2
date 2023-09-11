@@ -1,0 +1,86 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SwampedHero_HeroGear(S_UNI_HAG_SwampedHero_OldFancyHelmet_000_53c63057-7776-4875-867b-17e1100ef93e);
+DB_SwampedHero_HeroGear(UNI_HAG_SwampedHero_FancyOldGreatsword_7a1489f1-274a-42c0-befd-2e032eb6b867);
+DB_SwampedHero_GearIsLooted(0);
+DB_KnowledgeCheckTrigger_AD("HAG_SwampedHero_Investigate", S_HAG_SwampedHero_InvestigateTrigger_35664736-b953-49b5-81c8-4a1e3c2fe349, "Investigation", DC_Legacy_10_625be976-7a67-4394-97c8-14c69715ae4b, HAG_SwampExploration_PAD_HeroGear_286b02d7-6d8f-b5a6-aa99-ffc55e0b6b6e, HAG_SwampedHero_InvestigateCheckSuccess_f422bf79-cf5f-4b9e-7616-052304f6c92c);
+TriggerRegisterForItems(S_HAG_SwampedHero_InvestigateTrigger_35664736-b953-49b5-81c8-4a1e3c2fe349);
+DB_OneShot_VoiceBarkTrigger(S_HAG_CampsiteBox_15dcab17-53d1-4290-913f-18f6a2ec03fc, HAG_Campsite_VB_c34d5084-a2b4-63ec-9e03-75df85e54617);
+
+KBSECTION
+IF
+ItemEnteredTrigger((GUIDSTRING)_Var1, S_HAG_SwampedHero_InvestigateTrigger_35664736-b953-49b5-81c8-4a1e3c2fe349, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SwampedHero_HeroGear(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SwampedHero_GearIsLooted(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_KnowledgeCheckTrigger_AD("HAG_SwampedHero_Investigate", S_HAG_SwampedHero_InvestigateTrigger_35664736-b953-49b5-81c8-4a1e3c2fe349, "Investigation", DC_Legacy_10_625be976-7a67-4394-97c8-14c69715ae4b, HAG_SwampExploration_PAD_HeroGear_286b02d7-6d8f-b5a6-aa99-ffc55e0b6b6e, HAG_SwampedHero_InvestigateCheckSuccess_f422bf79-cf5f-4b9e-7616-052304f6c92c);
+NOT DB_SwampedHero_GearOutOfTrigger(_Var1);
+
+IF
+ItemLeftTrigger((ITEM)_Var1, S_HAG_SwampedHero_InvestigateTrigger_35664736-b953-49b5-81c8-4a1e3c2fe349, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_SwampedHero_HeroGear(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SwampedHero_GearOutOfTrigger(_Var1);
+
+IF
+DB_SwampedHero_GearOutOfTrigger(S_UNI_HAG_SwampedHero_OldFancyHelmet_000_53c63057-7776-4875-867b-17e1100ef93e, _, _, _, _)
+AND
+DB_SwampedHero_GearOutOfTrigger(S_UNI_HAG_SwampedHero_FancyOldGreatsword_7a1489f1-274a-42c0-befd-2e032eb6b867, _, _, _, _)
+THEN
+PROC_KnowledgeCheck_Clear(S_HAG_SwampedHero_InvestigateTrigger_35664736-b953-49b5-81c8-4a1e3c2fe349);
+
+IF
+AddedTo((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SwampedHero_HeroGear(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SwampedHero_LootedGear(_Var1);
+
+IF
+RemovedFrom((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SwampedHero_HeroGear(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SwampedHero_LootedGear(_Var1);
+
+IF
+DB_SwampedHero_LootedGear(S_UNI_HAG_SwampedHero_OldFancyHelmet_000_53c63057-7776-4875-867b-17e1100ef93e, _, _, _, _)
+AND
+DB_SwampedHero_LootedGear(S_UNI_HAG_SwampedHero_FancyOldGreatsword_000_7a1489f1-274a-42c0-befd-2e032eb6b867, _, _, _, _)
+THEN
+NOT DB_SwampedHero_GearIsLooted(0);
+DB_SwampedHero_GearIsLooted(1);
+
+PROC
+PROC_RollResult("GLO_KnowledgeCheck", _, S_HAG_SwampedHero_InvestigateTrigger_35664736-b953-49b5-81c8-4a1e3c2fe349, 1, _)
+AND
+DB_SwampedHero_HeroGear(_Var2, _, _, _, _)
+AND NOT
+DB_SwampedHero_GearOutOfTrigger(_Var2, _, _, _, _)
+THEN
+PROC_LoopEffect(VFX_Script_Perception_Default_01_46bd169e-bbb5-a6fe-0fe7-97c64f620d5d, _Var2, "HAG_SwampedHero_HighlightVFX", "WLD_Main_A", "");
+
+IF
+TemplateDestroyedBy(CONT_HAG_ThornyBush_PLACEHOLDER_7b207eba-0e5e-426b-8e06-074fb461dc6b, (ITEM)_Var1, _, (CHARACTER)_Var3, _)
+THEN
+PROC_SetOnStage(_Var1, 0);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

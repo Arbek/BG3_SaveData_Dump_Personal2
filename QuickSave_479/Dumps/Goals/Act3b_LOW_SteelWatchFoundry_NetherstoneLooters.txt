@@ -1,0 +1,223 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LOW_SteelWatchFoundry_NetherstoneLooter(S_LOW_NetherstoneLooter_001_5a3a4187-9752-4255-87c7-fa82625f3571, S_LOW_NetherstoneLooterStartPoint_001_b8c975ee-24af-4628-82b8-843d1dd0f6b3, S_COL_CrownController_Ketheric_06b8891b-e71c-423b-8482-2680c3c16a4d);
+DB_LOW_SteelWatchFoundry_NetherstoneLooter(S_LOW_NetherstoneLooter_002_5f3e5a84-4f8a-4b56-881f-6027ef93694c, S_LOW_NetherstoneLooterStartPoint_002_59f8c97f-826b-4857-8e58-c2c7f3932cd8, S_LOW_CrownController_Orin_360b0dfd-8e0b-48d2-a079-fcf68c104d6b);
+DB_LOW_SteelWatchFoundry_NetherstoneLooter(S_LOW_NetherstoneLooter_003_649ace0e-a231-491d-88e9-4680696a94d5, S_LOW_NetherstoneLooterStartPoint_003_68529cea-8ee9-4d1d-9fdc-84717924a32c, S_WYR_CrownController_Gortash_383be300-d328-4152-86df-4927482d1fd7);
+SetOnStage(S_LOW_NetherstoneLooter_003_649ace0e-a231-491d-88e9-4680696a94d5, 0);
+SetOnStage(S_LOW_NetherstoneLooter_002_5f3e5a84-4f8a-4b56-881f-6027ef93694c, 0);
+SetOnStage(S_LOW_NetherstoneLooter_001_5a3a4187-9752-4255-87c7-fa82625f3571, 0);
+SetOnStage(S_LOW_NetherstoneLooterMound_8f8da8f2-7b20-4a98-ba41-4365f979680d, 0);
+SetOnStage(S_LOW_NetherstoneLooterHole_d8298f78-4908-499d-a4d6-feecb76da952, 0);
+DB_LOW_SteelWatchFoundry_InteriorRegions(S_LOW_FoundryGroundFloor_1a994e3a-d80d-478d-a452-b9100fdec719);
+DB_LOW_SteelWatchFoundry_InteriorRegions(S_LOW_SteelWatchFoundry_LabFloor_SUB_65a2f1d8-f8f9-41ae-b9b6-e561b6069af9);
+DB_LOW_SteelWatchFoundry_InteriorRegions(S_LOW_SteelWatchFoundry_ControlFloor_SUB_a77da59a-8e16-4d7c-8194-3ebaa89b6342);
+
+KBSECTION
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone((ITEM)_Var1, _, "CTY_Main_A", (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LOW_SteelWatchFoundry_InteriorRegions(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var3, 1, _Var1, _Var1)
+AND NOT
+DB_LOW_SteelWatchFoundry_DroppedNetherstones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_SteelWatchFoundry_DroppedNetherstones(_Var1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone((ITEM)_Var1, _, "CTY_Main_A", (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LOW_SteelWatchFoundry_InteriorRegions(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var3, 1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GLO_EmperorPrelude_State_StoneInSteelWatchFoundry_52bd5ddf-3960-4679-adce-ca2e37d686d8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_EmperorPrelude_State_MoreThanOneStoneInSteelWatchFoundry_57ce1660-5103-45b1-9a17-3f1d709eba3b, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_EmperorPrelude_State_MoreThanOneStoneInSteelWatchFoundry_57ce1660-5103-45b1-9a17-3f1d709eba3b);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerDroppedNetherstone((ITEM)_Var1, _, "CTY_Main_A", (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LOW_SteelWatchFoundry_InteriorRegions(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var3, 1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_EmperorPrelude_State_StoneInSteelWatchFoundry_52bd5ddf-3960-4679-adce-ca2e37d686d8, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_EmperorPrelude_State_StoneInSteelWatchFoundry_52bd5ddf-3960-4679-adce-ca2e37d686d8);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone((ITEM)_Var1, _, _, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_GlobalFlag(LOW_NetherstoneLooters_State_NetherstonesWithLooters_fd4e9121-f50e-482e-a3d3-71e5b84514ef, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_SteelWatchFoundry_DroppedNetherstones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_SteelWatchFoundry_DroppedNetherstones(_Var1);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone((ITEM)_Var1, _, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+QRY_GLO_EmperorPrelude_DroppedNetherstoneCount()
+AND
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 == 0
+THEN
+ClearFlag(GLO_EmperorPrelude_State_StoneInSteelWatchFoundry_52bd5ddf-3960-4679-adce-ca2e37d686d8);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone((ITEM)_Var1, _, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+QRY_GLO_EmperorPrelude_DroppedNetherstoneCount()
+AND
+DB_QRTN_GLO_EmperorPrelude_DroppedNetherstoneCount(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 <= 1
+AND
+DB_GlobalFlag(GLO_EmperorPrelude_State_MoreThanOneStoneInSteelWatchFoundry_57ce1660-5103-45b1-9a17-3f1d709eba3b, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_EmperorPrelude_State_MoreThanOneStoneInSteelWatchFoundry_57ce1660-5103-45b1-9a17-3f1d709eba3b);
+
+IF
+FlagSet(LOW_SteelWatchFoundry_State_Destroyed_cdfffe24-5082-4e41-b7c2-f1fef6da3a8a, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_EmperorPrelude_State_StoneInSteelWatchFoundry_52bd5ddf-3960-4679-adce-ca2e37d686d8, _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_NetherstoneLooters_State_NetherstonesWithLooters_fd4e9121-f50e-482e-a3d3-71e5b84514ef, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_NetherstoneLooters_State_NetherstonesWithLooters_fd4e9121-f50e-482e-a3d3-71e5b84514ef);
+PROC_LOW_SteelWatchFoundry_ReadyLooters();
+
+PROC
+PROC_LOW_SteelWatchFoundry_ReadyLooters()
+THEN
+SetOnStage(S_LOW_NetherstoneLooterMound_8f8da8f2-7b20-4a98-ba41-4365f979680d, 1);
+SetOnStage(S_LOW_NetherstoneLooterHole_d8298f78-4908-499d-a4d6-feecb76da952, 1);
+
+PROC
+PROC_LOW_SteelWatchFoundry_ReadyLooters()
+AND
+DB_LOW_SteelWatchFoundry_NetherstoneLooter(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_AppearOutOfSightTo(_Var1, _Var2, S_LOW_NetherstoneLooterAppearFromPoint_538633d6-7718-473f-8264-70c88fbff8ea, "LOW_NetherstoneLooter_Appeared");
+
+PROC
+PROC_LOW_SteelWatchFoundry_ReadyLooters()
+AND
+DB_LOW_SteelWatchFoundry_NetherstoneLooter(_Var1, _, _Var3, _Var1, _Var1)
+AND
+DB_LOW_SteelWatchFoundry_DroppedNetherstones(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(_Var3, _Var1, 1, 0, 0);
+
+IF
+DB_LOW_SteelWatchFoundry_OutcomeDialogPlayerParticipants(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(LOW_NetherstoneLooters_State_NetherstonesWithLooters_fd4e9121-f50e-482e-a3d3-71e5b84514ef, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, LOW_NetherstoneLooters_EmperorAD_SearchRubble_597e0394-ac04-0991-e0bb-f312b6280569);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(LOW_NetherstoneLooters_State_NetherstonesWithLooters_fd4e9121-f50e-482e-a3d3-71e5b84514ef, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_SteelWatchFoundry_NetherstoneLooter(_Var2, _, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var1, LOW_NetherstoneLooters_EmperorAD_LootersSpotted_16ddd604-9e9e-5412-4752-8006c0f03f2e);
+
+PROC
+PROC_GLO_EmperorPrelude_PlayerPickedUpNetherstone((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GlobalFlag(LOW_NetherstoneLooters_State_NetherstonesWithLooters_fd4e9121-f50e-482e-a3d3-71e5b84514ef, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_SteelWatchFoundry_DroppedNetherstones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_SteelWatchFoundry_DroppedNetherstones(_Var1);
+PROC_LOW_SteelWatchFoundry_CheckAllNetherstonesReceived(_Var2);
+
+PROC
+PROC_LOW_SteelWatchFoundry_CheckAllNetherstonesReceived((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_LOW_SteelWatchFoundry_DroppedNetherstones(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(LOW_NetherstoneLooters_State_NetherstonesWithLooters_fd4e9121-f50e-482e-a3d3-71e5b84514ef);
+ClearFlag(GLO_EmperorPrelude_State_StoneInSteelWatchFoundry_52bd5ddf-3960-4679-adce-ca2e37d686d8);
+ClearFlag(GLO_EmperorPrelude_State_MoreThanOneStoneInSteelWatchFoundry_57ce1660-5103-45b1-9a17-3f1d709eba3b);
+PROC_LOW_SteelWatchFoundry_NetherstonesCollectedEmperorAD(_Var1);
+
+PROC
+PROC_LOW_SteelWatchFoundry_NetherstonesCollectedEmperorAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+_Var3 <= 20
+THEN
+DB_LOW_SteelWatchFoundry_StonesBackEmperorADAvatar(_Var2);
+
+IF
+DB_LOW_SteelWatchFoundry_StonesBackEmperorADAvatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_SteelWatchFoundry_StonesBackEmperorADAvatar(_Var1);
+PROC_EmperorAD(_Var1, LOW_NetherstoneLooters_EmperorAD_StonesBack_8c1d3993-623b-c9bf-d8cd-ed9ea10ce559);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SteelWatchFoundry_NetherstoneLooter(_Var1, _, _, _Var1, _Var1)
+THEN
+SetFlag(LOW_NetherstoneLooters_State_Fleeing_f8835423-f465-4943-ab23-630f7313c104);
+
+IF
+FlagSet(LOW_NetherstoneLooters_State_Escaped_f8c6f21a-b7b5-4b28-911a-10d31136dedc, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SteelWatchFoundry_NetherstoneLooter(_Var1, _, _Var4, _Var1, _Var1)
+THEN
+PROC_LOW_SteelWatchFoundry_LooterEscape(_Var1, _Var4);
+
+PROC
+PROC_LOW_SteelWatchFoundry_LooterEscape((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_Poof(_Var1);
+
+PROC
+PROC_LOW_SteelWatchFoundry_LooterEscape((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_EmperorPrelude_NetherStoneTrackers(_Var2, _Var3, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(_Var3, _Var1, 1, _Var1, _Var1)
+AND
+QRY_GLO_ThrallOfTheAbsolute_GetNearestTadpoledPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_ThrallOfTheAbsolute_NearestPlayer(_Var8, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_ThrallOfTheAbsolute_StartGenericGameOverDialog(_Var8);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

@@ -1,0 +1,155 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_WYR_GurCamp_NPCs(S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890, WYR_GurCamp_Intro_NoAstarion_dba01e99-e6e2-467d-411e-af5c12fe82ff);
+DB_WYR_GurCamp_NPCs(S_WYR_GurCamp_Hunter_001_a4ef7429-bca0-4e2f-9aab-a4eff9ac95e9, WYR_GurCamp_Hunter_001_16912313-6f5a-66dd-9335-44d705a118fa);
+DB_WYR_GurCamp_NPCs(S_WYR_GurCamp_Hunter_002_630d63de-ae45-4649-8cbd-563b6d3055ae, WYR_GurCamp_Hunter_002_69e95601-27b1-e8d0-316b-fb8d5e5fcd3d);
+DB_WYR_GurCamp_NPCs(S_WYR_GurCamp_Hunter_003_8948bd61-52a0-41a0-99b8-bb6d4c301255, WYR_GurCamp_Hunter_003_d6262f9c-f694-1246-9463-02d0606f4ea0);
+DB_WYR_GurCamp_NPCs(S_WYR_GurCamp_Hunter_004_eb08e3f6-9059-498a-8125-1d9af24ee67f, WYR_GurCamp_Hunter_004_d3cf2c09-1087-fda6-784a-db3d48968197);
+DB_WYR_GurCamp_NPCs(S_WYR_GurCamp_Hunter_005_afbb70d4-5cc4-444f-90b6-0d243b6418c3, WYR_GurCamp_Hunter_005_d1898d5e-d4f1-8234-743e-ea815b78b683);
+DB_WYR_GurCamp_NPCs(S_WYR_GurCamp_Hunter_006_4c42f14a-c99a-4ba0-891c-136bf7ed38bb, WYR_GurCamp_Hunter_006_d99b4654-3a22-7f33-07fb-6adfb0775b47);
+DB_GLO_SetupForAct_Character("BGO_Main_A", S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760);
+PROC_GurCamp_Init();
+DB_GLO_CompoundFlag(WYR_GurCamp_State_GaveQuestToKillCazador_109ed582-3803-4e0d-9e4a-7440e4fe02d0, GLO_Gur_Knows_GurChildren_f7bb3881-6ef4-4f0d-a7de-8cf6219a7406);
+DB_GLO_CompoundFlag(WYR_GurCamp_State_GaveQuestToKillCazador_109ed582-3803-4e0d-9e4a-7440e4fe02d0, WYR_GurCamp_State_IntroHappened_75a9c2d3-ecad-4cdf-aebf-79d38e8ddb31);
+DB_GLO_CompoundFlag(WYR_GurCamp_State_RefusedToListen_2ea3640b-66ba-4a0a-9160-fc2335d980cd, WYR_GurCamp_State_IntroHappened_75a9c2d3-ecad-4cdf-aebf-79d38e8ddb31);
+DB_GLO_CompoundFlag(WYR_GurCamp_State_AttackedGur_6f6d0421-e12e-7a1a-5658-64f85ef6b236, WYR_GurCamp_State_IntroHappened_75a9c2d3-ecad-4cdf-aebf-79d38e8ddb31);
+DB_ItemOwnerShipTriggers("BGO_Main_A", S_WYR_GurCamp_OwnershipArea_d8a57c24-2d9e-47e3-acd3-5a90df82d9a8, S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890);
+DB_CombatReact_AD_OnNextTurn(S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890, WYR_GurCamp_GurLeader_AD_TakingTurn_001_Combat_72e99b29-2dcf-2c0d-8b16-145fbb6f5f6f);
+DB_CombatReact_AD_OnNextTurn(S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890, WYR_GurCamp_GurLeader_AD_TakingTurn_002_Combat_cba5c599-b39d-deae-b84a-ac549b4f81a7);
+DB_CombatReact_AD_OnNextTurn(S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890, WYR_GurCamp_GurLeader_AD_TakingTurn_003_Combat_404b9fac-7a21-0771-8fea-2458524e8fd9);
+
+KBSECTION
+PROC
+PROC_GLO_SetupForAct("BGO_Main_A", S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760, 1, _, _)
+THEN
+PROC_GLO_SetupForAct_Place(S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760, S_WYR_GurCamp_GurHunterPos_6e74e0b8-b6a7-484d-9a68-d0a0d9dce790, ACT3_WYR_GurCamp_87fe8d0d-31c9-4b10-8fc6-f0c232c24b13);
+NOT DB_GLO_CharacterCorpseDialog(S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760, HAG_GurHunter_Dead_e8f9f58d-4e06-0284-7ff6-fba90a2ea770);
+DB_WYR_GurCamp_NPCs(S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760, WYR_GurCamp_GurHunter_31eba83f-db02-13d9-f39e-09f63ac75c9c);
+PROC_RemoveDialog(S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760);
+DB_Dialogs(S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760, WYR_GurCamp_GurHunter_31eba83f-db02-13d9-f39e-09f63ac75c9c);
+DB_LOW_GurFollowUp_NPCs(S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760, LOW_CazadorsPalace_GurFollowUp_GurHunter_86d918f2-a58d-eb0c-8388-8e1f7cd9eeac, S_LOW_GurFollowUp_GurHunterAppearPos_3f9cb746-edd5-4093-82ab-4d1648b1f5a9, S_LOW_CazadorsPalace_Dungeon_GurHunterPos_37b5c7fa-ea6b-4b25-8a4a-1b368b7137d5);
+DB_WYR_GurCamp_IntroNPCs(S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760);
+DB_OriginMoment_ExtraNPCs(WYR_GurCamp_Intro_OM_Astarion_AOM_OOM_9c323cba-b76e-961d-aab8-a9ea88153cad, S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760);
+DB_OriginMoment_ExtraNPCs(WYR_GurCamp_Intro_OM_Astarion_COM_efe497b7-6d46-c3d7-e610-b7d71e284fd7, S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760);
+DB_WYR_GurCamp_GurHunterPresent(1);
+
+PROC
+PROC_GurCamp_Init()
+AND
+DB_GlobalFlag(ORI_Astarion_State_GurGotAstarion_cd1687b8-3282-4121-aaa1-6de5eda6a9a4, _, _, _, _)
+AND
+DB_WYR_GurCamp_NPCs(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 1);
+
+PROC
+PROC_GurCamp_Init()
+AND
+DB_GlobalFlag(ORI_Astarion_State_GurGotAstarion_cd1687b8-3282-4121-aaa1-6de5eda6a9a4, _, _, _, _)
+THEN
+DB_GLO_CharacterCorpseDialog(S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890, WYR_GurCamp_GurLeader_Dead_ByCazador_413fccb0-216a-3d9f-7ea8-52998371a3de);
+
+PROC
+PROC_GurCamp_Init()
+AND NOT
+DB_GlobalFlag(ORI_Astarion_State_GurGotAstarion_cd1687b8-3282-4121-aaa1-6de5eda6a9a4, _, _, _, _)
+THEN
+DB_WYR_GurCamp_IntroNPCs(S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890);
+PROC_DefineSingleOriginMoment(WYR_GurCamp_Intro_NoAstarion_dba01e99-e6e2-467d-411e-af5c12fe82ff, ASTARION_23a46e79-e73c-4043-940f-cb0aace9ab2e, WYR_GurCamp_Intro_OM_Astarion_AOM_OOM_9c323cba-b76e-961d-aab8-a9ea88153cad, WYR_GurCamp_Intro_OM_Astarion_COM_efe497b7-6d46-c3d7-e610-b7d71e284fd7, WYR_GurCamp_Intro_OM_Astarion_AOM_OOM_9c323cba-b76e-961d-aab8-a9ea88153cad);
+DB_OriginMoment_DontAutoClearOriginMoment(WYR_GurCamp_Intro_OM_Astarion_COM_efe497b7-6d46-c3d7-e610-b7d71e284fd7);
+DB_OriginMoment_DontAutoClearOriginMoment(WYR_GurCamp_Intro_OM_Astarion_AOM_OOM_9c323cba-b76e-961d-aab8-a9ea88153cad);
+DB_OriginMayLeaveDialog(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, WYR_GurCamp_Intro_OM_Astarion_COM_efe497b7-6d46-c3d7-e610-b7d71e284fd7);
+DB_GlobalFlagReactionAfterDialog(WYR_GurCamp_State_BetrayedAstarion_e9410d3a-0ade-4bfe-93b8-af51fb7fc399, WYR_GurCamp_Intro_OM_Astarion_COM_efe497b7-6d46-c3d7-e610-b7d71e284fd7);
+
+PROC
+PROC_GurCamp_Init()
+AND NOT
+DB_GlobalFlag(ORI_Astarion_State_GurGotAstarion_cd1687b8-3282-4121-aaa1-6de5eda6a9a4, _, _, _, _)
+AND
+DB_WYR_GurCamp_NPCs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Dialogs(_Var1, _Var2);
+
+PROC
+PROC_GurCamp_Init()
+AND NOT
+DB_GlobalFlag(ORI_Astarion_State_GurGotAstarion_cd1687b8-3282-4121-aaa1-6de5eda6a9a4, _, _, _, _)
+AND
+DB_WYR_GurCamp_IntroNPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers(_Var1, "WYR_GurCamp_Intro", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_HasTag(_Var1, "WYR_GurCamp_Intro", ASTARION_23a46e79-e73c-4043-940f-cb0aace9ab2e, 1);
+DB_SpotPlayers_SpotTrigger(_Var1, "WYR_GurCamp_Intro", S_WYR_GurCamp_SpotArea_d14f3ee3-7bfb-46ab-ba01-f90b4ff50220);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(WYR_GurCamp_State_IntroHappened_75a9c2d3-ecad-4cdf-aebf-79d38e8ddb31, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_GurCamp_Intro_NoAstarion_dba01e99-e6e2-467d-411e-af5c12fe82ff, S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890, _Var1);
+
+PROC
+PROC_SpotPlayers_Spotted(_, "WYR_GurCamp_Intro", (CHARACTER)_Var2, _, _)
+AND
+QRY_OnlyOnce("WYR_GurCamp_AstarionSpotted", _, _, _, _)
+AND
+QRY_StartDialog(WYR_GurCamp_Intro_NoAstarion_dba01e99-e6e2-467d-411e-af5c12fe82ff, S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890, _Var2, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(WYR_GurCamp_State_IntroHappened_75a9c2d3-ecad-4cdf-aebf-79d38e8ddb31, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_OriginMoment_DontAutoClearOriginMoment(WYR_GurCamp_Intro_OM_Astarion_COM_efe497b7-6d46-c3d7-e610-b7d71e284fd7);
+NOT DB_OriginMoment_DontAutoClearOriginMoment(WYR_GurCamp_Intro_OM_Astarion_AOM_OOM_9c323cba-b76e-961d-aab8-a9ea88153cad);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(WYR_GurCamp_Intro_NoAstarion_dba01e99-e6e2-467d-411e-af5c12fe82ff, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_WYR_GurCamp_GurHunterPresent(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_GurCamp_State_IntroHappened_75a9c2d3-ecad-4cdf-aebf-79d38e8ddb31, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_GLO_GurHunter_0e47fcb9-c0c4-4b0c-902b-2d13d209e760);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(WYR_GurCamp_Intro_OM_Astarion_AOM_OOM_9c323cba-b76e-961d-aab8-a9ea88153cad, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(WYR_GurCamp_Intro_OM_Astarion_COM_efe497b7-6d46-c3d7-e610-b7d71e284fd7, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_GurCamp_State_BetrayedAstarion_e9410d3a-0ade-4bfe-93b8-af51fb7fc399, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1)
+AND
+GetFaction(S_WYR_GurCamp_GurLeader_5e52cf9c-b673-45b7-888c-2c105eb4d890, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(_Var1, 100);
+
+IF
+KilledBy((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_WYR_GurCamp_NPCs(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_GurCamp_State_PermanentlyHostile_32116fb3-5f46-4dda-8972-69a3d76cd6aa, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(WYR_GurCamp_State_PermanentlyHostile_32116fb3-5f46-4dda-8972-69a3d76cd6aa);
+PROC_SetRelationToPlayers(ACT3_WYR_GurCamp_87fe8d0d-31c9-4b10-8fc6-f0c232c24b13, 0);
+
+PROC
+PROC_LOW_CazadorsPalace_PrepareGur()
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

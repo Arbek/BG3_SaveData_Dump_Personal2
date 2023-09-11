@@ -1,0 +1,32 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+QRY
+QRY_SCL_ShadowCurse_HasUndeadCurseStatus((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+UsingSpellOnTarget((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, "Target_Remove_Curse", _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SCL_ShadowCurse_HasUndeadCurseStatus(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "STUNNED", 6, 0, _Var1);
+
+PROC
+PROC_LevelUnloading("SCL_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

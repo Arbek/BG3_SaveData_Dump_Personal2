@@ -1,0 +1,42 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+TemplateAddedTo(UNI_HAG_Wand_SummonHusband_b1b872db-43f0-45f7-b34f-d814ef9cb64c, (ITEM)_Var1, _, _, (ITEM)_Var1)
+AND NOT
+DB_HAG_SummonHusbandWand(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAG_SummonHusbandWand(_Var1);
+
+IF
+RemovedFrom((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_SummonHusbandWand(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var3, QUEST_HAG_HusbandZombie_f1876ebc-8a68-410a-885f-21f991a5df09, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+Die(_Var3, 0, _Var3, 0, 1);
+
+IF
+UsingSpell((GUIDSTRING)_Var1, "Target_HAG_Hagspawn_SummonHusband", _, _, _)
+AND
+DB_HAG_SummonHusbandWand(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+GetInventoryOwner(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(_Var5, _Var1, -1, 1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

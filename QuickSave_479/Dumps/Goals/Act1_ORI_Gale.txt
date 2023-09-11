@@ -1,0 +1,535 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DropMutingStatussesDialog(Gale_Recruitment_4b3ad930-fb84-09ff-eced-37265b7ba8c6);
+SetOnStage(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, 0);
+SetOnStage(S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, 0);
+DB_DropMutingStatussesDialog(ORI_Gale_DeathFlute_c02f1420-fc9b-c969-229b-28edd6fb0347);
+DB_DropMutingStatussesDialog(ORI_Gale_DeathPouch_44e0c868-01f3-e07d-8bf1-e6b4095aa311);
+DB_HasItemEvent(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, ORI_Gale_State_HasDeathNote_fd1b196a-606b-4454-9dd2-eb43639fd346);
+DB_ORI_AvatarFlag(DEN_RaidingParty_Event_Gale_PeacefulResolutionApproval_8501f655-6536-1de7-2b2f-9393300d1d67);
+DB_ORI_AvatarFlag(DEB_CapturedGoblin_Event_Gale_SteppedInfrontOfCrossbowApproval_4b9cc492-0764-abbc-04e1-151b2024ad91);
+DB_ORI_AvatarFlag(DEN_ShadowDruid_Event_Gale_FreedChildApproval_250f8422-5dbf-6594-807f-6735efa02dca);
+DB_ORI_AvatarFlag(DEN_Apprentice_State_Gale_GotAntidoteLocationApproval_bec5378f-e125-7aa6-0653-ba21770d0ba3);
+DB_ORI_AvatarFlag(DEN_HarpyMeal_State_Gale_GotChildRescueApproval_6a474068-b647-4d6c-9501-e6ea8110604f);
+DB_ORI_Gale_TrustMoments(DEN_RaidingParty_State_ReachedPeacefulResolution_ae289a97-f3c5-9adc-f7a5-8639676789a0, NULL_00000000-0000-0000-0000-000000000000, DEN_RaidingParty_State_ReachedPeacefulResolution_ae289a97-f3c5-9adc-f7a5-8639676789a0);
+DB_ORI_Gale_TrustMoments(DEB_CapturedGoblin_State_SteppedInfrontOfCrossbow_dff39def-ac63-8851-1330-239b310f090f, DEN_CapturedGoblin_SteppedInFrontOfCrossbow_WRD_Gale_6af89a3e-f317-acfe-2f7a-85ba6cd8bfb8, DEB_CapturedGoblin_Event_Gale_SteppedInfrontOfCrossbowApproval_4b9cc492-0764-abbc-04e1-151b2024ad91);
+DB_ORI_Gale_TrustMoments(DEN_ShadowDruid_State_FreedChild_e0db3e8d-497d-33bb-ce67-91dff9fb1c67, DEN_ShadowDruid_WRD_Gale_10b419a6-f589-09aa-c3df-6224160b3696, DEN_ShadowDruid_Event_Gale_FreedChildApproval_250f8422-5dbf-6594-807f-6735efa02dca);
+DB_ORI_Gale_TrustMoments(DEN_Apprentice_State_GotAntidoteLocation_96b24528-88a0-7274-9d94-38c1c87d58f0, DEN_Apprentice_WRD_Gale_8d54b95f-1c2c-8f89-144f-18f66d00fabd, DEN_Apprentice_State_Gale_GotAntidoteLocationApproval_bec5378f-e125-7aa6-0653-ba21770d0ba3);
+DB_ORI_Gale_TrustMoments(DEN_HarpyMeal_State_RescuedChild_7a90f576-f762-4710-aa4d-9a81905bd971, DEN_HarpyMeal_WRD_Gale_d6eb7a2e-b521-87cb-298f-628550704c3b, DEN_HarpyMeal_Event_Gale_GotChildRescueApproval_6a474068-b647-4d6c-9501-e6ea8110604f);
+DB_OriginMayLeaveDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, CAMP_GoblinHuntCelebration_SD_ROM_NightWithGale_9e267aa8-0f95-1364-c97d-a13a12f30386);
+SetOnStage(S_ORI_Gale_DeathPouch_Open_30ad0401-7872-429a-809c-42c753eb69f2, 0);
+PROC_SetInvulnerable(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, 1);
+SetDetached(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, 1);
+PROC_CharacterDisableAllCrimes(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, 1);
+SetOnStage(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, 0);
+DB_RelationshipDialog_WRD_TriggerInCamp(ORI_Resurrected_WRD_Gale_6ed0f4c2-5324-08bd-bf27-22237a90da64, NULL_00000000-0000-0000-0000-000000000000);
+DB_OriginMayLeaveDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, CAMP_Betrayal_CRD_Gale_4a473faa-041e-6f9c-d5e5-185e002d40a5);
+NOT DB_ORI_Gale_MagicItemApprovalIPRD(1);
+
+KBSECTION
+PROC
+PROC_GLO_Origins_SetupRecruitment("WLD_Main_A", _, _, _, _)
+AND NOT
+DB_Players(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+SetDetached(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1);
+PROC_SetInvulnerable(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1);
+PROC_CharacterDisableAllCrimes(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+SetVisible(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0);
+DB_SpotPlayers(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_HasTag(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar", AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1);
+DB_SpotPlayers_SpotTrigger(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar", S_ORI_Gale_RecruitmentTrigger_22824abf-0652-4313-8caa-3cfc54d0089d);
+DB_SpotPlayers_Continuous(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar");
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("WLD_Main_A", _, _, _, _)
+AND
+DB_Players(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+PROC_ORI_Gale_PlayerSetup(NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetPosition(S_CHA_WaypointTrigger_Top_4141c0a2-5ba9-42c0-ab18-082426df45e7, _Var2, _Var3, _Var4, _Var1)
+AND
+FindValidPosition(_Var2, _Var3, _Var4, 4, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1, _Var5, _Var6, _Var7, _Var1)
+AND
+QRY_StartDialog(Gale_Recruitment_4b3ad930-fb84-09ff-eced-37265b7ba8c6, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar");
+NOT DB_SpotPlayers(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SpotPlayers_HasTag(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar", AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1);
+NOT DB_SpotPlayers_SpotTrigger(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar", S_ORI_Gale_RecruitmentTrigger_22824abf-0652-4313-8caa-3cfc54d0089d);
+NOT DB_SpotPlayers_Continuous(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_FindAvatar");
+TeleportToPosition(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var5, _Var6, _Var7, "", 0, 0, 0, 1, 1);
+LookFromTrigger(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_CHA_WaypointTrigger_Top_4141c0a2-5ba9-42c0-ab18-082426df45e7, 1);
+PlayEffect(S_CHA_WaypointShrine_Top_8ebd584c-97e3-42fd-b81f-80d7841ebdf3, VFX_Script_Waypoint_Portal_01_f545f66c-87c8-8dde-cd27-16539cb0dc45, "", 1);
+PlayAnimation(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, CUST_WaypointAppear_01_b6aa4aaa-66d5-4564-833c-7308dc1c52e3);
+SetDetached(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0);
+PROC_SetInvulnerable(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0);
+PROC_CharacterEnableAllCrimes(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+SetVisible(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1);
+
+IF
+DialogRequestFailed(Gale_Recruitment_4b3ad930-fb84-09ff-eced-37265b7ba8c6, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(ORI_Gale_State_DidFirstRecruitment_d6ea1f56-d6ab-dbae-4438-22d877c8faf0, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_KnockedOut(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_PurgeLevelPartyFlag(ORI_Gale_State_AttackedDuringRecruitment_d79bad11-eca1-2688-0c5d-ecd64c1b64bf);
+
+IF
+FlagSet(ORI_Gale_State_AttackedDuringRecruitment_d79bad11-eca1-2688-0c5d-ecd64c1b64bf, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(ORI_Gale_State_Rescuer_4cf4fadb-1c69-ed8f-b28e-105fc665fc79, _Var1, 0);
+
+IF
+DialogEnded(ORI_Gale_DeathPouch_44e0c868-01f3-e07d-8bf1-e6b4095aa311, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(ORI_Gale_State_OpenedPouch_a533861d-a4f9-482a-8be2-7c9523df9c90, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+SetOnStage(S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, 0);
+TeleportTo(S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, _Var2);
+SetOnStage(S_ORI_Gale_DeathPouch_Open_30ad0401-7872-429a-809c-42c753eb69f2, 1);
+ToInventory(S_ORI_Gale_DeathPouch_Open_30ad0401-7872-429a-809c-42c753eb69f2, _Var2, -1, 0, 1);
+Use(_Var2, S_ORI_Gale_DeathPouch_Open_30ad0401-7872-429a-809c-42c753eb69f2, 1, 0, "");
+
+IF
+FlagSet(ORI_Gale_State_DestroyedPouch_5b7b8189-7b89-4cf5-a4a1-a80cc992a654, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+Die(S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+
+IF
+DestroyingBy(S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, _, _, _, _)
+AND
+IsInInventoryOf(S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, 1, _, _)
+THEN
+SetOnStage(S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, 0);
+
+IF
+DestroyingBy(S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, _, _, _, _)
+AND
+IsInInventoryOf(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, 1, _, _)
+THEN
+SetOnStage(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, 0);
+
+IF
+Died(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Gale_DropDeathNote", _, _, _, _)
+AND
+GetPosition(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var2, _Var3, _Var1)
+THEN
+SetOnStage(S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, 1);
+ToInventory(S_ORI_Gale_DeathPouch_72ab0321-5a3f-499f-8d7e-3ecfe72157e3, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, -1, 1, 1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_DeathNote_State_Open_6e3af093-fce9-fcb1-87ec-bd6c45788ac5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(ORI_Gale_DeathFlute_c02f1420-fc9b-c969-229b-28edd6fb0347, S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, 0);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_DeathNote_State_Open_6e3af093-fce9-fcb1-87ec-bd6c45788ac5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(ORI_Gale_DeathFlute_c02f1420-fc9b-c969-229b-28edd6fb0347, S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, 0);
+
+IF
+DialogEnded(ORI_Gale_DeathFlute_c02f1420-fc9b-c969-229b-28edd6fb0347, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(ORI_Gale_DeathNote_State_Open_6e3af093-fce9-fcb1-87ec-bd6c45788ac5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_Gale_TransformDeathNote", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var2, "Act1_Sage_GaleResurrection");
+SetOnStage(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, 0);
+TeleportTo(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, _Var2);
+TemplateAddTo(LOOT_SCROLL_TrueResurrection_01d1b2b2-9e6b-4ad2-8d63-59f9caf1d389, _Var2, 1, 0);
+
+IF
+StatusAttempt(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, "BURNING_LAVA", _, _, _)
+AND
+GetPosition(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, _Var3, _Var4, _Var5, _)
+AND
+CreateAt(LOOT_SCROLL_TrueResurrection_01d1b2b2-9e6b-4ad2-8d63-59f9caf1d389, _Var3, _Var4, _Var5, 0, 1, "", _, _, _)
+THEN
+SetFlag(ORI_Gale_DeathNote_State_Open_6e3af093-fce9-fcb1-87ec-bd6c45788ac5);
+PROC_ORI_Gale_ManualScrollDestruction();
+SetOnStage(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, 0);
+
+PROC
+PROC_ORI_Gale_ManualScrollDestruction()
+AND
+QRY_GetClosestAvailableCharacterTo(S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, 0, 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 0, 1, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_ORI_Gale_DeathNote_5bc398e6-d238-475d-85e0-de985d61c564, _Var2, _Var1, _Var1)
+AND
+_Var2 <= 6
+THEN
+PROC_GLO_Backgrounds_CompleteGoal(_Var1, "Act1_Sage_GaleResurrection");
+StartVoiceBark(ORI_Gale_VB_DeathNoteLava_47760dc4-a2e2-387b-2b6c-dddcf6455c96, _Var1);
+
+IF
+FlagSet(ORI_Gale_DeathMephit_Event_Appear_01b22cad-bf94-72a1-dad4-5a890c230777, _, (INTEGER)_Var2, _, _)
+AND NOT
+DB_Dead(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, _, _, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _, _)
+AND
+GetPosition(_Var3, _Var4, _Var5, _Var6, _)
+AND
+FindValidPosition(_Var4, _Var5, _Var6, 4, S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, 0, _Var7, _Var8, _Var9, _)
+THEN
+DB_ORI_Gale_MephitAddPlayer(_Var3, _Var2);
+AppearAtPosition(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, _Var7, _Var8, _Var9, 1, NULL_00000000-0000-0000-0000-000000000000, "ORI_Gale_MephitAt");
+
+IF
+FlagSet(ORI_Gale_DeathMephit_Event_Appear_01b22cad-bf94-72a1-dad4-5a890c230777, _, (INTEGER)_Var2, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(ORI_Gale_DeathMephit_Event_Appear_01b22cad-bf94-72a1-dad4-5a890c230777, NULL_00000000-0000-0000-0000-000000000000, _Var2);
+
+IF
+EntityEvent(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, "ORI_Gale_MephitAt", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Gale_MephitAddPlayer(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DialogGetInvolvedPlayer(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Poof(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4);
+
+IF
+EntityEvent(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, "ORI_Gale_MephitAt", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Gale_MephitAddPlayer(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_MephitAddPlayer(_Var1, _Var2);
+
+QRY
+QRY_SpeakerIsAvailable(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, _, _, _, _)
+AND
+IsOnStage(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, 0, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(ORI_Gale_DeathFlute_c02f1420-fc9b-c969-229b-28edd6fb0347, _, _, _, _)
+AND
+IsOnStage(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4, 1, _, _, _)
+THEN
+PROC_Poof(S_ORI_Gale_DeathMephit_4b90d334-3646-43f8-94f4-e29b13ac75d4);
+
+IF
+TextEvent("ORI_Gale_TestFlute", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, 1);
+ToInventory(S_ORI_Gale_DeathFlute_550dea32-6b55-4451-820a-6cf0086faa72, _Var1, -1, 1, 1);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var3 != 0
+AND
+DB_ORI_Gale_TrustMoments(_Var1, _Var4, _, _Var1, _Var1)
+THEN
+DB_ORI_Gale_WRDAfterDialog(_Var3, _Var4);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_ORI_Gale_TrustMoments(_, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_TrustMoments(_, _Var5, _Var7, _Var1, _Var1)
+AND
+_Var1 != _Var7
+AND
+GetFlag(_Var7, _Var2, 1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Gale_State_CreditedForTwoGoodDeeds_d1a2d94e-8dce-4d33-ac2b-bfac306d62e1, _Var2, 0);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_ORI_Gale_WRDAfterDialog(_Var2, _Var3, _, _, _)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_DialogPlayers(_Var2, _Var4, 1, _, _)
+AND NOT
+DB_ORI_Gale_MagicItemApprovalIPRD(1, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+QRY_SameUser(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var4, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var3, _Var4);
+
+IF
+ApprovalRatingChanged(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(NIGHT_Ceremorphosis3_Gale_3af72f14-8ecf-41ff-8bd0-0ea78b5d715b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_ORI_Gale_HasApprovalForNight3()
+THEN
+ClearFlag(ORI_Gale_State_ApproveNight3_95f06c00-cfc7-4cad-b11e-98cb86eaca6d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+QRY
+QRY_ORI_Gale_HasApprovalForNight3()
+AND
+DB_ApprovalRating(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 >= 20
+THEN
+SetFlag(ORI_Gale_State_ApproveNight3_95f06c00-cfc7-4cad-b11e-98cb86eaca6d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(DEN_HarpyMeal_State_RescuedChild_7a90f576-f762-4710-aa4d-9a81905bd971, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Was_InCombat(S_DEN_CharmedKid_3b92c689-6024-4446-a6c9-584e9e8d77ca, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DEN_HarpyMeal_Harpies(_Var4, _, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var6, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_HarpyMeal_State_RescuedChild_7a90f576-f762-4710-aa4d-9a81905bd971, _Var6, 0);
+
+PROC
+PROC_DialogFlagSetup(CAMP_Gale_CRD_SpellTeaching_4d0a0d4e-0812-98c1-f2a6-94013578ce97, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(ORI_Gale_State_CAMP_Gale_CRD_SpellTeachingStarted_8c0a51e6-480e-4425-b17c-eb105ce51554, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogEnded(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(ORI_Gale_State_CAMP_Night2_CRDOver_2154190b-e9ed-464e-a361-f1e597d2b3c9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogStarted(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_ORI_Gale_CAMP_Night2_CRDStarting(1);
+
+PROC
+PROC_DialogFlagSetup(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, (GUIDSTRING)_)
+THEN
+DB_ORI_Gale_CAMP_Night2_CRDStarting(1);
+
+IF
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Gale_DoubleOnStage(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Transform(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, DISGUISE_KEEPICON_KEEPNAME_b40d9ab4-57a7-4632-b8d7-188904b00606);
+CopyCharacterEquipment(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+PROC_Foop(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, VFX_Script_Gale_Double_Poof_01_5aec34ad-c864-c27d-1c4e-bb941014b75d);
+TeleportTo(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_DoubleInPlace", 0, 0, 1);
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, _Var1);
+NOT DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1);
+
+IF
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, _Var1);
+NOT DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1);
+
+IF
+DB_GlobalFlag(ORI_Gale_State_ShowGaleDouble_ad1aabf8-690d-4f54-a674-717b515dc08d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_CAMP_Night2_CRDOver_2154190b-e9ed-464e-a361-f1e597d2b3c9, _, _, _, _)
+AND NOT
+DB_ORI_Gale_DoubleOnStage(1, _, _, _, _)
+AND
+QRY_GetArmourSet(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_QRYRTN_GetArmourSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetArmourSet(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, _Var1);
+CopyCharacterEquipment(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+PROC_Foop(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, VFX_Script_Gale_Double_Poof_01_5aec34ad-c864-c27d-1c4e-bb941014b75d);
+TeleportTo(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_DoubleInPlace", 0, 0, 1);
+
+IF
+DB_DialogName(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_CAMP_Night2_CRDOver_2154190b-e9ed-464e-a361-f1e597d2b3c9, _, _, _, _)
+AND
+QRY_GetArmourSet(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_QRYRTN_GetArmourSet(_Var2, _, _, _, _)
+AND NOT
+DB_ORI_Gale_DoubleOnStage(1, _, _, _, _)
+THEN
+PROC_SetArmourSet(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, _Var2);
+CopyCharacterEquipment(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+PROC_Foop(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, VFX_Script_Gale_Double_Poof_01_5aec34ad-c864-c27d-1c4e-bb941014b75d);
+TeleportTo(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_DoubleInPlace", 0, 0, 1);
+
+IF
+EntityEvent(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, "ORI_Gale_DoubleInPlace", _, _, _)
+THEN
+PROC_Foop(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, VFX_Script_Gale_Double_Poof_01_5aec34ad-c864-c27d-1c4e-bb941014b75d);
+SteerTo(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1);
+SteerTo(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, 1);
+
+IF
+ArmorSetChanged(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (ARMOURSET)_Var1, (ARMOURSET)_Var1, (ARMOURSET)_Var1, (ARMOURSET)_Var1)
+AND NOT
+DB_OffStage(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetArmourSet(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, _Var1);
+
+PROC
+PROC_Camp_SetModeToDay()
+AND
+DB_GlobalFlag(ORI_Gale_State_ShowGaleDouble_ad1aabf8-690d-4f54-a674-717b515dc08d, _, _, _, _)
+THEN
+ClearFlag(ORI_Gale_State_ShowGaleDouble_ad1aabf8-690d-4f54-a674-717b515dc08d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_Camp_SetModeToDay()
+AND
+DB_ORI_Gale_CAMP_Night2_CRDStarting(1, _, _, _, _)
+THEN
+NOT DB_ORI_Gale_CAMP_Night2_CRDStarting(1);
+
+PROC
+PROC_Camp_SetModeToDay()
+AND
+DB_ORI_Gale_DoubleOnStage(1, _, _, _, _)
+THEN
+PROC_Poof(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, VFX_Script_Gale_Double_Poof_01_5aec34ad-c864-c27d-1c4e-bb941014b75d);
+NOT DB_ORI_Gale_DoubleOnStage(1);
+
+IF
+Teleported(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _, _, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_ShowGaleDouble_ad1aabf8-690d-4f54-a674-717b515dc08d, _, _, _, _)
+AND NOT
+DB_DialogName(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_ORI_Gale_CAMP_Night2_CRDStarting(1, _, _, _, _)
+THEN
+ClearFlag(ORI_Gale_State_ShowGaleDouble_ad1aabf8-690d-4f54-a674-717b515dc08d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+GainedControl(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_ShowGaleDouble_ad1aabf8-690d-4f54-a674-717b515dc08d, _, _, _, _)
+AND NOT
+DB_DialogName(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_ORI_Gale_CAMP_Night2_CRDStarting(1, _, _, _, _)
+THEN
+ClearFlag(ORI_Gale_State_ShowGaleDouble_ad1aabf8-690d-4f54-a674-717b515dc08d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_ORI_Gale_DoubleOnStage(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_ShowGaleDouble_ad1aabf8-690d-4f54-a674-717b515dc08d, _, _, _, _)
+AND NOT
+DB_DialogName(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_SelectedDialog(CAMP_Night2_CRD_Gale_adae2da4-11a7-2966-db5a-8342d8e64e15, _, _, _, _)
+AND NOT
+DB_ORI_Gale_CAMP_Night2_CRDStarting(1, _, _, _, _)
+THEN
+PROC_Poof(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, VFX_Script_Gale_Double_Poof_01_5aec34ad-c864-c27d-1c4e-bb941014b75d);
+
+IF
+DB_GlobalFlag(ORI_Gale_State_CAMP_Night2_CRDOver_2154190b-e9ed-464e-a361-f1e597d2b3c9, _, _, _, _)
+AND
+DB_ORI_Gale_DoubleOnStage(1, _, _, _, _)
+THEN
+PROC_Poof(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, VFX_Script_Gale_Double_Poof_01_5aec34ad-c864-c27d-1c4e-bb941014b75d);
+
+IF
+WentOnStage(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, 1, _, _, _)
+THEN
+DB_ORI_Gale_DoubleOnStage(1);
+
+IF
+WentOnStage(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, 0, _, _, _)
+THEN
+NOT DB_ORI_Gale_DoubleOnStage(1);
+
+IF
+Unequipped(_, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _)
+AND
+DB_ORI_Gale_DoubleOnStage(1, _, _, _, _)
+THEN
+CopyCharacterEquipment(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+IF
+Equipped(_, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _)
+AND
+DB_ORI_Gale_DoubleOnStage(1, _, _, _, _)
+THEN
+CopyCharacterEquipment(S_ORI_GaleDouble_ddf3dd37-fa65-4351-9f55-e50b1211fcfe, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+IF
+AddedTo(S_DEN_SilvanusIdol_a841d36c-9a00-4a26-943e-c0af6895bb16, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_AttackOnDen_State_HostileTieflings_c5641caa-4409-4739-a1fe-8263b8271f4e, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_Gale_GotIdolBeforeAttackOnDen(1);
+
+IF
+AddedTo(S_DEN_SilvanusIdol_a841d36c-9a00-4a26-943e-c0af6895bb16, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_AttackOnDen_State_HostileTieflings_c5641caa-4409-4739-a1fe-8263b8271f4e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Gale_GotIdolBeforeAttackOnDen(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(NIGHT_GoblinHunt_RaiderCelebration_86fee25f-1069-4f17-89fa-4c5b69f82e0b, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Gale_Event_TookIdolAfterTieflingBetrayal_11a06674-3353-41b6-8275-d127b7a7c260, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

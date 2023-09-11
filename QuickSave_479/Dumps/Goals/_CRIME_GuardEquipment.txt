@@ -1,0 +1,110 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_GuardsEquipment_Upgrade("", "");
+NOT DB_CRIME_GuardsEquipment_Upgrade("", "");
+DB_CRIME_GuardsEquipment_TensionLevels(2, 200);
+DB_CRIME_GuardsEquipment_TensionLevels(3, 500);
+DB_CRIME_GuardsEquipment_MaxTensionLevel(3);
+
+KBSECTION
+IF
+DB_CRIME_Guards_RegionInfo(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_CRIME_GuardsEquipment_Upgrade(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_GuardsEquipment_InternTension(_Var1, 1, 0);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (CHARACTER)_Var2, "Idle", _, (INTEGER)_Var1)
+AND
+CrimeGetLeadInvestigator(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var1, BackgroundReaction_db918cfb-a484-437c-93bb-8bc36fe98a9c, 0, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var1, IgnoreForRegionTensionIncrease_58adcbdb-1bdf-4702-b0f0-f0f596d75b0e, 0, _Var1, _Var1)
+AND
+CharacterGetCrimeRegion(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_GuardsEquipment_InternTension(_Var4, _Var5, _Var6, _Var1, _Var1)
+AND
+DB_CRIME_GuardsEquipment_MaxTensionLevel(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var5 < _Var7
+AND
+CrimeGetTension(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var6, _Var8, _Var9, _Var1, _Var1)
+THEN
+NOT DB_CRIME_GuardsEquipment_InternTension(_Var4, _Var5, _Var6);
+DB_CRIME_GuardsEquipment_InternTension(_Var4, _Var5, _Var9);
+PROC_CRIME_GuardsEquipment_ChangedTension(_Var4, _Var6, _Var9);
+
+PROC
+PROC_CRIME_GuardsEquipment_ChangedTension((STRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_GuardsEquipment_TensionLevels(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var2 < _Var5
+AND
+_Var3 >= _Var5
+AND
+DB_CRIME_GuardsEquipment_InternTension(_Var1, _Var6, _Var7, _Var1, _Var1)
+THEN
+NOT DB_CRIME_GuardsEquipment_InternTension(_Var1, _Var6, _Var7);
+DB_CRIME_GuardsEquipment_InternTension(_Var1, _Var4, _Var3);
+DB_CRIME_GuardsEquipment_InternQueueEquip(_Var1);
+
+IF
+TextEvent("UpdateGuardsEquipment", _, _, _, _)
+THEN
+PROC_CRIME_GuardsEquipment_ChangeEquipments();
+
+PROC
+PROC_LevelUnloading(_, (STRING)_, (STRING)_, (STRING)_, (STRING)_)
+THEN
+PROC_CRIME_GuardsEquipment_ChangeEquipments();
+
+PROC
+PROC_LongRest()
+THEN
+PROC_CRIME_GuardsEquipment_ChangeEquipments();
+
+PROC
+PROC_CRIME_GuardsEquipment_ChangeEquipments()
+AND
+DB_CRIME_GuardsEquipment_InternQueueEquip(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_GuardsEquipment_InternTension(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_CRIME_GuardsEquipment_Upgrade(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_RegionInfo(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_NoCancelFlag(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_Guards_RegionGuard(_Var1, _Var4, _Var6, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDefaultEquipmentSet(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var7, "_Level", _Var8, _Var1, _Var1)
+AND
+ConcatenateInteger(_Var8, _Var2, _Var9, _Var1, _Var1)
+THEN
+CharacterGiveEquipmentSet(_Var6, _Var9);
+
+PROC
+PROC_CRIME_GuardsEquipment_ChangeEquipments()
+AND
+DB_CRIME_GuardsEquipment_InternQueueEquip(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_GuardsEquipment_InternQueueEquip(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

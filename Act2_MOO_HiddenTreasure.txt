@@ -1,0 +1,73 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_MOO_HiddenTreasureBox_1ec4fdb0-6913-453a-a87f-ec271ead1ea0);
+
+KBSECTION
+IF
+TextEvent("MOO_HiddenTreasure_HasMarker", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ShowMapMarker(_Var1, "MOO_HiddenTreasure", 1);
+DB_MOO_HiddenTreasure_HasMarker(1);
+
+IF
+GameBookInterfaceClosed(S_TWN_MasonsGuild_TreasureMap_cbd3d1da-eae7-4714-8fd8-3e32b53e6134, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("MOO_HiddenTreasure_ShowMarker", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(MOO_HiddenTreasure_VB_MapMarker_3269d5e9-6338-40b7-58d9-fe24ab4bcf73, _Var1);
+ShowMapMarker(_Var1, "MOO_HiddenTreasure", 1);
+DB_MOO_HiddenTreasure_HasMarker(1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_MOO_HiddenTreasureBox_1ec4fdb0-6913-453a-a87f-ec271ead1ea0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_HiddenTreasure_HasMarker(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_HiddenTreasure_SkillCheckMade(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TrySkillCheck(_Var1, S_MOO_HiddenTreasureWall_46216bdb-1fee-491c-9405-2679f0e44099, "Perception", DC_Legacy_Unsaved_1_5f965da8-76c5-a1d4-32bd-0982100f8e10, "MOO_HiddenTreasure_Reveal");
+DB_MOO_HiddenTreasure_SkillCheckMade(_Var1);
+
+PROC
+PROC_RollResult("MOO_HiddenTreasure_Reveal", (CHARACTER)_Var1, (GUIDSTRING)_Var2, 2, (CHARACTER)_Var1)
+THEN
+NOT DB_MOO_HiddenTreasure_SkillCheckMade(_Var1);
+
+PROC
+PROC_RollResult("MOO_HiddenTreasure_Reveal", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1)
+AND NOT
+DB_MOO_HiddenTreasure_IsRevealed(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(MOO_HiddenTreasure_VB_TreasureDiscovered_c71fe693-cdbf-2c32-c1d9-b72e1d9c2af3, _Var1);
+DB_MOO_HiddenTreasure_IsRevealed(1);
+SetCanInteract(_Var2, 1);
+PROC_PlayPerceptionRevealEffect(_Var2, "MOO_HiddenTreasure_Reveal");
+PROC_TriggerUnregisterForPlayers(S_MOO_HiddenTreasureBox_1ec4fdb0-6913-453a-a87f-ec271ead1ea0);
+
+IF
+DestroyedBy(S_MOO_HiddenTreasureWall_46216bdb-1fee-491c-9405-2679f0e44099, (GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1)
+THEN
+ShowMapMarker(_Var1, "MOO_HiddenTreasure", 0);
+PROC_MOO_HiddenTreasure_PurgeDBs();
+GoalCompleted;
+
+PROC
+PROC_MOO_HiddenTreasure_PurgeDBs()
+AND
+DB_MOO_HiddenTreasure_SkillCheckMade(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_HiddenTreasure_SkillCheckMade(_Var1);
+NOT DB_MOO_HiddenTreasure_HasMarker(1);
+NOT DB_MOO_HiddenTreasure_IsRevealed(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

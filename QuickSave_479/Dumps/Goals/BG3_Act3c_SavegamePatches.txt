@@ -1,0 +1,394 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND NOT
+DB_DialogDeath(S_END_LastStandGuard_005_09eec5b4-d504-4c46-8410-ec180722456b, _, _, _, _)
+AND NOT
+DB_DialogDeath(S_END_LastStandGuard_006_e9abe20a-60df-4807-8582-ecc2f9b80525, _, _, _, _)
+THEN
+DB_DialogDeath(S_END_LastStandGuard_005_09eec5b4-d504-4c46-8410-ec180722456b);
+DB_DialogDeath(S_END_LastStandGuard_006_e9abe20a-60df-4807-8582-ecc2f9b80525);
+DB_BUGFIX_Marker("GUS-296803");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+THEN
+DB_END_General_FullPartyDialog(END_GameFinale_SequeToElfsong_7633bf1a-a3e5-d33c-8986-a5fe85f680f3, 1, 1, 1, 1, 1, 1, 2);
+DB_BUGFIX_Marker("GUS-298143");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_GlobalFlag(END_IllithidOptions_State_ExitPortalAvailable_b97872a1-59cc-40cd-8963-e06be614adc0, _, _, _, _)
+AND
+DB_GlobalFlag(END_IllithidOptions_State_OrpheusIsFree_3b747050-1be0-432e-9de6-e48faa4b74bb, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_General_State_SupremeTadpoleAvailable_0177c452-90cc-4c29-83b8-4acaa2902b27, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_General_State_PartyMemberIsMindFlayer_3c42b03b-c51c-4f06-a5a3-a5ee416d9d8b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_General_State_OrpheusIsMindFlayer_2b638127-f30a-424e-9d4a-a9f8f100a307, _, _, _, _)
+AND
+DB_GlobalFlag(END_General_State_CurrentlyInAstralPlane_b3cf6c91-4d1c-4dcf-bc57-262f7d0f02b9, _, _, _, _)
+THEN
+PROC_END_General_ApplyMindFlayerForm(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e);
+DB_BUGFIX_Marker("GUS-298691");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+THEN
+DB_END_GatherYourAllies_FollowUpDialogue(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, END_GatherYourAllies_NightsongFollowUp_2262a52c-acb4-b632-bda8-372cc46c6a76, "END_Nightsong");
+DB_END_GatherYourAllies_FollowUpDialogue(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, END_GatherYourAllies_IsobelFollowUp_93bcdd2b-5caf-4a83-0c8e-2675ef6492c3, "END_Isobel");
+DB_BUGFIX_Marker("GUS-298912");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+THEN
+DB_END_AllyAbilities_PlayerSummonAllyAD("Target_END_AllyAbility_PhasmSummon", NULL_00000000-0000-0000-0000-000000000000);
+DB_BUGFIX_Marker("GUS-296968");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+THEN
+PROC_END_DEBUG_FixRealPartOfTheTeam();
+DB_BUGFIX_Marker("GUS-299615");
+
+PROC
+PROC_END_DEBUG_FixRealPartOfTheTeam()
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_END_RealPartOfTheTeam(_Var1);
+
+PROC
+PROC_END_DEBUG_FixRealPartOfTheTeam()
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_END_RealPartOfTheTeam(_Var1);
+
+PROC
+PROC_END_DEBUG_FixRealPartOfTheTeam()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_END_RealPartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_END_RealPartOfTheTeam(_Var1);
+
+PROC
+PROC_END_DEBUG_FixRealPartOfTheTeam()
+AND
+DB_END_RealPartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_RealPartOfTheTeam(_Var1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 6, 0, _)
+AND
+DB_CurrentLevel("END_Main", _, _, _, _)
+THEN
+PROC_BG3_SaveGamePatches_GUS_285535_InitNautiloidStrikeDBs();
+DB_BUGFIX_Marker("GUS-285535");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_285535_InitNautiloidStrikeDBs()
+AND NOT
+DB_END_NautiloidStrike_CastSpacingTime(_, _, _, _, _)
+THEN
+DB_END_NautiloidStrike_CastSpacingTime(200);
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_285535_InitNautiloidStrikeDBs()
+AND NOT
+DB_END_NautiloidStrike_TotalBufferTime(_, _, _, _, _)
+THEN
+DB_END_NautiloidStrike_TotalBufferTime(0);
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_285535_InitNautiloidStrikeDBs()
+AND NOT
+DB_END_NautiloidStrike_EntityHitTime(_, _, _, _, _)
+THEN
+DB_END_NautiloidStrike_EntityHitTime(0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 2, 0, _)
+AND
+DB_CurrentLevel("END_Main", _, _, _, _)
+THEN
+TeleportToPosition(S_EmperorRevealed_GlobeOfDomination_Small_8950891c-ad3a-434c-a463-615b5ab90ea7, -1919, 0, 2687);
+SetOnStage(S_EmperorRevealed_GlobeOfDomination_Small_8950891c-ad3a-434c-a463-615b5ab90ea7, 0);
+PROC_BG3_SaveGamePatches_GUS_296005_SetEmperorBehaviourState();
+PROC_BG3_SaveGamePatches_GUS_296005_MoveAndDetachOrpheus();
+DB_BUGFIX_Marker("GUS-296005");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_296005_SetEmperorBehaviourState()
+AND
+GetAnubisConfig(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != "END_Emperor"
+THEN
+PROC_SetAnubisConfig(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, "END_Emperor");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_296005_SetEmperorBehaviourState()
+AND NOT
+DB_GlobalFlag(END_IllithidOptions_State_EmperorMovingToAssimilation_7575a81a-f7dc-43ee-b066-11b75ebbf769, _, _, _, _)
+AND NOT
+DB_DialogName(END_IllithidOptions_EmperorProposal_6769199a-452f-5a13-9178-55a899cccf59, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_IllithidOptions_Event_EmperorBetrayal_411c2575-bfbc-449c-9762-edad4285aafd, _, _, _, _)
+AND
+DB_GlobalFlag(END_General_State_CurrentlyInAstralPlane_b3cf6c91-4d1c-4dcf-bc57-262f7d0f02b9, _, _, _, _)
+THEN
+RealtimeObjectTimerLaunch(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, "END_IllithidOptions_PATCH_SetArrivedAssimilation", 500);
+
+IF
+ObjectTimerFinished(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, "END_IllithidOptions_PATCH_SetArrivedAssimilation", _, _, _)
+THEN
+SetEntityEvent(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, "END_IllithidOptions_ArrivedAtAssimilation");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_296005_MoveAndDetachOrpheus()
+AND NOT
+DB_GlobalFlag(END_IllithidOptions_State_OrpheusIsFree_3b747050-1be0-432e-9de6-e48faa4b74bb, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_IllithidOptions_State_AssimilatedOrpheus_5562cc3f-c168-48c9-87c1-1598a5c58961, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(END_IllithidOptions_State_MiniDominationOrbRemoved_05db0c72-bfc8-45a9-8c29-04d11eaa986b, _, _, _, _)
+THEN
+TeleportToPosition(S_END_OrbBoundHelper_002_d825c26a-6004-4dcb-acbc-1de1fa678762, 50.194, -25.149, 3241.005);
+TeleportToPosition(S_END_OrbBoundHelper_005_c3ea9213-82f4-4b51-8f97-8528bf9d751e, 50.351, -25.065, 3239.638);
+TeleportToPosition(S_END_OrbBoundHelper_006_e2c0aeac-b48f-4108-bff3-bfa5be31654c, 50.307, -25.234, 3241.988);
+TeleportToPosition(S_END_OrbBoundHelper_008_13317d06-bd74-43eb-9f18-0ca72ca06353, 51.752, -25.149, 3239.204);
+SetDetached(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, 1);
+SetEntityEvent(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "END_IllithidOptions_PATCH_MoveOrpheus", 1);
+
+IF
+EntityEvent(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "END_IllithidOptions_PATCH_MoveOrpheus", _, _, _)
+THEN
+TeleportTo(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, S_INT_OrpheusPos_13dd190c-9097-4c0e-be8e-1d9a743cbe02);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 2, 0, _)
+AND
+DB_CurrentLevel("END_Main", _, _, _, _)
+AND NOT
+QRY_END_IllithidOptions_RaphaelCanAppear()
+AND
+IsOnStage(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, 1, _, _, _)
+AND
+DB_GlobalFlag(END_IllithidOptions_State_AcceptedRaphaelDeal_c4d409ef-d70e-9934-edf2-d6bd66201c19, _, _, _, _)
+THEN
+PROC_GLO_Monitor_Poof();
+PROC_SceneOver("END_IllithidOptions_RaphaelScene");
+DB_BUGFIX_Marker("GUS-296005");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 6, 0, _)
+AND
+DB_CurrentLevel("END_Main", _, _, _, _)
+THEN
+PROC_SetAnubisConfig(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, "END_Orpheus");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_CurrentLevel("END_Main", _, _, _, _)
+AND NOT
+DB_END_NautiloidHelper_Position(_, _, _, _, _)
+THEN
+PROC_END_HighHallInterior_GetCannonHelperOrigin();
+DB_BUGFIX_Marker("GUS-285535");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+NOT DB_GLO_CompoundFlag(END_GameFinale_State_LaezelOrpheusPath_a74531fa-52d8-13e8-562f-d3a528e73f82, END_GameFinale_State_LaezelLeavesFaerun_896fb62a-4f56-41d8-a173-7d06c4cb9209);
+NOT DB_GLO_CompoundFlag(END_GameFinale_State_LaezelVlaakithPath_7acb346a-df49-8719-aa2a-124a1c04791f, END_GameFinale_State_LaezelLeavesFaerun_896fb62a-4f56-41d8-a173-7d06c4cb9209);
+NOT DB_GLO_CompoundFlag(END_GameFinale_State_PlayerLaezelOrpheus_9bbf4067-fcb1-0c74-088d-ff887ca2abe5, END_GameFinale_State_LaezelLeavesFaerun_896fb62a-4f56-41d8-a173-7d06c4cb9209);
+NOT DB_GLO_CompoundFlag(END_GameFinale_State_PlayerLaezelVlaakith_bf95c085-fe78-9cda-7aac-2d8e5b94a9cf, END_GameFinale_State_LaezelLeavesFaerun_896fb62a-4f56-41d8-a173-7d06c4cb9209);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_WYR_CourageTest_Tester(_, _, _, _, _)
+AND
+DB_GlobalCounter("WYR_CourageTrial", 2, _, _, _)
+THEN
+NOT DB_GlobalCounter("WYR_CourageTrial", 2);
+DB_GlobalCounter("WYR_CourageTrial", 1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+THEN
+TriggerRegisterForCharacter(S_END_EmperorImmortalArea_80996c6e-72ff-43be-a2f1-53a2f87e929b, S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b);
+DB_BUGFIX_Marker("GUS-300127");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(END_General_State_CurrentlyInMorphicPool_06208edf-4c61-44a2-932b-b158d9ddd2f0, _, _, _, _)
+AND NOT
+DB_OneShotPlayerTrigger(S_END_NearNetherbrainPoolBox_49aa0cac-17aa-476d-8844-db78966ff698, _, _, _, _)
+THEN
+DB_OneShotPlayerTrigger(S_END_NearNetherbrainPoolBox_49aa0cac-17aa-476d-8844-db78966ff698);
+DB_BUGFIX_Marker("GUS-300701");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+AND NOT
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_AfterGithLeave_a7c18482-0cc0-7b5a-420b-28974c3e1dc8, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12, _)
+THEN
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_AfterGithLeave_a7c18482-0cc0-7b5a-420b-28974c3e1dc8, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12);
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_Conclusion_6a5c5975-8e27-c58f-1a26-64e8685464c0, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12);
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_EmperorSolo_113aa7cc-d0cd-5c19-eb5d-b9f6e77136b5, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12);
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_GaleExplodedIntro_32b59231-2f78-df56-f3b8-4bf3674641ad, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12);
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_GithAreLeaving_b7f3c52d-364c-e740-404f-fb84d34763be, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12);
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_StandardIntro_48d64086-0da8-289a-c2a1-cdaa4f7349b2, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12);
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_VlaakithLaezel_5b64b0bb-70f3-0873-2982-aedee8a4582b, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12);
+DB_END_General_InterjectionDialog(END_BrainBattle_CombatOver_Nested_WhatNext_9187b124-548b-3da3-ca48-4ad22d613207, END_CombatOver_State_HasCompanions_d4e1d74a-ac07-7d10-07dc-3dbd24d3d260, 3, 12);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 1", _, _, _, _)
+AND
+DB_GlobalFlag(END_General_State_CurrentlyInAstralPlane_b3cf6c91-4d1c-4dcf-bc57-262f7d0f02b9, _, _, _, _)
+AND
+DB_GlobalFlag(END_IllithidOptions_State_AssimilatedOrpheus_5562cc3f-c168-48c9-87c1-1598a5c58961, _, _, _, _)
+AND
+DB_GlobalFlag(END_IllithidOptions_Event_EmperorBetrayal_411c2575-bfbc-449c-9762-edad4285aafd, _, _, _, _)
+THEN
+PROC_BG3_SaveGamePatches_GUS_302401_OpenPortalOrThrallOfTheAbsolute();
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_302401_OpenPortalOrThrallOfTheAbsolute()
+AND NOT
+QRY_END_IllithidOptions_EmperorIsRequiredToContinue()
+AND
+QRY_END_IllithidOptions_PlayerCanOpenPortal()
+THEN
+PROC_END_IllithidOptions_FallbackPortalCheck();
+DB_BUGFIX_Marker("GUS-302401");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_302401_OpenPortalOrThrallOfTheAbsolute()
+AND
+QRY_END_IllithidOptions_EmperorIsRequiredToContinue()
+THEN
+PROC_END_IllithidOptions_CheckEmperorLeftThrallOfTheAbsolute();
+DB_BUGFIX_Marker("GUS-302401");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_END_General_FullPartyDialog(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, 1, 1, 1, 1, 1, 1, 2, _, _)
+THEN
+NOT DB_END_General_FullPartyDialog(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_ROM_RomanceFates_Astarion_73fb7151-e772-cae7-8d7a-bb5eb8e8860a, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Gale_81fc2269-0613-259c-b950-c0dcebbb7934, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Laezel_523b1bb2-0443-79bf-cf3e-8f435ff5f2e9, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Shadowheart_b9ebb9af-ad65-4e64-6015-105e831d49c0, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Wyll_32de9167-3489-9257-e3c1-e430f2f455ab, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Minthara_699ad056-06a4-db4f-53c4-6706dbb7c544, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Halsin_a853d059-2572-04c4-88db-d737e4a264f7, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Karlach_091af35d-0d30-a4bf-b056-9eda505138b5, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Astarion_9a09777b-c0ac-d3d3-c2f4-5e6794fa2ca0, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_CustomAvatar_f346a423-c718-45ca-3a0d-cc228b92abe6, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Gale_7674e0c3-ca25-e924-9c17-3058796f87c3, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Laezel_fbee59b9-cb3a-c1f2-66b4-b0fb82cf24fa, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Shadowheart_bdc19865-8e61-2db2-f135-4a611b15cae1, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Wyll_1667181c-2c0a-5255-ecfd-bd0752b4639c, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Karlach_0181cc77-4b25-dd9a-025b-b08e85387645, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_MystraGaleConfrontation_06f1e7cd-25bf-492a-be6d-5fe608de4bbb, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_TheHerosRevelry_ecd7cb66-d650-d92a-118f-6be977c4b0b2, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_SequeToElfsong_7633bf1a-a3e5-d33c-8986-a5fe85f680f3, 1, 1, 1, 1, 1, 1, 2);
+NOT DB_END_General_FullPartyDialog(END_GodsAndMonsters_WithersMeeting_037b2c4f-d8cd-b3bb-1471-a9dee232217d, 1, 1, 1, 1, 1, 1, 1);
+NOT DB_END_General_FullPartyDialog(END_GameFinale_RaphaelCrownUpdate_b7ee667d-d550-7115-37f3-ce900ca80cbd, 1, 1, 1, 1, 1, 1, 1);
+DB_BUGFIX_Marker("GUS-302069");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND NOT
+DB_END_General_FullPartyDialog(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, 0, 1, 1, 1, 1, 1, 2, _, _)
+THEN
+DB_END_General_FullPartyDialog(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_ROM_RomanceFates_Astarion_73fb7151-e772-cae7-8d7a-bb5eb8e8860a, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Gale_81fc2269-0613-259c-b950-c0dcebbb7934, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Laezel_523b1bb2-0443-79bf-cf3e-8f435ff5f2e9, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Shadowheart_b9ebb9af-ad65-4e64-6015-105e831d49c0, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Wyll_32de9167-3489-9257-e3c1-e430f2f455ab, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Minthara_699ad056-06a4-db4f-53c4-6706dbb7c544, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Halsin_a853d059-2572-04c4-88db-d737e4a264f7, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_RomanceFates_Karlach_091af35d-0d30-a4bf-b056-9eda505138b5, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Astarion_9a09777b-c0ac-d3d3-c2f4-5e6794fa2ca0, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_CustomAvatar_f346a423-c718-45ca-3a0d-cc228b92abe6, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Gale_7674e0c3-ca25-e924-9c17-3058796f87c3, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Laezel_fbee59b9-cb3a-c1f2-66b4-b0fb82cf24fa, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Shadowheart_bdc19865-8e61-2db2-f135-4a611b15cae1, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Wyll_1667181c-2c0a-5255-ecfd-bd0752b4639c, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_SoloFates_Karlach_0181cc77-4b25-dd9a-025b-b08e85387645, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_MystraGaleConfrontation_06f1e7cd-25bf-492a-be6d-5fe608de4bbb, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_TheHerosRevelry_ecd7cb66-d650-d92a-118f-6be977c4b0b2, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GameFinale_SequeToElfsong_7633bf1a-a3e5-d33c-8986-a5fe85f680f3, 0, 1, 1, 1, 1, 1, 2);
+DB_END_General_FullPartyDialog(END_GodsAndMonsters_WithersMeeting_037b2c4f-d8cd-b3bb-1471-a9dee232217d, 0, 1, 1, 1, 1, 1, 1);
+DB_END_General_FullPartyDialog(END_GameFinale_RaphaelCrownUpdate_b7ee667d-d550-7115-37f3-ce900ca80cbd, 0, 1, 1, 1, 1, 1, 1);
+DB_BUGFIX_Marker("GUS-302069");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

@@ -1,0 +1,385 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetVisible(S_DEN_Tiefling005_ParalyzedSeat_54d5ccc0-e453-48f6-89d5-d02a6b884420, 0);
+PROC_DEN_Tiefling5_Init();
+TriggerRegisterForItems(S_DEN_Storage_SUB_28361464-314c-474e-96f2-cf56a9eb8afd);
+DB_DialogMoneyTransfer(1, DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, 5, 1);
+DB_DialogMoneyTransfer(2, DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, 5, 1);
+DB_HasItemEvent(S_DEN_Tiefling5Bag_d714d2fe-8344-4982-a110-f0bd2f3b2312, DEN_Tiefling5_State_HasBag_cac9d1d7-22fd-46c4-a5c1-93b4369d23b4);
+DB_GiveItemToEvent(S_DEN_Tiefling5Bag_d714d2fe-8344-4982-a110-f0bd2f3b2312, DEN_Tiefling5_Event_GaveBag_267db127-2fb3-4b8f-8bc7-dbbddb19741f);
+DB_DEN_Paralyzed_AngeredFlags(DEN_Tiefling5_State_TurnedHostile_4b77b883-d393-f092-61ab-36439f1c73ac);
+DB_DEN_Paralyzed_AngeredFlags(DEN_Event_TieflingGuard5_Threatened_14c555a3-43a6-8494-400d-5be65ddc2760);
+DB_GLO_Plague_Cures("Target_LesserRestoration", DEN_General_State_HasLesserRestoration_b9e84d98-54aa-d5a5-2505-d1ba61e1b296, DEN_General_Event_TryLesserRestoration_83bcd658-6ac9-8d03-c306-57428dcd0c9d, "DEN_Tiefling_005");
+DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "MoveForbiddenItem", DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219);
+DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "UseForbiddenItem", DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219);
+DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "SneakUseForbiddenItem", DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219);
+DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "Steal", DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219);
+DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "PickPocketFailed", DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219);
+DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "Vandalise", DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219);
+DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "ItemDestroy", DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219);
+DB_TrespassTrigger(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, NULL_00000000-0000-0000-0000-000000000000, "DEN_StorageRoomTrespass");
+DB_DEN_Tiefling5_TrespassEndFlags(DEN_Tiefling5_Event_PersuadeSuccess_399baaf0-33a1-6ebd-a6a3-08dcc4fc67fe);
+DB_DEN_Tiefling5_TrespassEndFlags(DEN_Event_TieflingGuard5_Threatened_14c555a3-43a6-8494-400d-5be65ddc2760);
+DB_DEN_Tiefling5_TrespassEndFlags(DEN_TieflingGuard5_Event_CharlatanPersuade_8a5159be-f4d6-02f0-2142-08b561c88517);
+DB_GLO_Plague_CureFlags(DEN_General_State_HasTiefling005Cure_0434ab65-b09e-c718-9aec-49cd2247f76a, DEN_General_State_PartyHasTiefling005Cure_efad0a21-a792-abe7-45b5-997bf8ef9bb4, "DEN_Tiefling_005");
+DB_GLO_Plague_CureCheck(DEN_General_Event_TryTiefling005Cure_52f69933-c121-449e-bfa9-10bff44392a7, DEN_General_State_PotionTieflingHealed_0dece41d-7a76-193e-1a6b-1efc7e4497ab, "DEN_Tiefling_005");
+PROC_TriggerRegisterForPlayers(S_DEN_RatWander_Shack_683b9c3a-3568-4d8f-83e2-0de771b716d1);
+
+KBSECTION
+PROC
+PROC_DEN_Tiefling5_Init()
+THEN
+PROC_CharacterDisableAllCrimes(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1);
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "MoveForbiddenItem");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "UseForbiddenItem");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "SneakUseForbiddenItem");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "Steal");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "PickPocketFailed");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "Vandalise");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "ItemDestroy");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "DEN_StorageRoomTrespass");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "DEN_StorageRoomTrespass_CallForHelp");
+PROC_CharacterEnableCrime(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "WaitingForCalledGuard");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_State_Priority(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _Var1, _Var2, _Var1)
+AND
+_Var2 > 4000
+THEN
+PROC_DEN_Tiefling5_RemoveParalysis();
+
+PROC
+PROC_CharacterRegisterCrime_Success(_, "DEN_StorageRoomTrespass", _, S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, _, _, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+DB_DEN_Tiefling5_IgnoreOtherCharactersTrespassing(1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Tiefling5_IgnoreOtherCharactersTrespassing(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Tiefling5_IgnoreOtherCharactersTrespassing(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "DEN_StorageRoomTrespass", _, _, _)
+AND
+DB_DEN_Tiefling5_IgnoreOtherCharactersTrespassing(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "DEN_StorageRoomTrespass", _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Tiefling5_TrespassEndFlags(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "DEN_StorageRoomTrespass", _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_General_State_PotionTieflingHealed_0dece41d-7a76-193e-1a6b-1efc7e4497ab, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "DEN_StorageRoomTrespass_CallForHelp", _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_General_State_PotionTieflingHealed_0dece41d-7a76-193e-1a6b-1efc7e4497ab, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockGenericInvestigation(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _, _, _, _)
+AND
+GetFlag(DEN_General_State_PotionTieflingHealed_0dece41d-7a76-193e-1a6b-1efc7e4497ab, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0, _, _)
+THEN
+SetEntityEvent(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "CRIME_StartLookingForInterrogationSuspects");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_DEN_DefaultStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Tiefling5_ClearTrespassing();
+
+PROC
+PROC_DEN_Tiefling5_ClearTrespassing()
+THEN
+PROC_RemoveDBTrespassTrigger(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, NULL_00000000-0000-0000-0000-000000000000);
+PROC_TriggerUnregisterForParty(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb);
+
+PROC
+PROC_CrimeDialogSetupFlags((INTEGER)_Var1, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var5, DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+CrimeGetType(_Var1, "DEN_StorageRoomTrespass", _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_State_TieflingGuard5_StorageRoomTrespass_6bbc0fb4-9ac5-4b32-bcbd-0e2cad946133, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0);
+
+IF
+DialogEnded(DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(DEN_State_TieflingGuard5_StorageRoomTrespass_6bbc0fb4-9ac5-4b32-bcbd-0e2cad946133, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0);
+
+IF
+DialogEnded(DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DEN_Tiefling5_DialogEnded(_Var1);
+
+PROC
+PROC_DEN_Tiefling5_DialogEnded((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetFlag(DEN_Tiefling5_State_TurnedHostile_4b77b883-d393-f092-61ab-36439f1c73ac, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Tiefling5_TurnedHostile", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Tiefling5_HostileTrespassSetup();
+
+PROC
+PROC_DEN_Tiefling5_DialogEnded((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DEN_Tiefling5_TrespassEndFlags(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Tiefling5_NoMoreTrespass", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Tiefling5_ClearTrespassing();
+PROC_DEN_Tiefling5_TrespassingEndExtras(_Var1);
+
+PROC
+PROC_DEN_Tiefling5_TrespassingEndExtras((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(DEN_Event_TieflingGuard5_Threatened_14c555a3-43a6-8494-400d-5be65ddc2760, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Tiefling5_NewCrimeReactionsBlocked(1);
+BlockNewCrimeReactions(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1);
+
+PROC
+PROC_DEN_Tiefling5_TrespassingEndExtras((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(DEN_TieflingGuard5_Event_CharlatanPersuade_8a5159be-f4d6-02f0-2142-08b561c88517, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+TriggerSetItemsOwner(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, _Var2);
+
+IF
+AttackedBy(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, (CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Defeated(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _Var1, _Var1, _Var1, _Var1)
+AND
+CanSee(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _Var1, 1, _Var1, _Var1)
+AND
+GetFlag(DEN_General_State_PotionTieflingHealed_0dece41d-7a76-193e-1a6b-1efc7e4497ab, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0, _Var1, _Var1)
+THEN
+PROC_DEN_Tiefling5_UnblockCrimeReactions();
+SetFlag(DEN_Tiefling5_State_TurnedHostile_4b77b883-d393-f092-61ab-36439f1c73ac, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492);
+
+PROC
+PROC_DEN_Tiefling5_UnblockCrimeReactions()
+AND
+DB_DEN_Tiefling5_NewCrimeReactionsBlocked(1, _, _, _, _)
+THEN
+NOT DB_DEN_Tiefling5_NewCrimeReactionsBlocked(1);
+BlockNewCrimeReactions(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0);
+
+IF
+FlagSet(DEN_Tiefling5_State_TurnedHostile_4b77b883-d393-f092-61ab-36439f1c73ac, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Tiefling5_Event_Warned_d75de198-ec1c-18bf-b981-aa1ad6baa63c, _, _, _, _)
+THEN
+SetFlag(DEN_Tiefling5_Event_Warned_d75de198-ec1c-18bf-b981-aa1ad6baa63c);
+
+IF
+FlagSet((FLAG)_Var1, _, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_DEN_Paralyzed_AngeredFlags(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_AttackOnDen_State_AngeredPandirnaBefore_55cb1d5b-4035-6241-5b1b-29ae7800944e);
+
+IF
+FlagSet(DEN_Tiefling5_State_TurnedHostile_4b77b883-d393-f092-61ab-36439f1c73ac, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _, _, _)
+AND NOT
+QRY_DEN_Tiefling005_CheckDialog()
+AND
+QRY_OnlyOnce("DEN_Tiefling5_TurnedHostile", _, _, _, _)
+THEN
+PROC_DEN_Tiefling5_HostileTrespassSetup();
+
+QRY
+QRY_DEN_Tiefling005_CheckDialog()
+AND
+DB_DialogNPCs(_Var1, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _, _Var1, _Var1)
+AND
+DB_DialogName(DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Tiefling5_HostileTrespassSetup()
+AND
+GetFlag(DEN_General_State_PotionTieflingHealed_0dece41d-7a76-193e-1a6b-1efc7e4497ab, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0, _, _)
+THEN
+PROC_DEN_Tiefling5_ClearTrespassing();
+DB_TrespassTrigger(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, NULL_00000000-0000-0000-0000-000000000000, "DEN_StorageRoomTrespass_CallForHelp");
+TriggerSetItemsOwner(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492);
+
+PROC
+PROC_StateSet_Defeated(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _, _, _, _)
+THEN
+EndRepose(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492);
+SetHasDialog(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0);
+
+IF
+DialogActorJoined(DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, (INTEGER)_Var1, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _, (INTEGER)_Var1)
+THEN
+PROC_GLO_Plague_PartyCheckCure(_Var1, "DEN_Tiefling_005");
+
+PROC
+PROC_DEN_Tiefling5_RemoveParalysis()
+THEN
+DB_DEN_Paralyzed_Healed(1);
+SetFlag(DEN_General_State_PotionTieflingHealed_0dece41d-7a76-193e-1a6b-1efc7e4497ab, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0);
+PROC_SelfHealing_Enable(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492);
+PROC_DEN_Tiefling_005_HealedProcessing();
+
+PROC
+PROC_DEN_Tiefling5_RemoveParalysis()
+AND
+HasAppliedStatus(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "DEN_PANDIMA_PARALYZED", 1, _, _)
+THEN
+RemoveStatus(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "DEN_PANDIMA_PARALYZED");
+
+IF
+StatusRemoved(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "DEN_PANDIMA_PARALYZED", (CHARACTER)_Var1, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_General_Tiefling5StandUp", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_General_State_PotionTieflingHealer_428d007f-401c-538e-e018-7b72d42c7ff6, _Var1, 0);
+ClearFlag(DEN_Tiefling5_HasMet_7f5af9c5-10a6-279b-fad9-35674b74b0b0, _Var1);
+PROC_DEN_Tiefling5_RemoveParalysis();
+PROC_DEN_Tiefling5_TryRespondToHeal(_Var1, 0);
+
+PROC
+PROC_DEN_Tiefling5_TryRespondToHeal((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Tiefling5_TryRespondToHeal((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_StartDialog(DEN_General_TieflingGuard5_7d3ed8cb-6b82-ccdf-3030-9f97de65b219, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Tiefling5_State_TurnedHostile_4b77b883-d393-f092-61ab-36439f1c73ac, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492);
+PROC_SetRelationTemporaryHostile(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _Var1);
+
+IF
+StatusRemoved(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "DEN_PANDIMA_PARALYZED", (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_General_Tiefling5StandUp", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Tiefling5_RemoveParalysis();
+
+IF
+StatusApplied(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "HEAL", (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "DEN_PANDIMA_PARALYZED", 1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_General_State_TieflingGuardWaitingForHeal_aba4b17f-42d3-437c-a018-0838f43c96ce, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_General_Event_WaitingForHealCastedNonHeal_ec79f887-8447-4f22-825c-fe337ada3aac, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_General_Event_WaitingForHealCastedNonHeal_ec79f887-8447-4f22-825c-fe337ada3aac);
+PROC_DEN_Tiefling5_TryRespondToHeal(_Var1, 0);
+
+IF
+StatusApplied(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "KNOCKED_DOWN", _, _, (GUIDSTRING)_)
+THEN
+SetHasDialog(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0);
+
+PROC
+PROC_DEN_Tiefling_005_HealedProcessing()
+AND
+HasActiveStatus(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "KNOCKED_DOWN", 1, _, _)
+AND NOT
+DB_Defeated(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _, _, _, _)
+THEN
+RemoveStatus(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, "KNOCKED_DOWN");
+SetHasDialog(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1);
+
+PROC
+PROC_DEN_Tiefling_005_HealedProcessing()
+THEN
+PROC_DEN_Tiefling5_ClearTrespassing();
+
+PROC
+PROC_DEN_Tiefling_005_HealedProcessing()
+AND
+DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _Var1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_CrimeType_CustomWarning(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _Var1, _Var2);
+
+PROC
+PROC_DEN_Tiefling_005_HealedProcessing()
+THEN
+PROC_CharacterEnableAllCrimes(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492);
+PROC_DEN_Tiefling5_UnblockCrimeReactions();
+PROC_RemoveDBTrespassTrigger(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SetCanFight(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1);
+SetCanJoinCombat(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1);
+
+PROC
+PROC_DEN_Tiefling_005_HealedProcessing()
+AND
+GetFlag(DEN_Tiefling5_State_TurnedHostile_4b77b883-d393-f092-61ab-36439f1c73ac, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 1, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_DEN_Storage_SUB_28361464-314c-474e-96f2-cf56a9eb8afd, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationTemporaryHostile(S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, _Var1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_DEN_RatWander_Shack_683b9c3a-3568-4d8f-83e2-0de771b716d1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(DEN_General_State_MadeParalyzedTieflingPay_7fb10f5d-f4a5-44e7-b53b-96978a866e7e, _Var1, 1, _Var1, _Var1)
+AND
+GetFlag(DEN_General_State_PotionTieflingHealed_0dece41d-7a76-193e-1a6b-1efc7e4497ab, S_DEN_Tiefling_005_e5319db6-ea86-43cc-9fd0-5ec1e0eab492, 0, _Var1, _Var1)
+THEN
+SetFlag(DEN_General_Event_PlayerLeftWithoutHealingTiefling_be102d36-bf07-4132-9c04-6a2f40ca7bcb);
+PROC_DEN_Tiefling5_TryRespondToHeal(_Var1, 1);
+
+IF
+TextEvent("curepandirna", _, _, _, _)
+THEN
+PROC_DEN_Tiefling5_RemoveParalysis();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

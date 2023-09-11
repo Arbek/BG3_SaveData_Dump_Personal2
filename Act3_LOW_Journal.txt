@@ -1,0 +1,76 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LOW_SorcerousSundries_BanningDialogs(LOW_SorcerousSundries_LorroakanProjectionWarning_91430540-4848-ce3d-61a7-a0c8c3dbaa6c);
+DB_LOW_SorcerousSundries_BanningDialogs(LOW_SorcerousSundries_RolanProjectionWarning_859aa6d4-4fc1-398d-0131-91a63940345d);
+DB_LOW_SorcerousSundries_BanningDialogs(LOW_SorcerousSundries_RolanWarning_d8fcff57-2afa-06c0-5e21-36c77107c6be);
+DB_LOW_SorcerousSundries_BanningDialogs(LOW_SorcerousSundries_KlankCheckpoint_275b16c1-85d5-90ea-ccba-0f1441a6b298);
+DB_LOW_SorcerousSundries_BanningDialogs(LOW_SorcerousSundries_LorroakanProjection_b90d7005-f9c9-350d-2dc0-d821f756455f);
+DB_QuestDef_State(LOW_Lorroakan_Quest_WaitingForCampNightsongDialog_ce238f16-8215-48f8-90b4-a503a4426efd, "SHA_Nightsong", "TalkedToLorroakan");
+
+KBSECTION
+IF
+GameBookInterfaceClosed((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 == UNI_LOW_NightsongPamphlet_e7968b1c-d109-4a4f-b296-d90dd3662a9d
+AND
+QuestUpdateIsUnlocked(_Var2, "SHA_Nightsong", "NightsongDead", 0, _Var1)
+THEN
+QuestUpdate("SHA_Nightsong", "NightsongSawPoster");
+
+IF
+FlagSet(LOW_SorcerousSundries_Prodigy_Knows_SpeakToLorroakan_e3d59dd5-868a-a0e9-19c9-028697c2af39, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("SHA_Nightsong", "GoUpstairs");
+
+IF
+DialogEnded(LOW_SorcerousSundries_LorroakanProjection_b90d7005-f9c9-350d-2dc0-d821f756455f, _, _, _, _)
+AND
+DB_GlobalFlag(LOW_SorcerousSundries_Knows_ProjectionToldGoUpstairs_8d84a325-ef3d-4a54-9c39-562f92a1bf30, _, _, _, _)
+AND
+DB_Avatars(_Var2, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var2, "SHA_Nightsong", "GoUpstairs", 0, _)
+THEN
+QuestUpdate("SHA_Nightsong", "GoUpstairsAlt");
+
+IF
+DialogEnded(LOW_SorcerousSundries_PuzzleGuardian_5423a690-96fd-9057-4068-0b51ba9c14c0, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate("SHA_Nightsong", "ReachRamazith");
+
+IF
+TimerFinished("LOW_SorcerousSundries_WaitToSpawnPunisher", _, _, _, _)
+THEN
+QuestUpdate("SHA_Nightsong", "SorcerousKickedOut");
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_LOW_SorcerousSundries_BanningDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogSpeakers(_Var2, _Var3, 2, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(LOW_SorcerousSundries_BannedPlayer_2cea88b0-bc13-4537-a70a-d3f122ed9699, _Var3, 1, _Var1, _Var1)
+THEN
+QuestUpdate("SHA_Nightsong", "SorcerousBanned");
+
+IF
+DialogEnded(LOW_SorcerousSundries_NightsongPostAttack_42a7f9de-9883-9a29-20c0-721271188f18, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate("SHA_Nightsong", "AfterAradinAttack");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

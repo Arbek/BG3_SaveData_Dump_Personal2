@@ -1,0 +1,77 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_CommentHiddenEffect((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TryStartAD(GLO_AD_ActivatedSwitch_00000000-0000-0000-0000-000000000000, _Var1);
+
+PROC
+PROC_MandatoryOneSpeakerDialog((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+QRY_SpeakerIsAvailable(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QueuedOneSpeakerDialog(_Var2, _Var1);
+
+PROC
+PROC_MandatoryOneSpeakerDialog((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+MakePlayerActive(_Var2);
+
+IF
+DialogEnded(_, _, _, _, _)
+AND
+DB_QueuedOneSpeakerDialog(_Var3, _Var4, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+QRY_StartDialog_Fixed(_Var4, _Var3, _, _, _)
+THEN
+NOT DB_QueuedOneSpeakerDialog(_Var3, _Var4);
+MakePlayerActive(_Var3);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QueuedOneSpeakerDialog(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QueuedOneSpeakerDialog(_Var1, _Var3);
+MakePlayerActive(_Var1);
+
+PROC
+PROC_HomesteadTeleportAfterMirror((CHARACTER)_Var1, (ITEM)_Var2, (TRIGGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QueuedOneSpeakerDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QueuedOneSpeakerDialog(_Var1, _Var4);
+MakePlayerActive(_Var1);
+
+PROC
+PROC_RewardQuestMedium((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+THEN
+PROC_CreateAtObject(Quest_Reward_Small_94e12298-5e59-405a-9e93-95833e648ce2, _Var1);
+
+PROC
+PROC_RewardQuestBig((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+THEN
+PROC_CreateAtObject(Quest_Reward_Big_b67596ec-18ca-4790-9273-8af23d8a7a43, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,321 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_OriginMayLeaveDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, WYR_KillDirectorGortash_Ceremony_5149a422-854a-9e05-433a-0520d87eb112);
+DB_DefeatedEvent(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, GLO_Gortash_State_Defeated_7ba6ad38-bb7b-41cc-a71f-15b12c988858);
+DB_DeadEvent(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, GLO_Orin_State_Dead_9165c397-4578-404d-a046-c8e8b09509e9);
+DB_GLO_DieFlag(ORI_Karlach_Event_KillGortash_fd6c6e85-9a50-e9ac-832d-73897615d3d0, S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, 0, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+DB_InRegionFlag(S_WYR_KarlachCell_PlayerTrigger_1f5f5e06-e779-46bf-b72a-375bc21ac00e, ORI_GortashConfrontation_State_PlayerInsideKarlachsCell_9909ce57-0540-e906-33b5-e4970743d71b);
+DB_Origin_TemporaryLeaveReason("ORI_Karlach_SentToPrison");
+DB_Origins_BlockTransferReasons("ORI_Karlach_SentToPrison");
+PROC_DefineSingleOriginMoment(WYR_KillDirectorGortash_AfterCeremony_bd68e69e-3339-1c5f-b173-2591a0319985, KARLACH_9aab4bcd-e1f7-4008-8f7b-f1203789ae9b, WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a, WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_COM_b4faf26b-68d6-b3ce-da96-0edca8d70608, WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a);
+DB_GlobalFlagReactionAfterDialog(WYR_KillDirectorGortash_Event_MoveGortashToHisOffice_b73e0d24-c6ba-43a1-b848-18f1a5333c1c, WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a);
+DB_GlobalFlagReactionAfterDialog(WYR_KillDirectorGortash_Event_MoveGortashToHisOffice_b73e0d24-c6ba-43a1-b848-18f1a5333c1c, WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_COM_b4faf26b-68d6-b3ce-da96-0edca8d70608);
+DB_GlobalFlagReactionAfterDialog(WYR_GortashConfrontation_Event_SendKarlachToCamp_7a52ef44-835d-4af9-0388-cdd1036a09ed, WYR_GortashConfrontation_SoulConsumption_d1543a3d-c943-003c-3e9e-c3b93e0758f2);
+DB_ExclamationDialog_NeverStop(Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_AfterDefeatingGortash_585a4ee6-b04f-2559-2bc5-ae99a1f57ff2);
+DB_RelationshipDialog_WRD_TriggerInCamp(Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_AfterDefeatingGortash_585a4ee6-b04f-2559-2bc5-ae99a1f57ff2);
+DB_ORI_GortashConfrontation_PrisonGuard(S_WYR_WyrmRockPrison_EntranceGuard_3f27f04f-4041-462e-9db3-a3ba163eb0c6);
+DB_ORI_GortashConfrontation_PrisonGuard(S_WYR_WyrmRockPrison_Guard_001_bbdac4e8-23cb-4134-b718-2d852ce22ea1);
+DB_ORI_GortashConfrontation_PrisonGuard(S_WYR_WyrmRockPrison_Guard_002_3a853d86-2086-4923-b09d-3192244effe6);
+DB_ORI_GortashConfrontation_PrisonGuard(S_WYR_WyrmRockPrison_Guard_003_cbf95410-351a-491e-92aa-1663df98c6f5);
+DB_ORI_GortashConfrontation_PrisonGuard(S_WYR_WyrmRockPrison_Guard_004_e019ed47-a0fd-45d5-9baa-1a817f52b984);
+DB_SurrenderOnKnockedOutDialog(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, NULL_00000000-0000-0000-0000-000000000000);
+TriggerRegisterForCharacter(S_WYR_GortashConfrontation_NPCInclusions_acc5ab21-423a-4619-a232-06f4948ca6a6, S_WYR_KillDirectorGortash_SteelWatcher_5967b1c5-8e3c-4064-83e3-5219aa204c3d);
+DB_GlobalFlagReactionAfterDialog(WYR_Circus_Event_FailedToGainAccess_b9b0ff6b-d7e8-8c53-4b21-55413b6c6da5, WYR_Circus_Checkpoint_5117a414-8890-f4db-a844-8bf632d62086);
+
+KBSECTION
+IF
+FlagSet(ORI_GortashConfrontation_Event_KarlachSentToPrison_f6764bce-1df3-4f81-91d0-bf986329798e, _, (INTEGER)_Var2, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TriggerRegisterForPlayers(S_WYR_KarlachCell_PlayerTrigger_1f5f5e06-e779-46bf-b72a-375bc21ac00e);
+SetFlag(ORI_GortashConfrontation_State_KarlachsCellLocked_fa7ed9a2-359d-40a8-b5a9-6624a9f5af89, NULL_00000000-0000-0000-0000-000000000000);
+DB_RegionPrison_CustomCell(S_WYR_WyrmRockPrison_PlayerCell_6792230e-f319-4870-8778-5f7bfae74489, S_WYR_KarlachCell_eaa45487-cd70-46d4-90eb-4d1570616768, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_WYR_KarlachsCellPos_d1d61fae-69e8-4000-8ba1-6f6b7ea42514, S_WYR_WyrmRockPrison_KarlachsCellDoor_ca3f8d0e-b59c-4281-9174-f10f40f612bf, "WYR_WyrmRockPrison_PrisonDoor");
+PROC_CrimePerformArrest(S_WYR_AudienceHall_SteelWatcher_003_6622cf7f-a119-4c42-9a1e-b7cc4543dd19, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "BGO_Main_A_WyrmRock");
+PROC_Origins_CompanionLeavePermanently(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_Karlach_SentToPrison");
+PROC_GLO_Origins_SetRecruitmentDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_Recruitment_WyrmsPrison_275b1a71-2ea2-a07d-29f4-7ccfe32a5571);
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison");
+DB_SceneNoHostileContinuousDisturbance("ORI_KarlachInPrison");
+PROC_CharacterDisableCrime(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "WYR_WyrmRockPrison_InnerAreaTrespassing");
+PROC_SetRelationToPlayers(Origin_Karlach_2e560efd-f847-4c83-a3a1-8241ce74a7bf, 100);
+ClearTag(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6);
+
+IF
+FlagSet(ORI_GortashConfrontation_Event_RemoveKarlach_03b5ca45-3712-b74f-9d36-30988e15a5cd, _, (INTEGER)_Var2, _, _)
+AND
+DialogRemoveActorFromDialog(_Var2, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+Opened(S_WYR_WyrmRockPrison_KarlachsCellDoor_ca3f8d0e-b59c-4281-9174-f10f40f612bf, _, _, _, _)
+AND
+QRY_OnlyOnce("WYR_KarlachHostileAgainsGuards", _, _, _, _)
+THEN
+PROC_SetRelationMutual(Origin_Karlach_2e560efd-f847-4c83-a3a1-8241ce74a7bf, ACT3_WYR_WyrmRock_Prison_5ebe11a9-688f-44b7-ad4b-e86f8e0e790c, 0);
+
+IF
+Opened(S_WYR_WyrmRockPrison_KarlachsCellDoor_ca3f8d0e-b59c-4281-9174-f10f40f612bf, _, _, _, _)
+AND
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_GortashConfrontation_State_KarlachsCellLocked_fa7ed9a2-359d-40a8-b5a9-6624a9f5af89, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Karlach_InitiatedRecruitmentInPrison", _, _, _, _)
+AND
+QRY_GetBestAvatarForCompanion(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var1, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(Karlach_Recruitment_WyrmsPrison_275b1a71-2ea2-a07d-29f4-7ccfe32a5571, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Unlocked(S_WYR_WyrmRockPrison_KarlachsCellDoor_ca3f8d0e-b59c-4281-9174-f10f40f612bf, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_GortashConfrontation_State_KarlachsCellLocked_fa7ed9a2-359d-40a8-b5a9-6624a9f5af89, _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_WYR_KarlachCell_PlayerTrigger_1f5f5e06-e779-46bf-b72a-375bc21ac00e);
+PROC_GlobalClearFlagAndCache(ORI_GortashConfrontation_State_KarlachsCellLocked_fa7ed9a2-359d-40a8-b5a9-6624a9f5af89);
+PROC_GlobalSetFlagAndCache(ORI_GortashConfrontation_State_KarlachFreed_47c387ea-6d33-4452-b6fe-1411fe93d3e0);
+
+IF
+LeftTrigger(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_WYR_KarlachCell_eaa45487-cd70-46d4-90eb-4d1570616768, _, _, _)
+AND
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_GortashConfrontation_State_KarlachFreed_47c387ea-6d33-4452-b6fe-1411fe93d3e0);
+
+IF
+EnteredTrigger(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_WYR_KarlachCell_eaa45487-cd70-46d4-90eb-4d1570616768, _, _, _)
+AND
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+AND
+IsLocked(S_WYR_WyrmRockPrison_KarlachsCellDoor_ca3f8d0e-b59c-4281-9174-f10f40f612bf, 1, _, _, _)
+AND
+IsClosed(S_WYR_WyrmRockPrison_KarlachsCellDoor_ca3f8d0e-b59c-4281-9174-f10f40f612bf, 1, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(ORI_GortashConfrontation_State_KarlachFreed_47c387ea-6d33-4452-b6fe-1411fe93d3e0);
+
+IF
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+THEN
+PROC_SceneOver("ORI_KarlachInPrison");
+
+PROC
+PROC_ORI_SendToCampAfterDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+THEN
+PROC_SceneOver("ORI_KarlachInPrison");
+
+PROC
+PROC_ORI_SendToCampAfterDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, (INTEGER)_)
+THEN
+PROC_CRIME_Prison_RemoveCustomPrison(S_WYR_KarlachCell_eaa45487-cd70-46d4-90eb-4d1570616768, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+PROC
+PROC_GLO_PartyMembers_AddHook(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+THEN
+PROC_SceneOver("ORI_KarlachInPrison");
+
+PROC
+PROC_GLO_PartyMembers_AddHook(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_CRIME_Prison_RemoveCustomPrison(S_WYR_KarlachCell_eaa45487-cd70-46d4-90eb-4d1570616768, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+IF
+StatusApplied(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "GB_FUGITIVE_WYR", _, _, _)
+AND
+DB_RegionPrison_CustomCell(S_WYR_WyrmRockPrison_PlayerCell_6792230e-f319-4870-8778-5f7bfae74489, S_WYR_KarlachCell_eaa45487-cd70-46d4-90eb-4d1570616768, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_WYR_KarlachsCellPos_d1d61fae-69e8-4000-8ba1-6f6b7ea42514, S_WYR_WyrmRockPrison_KarlachsCellDoor_ca3f8d0e-b59c-4281-9174-f10f40f612bf, "WYR_WyrmRockPrison_PrisonDoor", _, _, _, _)
+THEN
+SetFlag(ORI_GortashConfrontation_State_KarlachEscaping_6094f71c-912c-4a5c-8a7a-bd2c067ed93d, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CrimeGetCustomArrestDialogCustom((CHARACTER)_Var1, (INTEGER)_Var2, GEB_Arrest_EscapedPrison_2dc6b458-e9e1-cef9-1e59-a6569c9f6434, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, (CHARACTER)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_GortashConfrontation_PrisonGuard(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_GortashConfrontation_State_KarlachEscaping_6094f71c-912c-4a5c-8a7a-bd2c067ed93d, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CrimeArrest_CustomDialog(_Var1, _Var2, WYR_GortashConfrontation_CustomKarlachArrest_f65b1b0e-1850-70d6-a935-18962e748c3e);
+
+IF
+StatusRemoved(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "GB_FUGITIVE_WYR", _, _, _)
+AND
+DB_GlobalFlag(ORI_GortashConfrontation_State_KarlachEscaping_f8fe78db-f576-4fff-a104-8379cbf704b8, _, _, _, _)
+THEN
+ClearFlag(ORI_GortashConfrontation_State_KarlachEscaping_6094f71c-912c-4a5c-8a7a-bd2c067ed93d, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SceneOver("ORI_KarlachInPrison", _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_KarlachInPrison_EndScene", _, _, _, _)
+THEN
+PROC_SetRelationMutual(Origin_Karlach_2e560efd-f847-4c83-a3a1-8241ce74a7bf, ACT3_WYR_WyrmRock_Prison_5ebe11a9-688f-44b7-ad4b-e86f8e0e790c, 50);
+
+IF
+FlagSet(ORI_GortashConfrontation_State_KarlachWillLeave_cb4ac6a2-b553-5f2d-2bfe-680d5aa0ff94, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TriggerRegisterForParty(S_WYR_GortashConfrontation_Area_88419ab5-274d-4ef9-80cb-cd5b762e0099);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_WYR_Prison_SUB_cd67276d-52e4-44b9-a237-0e2cd45106d8, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(ORI_GortashConfrontation_State_KarlachWillLeave_cb4ac6a2-b553-5f2d-2bfe-680d5aa0ff94, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_GortashConfrontation_State_KarlachLeft_1fed69d1-c245-4c5f-9ed0-5cfed57d8ae9, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPartyMemberInTrigger(S_WYR_Prison_SUB_cd67276d-52e4-44b9-a237-0e2cd45106d8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("ORI_KarlachInPrison");
+PROC_DisappearOutOfSight(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "Run", 0, "ORI_GortashConfrontation_KarlachLeaves");
+
+IF
+EntityEvent(_, "ORI_GortashConfrontation_KarlachLeaves", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(ORI_GortashConfrontation_State_KarlachLeft_1fed69d1-c245-4c5f-9ed0-5cfed57d8ae9, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(WYR_KillDirectorGortash_Ceremony_5149a422-854a-9e05-433a-0520d87eb112, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_KillDirectorGortash_State_AcceptedAlliance_92e647a6-4625-4a2b-a143-35cba456fe50, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_KillDirectorGortash_State_RefusedAlliance_c6f5c2cc-7724-4af3-b73a-10d8f7518e42, _, _, _, _)
+AND NOT
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_RejectedGortashAlliance_e990a351-329f-4723-bdcc-62ca2217ed22, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+DialogEnded(WYR_KillDirectorGortash_Ceremony_5149a422-854a-9e05-433a-0520d87eb112, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_KillDirectorGortash_State_AcceptedAlliance_92e647a6-4625-4a2b-a143-35cba456fe50, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_KillDirectorGortash_State_RefusedAlliance_c6f5c2cc-7724-4af3-b73a-10d8f7518e42, _, _, _, _)
+AND NOT
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_AcceptedGortashAlliance_361e5553-4dc9-4f0f-2e2f-0b3ef8f50385, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+DialogEnded(WYR_KillDirectorGortash_Ceremony_5149a422-854a-9e05-433a-0520d87eb112, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_KillDirectorGortash_State_OfferedAlliance_03713386-ba9a-46b8-9911-554b89072d88, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_KillDirectorGortash_State_AcceptedAlliance_92e647a6-4625-4a2b-a143-35cba456fe50, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_KillDirectorGortash_State_RefusedAlliance_c6f5c2cc-7724-4af3-b73a-10d8f7518e42, _, _, _, _)
+AND NOT
+DB_SceneManager(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "ORI_KarlachInPrison", _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_RejectedGortashAlliance_e990a351-329f-4723-bdcc-62ca2217ed22, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+FlagSet(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_AcceptedGortashAlliance_361e5553-4dc9-4f0f-2e2f-0b3ef8f50385);
+PROC_CancelRelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_RejectedGortashAlliance_e990a351-329f-4723-bdcc-62ca2217ed22);
+
+IF
+FlagSet(WYR_KillDirectorGortash_State_InOffice_12233623-2dc3-4dbe-b493-b491fdf6321d, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_GortashConfrontation_InOffice", _, _, _, _)
+THEN
+PROC_DefineSingleOriginMoment(WYR_KillDirectorGortash_GortashInOffice_b032707c-5cf3-be12-b590-d35f59019fd7, KARLACH_9aab4bcd-e1f7-4008-8f7b-f1203789ae9b, WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a, WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_COM_b4faf26b-68d6-b3ce-da96-0edca8d70608, WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a);
+DB_OriginDialogTrigger(WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a, S_WYR_GortashConfrontation_OM_InOffice_Trigger_dbd22ecd-5241-4838-9da4-0b044c74cb61);
+DB_OriginDialogTrigger(WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_COM_b4faf26b-68d6-b3ce-da96-0edca8d70608, S_WYR_GortashConfrontation_OM_InOffice_Trigger_dbd22ecd-5241-4838-9da4-0b044c74cb61);
+DB_OriginMoment_MaxDistance(WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a, 30);
+DB_OriginMoment_MaxDistance(WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_COM_b4faf26b-68d6-b3ce-da96-0edca8d70608, 30);
+
+IF
+DB_GlobalFlag(ORI_GortashConfrontation_State_KarlachLeft_1fed69d1-c245-4c5f-9ed0-5cfed57d8ae9, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_WYR_GortashConfrontation_Area_88419ab5-274d-4ef9-80cb-cd5b762e0099, _, _, _)
+THEN
+PROC_ORI_GortashConfrontation_DecideKarlachsFate();
+
+PROC
+PROC_ORI_GortashConfrontation_DecideKarlachsFate()
+AND
+DB_Defeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+THEN
+SetFlag(ORI_Karlach_Event_KillGortash_fd6c6e85-9a50-e9ac-832d-73897615d3d0, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ORI_GortashConfrontation_DecideKarlachsFate()
+AND NOT
+DB_Defeated(S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, _, _, _, _)
+THEN
+SetFlag(ORI_Karlach_State_KilledByGortash_d74f8867-9752-45bc-ab54-3177101e8507, NULL_00000000-0000-0000-0000-000000000000);
+SetOnStage(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+PROC
+PROC_ORI_GortashConfrontation_DecideKarlachsFate()
+THEN
+PROC_TriggerUnregisterForParty(S_WYR_GortashConfrontation_Area_88419ab5-274d-4ef9-80cb-cd5b762e0099);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a, S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_COM_b4faf26b-68d6-b3ce-da96-0edca8d70608, S_GLO_Gortash_b878a854-f790-4999-95c4-3f20f00f65ac, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_WYR_KillDirectorGortash_Banites(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_WYR_GortashConfrontation_NPCInclusions_acc5ab21-423a-4619-a232-06f4948ca6a6, _Var1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(WYR_KillDirectorGortash_State_InOffice_12233623-2dc3-4dbe-b493-b491fdf6321d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_Foundry_State_ControlCentreDestroyed_456906c5-40a6-429e-8e1c-7120a2ef631b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_WYR_KillDirectorGortash_SteelWatcher_5967b1c5-8e3c-4064-83e3-5219aa204c3d, S_WYR_GortashConfrontation_NPCInclusions_acc5ab21-423a-4619-a232-06f4948ca6a6, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(S_WYR_KillDirectorGortash_SteelWatcher_5967b1c5-8e3c-4064-83e3-5219aa204c3d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_WYR_KillDirectorGortash_SteelWatcher_5967b1c5-8e3c-4064-83e3-5219aa204c3d);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(WYR_GortashConfrontation_OM_KarlachAndGortashEncounter_AOM_OOM_be1c938d-d0b4-2345-683a-1a892da2873a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_WYR_KillDirectorGortash_Banites(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(WYR_KillDirectorGortash_State_InOffice_12233623-2dc3-4dbe-b493-b491fdf6321d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_WYR_GortashConfrontation_NPCInclusions_acc5ab21-423a-4619-a232-06f4948ca6a6, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_Circus_Event_FailedToGainAccess_b9b0ff6b-d7e8-8c53-4b21-55413b6c6da5, _, _, _, _)
+AND
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, S_WYR_Circus_EntranceGuard_63ef213e-7a72-4126-9d5f-2f7d60ee9178, _, _, _)
+THEN
+PROC_TryStartAD(WYR_Circus_PAD_KarlachCantEnterCircus_b3d99849-3c6d-ff65-aec5-a0ab0152ccac, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

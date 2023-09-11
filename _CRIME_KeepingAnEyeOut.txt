@@ -1,0 +1,212 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+OnCrimeConfrontationDone((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_PartyMembers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var1, BackgroundReaction_db918cfb-a484-437c-93bb-8bc36fe98a9c, 0, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var1, NoKeepingAnEyeOut_8a7650eb-da48-4597-89a5-76b2c0cddb78, 0, _Var1, _Var1)
+AND
+CrimeGetVictim(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_KeepingAnEyeOut_WasLeadOrVictim(_Var3, _Var2, _Var8, _Var1, _Var1)
+AND
+QRY_CRIME_IsEnabled(_Var2, "KeepAnEyeOnMe", _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8, 1, _Var1, _Var1)
+AND NOT
+QRY_CRIME_KeepingAnEyeOut_Block(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetTension(_Var1, _Var9, _Var1, _Var1, _Var1)
+AND
+IntegerDivide(_Var9, 10, _Var10, _Var1, _Var1)
+AND
+IntegerMax(_Var10, 5, _Var11, _Var1, _Var1)
+AND
+_Var11 > 0
+THEN
+PROC_CRIME_KeepingAnEyeOut_Start(_Var2, _Var4, _Var11);
+PROC_CRIME_KeepingAnEyeOut_Start(_Var2, _Var5, _Var11);
+PROC_CRIME_KeepingAnEyeOut_Start(_Var2, _Var6, _Var11);
+PROC_CRIME_KeepingAnEyeOut_Start(_Var2, _Var7, _Var11);
+
+QRY
+QRY_CRIME_KeepingAnEyeOut_WasLeadOrVictim(0, (CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 == _Var2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_KeepingAnEyeOut_WasLeadOrVictim(1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_KeepingAnEyeOut_Start((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_CRIME_KeepingAnEyeOut(_Var4, _Var1, _Var5, _Var1, _Var1)
+AND
+_Var4 < _Var3
+THEN
+NOT DB_CRIME_KeepingAnEyeOut(_Var4, _Var1, _Var5);
+DB_CRIME_KeepingAnEyeOut(_Var3, _Var1, _Var5);
+
+PROC
+PROC_CRIME_KeepingAnEyeOut_Start((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_CRIME_KeepingAnEyeOut(_Var4, _Var1, _Var5, _Var1, _Var1)
+AND
+CrimeAddCriminal(_Var5, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_KeepingAnEyeOut_Start((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_CRIME_KeepingAnEyeOut(_, _Var1, _, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var2, "KeepAnEyeOnMe", NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var6);
+DB_CRIME_KeepingAnEyeOut(_Var3, _Var1, _Var6);
+
+IF
+OnCrimeConfrontationDone((INTEGER)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var3, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut(_Var7, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CRIME_KeepingAnEyeOut_Continue(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+CharacterStopCrimeWithID(_Var3, _Var1);
+
+QRY
+QRY_CRIME_KeepingAnEyeOut_Continue((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CRIME_KeepingAnEyeOut_Block(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var2, 1, _Var4, _Var1, _Var1)
+AND
+_Var4 >= 0
+THEN
+NOT DB_CRIME_KeepingAnEyeOut(_Var2, _Var3, _Var1);
+DB_CRIME_KeepingAnEyeOut(_Var4, _Var3, _Var1);
+
+IF
+CharacterSelectedAsBestUnavailableFallbackLead((CHARACTER)_Var1, _, (INTEGER)_Var3, _, (CHARACTER)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut(_Var5, _Var1, _Var3, _Var1, _Var1)
+THEN
+PROC_CRIME_KeepingAnEyeOut_Stop(_Var1);
+
+PROC
+PROC_CRIME_KeepingAnEyeOut_Stop((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_KeepingAnEyeOut(_Var2, _Var1, _Var3);
+PROC_CRIME_StopForAllCriminals(_Var3);
+
+PROC
+PROC_LongRest()
+AND
+DB_CRIME_KeepingAnEyeOut(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_CRIME_KeepingAnEyeOut_Stop(_Var2);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_KeepingAnEyeOut(_Var2, _Var3, _Var1);
+
+PROC
+PROC_ReadyToMoveOn((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CRIME_KeepingAnEyeOut_Stop(_Var1);
+
+QRY
+QRY_CRIME_KeepingAnEyeOut_Block((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_CleanUpTrespass((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_CRIME_KeepingAnEyeOut_Block_Trespass(_Var1);
+
+QRY
+QRY_CRIME_KeepingAnEyeOut_Block((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut_Block_Trespass(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut_Block_Trespass(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_KeepingAnEyeOut_Block_Trespass(_Var2);
+
+IF
+CrimeProcessingStarted((INTEGER)_Var1, 0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_CRIME_KeepingAnEyeOut_BlockForAll(_Var1);
+
+IF
+FlagSet(CRIME_FoundGuiltyPlayer_1b28f6ce-09ad-9664-9865-6ed4eb69a0b7, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_KeepingAnEyeOut_BlockForAll(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_KeepingAnEyeOut_BlockForAll(_Var3);
+
+IF
+CharacterOnCrimeSensibleActionNotification((GUIDSTRING)_Var1, _, (INTEGER)_Var3, _, _, (GUIDSTRING)_Var6, _, _, _, _)
+AND
+DB_PartyMembers(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_CanSeeCriminal(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_KeepingAnEyeOut_BlockForAll(_Var3);
+
+QRY
+QRY_CRIME_KeepingAnEyeOut_Block((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut_BlockForAll(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_KeepingAnEyeOut_BlockForAll(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_KeepingAnEyeOut_BlockForAll(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

@@ -1,0 +1,238 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DontRemoveDialogsOnKnockedOut(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba);
+DB_PreventKnockedOutPermaDefeated(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba);
+SetHasDialog(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, 1);
+DB_IgnoreMutingStatussesDialog(LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702);
+SetTag(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, DOWNED_DISABLED_7095912e-fcb9-41dd-aec3-3cf7803e4b22);
+PROC_SetOnStage(S_GLO_Boo_d49e3b49-a089-4465-b453-28dc79e82bb3, 0);
+DB_GlobalFlagReactionAfterDialog(ORI_Minsc_State_SavedFromAbsolute_62e1d5ec-7c7e-70c2-68de-cadc7c7f5f20, LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702);
+PROC_DefineSingleOriginMoment(LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702, REALLY_JAHEIRA_8457eb5f-036c-4143-b6cf-447a9f555c7a, LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702);
+DB_LOW_MinscHideout_BooPrisonWall(S_LOW_MinscHideout_BooPrisonWall_1e32480a-9446-46d7-9018-76002fce1d7e, "FirstWall");
+DB_LOW_MinscHideout_BooPrisonWall(S_LOW_MinscHideout_CorrectBooPrisonCell_b4674779-e4ee-4378-94c1-4013dc4e546b, "CorrectWall");
+DB_LOW_MinscHideout_BooPrisonWall(S_LOW_MinscHideout_BooPrisonCell_000_80773f37-6ab0-4283-9a8a-ef4e280c0c82, "DummyWall");
+DB_LOW_MinscHideout_BooPrisonWall(S_LOW_MinscHideout_BooPrisonCell_001_d2c95d68-c333-4334-abe0-061cecd3d05a, "DummyWall");
+PROC_LOW_MinscHideout_CheckIfWallsAlreadyDestroyed();
+
+KBSECTION
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+IF
+DB_KnockedOut(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Minsc_State_SavedFromAbsolute_62e1d5ec-7c7e-70c2-68de-cadc7c7f5f20, _, _, _, _)
+AND
+DB_Is_InCombat(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Minsc_StoneLordDisabled();
+
+PROC
+PROC_Minsc_StoneLordDisabled()
+THEN
+SetFlag(LOW_MinscHideout_State_StoneLordDisabled_1a138353-72eb-4442-80bf-d99baf3daa5d);
+DB_Dialogs(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702);
+PROC_Minsc_QueueSaveFromAbsoluteDialog();
+
+PROC
+PROC_Minsc_QueueSaveFromAbsoluteDialog()
+AND NOT
+DB_Is_InCombat(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, _, _, _)
+THEN
+PROC_Minsc_StartSaveFromAbsoluteDialog();
+
+PROC
+PROC_Minsc_QueueSaveFromAbsoluteDialog()
+AND
+DB_Is_InCombat(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Minsc_StartDialogAfterCombat(_Var1);
+
+IF
+SwitchedCombat(_, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_Minsc_StartDialogAfterCombat(_Var2, _, _, _, _)
+THEN
+NOT DB_Minsc_StartDialogAfterCombat(_Var2);
+DB_Minsc_StartDialogAfterCombat(_Var3);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Minsc_StartDialogAfterCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Minsc_StartDialogAfterCombat(_Var1);
+PROC_Minsc_StartSaveFromAbsoluteDialog();
+
+PROC
+PROC_Minsc_StartSaveFromAbsoluteDialog()
+AND
+QRY_GetClosestAvailableCharacterTo(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, 0, _, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _Var2, _Var1, _Var1)
+AND
+_Var2 < 20
+AND
+QRY_OnlyOnce("Minsc_StartSaveFromAbsoluteDialog", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+PROC_Minsc_SaveFromAbsoluteDialogFallback();
+
+PROC
+PROC_Minsc_StartSaveFromAbsoluteDialog()
+AND
+QRY_OnlyOnce("Minsc_StartSaveFromAbsoluteDialog", _, _, _, _)
+THEN
+PROC_Minsc_SaveFromAbsoluteDialogFallback();
+
+PROC
+PROC_Minsc_SaveFromAbsoluteDialogFallback()
+AND
+DB_Players(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+THEN
+PROC_TryStartAD(LOW_MinscHideout_PAD_Jaheira_MinscKnockedOut_076e98ac-1617-3f94-0276-a28c551aed12, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+
+QRY
+QRY_SelectCustomDialog(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, "KNOCKED_OUT", 1, _Var1, _Var1)
+AND NOT
+DB_OriginDialog(_, LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, NULL_00000000-0000-0000-0000-000000000000, _Var1);
+
+IF
+DialogStarted(LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+RemoveStatus(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, "KNOCKED_OUT");
+PROC_GlobalSetFlagAndCache(ORI_Minsc_State_KnockedOutOnce_036e01e6-181d-404b-8fb2-51f9f93ed666);
+
+PROC
+PROC_KnockedOut_Ended(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, _, _, _)
+AND
+DB_DontRemoveDialogsOnKnockedOut(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Minsc_State_KnockedOutOnce_036e01e6-181d-404b-8fb2-51f9f93ed666, _, _, _, _)
+THEN
+NOT DB_DontRemoveDialogsOnKnockedOut(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba);
+NOT DB_PreventKnockedOutPermaDefeated(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba);
+
+IF
+StatusApplied(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, "KNOCKED_OUT", _, _, _)
+AND
+DB_GlobalFlag(ORI_Minsc_State_KnockedOutOnce_036e01e6-181d-404b-8fb2-51f9f93ed666, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Minsc_State_SavedFromAbsolute_62e1d5ec-7c7e-70c2-68de-cadc7c7f5f20, _, _, _, _)
+THEN
+Die(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba);
+
+PROC
+PROC_ClearOriginMoment(LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702, _, _, _, _)
+AND
+GetFlag(GLO_KnockedOut_Event_Wake_4095904d-ce99-1d77-7dfd-a77f04005032, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, 0, _, _)
+THEN
+PROC_DefineSingleOriginMoment(LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702, REALLY_JAHEIRA_8457eb5f-036c-4143-b6cf-447a9f555c7a, LOW_Minsc_SaveFromAbsolute_eeb5d970-975f-5f16-80ba-4aa54cb65702);
+
+PROC
+PROC_GLO_PartyMembers_AddHook(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+ClearTag(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, DOWNED_DISABLED_7095912e-fcb9-41dd-aec3-3cf7803e4b22);
+
+PROC
+PROC_State_Changed(_, "LOW_Guildhall_State", "LOW_Guildhall_State_DuringCoup", _, _)
+AND
+DB_LOW_Guildhall_ZhentRepresentative(S_GOB_Quartermaster_646936f3-8d8d-484e-9361-cd1ed484c615, _, _, _, _)
+THEN
+PROC_DefineSingleOriginMoment(LOW_Guildhall_Roah_ee1c7cf6-bc94-75ba-1859-ecb079f6f4b0, REALLY_MINSC_aeb694fc-83fb-452d-819a-b97ba442dc42, LOW_Guildhall_Roah_OM_Minsc_COM_OOM_4207f162-c56e-4c6a-7bdc-9c01bec8131b, 20);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_Guildhall_Roah_OM_Minsc_COM_OOM_4207f162-c56e-4c6a-7bdc-9c01bec8131b, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_State_Changed(_, "LOW_Guildhall_State", "LOW_Guildhall_State_DuringCoup", _, _)
+AND
+DB_LOW_Guildhall_ZhentRepresentative(S_LOW_Guildhall_Zhent_Leader_b7e51fc3-0788-44f2-add7-1714f2b9b6d9, _, _, _, _)
+THEN
+PROC_DefineSingleOriginMoment(LOW_Guildhall_BossFriol_dedccdbd-357a-e3a2-4a88-57eb758fe89a, REALLY_MINSC_aeb694fc-83fb-452d-819a-b97ba442dc42, LOW_Guildhall_BossFriol_OM_Minsc_COM_OOM_0450ca65-21fe-04d9-b50f-71aef887d00a, 20);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_Guildhall_BossFriol_OM_Minsc_COM_OOM_0450ca65-21fe-04d9-b50f-71aef887d00a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(ORI_Minsc_State_SavingBoo_c0bb9916-a2e0-416a-9117-1724bc5854c4, _, _, _, _)
+AND
+DB_LOW_MinscHideout_BooPrisonWall(_Var3, "FirstWall", _, _, _)
+THEN
+SetCanInteract(_Var3, 1);
+TeleportTo(S_GLO_Boo_d49e3b49-a089-4465-b453-28dc79e82bb3, S_LOW_MinscHideout_BooSpawnPoint_2648ed5c-7c37-4bd4-abdf-8b0da53488ff);
+
+IF
+FlagSet(ORI_Minsc_State_ReunitedWithBoo_491635de-7395-5fe4-f8ce-be3288707a80, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, _, _, _)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _Var3, _, _, _)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var3, "GLO_Companion_Minsc_StartRecruitmentDialog", _, _, _)
+AND NOT
+QRY_StartDialog(Minsc_Recruitment_630440f5-b71a-8764-94e8-b62544254cff, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _Var3, _, _)
+THEN
+PROC_LOW_MinscHideout_SetupMinscForRecruitment();
+
+PROC
+PROC_LOW_MinscHideout_SetupMinscForRecruitment()
+THEN
+DB_Dialogs(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, Minsc_Recruitment_630440f5-b71a-8764-94e8-b62544254cff);
+
+IF
+DialogStarted(Minsc_Recruitment_630440f5-b71a-8764-94e8-b62544254cff, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SetOnStage(S_GLO_Boo_d49e3b49-a089-4465-b453-28dc79e82bb3, 0);
+
+IF
+AttackedBy((ITEM)_Var1, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _, _, _, _, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LOW_MinscHideout_BooPrisonWall(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, 0, 0, 10);
+
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_LOW_MinscHideout_BooPrisonWall(_Var1, "CorrectWall", _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Minsc_State_BooSaved_86765e52-75f0-4b7a-a346-c55265ec4af9);
+
+PROC
+PROC_LOW_MinscHideout_CheckIfWallsAlreadyDestroyed()
+AND
+DB_LOW_MinscHideout_BooPrisonWall(_Var1, "CorrectWall", _Var1, _Var1, _Var1)
+AND
+DB_Destroyed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Minsc_State_BooSaved_86765e52-75f0-4b7a-a346-c55265ec4af9);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(ORI_Minsc_State_SavedFromAbsolute_62e1d5ec-7c7e-70c2-68de-cadc7c7f5f20, _, _, _, _)
+THEN
+PROC_RemoveDialog(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba);
+SetFlag(ORI_Minsc_State_SavingBoo_c0bb9916-a2e0-416a-9117-1724bc5854c4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

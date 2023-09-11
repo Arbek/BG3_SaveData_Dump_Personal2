@@ -1,0 +1,21 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Spells_DominatedOwnerStatus("CONTROL_UNDEAD", "CONTROL_UNDEAD_OWNER");
+DB_GLO_Spells_TurnCharactersEvilStatuses("CONTROL_UNDEAD");
+
+KBSECTION
+IF
+TextEvent("testcontrolundead", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetLevel(_Var1, 5);
+AddSpell(_Var1, "Target_ControlUndead", 1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

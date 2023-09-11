@@ -1,0 +1,55 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Mad(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Mad", 1, _Var1, _Var1)
+THEN
+DB_GLO_Mad(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Mad(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Mad", 1, _Var1, _Var1)
+AND
+HasAppliedStatusWithGroup(_Var1, "SG_Mad", 0, _Var1, _Var1)
+THEN
+NOT DB_GLO_Mad(_Var1);
+PROC_GLO_Mad_RestoreIndivRelation(_Var1);
+
+PROC
+PROC_GLO_Mad_RestoreIndivRelation((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Mad_IndividualRelation(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Mad_IndividualRelation(_Var1, _Var2);
+
+PROC
+PROC_GLO_Mad_RestoreIndivRelation((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ClearIndividualRelations(_Var1, "GLO_Mad");
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Mad(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Mad_IndividualRelation(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SetIndividualRelation(_Var1, _Var3, 0, "GLO_Mad", 0);
+DB_GLO_Mad_IndividualRelation(_Var1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,502 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_CleanUpEffects();
+
+KBSECTION
+IF
+LevelLoaded(_, (STRING)_, (STRING)_, (STRING)_, (STRING)_)
+THEN
+PROC_InvalidateLoopEffects();
+PROC_InvalidateLoopBeamEffects();
+
+PROC
+PROC_InvalidateLoopEffects()
+AND
+DB_LoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+DB_LoopEffect(_Var1, 0, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_InvalidateLoopBeamEffects()
+AND
+DB_LoopBeamEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+NOT DB_LoopBeamEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8);
+DB_LoopBeamEffect(_Var1, _Var2, 0, _Var4, _Var5, _Var6, _Var7, _Var8);
+
+QRY
+QRY_PlayLoopEffectCleanUp()
+AND
+DB_PlayLoopEffectHandleResult(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PlayLoopEffectHandleResult(_Var1);
+
+QRY
+QRY_PlayLoopEffectCleanUp()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PlayLoopEffect((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_PlayLoopEffect(_Var1, _Var2, _Var3, _Var4, 1)
+THEN
+DB_Noop(1);
+
+QRY
+QRY_PlayLoopEffect((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (REAL)_Var5)
+AND
+_Var4 != "__POSITION__"
+AND
+QRY_PlayLoopEffectCleanUp()
+AND
+PlayLoopEffect(_Var1, _Var3, _Var4, _Var5, _Var6)
+THEN
+DB_PlayLoopEffectHandleResult(_Var6);
+
+QRY
+QRY_PlayLoopEffect((GUIDSTRING)_Var1, (STRING)_Var2, (EFFECTRESOURCE)_Var3, "__POSITION__", (REAL)_Var4)
+AND NOT
+DB_LoopEffect_CustomPosition(_Var1, _Var2, _, _, _)
+AND
+QRY_PlayLoopEffectCleanUp()
+AND
+GetPosition(_Var1, _Var8, _Var9, _Var10, _Var1)
+AND
+PlayLoopEffectAtPosition(_Var3, _Var8, _Var9, _Var10, _Var4, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PlayLoopEffectHandleResult(_Var11);
+
+QRY
+QRY_PlayLoopEffect((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, "__POSITION__", (REAL)_Var4)
+AND
+DB_LoopEffect_CustomPosition(_Var1, _Var2, _Var5, _Var6, _Var7)
+AND NOT
+DB_LoopEffect_CustomRotation(_Var1, _Var2, _, _, _)
+AND
+QRY_PlayLoopEffectCleanUp()
+AND
+PlayLoopEffectAtPosition(_Var3, _Var5, _Var6, _Var7, _Var4, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PlayLoopEffectHandleResult(_Var11);
+
+QRY
+QRY_PlayLoopEffect((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, "__POSITION__", (REAL)_Var4)
+AND
+DB_LoopEffect_CustomPosition(_Var1, _Var2, _Var5, _Var6, _Var7)
+AND
+DB_LoopEffect_CustomRotation(_Var1, _Var2, _Var8, _Var9, _Var10)
+AND
+QRY_PlayLoopEffectCleanUp()
+AND
+PlayLoopEffectAtPositionAndRotation(_Var3, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var4, _Var11, _Var1)
+THEN
+DB_PlayLoopEffectHandleResult(_Var11);
+
+PROC
+PROC_LoopEffectAtPosition((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (EFFECTRESOURCE)_Var1)
+THEN
+PROC_LoopEffect(_Var1, _Var2, _Var3, _Var4, "__POSITION__");
+
+PROC
+PROC_LoopEffectAtPosition((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (STRING)_Var7, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+THEN
+DB_LoopEffect_CustomPosition(_Var2, _Var3, _Var4, _Var5, _Var6);
+PROC_LoopEffect(_Var1, _Var2, _Var3, _Var7, "__POSITION__");
+
+PROC
+PROC_LoopEffectAtPositionAndRotation((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (REAL)_Var5)
+AND
+GetPosition(_Var2, _Var6, _Var7, _Var8, _Var1)
+AND
+GetRotation(_Var2, _Var9, _Var10, _Var11, _Var1)
+THEN
+DB_LoopEffect_CustomPosition(_Var2, _Var3, _Var6, _Var7, _Var8);
+DB_LoopEffect_CustomRotation(_Var2, _Var3, _Var9, _Var10, _Var11);
+PROC_LoopEffect(_Var1, _Var2, _Var3, _Var4, "__POSITION__", _Var5);
+
+PROC
+PROC_LoopEffectAtPositionAndRotation((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (REAL)_Var5, (REAL)_Var6, (REAL)_Var7, (REAL)_Var8, (REAL)_Var9, (REAL)_Var10, (REAL)_Var11, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND
+GetPosition(_Var2, _Var5, _Var6, _Var7, _Var1)
+AND
+GetRotation(_Var2, _Var8, _Var9, _Var10, _Var1)
+THEN
+DB_LoopEffect_CustomPosition(_Var2, _Var3, _Var5, _Var6, _Var7);
+DB_LoopEffect_CustomRotation(_Var2, _Var3, _Var8, _Var9, _Var10);
+PROC_LoopEffect(_Var1, _Var2, _Var3, _Var4, "__POSITION__", _Var11);
+
+PROC
+PROC_LoopEffect((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+THEN
+PROC_LoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, 1);
+
+PROC
+PROC_LoopEffect((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5, (REAL)_Var6, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+THEN
+DB_QueuedLoopEffect(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6);
+PROC_LoopEffect_Queued();
+
+PROC
+PROC_LoopEffect_Intern((EFFECTRESOURCE)_Var1, (TRIGGER)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5, (REAL)_Var6, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND
+DB_ActiveLevel(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PlayLoopEffect(_Var2, _Var3, _Var1, _Var5, _Var6)
+AND
+DB_PlayLoopEffectHandleResult(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LoopEffect(_Var2, _Var7, _Var3, _Var4, _Var1, _Var5, _Var6);
+
+PROC
+PROC_LoopEffect_Intern((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5, (REAL)_Var6, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND
+_Var4 != "__ANY__"
+AND NOT
+DB_ActiveLevel(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LoopEffect(_Var2, 0, _Var3, _Var4, _Var1, _Var5, _Var6);
+
+PROC
+PROC_LoopEffect_Intern((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, "__ANY__", (STRING)_Var4, (REAL)_Var5, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND
+DB_ActiveLevel(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_BlockEffectInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_PlayLoopEffect(_Var2, _Var3, _Var1, _Var4, _Var5)
+AND
+DB_PlayLoopEffectHandleResult(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LoopEffect(_Var2, _Var7, _Var3, "__ANY__", _Var1, _Var4, _Var5);
+
+PROC
+PROC_LoopEffect_Intern((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, "__ANY__", (STRING)_Var4, (REAL)_Var5, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND
+DB_ActiveLevel(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_BlockEffectInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_LoopEffect(_Var2, 0, _Var3, "__ANY__", _Var1, _Var4, _Var5);
+
+PROC
+PROC_LoopEffect_Intern((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, "__ANY__", (STRING)_Var4, (REAL)_Var5, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND NOT
+DB_ActiveLevel(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LoopEffect(_Var2, 0, _Var3, "__ANY__", _Var1, _Var4, _Var5);
+
+PROC
+PROC_LoopBeamEffect((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, (STRING)_Var7, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+THEN
+DB_QueuedLoopBeamEffect(_Var2, _Var3, _Var6, _Var7, _Var1, _Var4, _Var5);
+PROC_LoopEffect_Queued();
+
+PROC
+PROC_LoopBeamEffect_Intern((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, (STRING)_Var7, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND
+_Var7 != "__ANY__"
+AND NOT
+DB_ActiveLevel(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LoopBeamEffect(_Var2, _Var3, 0, _Var6, _Var7, _Var1, _Var4, _Var5);
+
+PROC
+PROC_LoopBeamEffect_Intern((EFFECTRESOURCE)_Var1, (ITEM)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, (STRING)_Var7, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND
+DB_ActiveLevel(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+PlayLoopBeamEffect(_Var2, _Var3, _Var1, _Var4, _Var5, _Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LoopBeamEffect(_Var2, _Var3, _Var8, _Var6, _Var7, _Var1, _Var4, _Var5);
+
+PROC
+PROC_LoopBeamEffect_Intern((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, "__ANY__", (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND
+DB_ActiveLevel(_, _Var1, _Var1, _Var1, _Var1)
+AND
+PlayLoopBeamEffect(_Var2, _Var3, _Var1, _Var4, _Var5, _Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LoopBeamEffect(_Var2, _Var3, _Var8, _Var6, "__ANY__", _Var1, _Var4, _Var5);
+
+PROC
+PROC_LoopBeamEffect_Intern((EFFECTRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, "__ANY__", (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1, (EFFECTRESOURCE)_Var1)
+AND NOT
+DB_ActiveLevel(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LoopBeamEffect(_Var2, _Var3, 0, _Var6, "__ANY__", _Var1, _Var4, _Var5);
+
+PROC
+PROC_StopLoopEffect((INTEGER64)_Var1, (INTEGER64)_Var1, (INTEGER64)_Var1, (INTEGER64)_Var1, (INTEGER64)_Var1)
+AND
+_Var1 != -1
+THEN
+StopLoopEffect(_Var1);
+
+PROC
+PROC_StopLoopEffect((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LoopEffect(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var3);
+NOT DB_LoopEffect(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_StopLoopEffect((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LoopEffect_CustomPosition(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+NOT DB_LoopEffect_CustomPosition(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_StopLoopBeamEffect((ITEM)_Var1, (STRING)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LoopBeamEffect(_Var1, _Var3, _Var4, _Var2, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var4);
+NOT DB_LoopBeamEffect(_Var1, _Var3, _Var4, _Var2, _Var5, _Var6, _Var7, _Var8);
+
+PROC
+PROC_CleanUpEffects()
+THEN
+PROC_CleanUpLoopEffects();
+PROC_CleanUpLoopBeamEffects();
+
+PROC
+PROC_CleanUpLoopEffects()
+AND
+DB_LoopEffect(_Var1, _, _Var3, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var1, _Var3);
+
+PROC
+PROC_CleanUpLoopBeamEffects()
+AND
+DB_LoopBeamEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+PROC_StopLoopBeamEffect(_Var1, _Var4);
+
+PROC
+PROC_StopEffectsForRegion((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_StopLoopEffectsForRegion(_Var1);
+PROC_StopLoopBeamEffectsForRegion(_Var1);
+
+PROC
+PROC_StopLoopEffectsForRegion((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LoopEffect(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var3);
+NOT DB_LoopEffect(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7);
+DB_LoopEffect(_Var2, 0, _Var4, _Var1, _Var5, _Var6, _Var7);
+
+PROC
+PROC_StopLoopBeamEffectsForRegion((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LoopBeamEffect(_Var2, _Var3, _Var4, _Var5, _Var1, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var4);
+NOT DB_LoopBeamEffect(_Var2, _Var3, _Var4, _Var5, _Var1, _Var6, _Var7, _Var8);
+DB_LoopBeamEffect(_Var2, _Var3, 0, _Var5, _Var1, _Var6, _Var7, _Var8);
+
+PROC
+PROC_StopLoopEffectsForRegion(_, _, _, _, _)
+AND
+DB_LoopEffect(_Var2, _Var3, _Var4, "__ANY__", _Var5, _Var6, _Var7, _, _, _)
+THEN
+PROC_StopLoopEffect(_Var3);
+NOT DB_LoopEffect(_Var2, _Var3, _Var4, "__ANY__", _Var5, _Var6, _Var7);
+DB_LoopEffect(_Var2, 0, _Var4, "__ANY__", _Var5, _Var6, _Var7);
+
+PROC
+PROC_StopLoopBeamEffectsForRegion(_, _, _, _, _)
+AND
+DB_LoopBeamEffect(_Var2, _Var3, _Var4, _Var5, "__ANY__", _Var6, _Var7, _Var8, _, _)
+THEN
+PROC_StopLoopEffect(_Var4);
+NOT DB_LoopBeamEffect(_Var2, _Var3, _Var4, _Var5, "__ANY__", _Var6, _Var7, _Var8);
+DB_LoopBeamEffect(_Var2, _Var3, 0, _Var5, "__ANY__", _Var6, _Var7, _Var8);
+
+PROC
+PROC_StartEffectsForRegion((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_StartLoopEffectsForRegion(_Var1);
+PROC_StartLoopBeamEffectsForRegion(_Var1);
+
+PROC
+PROC_StartLoopEffectsForRegion((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LoopEffect(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+QRY_BlockEffectInCombat(_Var5, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_PlayLoopEffect(_Var2, _Var4, _Var5, _Var6, _Var1)
+AND
+DB_PlayLoopEffectHandleResult(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LoopEffect(_Var2, _Var3, _Var4, _Var1, _Var5, _Var6, _Var7);
+DB_LoopEffect(_Var2, _Var8, _Var4, _Var1, _Var5, _Var6, _Var7);
+
+PROC
+PROC_StartLoopBeamEffectsForRegion((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LoopBeamEffect(_Var2, _Var3, _Var4, _Var5, _Var1, _Var6, _Var7, _Var8, _Var1, _Var1)
+AND
+PlayLoopBeamEffect(_Var2, _Var3, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LoopBeamEffect(_Var2, _Var3, _Var4, _Var5, _Var1, _Var6, _Var7, _Var8);
+DB_LoopBeamEffect(_Var2, _Var3, _Var9, _Var5, _Var1, _Var6, _Var7, _Var8);
+
+PROC
+PROC_StartLoopEffectsForRegion(_, _, _, _, _)
+AND
+DB_LoopEffect(_Var2, _Var3, _Var4, "__ANY__", _Var5, _Var6, _Var7, _, _, _)
+AND NOT
+QRY_BlockEffectInCombat(_Var5, _Var2, _, _, _)
+AND
+QRY_PlayLoopEffect(_Var2, _Var4, _Var5, _Var6, _)
+AND
+DB_PlayLoopEffectHandleResult(_Var8, _, _, _, _)
+THEN
+NOT DB_LoopEffect(_Var2, _Var3, _Var4, "__ANY__", _Var5, _Var6, _Var7);
+DB_LoopEffect(_Var2, _Var8, _Var4, "__ANY__", _Var5, _Var6, _Var7);
+
+PROC
+PROC_StartLoopBeamEffectsForRegion((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LoopBeamEffect(_Var2, _Var3, _Var4, _Var5, "__ANY__", _Var6, _Var7, _Var8, _Var1, _Var1)
+AND
+PlayLoopBeamEffect(_Var2, _Var3, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LoopBeamEffect(_Var2, _Var3, _Var4, _Var5, "__ANY__", _Var6, _Var7, _Var8);
+DB_LoopBeamEffect(_Var2, _Var3, _Var9, _Var5, "__ANY__", _Var6, _Var7, _Var8);
+
+IF
+LevelUnloading((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_StopEffectsForRegion(_Var1);
+
+IF
+LevelGameplayStarted((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_StartEffectsForRegion(_Var1);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LoopEffect(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_LoopEffectDisabledInCombat(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopEffect(_Var3);
+NOT DB_LoopEffect(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8);
+DB_LoopEffect(_Var1, 0, _Var4, _Var5, _Var6, _Var7, _Var8);
+
+IF
+LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LoopEffect(_Var1, 0, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_LoopEffectDisabledInCombat(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PlayLoopEffect(_Var1, _Var3, _Var5, _Var6, _Var1)
+AND
+DB_PlayLoopEffectHandleResult(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LoopEffect(_Var1, 0, _Var3, _Var4, _Var5, _Var6, _Var7);
+DB_LoopEffect(_Var1, _Var8, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_BlockEffectInCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LoopEffectDisabledInCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+SavegameLoadStarted()
+THEN
+DB_GLO_Effects_SavegameLoading(1);
+
+PROC
+PROC_LoopEffect_Queued()
+AND NOT
+DB_GLO_Effects_SavegameLoading(1, _, _, _, _)
+AND
+IsGameStateRunning(0, _, _, _, _)
+THEN
+DB_GLO_Effects_SavegameLoading(1);
+
+IF
+LevelGameplayStarted(_, _, _, _, _)
+AND
+DB_GLO_Effects_SavegameLoading(1, _, _, _, _)
+THEN
+NOT DB_GLO_Effects_SavegameLoading(1);
+
+PROC
+PROC_LoopEffect_Queued()
+AND
+DB_GLO_Effects_SavegameLoading(1, _, _, _, _)
+AND
+DB_QueuedLoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QueuedLoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+DB_LoopEffect(_Var1, 0, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_LoopEffect_Queued()
+AND NOT
+DB_GLO_Effects_SavegameLoading(1, _, _, _, _)
+AND
+DB_QueuedLoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LoopEffect_Intern(_Var4, _Var1, _Var2, _Var3, _Var5, _Var6);
+NOT DB_QueuedLoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_LoopEffect_Queued()
+AND
+DB_GLO_Effects_SavegameLoading(1, _, _, _, _)
+AND
+DB_QueuedLoopBeamEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QueuedLoopBeamEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+DB_LoopBeamEffect(_Var1, _Var2, 0, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_LoopEffect_Queued()
+AND NOT
+DB_GLO_Effects_SavegameLoading(1, _, _, _, _)
+AND
+DB_QueuedLoopBeamEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+PROC_LoopBeamEffect_Intern(_Var5, _Var1, _Var2, _Var6, _Var7, _Var3, _Var4);
+NOT DB_QueuedLoopBeamEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_StopLoopEffect((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QueuedLoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QueuedLoopEffect(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_StopLoopBeamEffect((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QueuedLoopBeamEffect(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QueuedLoopBeamEffect(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6, _Var7);
+
+
+EXITSECTION
+ENDEXITSECTION
+

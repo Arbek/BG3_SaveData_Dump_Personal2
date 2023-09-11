@@ -1,0 +1,150 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724, 0);
+DB_Mimic(S_UND_HarperSpy_Mimic_000_ee6fa7ab-9619-4b8e-8c8b-ee23e4f359af, S_UND_HarperSpy_RealMimic_000_6cb8e7a4-5247-4f93-9781-1fa9712355e5, S_UND_HarperSpy_Mimic_002_a68a46ee-0fd3-47f5-a47e-618145ccbafe);
+DB_Mimic(S_UND_HarperSpy_Mimic_001_23f4779f-1f9a-49af-8e56-942500935571, S_UND_HarperSpy_RealMimic_001_23158926-5f3e-4997-a04e-bbebdd914e13, S_UND_HarperSpy_Mimic_002_a68a46ee-0fd3-47f5-a47e-618145ccbafe);
+DB_Mimic(S_UND_HarperSpy_Mimic_002_a68a46ee-0fd3-47f5-a47e-618145ccbafe, S_UND_HarperSpy_RealMimic_002_f0e2d852-b374-4e51-ac9d-d429ffdaac33, S_UND_HarperSpy_Mimic_002_a68a46ee-0fd3-47f5-a47e-618145ccbafe);
+DB_UND_HarperStash_NoticeStashLocationDialogs(UND_HarperSpy_PAD_FoundRune_030f4cc5-3e6e-bc4b-d4b1-5ed39a93fb84);
+DB_UND_HarperStash_NoticeStashLocationDialogs(UND_HarperSpy_PAD_RecogniseStashLocation_26abbe6b-54bd-7174-2fc6-666cca9cf1a2);
+DB_KnowledgeCheckTrigger_AD("UND_HarperSpy_RecogniseRune", S_UND_HarperSpy_SecretChestLocation_9e380ffc-2e4c-46bb-adaf-98802c14fc2c, "History", DC_Legacy_15_bddbb9b8-a242-4c3e-a2eb-3fd274c0c539, UND_HarperSpy_PAD_FoundRune_030f4cc5-3e6e-bc4b-d4b1-5ed39a93fb84, UND_HarperSpy_State_UnderstoodRune_7ab28eec-25fc-671b-9f49-b1b35ee1a560);
+DB_BookFlags(S_UND_HarperSpy_InquisitorDiary_d28ea463-d12a-4474-aea9-ee923382af83, UND_HarperSpy_State_PlayerReadDiary_69c8f7e3-d1ca-4b59-89f3-0d7f68fd9fa7);
+PROC_TriggerRegisterForPlayers(S_UND_HarperSpy_RevealArea_03c222bd-c606-4823-9e01-a6263479d151);
+
+KBSECTION
+PROC
+PROC_BookFlags_FlagSet(S_UND_HarperSpy_InquisitorDiary_d28ea463-d12a-4474-aea9-ee923382af83, _, (CHARACTER)_Var2, (FLAG)_, (FLAG)_)
+THEN
+PROC_UnlockPartyMarker("UND_HarperSpy_SecretChestLocation", S_UND_HarperSpy_StashMapMarker_aa9eeb96-dc41-4ea5-8caf-fcddd08ba4a9);
+PROC_KnowledgeCheck(_Var2, "UND_HarperSpy_UnderstandHint", S_UND_HarperSpy_InquisitorDiary_d28ea463-d12a-4474-aea9-ee923382af83, "Investigation", DC_Legacy_15_bddbb9b8-a242-4c3e-a2eb-3fd274c0c539, UND_HarperSpy_PAD_RecogniseWatchword_cade0e3a-3f92-ad60-addc-15dddebfe81a, UND_HarperSpy_State_UnderstoodHint_b6e82282-d440-d4cd-d0ab-5197f6fa047f);
+
+IF
+DB_GlobalFlag(UND_HarperSpy_State_PlayerReadDiary_69c8f7e3-d1ca-4b59-89f3-0d7f68fd9fa7, _, _, _, _)
+THEN
+PROC_KnowledgeCheck_Clear(S_UND_HarperSpy_SecretChestLocation_9e380ffc-2e4c-46bb-adaf-98802c14fc2c);
+PROC_TriggerRegisterForPlayers(S_UND_HarperSpy_SecretChestLocation_9e380ffc-2e4c-46bb-adaf-98802c14fc2c);
+SetFlag(UND_HarperSpy_State_UnderstoodRune_7ab28eec-25fc-671b-9f49-b1b35ee1a560, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_InRegion(_Var1, S_UND_HarperSpy_SecretChestLocation_9e380ffc-2e4c-46bb-adaf-98802c14fc2c, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_HarperSpy_State_PlayerReadDiary_69c8f7e3-d1ca-4b59-89f3-0d7f68fd9fa7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_HarperSpy_SecretChestRevealed", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(UND_HarperSpy_PAD_RecogniseStashLocation_26abbe6b-54bd-7174-2fc6-666cca9cf1a2, _Var1);
+
+IF
+AddedTo(S_UND_HarperSpy_SecretChest_aa7de76b-23da-4928-85d6-71d4adcc10d5, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_UND_HarperSpy_InteractedWithSecretChest();
+
+IF
+UseStarted((CHARACTER)_Var1, S_UND_HarperSpy_SecretChest_aa7de76b-23da-4928-85d6-71d4adcc10d5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_UND_HarperSpy_InteractedWithSecretChest();
+
+IF
+Moved(S_UND_HarperSpy_SecretChest_aa7de76b-23da-4928-85d6-71d4adcc10d5, _, _, _, _)
+THEN
+PROC_UND_HarperSpy_InteractedWithSecretChest();
+
+IF
+AutomatedDialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_HarperStash_NoticeStashLocationDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_GlobalFlag(UND_HarperSpy_State_UnderstoodRune_7ab28eec-25fc-671b-9f49-b1b35ee1a560, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck(_Var3, "UND_HarperSpy_KnowChestIsHidden", S_UND_HarperSpy_SecretChest_aa7de76b-23da-4928-85d6-71d4adcc10d5, "Investigation", DC_Legacy_10_625be976-7a67-4394-97c8-14c69715ae4b, UND_HarperSpy_PAD_RecogniseSecretChest_694bc9c3-380c-37b7-9c77-79643bd18b34, UND_HarperSpy_State_RecognisedReplicaChest_2f990ddb-15f1-7670-d5fd-b700442d1a2b);
+
+PROC
+PROC_UND_HarperSpy_InteractedWithSecretChest()
+AND
+IsOnStage(S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724, 0, _, _, _)
+THEN
+PROC_Foop(S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724, VFX_Script_CONT_GEN_SecretChest_01_a164a018-22f3-a538-5acb-4aedf67358de);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage((CHARACTER)_Var1, S_UND_HarperSpy_SecretChest_aa7de76b-23da-4928-85d6-71d4adcc10d5, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(UND_HarperSpy_State_PlayerReadDiary_69c8f7e3-d1ca-4b59-89f3-0d7f68fd9fa7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(1);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage((CHARACTER)_Var1, S_UND_HarperSpy_SecretChest_aa7de76b-23da-4928-85d6-71d4adcc10d5, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(UND_HarperSpy_State_UnderstoodRune_7ab28eec-25fc-671b-9f49-b1b35ee1a560, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(-1);
+
+IF
+StatusApplied(S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724, (STRING)_Var1, (GUIDSTRING)_Var2, _, (STRING)_Var1)
+AND
+IsStatusFromGroup(_Var1, "SG_Light", 1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var2, S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724, "Disarm", 0);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Mimic(_, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_UND_HarperStash_FoughtMimics(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var5, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_UND_HarperStash_FoughtMimics(1);
+
+IF
+Opened(S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "HIDDEN_WLD_Boosters", "UND_HarperSpy_OpenedStash", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "HIDDEN_WLD_Boosters", "UND_HarperSpy_OpenedStashAvoidedMimics", 0, _Var1)
+AND NOT
+DB_UND_HarperStash_FoughtMimics(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "HIDDEN_WLD_Boosters", "UND_HarperSpy_OpenedStashAvoidedMimics");
+
+IF
+Opened(S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "HIDDEN_WLD_Boosters", "UND_HarperSpy_OpenedStash", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "HIDDEN_WLD_Boosters", "UND_HarperSpy_OpenedStashAvoidedMimics", 0, _Var1)
+THEN
+QuestUpdate(_Var1, "HIDDEN_WLD_Boosters", "UND_HarperSpy_OpenedStash");
+
+IF
+TextEvent("UND_HarperSpy_ResetStash", _, _, _, _)
+THEN
+PROC_Poof(S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724);
+
+IF
+TextEvent("UND_HarperSpy_RevealSecretChest", _, _, _, _)
+THEN
+PROC_PlayPerceptionRevealEffect(S_UND_HarperSpy_SecretChest_aa7de76b-23da-4928-85d6-71d4adcc10d5, "UND_HarperSpy_HighlightSecretChest", 10000);
+
+IF
+TextEvent("UND_HarperSpy_RevealStash", _, _, _, _)
+THEN
+PROC_Foop(S_UND_HarperSpy_HarperStash_e776f2aa-0a7f-40b7-a4ec-7f951c7a5724);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

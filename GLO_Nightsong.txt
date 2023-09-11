@@ -1,0 +1,149 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_State_Priority(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtTemple", 0);
+DB_State_Priority(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtInn", 1000);
+DB_State_Priority(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtMoo", 2000);
+DB_State_Priority(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_Freed", 2500);
+DB_State_Priority(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtCol", 2600);
+DB_State_Priority(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated", 3000);
+DB_State_Priority(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_PermanentlyDead", 4000);
+DB_State_Flags(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtInn", HAV_Nightsong_State_AtInn_a54c06a7-2b9f-47fa-9821-3d346f378237);
+DB_State_Flags(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_PermanentlyDead", SHA_Nightsong_State_PermaDefeated_d02e8ea4-dec7-4824-8117-efc075dee4ba);
+DB_State_Current(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtTemple");
+DB_CombatReact_AD_OnTurn(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_AD_TauntPlayer_4e2e1a1c-c1e1-2585-1d0f-5d43a537a49b, 1);
+DB_CombatReact_AD_OnTurn(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_AD_TauntPlayer_4e2e1a1c-c1e1-2585-1d0f-5d43a537a49b, 2);
+DB_CombatReact_AD_OnTurn(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_AD_TauntPlayer_4e2e1a1c-c1e1-2585-1d0f-5d43a537a49b, 3);
+DB_CombatReact_AD_OnTurn(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_AD_TauntPlayer_4e2e1a1c-c1e1-2585-1d0f-5d43a537a49b, 4);
+DB_CombatReact_AD_OnDeath(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, GLO_Nightsong_AD_Killed_6161a78d-0bbf-9cb0-fa36-f2de99124fdd);
+DB_CombatReact_AD_StatusRemoved(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, GLO_Nightsong_AD_Resurrected_cd43a273-bb72-209d-ad81-98fe720e3f7a, "NIGHTSONG_DOWNED");
+DB_DeadEvent(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_State_Dead_1ec7913b-d5ff-416c-9d11-06d4ae7b9456);
+DB_Inclusion_Object(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_Inclusion_Start_c88a28f7-443a-bb7c-fb2d-888077ce7a14, SHA_Nightsong_Inclusion_End_1d089a1b-2251-7a03-075b-f6e025ae9a82);
+DB_PreventPermaDefeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+DB_NoLowAttitudeDialog(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+PROC_SelfHealing_Disable(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+SetTag(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, CHASM_IMMUNE_1063224a-a5ab-41b1-b309-0ac730e4e8ce);
+
+KBSECTION
+IF
+DB_State_Current(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtMoo", _, _)
+THEN
+PROC_Poof(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+TeleportTo(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, S_MOO_RoofNightsongPoint_3c9754d2-0c00-4859-a95e-d27ea15c6701, "SHA_Nightsong_ToMoonrise");
+
+IF
+DB_State_Current(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_Freed", _, _)
+THEN
+PROC_Poof(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+PROC_MOO_Assault_TrySetupChar(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, S_MOO_RoofNightsongPoint_3c9754d2-0c00-4859-a95e-d27ea15c6701, "MOO_Assault_Nightsong");
+Transform(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, Humans_Female_Strong_NightSong_9671ecbb-4030-48ff-b63e-f138e988835f, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+PROC_GLO_Nightsong_GiveNightsongEquipment();
+
+PROC
+PROC_SCE_SetupDebrief()
+AND NOT
+DB_PermaDefeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated");
+
+IF
+DB_LevelUnreachable("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+AND NOT
+DB_State_Current(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated", _, _)
+THEN
+PROC_State_Progress(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated");
+
+PROC
+PROC_State_Changed(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated", _, _)
+AND
+DB_SceneManager(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_NightsongPrison_MeetingNightsong", _, _, _)
+THEN
+PROC_SceneOver("SHA_NightsongPrison_MeetingNightsong");
+
+PROC
+PROC_State_Changed(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated", _, _)
+AND
+DB_SceneManager(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SCE_IsobelNightsongReunion_Scene_MainReunion", _, _, _)
+THEN
+PROC_SceneOver("SCE_IsobelNightsongReunion_Scene_MainReunion");
+
+PROC
+PROC_State_Changed(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated", _, _)
+THEN
+SetTag(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, NOT_MESSING_AROUND_542b58f0-42ad-4157-a28e-27434e0e7b18);
+
+IF
+DB_Dead(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+AND
+HasActiveStatus(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_SHARSPEAR_MORTALWOUND", 1, _, _)
+THEN
+PROC_State_Progress(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_PermanentlyDead");
+
+PROC
+PROC_GLO_Nightsong_GiveNightsongEquipment()
+AND
+QRY_OnlyOnce("GaveNightsongHerEquipment", _, _, _, _)
+THEN
+DB_GLO_Chasms_ChasmRecoveryAnimation(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, CUST_NightsongFlightRecovery_348ef802-c475-41e7-a8b3-cb38fbc66669);
+Transform(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, Humans_Female_Strong_NightSong_9671ecbb-4030-48ff-b63e-f138e988835f, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+CharacterGiveEquipmentSet(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong");
+
+IF
+TextEvent("GLO_NightsongTransform", _, _, _, _)
+THEN
+PROC_GLO_Nightsong_GiveNightsongEquipment();
+
+IF
+Resurrected(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+THEN
+SetFlag(SHA_Nightsong_Event_Resurrected_43ea94b5-f929-4eb4-baea-b9cdc459b53f, NULL_00000000-0000-0000-0000-000000000000, 0);
+TimerCancel("Nightsong_PostResurrection");
+TimerLaunch("Nightsong_PostResurrection", 2000);
+
+PROC
+PROC_State_Changed(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtTemple", _, _)
+THEN
+NOT DB_CombatReact_AD_OnTurn(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_AD_TauntPlayer_4e2e1a1c-c1e1-2585-1d0f-5d43a537a49b, 1);
+NOT DB_CombatReact_AD_OnTurn(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_AD_TauntPlayer_4e2e1a1c-c1e1-2585-1d0f-5d43a537a49b, 2);
+NOT DB_CombatReact_AD_OnTurn(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_AD_TauntPlayer_4e2e1a1c-c1e1-2585-1d0f-5d43a537a49b, 3);
+NOT DB_CombatReact_AD_OnTurn(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, SHA_Nightsong_AD_TauntPlayer_4e2e1a1c-c1e1-2585-1d0f-5d43a537a49b, 4);
+
+IF
+StatusRemoved(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "GLO_NIGHTSONGRESURRECTION", _, _, _)
+AND NOT
+DB_OnlyOnce("SHA_Nightsong_PlayedResurrectionAD", _, _, _, _)
+AND
+QRY_StartDialog(GLO_Nightsong_AD_Resurrected_cd43a273-bb72-209d-ad81-98fe720e3f7a, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _)
+THEN
+DB_OnlyOnce("SHA_Nightsong_PlayedResurrectionAD");
+NOT DB_CombatReact_AD_StatusRemoved(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, GLO_Nightsong_AD_Resurrected_cd43a273-bb72-209d-ad81-98fe720e3f7a, "NIGHTSONG_DOWNED");
+
+IF
+Dying(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+AND
+HasActiveStatus(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_SHARSPEAR_MORTALWOUND", 0, _, _)
+AND
+HasActiveStatus(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_NIGHTSONG_SOULCAGE", 1, _, _)
+AND
+QRY_OnlyOnce("SHA_Nightsong_PlayedKilledAD", _, _, _, _)
+AND NOT
+QRY_StartDialog(GLO_Nightsong_AD_Killed_6161a78d-0bbf-9cb0-fa36-f2de99124fdd, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _)
+THEN
+NOT DB_OnlyOnce("SHA_Nightsong_PlayedKilledAD");
+
+PROC
+PROC_SHA_Nightsong_PermaKill((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_KeepDialogsOnDeath(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+NOT DB_PreventPermaDefeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+ApplyStatus(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_SHARSPEAR_MORTALWOUND", -1, 1, _Var1);
+PROC_MusicPlayGeneral("NightsongDead");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

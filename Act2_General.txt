@@ -1,0 +1,141 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DialogBlockTradeButton(GLO_ThrallOfTheAbsolute_Act1ReturnAttempt_459d5b1a-4e14-d3be-5d56-d8ea0cbfdce9);
+DB_IgnoreMutingStatussesDialog(GLO_ThrallOfTheAbsolute_Act1ReturnAttempt_459d5b1a-4e14-d3be-5d56-d8ea0cbfdce9);
+DB_SCL_General_Act1ReturnAttemptDialogAreas(S_SCL_Act1ReturnAttemptDialogBox_ToUNDFromSCL_7a5bb6d4-9c7e-495f-bdf2-f49f52bad40a);
+DB_SCL_General_Act1ReturnAttemptDialogAreas(S_SCL_Act1ReturnAttemptDialogBox_ToCREFromSCL02_1b06fb7c-33c0-43a3-8c89-dc09883f9cba);
+
+KBSECTION
+IF
+TextEvent("blockact1", _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_DEBUG_ThrallOfTheAbsolute_State_BlockActReturn_907fc5a8-68e3-4fd4-a26e-86a3ff6eba4c, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_DEBUG_ThrallOfTheAbsolute_State_BlockActReturn_907fc5a8-68e3-4fd4-a26e-86a3ff6eba4c);
+DebugText(_Var1, "DEBUG: Blocked access to Act 1");
+
+IF
+TextEvent("blockact1", _, _, _, _)
+AND
+DB_GlobalFlag(GLO_DEBUG_ThrallOfTheAbsolute_State_BlockActReturn_907fc5a8-68e3-4fd4-a26e-86a3ff6eba4c, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_DEBUG_ThrallOfTheAbsolute_State_BlockActReturn_907fc5a8-68e3-4fd4-a26e-86a3ff6eba4c);
+DebugText(_Var1, "DEBUG: Unblock access to Act 1");
+
+IF
+TextEvent("toundelevator", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_SCL_Underdark_6936fa1d-ec7f-4198-b959-623ad7a3ce76);
+
+IF
+DB_GlobalFlag(GLO_DEBUG_ThrallOfTheAbsolute_State_BlockActReturn_907fc5a8-68e3-4fd4-a26e-86a3ff6eba4c, _, _, _, _)
+THEN
+PROC_SCL_General_BlockReturnToAct1();
+
+IF
+FlagCleared(GLO_DEBUG_ThrallOfTheAbsolute_State_BlockActReturn_907fc5a8-68e3-4fd4-a26e-86a3ff6eba4c, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3);
+NOT DB_SCL_Teleporters_Blocked(S_SCL_LevelSwapTeleporter_Mountain_0d122b82-c4c9-4fda-81a1-cf9f9bf59167);
+NOT DB_SCL_Teleporters_Blocked(S_SCL_Elevator_Fort_ToUnderdark_3a89175c-1f32-4f49-853c-f0aa7e8c917f);
+
+IF
+DB_SCL_General_Act1ReturnAttemptDialogAreas(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+DB_AddCharactersInTriggerToDialog(GLO_ThrallOfTheAbsolute_Act1ReturnAttempt_459d5b1a-4e14-d3be-5d56-d8ea0cbfdce9, _Var1, 1, 1, 1, 1);
+
+QRY
+QRY_SCL_General_CanReturnToAct1()
+AND NOT
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_BlockTeleport(_, (ITEM)_Var2, _, _, _)
+AND
+DB_SCL_Teleporters_Blocked(_Var2, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+ReadyCheckPassed("ReadyCheck_EnterNightsongPrison", _, _, _, _)
+THEN
+PROC_SCL_General_BlockReturnToAct1();
+
+IF
+FlagSet(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_General_BlockReturnToAct1();
+
+PROC
+PROC_SCL_General_BlockReturnToAct1()
+THEN
+PROC_LockAllGroupWaypoints("Act1");
+PROC_LockAllGroupWaypoints("Act1b");
+DB_SCL_Teleporters_Blocked(S_SCL_LevelSwapTeleporter_Mountain_0d122b82-c4c9-4fda-81a1-cf9f9bf59167);
+DB_SCL_Teleporters_Blocked(S_SCL_Elevator_Fort_ToUnderdark_3a89175c-1f32-4f49-853c-f0aa7e8c917f);
+
+PROC
+PROC_GLO_LevelSwap_BlockSwap((CHARACTER)_Var1, "ReadyCheck_ToWLDFromSCL", (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_SCL_General_CanReturnToAct1()
+THEN
+DB_GLO_LevelSwap_Blocked(_Var2);
+PROC_SCL_ThrallOfTheAbsolute_Act1ReturnAttemptDialog(_Var1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_LevelSwap_Teleporter(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Teleporters_Blocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ThrallOfTheAbsolute_Act1ReturnAttemptDialog(_Var1);
+
+PROC
+PROC_SCL_ThrallOfTheAbsolute_Act1ReturnAttemptDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(GLO_ThrallOfTheAbsolute_Act1ReturnAttempt_459d5b1a-4e14-d3be-5d56-d8ea0cbfdce9, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LevelLoadedOnce("SCL_Main_A", _, _, _, _)
+AND
+DB_GlobalFlag(VISITEDREGION_WLD_Main_A_925c721d-686b-4fbe-8c3c-d1233bf863b7, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GOB_WolfPens_State_HalsinIntroHappened_7d0751b9-1055-4a54-9ccd-f5e95e2a1f69, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Halsin_Knows_MoonriseBriefing_9f8afde2-9dcf-3a5e-5e85-128913b820b7, _, _, _, _)
+THEN
+Die(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0);
+TeleportTo(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, S_DEN_GatePlayerMoveToPoint_002_e0ee6b1c-8b40-4a09-815b-1e032855978a, "Halsin_Dead_Offscreen_Teleport", 0, 0, 0, 0, 1);
+PROC_CampNight_ClearCampNight(NIGHT_HalsinsReturn_a6ed2a44-776c-41d7-abfc-b8240209f886);
+PROC_CampNight_ClearCampNight(NIGHT_HalsinsRevenge_55e86575-6b8c-45ab-b582-e5ed048e6a83);
+
+PROC
+PROC_LevelUnloading("SCL_Main_A", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "HAV_SELUNEOINTMENT", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "HAV_SELUNEOINTMENT");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

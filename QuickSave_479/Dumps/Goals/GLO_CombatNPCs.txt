@@ -1,0 +1,388 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Combat_FallingStalactiteTemplate(Quest_CMB_FallingStalactite_A_Gravity_7706c802-cf39-442b-aa7d-8d4e0766a44d);
+DB_Combat_FallingStalactiteTemplate(Quest_CMB_FallingStalactite_B_Gravity_4232f4c5-24d7-4a6e-9df8-a49bbb8392ca);
+DB_Combat_FallingStalactiteTemplate(Quest_CMB_FallingStalactite_Gravity_572084f8-e591-4c0f-8837-11eca14dea63);
+DB_Combat_FallingStalactiteTemplate(Quest_CMB_FallingStalactite_D_Gravity_b280fa7a-1fc9-4b4e-b0d8-30e356eb4ba4);
+DB_Combat_ExplodeOnDeath(MEPHIT_Magma_A_334e9419-5027-4e67-88f8-c41c8adffa98, 1180, 2, "Projectile_DeathBurst_MagmaMephit");
+DB_Combat_ExplodeOnDeath(MEPHIT_Magma_WildMagic_9cf75e67-e219-4787-a410-7b2df9fbe255, 1180, 2, "Projectile_DeathBurst_MagmaMephit");
+DB_Combat_ExplodeOnDeath(MEPHIT_Ice_A_4d876d7a-4ae0-4571-a71b-688e9288dff4, 370, 2, "Projectile_DeathBurst_Died_IceMephit");
+DB_Combat_ExplodeOnDeath(MEPHIT_Ice_A_Summon_9bfb58f1-52d2-45d4-8485-0eb224f1a87f, 370, 2, "Projectile_DeathBurst_Died_IceMephit");
+DB_Combat_ExplodeOnDeath(MEPHIT_Mud_A_f765566e-3f98-457b-9048-59bdcc66f51d, 370, 2, "Projectile_DeathBurst_Died_MudMephit");
+DB_Combat_ExplodeOnDeath(MEPHIT_Mud_A_ConjureElementals_Summon_74e37928-4361-4d5b-a304-0ba82f5e398a, 370, 2, "Projectile_DeathBurst_Died_MudMephit");
+DB_Combat_ExplodeOnDeath(MEPHIT_Mud_A_Summon_02b5e1ea-389d-4008-a247-66538709388b, 370, 2, "Projectile_DeathBurst_Died_MudMephit");
+DB_Combat_ExplodeOnDeath(Mephit_Grease_53af9627-5afb-4985-a584-3fa532b3078e, 370, 2, "Projectile_DeathBurst_Died_GreaseMephit");
+DB_Combat_ExplodeOnDeath(Mephit_Grease_Young_b03f4282-ad07-4f6a-8ee5-a56ea3558a14, 370, 2, "Projectile_DeathBurst_Died_GreaseMephit");
+DB_Combat_ExplodeOnDeath(MEPHIT_Mud_WildMagic_3844ba99-4e84-4ae0-8cf6-33b981b8bbfa, 370, 2, "Projectile_DeathBurst_Died_MudMephit");
+DB_Combat_ExplodeOnDeath(Undead_Ghoul_WakeTheDead_d4111267-1310-4663-a9f6-281a9f58221f, 370, 2, "Projectile_DeathBurst_Ghoul");
+DB_Combat_ExplodeOnDeath_ExcludeCharacter(NULL_00000000-0000-0000-0000-000000000000);
+DB_Combat_CallingForHelp_CrimeDisabled("");
+NOT DB_Combat_CallingForHelp_CrimeDisabled("");
+PROC_GLO_CombatNPCs_Init();
+
+KBSECTION
+IF
+DB_Combat_CallingForHelp(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetTag(_Var1, AI_HINT_CALLFORHELP_527e1935-b73d-41e1-97e8-4b90e45b00a1);
+AddSpell(_Var1, _Var3);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "CALLING_FOR_HELP_SPAWNALLIES", _, _, (GUIDSTRING)_Var1)
+AND
+DB_Combat_CallingForHelp(_Var1, _Var4, _, _Var1, _Var1)
+THEN
+PROC_Combat_CallingForHelp(_Var1, _Var4);
+
+PROC
+PROC_Combat_CallingForHelp((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_Combat_CallingForHelp_Caster(_Var1, _Var2);
+PROC_Combat_CallingForHelp_SpawnObjects(_Var2);
+PROC_Combat_CallingForHelp_CleanUp(_Var2);
+
+PROC
+PROC_Combat_CallingForHelp_SpawnObjects((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Combat_CallingForHelp_CrimeDisabled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Combat_CallingForHelp_Caster(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+DB_Combat_CallingForHelp(_Var6, _Var1, _, _Var1, _Var1)
+AND
+_Var6 != NULL_00000000-0000-0000-0000-000000000000
+AND
+_Var6 != _Var2
+AND
+CrimeGetNewID(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var2, "CallForHelp_Combat", NULL_00000000-0000-0000-0000-000000000000, _Var6, _Var8);
+DB_CRIME_CrimeInvestigationPos(_Var8, _Var3, _Var4, _Var5);
+
+PROC
+PROC_Combat_CallingForHelp_SpawnObjects((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Combat_CallingForHelp_SpawnObjects(_Var2, _Var3, _Var1, _Var4, _Var1)
+AND
+DB_Combat_CallingForHelp_Caster(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsOnStage(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+AppearAt(_Var2, _Var3, 1, _Var4, "Combat_CallingForHelp_SpawnObjects");
+DB_Combat_CallingForHelp_QueueJoinCombat(_Var2, _Var5);
+NOT DB_Combat_CallingForHelp_SpawnObjects(_Var2, _Var3, _Var1, _Var4);
+
+IF
+EntityEvent((CHARACTER)_Var1, "Combat_CallingForHelp_SpawnObjects", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Combat_CallingForHelp_QueueJoinCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_MoveToChar_Finished(_Var1, _Var2, "Combat_CallingForHelp_SpawnObjects");
+
+PROC
+PROC_Disturbance_MoveToChar_Finished((CHARACTER)_Var1, (CHARACTER)_Var2, "Combat_CallingForHelp_SpawnObjects", (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_Combat_CallingForHelp_QueueJoinCombat(_Var1, _Var2);
+LookAtEntity(_Var1, _Var2);
+PROC_EnterCombat(_Var1, _Var2);
+
+PROC
+PROC_Combat_CallingForHelp_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Combat_CallingForHelp(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "CALLING_FOR_HELP_SPAWNALLIES");
+RemoveStatus(_Var2, "CALLING_FOR_HELP");
+RemoveStatus(_Var2, "CALLING_FOR_HELP_HOOKHORROR");
+RemoveStatus(_Var2, "CALLING_FOR_HELP_SCRYINGEYE");
+ClearTag(_Var2, AI_HINT_CALLFORHELP_527e1935-b73d-41e1-97e8-4b90e45b00a1);
+NOT DB_Combat_CallingForHelp(_Var2, _Var1, _Var3);
+NOT DB_Combat_CallingForHelp_Caster(_Var2, _Var1);
+RemoveSpell(_Var2, _Var3);
+
+IF
+Dying((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Combat_CallingForHelp(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_Combat_CallingForHelp(_Var1, _Var2, _Var3);
+RemoveSpell(_Var1, _Var3);
+
+IF
+Fell((ITEM)_Var1, (GUIDSTRING)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_Combat_FallingStalactiteTemplate(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, _Var2, 1, 0);
+
+IF
+DestroyingBy((ITEM)_Var1, (CHARACTER)_Var2, _, _, (ITEM)_Var1)
+AND
+DB_GLO_FireBowls(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_FireBowls_Falling(_Var5, _Var2);
+SetOwner(_Var5, _Var2);
+SetGravity(_Var5, 0, _Var2);
+
+IF
+Fell((ITEM)_Var1, (GUIDSTRING)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_FireBowls(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var4, _Var5, _Var6, _Var1)
+AND
+DB_GLO_FireBowls_Falling(_Var1, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_FireBowls_Falling(_Var1, _Var7);
+PlayEffectAtPosition(VFX_Item_FireBowl_Explosion_01_9838578e-0bee-4c7f-4cf4-8ebf4657d781, _Var4, _Var5, _Var6);
+Die(_Var1, 0, _Var7, 0, 0, 3);
+
+IF
+OnThrown((ITEM)_Var1, _, _, _, _, _, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+GetTemplate(_Var1, Quest_CMB_BoulderThrowable_e5dad8d6-6e77-4596-b200-bf345174777c, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1);
+
+IF
+Falling((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Fell((ITEM)_Var1, (GUIDSTRING)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+GetTemplate(_Var1, Quest_CMB_BoulderThrowable_e5dad8d6-6e77-4596-b200-bf345174777c, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, _Var2, 1, 0);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "CREATURE_SPORE_SERVANT", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_SporeServantBehaviourExceptions(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetAnubisConfig(_Var1, "DefaultCharacter");
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "CREATURE_SPORE_SERVANT", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_SporeServantDialogExceptions(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "CREATURE_SPORE_SERVANT", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_CMB_SporeServant_Create(_Var1, _Var2);
+
+PROC
+PROC_CMB_SporeServant_Create((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsPartyFollower(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CMB_SporeServant_AddToParty(_Var1, _Var3, _Var2);
+
+PROC
+PROC_CMB_SporeServant_AddToParty((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CMB_SporeServantFollower(_Var4, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var1 != _Var4
+THEN
+Die(_Var4, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0);
+
+PROC
+PROC_CMB_SporeServant_AddToParty((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CMB_SporeServantFollower(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+GetFaction(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_CMB_SporeServantFollower(_Var1, _Var2, _Var3);
+DB_CMB_SpellFollower(_Var1);
+SetFaction(_Var1, _Var4);
+AddPartyFollower(_Var1, _Var2);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CMB_SporeServantFollower(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CMB_SporeServantFollower(_Var1, _Var2, _Var3);
+NOT DB_CMB_SpellFollower(_Var1);
+RemovePartyFollower(_Var1, _Var2);
+PROC_SetAnubisConfig(_Var1, "");
+
+IF
+CharacterLeftParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CMB_SporeServantFollower(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+RemovePartyFollower(_Var2, _Var3);
+
+IF
+CharacterJoinedParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CMB_SporeServantFollower(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var4
+THEN
+NOT DB_CMB_SporeServantFollower(_Var2, _Var3, _Var1);
+DB_CMB_SporeServantFollower(_Var2, _Var4, _Var1);
+
+IF
+CharacterJoinedParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CMB_SporeServantFollower(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+AddPartyFollower(_Var2, _Var3);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CMB_SporeServantFollower(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+RemovePartyFollower(_Var2, _Var3);
+
+IF
+Dying((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+HasActiveStatus(_Var1, "SPIDER_INFESTATION", 1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+RemoveStatus(_Var1, "SPIDER_INFESTATION");
+SetEntityEvent(_Var1, "SpiderInfestationEnd");
+CreateExplosionAtPosition(_Var2, _Var3, _Var4, "Projectile_SpiderInfestation", 1, _Var1);
+
+IF
+TextEvent("spiderinfestation", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "SpiderInfestationStart");
+
+IF
+UsingSpellOnTarget(_, (GUIDSTRING)_Var2, _, "Projectile", _, (INTEGER)_Var5, _, _, _, _)
+AND
+HasActiveStatus(_Var2, "FROG_REFLECTIVEMUCUS", 1, _, _)
+THEN
+DB_CMB_FrogReflectiveMucus_SpellActionID(_Var5, _Var2);
+
+IF
+CastedSpell(_, _, _, _, (INTEGER)_Var5)
+AND
+DB_CMB_FrogReflectiveMucus_SpellActionID(_Var5, _Var6, _, _, _)
+THEN
+NOT DB_CMB_FrogReflectiveMucus_SpellActionID(_Var5, _Var6);
+RemoveStatus(_Var6, "FROG_REFLECTIVEMUCUS");
+
+IF
+TextEvent("gobtest", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+AddSpell(S_TestLevel_Ranger_01_93d30cc6-411a-4a68-8421-069553295750, "Shout_GOB_Priestess_MirrorImage", 0, 0);
+DebugText(S_TestLevel_Ranger_01_93d30cc6-411a-4a68-8421-069553295750, "Mirror Image added!");
+RemoveSpell(S_TestLevel_Ranger_01_93d30cc6-411a-4a68-8421-069553295750, "Target_GOB_Priestess_Grease", 0);
+DebugText(S_TestLevel_Ranger_01_93d30cc6-411a-4a68-8421-069553295750, "Grease removed!");
+
+IF
+Dying((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Combat_ExplodeOnDeath(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+GetDeathType(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+_Var6 != "Chasm"
+AND NOT
+DB_Combat_ExplodeOnDeath_ExcludeCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+HasActiveStatus(_Var1, "UNSUMMON_ACTIVE", 1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND
+Concatenate("Combat_ExplodeOnDeath_Timer_", _Var7, _Var8, _Var1, _Var1)
+THEN
+DB_Combat_ExplodeOnDeath_ExplodeAfterTimer(_Var8, _Var1, _Var5, _Var4);
+TimerLaunch(_Var8, _Var3);
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Combat_ExplodeOnDeath_ExplodeAfterTimer(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+GetPosition(_Var2, _Var5, _Var6, _Var7, _Var1)
+AND
+RealSum(_Var6, _Var4, _Var8, _Var1, _Var1)
+THEN
+NOT DB_Combat_ExplodeOnDeath_ExplodeAfterTimer(_Var1, _Var2, _Var3, _Var4);
+CreateExplosionAtPosition(_Var5, _Var8, _Var7, _Var3, 1, _Var2);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Combat_ExplodeOnDeath_ExcludeCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Combat_ExplodeOnDeath_ExcludeCharacter(_Var1);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "FRIGHTENED", 1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEventReal(_Var1, "GLO_CombatWait", 1.2);
+
+PROC
+PROC_GLO_CombatNPCs_Init()
+THEN
+DB_Combat_HAG_RemoveMaskOFRegretStatus("CLOUD_OF_DAGGERS");
+DB_Combat_HAG_RemoveMaskOFRegretStatus("MOONBEAM");
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (ITEM)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_Combat_HAG_RemoveMaskOFRegretStatus(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetSummonOwner(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetSummonOwner(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var5, "HAG_MASKOFREGRET", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var5, "HAG_MASKOFREGRET");
+
+
+EXITSECTION
+ENDEXITSECTION
+

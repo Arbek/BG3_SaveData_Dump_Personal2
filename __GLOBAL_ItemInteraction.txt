@@ -1,0 +1,179 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_KnowledgeCheckTemplate_AD("", NULL_00000000-0000-0000-0000-000000000000, "", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_KnowledgeCheckTemplate_AD("GLO_TemplateUseSkillCheck_StuffedBear", DEC_GEN_StuffedBear_Standing_A_f8d74269-6a5c-461e-8907-2e1a7b18e1ca, "Nature", DC_Medium_fa621d38-6f83-4e42-a55c-6aa651a75d46, GLO_StuffedBear_Standing_PAD_5f6978f6-e6a0-6e56-3774-bd0234c69bda, GLO_TemplateUseSkillCheck_StuffedBear_Success_e20bb695-7d2f-4dda-b1db-6972ead4e850);
+DB_KnowledgeCheckTemplate_AD("GLO_TemplateUseSkillCheck_StuffedBear", DEC_GEN_StuffedBear_Standing_B_8177353f-5beb-4120-85ec-a4fa261795ae, "Nature", DC_Medium_fa621d38-6f83-4e42-a55c-6aa651a75d46, GLO_StuffedBear_Standing_PAD_5f6978f6-e6a0-6e56-3774-bd0234c69bda, GLO_TemplateUseSkillCheck_StuffedBear_Success_e20bb695-7d2f-4dda-b1db-6972ead4e850);
+DB_KnowledgeCheckTemplate_AD("GLO_TemplateUseSkillCheck_StuffedBear", DEC_GEN_StuffedBear_Standing_C_d760ca77-927c-4880-98a2-991926cdd2a3, "Nature", DC_Medium_fa621d38-6f83-4e42-a55c-6aa651a75d46, GLO_StuffedBear_Standing_PAD_5f6978f6-e6a0-6e56-3774-bd0234c69bda, GLO_TemplateUseSkillCheck_StuffedBear_Success_e20bb695-7d2f-4dda-b1db-6972ead4e850);
+
+KBSECTION
+IF
+TemplateUseStarted((CHARACTER)_Var1, (ITEMROOT)_Var2, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RecipeBook(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+UnlockJournalRecipe(_Var4);
+NOT DB_RecipeBook(_Var2, _Var4);
+
+PROC
+PROC_ItemRotateYduration((ITEM)_Var1, (REAL)_Var2, (INTEGER)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+AND
+RealProduct(_Var2, 1000, _Var4, _Var1, _Var1)
+AND
+IntegerToReal(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+RealDivide(_Var4, _Var5, _Var6, _Var1, _Var1)
+THEN
+ItemRotateY(_Var1, _Var2, _Var6);
+
+PROC
+PROC_ItemRotateToAngleYduration((ITEM)_Var1, (REAL)_Var2, (INTEGER)_Var3, (ITEM)_Var1, (ITEM)_Var1)
+AND
+RealProduct(_Var2, 1000, _Var4, _Var1, _Var1)
+AND
+IntegerToReal(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+RealDivide(_Var4, _Var5, _Var6, _Var1, _Var1)
+THEN
+ItemRotateY(_Var1, _Var2, _Var6);
+
+QRY
+QRY_IsCloseding((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsClosed(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsCloseding((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsClosing(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsOpeneding((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsOpened(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsOpeneding((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsOpening(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DoesntBlock((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+QRY_IsOpeneding(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DoesntBlock((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsDestroyed(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, (ITEMROOT)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeCheckTemplate_AD(_Var4, _Var2, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeCheckItem_AD(_, _Var3, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheckTemplate_PlayAD(_Var1, _Var4, _Var2);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, (ITEMROOT)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeCheckTemplate_AD(_Var4, _Var2, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeCheckItem_AD(_, _Var3, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeCheckTemplate_AlreadyTried(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheckTemplate_PlayAD(_Var1, _Var4, _Var2);
+
+IF
+TemplateUseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeCheckTemplate_AD(_Var4, _Var2, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeCheckItem_AD(_, _Var3, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeCheckTemplate_AlreadyTried(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeCheckTemplate_Waiting(_Var4, _Var2, _Var3, _Var8, _Var1)
+THEN
+DB_KnowledgeCheckTemplate_Waiting(_Var4, _Var2, _Var3, _Var8);
+PROC_TrySkillCheck(_Var1, _Var3, _Var5, _Var6, "GLO_KnowledgeCheckTemplate");
+
+PROC
+PROC_RollResult("GLO_KnowledgeCheckTemplate", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeCheckTemplate_Waiting(_Var3, _Var4, _Var2, _Var5, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var5);
+
+PROC
+PROC_RollResult("GLO_KnowledgeCheckTemplate", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1)
+AND
+_Var3 != 2
+AND
+DB_KnowledgeCheckTemplate_Waiting(_Var4, _Var5, _Var2, _Var6, _Var1)
+THEN
+DB_KnowledgeCheckTemplate_AlreadyTried(_Var1, _Var4);
+PROC_KnowledgeCheckTemplate_PlayAD(_Var1, _Var4, _Var5);
+
+PROC
+PROC_RollResult("GLO_KnowledgeCheckTemplate", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeCheckTemplate_Waiting(_Var4, _Var5, _Var2, _Var6, _Var1)
+THEN
+NOT DB_KnowledgeCheckTemplate_Waiting(_Var4, _Var5, _Var2, _Var6);
+
+PROC
+PROC_KnowledgeCheckTemplate_PlayAD((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeCheckTemplate_AD(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var6, _Var1);
+
+IF
+InteractionFallback((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var2, TELEPORTER_HOLE_TINY_2e6933bc-7c9b-4293-992b-49a07875c460, 1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_PAD_TeleporterHole_Tiny_f339386b-8fdc-ff24-6a56-6ea1277aa284, _Var1);
+
+IF
+InteractionFallback((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var2, TELEPORTER_HOLE_SMALL_263a8a31-154a-45dc-8479-5e75edc0cc75, 1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_PAD_TeleporterHole_Small_0095f76d-e360-607b-501a-dd9fcdccb24e, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

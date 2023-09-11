@@ -1,0 +1,32 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+StatusApplied((CHARACTER)_Var1, "ALCH_POTION_REST_SLEEP_GREATER_RESTORATION", _, _, (CHARACTER)_Var1)
+THEN
+PROC_CharacterFullRestore(_Var1);
+RemoveStatus(_Var1, "ALCH_POTION_REST_SLEEP_GREATER_RESTORATION", NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_Tutorial_Start()
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+UnlockRecipe(_Var1, "ALCH_Potion_Healing_RoguesMorsel", 0);
+UnlockRecipe(_Var1, "ALCH_Grenade_Fire_FireAmber", 0);
+UnlockRecipe(_Var1, "ALCH_Elixir_Resistance_Fire_DragonEggMushroom", 0);
+UnlockRecipe(_Var1, "ALCH_Oil_AttackBuff_Daggeroot", 0);
+
+IF
+GameBookInterfaceClosed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+UnlockRecipes(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

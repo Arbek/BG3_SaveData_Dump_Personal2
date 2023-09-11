@@ -1,0 +1,227 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+TriggerRegisterForCharacter(S_DEN_General_Laezel_CommentAfterVisitingGrove_ea4a466a-7449-4630-81ef-86fb1204dd02, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+PROC_DefineSingleOriginMoment(DEN_General_TieflingGuard11_5285ea7c-7994-ba01-02c7-fa05017342ee, LAEZEL_3b07eac7-fab3-4120-a46c-51dbb3ec500b, DEN_ThingLikeMe_OM_Laezel_AOM_OOM_ee6c3da5-c872-803e-77c5-79f4f22795a8, DEN_ThingLikeMe_OM_Laezel_COM_b1e7f9b2-9726-8868-f1e4-c3a6cf574e2c, DEN_ThingLikeMe_OM_Laezel_AOM_OOM_ee6c3da5-c872-803e-77c5-79f4f22795a8);
+DB_DEN_ThingLikeMe_TieflingPositions(DEN_ThingLikeMe_State_TieflingStand_d4869137-9586-2f01-292c-78909b45e3f8, "DEN_ThingLikeMe_HideFear");
+DB_DEN_ThingLikeMe_TieflingPositions(DEN_ThingLikeMe_State_TieflingBow_438787a5-d483-a51b-4a57-668f7956dcc2, "DEN_ThingLikeMe_KneelHideFear");
+DB_DEN_ThingLikeMe_TieflingPositions(DEN_ThingLikeMe_State_TieflingKneel_fdfebaa6-dbfa-35ff-8e52-28c603bad645, "DEN_ThingLikeMe_LowBowFearful");
+DB_DEN_ThingLikeMe_CurrentPosition(DEN_ThingLikeMe_State_TieflingStand_d4869137-9586-2f01-292c-78909b45e3f8, "DEN_ThingLikeMe_HideFear");
+DB_DEN_ThingLikeMe_OriginDialogs(DEN_ThingLikeMe_OM_Laezel_AOM_OOM_ee6c3da5-c872-803e-77c5-79f4f22795a8);
+DB_DEN_ThingLikeMe_OriginDialogs(DEN_ThingLikeMe_OM_Laezel_COM_b1e7f9b2-9726-8868-f1e4-c3a6cf574e2c);
+DB_PermaDefeatedEvent(S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, ORI_Laezel_Quest_ZorruIsPermaDefeated_209f9a35-5e97-4f13-bd6e-25b05fc85975);
+DB_SeenDeadNPCGlobalFlag(S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, ORI_Laezel_Quest_SawDeadZorru_10783903-034f-41be-ad6a-e2cbbb73242a);
+DB_CampNight(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, 2030, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+DB_CampNight_Camp(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, "WLDMAIN");
+DB_CampNight_Camp(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, "WLDCAVGRN");
+DB_CampNight_Camp(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, "WLDCAVSND");
+DB_CampNight_Camp(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, "WLDDUNABB");
+DB_CampNight_Camp(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, "WLDDUNSHA");
+DB_CampNight_Camp(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, "WLDUND");
+DB_CampNight_Camp(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, "WLDBAS");
+DB_CampNight_ExpiresAfter(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, 1);
+DB_CampNight_Requirement(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, GLO_GithChokepoint_Event_LaezelOMStarted_84283682-101d-1531-7aae-33aa56999a70);
+DB_CampNight_CancelledBy(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, ORI_laezel_State_HadAfterChokepointDiscussion_e90acc28-3c0c-476c-ac2d-2d074a666b96);
+DB_CampNight_CRD(NIGHT_Laezel_GithChokepoint_63990fd7-ff59-4c1b-b9e5-5961cde235d5, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, PLA_GithChokepoint_WRD_LaezelAfterVossAtChokepoint_05b0a5cc-5ea2-1c67-acff-a048b3eeb679, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(ORI_Laezel_State_HasNotPassedCreche_946ca251-adb9-4177-9e12-64499d02cff1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+KBSECTION
+IF
+TextEvent("laezelwakingup", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_AddGith_39ecbda9-cb44-becf-57b9-c3b631a5517b, _Var1);
+SetFlag(Debug_BecomeAvatar_34371b8e-a34b-3354-54e7-fcda800d703a, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+SetFlag(Debug_BecomeCompanion_4670c626-a52f-aeed-c18a-dc8d9c78b7cb, _Var1);
+
+IF
+DB_DEN_GoblinRaidCombatID(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_FoughtInRaidingParty_079d3597-a944-46f5-9e74-8abaf9ea3262, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Laezel_State_FoughtInRaidingParty_079d3597-a944-46f5-9e74-8abaf9ea3262, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("WLD_Main_A", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+SetEntityEvent(S_DEN_TieflingKid_004_6644185d-385e-4dfc-973c-bb854cbfd540, "DEN_TieflingKid_004_NoAvatar", 1);
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("WLD_Main_A", _, _, _, _)
+AND
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+SetFlag(DEN_ThingLikeMe_State_BeforeOM_9e9cecdb-44ee-4b32-970c-535d1e7a5496, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+CharacterJoinedParty(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_ThingLikeMe_State_OMPlayed_43e9e5e6-8445-489b-b062-453cf8c47b49, _, _, _, _)
+THEN
+SetFlag(DEN_ThingLikeMe_State_BeforeOM_9e9cecdb-44ee-4b32-970c-535d1e7a5496, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+CharacterLeftParty(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_ThingLikeMe_State_OMPlayed_43e9e5e6-8445-489b-b062-453cf8c47b49, _, _, _, _)
+THEN
+ClearFlag(DEN_ThingLikeMe_State_BeforeOM_9e9cecdb-44ee-4b32-970c-535d1e7a5496, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EntityEvent((CHARACTER)_Var1, "DEN_TieflingKid_004_FinishedAD", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, REALLY_LAEZEL_b5682d1d-c395-489c-9675-1f9b0c328ea5, 1, _Var1, _Var1)
+THEN
+StartVoiceBark(DEN_ThingLikeMe_VB_AfterKid_c4e842c6-3901-1072-b868-2cd3622097ab, _Var1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog((GUIDSTRING)_Var1, S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_ThingLikeMe_OriginDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, (STRING)_Var2, _, S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, _)
+AND
+IsTagged(_Var1, LAEZEL_3b07eac7-fab3-4120-a46c-51dbb3ec500b, 1, _Var1, _Var1)
+AND
+QRY_CRIME_GetCrimeFamily(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_GetCrimeFamily(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var5 != "Assault"
+AND
+_Var5 != "Murder"
+AND
+DB_GlobalFlag(DEN_ThingLikeMe_State_OMPlayed_43e9e5e6-8445-489b-b062-453cf8c47b49, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_ThingLikeMe_OriginDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_ThingLikeMe_OriginDialogEnded(_Var2);
+PROC_DEN_ThingLikeMe_OMEndedJournalHook();
+
+PROC
+PROC_DEN_ThingLikeMe_OMEndedJournalHook()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_ThingLikeMe_OriginDialogEnded((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_ThingLikeMe_State_OMPlayed_43e9e5e6-8445-489b-b062-453cf8c47b49, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_ThingLikeMe_State_OMPlayed_43e9e5e6-8445-489b-b062-453cf8c47b49, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DEN_ThingLikeMe_OriginDialogEnded((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetFlag(DEN_ThingLikeMe_Event_Followup_9e143f99-e9fe-16e5-2632-ec4393639d4d, NULL_00000000-0000-0000-0000-000000000000, 1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+IsTagged(_Var2, REALLY_LAEZEL_b5682d1d-c395-489c-9675-1f9b0c328ea5, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_ThingLikeMe_RD_LaezelCreche", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(_Var2, DEN_ThingLikeMe_RD_LaezelCreche_0ff96e33-eeac-3fb6-54bd-bbee82f8db46, _Var2);
+
+IF
+Saw(S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, LAEZEL_3b07eac7-fab3-4120-a46c-51dbb3ec500b, 1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_ThingLikeMe_State_OMPlayed_43e9e5e6-8445-489b-b062-453cf8c47b49, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_ThingLikeMe_CurrentPosition(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+GetFlag(_Var3, S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, 1, _Var1, _Var1)
+THEN
+PROC_DEN_ThingLikeMe_ChangeDialogPosition(_Var4, _Var1);
+SetFlag(DEN_ThingLikeMe_State_AnimateForLaezel_6acad37a-9107-45fd-be56-47f1396085b3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+LostSightOf(S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, LAEZEL_3b07eac7-fab3-4120-a46c-51dbb3ec500b, 1, _Var1, _Var1)
+THEN
+PROC_DEN_ThingLikeMe_ChangeDialogPosition("DEN_ThingLikeMe_HideFear", _Var1);
+ClearFlag(DEN_ThingLikeMe_State_AnimateForLaezel_6acad37a-9107-45fd-be56-47f1396085b3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet((GUIDSTRING)_Var1, S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_ThingLikeMe_TieflingPositions(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_ThingLikeMe_CurrentPosition(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var4, _, _Var1, _Var1)
+AND
+IsTagged(_Var4, LAEZEL_3b07eac7-fab3-4120-a46c-51dbb3ec500b, 1, _Var1, _Var1)
+THEN
+SysClear("DB_DEN_ThingLikeMe_CurrentPosition", 2);
+DB_DEN_ThingLikeMe_CurrentPosition(_Var1, _Var3);
+PROC_DEN_ThingLikeMe_ChangeDialogPosition(_Var3, _Var4);
+SetFlag(DEN_ThingLikeMe_State_AnimateForLaezel_6acad37a-9107-45fd-be56-47f1396085b3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DEN_ThingLikeMe_ChangeDialogPosition((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != ""
+THEN
+SetDualEntityEvent(S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, _Var2, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_DEN_Cave_SUB_adecafa4-27c6-4b2f-bf9e-6ffd7c81a766, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, REALLY_LAEZEL_b5682d1d-c395-489c-9675-1f9b0c328ea5, 1, _Var1, _Var1)
+AND
+GetFlag(DEN_LaezelGeneral_Event_ExploredGrove_f175174d-d17c-4cc7-8f6c-e53d5d966c7c, _Var1, 0, _Var1, _Var1)
+THEN
+SetFlag(DEN_LaezelGeneral_Event_ExploredGrove_f175174d-d17c-4cc7-8f6c-e53d5d966c7c, _Var1, 0);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_DEN_General_Laezel_CommentAfterVisitingGrove_ea4a466a-7449-4630-81ef-86fb1204dd02, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(DEN_LaezelGeneral_Event_ExploredGrove_f175174d-d17c-4cc7-8f6c-e53d5d966c7c, _Var1, 1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_AttackOnDen_Event_Start_c641da6a-b3f5-4873-bd34-c53768d30d6f, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_TieflingRefugees_State_LeftDen_003b304b-f058-4f8a-b9fa-a097e1b6b395, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_ShadowDruid_State_CourtHostile_b79f3102-f47e-339c-23f2-1de2c38d4e6e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Lockdown_State_Active_0b54c7d2-b7b1-4d0f-b8e4-0cf1ee32b1eb, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_TieflingLeader_State_PermaDefeated_b8eac5ee-2c63-9924-91c2-668d5bffa74c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("DEN_LaezelGeneral_WRD_LeftGrove", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(DEN_LaezelGeneral_VB_FishOutofWater_100ec4a4-238c-de7e-59c0-62f6361ecc61, _Var1);
+TriggerUnregisterForCharacter(S_DEN_General_Laezel_CommentAfterVisitingGrove_ea4a466a-7449-4630-81ef-86fb1204dd02, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+IF
+TextEvent("thinglikemedone", _, _, _, _)
+THEN
+SetFlag(DEN_ThingLikeMe_State_TieflingBow_438787a5-d483-a51b-4a57-668f7956dcc2, S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, 0);
+SysClear("DB_DEN_ThingLikeMe_CurrentPosition", 2);
+DB_DEN_ThingLikeMe_CurrentPosition(DEN_ThingLikeMe_State_TieflingBow_438787a5-d483-a51b-4a57-668f7956dcc2, "DEN_ThingLikeMe_KneelHideFear");
+SetFlag(DEN_ThingLikeMe_State_OMPlayed_43e9e5e6-8445-489b-b062-453cf8c47b49, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetEntityEvent(S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, "DEN_ThingLikeMe_KneelHideFear");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

@@ -1,0 +1,199 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ItemDialog_NarratorAD(S_CRE_LathanderStatue_Plaque_East_cda583e5-0e23-4020-bae1-f968538123bf, CRE_StatuePuzzle_AD_East_a12a92ad-36be-e66e-8606-138fee2c65a7);
+DB_ItemDialog_NarratorAD(S_CRE_LathanderStatue_Plaque_West_adb6746f-4bbd-407a-8cfa-f4ce3f098488, CRE_StatuePuzzle_AD_West_6a87587e-dc0e-3048-2a80-ebf77fdf4699);
+DB_CRE_LathanderStatues(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5, -95, -85);
+DB_CRE_LathanderStatues(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, 85, 95);
+DB_CRE_LathanderStatueBases(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5, S_CRE_LathanderStatue_Base_Sunrise_88c358f8-1a74-40ed-b050-bfd6b13fa9b6);
+DB_CRE_LathanderStatueBases(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, S_CRE_LathanderStatue_Base_Sunset_aaa3809c-fdb2-4cc3-af99-89488ae544e7);
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5);
+SetCanInteract(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5, 0);
+SetCanInteract(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, 0);
+DB_CRE_SurfacesThatEndRust("SurfaceGrease");
+DB_CRE_SurfacesThatEndRust("SurfaceAlienOil");
+DB_CRE_SurfacesThatEndRust("SurfaceOil");
+PROC_TriggerRegisterForPlayers(S_CRE_StatuePuzzle_RevealTrigger_4b6aa9aa-e1d1-45a8-a3a1-99bd2cee908d);
+
+KBSECTION
+IF
+UseStarted((GUIDSTRING)_Var1, CRE_StatuePuzzle_Book_23112010-0a1c-4a54-93f7-a70c8f532cfb, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CRE_StatuePuzzle_ReadBook_d0206fe7-5163-4833-89df-9560cc3c3f83, _Var1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, CRE_StatuePuzzle_Book_23112010-0a1c-4a54-93f7-a70c8f532cfb, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanInteract(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5, 1);
+SetCanInteract(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, 1);
+
+IF
+DB_InRegion(_Var1, S_CRE_StatuePuzzle_RevealTrigger_4b6aa9aa-e1d1-45a8-a3a1-99bd2cee908d, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRE_StatuePuzzle_Reveal", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayPerceptionRevealEffect(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5, "CRE_StatuePuzzleSpottinWStatue");
+PROC_PlayPerceptionRevealEffect(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, "CRE_StatuePuzzleSpottinEStatue");
+SetCanInteract(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5, 1);
+SetCanInteract(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, 1);
+
+IF
+UseStarted(_, S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, _, _)
+AND
+DB_CRE_LathanderStatues(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, _, _, _)
+AND NOT
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, _, _, _)
+AND
+GetSurfaceGroundAt(S_CRE_LathanderStatue_Base_Sunset_aaa3809c-fdb2-4cc3-af99-89488ae544e7, _Var4, _, _, _)
+AND
+DB_CRE_SurfacesThatEndRust(_Var4, _, _, _, _)
+THEN
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba);
+
+IF
+AttackedBy(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, (CHARACTER)_Var2, _, (INTEGER)_Var4, _, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND NOT
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, _, _, _)
+AND
+_Var4 >= 10
+THEN
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba);
+Use(_Var2, S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, "");
+
+IF
+AttackedBy(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, (CHARACTER)_Var2, _, (INTEGER)_Var4, _, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND NOT
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, _, _, _)
+AND
+_Var4 < 10
+THEN
+PROC_TryStartAD(CRE_StatuePuzzle_PAD_HitWeakly_bd3b6920-0e8c-227a-5538-fe6e58f796dd, _Var2);
+
+IF
+UseStarted((CHARACTER)_Var1, S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_LathanderStatues(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, _, _Var1, _Var1)
+AND NOT
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck(_Var1, "CRE_StatuePuzzle_StuckStatue_AthleticsCheck", S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, "Athletics", DC_Legacy_25_306ba0ce-1a69-4a46-9ca0-7d3e8f5be954);
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((CHARACTER)_Var1, "CRE_StatuePuzzle_StuckStatue_AthleticsCheck", S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba);
+Use(_Var1, S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, "");
+
+PROC
+PROC_GLO_KnowledgeCheckFailure((CHARACTER)_Var1, "CRE_StatuePuzzle_StuckStatue_AthleticsCheck", S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TryStartAD(CRE_StatuePuzzle_AD_StuckStatue_18b02d30-5216-6136-39aa-7d5cf86478e1, S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba);
+PROC_TryStartAD(CRE_StatuePuzzle_PAD_AthleticsCheckFailed_9a5e9b4a-96cd-c930-acff-b3bed749d8b2, _Var1);
+DB_CRE_StatuePuzzle_AtheticsCheckFailed(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_LathanderStatues(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, _, _Var1, _Var1)
+AND NOT
+DB_CRE_StatuePuzzle_Rotatable(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRE_StatuePuzzle_AtheticsCheckFailed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(CRE_StatuePuzzle_AD_StuckStatue_18b02d30-5216-6136-39aa-7d5cf86478e1, S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_LathanderStatues(_Var2, _, _, _Var1, _Var1)
+AND NOT
+DB_CRE_StatuePuzzle_StatueRotationInProgress(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRE_StatuePuzzle_Rotatable(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRE_LathanderStatueBases(_Var2, _Var5, _Var1, _Var1, _Var1)
+THEN
+ItemRotateY(_Var2, 90, 45);
+ItemRotateY(_Var5, 90, 45);
+DB_CRE_StatuePuzzle_StatueRotationInProgress(_Var2);
+ObjectTimerLaunch(_Var2, "CRE_StatuePuzzle_RotationTimer", 2000);
+PlaySound(_Var2, "SE_CRE_PUZ_Statue_StartMoving");
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_LathanderStatues(_Var2, _, _, _Var1, _Var1)
+AND
+DB_CRE_StatuePuzzle_RecordLastPlayer(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRE_StatuePuzzle_RecordLastPlayer(_Var5);
+DB_CRE_StatuePuzzle_RecordLastPlayer(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_LathanderStatues(_Var2, _, _, _Var1, _Var1)
+AND NOT
+DB_CRE_StatuePuzzle_RecordLastPlayer(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRE_StatuePuzzle_RecordLastPlayer(_Var1);
+
+IF
+ObjectTimerFinished((ITEM)_Var1, "CRE_StatuePuzzle_RotationTimer", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CRE_LathanderStatues(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_CRE_StatuePuzzle_EvaluateRotations();
+NOT DB_CRE_StatuePuzzle_StatueRotationInProgress(_Var1);
+PlaySound(_Var1, "SE_CRE_PUZ_Statue_StopsMoving");
+
+PROC
+PROC_CRE_StatuePuzzle_EvaluateRotations()
+AND
+GetRotation(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5, _, _Var2, _, _)
+AND
+GetRotation(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _, _Var5, _, _)
+AND
+DB_CRE_LathanderStatues(S_CRE_LathanderStatue_Sunrise_9bd2faa5-426c-4250-8f8f-3e60618fe2d5, _Var7, _Var8, _, _)
+AND
+DB_CRE_LathanderStatues(S_CRE_LathanderStatue_Sunset_4bb6dfc7-c5ad-474b-b4b6-a265d82c4cba, _Var9, _Var10, _, _)
+AND
+_Var2 >= _Var7
+AND
+_Var2 <= _Var8
+AND
+_Var5 >= _Var9
+AND
+_Var5 <= _Var10
+THEN
+PROC_CRE_StatuePuzzle_OpenSecretDoor();
+
+PROC
+PROC_CRE_StatuePuzzle_OpenSecretDoor()
+THEN
+ItemMoveTo(S_CRE_StatuePuzzle_HiddenDoor_8c79df99-d883-4e16-b23b-e25342496562, S_CRE_StatuePuzzle_HiddenDoor_MoveToTrigger_079613bf-9d57-4caf-8fac-6a69dd1fa9ad, 0.5, 1, 0, "CRE_StatuePuzzle_SecretDoorOpened");
+SetPortalIsOpen(S_CRE_StatuePuzzle_HiddenDoor_8c79df99-d883-4e16-b23b-e25342496562, 1);
+
+PROC
+PROC_CRE_StatuePuzzle_OpenSecretDoor()
+AND
+DB_CRE_StatuePuzzle_RecordLastPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(CRE_StatuePuzzle_DoorOpened_970a112f-0e2f-81cd-5020-0e8b8816abdd, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1b"

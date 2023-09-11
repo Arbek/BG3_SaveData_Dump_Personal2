@@ -1,0 +1,3854 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_MoveUpToChapel_05e97e26-ebfb-e119-4c7e-07a94c467626, MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_FailedConvincingAfterAmbush_1ea7879e-51d4-8a26-7a39-6db25f93403f, SCL_Drider_ThanksAfterAmbush_3e6af6b8-f82b-8669-956d-c026558ae754);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_PlayersStartFollowingDrider_2032c1a9-0b3a-4f88-ff4e-ea87b7bb1c1e, SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_PlayersStartFollowingDrider_2032c1a9-0b3a-4f88-ff4e-ea87b7bb1c1e, SCL_Drider_ThanksAfterAmbush_3e6af6b8-f82b-8669-956d-c026558ae754);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_PlayersStartFollowingDrider_2032c1a9-0b3a-4f88-ff4e-ea87b7bb1c1e, SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_PlayersStartFollowingDrider_2032c1a9-0b3a-4f88-ff4e-ea87b7bb1c1e, SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384);
+DB_CustomDialogRange(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 9999);
+DB_Inclusion_Object(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, SCL_Drider_StartInclusion_72afe94b-b401-4179-9153-2c20a1d89ce8, NULL_00000000-0000-0000-0000-000000000000);
+DB_Inclusion_NPCDialog(SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+DB_PlayerHasTemplateItem(UNI_GLO_Moonlantern_9aca1109-a59d-47d3-8f35-f248b70518f9, SCL_Drider_State_HasMoonlantern_18a0f150-6f13-429b-9c2b-dbc7dc3ba927);
+DB_PlayerHasTemplateItem(UNI_SCL_MoonlanternWithPixie_04838ed0-5989-4dc3-a9f8-f76402371a8f, SCL_Drider_State_HasMoonlantern_18a0f150-6f13-429b-9c2b-dbc7dc3ba927);
+DB_HasItemEvent(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c);
+DB_GiveItemToEventWithClear(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, SCL_Drider_Event_GiveMoonlantern_69ac556a-7c78-43f5-9bea-f8efeda31b42);
+DB_DefeatedEvent(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, SCL_Drider_State_Defeated_75ab1a6b-3365-43b5-a5dd-bcb87a5d487e);
+DB_State_Priority(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "DriderOffStage", 0);
+DB_State_Priority(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "EscortingCaravan", 10);
+DB_State_Priority(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "ReachedMoonriseTower", 20);
+DB_State_Current(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "DriderOffStage");
+DB_SCL_Drider_ADTriggers(S_SCL_Drider_WarningADTrigger_bbdfb966-9738-4a10-8a86-d3380650831e, SCL_Drider_AD_Warning_54665fe3-8f91-b06b-b604-054a050b7328, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SCL_Drider_ADTriggers(S_SCL_Drider_ADBeforeAmbush_b84a9769-cfc6-4451-8e8b-2b21ee87e950, SCL_Drider_AD_BeforeAmbush_539e4c27-19b9-ee7d-c8bc-f63f5666f1e5, S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, NULL_00000000-0000-0000-0000-000000000000);
+DB_SCL_Drider_ADTriggers(S_SCL_Drider_ADAfterAmbush_ff87b7dd-1f8c-4a35-89e0-e0fae72c7a5a, SCL_Drider_AD_AfterAmbush_cffcb612-6921-0f88-19f0-e117d115f7b5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SCL_Drider_ADTriggers(S_SCL_Drider_CaravanConflictAD_a65226a1-a0bb-4941-87b8-f53ef9ac4df3, SCL_Drider_AD_CaravanConflict_cdf745ba-100f-2c3e-414c-c10aaaf646c5, S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+DB_SCL_Drider_ADTriggers(S_SCL_Drider_ADAtTollHouse_8fd97f56-ae8d-4292-99d2-8322e82daabe, SCL_Drider_AD_ArriveToTollHouse_27c511ca-4a88-5e10-4f64-f2b433643ae5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SCL_Drider_ADTriggers(S_SCL_Drider_ADAfterTollhouse_ac745c84-735c-4eb4-8270-77dcae731971, SCL_Drider_AD_AfterTollhouse_1aaa1391-7980-4b7c-dfc2-ff4d5beb460e, S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+DB_GLO_CharacterCorpseDialog(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, SCL_Drider_Dead_91bbe271-7efe-e48b-75cb-6f61aec8ef16);
+DB_SCL_Drider_TollhouseCharacters(S_TWN_Tollhouse_TollhouseMaster_3b460226-8ca2-4bbc-9bd7-8bb947aa2c06);
+DB_SCL_Drider_TollhouseCharacters(S_TWN_Tollhouse_Face_Greed_46e0f41a-6603-43ee-8e99-5dd91e7e9bb9);
+DB_SCL_Drider_TollhouseCharacters(S_TWN_Tollhouse_Face_Obedience_0e35df6f-31f8-4ebb-a44f-e472c2e6a9c9);
+DB_SCL_Drider_TollhouseCharacters(S_TWN_Tollhouse_Face_Guilt_2321affc-6302-4800-87dc-bcd220642920);
+DB_SCL_Drider_TollhouseCharacters(S_TWN_Tollhouse_Face_Heartlessness_f335ce62-1d8b-4f70-969d-ef75f0dd78b1);
+DB_SCL_Drider_TollhouseCharacters(S_TWN_Tollhouse_Face_Regret_f5206c52-e481-4c2c-b24b-f186904d768d);
+DB_SCL_Drider_TollhouseCharacters(S_TWN_Tollhouse_Face_Cowardice_efea0b12-68eb-4329-8fd9-14078e983607);
+PROC_SCL_Drider_EquipMoonlantern();
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_MakeCaravanHostile_2f5270c2-7d15-4fa0-a64a-3f8350be0212, SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690);
+DB_GLO_DieFlag(SCL_Drider_Event_DriderKillsGoblin_ae24bc07-49a8-1c3e-387b-99c098044fc8, S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, 0, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+DB_DefeatedEvent(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, SCL_Drider_CheckpointGoblin_State_Defeated_09ddba6f-0a05-44c9-b131-5dc041d91368);
+DB_GLO_DefeatCounter_AllDefeatedGlobalFlag("SCL_Drider_CultistsDefeated_NoDrider", SCL_Drider_State_CaravanCultistsDefeated_NoDrider_e9a84855-8adc-44a1-bb02-646cd675113f);
+DB_HasItemEvent(S_SCL_SpidersLyre_0054e844-cc8a-4b4e-89f0-b79dafcef0e5, SCL_Drider_State_HasSpidersLyre_f9067120-850e-4db7-825d-b17f535021e6);
+PROC_TriggerRegisterForPlayers(S_SCL_Drider_PerformingWithSpiderLyre_30e134e2-7083-44af-ad4e-23784c013b5a);
+SetFlag(SCL_Drider_State_CaravanWaitingDrider_bd3f124b-f817-48d4-96ec-ea9101b15be4, NULL_00000000-0000-0000-0000-000000000000);
+DB_DoNotFace(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+DB_SCL_Drider_CaravanGroup(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, S_SCL_Drider_Goblin_000_AmbushTP_32b644fd-44b4-449d-b407-33a394df8204);
+DB_SCL_Drider_CaravanGroup(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, S_SCL_Drider_HalfOrc_000_AmbushTP_a6aebd9c-ecdd-4670-9dbf-181c99eabb27);
+DB_SCL_Drider_CaravanGroup(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_Drider_Goblin_001_AmbushTP_70a74d67-54fa-48ca-a897-6014f335df34);
+DB_SCL_Drider_CaravanGroup(S_SCL_DriderCaravan_HalfOrcMelee_8e95a1ed-12f0-4b2e-9d22-d9b4522a1445, S_SCL_Drider_HalfOrc_001_AmbushTP_60870e2c-98cf-4bf9-9a8c-d6a9b959bd75);
+DB_SCL_Drider_CaravanGroup(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, S_SCL_Drider_Goblin_002_AmbushTP_97e24f36-f116-4401-921e-70a6fe52b630);
+PROC_TriggerRegisterForParty(S_SCL_Drider_CursedCaravanMembersSpawnArea_929f74fd-099a-45de-b413-8729e638dcb9);
+DB_SCL_Drider_CursedCaravanMembersPositions(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_CursedCaravanMemberPos_000_c7cf3a7e-f044-4323-8906-91d8cf2112a3);
+DB_SCL_Drider_CursedCaravanMembersPositions(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, S_SCL_CursedCaravanMemberPos_001_3f1e31a3-56e3-433b-880e-f06b7b3859ee);
+DB_SCL_Drider_CursedCaravanMembersPositions(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, S_SCL_CursedCaravanMemberPos_002_edb59d93-e0ac-4f19-b646-813ea9993fb8);
+DB_SCL_Drider_CursedCaravanMembersPositions(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_CursedCaravanMemberPos_003_69480147-e956-4a7e-8e5d-cb40bdcc6efc);
+DB_SCL_Drider_CursedCaravanMembersPositions(S_SCL_DriderCaravan_HalfOrcMelee_8e95a1ed-12f0-4b2e-9d22-d9b4522a1445, S_SCL_CursedCaravanMemberPos_004_b6140dba-acf2-422f-b524-2f3c0e0c6368);
+DB_SCL_Drider_CursedCaravanMembersPositions(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, S_SCL_CursedCaravanMemberPos_005_b740ffbe-eec2-46cb-9122-c0de9de4b065);
+DB_SCL_Drider_CaravanGroup_CloserTeleports(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_Drider_CloserAmbushTP_0400a218-3ad1-4197-b1f4-5d46b042d3fd);
+DB_SCL_Drider_CaravanGroup_CloserTeleports(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, S_SCL_Drider_Goblin_000_CloserAmbushTP_ce2f2675-1be5-4379-8c83-394c978b21a5);
+DB_SCL_Drider_CaravanGroup_CloserTeleports(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, S_SCL_Drider_HalfOrc_000_CloserAmbushTP_e287db18-ace5-4ef7-9685-bef38acfc1d6);
+DB_SCL_Drider_CaravanGroup_CloserTeleports(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_Drider_Goblin_001_CloserAmbushTP_756b4944-85d8-4cc6-91a9-1d4ea598b1e5);
+DB_SCL_Drider_CaravanGroup_CloserTeleports(S_SCL_DriderCaravan_HalfOrcMelee_8e95a1ed-12f0-4b2e-9d22-d9b4522a1445, S_SCL_Drider_HalfOrc_001_CloserAmbushTP_51471623-f982-4932-a299-84e6304d5166);
+DB_SCL_Drider_CaravanGroup_CloserTeleports(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, S_SCL_Drider_Goblin_002_CloserAmbushTP_176c4667-ec83-4c53-ac77-4f759921bfa9);
+DB_SCL_Drider_CaravanAmbushMoveTos(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_Drider_AmbushMoveTo_66e426d4-5c60-4581-ad99-8ec850d090dc);
+DB_SCL_Drider_CaravanAmbushMoveTos(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, S_SCL_DriderCaravan_GoblinRanger_AmbushMoveTo_bb119591-a2e8-4716-afab-2739389e06f3);
+DB_SCL_Drider_CaravanAmbushMoveTos(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, S_SCL_Drider_HalfOrcCaster_AmbushMoveTo_fcef989a-b6f7-4618-9ece-ca28d93cf84d);
+DB_SCL_Drider_CaravanAmbushMoveTos(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_Drider_GoblinMelee_000_AmbushMoveTo_c076e80e-9bcc-4a58-bcd5-5f7cf971cfb5);
+DB_SCL_Drider_CaravanAmbushMoveTos(S_SCL_DriderCaravan_HalfOrcMelee_8e95a1ed-12f0-4b2e-9d22-d9b4522a1445, S_SCL_DriderCaravan_HalfOrcMelee_AmbushMoveTo_a8146b2f-c44c-45f9-8f1f-63a1395a5aae);
+DB_SCL_Drider_CaravanAmbushMoveTos(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, S_SCL_DriderCaravan_GoblinMelee_001_AmbushMoveTo_8ad2c127-9036-4a0d-82f6-33ee25c16e13);
+DB_SCL_Drider_CaravanAmbushLeaveTos(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_Drider_AmbushLeavesTowards_45da7744-69d3-46a1-bed5-8efb1cf1f787);
+DB_SCL_Drider_CaravanAmbushLeaveTos(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, S_SCL_DriderCaravan_GoblinRanger_AmbushLeavesTowards_25c5bc5d-8db6-4ac5-82a9-a1c9cb0f17dc);
+DB_SCL_Drider_CaravanAmbushLeaveTos(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, S_SCL_Drider_HalfOrcCaster_AmbushLeavesTowards_cce7e016-3c7e-452a-865f-a2a4b7f9e5aa);
+DB_SCL_Drider_CaravanAmbushLeaveTos(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_Drider_GoblinMelee_000_AmbushLeavesTowards_50290738-93de-4b84-a9a2-d1b132973f5d);
+DB_SCL_Drider_CaravanAmbushLeaveTos(S_SCL_DriderCaravan_HalfOrcMelee_8e95a1ed-12f0-4b2e-9d22-d9b4522a1445, S_SCL_DriderCaravan_HalfOrcMelee_AmbushLeavesTowards_225788f2-d6b8-4985-a41a-71e92ac0f97d);
+DB_SCL_Drider_CaravanAmbushLeaveTos(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, S_SCL_DriderCaravan_GoblinMelee_001_AmbushLeavesTowards_498bbf34-4b87-46ee-a7b1-e4338951da02);
+PROC_SCL_Drider_InitSwD();
+DB_Dialogs(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690);
+DB_Dialogs(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1);
+DB_Dialogs(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, SCL_Drider_Caravan_GoblinRanger_56eca8bd-a74e-6cc5-675d-be89613b56ae);
+DB_Dialogs(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, SCL_DriderCaravan_GoblinMelee_001_Checkpoint_0d725356-f264-73f4-d83d-e045da28d9fa);
+DB_Dialogs(S_SCL_DriderCaravan_HalfOrcMelee_8e95a1ed-12f0-4b2e-9d22-d9b4522a1445, SCL_Drider_Caravan_HalfOrcMelee_4870e8cd-13fd-5832-bb63-78911d0ad5b7);
+DB_Inclusion_Object(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, SCL_DriderCaravan_HalfOrcCaster_StartInclusion_8e0afe0d-4137-4fa6-ba8d-124bd53e2ed7, NULL_00000000-0000-0000-0000-000000000000);
+DB_Inclusion_Object(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, SCL_DriderCaravan_GoblinMelee_000_StartInclusion_5830061f-e0e9-4149-8190-9f401521b8e7, NULL_00000000-0000-0000-0000-000000000000);
+DB_Inclusion_NPCDialog(SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690, S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+DB_Inclusion_NPCDialog(SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690, S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d);
+DB_Inclusion_NPCDialog(SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690, S_SCL_Hyena_dc46404e-23a7-4a97-820c-159e75816661);
+DB_SCL_Drider_MTDialogues(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, SCL_Drider_AtTower_281349c6-cc8d-b492-df30-17cc3457a9b9);
+DB_SCL_Drider_MTDialogues(S_SCL_DriderCaravan_HalfOrcMelee_8e95a1ed-12f0-4b2e-9d22-d9b4522a1445, SCL_Drider_Caravan_HalfOrcMelee_AtTower_e3d2e981-7714-aec1-061f-52ef1cadbaac);
+DB_SCL_Drider_MTDialogues(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, SCL_Drider_Caravan_HalfOrcCaster_AtTower_05bfefe0-3094-29d0-bdcb-decf0a69e8af);
+DB_SCL_Drider_MTDialogues(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, SCL_Drider_Caravan_GoblinRanger_AtTower_68ce8510-3d87-85ca-207b-c9aca7669887);
+DB_SCL_Drider_MTDialogues(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, SCL_Drider_Caravan_GoblinMelee_000_AtTower_94960094-b5ae-daae-4565-ea3b40ceead9);
+DB_SCL_Drider_MTDialogues(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, SCL_Drider_Caravan_GoblinMelee_001_AtTower_8ba145a3-a92a-9428-5557-5d60702a0827);
+DB_SCL_Drider_CaravanWaitForDialog(SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690);
+DB_SCL_Drider_CaravanWaitForDialog(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342);
+DB_SCL_Drider_CaravanWaitForDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b);
+DB_SCL_Drider_CaravanWaitForDialog(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384);
+DB_SCL_Drider_OptionalCaravanIntroListeners(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d);
+DB_SCL_Drider_OptionalCaravanIntroListeners(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4);
+DB_SCL_Drider_OptionalCaravanIntroListeners(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d);
+DB_SCL_Drider_OptionalCaravanIntroListeners(S_SCL_DriderCaravan_HalfOrcMelee_8e95a1ed-12f0-4b2e-9d22-d9b4522a1445);
+DB_SCL_Drider_OptionalCaravanIntroListeners(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_CaravanGoesHostile_54a817db-213e-ec80-50e2-d9fb9f7e6ac7, SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, SCL_Drider_HarpersAtInn_3149228e-e915-8aa7-e9be-daa9880067bf);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_HarpersLearnMissedCaravan_cd3620bc-c471-4a6a-b0e0-336806bbfce3, SCL_Drider_HarpersAtInn_3149228e-e915-8aa7-e9be-daa9880067bf);
+DB_DefeatedEvent(S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, SCL_Drider_HarperCaster_000_State_Defeated_80f4da01-b56e-4f0e-a34e-be4ee51f11e2);
+DB_DefeatedEvent(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, SCL_Drider_HarperRanger_000_State_Defeated_4e11aefd-f51f-4280-903e-fcc0ab3c91ac);
+DB_DefeatedEvent(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, SCL_Drider_HarperMelee_000_State_Defeated_d15b1cfc-37e5-4ffb-b644-9f9bd5dfb982);
+DB_DefeatedEvent(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, SCL_Drider_HarperRanger_001_State_Defeated_8ccff845-cb36-45e0-9224-8c3072c64950);
+DB_GLO_DefeatCounter_AllDefeatedGlobalFlag("SCL_DriderHarperGroup", SCL_Drider_State_HarpersDefeated_2373a9db-2754-49f8-8523-fc1b32680db9);
+DB_SCL_Drider_HarpersDialogues(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, SCL_Drider_HarperMelee_000_d1921a76-f875-bb33-c063-ca2f00071c3a);
+DB_SCL_Drider_HarpersDialogues(S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, SCL_Drider_HarperCaster_000_7e346b6e-71f8-8098-e8b3-b20d5b8593f7);
+DB_SCL_Drider_HarpersDialogues(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, SCL_Drider_HarperRanger_000_21519751-015f-e000-b913-26ea59af0d68);
+DB_SCL_Drider_HarpersDialogues(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, SCL_Drider_HarperRanger_001_12a1c1f7-8b46-b4ed-2a7d-00ec34acb201);
+DB_SCL_Drider_HarpersGroup(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, S_SCL_Drider_HarpersInnPos_003_4484b433-bf0f-4eae-9dac-88a3211a465d, S_SCL_Drider_HarperMelee_AmbushPos_a71ce92d-da50-496b-93cd-5e9a774c8297);
+DB_SCL_Drider_HarpersGroup(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, S_SCL_Drider_HarpersInnPos_001_c8d76067-f5d3-4050-a38b-4f262271a38a, S_SCL_Drider_HarperRanger_001_AmbushPos_9201fe88-07e3-4fb5-b72f-ac9f5c67f5fc);
+DB_SCL_Drider_HarpersGroup(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, S_SCL_Drider_HarpersInnPos_000_2ce88f6e-3f99-4822-875e-6d2ea3f9e98f, S_SCL_Drider_HarperRanger_000_AmbushPos_d9b253f8-300b-4e7f-b6dc-fef77534e6fa);
+DB_SCL_Drider_HarpersGroup(S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, S_SCL_Drider_HarpersInnPos_002_ec2e2927-9a2a-4ec5-99a5-f2c308d23a23, S_SCL_Drider_HarperCaster_AmbushPos_d91edc78-c02e-4507-a4d8-9ab1de91d13c);
+DB_SCL_Drider_HarpersGroup_RightBeforeAmbushPos(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, S_SCL_Drider_HarperMelee_BeforeAmbushPos_6fda8574-4131-4af2-9c14-55c642bfaeca);
+DB_SCL_Drider_HarpersGroup_RightBeforeAmbushPos(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, S_SCL_Drider_HarperRanger_000_BeforeAmbushPos_7bc7c90a-3378-4796-a227-27bafe031549);
+DB_SCL_Drider_HarpersGroup_RightBeforeAmbushPos(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, S_SCL_Drider_HarperRanger_001_BeforeAmbushPos_35b6f2e9-cf1d-4599-aa6e-09a37f50e1f0);
+DB_SCL_Drider_HarpersGroup_RightBeforeAmbushPos(S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, S_SCL_Drider_HarperCaster_BeforeAmbushPos_4133f061-b175-4852-9480-7a9636995de6);
+DB_SCL_Drider_HarperBridgePositions(S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, S_SCL_Drider_HarperAtBridge_000_39d90c44-87bd-438e-87e7-6f78cedbd03b);
+DB_SCL_Drider_HarperBridgePositions(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, S_SCL_Drider_HarperAtBridge_001_8f215353-3e3e-454f-ac7c-8120d41d73a0);
+DB_SCL_Drider_HarperBridgePositions(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, S_SCL_Drider_HarperAtBridge_002_d33957b8-1c63-46c2-bf5b-cfd0c4a48f9d);
+DB_SCL_Drider_HarperBridgePositions(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, S_SCL_Drider_HarperAtBridge_003_b5b8139a-b3d8-4660-ac42-04afba1e1482);
+DB_SCL_Drider_HarperBlockedDialogStates("MovingToAmbush");
+DB_SCL_Drider_HarperBlockedDialogStates("WaitingAtAmbush");
+DB_SCL_Drider_HarperDuringAmbushStates("MovingToAmbush");
+DB_SCL_Drider_HarperDuringAmbushStates("WaitingAtAmbush");
+DB_SCL_Drider_HarperDuringAmbushStates("AfterAmbush");
+DB_SCL_Drider_HarperDuringAmbushStates("TakingMoonlantern");
+DB_SCL_Drider_HarpersAmbushDialogues(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b);
+DB_SCL_Drider_HarpersBanters(S_SCL_Drider_HarpersADAtTheTree_7e9402f6-9144-447a-b2dc-c7a32dea20c4, SCL_Drider_AD_HarpersReachTree_88990cb4-f8e3-52a6-3277-1a5915a5b936);
+DB_SCL_Drider_HarpersBanters(S_SCL_Drider_HarpersADAtHouse_b6a64421-a7be-41ad-9c54-26a89b19f59a, SCL_Drider_AD_HarpersReachAmbushHouse_48891e66-59b8-f6ff-f359-54f4bd5ed39a);
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, SCL_Drider_HarperMelee_000_AfterAmbush_d09129b9-a4f4-7433-fe93-12cb3ccb27c4);
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, SCL_Drider_HarperRanger_001_AfterAmbush_6f05ff1f-5a0c-685c-1c74-43fe6f3eeeb7);
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, SCL_Drider_HarperRanger_000_AfterAmbush_1affd29d-6d89-6bce-824c-26d7c8c63503);
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, SCL_Drider_HarperCaster_000_AfterAmbush_f6e4c649-acf0-3ad6-338b-b338105f6452);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_PlayersAttackHarpers_8c482074-29ef-e01d-7b8d-97b9a20cc371, SCL_Drider_HarperNarrator_AfterAmbush_7a3a0060-6ec0-ca87-01a9-b27a0ac5d8e7);
+DB_SCL_Drider_HarpersDialoguesAfterAmbush_NarratorReplacement(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, SCL_Drider_HarperRanger_000_AfterAmbush_1affd29d-6d89-6bce-824c-26d7c8c63503);
+DB_SCL_Drider_HarpersDialoguesAfterAmbush_NarratorReplacement(S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, SCL_Drider_HarperCaster_000_AfterAmbush_f6e4c649-acf0-3ad6-338b-b338105f6452);
+DB_SCL_Drider_HarpersDialoguesAfterAmbush_NarratorReplacement(S_SCL_HarperScout_000_c6dfb2aa-809f-4b3e-8b32-968c10184ec3, SCL_Drider_HarperScout_AfterAmbush_837cb921-88ab-0b9c-4113-bc092e2dbb1b);
+DB_SCL_Drider_AfterAmbushDialogues(SCL_Drider_HarperMelee_000_AfterAmbush_d09129b9-a4f4-7433-fe93-12cb3ccb27c4);
+DB_SCL_Drider_AfterAmbushDialogues(SCL_Drider_HarperRanger_001_AfterAmbush_6f05ff1f-5a0c-685c-1c74-43fe6f3eeeb7);
+DB_SCL_Drider_AfterAmbushDialogues(SCL_Drider_HarperRanger_000_AfterAmbush_1affd29d-6d89-6bce-824c-26d7c8c63503);
+DB_SCL_Drider_AfterAmbushDialogues(SCL_Drider_HarperCaster_000_AfterAmbush_f6e4c649-acf0-3ad6-338b-b338105f6452);
+DB_SCL_Drider_AfterAmbushDialogues(SCL_Drider_HarperScout_AfterAmbush_837cb921-88ab-0b9c-4113-bc092e2dbb1b);
+DB_SCL_Drider_AfterAmbushDialogues(SCL_Drider_HarperNarrator_AfterAmbush_7a3a0060-6ec0-ca87-01a9-b27a0ac5d8e7);
+DB_Inclusion_NPCDialog(SCL_Drider_AD_HarpersAfterAmbush_18b0553f-9899-d636-3ab6-8316ec2cfcf2, S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887);
+DB_Inclusion_NPCDialog(SCL_Drider_AD_HarpersAfterAmbush_18b0553f-9899-d636-3ab6-8316ec2cfcf2, S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d);
+DB_Inclusion_NPCDialog(SCL_Drider_AD_HarpersAfterAmbush_18b0553f-9899-d636-3ab6-8316ec2cfcf2, S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff);
+PROC_TriggerRegisterForPlayers(S_SCL_Drider_PlayerAndHarpersAmbushPosition_98361852-5286-4fae-8edb-9b5632876740);
+DB_AddCharactersInTriggerToDialog(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, S_SCL_Drider_AmbushIntroCinematicInclusion_fd99539a-e01e-4d3d-8f6a-be771d388714, 1, 1, 1);
+DB_Inclusion_Object(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, SCL_DriderHarper_Melee_000_StartInclusion_f00e816c-6f0e-4f02-821c-d1c155a47cf6, NULL_00000000-0000-0000-0000-000000000000);
+DB_Inclusion_Object(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, SCL_DriderHarper_Ranger_000_StartInclusion_73e52a80-3a88-4242-b318-0ea7c641402e, NULL_00000000-0000-0000-0000-000000000000);
+DB_Inclusion_Object(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, SCL_DriderHarper_Ranger_001_StartInclusion_9ac1de81-7f71-4ec9-acb6-5540d3db1eae, NULL_00000000-0000-0000-0000-000000000000);
+DB_Inclusion_Object(S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, SCL_DriderHarper_Caster_000_StartInclusion_0ea6540d-5703-4efe-898f-6053a748a069, NULL_00000000-0000-0000-0000-000000000000);
+DB_DialogBlockAttackButton(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b);
+DB_Inclusion_NPCDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d);
+DB_Inclusion_NPCDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+DB_DialogBlockAttackButton(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384);
+DB_Inclusion_NPCDialog(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384, S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d);
+DB_Inclusion_NPCDialog(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384, S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+DB_DialogBlockAttackButton(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342);
+DB_Inclusion_NPCDialog(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d);
+DB_Inclusion_NPCDialog(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff);
+DB_Inclusion_NPCDialog(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887);
+PROC_TriggerRegisterForPlayers(S_SCL_Drider_AmbushIntroCinematicInclusion_fd99539a-e01e-4d3d-8f6a-be771d388714);
+PROC_TriggerRegisterForPlayers(S_SCL_Drider_TriggerCaravanPlayersAlone_25bed88a-dd03-44fd-bd63-a15a0e6fead7);
+PROC_TriggerRegisterForPlayers(S_SCL_Drider_TriggerCaravanPlayersAlone_PlayersAfterHouse_4a7fef91-42a0-47a0-bac4-2a6377f3ca2e);
+PROC_TriggerRegisterForParty(S_SCL_Drider_TriggerCaravanPlayersAlone_ExclusionZone_581ecbfe-3a04-45a4-bf60-e15c0597ff23);
+DB_TopicalGreeting(TG_SCL_Drider_StartFollowingDrider_3c95afd8-0d7e-443c-9527-5dc7bc44e587);
+DB_TopicalGreetingStartCondition_FlagSet(TG_SCL_Drider_StartFollowingDrider_3c95afd8-0d7e-443c-9527-5dc7bc44e587, SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc);
+
+KBSECTION
+PROC
+PROC_SCL_Drider_InitSwD()
+AND
+DB_GlobalFlag(GLO_DrowCommander_State_Dead_bf904558-1898-4d27-9526-9cef185cc9e1, _, _, _, _)
+THEN
+DB_GLO_CharacterCorpseDialog(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, SCL_DriderCaravan_GoblinRanger_Dead_fb9bc6ab-2cd6-b6a6-61d6-f158bdc95cfd);
+
+IF
+DB_GlobalFlagReactionAfterDialog(_Var1, SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690, _Var1, _Var1, _Var1)
+THEN
+DB_GlobalFlagReactionAfterDialog(_Var1, SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1);
+
+IF
+DB_Inclusion_NPCDialog(SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Inclusion_NPCDialog(SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1, _Var1);
+
+IF
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab
+THEN
+DB_State_Priority(_Var1, "SCL_TheDrider", "WaitingForDrider", 0);
+DB_State_Priority(_Var1, "SCL_TheDrider", "FollowingDrider", 10);
+DB_State_Priority(_Var1, "SCL_TheDrider", "ReachedMoonriseTower", 20);
+DB_State_Current(_Var1, "SCL_TheDrider", "WaitingForDrider");
+SetCombatGroupID(_Var1, "30cb5071-17eb-4eb8-9abb-1829198839fa");
+DB_GLO_DefeatCounter(_Var1, "SCL_Drider_CultistsDefeated_NoDrider");
+TriggerRegisterForCharacter(S_SCL_Drider_CaravanAmbushTrigger_142100ea-6c5f-4ced-872d-40d955ebb880, _Var1);
+
+PROC
+PROC_State_Changed((CHARACTER)_Var1, "SCL_TheDrider", "FollowingDrider", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 0);
+
+PROC
+PROC_State_Changed(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, "SCL_TheDrider", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != "FollowingDrider"
+AND
+DB_DoNotFace(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DoNotFace(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, "SCL_TheDrider", (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+_Var2 != "FollowingDrider"
+THEN
+SetHasDialog(_Var1, 1);
+
+PROC
+PROC_SCL_Drider_BlockCaravanQuestPath()
+THEN
+PROC_SpotPlayers_StopSpotting(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, "SCL_CaravanCheckpoint");
+PROC_SpotPlayers_StopSpotting(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, "SCL_CaravanCheckpoint");
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_CaravanEscortQuestPathBlocked_87e4813d-38af-4188-8c3d-b7d5ba207901);
+
+PROC
+PROC_SCL_Drider_BlockCaravanQuestPath()
+THEN
+PROC_SCL_Drider_StartEscortNoPlayers();
+
+PROC
+PROC_SCL_Drider_StartEscortNoPlayers()
+THEN
+PROC_SpotPlayers_StopSpotting(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, "SCL_CaravanCheckpoint");
+PROC_SpotPlayers_StopSpotting(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, "SCL_CaravanCheckpoint");
+PROC_SCL_Drider_StartsMovingTowardsTower();
+PROC_SCL_Drider_StartCaravanEscort_NoTeleport();
+
+PROC
+PROC_SCL_Drider_StartEscortNoPlayers()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+PROC
+PROC_SCL_Drider_StartEscortNoPlayers()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_CravanMemberLeaving(_Var1);
+PROC_RemoveDialog(_Var1);
+PROC_DisappearOutOfSight(_Var1, "Run", 0, "SCL_Drider_CaravanLeaves");
+
+IF
+DB_SCL_Drider_CravanMemberLeaving(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_CravanMemberLeaving(_Var1);
+PROC_SCL_Drider_RemoveFromCaravanGroup(_Var1);
+PROC_SCL_Drider_EveryoneFromCaravanLeft();
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_CaravanLeaves", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_CravanMemberLeaving(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_CravanMemberLeaving(_Var1);
+PROC_SCL_Drider_EveryoneFromCaravanLeft();
+
+PROC
+PROC_SCL_Drider_EveryoneFromCaravanLeft()
+AND NOT
+DB_SCL_Drider_CravanMemberLeaving(_, _, _, _, _)
+THEN
+SetFlag(SCL_Drider_Event_CaravanLeftWithoutPlayers_5eee9fc5-4e53-4583-9e95-a5bef98507ce, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("SCL_Drider_Cultists", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_CaravanCultistsPermaDefeated_5915ab2e-7516-4d89-a7f2-458f1cf6b2b6);
+
+PROC
+PROC_SCL_Drider_RemoveFromCaravanGroup((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_DefeatCounter(_Var1, "SCL_Drider_Cultists");
+NOT DB_SCL_Drider_CaravanGroup(_Var1, _Var2);
+SetCombatGroupID(_Var1, "");
+TriggerUnregisterForCharacter(S_SCL_Drider_CaravanAmbushTrigger_142100ea-6c5f-4ced-872d-40d955ebb880, _Var1);
+
+PROC
+PROC_LongRest()
+AND NOT
+DB_OnlyOnce("SCL_Drider_RemovedOintmentFromHarpers", _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersBackAtInn_9e0b8ee1-ccf7-4645-92da-4ec8be45508e, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "HAV_SELUNEOINTMENT", 1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("SCL_Drider_RemovedOintmentFromHarpers");
+RemoveStatus(_Var1, "HAV_SELUNEOINTMENT");
+
+PROC
+PROC_LongRest()
+AND NOT
+DB_SCL_Drider_RemovedOintmentFromLassandra(1, _, _, _, _)
+AND
+DB_OnlyOnce("SCL_Drider_RemovedOintmentFromHarpers", _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersBackAtInn_9e0b8ee1-ccf7-4645-92da-4ec8be45508e, _, _, _, _)
+AND
+HasActiveStatus(S_SCL_HarperScout_000_c6dfb2aa-809f-4b3e-8b32-968c10184ec3, "HAV_SELUNEOINTMENT", 1, _, _)
+THEN
+DB_SCL_Drider_RemovedOintmentFromLassandra(1);
+RemoveStatus(S_SCL_HarperScout_000_c6dfb2aa-809f-4b3e-8b32-968c10184ec3, "HAV_SELUNEOINTMENT");
+
+PROC
+PROC_SCL_Drider_ReplaceCharacterDialogWith((GUIDSTRING)_Var1, (DIALOGRESOURCE)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+DB_Dialogs(_Var1, _Var2);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_MakeCaravanHostile_2f5270c2-7d15-4fa0-a64a-3f8350be0212, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 0);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 0);
+
+IF
+FlagSet(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_Drider_DriderAppears", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293);
+PROC_SCL_Drider_StartCaravanEscort();
+
+IF
+CastedSpell((CHARACTER)_Var1, "Shout_SCL_SpiderLyre_Perform", _, _, _)
+AND
+DB_InRegion(_Var1, S_SCL_Drider_PerformingWithSpiderLyre_30e134e2-7083-44af-ad4e-23784c013b5a, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_DriderAppears", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_EntryPoint_Event_GainedAccessToCaravanCamp_8f7b8388-5f8d-4d56-b224-84abb6311068);
+TimerLaunch("SCL_Drider_AppearsAfterUsingLyre", 100);
+
+IF
+TimerFinished("SCL_Drider_AppearsAfterUsingLyre", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_WaitAtCaravanStart_c2414538-2e56-428e-935e-35d0b11a1ff8);
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207);
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293);
+PROC_SCL_Drider_StartCaravanEscort();
+
+IF
+EntityEvent(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_Drider_ArrivedToTower", _, _, _)
+THEN
+PROC_SCL_Drider_EndCaravanEscort();
+
+PROC
+PROC_SCL_Drider_StartCaravanEscort()
+THEN
+PROC_SCL_Drider_StartCaravanEscort_Internal(1);
+
+PROC
+PROC_SCL_Drider_StartCaravanEscort_NoTeleport()
+THEN
+PROC_SCL_Drider_StartCaravanEscort_Internal(0);
+
+PROC
+PROC_SCL_Drider_StartCaravanEscort_Internal((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(S_SCL_Drider_PerformingWithSpiderLyre_30e134e2-7083-44af-ad4e-23784c013b5a);
+DB_SCL_Drider_CaravanGroup(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_Drider_AmbushTP_33cfefb0-61c6-41f9-81ea-ed854858ebd0);
+SetFlag(SCL_Drider_Event_EscortCaravan_f6387817-27c0-4917-80d3-e6d9c2424663, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(SCL_Drider_State_CaravanFollowingDrider_bb2e75b6-2efd-4b84-899a-4bd8e5682357, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SpotPlayers_StopSpotting(S_SCL_DriderCaravan_GoblinMelee_001_0648b227-b64b-471f-a6ac-d71af926dfb4, "SCL_CaravanCheckpoint");
+PROC_SpotPlayers_StopSpotting(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, "SCL_CaravanCheckpoint");
+ClearFlag(SCL_Drider_State_CaravanWaitingDrider_bd3f124b-f817-48d4-96ec-ea9101b15be4, NULL_00000000-0000-0000-0000-000000000000);
+TriggerRegisterForCharacter(S_SCL_Drider_CaravanAmbushTrigger_142100ea-6c5f-4ced-872d-40d955ebb880, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+PROC_State_Progress(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "EscortingCaravan");
+PROC_CancelCheckpoint("SCL_CaravanCheckpoint");
+PROC_SCL_Drider_RegisterADTriggers();
+PROC_SCL_Drider_InitEscortParty();
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_PlayersStartFollowingDrider_2032c1a9-0b3a-4f88-ff4e-ea87b7bb1c1e, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc);
+
+IF
+FlagCleared(SCL_Drider_State_WaitingAtAmbushAfterCombat_84d5065a-2648-d39d-d331-78ab4b68621d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_FailedConvincingAfterAmbush_1ea7879e-51d4-8a26-7a39-6db25f93403f, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc);
+
+PROC
+PROC_SCL_Drider_InitEscortParty()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_EnableForceUpdate(_Var1);
+DB_SCL_Drider_PartOfEscort(_Var1);
+
+PROC
+PROC_SCL_Drider_InitEscortParty()
+THEN
+DB_SCL_Drider_LeadingEscort(1);
+PROC_SCL_Drider_EnableForceUpdate(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+SetCombatGroupID(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_DriderCaravanEscort");
+EscortAddCharacter(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_DriderEscort");
+EscortSetLeader(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_DriderEscort");
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_PartOfEscort(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_RemoveFromEscortBehaviour(_Var1);
+
+IF
+DB_SCL_Drider_PartOfEscort(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "SCL_DriderCaravanEscort");
+EscortAddCharacter(_Var1, "SCL_DriderEscort");
+
+IF
+WentOnStage(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 1, _, _, _)
+AND
+DB_SCL_Drider_LeadingEscort(1, _, _, _, _)
+THEN
+EscortAddCharacter(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_DriderEscort");
+EscortSetLeader(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_DriderEscort");
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_PartOfEscort(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+EscortAddCharacter(_Var1, "SCL_DriderEscort");
+
+IF
+DB_Sees(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_Drider_EscortedPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_EscortedPlayer(_Var1);
+EscortAddCharacter(_Var1, "SCL_DriderEscort");
+
+IF
+DB_GlobalFlag(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_EscortedPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_EscortedPlayer(_Var1);
+EscortRemoveCharacter(_Var1);
+
+IF
+FlagSet(SCL_Drider_Event_ArrivedToTower_e8d310c2-0b05-4e42-912b-e7199759de2a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_Drider_EndEscortBehaviour();
+
+IF
+DB_PermaDefeated(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _, _, _, _)
+THEN
+PROC_SCL_Drider_EndEscortBehaviour();
+
+PROC
+PROC_SCL_Drider_EndEscortBehaviour()
+AND
+DB_SCL_Drider_PartOfEscort(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+NOT DB_SCL_Drider_PartOfEscort(_Var1);
+PROC_SCL_Drider_DisableForceUpdate(_Var1);
+
+PROC
+PROC_SCL_Drider_EndEscortBehaviour()
+THEN
+PROC_SCL_Drider_DisableForceUpdate(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+NOT DB_SCL_Drider_LeadingEscort(1);
+PROC_GlobalClearFlagAndCache(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc);
+PROC_GlobalClearFlagAndCache(SCL_Drider_Event_EscortCaravan_f6387817-27c0-4917-80d3-e6d9c2424663);
+SetCombatGroupID(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "");
+EscortRemoveAll("SCL_DriderEscort");
+
+PROC
+PROC_SCL_Drider_RemoveFromEscortBehaviour((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_SCL_Drider_PartOfEscort(_Var1);
+PROC_SCL_Drider_DisableForceUpdate(_Var1);
+SetCombatGroupID(_Var1, "");
+EscortRemoveCharacter(_Var1);
+
+IF
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc, _, _, _, _)
+THEN
+PROC_SCL_Drider_RemovePlayersFromEscort();
+
+PROC
+PROC_SCL_Drider_RemovePlayersFromEscort()
+THEN
+PROC_GlobalClearFlagAndCache(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc);
+
+PROC
+PROC_SCL_Drider_RemovePlayersFromEscort()
+AND
+DB_SCL_Drider_EscortedPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_EscortedPlayer(_Var1);
+EscortRemoveCharacter(_Var1);
+
+PROC
+PROC_SCL_Drider_EnableForceUpdate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SCL_Drider_PartOfEscort_ForceUpdated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_PartOfEscort_ForceUpdated(_Var1);
+SetForceUpdate(_Var1, 1);
+
+PROC
+PROC_SCL_Drider_DisableForceUpdate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_PartOfEscort_ForceUpdated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_PartOfEscort_ForceUpdated(_Var1);
+SetForceUpdate(_Var1, 0);
+
+PROC
+PROC_SCL_Drider_StartCaravanEscort_Internal(1, _, _, _, _)
+THEN
+TeleportTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_AppearAtPos_9e6a7782-0c13-4bb6-bcde-61b7ac36899c, "SCL_Drider_AppearsAtCaravan");
+
+IF
+DialogEnded(SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_EscortCaravan_f6387817-27c0-4917-80d3-e6d9c2424663, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CustomDialogRange(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 9999);
+
+IF
+DialogEnded(SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+GetFlag(SCL_Drider_Event_CaravanStart_65560e97-950a-4995-9799-723a47ef4a22, _Var2, 1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var2, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var2, 1);
+
+IF
+DialogEnded(SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 != 1
+THEN
+PROC_ClearScreenFadeTimeline(_Var2, 1);
+
+IF
+DialogEnded(SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+GetFlag(SCL_Drider_Event_CaravanStart_65560e97-950a-4995-9799-723a47ef4a22, _Var2, 0, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var2, 1);
+
+IF
+DialogEnded(SCL_Drider_Caravan_HalfOrcCaster_865adfae-1b72-1ed2-f961-d55abd4fb7b1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+ClearFlag(SCL_Drider_Event_CaravanStart_65560e97-950a-4995-9799-723a47ef4a22, _Var2);
+
+PROC
+PROC_SCL_Drider_RegisterADTriggers()
+AND
+DB_SCL_Drider_ADTriggers(_Var1, _, _, _, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var1, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+IF
+EntityEvent(_, "SCL_Drider_AppearsAtCaravan", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CharacterMoveTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_StartEscortPos_93a0731b-5d62-4cf5-84a2-c88190560cc4, "Walk", "");
+
+IF
+DialogEnded(SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690, _, _, _, _)
+AND
+DB_StoryMoving(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 1, _, _, _)
+THEN
+PROC_ClearStoryMove(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+IF
+DialogEnded(SCL_Drider_CaravanStart_e436d37f-a2a4-92f7-a429-b0dcb2937690, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_WaitAtCaravanStart_c2414538-2e56-428e-935e-35d0b11a1ff8, _, _, _, _)
+THEN
+SetFlag(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SCL_Drider_StartsMovingTowardsTower();
+
+PROC
+PROC_SCL_Drider_StartsMovingTowardsTower()
+THEN
+PROC_RemoveDialog(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+SetHasDialog(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 0);
+
+PROC
+PROC_SCL_Drider_AppearAtCaravanCheckpoint()
+THEN
+DB_SCL_Drider_CaravanGroup(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_Drider_AmbushTP_33cfefb0-61c6-41f9-81ea-ed854858ebd0);
+
+PROC
+PROC_SCL_Drider_StartCaravanEscort_Internal((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_SCL_Drider_DriderAmbushedSceneSetup_c591afb2-8aa1-48eb-a294-972c5d1b9920, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 50);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 50);
+
+PROC
+PROC_SCL_Drider_StartCaravanEscort_Internal((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_BlockHarpersQuestPath();
+
+PROC
+PROC_SCL_Drider_StartCaravanEscort_Internal((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(_Var2, "SCL_TheDrider", "FollowingDrider");
+
+IF
+FlagSet(SCL_Drider_Event_CaravanScatters_b496248c-87b9-4412-911a-18e81b669aaf, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_Drider_ScatterCaravan();
+
+PROC
+PROC_SCL_Drider_ScatterCaravan()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab
+THEN
+SetFlag(SCL_Drider_Event_RunsAwayFromCaravan_817288ba-ed53-4cf6-ae94-2ea833bad4e3, _Var1);
+
+IF
+WentOnStage((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetFlag(SCL_Drider_Event_RunsAwayFromCaravan_817288ba-ed53-4cf6-ae94-2ea833bad4e3, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_RemoveFromCaravanGroup(_Var1);
+
+PROC
+PROC_SCL_Drider_EndCaravanEscort()
+THEN
+NOT DB_GLO_DefeatCounter(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_Drider_Cultists");
+PROC_State_Progress(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "ReachedMoonriseTower");
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 50);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 50);
+TriggerUnregisterForCharacter(S_SCL_Drider_CaravanAmbushTrigger_142100ea-6c5f-4ced-872d-40d955ebb880, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_SCL_Drider_EndCaravanEscort()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(_Var1, "SCL_TheDrider", "ReachedMoonriseTower");
+
+PROC
+PROC_SCL_Drider_EndCaravanEscort()
+AND
+DB_GLO_DefeatCounter(_Var1, "SCL_Drider_Cultists", _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_DefeatCounter(_Var1, "SCL_Drider_Cultists");
+
+PROC
+PROC_State_Changed((CHARACTER)_Var1, "SCL_TheDrider", "ReachedMoonriseTower", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab
+AND
+DB_GLO_WeaponSlots(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedItem(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+IsTorch(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+Unequip(_Var1, _Var3);
+
+PROC
+PROC_SCL_Drider_EndCaravanEscort()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_CaravanMemberInTower(_Var1);
+PROC_SCL_Drider_RemoveFromCaravanGroup(_Var1);
+
+IF
+DB_DialogName(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_CaravanWaitForDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_State_WaitingForCaravanDialog_b06edb97-964e-44e9-b1e9-ecd3a089723b, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_CaravanWaitForDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(SCL_Drider_State_WaitingForCaravanDialog_b06edb97-964e-44e9-b1e9-ecd3a089723b, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(SCL_Drider_State_WaitingHostileBeforeDeepCurse_11c15680-eb03-460e-96a1-745a3d3a0d56, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 0);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 0);
+PROC_SCL_Drider_RemovePlayersFromEscort();
+
+IF
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_State_Priority(_Var1, "SCL_DriderHarpers", "WaitingAtHaven", 0);
+DB_State_Priority(_Var1, "SCL_DriderHarpers", "WaitingAtBridge", 50);
+DB_State_Priority(_Var1, "SCL_DriderHarpers", "MovingToAmbush", 100);
+DB_State_Priority(_Var1, "SCL_DriderHarpers", "WaitingAtAmbush", 200);
+DB_State_Priority(_Var1, "SCL_DriderHarpers", "AfterAmbush", 225);
+DB_State_Priority(_Var1, "SCL_DriderHarpers", "TakingMoonlantern", 250);
+DB_State_Priority(_Var1, "SCL_DriderHarpers", "BackAtInn", 300);
+DB_State_Current(_Var1, "SCL_DriderHarpers", "WaitingAtHaven");
+DB_CustomDialogRange(_Var1, 20);
+DB_DoNotFace(_Var1);
+DB_GLO_DefeatCounter(_Var1, "SCL_DriderHarperGroup");
+RealtimeObjectTimerLaunch(_Var1, "SCL_Drider_UnlitTorch", 50);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_Drider_UnlitTorch", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_SCL_Drider_UnlitTorch(_Var1);
+
+IF
+DB_SCL_Drider_HarpersDialogues(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Dialogs(_Var1, _Var2);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, _Var2);
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_HarpersLearnMissedCaravan_cd3620bc-c471-4a6a-b0e0-336806bbfce3, _Var2);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, "SCL_DriderHarpers", (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarperBlockedDialogStates(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_HarperIsBusy(_Var1);
+
+IF
+FlagSet(SCL_Drider_State_IsobelToldAboutHarpers_f56abcc8-566f-feaa-1115-d10317db14a8, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_Drider_MoveHarpersToTheBridge();
+
+IF
+FlagSet(HAV_Isobel_State_ReceivedMoonriseQuest_3025b1d0-30ba-4572-baf9-a4e97fea8ae5, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_Drider_MoveHarpersToTheBridge();
+
+IF
+FlagSet(HAV_Jaheira_State_MissionGiven_7516666c-4c71-86d7-9d2b-9f3a4269970b, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_Drider_MoveHarpersToTheBridge();
+
+PROC
+PROC_SCL_Drider_MoveHarpersToTheBridge()
+AND
+QRY_OnlyOnce("SCL_Drider_HarpersGoToBridge", _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_State_Progress(_Var1, "SCL_DriderHarpers", "WaitingAtBridge");
+
+PROC
+PROC_State_Changed(_, "SCL_DriderHarpers", "WaitingAtBridge", _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersWaitingAtBridge_94c5a554-2eee-470c-ab0a-c69264a25eb0, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersWaitingAtBridge_94c5a554-2eee-470c-ab0a-c69264a25eb0);
+PROC_SCL_Drider_BlockCaravanQuestPath();
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, "SCL_DriderHarpers", (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_SCL_Drider_HarperBlockedDialogStates(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_HarperNotBusy(_Var1);
+
+PROC
+PROC_State_Changed((CHARACTER)_Var1, "SCL_DriderHarpers", "WaitingAtBridge", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarperBridgePositions(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Run", "SCL_Drider_HarperArrivesAtBridge");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_HarperArrivesAtBridge", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(HAV_Mood_State_Siege_b509af8b-a331-47ac-8230-3b8c5ef9956b, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers(_Var1, "SCL_Drider_HarpersAtBridge", NULL_00000000-0000-0000-0000-000000000000, SCL_Drider_Event_HarpersAtBridgeStopSpotting_9302a6a2-c029-422b-a98f-31285694e964);
+DB_SpotPlayers_SpotTrigger(_Var1, "SCL_Drider_HarpersAtBridge", S_SCL_HarpersAtBridge_SpotTrigger_f3d8c40a-4866-4ae8-bc18-e7735570ace5);
+
+IF
+FlagSet(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(SCL_Drider_Event_HarpersAtBridgeStopSpotting_9302a6a2-c029-422b-a98f-31285694e964, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "SCL_Drider_HarpersAtBridge", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersDialogues(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("SCL_Drider_StartedHarperAtBridgeDialogBySight", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_TryStartHarpersAtBridgeDialog(_Var3, _Var1, _Var2, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_StartedHarperAtBridgeDialogBySight", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_TryStartHarpersAtBridgeDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(SCL_Drider_HarpersAtInn_3149228e-e915-8aa7-e9be-daa9880067bf, S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, _Var3, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_StartedHarperAtBridgeDialogBySight", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_TryStartHarpersAtBridgeDialog((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_OnlyOnce("SCL_Drider_StartedHarperAtBridgeDialogBySight", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_Drider_HarperIsBusy((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SCL_Drider_HarperIsBusy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_HarperIsBusy(_Var1);
+PROC_GenericsSetBusyDialog(_Var1);
+
+PROC
+PROC_SCL_Drider_HarperNotBusy((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarperIsBusy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_HarperIsBusy(_Var1);
+PROC_GenericsClearBusyDialog(_Var1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee);
+PROC_SCL_Drider_StartHarpersAmbush();
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_Drider_HarperLeavesToAmbush", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _Var3, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, _Var3, "SCL_Drider_HarperTeleportsToAmbush");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_HarperTeleportsToAmbush", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AmbushTrigger(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, _, _, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_HarpersAmbushSet", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_AmbushTrigger(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, S_SCL_Drider_HarpersAmbush_DetectTrigger_9fc6b794-875f-4201-bd00-fb78a1a42159, Act2_Medium_89f0acd4-346f-479d-8b7a-1a3eb5382f6d);
+DB_AmbushTrigger_AdditionalAmbushTrigger(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, S_SCL_Drider_HarpersAmbush_Trigger_Rooftop_149f9815-dbe0-450f-b141-22c8e083efd3);
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_Drider_HarperTeleportsToAmbush", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 0);
+SetFlag(SCL_Drider_State_HarperArrivedToAmbush_207e84a6-6e3d-4351-9a92-83b6a707049c, _Var1);
+PROC_State_Progress(_Var1, "SCL_DriderHarpers", "WaitingAtAmbush");
+DB_AmbushTrigger_Ambusher(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, _Var1, 1);
+SetOnStage(_Var1, 1);
+
+IF
+FlagSet(SCL_Drider_State_HarperArrivedToAmbush_207e84a6-6e3d-4351-9a92-83b6a707049c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_Inclusion_NPCDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, _Var1);
+
+IF
+FlagCleared(SCL_Drider_State_HarperWaitingAtAmbush_9b072ae9-ea08-4f66-aa97-e9592a23150c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_Inclusion_NPCDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, _Var1);
+
+PROC
+PROC_SCL_Drider_StartHarpersAmbush()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "HAV_SELUNEOINTMENT", -1, 1);
+PROC_State_Progress(_Var1, "SCL_DriderHarpers", "MovingToAmbush");
+
+PROC
+PROC_SCL_Drider_StartHarpersAmbush()
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 100);
+SetFlag(SCL_Drider_State_HarpersMovingToAmbush_5bde3cff-5e95-4c86-b368-75c744e02411, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_State_Changed((CHARACTER)_Var1, "SCL_DriderHarpers", "MovingToAmbush", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+Random(1000, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(2000, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(_Var1);
+PROC_SCL_Drider_LitTorch(_Var1);
+ObjectTimerLaunch(_Var1, "SCL_Drider_HarperLitsTorch", _Var3);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_Drider_HarperLitsTorch", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup_RightBeforeAmbushPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Run", "SCL_Drider_HarperArrivedToAmbush");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_HarperArrivedToAmbush", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_HarpersRightBeforeAmbush", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersRightBeforeAmbush_168a8200-8ba4-4104-acae-a3b5ba49ba0e);
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersWereAtAmbush_91ba35ad-3119-4914-8233-3e4235af5e6c);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_HarperArrivedToAmbush", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(SCL_Drider_State_HarperArrivedToAmbush_207e84a6-6e3d-4351-9a92-83b6a707049c, _Var1);
+
+IF
+FlagSet(SCL_Dricer_Event_MoveToCombatPositions_35605dc9-0eae-48a9-bf62-0a9da6c535ec, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersRightBeforeAmbush_168a8200-8ba4-4104-acae-a3b5ba49ba0e, _, _, _, _)
+THEN
+PROC_SCL_Drider_MoveHarpersToCombatPositions();
+
+PROC
+PROC_SCL_Drider_MoveHarpersToCombatPositions()
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersRightBeforeAmbush_168a8200-8ba4-4104-acae-a3b5ba49ba0e, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _Var3, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var3, "Run", "");
+
+PROC
+PROC_SCL_Drider_MoveHarpersToCombatPositions()
+THEN
+ClearFlag(SCL_Drider_State_HarpersRightBeforeAmbush_168a8200-8ba4-4104-acae-a3b5ba49ba0e);
+
+IF
+DialogEnded(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _, _)
+AND
+GetFlag(SCL_Drider_State_HarperArrivedToAmbush_207e84a6-6e3d-4351-9a92-83b6a707049c, _Var2, 1, _, _)
+THEN
+FlushOsirisQueue(_Var2);
+
+PROC
+PROC_SCL_Drider_StartCaravanEscort_Internal((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersAmbushQuestPathBlocked_8d633cd0-5dd6-4732-9cf4-7e6f36911900, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersWaitingAtBridge_94c5a554-2eee-470c-ab0a-c69264a25eb0, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var2, "Run", 0, "SCL_Drider_HarperLeavesToAmbush");
+
+PROC
+PROC_SCL_Drider_BlockHarpersQuestPath()
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersWaitingAtBridge_94c5a554-2eee-470c-ab0a-c69264a25eb0, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c, _, _, _, _)
+THEN
+SetFlag(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(SCL_Drider_State_HarpersMovingToAmbush_5bde3cff-5e95-4c86-b368-75c744e02411, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SCL_Drider_ApplyOintmentToHarpers();
+
+PROC
+PROC_SCL_Drider_ApplyOintmentToHarpers()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "HAV_SELUNEOINTMENT", -1, 1);
+
+PROC
+PROC_SCL_Drider_BlockHarpersQuestPath()
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+
+PROC
+PROC_SCL_Drider_BlockHarpersQuestPath()
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersAmbushQuestPathBlocked_8d633cd0-5dd6-4732-9cf4-7e6f36911900);
+
+IF
+FlagSet(SCL_Drider_State_HarpersMovingToAmbush_5bde3cff-5e95-4c86-b368-75c744e02411, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TriggerUnregisterForPlayers(S_SCL_Drider_TriggerCaravanPlayersAlone_PlayersAfterHouse_4a7fef91-42a0-47a0-bac4-2a6377f3ca2e);
+SetFlag(SCL_Drider_Event_HarpersWentToAmbush_63904c13-aa2e-4b9e-a2ad-7f00342ca9db, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_SelectCustomDialog((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersDialogues(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersWaitingAtBridge_94c5a554-2eee-470c-ab0a-c69264a25eb0, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_HarpersWentToAmbush_63904c13-aa2e-4b9e-a2ad-7f00342ca9db, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_Mood_State_Siege_b509af8b-a331-47ac-8230-3b8c5ef9956b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersBackAtInn_9e0b8ee1-ccf7-4645-92da-4ec8be45508e, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(SCL_Drider_HarpersAtInn_3149228e-e915-8aa7-e9be-daa9880067bf, S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SCL_Drider_HarpersAtInn_3149228e-e915-8aa7-e9be-daa9880067bf, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _Var1, _Var1)
+AND
+_Var2 != S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var1, _Var2);
+
+PROC
+PROC_SCL_Drider_LitTorch((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedWeapon(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_IsTorchOrLantern(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "BURNING", 0, _Var1, _Var1)
+THEN
+DB_SCL_Drider_TorchLit(_Var1, _Var2);
+ApplyStatus(_Var2, "BURNING", -1, 1);
+
+QRY
+QRY_SCL_Drider_IsTorchOrLantern((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+GetTemplate(_Var1, WPN_HUM_Torch_A_50c43f27-a12e-412c-88f0-56e15eba692a, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_IsTorchOrLantern((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+GetTemplate(_Var1, WPN_HUM_Torch_Lantern_A_81705db9-5b32-4ccd-91be-f8bad863ec48, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_Drider_LitTorch((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_Drider_TorchLit(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("SCL_Harper_LightWeapon", _Var1, _Var1, _Var1, _Var1)
+AND
+GetBaseArchetype(_Var1, "ranged", _Var1, _Var1, _Var1)
+AND
+GetEquippedWeapon(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCL_Drider_IsTorchOrLantern(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var3, "LIGHT", 0, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Harper_LightWeapon", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_TorchLit(_Var1, _Var3);
+UseSpell(_Var1, "Target_Light", _Var1);
+SetWeaponUnsheathed(_Var1, 1, 0);
+
+PROC
+PROC_SCL_Drider_UnlitTorch((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedWeapon(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "BURNING", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "BURNING");
+
+PROC
+PROC_SCL_Drider_UnlitTorch((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedWeapon(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "LIGHT", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "LIGHT");
+
+PROC
+PROC_SCL_Drider_UnlitTorch((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_TorchLit(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetWeaponUnsheathed(_Var1, 0, 0);
+NOT DB_SCL_Drider_TorchLit(_Var1, _Var2);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_HarpersLearnMissedCaravan_cd3620bc-c471-4a6a-b0e0-336806bbfce3, _, _, _, _)
+THEN
+SetFlag(SCL_Drider_State_HarpersBackAtInn_9e0b8ee1-ccf7-4645-92da-4ec8be45508e, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_HarpersLearnMissedCaravan_cd3620bc-c471-4a6a-b0e0-336806bbfce3, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_SetHarperBackAtInnDialog(_Var1);
+
+IF
+FlagSet(SCL_Drider_State_HarpersBackAtInn_9e0b8ee1-ccf7-4645-92da-4ec8be45508e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(SCL_Drider_State_HarpersWaitingAtBridge_94c5a554-2eee-470c-ab0a-c69264a25eb0, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_SCL_Drider_TriggerCaravanPlayersAlone_PlayersAfterHouse_4a7fef91-42a0-47a0-bac4-2a6377f3ca2e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(SCL_DriderCaravan_State_AppearNextToHouse_958215b9-adb9-42e6-9947-6b1bc1074198, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_SCL_Drider_TriggerCaravanPlayersAlone_PlayersAfterHouse_4a7fef91-42a0-47a0-bac4-2a6377f3ca2e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_SCL_Drider_TriggerCaravanPlayersAlone_PlayersAfterHouse_4a7fef91-42a0-47a0-bac4-2a6377f3ca2e, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(SCL_DriderCaravan_State_AppearNextToHouse_958215b9-adb9-42e6-9947-6b1bc1074198, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_InRegion(_, S_SCL_Drider_TriggerCaravanPlayersAlone_25bed88a-dd03-44fd-bd63-a15a0e6fead7, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_CaravanFollowingDrider_bb2e75b6-2efd-4b84-899a-4bd8e5682357, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersMovingToAmbush_5bde3cff-5e95-4c86-b368-75c744e02411, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_SCL_Drider_TriggerCaravanPlayersAlone_ExclusionZone_581ecbfe-3a04-45a4-bf60-e15c0597ff23, _, _, _)
+AND
+QRY_SCL_Drider_AllowCaravanToAppear()
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c);
+PROC_SCL_Drider_BlockCaravanQuestPath();
+
+IF
+DB_InRegion(_, S_SCL_Drider_TriggerCaravanPlayersAlone_25bed88a-dd03-44fd-bd63-a15a0e6fead7, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_CaravanFollowingDrider_bb2e75b6-2efd-4b84-899a-4bd8e5682357, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_CaravanLeftWithoutPlayers_5eee9fc5-4e53-4583-9e95-a5bef98507ce, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_SCL_Drider_TriggerCaravanPlayersAlone_ExclusionZone_581ecbfe-3a04-45a4-bf60-e15c0597ff23, _, _, _)
+AND
+QRY_SCL_Drider_AllowCaravanToAppear()
+AND
+QRY_OnlyOnce("SCL_Drider_StumbleAcrossCaravan", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c);
+TimerLaunch("SCL_Drider_StumbleAcrossCaravan", 100);
+
+QRY
+QRY_SCL_Drider_AllowCaravanToAppear()
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_InteractedWithHarpersAtBridge_dee5d8ce-8759-484b-893e-c3381f72edcd, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_EntryPoint_Event_GainedAccessToCaravanCamp_8f7b8388-5f8d-4d56-b224-84abb6311068, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogStarted((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_SCL_Drider_HarpersDialogues(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(_Var3, "SCL_DriderHarpers", "WaitingAtBridge", _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_Event_InteractedWithHarpersAtBridge_dee5d8ce-8759-484b-893e-c3381f72edcd, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_DialogStarted(SCL_Drider_HarpersAtInn_3149228e-e915-8aa7-e9be-daa9880067bf, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(SCL_Drider_Event_InteractedWithHarpersAtBridge_dee5d8ce-8759-484b-893e-c3381f72edcd, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_SCL_Drider_AllowCaravanToAppear()
+AND
+DB_GlobalFlag(SCL_Drider_Event_InteractedWithHarpersAtBridge_dee5d8ce-8759-484b-893e-c3381f72edcd, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersPermaDefeatedBeforeAmbush_cb451e32-061a-422c-ab4c-18a0c174696d, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_AllowCaravanToAppear()
+AND NOT
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _, _)
+THEN
+DB_NOOP(1);
+
+IF
+TimerFinished("SCL_Drider_StumbleAcrossCaravan", _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_StumbledWithCaravan_54527d4a-84bb-4b70-afce-54927f366951);
+
+IF
+TimerFinished("SCL_Drider_StumbleAcrossCaravan", _, _, _, _)
+THEN
+PROC_SCL_Drider_StartAmbushWithOnlyPlayers();
+
+IF
+FlagSet(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalClearFlagAndCache(SCL_Drider_State_StumbledWithCaravan_54527d4a-84bb-4b70-afce-54927f366951);
+
+IF
+FlagSet(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalClearFlagAndCache(SCL_Drider_State_StumbledWithCaravan_54527d4a-84bb-4b70-afce-54927f366951);
+
+PROC
+PROC_DialogFlagSetup(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c, _, _, _, _)
+THEN
+SetFlag(SCL_Drider_Event_PlayersMetCaravanAlone_d349ab69-7e91-401f-94fa-558a31592d65, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_DialogFlagSetup(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_Drider_SetUpBactrackVB", _, _, _, _)
+THEN
+DB_OneShot_VoiceBarkTrigger(S_SCL_Drider_BacktrackedToCaravanStart_1fde6666-56be-4bb7-b4ec-fd3f54ed7049, SCL_Drider_VB_BacktrackedToCaravanCheckpoint_e5dcaee9-d6d7-b2a3-60c7-883d95318573);
+
+PROC
+PROC_DialogFlagSetup(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_Drider_SetUpBactrackVB", _, _, _, _)
+THEN
+DB_OneShot_VoiceBarkTrigger(S_SCL_Drider_BacktrackedToCaravanStart_1fde6666-56be-4bb7-b4ec-fd3f54ed7049, SCL_Drider_VB_BacktrackedToCaravanCheckpoint_e5dcaee9-d6d7-b2a3-60c7-883d95318573);
+
+IF
+DB_OneShot_VoiceBarkTrigger(S_SCL_Drider_BacktrackedToCaravanStart_1fde6666-56be-4bb7-b4ec-fd3f54ed7049, SCL_Drider_VB_BacktrackedToCaravanCheckpoint_e5dcaee9-d6d7-b2a3-60c7-883d95318573, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var1, "SCL_Drider_CaravanDefeatedVBFlag");
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("SCL_Drider_CaravanDefeatedVBFlag", _, _, _, _)
+THEN
+SetFlag(SCL_Drider_State_PlayersDefeatedCaravan_e10200a0-2aaa-2e42-aa40-dce8b4063707, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(SCL_Drider_Event_CaravanAvoided_LeavesToMOO_87691b6f-39e6-eb50-927c-3e1dafbd61b5, _, _, _, _)
+AND
+DB_SCL_Drider_CaravanGroup(_Var3, _, _, _, _)
+AND
+DB_SCL_Drider_CaravanAmbushLeaveTos(_Var3, _Var5, _, _, _)
+THEN
+PROC_CharacterMoveTo(_Var3, _Var5, "Walk", "");
+
+IF
+FlagSet(SCL_Drider_Event_CaravanAvoided_LeavesToMOO_87691b6f-39e6-eb50-927c-3e1dafbd61b5, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 0);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 0);
+
+IF
+EnteredTrigger(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_DriderAmbushedSceneSetup_c591afb2-8aa1-48eb-a294-972c5d1b9920, _, _, _)
+THEN
+PROC_SCL_Drider_InitAmbushScene();
+
+PROC
+PROC_SCL_Drider_InitAmbushScene()
+AND
+QRY_OnlyOnce("SCL_Drider_InitAmbushScene", _, _, _, _)
+THEN
+PROC_SCL_Drider_InitAmbushScene_Internal();
+
+PROC
+PROC_SCL_Drider_InitAmbushScene_Internal()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, _, _)
+THEN
+DB_SceneTriggerManager("SCL_Drider_CaravanAmbushed", S_SCL_Drider_AmbushSceneTrigger_98f6598b-bfd6-4b98-9a69-428aed9bd77f);
+DB_SceneManager(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_Drider_CaravanAmbushed");
+TriggerUnregisterForCharacter(S_SCL_Drider_DriderAmbushedSceneSetup_c591afb2-8aa1-48eb-a294-972c5d1b9920, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+PROC_TriggerRegisterForPlayers(S_SCL_Drider_HarpersAmbushDialog_f716e3d1-16e0-4712-8341-89a8465ea979);
+
+PROC
+PROC_SCL_Drider_InitAmbushScene_Internal()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SceneManager(_Var1, "SCL_Drider_CaravanAmbushed");
+
+PROC
+PROC_SceneInterrupted(_, (CHARACTER)_Var2, "SCL_Drider_CaravanAmbushed", _, (GUIDSTRING)_)
+THEN
+PROC_SceneOver("SCL_Drider_CaravanAmbushed");
+PROC_LaunchAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, _Var2);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_SCL_Drider_CaravanAmbushTrigger_142100ea-6c5f-4ced-872d-40d955ebb880, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_AmbushTrigger(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, _, _, _Var1, _Var1)
+THEN
+PROC_RequestLaunchAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, _Var1);
+
+PROC
+PROC_LaunchAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+TriggerUnregisterForCharacter(S_SCL_Drider_CaravanAmbushTrigger_142100ea-6c5f-4ced-872d-40d955ebb880, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_LaunchAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, _, _, _, _)
+AND
+DB_SCL_Drider_CaravanGroup(_Var2, _, _, _, _)
+THEN
+TriggerUnregisterForCharacter(S_SCL_Drider_CaravanAmbushTrigger_142100ea-6c5f-4ced-872d-40d955ebb880, _Var2);
+
+PROC
+PROC_LaunchAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_SCL_Drider_TryStartCaravanAmbushedDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_StartCombat(_Var1);
+
+QRY
+QRY_SCL_Drider_TryStartCaravanAmbushedDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneTriggerManager("SCL_Drider_CaravanAmbushed", _, _Var1, _Var1, _Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var3, S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, _Var4, _Var1, _Var1)
+AND
+_Var4 < 30
+AND
+QRY_GetClosestAvailableCharacterTo(_Var3, 1, 1, _Var3, NULL_00000000-0000-0000-0000-000000000000, 0, 1, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var5, _Var3, _Var6, _Var1, _Var1)
+AND
+DB_InRegion(_Var5, S_SCL_Drider_HarpersAmbushDialog_f716e3d1-16e0-4712-8341-89a8465ea979, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("SCL_Drider_CaravanAmbushed");
+
+QRY
+QRY_SCL_Drider_TryStartCaravanAmbushedDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneTriggerManager("SCL_Drider_CaravanAmbushed", _, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_StartCaravanAmbushedDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("SCL_Drider_CaravanAmbushed");
+
+QRY
+QRY_SCL_Drider_StartCaravanAmbushedDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("SCL_Drider_CaravanAmbushed");
+
+QRY
+QRY_SCL_Drider_StartCaravanAmbushedDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SceneManager(_, "SCL_Drider_CaravanAmbushed", _Var1, _Var1, _Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var1, 1, 1, _Var1, _Var1, 0, 1, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+DB_InRegion(_Var3, S_SCL_Drider_HarpersAmbushDialog_f716e3d1-16e0-4712-8341-89a8465ea979, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("SCL_Drider_CaravanAmbushed");
+
+PROC
+PROC_SceneOver("SCL_Drider_CaravanAmbushed", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_SCL_Drider_HarpersAmbushDialog_f716e3d1-16e0-4712-8341-89a8465ea979);
+
+IF
+DialogEnded(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_StartCombat(_Var2);
+
+IF
+DialogEnded(SCL_Drider_CaravanAmbushed_fce411b0-a836-32ef-a349-4581bac9f342, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogPlayers(_Var1, _, 1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_StartCombat(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d);
+
+PROC
+PROC_SCL_Drider_StartCombat((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CancelAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55);
+PROC_SetRelationMutual(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 0);
+PROC_SetRelationMutual(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 0);
+PROC_SCL_Drider_SetFactionRelationsToPlayers();
+
+PROC
+PROC_SCL_Drider_StartCombat((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _Var1, _Var1)
+THEN
+PROC_EnterCombat(_Var2, _Var1);
+
+IF
+DB_SCL_Drider_HarpersAmbushDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_AddCharactersInTriggerToDialog(_Var1, S_SCL_Drider_AmbushIntroCinematicInclusion_fd99539a-e01e-4d3d-8f6a-be771d388714, 1, 1, 1);
+
+IF
+FlagSet(SCL_Drider_State_HarperWaitingAtAmbush_9b072ae9-ea08-4f66-aa97-e9592a23150c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_State_Progress(_Var1, "SCL_DriderHarpers", "WaitingAtAmbush");
+PROC_SCL_Drider_UnlitTorch(_Var1);
+PROC_SCL_Drider_CheckHarpersAtPositions();
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, "SCL_DriderHarpers", "WaitingAtAmbush", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetCombatGroupID(_Var1, "SCL_Drider_HarpersCombatGroup");
+
+PROC
+PROC_StateSet_Defeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersMovingToAmbush_5bde3cff-5e95-4c86-b368-75c744e02411, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("SCL_Drider_InitAmbushScene", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_CheckHarpersAtPositions();
+
+PROC
+PROC_SCL_Drider_CheckHarpersAtPositions()
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, _, _, _, _)
+THEN
+PROC_SCL_Drider_CheckHarpersAtPositions_Internal();
+
+PROC
+PROC_SCL_Drider_CheckHarpersAtPositions_Internal()
+AND
+DB_SCL_Drider_AvailableHarpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_AvailableHarpers(_Var1);
+
+PROC
+PROC_SCL_Drider_CheckHarpersAtPositions_Internal()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_AvailableHarpers(_Var1);
+
+PROC
+PROC_SCL_Drider_CheckHarpersAtPositions_Internal()
+AND NOT
+DB_SCL_Drider_AvailableHarpers(_, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9);
+PROC_TriggerRegisterForPlayers(S_SCL_Drider_PlayersStartAmbush_d8513354-10d7-41d6-9eae-1c61d53f0739);
+
+PROC
+PROC_SCL_Drider_CheckHarpersAtPositions_Internal()
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9, _, _, _, _)
+AND NOT
+QRY_SCL_Drider_AnyHarperNotInPosition()
+THEN
+SetFlag(SCL_Drider_State_AllHarpersReady_9ece5092-6e7a-4f69-9767-96be44d13f80, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SCL_Drider_StartHarpersSpottingBeforeAmbush();
+DebugText(S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, "Ready to ambush");
+
+PROC
+PROC_SCL_Drider_StartHarpersSpottingBeforeAmbush()
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_StopHarpersSpotting_07b45ac8-0633-4863-bfee-ddd40583bb09, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_HarperNotBusy(_Var1);
+PROC_SCL_Drider_ReplaceCharacterDialogWith(_Var1, SCL_Drider_AD_HarperWaitingAtAmbush_496da143-eb2e-6148-32c8-530088c765c1);
+
+QRY
+QRY_SelectCustomDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Dialogs(_Var1, SCL_Drider_AD_HarperWaitingAtAmbush_496da143-eb2e-6148-32c8-530088c765c1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_CaravanLeftWithoutPlayers_5eee9fc5-4e53-4583-9e95-a5bef98507ce, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_StartAmbushWithPlayer(_Var2);
+PROC_SCL_Drider_ClearHarpersSpottingDialogues();
+PROC_SCL_Drider_LaunchAmbushWithHarpers();
+
+PROC
+PROC_SCL_Drider_ClearHarpersSpottingDialogues()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+
+QRY
+QRY_SCL_Drider_AnyHarperNotInPosition()
+AND
+DB_SCL_Drider_AvailableHarpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(SCL_Drider_State_HarperWaitingAtAmbush_9b072ae9-ea08-4f66-aa97-e9592a23150c, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_SCL_Drider_TriggerAmbush(1, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_EscortCaravan_f6387817-27c0-4917-80d3-e6d9c2424663, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_CaravanLeftWithoutPlayers_5eee9fc5-4e53-4583-9e95-a5bef98507ce, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_Drider_TeleportCaravanToAmbush", _, _, _, _)
+THEN
+PROC_SCL_Drider_InitAmbushScene();
+PROC_SCL_Drider_TeleportCaravanToAmbush();
+
+IF
+DB_InRegion(_Var1, S_SCL_Drider_PlayersStartAmbush_d8513354-10d7-41d6-9eae-1c61d53f0739, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_EscortCaravan_f6387817-27c0-4917-80d3-e6d9c2424663, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_CaravanLeftWithoutPlayers_5eee9fc5-4e53-4583-9e95-a5bef98507ce, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_TeleportCaravanToAmbush", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_StartAmbushWithOnlyPlayers();
+
+PROC
+PROC_SCL_Drider_StartAmbushWithOnlyPlayers()
+THEN
+PROC_GlobalClearFlagAndCache(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee);
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c);
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_StumbledWithCaravan_54527d4a-84bb-4b70-afce-54927f366951);
+PROC_TriggerUnregisterForPlayers(S_SCL_Drider_PlayersStartAmbush_d8513354-10d7-41d6-9eae-1c61d53f0739);
+PROC_SCL_Drider_InitAmbushScene();
+PROC_SCL_Drider_TeleportCaravanToAmbush();
+PROC_TriggerUnregisterForPlayers(S_SCL_Drider_TriggerCaravanPlayersAlone_PlayersAfterHouse_4a7fef91-42a0-47a0-bac4-2a6377f3ca2e);
+PROC_TriggerUnregisterForParty(S_SCL_Drider_TriggerCaravanPlayersAlone_ExclusionZone_581ecbfe-3a04-45a4-bf60-e15c0597ff23);
+DB_IgnoreMutingStatussesDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b);
+DB_AddCharactersInTriggerToDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, S_SCL_Drider_AmbushIntroCinematicInclusion_fd99539a-e01e-4d3d-8f6a-be771d388714, 1, 1, 1);
+TimerLaunch("SCL_Drider_StartAmbushAlone", 100);
+
+IF
+TimerFinished("SCL_Drider_StartAmbushAlone", _, _, _, _)
+THEN
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog();
+
+IF
+TimerFinished("SCL_Drider_StartAmbushAlone", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_MoveToAmbushPos(_Var1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SCL_Drider_CINE_CaravanIntro_76885fce-9cc5-ca24-1b5f-c27d9f88a4ad, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SCL_Drider_OptionalCaravanIntroListeners(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var2, "SCL_Drider_HarpersAndPlayersAmbush", _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+IF
+AutomatedDialogRequestFailed(SCL_Drider_AD_HarperWaitingAtAmbush_496da143-eb2e-6148-32c8-530088c765c1, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SCL_Drider_LaunchAmbushWithHarpers();
+
+IF
+AutomatedDialogEnded(SCL_Drider_AD_HarperWaitingAtAmbush_496da143-eb2e-6148-32c8-530088c765c1, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SCL_Drider_LaunchAmbushWithHarpers();
+
+PROC
+PROC_SCL_Drider_LaunchAmbushWithHarpers()
+THEN
+DB_SCL_Drider_AppearCloserToHarpers(1);
+DB_SCL_Drider_TriggerAmbush(1);
+TimerLaunch("SCL_Drider_StartAmbushWithPlayer", 50);
+
+IF
+TimerFinished("SCL_Drider_StartAmbushWithPlayer", _, _, _, _)
+THEN
+NOT DB_SCL_Drider_CaravanWaitForDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b);
+NOT DB_SCL_Drider_CaravanWaitForDialog(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384);
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog();
+
+IF
+TimerFinished("SCL_Drider_StartAmbushWithPlayer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_MoveToAmbushPos(_Var1);
+
+PROC
+PROC_SCL_Drider_MoveToAmbushPos((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanAmbushMoveTos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Walk", "SCL_Drider_MoveToAmbushPos");
+
+IF
+EntityEvent(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_Drider_MoveToAmbushPos", _, _, _)
+THEN
+DB_SCL_Drider_CaravanWaitForDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersAmbushDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_Event_PlayersAmbushDialogEnded_5adf290f-a25f-413d-9142-91118b39df83, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersAmbushDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_DriderLeavesTowardsTower_0b202abc-83ca-ac46-aef0-ed2872fd476f, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearStoryMove(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+PROC_ClearStoryMove(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d);
+PROC_ClearStoryMove(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707);
+
+PROC
+PROC_SCL_Drider_InitAmbushScene_Internal()
+AND
+QRY_SCL_Drider_CanInitCaravanScene()
+THEN
+DB_CustomDialogRange(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, 50);
+DB_CustomDialogRange(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, 50);
+DB_SceneTriggerManager("SCL_Drider_HarpersAndPlayersAmbush", S_SCL_Drider_AmbushSceneTrigger_98f6598b-bfd6-4b98-9a69-428aed9bd77f);
+TriggerRegisterForCharacter(S_SCL_Drider_SkipAmbushTrigger_5988289c-778e-4b08-8801-105069733ebb, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+QRY
+QRY_SCL_Drider_CanInitCaravanScene()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_CanInitCaravanScene()
+AND
+DB_GlobalFlag(SCL_Drider_State_StumbledWithCaravan_54527d4a-84bb-4b70-afce-54927f366951, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_Drider_InitAmbushScene_Internal()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+GetFlag(SCL_Drider_State_HarperWaitingAtAmbush_9b072ae9-ea08-4f66-aa97-e9592a23150c, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+DB_SceneManager(_Var1, "SCL_Drider_HarpersAndPlayersAmbush");
+
+PROC
+PROC_SCL_Drider_InitAmbushScene_Internal()
+AND
+QRY_SCL_Drider_CanSpotPlayersAtAmbush()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers(_Var1, "SCL_Drider_CaravanAlert", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_SCL_Drider_CanSpotPlayersAtAmbush()
+AND
+DB_GlobalFlag(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_Drider_TeleportCaravanToAmbush()
+AND
+QRY_OnlyOnce("SCL_Drider_TeleportCaravanToAmbush_Internal", _, _, _, _)
+THEN
+PROC_SCL_Drider_TeleportCaravanToAmbush_Internal();
+
+PROC
+PROC_SCL_Drider_TeleportCaravanToAmbush_Internal()
+THEN
+TriggerRegisterForCharacter(S_SCL_Drider_HarpersSideAmbushDialog_716f8da4-3038-4411-a1ea-67577ab2ecf5, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_SCL_Drider_TeleportCaravanToAmbush_Internal()
+AND NOT
+QRY_SCL_Drider_CaravanAppearsNextToHouse()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Debug_SCL_Drider_AppearOutOfSight(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_CaravanMemberMoveTo(_Var1, _Var2);
+PROC_AppearOutOfSightTo(_Var1, _Var2, S_SCL_Drider_StartEscortPos_93a0731b-5d62-4cf5-84a2-c88190560cc4, "SCL_TeleportedCaravanMemberToAmbush");
+
+PROC
+PROC_SCL_Drider_TeleportCaravanToAmbush_Internal()
+AND NOT
+QRY_SCL_Drider_CaravanAppearsNextToHouse()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Debug_SCL_Drider_AppearOutOfSight(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, _Var2, "SCL_TeleportedCaravanMemberToAmbush");
+DB_SCL_Drider_CaravanMemberMoveTo(_Var1, _Var2);
+
+QRY
+QRY_SCL_Drider_CaravanAppearsNextToHouse()
+AND
+DB_SCL_Drider_AppearCloserToHarpers(1, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_CaravanAppearsNextToHouse()
+AND
+DB_GlobalFlag(SCL_DriderCaravan_State_AppearNextToHouse_958215b9-adb9-42e6-9947-6b1bc1074198, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_Drider_TeleportCaravanToAmbush_Internal()
+AND
+QRY_SCL_Drider_CaravanAppearsNextToHouse()
+AND
+DB_SCL_Drider_CaravanGroup_CloserTeleports(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Debug_SCL_Drider_AppearOutOfSight(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_CaravanMemberMoveTo(_Var1, _Var2);
+PROC_AppearOutOfSightTo(_Var1, _Var2, S_SCL_Drider_StartEscortPos_93a0731b-5d62-4cf5-84a2-c88190560cc4, "SCL_TeleportedCaravanMemberToAmbush");
+
+PROC
+PROC_SCL_Drider_TeleportCaravanToAmbush_Internal()
+AND
+QRY_SCL_Drider_CaravanAppearsNextToHouse()
+AND
+DB_SCL_Drider_CaravanGroup_CloserTeleports(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Debug_SCL_Drider_AppearOutOfSight(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, _Var2, "SCL_TeleportedCaravanMemberToAmbush");
+DB_SCL_Drider_CaravanMemberMoveTo(_Var1, _Var2);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_TeleportedCaravanMemberToAmbush", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_SceneManager(_Var1, "SCL_Drider_HarpersAndPlayersAmbush");
+SetOnStage(_Var1, 1);
+PROC_FadeInEntity(_Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_TeleportedCaravanMemberToAmbush", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Debug_SCL_Drider_AppearOutOfSight(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_CaravanMemberMoveTo(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_CaravanMemberMoveTo(_Var1, _Var2);
+PROC_CharacterMoveTo(_Var1, _Var2, "Walk", "");
+
+IF
+EntityEvent(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TeleportedCaravanMemberToAmbush", _, _, _)
+THEN
+PROC_SCL_Drider_StartsMovingTowardsTower();
+
+IF
+EnteredTrigger(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_HarpersSideAmbushDialog_716f8da4-3038-4411-a1ea-67577ab2ecf5, _, _, _)
+THEN
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog();
+
+IF
+EnteredTrigger(_, S_SCL_Drider_SkipAmbushTrigger_5988289c-778e-4b08-8801-105069733ebb, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+SetFlag(SCL_Drider_Event_SkippedAmbush_16a93ea3-fa07-42e9-bd00-cada16ff6485, NULL_00000000-0000-0000-0000-000000000000);
+TriggerUnregisterForCharacter(S_SCL_Drider_SkipAmbushTrigger_5988289c-778e-4b08-8801-105069733ebb, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "SCL_Drider_CaravanAlert", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_PlayersSpottedWhileAmbushing_4e3aaa66-424e-4861-baef-1e4969b226f5);
+TriggerUnregisterForCharacter(S_SCL_Drider_HarpersSideAmbushDialog_716f8da4-3038-4411-a1ea-67577ab2ecf5, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+DB_SCL_Drider_FailedStartingHarpersAndPlayersAmbushDialog(1);
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog(_Var2);
+
+PROC
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog()
+AND
+QRY_SCL_Drider_GetBestPlayerForAmbush()
+AND
+DB_QRYRTN_SCL_Drider_BestPlayerForAmbush(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("SCL_StartedHarpersAndPlayersAmbushDialog", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_TryAmbushWithPlayerInRegion", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog_Internal(_Var1);
+
+QRY
+QRY_SCL_Drider_GetBestPlayerForAmbush()
+AND
+DB_SCL_Drider_StartAmbushWithPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_SCL_Drider_PlayerAndHarpersAmbushPosition_98361852-5286-4fae-8edb-9b5632876740, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_SCL_Drider_BestPlayerForAmbush(_Var1);
+
+QRY
+QRY_SCL_Drider_GetBestPlayerForAmbush()
+AND
+DB_SCL_Drider_StartAmbushWithPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_StartAmbushWithPlayer(_Var1);
+
+QRY
+QRY_SCL_Drider_GetBestPlayerForAmbush()
+AND NOT
+DB_QRYRTN_SCL_Drider_BestPlayerForAmbush(_, _, _, _, _)
+AND
+DB_InRegion(_Var2, S_SCL_Drider_PlayerAndHarpersAmbushPosition_98361852-5286-4fae-8edb-9b5632876740, _, _, _)
+AND NOT
+DB_CantTalk(_Var2, _, _, _, _)
+THEN
+DB_QRYRTN_SCL_Drider_BestPlayerForAmbush(_Var2);
+
+PROC
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("SCL_StartedHarpersAndPlayersAmbushDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog_Internal(_Var1);
+
+PROC
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_Drider_FailedStartingHarpersAndPlayersAmbushDialog(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(S_SCL_Drider_HarpersSideAmbushDialog_716f8da4-3038-4411-a1ea-67577ab2ecf5, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+DB_SCL_Drider_FailedStartingHarpersAndPlayersAmbushDialog(1);
+
+PROC
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("SCL_StartedHarpersAndPlayersAmbushDialog", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_StartedHarpersAndPlayersAmbushDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_FailedStartingHarpersAndPlayersAmbushDialog(1);
+
+QRY
+QRY_SCL_Drider_HarperReadyForAmbushDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Inclusion_NPCDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(SCL_Drider_State_HarperWaitingAtAmbush_9b072ae9-ea08-4f66-aa97-e9592a23150c, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _Var1, _Var1)
+AND
+QRY_SCL_Drider_HarperReadyForAmbushDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SCL_Drider_HarpersAndPlayersAmbush_a65813ee-9656-3e30-b34e-b1d0b3e9bc6b, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var2, _, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var2, _, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+PROC
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog_Internal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("SCL_StartedHarpersAndPlayersAmbushDialog", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 0, 0, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var2, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var3, _Var1, _Var1)
+AND
+_Var3 < 50
+AND
+QRY_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_StartedHarpersAndPlayersAmbushDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_FailedStartingHarpersAndPlayersAmbushDialog(1);
+
+IF
+DialogStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersAmbushDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(SCL_Drider_Event_SkippedAmbush_16a93ea3-fa07-42e9-bd00-cada16ff6485, NULL_00000000-0000-0000-0000-000000000000);
+TriggerUnregisterForCharacter(S_SCL_Drider_SkipAmbushTrigger_5988289c-778e-4b08-8801-105069733ebb, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+IF
+DialogStarted((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_SCL_Drider_HarpersAmbushDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers(_Var3, "SCL_Drider_CaravanAlert", _, _, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var3, "SCL_Drider_CaravanAlert");
+
+IF
+DialogActorJoined((DIALOGRESOURCE)_Var1, _, (CHARACTER)_Var3, _, (DIALOGRESOURCE)_Var1)
+AND
+DB_SCL_Drider_HarpersAmbushDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_StumbledWithCaravan_54527d4a-84bb-4b70-afce-54927f366951, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Helper_SafeTeleportTo(_Var3, S_SCL_Drider_PlayersAlonePos_a6e84c7c-3b7d-45a0-9bf3-41959dc88cf0);
+
+PROC
+PROC_SCL_Drider_TryStartHarpersAndPlayersAmbushDialog_Internal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_FailedStartingHarpersAndPlayersAmbushDialog(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush");
+
+IF
+DialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersAmbushDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_StartCombatWithPlayer(_Var3);
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush");
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, (CHARACTER)_Var2, "SCL_Drider_HarpersAndPlayersAmbush", (STRING)_Var3, (GUIDSTRING)_Var1)
+AND NOT
+QRY_SCL_Drider_HarpersAndPlayersAmbush_InvalidInterruptReason(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush");
+
+QRY
+QRY_SCL_Drider_HarpersAndPlayersAmbush_InvalidInterruptReason((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var3 == "StartedDialog"
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_HarpersAndPlayersAmbush_InvalidInterruptReason(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "Died", _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush", _, _, _, _)
+THEN
+TriggerUnregisterForCharacter(S_SCL_Drider_SkipAmbushTrigger_5988289c-778e-4b08-8801-105069733ebb, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+TriggerUnregisterForCharacter(S_SCL_Drider_HarpersSideAmbushDialog_716f8da4-3038-4411-a1ea-67577ab2ecf5, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+NOT DB_CustomDialogRange(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, 50);
+NOT DB_CustomDialogRange(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, 50);
+
+PROC
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SpotPlayers(_Var1, "SCL_Drider_CaravanAlert", _, _, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var1, "SCL_Drider_CaravanAlert");
+
+PROC
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush", _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_AvoidedCombat_41896629-3dcc-4592-9587-a514229114a0, _, _, _, _)
+THEN
+PROC_SCL_Drider_StartAmbushCombat();
+
+PROC
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush", _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_AvoidedCombat_41896629-3dcc-4592-9587-a514229114a0, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersRightBeforeAmbush_168a8200-8ba4-4104-acae-a3b5ba49ba0e, _, _, _, _)
+THEN
+PROC_SCL_Drider_MoveHarpersToCombatPositions();
+
+PROC
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush", _, _, _, _)
+AND
+GetFlag(SCL_Drider_Event_AvoidedCombat_41896629-3dcc-4592-9587-a514229114a0, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersWereAtAmbush_91ba35ad-3119-4914-8233-3e4235af5e6c, _, _, _, _)
+THEN
+PROC_SCL_Drider_CustomAmbushDialogOutcomes(1);
+
+PROC
+PROC_SceneOver("SCL_Drider_HarpersAndPlayersAmbush", _, _, _, _)
+AND
+GetFlag(SCL_Drider_Event_AvoidedCombat_41896629-3dcc-4592-9587-a514229114a0, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersRightBeforeAmbush_168a8200-8ba4-4104-acae-a3b5ba49ba0e, _, _, _, _)
+THEN
+PROC_SCL_Drider_CustomAmbushDialogOutcomes(0);
+
+IF
+DialogEnded(SCL_Drider_PlayersAmbush_5b8ad82f-5dbd-c9b0-a8bb-6c3f4084b384, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_AvoidedCombat_41896629-3dcc-4592-9587-a514229114a0, _, _, _, _)
+THEN
+PROC_SCL_Drider_CustomAmbushDialogOutcomes(0);
+
+PROC
+PROC_SCL_Drider_StartAmbushCombat()
+THEN
+PROC_SetRelationMutual(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 0);
+PROC_SetRelationMutual(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 0);
+PROC_SCL_Drider_SetFactionRelationsToPlayers();
+
+PROC
+PROC_SCL_Drider_StartAmbushCombat()
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersRightBeforeAmbush_168a8200-8ba4-4104-acae-a3b5ba49ba0e, _, _, _, _)
+THEN
+SetFlag(SCL_Drider_State_FoughtInAmbushWithHarpers_229f69f4-3e03-4631-9052-32ec13fb740d, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCL_Drider_StartAmbushCombat()
+AND
+DB_SCL_Drider_StartCombatWithPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var2, _, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_NPCAtAmbush(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EnterCombat(_Var2, _Var1);
+
+PROC
+PROC_SCL_Drider_StartAmbushCombat()
+AND
+DB_GlobalFlag(SCL_Drider_Event_DriderAndHalfOrcEnemies_2c53d679-09d8-83b9-ff09-c41172719a6d, _, _, _, _)
+THEN
+SetFaction(S_SCL_DriderCaravan_HalfOrcCaster_f9522205-623f-4a82-904a-128b26182707, Act2_SCL_Drider_DragonbornDefects_39e335c1-5dd7-492d-ac76-d226dde4f708);
+
+PROC
+PROC_SCL_Drider_StartAmbushCombat()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+QRY_SCL_Drider_NPCAtAmbush(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EnterCombat(_Var1, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_SCL_Drider_CustomAmbushDialogOutcomes((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_CheckCustomAmbushOutcome", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_CustomAmbushDialogOutcomes_Internal(_Var1);
+
+PROC
+PROC_SCL_Drider_CustomAmbushDialogOutcomes_Internal((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_DriderLeavesTowardsTower_0b202abc-83ca-ac46-aef0-ed2872fd476f, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_MoveCaravanToTWNAndCurse();
+
+PROC
+PROC_SCL_Drider_CustomAmbushDialogOutcomes_Internal(1, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_DriderLeavesTowardsTower_0b202abc-83ca-ac46-aef0-ed2872fd476f, _, _, _, _)
+THEN
+PROC_SCL_Drider_HarpersWin();
+
+PROC
+PROC_SCL_Drider_CustomAmbushDialogOutcomes_Internal(1, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_AcquiredMoonlanternWithoutFight_cb3bc317-8358-47f4-831e-44ff812ec2b0, _, _, _, _)
+THEN
+PROC_SCL_Drider_HarpersWin();
+
+IF
+FlagSet(SCL_Drider_Event_MovesToTWNInDialog_1f95b476-bbc1-ee3b-6874-55c036d37a3f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_Drider_MoveCaravanToTWNAndCurse();
+
+IF
+EntityEvent(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_Drider_LeavesToTower", _, _, _)
+THEN
+PROC_AppearOutOfSightTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_StandAtTower_4ea41e07-5b9a-4b18-9ed9-82c9a6d4281f, S_SCL_Drider_StandAtTower_4ea41e07-5b9a-4b18-9ed9-82c9a6d4281f, "SCL_Drider_ArrivedToTower");
+SetFlag(SCL_Drider_Event_ArrivedToTower_e8d310c2-0b05-4e42-912b-e7199759de2a, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCL_Drider_MoveCaravanToTWNAndCurse()
+THEN
+PROC_SCL_Drider_EndEscortBehaviour();
+
+PROC
+PROC_SCL_Drider_MoveCaravanToTWNAndCurse()
+AND
+QRY_OnlyOnce("SCL_Drider_MoveAndCurseCaravan", _, _, _, _)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_CursedCaravanMembersPositions(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_DisappearAndCurseAfterDeactivation(_Var1);
+PROC_CharacterMoveTo(_Var1, S_SCL_Drider_WaitAtBridge_820a0cb4-990d-445f-9d36-91d4e9ef429a, "Walk", "SCL_Drider_DisappearToCursedPos");
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_Drider_DisappearToCursedPos", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CursedCaravanMembersPositions(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(_Var1, _Var2, "Walk", 0, "SCL_Drider_ReadyToLeaveToTown");
+
+IF
+Deactivated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_DisappearAndCurseAfterDeactivation(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_TeleportAndCurse(_Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_Drider_ReadyToAppearAtTown", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SCL_Drider_TeleportAndCurse(_Var1);
+
+PROC
+PROC_SCL_Drider_TeleportAndCurse((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CursedCaravanMembersPositions(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_DisappearAndCurseAfterDeactivation(_Var1);
+TeleportTo(_Var1, _Var2, "");
+DB_SCL_Drider_ReadyToAppearCursed(_Var1);
+PROC_SCL_Drider_UnlitTorch(_Var1);
+
+IF
+DB_SCL_Drider_ReadyToAppearCursed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_, S_SCL_Drider_CursedCaravanMembersSpawnArea_929f74fd-099a-45de-b413-8729e638dcb9, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_ReadyToAppearCursed(_Var1);
+DB_SCL_ShadowCurse_CustomCombatGroup("SCL_Drider_Cursed", _Var1);
+PROC_SetAnubisConfig(_Var1, "DefaultCombat");
+ApplyStatus(_Var1, "SCL_SHADOW_CURSE_UNDEAD_NEW", -1, 1);
+SetHitpointsPercentage(_Var1, 50);
+PROC_Foop(_Var1);
+DB_SCL_Drider_CaravanMemebersAtTown(_Var1);
+
+IF
+FlagSet(SCL_LiftingTheCurse_State_OliverFledToTown_47018478-a3ef-42cc-8334-1516c6ed40f7, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_SCL_Drider_CaravanMemebersAtTown(_Var2, _, _, _, _)
+THEN
+PROC_Poof(_Var2);
+NOT DB_SCL_Drider_CaravanMemebersAtTown(_Var2);
+
+IF
+FlagSet(SCL_Drider_Event_DriderLeftCaravanTowardsWilderness_b2012326-02a2-4b47-8890-be9e9e006fba, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_Drider_RemoveFromCaravanGroup(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+PROC_SceneManager_RemoveFromScene(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_Drider_HarpersAndPlayersAmbush");
+PROC_DisappearOutOfSightTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_DriderExitTowardsTower_7edf94ae-ce60-41b2-a494-6b634683ef30, "Walk", 0, "SCL_Drider_LeavesToWilderness");
+
+IF
+FlagSet(SCL_Drider_Event_ApplySneakingStatus_ebbdcfb6-14bb-42dc-adab-cdd8d5fe36e9, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+THEN
+ApplyStatus(_Var3, "SNEAKING", -1, 1);
+
+IF
+FlagSet(SCL_Drider_Event_ApplySneakingStatus_ebbdcfb6-14bb-42dc-adab-cdd8d5fe36e9, _, (INTEGER)_Var2, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(SCL_Drider_Event_ApplySneakingStatus_ebbdcfb6-14bb-42dc-adab-cdd8d5fe36e9, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EnteredCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_IsBetweenCaravanAndHarpers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_AmbushCombatID(_Var2);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+QRY_SCL_Drider_IsBetweenCaravanAndHarpers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_AmbushCombatID(_Var2);
+
+IF
+SwitchedCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_IsBetweenCaravanAndHarpers(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_AmbushCombatID(_Var3);
+
+IF
+SwitchedCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+QRY_SCL_Drider_IsBetweenCaravanAndHarpers(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_AmbushCombatID(_Var3);
+
+QRY
+QRY_SCL_Drider_CaravanBetrayedAndInCombat()
+AND
+DB_SCL_Drider_AmbushCombatID(_, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Quest_BetrayedCaravan_3b4381c1-9483-c6ae-3174-d80a2636a6c9, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_SCL_Drider_AmbushCombatID(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var2, "SCL_Drider_HarpersCombatGroup");
+
+IF
+DB_SCL_Drider_AmbushCombatID(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var2, "SCL_Drider_Cultists");
+
+IF
+FlagSet(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_CaravanCultistsPermaDefeated_5915ab2e-7516-4d89-a7f2-458f1cf6b2b6, _, _, _, _)
+AND
+DB_SCL_Drider_AmbushCombatID(_Var3, _, _, _, _)
+AND NOT
+QRY_SCL_Drider_PlayersHostileToCaravan(_Var3, _, _, _, _)
+THEN
+PROC_SCL_Drider_EndAmbushCombat(_Var3);
+
+QRY
+QRY_SCL_Drider_PlayersHostileToCaravan((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var2, _, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemyToAnyPlayerInCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(SCL_Drider_State_CaravanCultistsPermaDefeated_5915ab2e-7516-4d89-a7f2-458f1cf6b2b6, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9, _, _, _, _)
+AND
+DB_SCL_Drider_AmbushCombatID(_Var3, _, _, _, _)
+AND NOT
+QRY_SCL_Drider_PlayersHostileToHarpers(_Var3, _, _, _, _)
+THEN
+PROC_SCL_Drider_EndAmbushCombat(_Var3);
+
+IF
+DB_GlobalFlag(SCL_Drider_State_CaravanCultistsPermaDefeated_5915ab2e-7516-4d89-a7f2-458f1cf6b2b6, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9, _, _, _, _)
+AND
+DB_SCL_Drider_AmbushCombatID(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatStarted(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_EndAmbushCombat(_Var1);
+
+QRY
+QRY_SCL_Drider_PlayersHostileToHarpers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _Var1, _Var1)
+AND
+QRY_IsEnemyToAnyPlayerInCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_Drider_EndAmbushCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var2, "ClearPeaceReturn", 1);
+
+PROC
+PROC_SCL_Drider_EndAmbushCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var2, "ClearPeaceReturn", 1);
+
+PROC
+PROC_SCL_Drider_EndAmbushCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_SCL_Drider_AmbushCombatID(_Var1);
+
+PROC
+PROC_SCL_Drider_EndAmbushCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_Drider_AmbushCombatID(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_CheckWinner();
+
+QRY
+QRY_SCL_Drider_IsBetweenCaravanAndHarpers((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("SCL_Drider_AmbushCombatStarted", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var4, _, _, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_AmbushCombatStarted", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_IsBetweenCaravanAndHarpers((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var5, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("SCL_Drider_AmbushCombatStarted", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var5, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_AmbushCombatStarted", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_IsBetweenCaravanAndHarpers((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var5, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("SCL_Drider_AmbushCombatStarted", _Var1, _Var1, _Var1, _Var1)
+AND
+_Var5 == S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab
+AND
+QRY_OnlyOnce("SCL_Drider_AmbushCombatStarted", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("SCL_Drider_HarpersCombatGroup", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9);
+
+PROC
+PROC_SCL_Drider_CheckWinner()
+AND
+DB_SCL_Drider_AmbushCombatID(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_AmbushCombatID(_Var1);
+
+PROC
+PROC_SCL_Drider_CheckWinner()
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_CaravanCultistsPermaDefeated_5915ab2e-7516-4d89-a7f2-458f1cf6b2b6, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_BothGroupsDefeated_76a3dd66-091f-4014-acb7-e1ebf2b1503b);
+
+PROC
+PROC_SCL_Drider_CheckWinner()
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_BothGroupsDefeated_76a3dd66-091f-4014-acb7-e1ebf2b1503b, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_Defeated_75ab1a6b-3365-43b5-a5dd-bcb87a5d487e, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_BothGroupsDefeated_76a3dd66-091f-4014-acb7-e1ebf2b1503b);
+
+PROC
+PROC_SCL_Drider_CheckWinner()
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_BothGroupsDefeated_76a3dd66-091f-4014-acb7-e1ebf2b1503b, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_CaravanCultistsPermaDefeated_5915ab2e-7516-4d89-a7f2-458f1cf6b2b6, _, _, _, _)
+THEN
+PROC_SCL_Drider_HarpersWin();
+
+PROC
+PROC_SCL_Drider_CheckWinner()
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_BothGroupsDefeated_76a3dd66-091f-4014-acb7-e1ebf2b1503b, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9, _, _, _, _)
+THEN
+PROC_SCL_Drider_CaravanWins();
+
+PROC
+PROC_SCL_Drider_CheckWinner()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_LitTorch(_Var1);
+
+IF
+FlagSet(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_AmbushCombatID(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_Event_TookLanternWhileInCombat_a38c85d5-b930-4724-865b-5ffa41488ee0, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCL_Drider_CaravanWins()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, _, _)
+THEN
+DB_Dialogs(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, SCL_Drider_ThanksAfterAmbush_3e6af6b8-f82b-8669-956d-c026558ae754);
+SetFlag(SCL_Drider_State_WaitingAtAmbushAfterCombat_84d5065a-2648-d39d-d331-78ab4b68621d, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_FailedConvincingAfterAmbush_1ea7879e-51d4-8a26-7a39-6db25f93403f, _, _, _, _)
+THEN
+ClearFlag(SCL_Drider_State_WaitingAtAmbushAfterCombat_84d5065a-2648-d39d-d331-78ab4b68621d, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_FailedConvincingAfterAmbush_1ea7879e-51d4-8a26-7a39-6db25f93403f, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1)
+AND
+GetFaction(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(_Var1, 0);
+
+IF
+FlagCleared(SCL_Drider_State_WaitingAtAmbushAfterCombat_84d5065a-2648-d39d-d331-78ab4b68621d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveDialog(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_SCL_Drider_CaravanWins()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, _, _)
+AND
+QRY_GetClosestAvailableCharacterTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 0, _, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _, _Var1, _Var1)
+THEN
+PROC_CharacterMoveToAndTalk(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, SCL_Drider_ThanksAfterAmbush_3e6af6b8-f82b-8669-956d-c026558ae754, "", "Walk", 20);
+
+PROC
+PROC_SCL_Drider_HarpersWin()
+AND
+QRY_OnlyOnce("SCL_Drider_HarpersWin", _, _, _, _)
+THEN
+PROC_SCL_Drider_HarpersWin_Internal();
+
+PROC
+PROC_SCL_Drider_HarpersWin_Internal()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 50);
+PROC_SCL_Drider_HarpersWin_SidedWithHarpers();
+
+PROC
+PROC_SCL_Drider_HarpersWin_Internal()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_LitTorch(_Var1);
+
+PROC
+PROC_SCL_Drider_HarpersWin_Internal()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, _, _)
+THEN
+PROC_SCL_Drider_HarpersWin_SidedWithCaravan();
+
+PROC
+PROC_SCL_Drider_HarpersWin_SidedWithHarpers()
+THEN
+DB_SCL_Drider_HarpersCanReturnToInn(1);
+SetFlag(SCL_Drider_State_RendezvousAfterAmbush_8df6c358-021e-495a-8fff-d9becf02cb47, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SCL_Drider_TryReturnToInn();
+
+PROC
+PROC_SCL_Drider_HarpersWin_SidedWithHarpers()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_ReplaceCharacterDialogWith(_Var1, _Var4);
+
+PROC
+PROC_SCL_Drider_HarpersWin_SidedWithHarpers()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_State_Progress(_Var1, "SCL_DriderHarpers", "AfterAmbush");
+
+QRY
+QRY_SelectCustomDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_SelectAfterAmbushHarperDialog(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_SelectAfterAmbushHarperDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (DIALOGRESOURCE)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DialogName(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, _Var2, 1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+DB_SCL_Drider_ForceHarpersIntoPixieDialog(1);
+DB_SelectedDialog(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+DB_SCL_Drider_ForceHarpersIntoPixieDialog(1);
+
+QRY
+QRY_SCL_Drider_SelectAfterAmbushHarperDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (DIALOGRESOURCE)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush_NarratorReplacement(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(SCL_Drider_HarperNarrator_AfterAmbush_7a3a0060-6ec0-ca87-01a9-b27a0ac5d8e7, _Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf, _Var1, _Var2, 1, _Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var3, _, _, _Var1, _Var1)
+AND
+DB_State_Current(_Var3, "SCL_DriderHarpers", "AfterAmbush", _Var1, _Var1)
+AND
+QRY_SCL_Drider_HarperCanBeInPixieDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var3);
+NOT DB_SCL_Drider_ForceHarpersIntoPixieDialog(1);
+
+QRY
+QRY_SCL_Drider_HarperCanBeInPixieDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_RendezvousAfterAmbush_8df6c358-021e-495a-8fff-d9becf02cb47, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersBackAtInn_9e0b8ee1-ccf7-4645-92da-4ec8be45508e, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_HarperCanBeInPixieDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_ForceHarpersIntoPixieDialog(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Deactivated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersCanReturnToInn(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_TryReturnToInn();
+
+PROC
+PROC_SCL_Drider_TryReturnToInn()
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CustomDefeatedState(_Var1, "SCL_Shadowcurse", _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_CharactersWhoCanReturn(_Var1);
+
+PROC
+PROC_SCL_Drider_TryReturnToInn()
+AND NOT
+QRY_SCL_Drider_AnyHarpersGroupCantReturn()
+THEN
+NOT DB_SCL_Drider_HarpersCanReturnToInn(1);
+PROC_SCL_Drider_HarpersReturnToInn();
+
+PROC
+PROC_SCL_Drider_TryReturnToInn()
+AND
+DB_SCL_Drider_CharactersWhoCanReturn(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_CharactersWhoCanReturn(_Var1);
+
+QRY
+QRY_SCL_Drider_AnyHarpersGroupCantReturn()
+AND
+DB_SCL_Drider_CharactersWhoCanReturn(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsActive(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(SCL_Drider_Event_HarpersDisappearTowardsInn_724959dc-fdde-d813-e18e-4a289abb5257, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(SCL_Drider_Event_HarpersDisappearTowardsInn_724959dc-fdde-d813-e18e-4a289abb5257, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SCL_Drider_HarpersReturnToInn();
+
+IF
+DialogActorJoined((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, _, (DIALOGRESOURCE)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_PlayersAttackHarpers_8c482074-29ef-e01d-7b8d-97b9a20cc371, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_HarpersLeaveAfterDialog(_Var2);
+
+IF
+DialogActorJoined(SCL_Drider_HarperNarrator_AfterAmbush_7a3a0060-6ec0-ca87-01a9-b27a0ac5d8e7, (INTEGER)_Var1, (CHARACTER)_Var2, _, (INTEGER)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_PlayersAttackHarpers_8c482074-29ef-e01d-7b8d-97b9a20cc371, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_HarpersLeaveAfterDialog(_Var1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_SCL_Drider_HarpersLeaveAfterDialog(_Var2, _, _, _, _)
+THEN
+NOT DB_SCL_Drider_HarpersLeaveAfterDialog(_Var2);
+PROC_SCL_Drider_HarpersReturnToInn();
+
+PROC
+PROC_SCL_Drider_HarpersWin_SidedWithHarpers()
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _, _, _, _)
+AND
+QRY_SCL_Drider_TryStartAfterCombatDialog()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_Drider_HarpersWin_SidedWithHarpers()
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _, _, _, _)
+AND
+QRY_GetClosestAvailableCharacterTo(S_SCL_Drider_PlayersStartAmbush_d8513354-10d7-41d6-9eae-1c61d53f0739, 0, _, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_SCL_Drider_PlayersStartAmbush_d8513354-10d7-41d6-9eae-1c61d53f0739, _Var2, _Var1, _Var1)
+AND
+_Var2 < 50
+THEN
+StartVoiceBark(SCL_Drider_VB_TakeLanternAfterAmbush_b6912576-12bd-e3ab-3313-5fc3fa005be2, _Var1);
+
+QRY
+QRY_SCL_Drider_TryStartAfterCombatDialog()
+AND
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("SCL_Drider_HarperMovesAndTalks", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var4, _Var1, _Var5, _Var1, _Var1)
+AND
+_Var5 < 30
+THEN
+PROC_SCL_Drider_HarperTalksToPlayerAfterCombat(_Var1, _Var4);
+
+QRY
+QRY_SCL_Drider_TryStartAfterCombatDialog()
+AND NOT
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersDisappearedInShadowlands_9bcd76d9-57f1-49e9-875d-22e673fa4355);
+PROC_SCL_Drider_HarpersReturnToInn();
+
+PROC
+PROC_SCL_Drider_HarperTalksToPlayerAfterCombat((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_GiveLanternToHarper(1);
+
+PROC
+PROC_SCL_Drider_HarperTalksToPlayerAfterCombat((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush_NarratorReplacement(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_HarperMovesAndTalks", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveToAndTalk(_Var1, _Var2, SCL_Drider_HarperNarrator_AfterAmbush_7a3a0060-6ec0-ca87-01a9-b27a0ac5d8e7, "SCL_Drider_AfterAmbushDialog", "Run", 15);
+
+PROC
+PROC_SCL_Drider_HarperTalksToPlayerAfterCombat((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_HarperMovesAndTalks", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveToAndTalk(_Var1, _Var2, _Var3, "SCL_Drider_AfterAmbushDialog", "Run", 15);
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush_NarratorReplacement(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_GiveLanternToHarper(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_TryGiveLanternToHarper(_Var2);
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_GiveLanternToHarper(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_TryGiveLanternToHarper(_Var2);
+
+PROC
+PROC_SCL_Drider_TryGiveLanternToHarper((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_SCL_Drider_GiveLanternToHarper(1);
+
+PROC
+PROC_SCL_Drider_TryGiveLanternToHarper((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SCL_Drider_CanSeeAndTakeLantern(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_Event_GiveMoonlantern_69ac556a-7c78-43f5-9bea-f8efeda31b42, _Var1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_OnlyOnce("SCL_Drider_HarperMovesAndTalks", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_AfterAmbushDialogues(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var3, _, _, _Var1, _Var1)
+AND NOT
+DB_DialogNPCs(_Var2, _Var3, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var2, _Var3);
+
+IF
+CharacterMoveToAndTalkFailed((CHARACTER)_Var1, _, "SCL_Drider_AfterAmbushDialog", "DialogFailedToStart", (CHARACTER)_Var1)
+AND
+QRY_SCL_Drider_TryStartHarperDialogAfterAmbush(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_TryStartHarperDialogAfterAmbush((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+_Var3 <= 10
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogWithAvailableSpeakerInRange(_Var4, _Var1, _Var2, 25, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_Drider_HarpersReturnToInn()
+AND
+QRY_OnlyOnce("SCL_Drider_HarpersReturntToInn", _, _, _, _)
+THEN
+PROC_SCL_Drider_HarpersReturnToInn_Internal();
+
+PROC
+PROC_SCL_Drider_HarpersReturnToInn_Internal()
+THEN
+PROC_CancelAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55);
+PROC_SetRelationToPlayers(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 50);
+ClearFlag(SCL_Drider_State_HarpersMovingToAmbush_5bde3cff-5e95-4c86-b368-75c744e02411, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SCL_Drider_HarpersReturnToInn_Internal()
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersDisappearedInShadowlands_9bcd76d9-57f1-49e9-875d-22e673fa4355, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CustomDefeatedState(_Var1, "SCL_Shadowcurse", _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "SCL_Drider_HarperReturnsToInn");
+
+QRY
+QRY_HAV_Siege_BlockCharacterFromDisappearing((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+QRY_State_IsBeforeState(_Var1, "SCL_DriderHarpers", "MovingToAmbush", _Var1, _Var1)
+AND
+QRY_State_IsBeforeState(_Var1, "SCL_DriderHarpers", "TakingMoonlantern", _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_State_Changed(_, "HAV_Mood", "HAV_Mood_State_Siege", (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersDisappearedInShadowlands_9bcd76d9-57f1-49e9-875d-22e673fa4355);
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "SCL_Drider_HarperReturnsToInn", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_CancelAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55);
+ClearFlag(SCL_Drider_State_HarperWaitingAtAmbush_9b072ae9-ea08-4f66-aa97-e9592a23150c, _Var1);
+PROC_ClearStoryMove(_Var1);
+PROC_CancelDisappearOutOfSight(_Var1);
+PROC_CharacterMoveTo(_Var1, S_SCL_Drider_HarpersAtBridge_b08ff1bb-2da4-49c6-a02f-d7ca8322798c, "Run", "SCL_Drider_HarperReturnsToInn");
+
+PROC
+PROC_SCL_Drider_HarpersReturnToInn_Internal()
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersDisappearedInShadowlands_9bcd76d9-57f1-49e9-875d-22e673fa4355, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CustomDefeatedState(_Var1, "SCL_Shadowcurse", _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "SCL_Drider_HarperDisappearsInTheShadows");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "SCL_Drider_HarperDisappearsInTheShadows", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(SCL_Drider_State_HarperWaitingAtAmbush_9b072ae9-ea08-4f66-aa97-e9592a23150c, _Var1);
+PROC_DisappearOutOfSight(_Var1, "Run", 0, "SCL_Drider_HarperDisappearsInTheShadows");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_HarperReturnsToInn", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_State_Progress(_Var1, "SCL_DriderHarpers", "BackAtInn");
+RemoveStatus(_Var1, "HAV_SELUNEOINTMENT");
+PROC_SCL_Drider_UnlitTorch(_Var1);
+PROC_SCL_Drider_SetHarperBackAtInnDialog(_Var1);
+SetFlag(SCL_Drider_State_HarpersBackAtInn_9e0b8ee1-ccf7-4645-92da-4ec8be45508e, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_State_Changed((GUIDSTRING)_Var1, "SCL_DriderHarpers", "BackAtInn", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetCombatGroupID(_Var1, "SCL_Drider_HarpersCombatGroup", _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_Drider_HarperDisappearsInTheShadows", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RemoveStatus(_Var1, "HAV_SELUNEOINTMENT");
+
+PROC
+PROC_SCL_Drider_SetHarperBackAtInnDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersDialogues(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_ReplaceCharacterDialogWith(_Var1, _Var2);
+
+PROC
+PROC_SCL_Drider_HarpersWin_SidedWithCaravan()
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_HarpersDisappearedInShadowlands_9bcd76d9-57f1-49e9-875d-22e673fa4355);
+PROC_SCL_Drider_HarpersReturnToInn();
+
+IF
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_, _Var2, _, _, _)
+THEN
+DB_GlobalFlagReactionAfterDialog(SCL_Drider_Event_PlayersAttackHarpers_8c482074-29ef-e01d-7b8d-97b9a20cc371, _Var2);
+
+QRY
+QRY_GLO_Pixie_BlockPixieDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_GetClosestHarperToPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_ClosestHarperToPlayer(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 < 50
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("SCL_Drider_StartFoundLanternDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_Event_FoundMoonlantern_8929c94a-cd73-6ea4-922c-afecf32bd7d2, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_SCL_Drider_GetClosestHarperToPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_SCL_Drider_ClosestHarperToPlayer(NULL_00000000-0000-0000-0000-000000000000, 999);
+
+QRY
+QRY_SCL_Drider_GetClosestHarperToPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_ClosestHarperToPlayer(NULL_00000000-0000-0000-0000-000000000000, 999);
+DB_SCL_Drider_ClosestHarperToPlayer(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, -1);
+
+QRY
+QRY_SCL_Drider_GetClosestHarperToPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SCL_Drider_ClosestHarperToPlayer(S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, -1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_ClosestHarperToPlayer(NULL_00000000-0000-0000-0000-000000000000, 999);
+DB_SCL_Drider_ClosestHarperToPlayer(S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff, -1);
+
+QRY
+QRY_SCL_Drider_GetClosestHarperToPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var2, _, _, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+DB_SCL_Drider_ClosestHarperToPlayer(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+_Var5 < _Var7
+THEN
+NOT DB_SCL_Drider_ClosestHarperToPlayer(_Var6, _Var7);
+DB_SCL_Drider_ClosestHarperToPlayer(_Var2, _Var5);
+
+QRY
+QRY_SCL_Drider_GetClosestHarperToPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_SCL_Drider_ClosestHarperToPlayer(NULL_00000000-0000-0000-0000-000000000000, 999);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_PlayersAttackHarpers_8c482074-29ef-e01d-7b8d-97b9a20cc371, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationTemporaryHostile(_Var1, _Var4);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_PlayersAttackHarpers_8c482074-29ef-e01d-7b8d-97b9a20cc371, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(_Var1, "SCL_DriderHarpers", "WaitingAtAmbush", _Var1, _Var1)
+AND NOT
+DB_State_Current(_, "SCL_DriderHarpers", "TakingMoonlantern", _Var1, _Var1)
+AND
+QRY_SCL_Drider_CanSeeAndTakeLantern(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_TakeMoonlanternAt(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(_Var1, "SCL_DriderHarpers", "TakingMoonlantern");
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _Var3, _, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_PlayersAttackHarpers_8c482074-29ef-e01d-7b8d-97b9a20cc371, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_State_Current(_Var1, "SCL_DriderHarpers", "TakingMoonlantern", _Var1, _Var1)
+THEN
+PROC_ClearStoryMove(_Var1);
+PROC_CancelDisappearOutOfSight(_Var1);
+PROC_NotifyWhenReadyToMoveOn(_Var1, "SCL_Drider_HarperReturnsToInn");
+
+PROC
+PROC_State_Changed((CHARACTER)_Var1, "SCL_DriderHarpers", "TakingMoonlantern", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _Var1, _Var1)
+AND
+DB_SCL_Drider_TakeMoonlanternAt(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearStoryMove(_Var1);
+PROC_CancelDisappearOutOfSight(_Var1);
+NOT DB_SCL_Drider_TakeMoonlanternAt(_Var2);
+PROC_CharacterMoveTo(_Var1, _Var2, "Run", "SCL_Drider_TryTakeMoonLantern");
+
+PROC
+PROC_State_Changed(_, "SCL_DriderHarpers", "TakingMoonlantern", _, _)
+AND NOT
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _, _)
+THEN
+SetFlag(SCL_Drider_State_HarpersDisappearedInShadowlands_9bcd76d9-57f1-49e9-875d-22e673fa4355, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SCL_Drider_HarpersReturnToInn();
+
+QRY
+QRY_SCL_Drider_CanSeeAndTakeLantern((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Pixie_MoonlanternHolder(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CanSee(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_TakeMoonlanternAt(_Var2);
+
+QRY
+QRY_SCL_Drider_CanSeeAndTakeLantern((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SCL_Pixie_MoonlanternHolder(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_Drider_TakeMoonlanternAt(_, _Var1, _Var1, _Var1, _Var1)
+AND
+CanSee(_Var1, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, 1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_TakeMoonlanternAt(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4);
+
+QRY
+QRY_SCL_Drider_HarpersHaveMoonlantern()
+AND
+DB_SCL_Pixie_MoonlanternHolder(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_Drider_TryTakeMoonLantern", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SCL_Drider_CanSeeAndTakeLantern(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_TakeMoonlanternAt(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 5
+THEN
+SetFlag(SCL_Drider_Event_GiveMoonlantern_69ac556a-7c78-43f5-9bea-f8efeda31b42, _Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_Drider_TryTakeMoonLantern", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_TakeMoonlanternAt(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_TakeMoonlanternAt(_Var2);
+
+IF
+EntityEvent((CHARACTER)_Var1, "SCL_Drider_TryTakeMoonLantern", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "SCL_Drider_HarperReturnsToInn");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_HarperReturnsToInn", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, _Var1, 1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_State_HarpersReturnWithLantern_8c018a15-97f9-46d9-bfa2-b0a711bbf46a, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_HarperReturnsToInn", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, _Var1, 1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_State_HarpersReturnWithLantern_8c018a15-97f9-46d9-bfa2-b0a711bbf46a, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(SCL_Drider_Event_GiveMoonlantern_69ac556a-7c78-43f5-9bea-f8efeda31b42, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Harpers_StartAfterAmbushAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_TryStartAD(SCL_Drider_AD_HarpersAfterAmbush_18b0553f-9899-d636-3ab6-8316ec2cfcf2, _Var1);
+
+IF
+DB_GlobalFlag(SCL_Drider_Event_ArrivedToTower_e8d310c2-0b05-4e42-912b-e7199759de2a, _, _, _, _)
+THEN
+PROC_SCL_Drider_CaravanArrivesToTower();
+
+PROC
+PROC_SCL_Drider_CaravanArrivesToTower()
+AND
+DB_SCL_Drider_MTDialogues(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(_Var1);
+DB_Dialogs(_Var1, _Var2);
+
+PROC
+PROC_SCL_Drider_EquipMoonlantern()
+AND
+QRY_OnlyOnce("SCL_Drider_DriderEquipsLantern", _, _, _, _)
+THEN
+Equip(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4);
+
+IF
+FlagSet(SCL_Drider_State_Defeated_75ab1a6b-3365-43b5-a5dd-bcb87a5d487e, _, _, _, _)
+AND
+DB_State_Current(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "EscortingCaravan", _, _)
+THEN
+PROC_SCL_Drider_ScatterCaravan();
+
+PROC
+PROC_StateSet_PermaDefeated(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _, _, _, _)
+THEN
+PROC_SCL_Drider_BlockHarpersQuestPath();
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_CaravanGoesHostile_54a817db-213e-ec80-50e2-d9fb9f7e6ac7, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 0);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 0);
+
+PROC
+PROC_SCL_Drider_SetFactionRelationsToPlayers()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 50);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 50);
+PROC_SetRelationToPlayers(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 0);
+DB_SCL_Drider_PrepareEnterCombat(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c);
+
+PROC
+PROC_SCL_Drider_SetFactionRelationsToPlayers()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_SkippedAmbush_16a93ea3-fa07-42e9-bd00-cada16ff6485, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 0);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 0);
+DB_SCL_Drider_PrepareEnterCombat(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929);
+DB_SCL_Drider_PrepareEnterCombat(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5);
+PROC_SCL_Drider_SetHarpersRelationToPlayers();
+
+PROC
+PROC_SCL_Drider_SetHarpersRelationToPlayers()
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_StartedAmbushQuestWithHarpers_85b1171d-f21f-4cc4-8718-5f37a3f42f0a, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 50);
+
+PROC
+PROC_SCL_Drider_SetFactionRelationsToPlayers()
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_Event_SkippedAmbush_16a93ea3-fa07-42e9-bd00-cada16ff6485, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 0);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 0);
+DB_SCL_Drider_PrepareEnterCombat(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929);
+DB_SCL_Drider_PrepareEnterCombat(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5);
+
+PROC
+PROC_SCL_Drider_SetFactionRelationsToPlayers()
+AND
+DB_GlobalFlag(SCL_Drider_State_StumbledWithCaravan_54527d4a-84bb-4b70-afce-54927f366951, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 0);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 0);
+DB_SCL_Drider_PrepareEnterCombat(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929);
+DB_SCL_Drider_PrepareEnterCombat(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5);
+
+IF
+RelationChanged((GUIDSTRING)_Var1, Hero_a1542c81-6895-929e-4522-10ce218bb360, 0, 1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_PrepareEnterCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_PrepareEnterCombat(_Var1);
+DB_SCL_Drider_ReadyEnterCombat(_Var1);
+
+IF
+DB_SCL_Drider_ReadyEnterCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_StartCombatWithPlayer(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_ReadyEnterCombat(_Var1);
+NOT DB_SCL_Drider_StartCombatWithPlayer(_Var2);
+PROC_SCL_Drider_EnterCombatWithGroup(_Var1, _Var2);
+
+PROC
+PROC_SCL_Drider_EnterCombatWithGroup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var3, _, _Var1, _Var1, _Var1)
+AND
+GetBaseFaction(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_NPCAtAmbush(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EnterCombat(_Var3, _Var2);
+
+PROC
+PROC_SCL_Drider_EnterCombatWithGroup((FACTION)_Var1, (CHARACTER)_Var2, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var3, _, _, _Var1, _Var1)
+AND
+GetBaseFaction(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SCL_Drider_NPCAtAmbush(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EnterCombat(_Var3, _Var2);
+
+QRY
+QRY_SCL_Drider_NPCAtAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(_Var1, "SCL_TheDrider", "EscortingCaravan", _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_NPCAtAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(_Var1, "SCL_TheDrider", "FollowingDrider", _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_NPCAtAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(_Var1, "SCL_DriderHarpers", "WaitingAtAmbush", _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(SCL_Drider_Event_ArrivedToTower_e8d310c2-0b05-4e42-912b-e7199759de2a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SCL_Drider_EndCaravanEscort();
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_51a4ce8c-957b-4a23-875b-2d9a0a3c0929, 50);
+PROC_SetRelationToPlayers(ACT2_SCL_Drider_CaravanGuard_68c65246-aa75-4224-8cc3-f72389416ae5, 50);
+PROC_SCL_Drider_TrySetUpTowerCheckpointScene();
+
+PROC
+PROC_SCL_Drider_TrySetUpTowerCheckpointScene()
+AND NOT
+DB_GlobalFlag(MOO_EntranceCheckpoint_GainedAccess_e1925000-34f0-9f85-fd1f-32b49478defe, _, _, _, _)
+THEN
+DB_SceneManager(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_DriderAtTowerCheckpoint");
+
+IF
+DialogEnded(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SceneOver("SCL_DriderAtTowerCheckpoint");
+
+IF
+FlagSet(SCL_Drider_Event_ArrivedToTower_e8d310c2-0b05-4e42-912b-e7199759de2a, _, _, _, _)
+AND
+DB_SpotPlayers(_Var3, "SCL_Drider_CaravanAlert", _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var3, "SCL_Drider_CaravanAlert");
+
+IF
+EnteredTrigger(_, (TRIGGER)_Var2, _, _, _)
+AND
+DB_SCL_Drider_ADTriggers(_Var2, _Var3, _Var4, _Var5, _)
+AND NOT
+DB_CantTalk(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _, _, _, _)
+AND
+QRY_SCL_Drider_CanJoinCaravanBanter(_Var4, _, _, _, _)
+AND
+QRY_SCL_Drider_CanJoinCaravanBanter(_Var5, _, _, _, _)
+THEN
+PROC_TryStartAD(_Var3, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var4, _Var5);
+TriggerUnregisterForCharacter(_Var2, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+QRY
+QRY_SCL_Drider_CanJoinCaravanBanter((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 < 15
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Drider_CanJoinCaravanBanter(NULL_00000000-0000-0000-0000-000000000000, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(SCL_Drider_Event_DriderDropsLantern_59ededdc-0b75-3e81-a704-526a5ddd7acc, _, _, _, _)
+AND
+GetFlag(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 1, _, _)
+THEN
+Drop(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_MoveUpToChapel_05e97e26-ebfb-e119-4c7e-07a94c467626, _, _, _, _)
+AND
+GetFlag(SCL_Drider_Event_TeleportUpToChapel_4ad11cf4-9e7b-e482-3368-a7b4d3223758, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+PROC_CharacterMoveTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_MOO_RoofIntermediatePoint_c9586639-f1b5-4b67-998b-a2efe790dd4f, "Walk", "SCL_Drider_MovesToChapel");
+
+IF
+FlagSet(SCL_Drider_Event_TeleportUpToChapel_4ad11cf4-9e7b-e482-3368-a7b4d3223758, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+TeleportTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_ChapelPoint_b348fc80-b45d-4129-926b-9ad00acfcee5, "SCL_Drider_MovesToChapel_Teleported");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_MoveUpToChapel_05e97e26-ebfb-e119-4c7e-07a94c467626, _, _, _, _)
+THEN
+ClearFlag(SCL_Drider_Event_MoveUpToChapel_05e97e26-ebfb-e119-4c7e-07a94c467626, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(SCL_Drider_State_RestAtThroneRoom_f9f54076-af16-4ef8-99e9-5bc8d2084861, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_MovesToChapel", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TeleportTo(_Var1, S_SCL_Drider_ChapelPoint_b348fc80-b45d-4129-926b-9ad00acfcee5, "SCL_Drider_MovesToChapel_Teleported");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_MovesToChapel_Teleported", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsInInventoryOf(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _Var1, 1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_Drider_MovesToChapel_Teleported", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CombatReact_AD_OnTurn(_Var1, MOO_Drider_AD_Combat_f4c44e19-bc69-a310-7730-1e4d06d8e8ae, 1);
+DB_CombatReact_AD_OnTurn(_Var1, MOO_Drider_AD_Combat_f4c44e19-bc69-a310-7730-1e4d06d8e8ae, 2);
+DB_CombatReact_AD_OnTurn(_Var1, MOO_Drider_AD_Combat_f4c44e19-bc69-a310-7730-1e4d06d8e8ae, 4);
+DB_CombatReact_AD_OnTurn(_Var1, MOO_Drider_AD_Combat_f4c44e19-bc69-a310-7730-1e4d06d8e8ae, 5);
+
+IF
+DB_Sees(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_TollhouseCharacters(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_TollhouseCombatAD", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Drider_State_RunningTowardsMoonrise_f7a1bf4a-14e5-4aea-9f44-ee6542164cd0, NULL_00000000-0000-0000-0000-000000000000);
+PROC_ForceStopDialog(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+PROC_TryStartAD(SCL_Drider_AD_TollhouseFight_30b5182a-5bf1-8c2d-1494-b28cedc6b022, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_SCL_Drider_HarpersBanterTrigger_3475e2d0-17a2-482a-b81d-42ff72767a83, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_SCL_Drider_HarpersBanterTrigger_3475e2d0-17a2-482a-b81d-42ff72767a83, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_TryStartAD(SCL_Drider_AD_HarpersMoveTowardsAmbush_8b2e52d5-4534-5bd0-b27b-f5ddda773329, S_SCL_Drider_Harper_Melee_000_b9f6bb1e-f4cd-4bb3-a7f0-80aad9bae8c8, S_SCL_Drider_Harper_Caster_000_ef609a8e-08bf-4648-bbb4-380a7f4bc887, S_SCL_Drider_Harper_Ranger_000_ce089a64-1a91-4ab0-ac71-a2712680780d, S_SCL_Drider_Harper_Ranger_001_71c140fa-0ebd-4f36-8728-6e28a445a6ff);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_SCL_Drider_HarpersBanterTrigger_3475e2d0-17a2-482a-b81d-42ff72767a83, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(S_SCL_Drider_HarpersBanterTrigger_3475e2d0-17a2-482a-b81d-42ff72767a83, _Var1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersBanters(_Var4, _, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var4, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersBanters(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var1);
+
+IF
+AutomatedDialogStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_HarpersBanters(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_ClearHarpersBanterTrigger(_Var3);
+
+IF
+FlagSet(SCL_Drider_State_AllHarpersReady_9ece5092-6e7a-4f69-9767-96be44d13f80, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersBanters(_Var3, _, _, _, _)
+THEN
+PROC_SCL_Drider_ClearHarpersBanterTrigger(_Var3);
+
+PROC
+PROC_SCL_Drider_ClearHarpersBanterTrigger((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SCL_Drider_HarpersBanters(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var3, _, _, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var1, _Var3);
+
+PROC
+PROC_SCL_Drider_ClearHarpersBanterTrigger((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SCL_Drider_HarpersBanters(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_HarpersBanters(_Var1, _Var2);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(SCL_Drider_Event_HarpersOfferedReward_d53be65f-1a6f-4417-acb3-24ee5fcab3c6, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_HarpersReadyForReward_86961bd8-6d35-427c-b4e8-afe7bb4e9a42, _, _, _, _)
+THEN
+SetFlag(SCL_Drider_Event_HarpersReadyForReward_86961bd8-6d35-427c-b4e8-afe7bb4e9a42, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("SCL_StartDriderEscort", _, _, _, _)
+AND
+DB_State_Current(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "DriderOffStage", _, _)
+THEN
+ToInventory(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293);
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207);
+PROC_SCL_Drider_StartCaravanEscort();
+
+IF
+TextEvent("SCL_StartHarpersAmbush", _, _, _, _)
+AND
+DB_State_Current(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "DriderOffStage", _, _)
+THEN
+ToInventory(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_StartHarpersAmbush_c5dddc2c-cbbb-4ee5-b453-fd3bced9a4e9);
+PROC_GlobalSetFlagAndCache(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee);
+PROC_SCL_Drider_StartHarpersAmbush();
+
+IF
+TextEvent("SCL_UnlockHarpersAmbush", _, _, _, _)
+THEN
+SetFlag(HAV_Isobel_State_ReceivedMoonriseQuest_3025b1d0-30ba-4572-baf9-a4e97fea8ae5, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("SCL_UnlockHarpersAmbush", _, _, _, _)
+AND NOT
+GetEquippedWeapon(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _, _, _)
+THEN
+SetOnStage(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, 1);
+Equip(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, 1);
+
+IF
+TextEvent("SCL_MakeCaravanInvulnerable", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SetInvulnerable(_Var1, 1);
+
+IF
+TextEvent("SCL_GiveMoonlantern", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _Var1, 1, 1, 1);
+
+IF
+TextEvent("SCL_GiveMoonlantern_BlockPixie", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03);
+ToInventory(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _Var1, 1, 1, 1);
+
+IF
+TextEvent("SCL_GiveLanternToIsobel", _, _, _, _)
+THEN
+SetFlag(SCL_Drider_State_HarpersReturnWithLantern_8c018a15-97f9-46d9-bfa2-b0a711bbf46a, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(SCL_Drider_Event_GiveMoonlantern_69ac556a-7c78-43f5-9bea-f8efeda31b42, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+IF
+FlagSet(SCL_Drider_Debug_SetUpDriderPath_a5696ffc-e978-6403-73df-c031abc30090, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("SCL_Drider_Debug_InitDriderGroup", _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_SCL_SpidersLyre_0054e844-cc8a-4b4e-89f0-b79dafcef0e5, _Var1);
+ClearFlag(SCL_Drider_Event_FoundMoonlantern_8929c94a-cd73-6ea4-922c-afecf32bd7d2, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(SCL_Drider_Debug_SetUpDriderPath_a5696ffc-e978-6403-73df-c031abc30090, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+GetEquippedWeapon(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, 1);
+Equip(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, 1);
+
+IF
+TextEvent("SCL_Drider_GoblinSwD", _, _, _, _)
+THEN
+DB_GLO_CharacterCorpseDialog(S_SCL_DriderCaravan_GoblinRanger_d9efe828-934f-4b38-b741-402001449f0d, SCL_DriderCaravan_GoblinRanger_Dead_fb9bc6ab-2cd6-b6a6-61d6-f158bdc95cfd);
+
+IF
+TextEvent("SCL_SendCaravanToMOOCheckpoint", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c);
+PROC_SCL_Drider_BlockCaravanQuestPath();
+TimerLaunch("Debug_SCL_SendCaravanToMOOCheckpoint", 500);
+
+IF
+TimerFinished("Debug_SCL_SendCaravanToMOOCheckpoint", _, _, _, _)
+THEN
+PROC_SCL_Drider_DebugSendToMOOCheckpoint();
+
+PROC
+PROC_SCL_Drider_DebugSendToMOOCheckpoint()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_SCL_CaravanToTower_fc782803-0605-4327-81a7-debd5959ea5f);
+SetOnStage(_Var1, 1);
+
+PROC
+PROC_SCL_Drider_DebugSendToMOOCheckpoint()
+THEN
+TeleportTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_Debug_SCL_CaravanToTower_fc782803-0605-4327-81a7-debd5959ea5f);
+SetOnStage(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 1);
+PROC_GlobalSetFlagAndCache(MOO_EntranceCheckpoint_GainedAccess_e1925000-34f0-9f85-fd1f-32b49478defe);
+SetFlag(SCL_Drider_Event_ArrivedToTower_e8d310c2-0b05-4e42-912b-e7199759de2a, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SCL_Drider_EndCaravanEscort();
+
+IF
+TextEvent("SCL_SendDriderToChapel", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c);
+PROC_SCL_Drider_BlockCaravanQuestPath();
+TimerLaunch("Debug_SCL_SendCaravanToChapel", 500);
+
+IF
+TimerFinished("Debug_SCL_SendCaravanToChapel", _, _, _, _)
+THEN
+PROC_SCL_Drider_DebugSendToChapel();
+
+PROC
+PROC_SCL_Drider_DebugSendToChapel()
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_SCL_CaravanToTower_fc782803-0605-4327-81a7-debd5959ea5f);
+SetOnStage(_Var1, 1);
+
+PROC
+PROC_SCL_Drider_DebugSendToChapel()
+THEN
+SetOnStage(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 1);
+PROC_SCL_Drider_EndCaravanEscort();
+PROC_GlobalSetFlagAndCache(MOO_EntranceCheckpoint_GainedAccess_e1925000-34f0-9f85-fd1f-32b49478defe);
+SetFlag(SCL_Drider_Event_ArrivedToTower_e8d310c2-0b05-4e42-912b-e7199759de2a, NULL_00000000-0000-0000-0000-000000000000);
+TeleportTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_ChapelPoint_b348fc80-b45d-4129-926b-9ad00acfcee5, "SCL_Drider_MovesToChapel");
+
+IF
+TextEvent("SCL_CaravanAppearOutOfSight", _, _, _, _)
+THEN
+DB_Debug_SCL_Drider_AppearOutOfSight(1);
+
+IF
+TextEvent("SCL_TeleportToRooftopAndDestroyLadders", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_CaravanGroup(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_SCL_Drider_RooftopTeleport_fcaa98fa-fa32-4dc8-a2fe-d29eb2878289, "");
+
+IF
+TextEvent("SCL_TeleportToRooftopAndDestroyLadders", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_SCL_Drider_RooftopTeleport_fcaa98fa-fa32-4dc8-a2fe-d29eb2878289, "");
+
+IF
+TextEvent("SCL_TeleportToRooftopAndDestroyLadders", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_SCL_Drider_RooftopTeleport_fcaa98fa-fa32-4dc8-a2fe-d29eb2878289, "");
+
+IF
+TextEvent("SCL_TeleportToRooftopAndDestroyLadders", _, _, _, _)
+THEN
+Die(S_SCL_Drider_HouseLadder_000_3decfd6b-15b0-4202-abf2-b7736b11f652);
+Die(S_SCL_Drider_HouseLadder_001_5e70ccd8-bdca-4690-b8cd-a2280502d7c6);
+Die(S_SCL_Drider_HouseCobweb_fa0015b4-44be-48fd-a992-79363efc522c);
+
+IF
+FlagCleared(SCL_Drider_State_EscortingPlayers_387819d2-65d3-496b-9d59-ef37bac817dc, _, _, _, _)
+AND
+DB_TopicalGreeting_Current(TG_SCL_Drider_StartFollowingDrider_3c95afd8-0d7e-443c-9527-5dc7bc44e587, _, _, _, _)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

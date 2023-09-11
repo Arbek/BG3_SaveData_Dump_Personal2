@@ -1,0 +1,546 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_TieflingLeader_DenIntro_dd9cb981-c27a-ba8d-a2d2-0930d5b43b3b);
+DB_PermaDefeatedEvent(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_TieflingLeader_State_PermaDefeated_b8eac5ee-2c63-9924-91c2-668d5bffa74c);
+SetOnStage(S_DEN_HuntRewardBag_31304934-a413-4e41-9385-fab78b84b73d, 0);
+SetHasDialog(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, 0);
+DB_Dialogs(S_DEN_PrisonGuard_3ff71f38-28e9-4e72-ba17-9f6d3bb2a995, DEN_PrisonGuard_4b54ee3a-1749-3efc-b5ab-52f8ecb6b533);
+DB_Inclusion_Object(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_TieflingLeader_Inclusion_Start_99291df8-c54c-1f2b-119b-a44c3d9e323d, DEN_TieflingLeader_Inclusion_End_7cd47ed1-4426-e2a3-4b9a-0d3d92a9118c);
+DB_Inclusion_Object(S_DEN_PrisonGuard_3ff71f38-28e9-4e72-ba17-9f6d3bb2a995, DEN_TieflingLeader_Inclusion_Start_Tilses_ae9e6b05-b8ba-4383-b71c-a4f1bd83e9f6, DEN_TieflingLeader_Inclusion_End_Tilses_cbca8c81-1060-4824-8bf0-00d0b638d107);
+DB_Inclusion_NPCDialog(DEN_TieflingLeader_ae8096d3-8c67-edd9-c9d4-8831f0dab36b, S_DEN_PrisonGuard_3ff71f38-28e9-4e72-ba17-9f6d3bb2a995);
+DB_GlobalFlagReactionAfterDialog(DEN_TieflingLeader_Event_StartIntimidationCombat_675b392f-a8c3-7c80-a974-372fe84384b3, DEN_TieflingLeader_ae8096d3-8c67-edd9-c9d4-8831f0dab36b);
+DB_GlobalFlagReactionAfterDialog(DEN_TieflingLeader_Event_StartBetrayalCombat_9671f6fc-4083-497b-b565-a390082a4c15, DEN_TieflingLeader_ae8096d3-8c67-edd9-c9d4-8831f0dab36b);
+DB_HasItemEvent(S_DEN_DruidsPacifiedReward_6202a5d9-7401-4e9f-adca-574669ffb8a6, DEN_TieflingLeader_State_HasRewardRitual_caf3bd50-9d90-29be-9e14-6f7b9b741b74);
+DB_GiveItemToEvent(S_DEN_DruidsPacifiedReward_6202a5d9-7401-4e9f-adca-574669ffb8a6, DEN_TieflingLeader_Event_GiveRewardRitual_5d1093d7-cfa0-1356-89a9-aec51a1b7078);
+
+KBSECTION
+IF
+TextEvent("zevtocave", _, _, _, _)
+THEN
+PROC_DEN_TieflingLeader_Debug_ToCave();
+
+IF
+FlagSet(DEN_TieflingLeader_Debug_ToCave_4993c21b-762a-d33a-d97b-9966d7cc8340, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(DEN_TieflingLeader_Debug_ToCave_4993c21b-762a-d33a-d97b-9966d7cc8340, _Var1);
+PROC_DEN_TieflingLeader_Debug_ToCave();
+
+PROC
+PROC_DEN_TieflingLeader_Debug_ToCave()
+THEN
+PROC_DEN_RaidingParty_DebugResolveConfrontation();
+SetFlag(DEN_TieflingLeader_Event_PostConfrontationDone_93acdb2c-7542-4e99-36cc-231cf7ae3be1, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetEntityEvent(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, "gen_anubismovetocancel");
+TeleportTo(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, S_DEN_LeaderCavePoint_03f82037-c5ca-4cb6-a858-02c5cc6a52ff, "", 0, 0, 1);
+SetEntityEvent(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, "DEN_TieflingLeader_Event_ArrivedToCave");
+
+IF
+TextEvent("killgobleaders", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var1, "GOB_GoblinHunt_Leaders", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+IF
+TextEvent("denvictory", _, _, _, _)
+THEN
+PROC_DEN_TieflingRefugees_SetGoblinHuntVictoryState();
+
+IF
+FlagSet(DEN_TieflingRefugees_Debug_KillGoblins_17e1932e-2e20-e8f6-26e2-ae5de2fac702, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(DEN_TieflingRefugees_Debug_KillGoblins_17e1932e-2e20-e8f6-26e2-ae5de2fac702, _Var1);
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins(_Var1);
+
+IF
+TextEvent("killgoblins", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins(_Var1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_Checkpoint_Guards", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_Checkpoint_Backup", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_FestivitiesArea", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_GoblinThroneGeneral", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_WarMapArea", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_BrandingParty", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_GoblinKing_ScryingRoom", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_WolfPens_Backup", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_WolfPens_DefeatCounter", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillAllGoblins((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_GOB_Festivities_RemoveKids();
+SetFlag(GOB_WolfPens_Event_KidsRunAway_dfde09ac-c35c-45b7-b9f4-2a4ceb9e26e0, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(DEN_TieflingRefugees_Debug_KillLeadership_de0b6441-47d4-a7e6-506c-fae0a04010d6, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(DEN_TieflingRefugees_Debug_KillLeadership_de0b6441-47d4-a7e6-506c-fae0a04010d6, _Var1);
+PROC_DEN_DEBUG_TieflingRefugees_KillGoblinLeadership(_Var1);
+
+PROC
+PROC_DEN_DEBUG_TieflingRefugees_KillGoblinLeadership((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var2, "GOB_GoblinHunt_Leaders", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var2);
+Die(_Var2, 0, _Var1, 1, 1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, S_DEN_TieflingLeaderMap_1ba813e9-28cc-4be2-96de-c7f50d2ee445, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var1, _, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_TieflingLeader_UsedZevlorsMap", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("CRA_BaldursGateVB");
+StartVoiceBark(DEN_TieflingLeader_VB_ZevlorsMap_01989476-e829-11ea-37e6-c05528eaffc0, _Var1);
+
+IF
+DialogEnded(DEN_TieflingLeader_DenIntro_dd9cb981-c27a-ba8d-a2d2-0930d5b43b3b, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(DEN_TieflingLeader_Event_PostConfrontationDone_93acdb2c-7542-4e99-36cc-231cf7ae3be1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(DEN_RaidingParty_Quest_ConfrontationResolved_dc97da68-5ed9-ffe2-7582-2533be0efbcd, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_DEN_TieflingLeader_CheckLeaveEntrance();
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_DEN_EntranceArea_27796261-6c41-4fa2-8afe-6616d7d3e176, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_RaidingParty_Quest_ConfrontationResolved_dc97da68-5ed9-ffe2-7582-2533be0efbcd, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_TieflingLeader_CheckLeaveEntrance();
+
+PROC
+PROC_DEN_TieflingLeader_CheckLeaveEntrance()
+AND NOT
+QRY_CheckOtherPlayersInTrigger(NULL_00000000-0000-0000-0000-000000000000, S_DEN_EntranceArea_27796261-6c41-4fa2-8afe-6616d7d3e176, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_TieflingLeader_Event_PostConfrontationDone_93acdb2c-7542-4e99-36cc-231cf7ae3be1, _, _, _, _)
+THEN
+SetFlag(DEN_TieflingLeader_Event_PostConfrontationDone_93acdb2c-7542-4e99-36cc-231cf7ae3be1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_TieflingLeader_Event_PostConfrontationDone_93acdb2c-7542-4e99-36cc-231cf7ae3be1, _, _, _, _)
+THEN
+SetFlag(DEN_TieflingLeader_Event_PostConfrontationDone_93acdb2c-7542-4e99-36cc-231cf7ae3be1, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(DEN_TieflingLeader_State_AtCave_dc19869c-4933-f893-4be8-def63b54d3ef, S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+
+IF
+FlagSet(DEN_TieflingLeader_Event_PostConfrontationDone_93acdb2c-7542-4e99-36cc-231cf7ae3be1, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _Var2, _, _)
+AND
+DB_DEN_StableStates(_Var2, _, _, _, _)
+THEN
+PROC_RemoveDialogEntryForSpeaker(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_TieflingLeader_DenIntro_dd9cb981-c27a-ba8d-a2d2-0930d5b43b3b);
+SetFlag(DEN_TieflingLeader_State_AtCave_dc19869c-4933-f893-4be8-def63b54d3ef, S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+PROC_DEN_TieflingLeader_SetMovingToCave();
+
+PROC
+PROC_DEN_TieflingLeader_SetMovingToCave()
+AND
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _Var1, _Var1, _Var1)
+AND
+DB_DEN_StableStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OnlyOnce("DEN_TieflingLeader_ArrivedToCave");
+DB_Dialogs(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_TieflingLeader_HeadedToCave_1ad783dc-aeb6-818f-162d-0a1d177115d9);
+
+IF
+EntityEvent(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, "DEN_TieflingLeader_Event_ArrivedToCave", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _Var1, _Var1, _Var1)
+AND
+DB_DEN_StableStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, S_DEN_TieflingLeader_SUB_f667e6fe-2b30-4509-9bba-7918bb71a2a7, 0, _Var1, _Var1)
+THEN
+Use(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, S_DEN_TieflingLeaderDoor_4cb4ae62-e045-4b2a-a08f-cfff56eb9cc0, 1, 0, "DEN_TieflingLeader_Event_EnteredCave");
+
+IF
+EntityEvent(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, "DEN_TieflingLeader_Event_EnteredCave", _, _, _)
+AND
+QRY_OnlyOnce("DEN_TieflingLeader_ArrivedToCave", _, _, _, _)
+AND
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _Var1, _Var1, _Var1)
+AND
+DB_DEN_StableStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDialog(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+PROC_CharacterMoveTo(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, S_DEN_LeaderSubCavePoint_0ded6002-3ad0-490b-9499-0ebd7d916e84, "Walk", "");
+PROC_DEN_TieflingLeader_SetUpCaveDialog();
+
+PROC
+PROC_DEN_TieflingLeader_SetUpCaveDialog()
+AND
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _Var1, _Var1, _Var1)
+AND
+DB_DEN_StableStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Dialogs(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_TieflingLeader_ae8096d3-8c67-edd9-c9d4-8831f0dab36b);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(DEN_TieflingLeader_Event_StartBetrayalCombat_9671f6fc-4083-497b-b565-a390082a4c15, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _, _)
+THEN
+SetFaction(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, ACT1_DEN_TieflingLeader_Hostile_672335ac-a572-4bf4-b005-7251db5acb47);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(DEN_TieflingLeader_Event_StartIntimidationCombat_675b392f-a8c3-7c80-a974-372fe84384b3, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _, _)
+THEN
+SetFaction(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, ACT1_DEN_TieflingLeader_Hostile_672335ac-a572-4bf4-b005-7251db5acb47);
+
+IF
+DB_GlobalFlag(GOB_State_LeadersAreDead_a1c5b01f-4b7f-47ab-82b0-d24d9c6d8bc6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _Var1, _Var1, _Var1)
+AND
+DB_DEN_StableStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_GroveConflict_State_TooLowTieflings_ed9fe6c4-5037-4f74-968c-a166aeb29d9c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_GoblinHuntVictory");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_GoblinHuntVictory", _, _)
+THEN
+PROC_DEN_TieflingRefugees_SetGoblinHuntVictoryState();
+PROC_DEN_TieflingRefugees_GobHuntVictory_JournalHook();
+
+PROC
+PROC_DEN_TieflingRefugees_GobHuntVictory_JournalHook()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_TieflingRefugees_SetGoblinHuntVictoryState()
+THEN
+SetFlag(DEN_Refugees_State_LeadersAreDead_1e6a42ed-8313-4f46-57e2-20dbdb2df923, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(DEN_TieflingLeader_Event_PostConfrontationDone_93acdb2c-7542-4e99-36cc-231cf7ae3be1, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_DEN_TieflingRefugees_PrepVictory();
+PROC_DEN_TieflingRefugees_StartVictory();
+
+PROC
+PROC_DEN_TieflingRefugees_PrepVictory()
+AND
+DB_DEN_NPC(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _Var1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_DEN_NPC(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _Var1, _Var2);
+DB_DEN_NPC(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _Var1, DEN_TieflingLeader_ae8096d3-8c67-edd9-c9d4-8831f0dab36b);
+
+PROC
+PROC_DEN_TieflingRefugees_PrepVictory()
+AND NOT
+DB_PermaDefeated(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, _, _, _)
+AND NOT
+DB_Dialogs(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_TieflingLeader_ae8096d3-8c67-edd9-c9d4-8831f0dab36b, _, _, _)
+THEN
+PROC_RemoveDialog(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+DB_Dialogs(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_TieflingLeader_ae8096d3-8c67-edd9-c9d4-8831f0dab36b);
+
+IF
+FlagSet(DEN_GoblinHunt_Event_GiveRewardBag_3117a859-f497-8696-e0dc-9109e383e62d, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetOnStage(S_DEN_HuntRewardBag_31304934-a413-4e41-9385-fab78b84b73d, 1);
+ToInventory(S_DEN_HuntRewardBag_31304934-a413-4e41-9385-fab78b84b73d, _Var1, 1);
+SetFlag(DEN_TieflingRefugees_Quest_HuntRewardOffered_96430a31-db3e-976c-5369-896db4aa3bea, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(DEN_TieflingRefugees_Quest_HuntRewardOffered_96430a31-db3e-976c-5369-896db4aa3bea, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogNPCs(_Var2, _Var3, 1, _, _)
+THEN
+SetOnStage(S_DEN_HuntRewardBag_31304934-a413-4e41-9385-fab78b84b73d, 1);
+ToInventory(S_DEN_HuntRewardBag_31304934-a413-4e41-9385-fab78b84b73d, _Var3, 1);
+
+IF
+DialogStarted(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_DialogNPCs(_Var2, _Var3, _, _, _)
+AND
+DB_DEN_CurrentDefenderLeader(_Var3, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _, _, _, _)
+AND
+QRY_OnlyOnce("DEN_TieflingsLeave_Condition_TalkedToLeader", _, _, _, _)
+THEN
+PROC_DEN_AttackOnDen_Celebration_JournalHook();
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_InDenTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_TieflingsLeave_Condition_VisitedGrove", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_OnlyOnce("DEN_AttackOnDen_LeaderCelebration", _, _, _, _)
+THEN
+DB_OnlyOnce("DEN_TieflingsLeave_Condition_VisitedGrove");
+
+IF
+DB_OnlyOnce("DEN_TieflingsLeave_Condition_VisitedGrove", _, _, _, _)
+AND
+DB_OnlyOnce("DEN_TieflingsLeave_Condition_TalkedToLeader", _, _, _, _)
+THEN
+SetFlag(DEN_TieflingRefugees_State_PrepToLeave_a3454969-aff1-4e0c-2d1a-f61fddea69d4, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_LongRest()
+AND
+DB_CampNight_Completed(NIGHT_GoblinHunt_TieflingCelebration_1ad8c357-2695-4d5c-b5f9-8b8c07803121, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_TieflingRefugees_State_PrepToLeave_a3454969-aff1-4e0c-2d1a-f61fddea69d4, _, _, _, _)
+AND
+QRY_OnlyOnce("DEN_TieflingRefugees_Leave", _, _, _, _)
+THEN
+PROC_DEN_TieflingRefugees_Leave();
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _, _, _, _)
+AND
+DB_CAMP_GoblinHuntCelebration_Cancelled(1, _, _, _, _)
+AND
+QRY_OnlyOnce("DEN_TieflingRefugees_Leave", _, _, _, _)
+THEN
+PROC_DEN_TieflingRefugees_Leave();
+
+PROC
+PROC_DEN_TieflingRefugees_Leave()
+AND NOT
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_TieflingsGone", _, _)
+AND
+DB_DEN_AttackOnDen_LeaveNPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+SetHasDialog(_Var1, 0);
+PROC_DEN_TieflingRefugees_MakeNPCLeave(_Var1);
+NOT DB_DEN_AttackOnDen_LeaveNPCs(_Var1);
+
+PROC
+PROC_DEN_TieflingRefugees_MakeNPCLeave((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_DEN_TieflingRefugees_NPCDisappears(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+SetEntityEvent(_Var1, "DEN_NPC_LeftDen", 1);
+
+QRY
+QRY_DEN_TieflingRefugees_NPCDisappears((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Sees(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "DEN_NPC_LeftDen");
+
+PROC
+PROC_ReadyToMoveOn((GUIDSTRING)_Var1, "DEN_NPC_LeftDen", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "DEN_NPC_LeftDen");
+
+PROC
+PROC_DEN_TieflingRefugees_Leave()
+AND NOT
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_TieflingsGone", _, _)
+THEN
+SetFlag(DEN_TieflingRefugees_State_LeftDen_003b304b-f058-4f8a-b9fa-a097e1b6b395, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_DEN_GroveRefugeesEmptied();
+
+IF
+FlagSet(DEN_TieflingRefugees_State_LeftDen_003b304b-f058-4f8a-b9fa-a097e1b6b395, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_TieflingRefugees_Leave();
+PROC_State_Progress(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_TieflingsGone");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_TieflingsGone", _, _)
+THEN
+PROC_DEN_Victory_LeftSafe_JournalHook();
+PROC_DEN_AttackOnDen_HideEventObjects();
+
+PROC
+PROC_DEN_Victory_LeftSafe_JournalHook()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_RemoveFromDenNPCs((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, TIEFLING_aaef5d43-c6f3-434d-b11e-c763290dbe0c, 1, _Var1, _Var1)
+AND NOT
+DB_GLO_TieflingRefugee(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsGlobal(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, KID_ee978587-6c68-4186-9bfc-3b3cc719a835, _Var3, _Var1, _Var1)
+THEN
+DB_GLO_TieflingRefugee(_Var1, _Var3);
+
+IF
+LevelUnloading("WLD_Main_A", _, _, _, _)
+AND
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _, _, _, _)
+THEN
+PROC_DEN_TieflingRefugees_Leave();
+
+IF
+LevelGameplayStarted("SCL_Main_A", _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+GoalCompleted;
+
+IF
+TextEvent("readytieflingsgone", _, _, _, _)
+THEN
+SetFlag(GOB_State_LeadersAreDead_a1c5b01f-4b7f-47ab-82b0-d24d9c6d8bc6, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_DEN_TieflingRefugees_DebugLeave();
+
+PROC
+PROC_DEN_TieflingRefugees_DebugLeave()
+THEN
+Die(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, 0, 1);
+PROC_DisappearOutOfSight(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, "Run", 1, "DEN_NPC_LeftDen");
+PROC_DisappearOutOfSight(S_DEN_RaidAdventurer_4faf77a0-b883-4f7b-acbf-4500973f446d, "Run", 1, "DEN_NPC_LeftDen");
+PROC_DisappearOutOfSight(S_DEN_RobbedAdventurer_534bceaf-678c-40a0-8ca9-e1134f95ba0d, "Run", 1, "DEN_NPC_LeftDen");
+PROC_DisappearOutOfSight(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "Run", 1, "DEN_NPC_LeftDen");
+
+PROC
+PROC_DEN_TieflingRefugees_DebugLeave()
+AND
+DB_DEN_NPC(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, "Run", 1, "DEN_NPC_LeftDen");
+
+PROC
+PROC_DEN_TieflingRefugees_DebugLeave()
+AND
+DB_DEN_NPC(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "Run", 1, "DEN_NPC_LeftDen");
+
+PROC
+PROC_DEN_TieflingRefugees_DebugLeave()
+THEN
+PROC_DEN_TieflingRefugees_Leave();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

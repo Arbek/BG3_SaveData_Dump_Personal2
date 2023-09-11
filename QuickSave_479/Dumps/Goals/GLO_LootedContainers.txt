@@ -1,0 +1,32 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LootedContainerTemplates(CONT_TreasurePile_A_Full_fa6fba1c-d4b8-4280-9687-725d41e73db6, CONT_TreasurePile_A_Empty_0c5e6db6-75cc-4136-ba1c-5605c77a2059, NULL_00000000-0000-0000-0000-000000000000);
+DB_LootedContainerTemplates(CONT_TreasurePile_B_Full_5c76d4a0-c051-4863-8871-67dae124ec80, CONT_TreasurePile_B_Empty_95608c9f-3366-436a-b446-e8706cc7a5c9, VFX_Script_DestroyAction_TreasurePile_B_01_77189630-c19b-02ce-663e-bba317d1d27c);
+DB_LootedContainerTemplates(CONT_TreasurePile_C_Full_0e03cbe2-b668-4579-8349-690b7ab63bf2, CONT_TreasurePile_C_Empty_9c9d8a6d-11c9-4c8c-9b2e-3e22faf34dca, NULL_00000000-0000-0000-0000-000000000000);
+DB_LootedContainerTemplates(CONT_TreasurePile_D_Full_e3a16af1-201a-41c3-8626-4a6686aa2107, CONT_TreasurePile_D_Empty_8fd4f9d9-527a-494f-976e-7018a9ef452e, NULL_00000000-0000-0000-0000-000000000000);
+DB_LootedContainerTemplates(CONT_TreasurePile_E_Full_2a5e286c-11cd-41e4-9f9f-5d67d1e9f203, CONT_TreasurePile_E_Empty_1cab2bf1-a997-4a18-acd0-ae005cd5a465, NULL_00000000-0000-0000-0000-000000000000);
+DB_LootedContainerTemplates(CONT_TreasurePile_F_Full_526efaaf-0d39-4d60-9c82-3c4554327309, CONT_TreasurePile_F_Empty_1da1e293-17d9-420e-85cb-4562593ad1c8, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+UseFinished(_, (GUIDSTRING)_Var2, 1, _, _)
+AND NOT
+DB_LootedContainers_WasLooted(_Var2, _, _, _, _)
+AND
+GetTemplate(_Var2, _Var3, _, _, _)
+AND
+DB_LootedContainerTemplates(_Var3, _Var4, _Var5, _, _)
+AND
+GetGold(_Var2, 0, _, _, _)
+THEN
+PlayEffect(_Var2, _Var5);
+Transform(_Var2, _Var4, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+DB_LootedContainers_WasLooted(_Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

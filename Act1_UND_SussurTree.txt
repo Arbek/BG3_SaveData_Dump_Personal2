@@ -1,0 +1,384 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_UND_SussurTree_Setup();
+DB_GLO_Sussur_UnderdarkRegion(S_UND_SussurZone_000_4067ab6a-2dbd-4525-8fe9-ddb82669d885);
+DB_GLO_Sussur_UnderdarkRegion(S_UND_SussurZone_001_0aa8fe7b-2673-4e5b-b779-eaec7ed07419);
+DB_GLO_Sussur_UnderdarkRegion(S_UND_SussurZone_002_ba8a0850-4073-4c4c-9c2b-95be60f1c357);
+DB_GLO_Sussur_UnderdarkRegion(S_UND_SussurZone_003_bcdadfe3-14f6-469a-9073-47f9a5f157c2);
+DB_GLO_Sussur_UnderdarkRegion(S_UND_SussurZone_004_e9d8d445-6551-4720-b08a-fb98b4f7fc87);
+DB_GLO_Sussur_UnderdarkRegion(S_UND_SussurZone_005_6aacda00-6e3f-45e1-9846-c434160d94f3);
+DB_GLO_FavouredSpeaker_WithTagExpression("UND_SussurTree_Aura_IVB_Companion", "SORCERER_18266c0b-efbc-4c80-8784-ada4a37218d7 & AVATAR_306b9b05-1057-4770-aa17-01af21acd650 & UND_SUSSURTREEANTIMAGIC_2c17c8a0-2aa4-49f3-8df2-9955762e51fc");
+DB_GLO_FavouredSpeaker_WithTagExpression("UND_SussurTree_Aura_IVB_Companion", "SORCERER_18266c0b-efbc-4c80-8784-ada4a37218d7 & UND_SUSSURTREEANTIMAGIC_2c17c8a0-2aa4-49f3-8df2-9955762e51fc");
+
+KBSECTION
+IF
+TextEvent("und_sussur", _, _, _, _)
+THEN
+PROC_UND_SussurTree_Clean();
+PROC_UND_SussurTree_Setup();
+
+IF
+TextEvent("und_sussur_backup", _, _, _, _)
+THEN
+PROC_Combat_CallingForHelp(S_UND_HookHorror_Hunter_001_3d5a8ed5-771a-491b-93eb-9a65eb2dcf30, "UND_SUSSURTREE");
+
+IF
+TextEvent("und_sussur_backup", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(UND_HookHorrors_VB_Backup_4e279ef4-0617-114e-6fd5-1a6183952d1f, _Var1);
+
+IF
+TextEvent("und_sussur_peace", _, _, _, _)
+THEN
+PROC_SetRelation(ACT1_UND_HookHorrors_927ec2fe-e960-4558-bc10-a19f22e2ad69, Hero_a1542c81-6895-929e-4522-10ce218bb360, 100);
+
+IF
+TextEvent("und_sussur_war", _, _, _, _)
+THEN
+PROC_SetRelation(ACT1_UND_HookHorrors_927ec2fe-e960-4558-bc10-a19f22e2ad69, Hero_a1542c81-6895-929e-4522-10ce218bb360, 0);
+
+PROC
+PROC_UND_SussurTree_Clean()
+AND
+QRY_OnlyOnce_Reset("UND_SussurTree_VB", _, _, _, _)
+AND
+QRY_OnlyOnce_Reset("UND_HookHorrors_VB", _, _, _, _)
+AND
+QRY_OncePerUserAndNearbyPlayers_Reset("UND_SussurTree_Aura", _, _, _, _)
+AND
+QRY_OncePerUserAndNearbyPlayers_Reset("UND_SussurTree_Aura_Sorcerer", _, _, _, _)
+THEN
+SysClear("DB_UND_HookHorrors", 1);
+PROC_RemoveOneShotVoiceBarkTrigger(S_UND_SussurTree_VB_f7723a0a-72f0-4519-8b20-8c35ddb0a990, UND_SussurTree_VB_Approach_73f84915-8dd1-4e68-d1e0-3a2fd78d09f5);
+PROC_TriggerUnregisterForPlayers(S_UND_HookHorrors_VB_1dc24960-e9f4-4b64-b39c-79ad935ee2d7);
+NOT DB_TriggerEvents_AllPlayersLeft(S_UND_SussurTree_Area_9ce09423-2d62-42e3-b24e-4c8fc9cf8342, "UND_SussurTree_Event_AllPlayerLeftArea");
+SetOnStage(S_UND_GnomeEatenCorpse_725e0b57-9573-43c8-a97e-13adabbc1579, 1);
+SysClear("DB_UND_SussurTree_PlayersUnderAura", 1);
+SysClear("DB_UND_SussurTree_PlayersUnderAura_Sorcerer", 1);
+
+PROC
+PROC_UND_SussurTree_Clean()
+THEN
+PROC_GlobalClearFlagAndCache(UND_SussurTree_Event_PlayersLeft_ddc1f4e5-9161-4e89-a34c-3d7e3667e835);
+PROC_GlobalClearFlagAndCache(UND_HookHorrors_Event_CombatEngaged_0f6c7a4f-9ef2-4a88-8b42-5428cacc61d4);
+PROC_GlobalClearFlagAndCache(UND_HookHorrors_Event_BackupCalled_02aa8fb1-fdfc-420f-b629-00f83480fe5f);
+PROC_GlobalClearFlagAndCache(UND_HookHorrors_Event_BackupAppeared_6c28188e-8420-47be-8875-7163a1860c50);
+PROC_GlobalClearFlagAndCache(UND_HookHorrors_Event_Retreated_056016f9-17bd-47a8-a689-dbb12ded0e4e);
+
+PROC
+PROC_UND_SussurTree_Setup()
+THEN
+DB_OneShot_VoiceBarkTrigger(S_UND_SussurTree_VB_f7723a0a-72f0-4519-8b20-8c35ddb0a990, UND_SussurTree_VB_Approach_73f84915-8dd1-4e68-d1e0-3a2fd78d09f5, "Global");
+PROC_TriggerRegisterForPlayers(S_UND_HookHorrors_VB_1dc24960-e9f4-4b64-b39c-79ad935ee2d7);
+DB_TriggerEvents_AllPlayersLeft(S_UND_SussurTree_Area_9ce09423-2d62-42e3-b24e-4c8fc9cf8342, "UND_SussurTree_Event_AllPlayerLeftArea");
+
+PROC
+PROC_UND_SussurTree_Setup()
+THEN
+DB_Combat_CallingForHelp(S_UND_HookHorror_Hunter_000_70866004-4b9d-4dde-a9c7-9891229c47c7, "UND_SUSSURTREE", "Shout_CallForHelp_HookHorror");
+DB_Combat_CallingForHelp(S_UND_HookHorror_Hunter_001_3d5a8ed5-771a-491b-93eb-9a65eb2dcf30, "UND_SUSSURTREE", "Shout_CallForHelp_HookHorror");
+DB_Combat_CallingForHelp(S_UND_HookHorror_Backup_001_d62704dc-d1ee-4584-b27f-b7c834daebf0, "UND_SUSSURTREE", "Shout_CallForHelp_HookHorror");
+DB_Combat_CallingForHelp(S_UND_HookHorror_Backup_000_acf10865-b8a9-48cc-be8b-43945357b26d, "UND_SUSSURTREE", "Shout_CallForHelp_HookHorror");
+DB_GLO_Sussur_Flowers(S_UND_SussurFlower_000_bed936c2-370c-461b-aa97-d8f1e8a6492f);
+DB_GLO_Sussur_Flowers(S_UND_SussurFlower_001_bc63faa4-22d4-4103-a37f-302a95ce563c);
+DB_GLO_Sussur_Flowers(S_UND_SussurFlower_002_c3a2e5c7-3468-4a9d-a1f1-890e34e33ee6);
+DB_GLO_Sussur_Flowers(S_UND_SussurFlower_003_b4db33ec-cc2b-4d16-91af-78a884b83e5a);
+DB_GLO_Sussur_Flowers(S_UND_SussurFlower_004_6bc6f49f-8c1c-47ef-8563-d6149068a50f);
+DB_GLO_Sussur_Flowers(S_UND_SussurFlower_005_6599d878-8486-4610-9106-aec025395688);
+
+IF
+DB_Combat_CallingForHelp(_Var1, "UND_SUSSURTREE", _, _Var1, _Var1)
+THEN
+DB_UND_HookHorrors_OnStage(_Var1);
+AddPreferredAiTargetTag(_Var1, BULETTE_06c1ef36-dac6-4224-8320-d4d38f84897f);
+
+IF
+Died((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_HookHorrors_OnStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_HookHorrors_OnStage(_Var1);
+PROC_UND_HookHorrors_CheckLastAlive();
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_UND_HookHorrors_VB_1dc24960-e9f4-4b64-b39c-79ad935ee2d7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_HookHorrors_VB", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(UND_HookHorrors_VB_82543364-aaff-f05f-5f88-fb53bde9641f, _Var1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "CALLING_FOR_HELP_HOOKHORROR", _, _, (GUIDSTRING)_Var1)
+AND
+DB_UND_HookHorrors_OnStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+GetClosestAlivePlayer(_Var1, _Var5, _Var6, _Var1, _Var1)
+AND
+_Var6 < 30
+AND
+QRY_OnlyOnce("UND_HookHorrors_BackupCalled_QueueVB_OnlyOnce", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_HookHorrors_BackupCalled_QueueVB(_Var1, _Var4);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_HookHorrors_BackupCalled_QueueVB(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(UND_HookHorrors_VB_Backup_4e279ef4-0617-114e-6fd5-1a6183952d1f, _Var1);
+NOT DB_UND_HookHorrors_BackupCalled_QueueVB(_Var2, _Var3);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_HookHorrors_BackupCalled_QueueVB(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_HookHorrors_BackupCalled_QueueVB(_Var1, _Var2);
+NOT DB_OnlyOnce("UND_HookHorrors_BackupCalled_QueueVB_OnlyOnce");
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "UND_SUSSURTREEANTIMAGIC", _, _, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_SussurTree_PlayersUnderAura(_Var1);
+TimerLaunch("Timer_UND_SussurTree_Aura", 500);
+
+IF
+DB_UND_SussurTree_PlayersUnderAura(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, SORCERER_18266c0b-efbc-4c80-8784-ada4a37218d7, 1, _Var1, _Var1)
+THEN
+DB_UND_SussurTree_PlayersUnderAura_Sorcerer(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "UND_SUSSURTREEANTIMAGIC", _, _, (GUIDSTRING)_Var1)
+AND
+DB_UND_SussurTree_PlayersUnderAura(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_SussurTree_PlayersUnderAura(_Var1);
+
+IF
+DB_UND_SussurTree_PlayersUnderAura_Sorcerer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_SussurTree_PlayersUnderAura(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_SussurTree_PlayersUnderAura_Sorcerer(_Var1);
+
+IF
+TimerFinished("Timer_UND_SussurTree_Aura", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_SussurTree_PlayersUnderAura_Sorcerer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "UND_SussurTree_Aura_Sorcerer", _Var1, _Var1, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker(_Var1, _Var1, "UND_SussurTree_Aura_IVB_Companion", _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(UND_SussurTree_IVB_Aura_Sorcerer_e1fe9944-d058-f040-aed8-4358931e182c, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TimerFinished("Timer_UND_SussurTree_Aura", _, _, _, _)
+AND NOT
+DB_UND_SussurTree_PlayersUnderAura_Sorcerer(_, _, _, _, _)
+AND
+DB_UND_SussurTree_PlayersUnderAura(_Var2, _, _, _, _)
+AND NOT
+QRY_OncePerUserAndNearbyPlayers_IsSet(_Var2, "UND_SussurTree_Aura_Sorcerer", _, _, _)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var2, "UND_SussurTree_Aura", _, _, _)
+THEN
+PROC_TryStartAD(UND_SussurTree_PAD_Aura_7f815ebe-b33f-52b7-2259-a962ebf18bcc, _Var2);
+
+IF
+EntityEvent(NULL_00000000-0000-0000-0000-000000000000, "UND_SussurTree_Event_AllPlayerLeftArea", _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_SussurTree_Event_PlayersLeft_ddc1f4e5-9161-4e89-a34c-3d7e3667e835);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_HookHorrors_OnStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_HookHorrors_Event_CombatEngaged_0f6c7a4f-9ef2-4a88-8b42-5428cacc61d4);
+
+IF
+DB_GlobalFlag(UND_SussurTree_Event_PlayersLeft_ddc1f4e5-9161-4e89-a34c-3d7e3667e835, _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_UND_HookHorrors_VB_1dc24960-e9f4-4b64-b39c-79ad935ee2d7);
+
+IF
+DB_GlobalFlag(UND_HookHorrors_Event_CombatEngaged_0f6c7a4f-9ef2-4a88-8b42-5428cacc61d4, _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_UND_HookHorrors_VB_1dc24960-e9f4-4b64-b39c-79ad935ee2d7);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_HookHorrors_OnStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+GetFlag(UND_HookHorrors_Knows_SeenHookHorrors_44022bbd-b1bb-4ab4-8764-1e67ed20af24, _Var3, 0, _Var1, _Var1)
+THEN
+SetFlag(UND_HookHorrors_Knows_SeenHookHorrors_44022bbd-b1bb-4ab4-8764-1e67ed20af24, _Var3);
+
+PROC
+PROC_UND_HookHorrors_BackupCalled((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_HookHorrors_Event_BackupCalled_02aa8fb1-fdfc-420f-b629-00f83480fe5f);
+
+PROC
+PROC_Combat_CallingForHelp((GUIDSTRING)_Var1, "UND_SUSSURTREE", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_HookHorrors_Event_BackupAppeared_6c28188e-8420-47be-8875-7163a1860c50);
+
+PROC
+PROC_UND_HookHorrors_Retreat()
+THEN
+PROC_GlobalSetFlagAndCache(UND_HookHorrors_Event_Retreated_056016f9-17bd-47a8-a689-dbb12ded0e4e);
+
+PROC
+PROC_UND_HookHorrors_CheckLastAlive()
+AND
+SysCount("DB_UND_HookHorrors_OnStage", 1, _Var1, _Var1, _Var1)
+AND
+_Var1 < 2
+THEN
+PROC_Combat_CallingForHelp_CleanUp("UND_SUSSURTREE");
+
+PROC
+PROC_Combat_CallingForHelp((GUIDSTRING)_Var1, "UND_SUSSURTREE", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlaySound(_Var1, "UND_Hook_Horror_Summon");
+
+IF
+FlagSet(UND_SussurTree_Event_PlayersLeft_ddc1f4e5-9161-4e89-a34c-3d7e3667e835, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_UND_SussurTree_PlayersLeft();
+
+PROC
+PROC_UND_SussurTree_PlayersLeft()
+AND
+DB_UND_HookHorrors_OnStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDead(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_UND_GnomeEatenCorpse_725e0b57-9573-43c8-a97e-13adabbc1579, 0);
+
+PROC
+PROC_UND_SussurTree_PlayersLeft()
+THEN
+PROC_TriggerUnregisterForPlayers(S_UND_HookHorrors_VB_1dc24960-e9f4-4b64-b39c-79ad935ee2d7);
+
+PROC
+PROC_UND_SussurTree_Setup()
+THEN
+DB_OneShot_VoiceBarkTrigger(S_UND_SussurTree_VB_f7723a0a-72f0-4519-8b20-8c35ddb0a990, UND_SussurTree_VB_Approach_73f84915-8dd1-4e68-d1e0-3a2fd78d09f5, "Global");
+PROC_TriggerRegisterForPlayers(S_UND_HookHorrors_VB_1dc24960-e9f4-4b64-b39c-79ad935ee2d7);
+DB_TriggerEvents_AllPlayersLeft(S_UND_SussurTree_Area_9ce09423-2d62-42e3-b24e-4c8fc9cf8342, "UND_SussurTree_Event_AllPlayerLeftArea");
+DB_Dialogs(S_UND_ClericPetGrave_28e00450-53d5-4df7-8025-5edb674f7fec, UND_ClericPetGrave_0e65587a-639c-fb03-d700-daa6075e1f3b);
+DB_HasItemTemplateScriptFlag(2, UND_ClericPetGrave_0e65587a-639c-fb03-d700-daa6075e1f3b, CONS_Herbs_Autumncrocus_Plant_A_691da3f8-0fca-4aa9-b5cd-89bc96e3cc74, 2, 1);
+DB_HasItemTemplateScriptFlag(3, UND_ClericPetGrave_0e65587a-639c-fb03-d700-daa6075e1f3b, CONS_Herbs_Autumncrocus_Bundle_A_06f3a0c4-af50-4a79-8c1a-1ace6d1282f2, 2, 1);
+SetOnStage(S_UND_ClericPetCollar_4d93e3eb-c420-4c03-aadf-2c09b14726fe, 0);
+DB_UND_ClericPetGrave_Flowers(UND_ClericPetGrave_PutAutumnCrocus_26f5a9a4-9bad-4e4a-b52e-d8cd03a3e687, CONS_Herbs_Autumncrocus_Plant_A_691da3f8-0fca-4aa9-b5cd-89bc96e3cc74);
+DB_UND_ClericPetGrave_Flowers(UND_ClericPetGrave_PutAutumnCrocusBundle_39737622-c9b0-4fb7-900c-27f323fe70ab, CONS_Herbs_Autumncrocus_Bundle_A_06f3a0c4-af50-4a79-8c1a-1ace6d1282f2);
+
+IF
+DialogEnded(UND_ClericPetGrave_0e65587a-639c-fb03-d700-daa6075e1f3b, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetFlag(UND_ClericPetGrave_Event_Dug_f1d5554a-2f01-899b-b7b7-84e45aefd76a, NULL_00000000-0000-0000-0000-000000000000, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_ClericPetGrave_Event_Dug", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+GetPosition(S_UND_ClericPetCollar_DropPos_b54ab8fe-cc3f-4ebc-aabb-42508729430f, _Var4, _Var5, _Var6, _Var1)
+THEN
+SetOnStage(S_UND_ClericPetCollar_4d93e3eb-c420-4c03-aadf-2c09b14726fe, 1);
+ScatterAt(S_UND_ClericPetCollar_4d93e3eb-c420-4c03-aadf-2c09b14726fe, _Var4, _Var5, _Var6);
+
+IF
+Moved(S_UND_ClericPetCollar_4d93e3eb-c420-4c03-aadf-2c09b14726fe, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(UND_ClericPetGrave_Digger_796ce2d0-fda2-c921-1edf-ab00bd0b4fab, _Var1, 1, _Var1, _Var1)
+THEN
+LookAtEntity(_Var1, S_UND_ClericPetCollar_4d93e3eb-c420-4c03-aadf-2c09b14726fe);
+PROC_PlayPerceptionRevealEffect(S_UND_ClericPetCollar_4d93e3eb-c420-4c03-aadf-2c09b14726fe, "UND_ClericPetCollar");
+PROC_TryStartAD(UND_ClericPetCollar_PAD_Notice_d133b02f-9c01-d708-9a52-49005a1ec609, _Var1);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_UND_ClericPetGrave_Flowers(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_ClericPetGrave_FlowersPlaced(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_RemoveLocalItemsByTemplateFromMagicPockets(_Var2, _Var4, 1, _Var1, _Var1)
+AND
+GetPosition(S_UND_ClericPetCollar_DropPos_b54ab8fe-cc3f-4ebc-aabb-42508729430f, _Var6, _Var7, _Var8, _Var1)
+AND
+CreateAt(_Var4, _Var6, _Var7, _Var8, 0, 0, "", _Var9, _Var1, _Var1)
+THEN
+DB_UND_ClericPetGrave_FlowersPlaced(_Var2);
+
+IF
+FlagSet((FLAG)_Var1, (GUIDSTRING)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_UND_ClericPetGrave_Flowers(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, _Var2);
+
+IF
+DB_UND_ClericPetGrave_FlowersPlaced(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HIDDEN_WLD_Boosters_UND_ArcaneTower_PetGrave", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "HIDDEN_WLD_Boosters", "UND_ArcaneTower_PetGrave");
+
+IF
+DB_GlobalFlag(UND_GPHookHorrors_State_BothDied_d343352a-89c8-4ea5-aee8-551c86da8a37, _, _, _, _)
+AND
+DB_PermaDefeated(S_UND_Bulette_307934b5-6fb5-4fdc-a7ff-433a7ba175b3, _, _, _, _)
+AND
+DB_PermaDefeated(S_UND_HookHorror_Backup_000_acf10865-b8a9-48cc-be8b-43945357b26d, _, _, _, _)
+AND
+DB_PermaDefeated(S_UND_HookHorror_Backup_001_d62704dc-d1ee-4584-b27f-b7c834daebf0, _, _, _, _)
+AND NOT
+DB_UND_SussurTree_Cleared(1, _, _, _, _)
+THEN
+DB_UND_SussurTree_Cleared(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_UND_SussurTree_Cleared(1, _, _, _, _)
+THEN
+PROC_RegisterWorldGossipTrigger(S_PartyBanterTrigger_UND_SussurCleared_cf90ac2c-02cf-46fd-b47d-7e604d2e4fc9);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

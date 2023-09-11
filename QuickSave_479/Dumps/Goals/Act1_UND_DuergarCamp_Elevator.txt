@@ -1,0 +1,345 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_UND_ElevatorNPCs(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af);
+DB_UND_ElevatorNPCs(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d);
+DB_UND_ElevatorNPCs(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+SetHasDialog(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, 1);
+SetHasDialog(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, 1);
+SetHasDialog(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, 1);
+DB_OneShotPartyTrigger(S_UND_ElevatorGuards_EmptyMug_OneShotADTrigger_66df133f-900f-4da2-a5fe-a4c3e085355f);
+DB_UND_ElevatorGuards(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af);
+DB_UND_ElevatorGuards(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d);
+DB_HasItemEvent(S_UND_ElevatorGnome_Poison_9fed4fa7-4d94-4bc2-98b3-446c2987b35b, UND_ElevatorGnome_HasPoison_3f0573c2-2539-46fb-acaf-95f74842ec00);
+DB_GiveItemToEvent(S_UND_ElevatorGnome_Poison_9fed4fa7-4d94-4bc2-98b3-446c2987b35b, UND_ElevatorGnome_GivePoison_65b93808-94a4-491c-926a-936ad966f543);
+DB_GlobalFlagReactionAfterDialog(UND_ElevatorGnome_State_CaveIn_3be5d4ab-7b67-4224-8e7f-207bfd7f14ab, UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5);
+DB_GlobalFlagReactionAfterDialog(UND_ElevatorGnome_State_Myconids_7c7d96f4-f1e9-4d6f-96ec-dd8c5ac8153d, UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5);
+DB_GlobalFlagReactionAfterDialog(UND_ElevatorGnome_State_Shadowlands_23f0472a-c83d-4a43-a82e-79b75554e178, UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5);
+DB_GlobalFlagReactionAfterDialog(UND_ElevatorGnome_State_OffStage_91348abe-231b-4706-ad8c-6211eca2ee7d, UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5);
+
+KBSECTION
+IF
+DB_UND_ElevatorGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var1, "UND_DeadElevatorGuards");
+
+PROC
+PROC_StateSet_Defeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_ElevatorGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_ElevatorGuards_ClearDialogEvent();
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_ElevatorGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearCorpseOwner(_Var1);
+NOT DB_UND_ElevatorGuards(_Var1);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("UND_DeadElevatorGuards", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_ElevatorGuards_Dead_5f1f5c9b-e05d-46be-aca2-4e298f8ef4bd);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_ElevatorNPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_ElevatorGuards_State_Did3WayDialogue_fdb6d402-df59-591d-2800-16a7df81b78d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_ElevatorGuards_ClearDialogEvent();
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_ElevatorNPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_ElevatorGuards_State_Did3WayDialogue_fdb6d402-df59-591d-2800-16a7df81b78d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_ElevatorGuards_ClearDialogEvent();
+
+IF
+FlagSet(UND_ElevatorGuards_State_Did3WayDialogue_fdb6d402-df59-591d-2800-16a7df81b78d, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_UND_ElevatorGuards_ClearDialogEvent();
+
+PROC
+PROC_UND_ElevatorGuards_ClearDialogEvent()
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af);
+PROC_RemoveAllDialogEntriesForSpeaker(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d);
+PROC_RemoveAllDialogEntriesForSpeaker(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_ElevatorNPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_ElevatorGuards_State_Did3WayDialogue_fdb6d402-df59-591d-2800-16a7df81b78d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(UND_ElevatorGuards_04a31948-693c-a2ff-a074-940830a5d60e, S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var2);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SelectedDialog(UND_ElevatorGuards_04a31948-693c-a2ff-a074-940830a5d60e, S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var1)
+THEN
+DB_SelectedDialog(UND_ElevatorGuard_001_26a4f8f3-a030-9dfe-6fdb-d6e202d20641, S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, _Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SelectedDialog(UND_ElevatorGuards_04a31948-693c-a2ff-a074-940830a5d60e, S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var1)
+THEN
+DB_SelectedDialog(UND_ElevatorGuard_002_5c63904b-bc50-1f94-c3e8-95f907dbf49b, S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, _Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_UND_ElevatorGnome_LeftElevator()
+AND NOT
+DB_SelectedDialog(UND_ElevatorGuards_04a31948-693c-a2ff-a074-940830a5d60e, S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var1)
+THEN
+DB_SelectedDialog(UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var1);
+
+PROC
+PROC_UND_DuergarCamp_Deserted()
+THEN
+NOT DB_OneShotPartyTrigger(S_UND_ElevatorGuards_EmptyMug_OneShotADTrigger_66df133f-900f-4da2-a5fe-a4c3e085355f);
+PROC_TriggerUnregisterForParty(S_UND_ElevatorGuards_EmptyMug_OneShotADTrigger_66df133f-900f-4da2-a5fe-a4c3e085355f);
+
+PROC
+PROC_OneShotTriggerEntered((GUIDSTRING)_Var1, S_UND_ElevatorGuards_EmptyMug_OneShotADTrigger_66df133f-900f-4da2-a5fe-a4c3e085355f, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("UND_DuergarCamp_Deserted", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(UND_ElevatorGuards_AD_EmptyMug_d805c62d-cf92-262d-3761-d67dbfdefa4b, S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+
+QRY
+QRY_UND_ElevatorGnome_LeftElevator()
+AND
+DB_GlobalFlag(UND_ElevatorGnome_State_CaveIn_3be5d4ab-7b67-4224-8e7f-207bfd7f14ab, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_UND_ElevatorGnome_LeftElevator()
+AND
+DB_GlobalFlag(UND_ElevatorGnome_State_Myconids_7c7d96f4-f1e9-4d6f-96ec-dd8c5ac8153d, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5, _, _, _, _)
+AND
+DB_GlobalFlag(UND_ElevatorGnome_Event_AttackDuergar_0f9ed1a1-9497-44dc-b331-b3f54fb657aa, _, _, _, _)
+THEN
+PROC_SetRelationMutual(ACT1_UND_ElevatorGnome_c71c6d74-33a4-41c8-8256-f85a7c763b20, ACT1_UND_DuergarRebels_ElevatorGuards_a14e975e-df2c-4a93-874a-311e45969a79, 0);
+PROC_SetRelationToPlayers(ACT1_UND_DuergarRebels_ElevatorGuards_a14e975e-df2c-4a93-874a-311e45969a79, 0);
+ClearFlag(UND_ElevatorGnome_Event_AttackDuergar_0f9ed1a1-9497-44dc-b331-b3f54fb657aa);
+
+IF
+CrimeIsRegistered((CHARACTER)_Var1, "Assault", (INTEGER)_Var2, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_ElevatorGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var2, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+
+IF
+UseStarted((GUIDSTRING)_Var1, S_UND_Elevator_Fort_ToShadowlands_e48a9110-dabc-4471-bcae-3cc8aa57b8c5, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(UND_ElevatorToScl_Used_0a667e94-d789-4914-a5d5-93bd02ece820, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_ElevatorToScl_Used_0a667e94-d789-4914-a5d5-93bd02ece820);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_UND_ElevatorGate_df97b259-59ce-4e8b-a3cc-6fa9008a195f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_DuergarCamp_ElevatorWarned", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(UND_DuergarCamp_ElevatorWarning_f54502b3-1439-1cc8-371a-5a412dc0428f, S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_UND_ElevatorGate_df97b259-59ce-4e8b-a3cc-6fa9008a195f, 0);
+
+PROC
+PROC_BlockUseOfItem((GUIDSTRING)_Var1, S_UND_ElevatorGate_df97b259-59ce-4e8b-a3cc-6fa9008a195f, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(UND_DuergarCamp_ElevatorWarningGnome_39275aa4-dd5e-129f-f987-bebef7a2d324, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("UND_DuergarCamp_ElevatorWarned", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(UND_DuergarCamp_ElevatorWarningGnome_39275aa4-dd5e-129f-f987-bebef7a2d324, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_UND_ElevatorGate_df97b259-59ce-4e8b-a3cc-6fa9008a195f, 0);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(UND_DuergarCamp_ElevatorWarning_f54502b3-1439-1cc8-371a-5a412dc0428f, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_ElevatorGnome_State_CaveIn_3be5d4ab-7b67-4224-8e7f-207bfd7f14ab, _, _, _, _)
+THEN
+SetHasDialog(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, 0);
+PROC_RemoveAllDialogEntriesForSpeaker(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+PROC_CharacterMoveTo(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, S_UND_ElevatorGnome_CaveInTrigger_2823a172-444e-4280-a954-b69861e3dee0, "Run", "UND_ElevatorGnome_ReachedCaveIn");
+DB_UND_GnomeWorkers(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, S_UND_ElevatorGnome_SavedTrigger_b4cd2e76-6b72-4e02-ad20-eb9e5c3061d2, UND_ElevatorGnome_Saved_5fc7dfab-bc17-358b-63e4-fbdfb0fa476c, 1, 0);
+
+IF
+EntityEvent(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, "UND_ElevatorGnome_ReachedCaveIn", _, _, _)
+THEN
+DB_Dialogs(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, UND_ElevatorGnome_CaveIn_4b8f96a4-035a-0167-cc51-c9834ebdc1d7);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_ElevatorGnome_State_Myconids_7c7d96f4-f1e9-4d6f-96ec-dd8c5ac8153d, _, _, _, _)
+THEN
+DB_UND_GnomeWorkers(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, S_UND_ElevatorGnome_SavedTrigger_b4cd2e76-6b72-4e02-ad20-eb9e5c3061d2, UND_ElevatorGnome_Saved_5fc7dfab-bc17-358b-63e4-fbdfb0fa476c, 1, 0);
+SetHasDialog(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, 0);
+PROC_RemoveAllDialogEntriesForSpeaker(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+PROC_DisappearOutOfSightTo(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, S_UND_DarkLake_BoatPassengerPositionAtCamp_3478b34d-0e4f-4a4b-8f9f-b7d9361eec8b, "Run", 1, "UND_GnomeWorker_Left");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_ElevatorGnome_State_Shadowlands_23f0472a-c83d-4a43-a82e-79b75554e178, _, _, _, _)
+THEN
+SetHasDialog(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, 0);
+PROC_RemoveAllDialogEntriesForSpeaker(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+PROC_CharacterMoveTo(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, S_UND_Elevator_Fort_ToShadowlands_e48a9110-dabc-4471-bcae-3cc8aa57b8c5, "Walk", "UND_ElevatorGnome_ToSCL");
+
+IF
+EntityEvent(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, "UND_ElevatorGnome_ToSCL", _, _, _)
+THEN
+TeleportTo(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, S_SCL_ElevatorGnome_DeathTrigger_2effedd7-4e97-4615-9cdf-5211145f224c, "");
+Die(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, 0, 1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(UND_ElevatorGnome_State_OffStage_91348abe-231b-4706-ad8c-6211eca2ee7d, _, _, _, _)
+THEN
+SetHasDialog(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, 0);
+PROC_RemoveAllDialogEntriesForSpeaker(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+PROC_DisappearOutOfSightTo(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, S_UND_DarkLake_BoatPassengerPositionAtCamp_3478b34d-0e4f-4a4b-8f9f-b7d9361eec8b, "Run", 1, "");
+
+IF
+Combined(S_UND_ElevatorGnome_BeerBarrel_3c1836b4-2bae-4f2d-9903-4b609639cf57, _, _, _, _, (CHARACTER)_Var5, (ITEM)_Var6, (ITEM)_, (ITEM)_, (ITEM)_)
+THEN
+SetFlag(UND_ElevatorGnome_State_BarrelPoisoned_58a8b308-5e24-4ec1-a404-7904331e7e39);
+SetDualEntityEvent(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var6, "UND_ElevatorGnome_NewBarrel");
+PROC_UND_DuergarCamp_SetPoisonedBeerOwnership(_Var6);
+
+PROC
+PROC_UND_DuergarCamp_SetPoisonedBeerOwnership((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_UND_ElevatorGuards(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOwner(_Var1, _Var2);
+
+IF
+TemplateUseFinished((CHARACTER)_Var1, FUR_GEN_Tavern_Barrel_Beer_Small_A_Interactable_Poisoned_a26ae9d0-6a7a-448e-82e8-66d79eb5e6a0, (ITEM)_Var2, 1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "GOB_SMALLPOISON", 60, 1, _Var2);
+
+IF
+TextEvent("und_ug", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_UND_ElevatorGnome_Home_b799dd45-b354-4ffd-8ea1-e0c9892145ca, "", 1, 1, 1, 1, 1);
+
+IF
+TextEvent("UND_ElevatorGuard_Poison", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_ElevatorGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "UND_ElevatorGnome_Poisoned");
+
+IF
+TextEvent("UND_CampDeserted", _, _, _, _)
+THEN
+PROC_UND_DuergarCamp_Deserted();
+
+IF
+EntityEvent((CHARACTER)_Var1, "UND_ElevatorGnome_Poisoned", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_ElevatorGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 1);
+DB_UND_ElevatorGnome_DuergarPoisoned(_Var1);
+
+IF
+DB_UND_ElevatorGnome_DuergarPoisoned(S_UND_ElevatorGuard_001_986cb3be-bb31-4aa8-85c0-1f9a315760af, _, _, _, _)
+AND
+DB_UND_ElevatorGnome_DuergarPoisoned(S_UND_ElevatorGuard_002_472eba90-f5e8-48cb-ad55-2397e0013a2d, _, _, _, _)
+THEN
+PROC_TryStartAD(UND_ElevatorGnome_AD_DuergarPoisoned_c294fb9c-d8f7-0d65-f68c-379826d856b7, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765);
+
+IF
+FlagSet(UND_ElevatorGuards_Dead_5f1f5c9b-e05d-46be-aca2-4e298f8ef4bd, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+TimerLaunch("UND_ElevatorGnome_PoisonReaction_Spotting_Timer", 4000);
+
+IF
+TimerFinished("UND_ElevatorGnome_PoisonReaction_Spotting_Timer", _, _, _, _)
+THEN
+DB_SpotPlayers(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, "UND_ElevatorGnome_PoisonReaction_Spotting", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5, _, _, _, _)
+AND
+DB_GlobalFlag(UND_ElevatorGuards_Dead_5f1f5c9b-e05d-46be-aca2-4e298f8ef4bd, _, _, _, _)
+THEN
+TimerCancel("UND_ElevatorGnome_PoisonReaction_Spotting_Timer");
+
+IF
+DialogEnded(UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5, _, _, _, _)
+AND
+DB_GlobalFlag(UND_ElevatorGuards_Dead_5f1f5c9b-e05d-46be-aca2-4e298f8ef4bd, _, _, _, _)
+AND
+DB_SpotPlayers(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, "UND_ElevatorGnome_PoisonReaction_Spotting", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _)
+THEN
+NOT DB_SpotPlayers(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, "UND_ElevatorGnome_PoisonReaction_Spotting", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted(S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, "UND_ElevatorGnome_PoisonReaction_Spotting", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_GOB_Orpheus_AnyPlayerInPreparedOrpheus()
+AND NOT
+QRY_GOB_Orpheus_SomeoneInsideDialog()
+AND
+QRY_StartDialog(UND_ElevatorGnome_dd648348-5a8b-26c4-43d0-43f74c6bd2e5, S_UND_ElevatorGnome_348c5bc8-c514-41d7-a997-c8e58814d765, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

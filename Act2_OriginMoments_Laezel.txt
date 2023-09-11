@@ -1,0 +1,223 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ORI_Laezel_MoonriseLeaveTriggers(S_MOO_Docks_SUB_b4608370-46b8-4ba3-a3e7-192a6aa509ee);
+DB_ORI_Laezel_MoonriseLeaveTriggers(S_ORI_Laezel_InPartyOneTime_EnterMoonriseArea_1da26546-81d7-429e-a5f6-5317b5035202);
+DB_ORI_Laezel_SharLeaveTriggers(S_SHA_LaezelLeaveArea_65139bad-f576-4cc6-b1f0-832ba2d69bbc);
+DB_TriggerEvents_TriggerSet("ORI_Laezel_MoonriseAreas", S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6);
+DB_TriggerEvents_TriggerSet("ORI_Laezel_MoonriseAreas", S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b);
+DB_TriggerEvents_TriggerSet("ORI_Laezel_MoonriseAreas", S_COL_Colony_SUB_c72269e5-0719-4379-a8ea-ca2ca199d0a3);
+DB_OneShot_ADTrigger(S_ORI_Laezel_DeadGithyankiArea_36925a49-d565-4867-9cc1-df9c718c748d, TWN_Laezel_AD_DeadGithyankiBodyWithMap_66c84401-c0c9-a740-52e9-aa923b82edeb, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+TriggerRegisterForCharacter(S_ORI_Laezel_DeadGithyankiArea_36925a49-d565-4867-9cc1-df9c718c748d, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+DB_PartyProgress_Trigger(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, ORI_Laezel_State_EnteredHaven_940dbf33-3265-4b23-84a1-f53e478cb407);
+
+KBSECTION
+IF
+DB_ORI_Laezel_MoonriseLeaveTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+DB_ORI_Laezel_SharLeaveTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+DB_GlobalFlag(ORI_Laezel_State_CanProceedToAct3_64850ffe-e278-4742-91f2-3cecd77d1257, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Laezel_MoonriseLeaveTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+IF
+DB_GlobalFlag(ORI_Laezel_State_CanProceedToAct3_64850ffe-e278-4742-91f2-3cecd77d1257, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Laezel_SharLeaveTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Laezel_MoonriseLeaveTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_CanProceedToAct3_64850ffe-e278-4742-91f2-3cecd77d1257, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_GroundFloor_State_ExecutionOver_1560c0ae-5fec-4e7c-a6e7-35e9c33bbbeb, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetBestAvatarForCompanion(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Laezel_SharLeaveTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_CanProceedToAct3_64850ffe-e278-4742-91f2-3cecd77d1257, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetBestAvatarForCompanion(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee);
+
+IF
+DB_GlobalFlag(MOO_GroundFloor_State_ExecutionOver_1560c0ae-5fec-4e7c-a6e7-35e9c33bbbeb, _, _, _, _)
+AND
+DB_PartOfTheTeam(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_CanProceedToAct3_64850ffe-e278-4742-91f2-3cecd77d1257, _, _, _, _)
+THEN
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet("ORI_Laezel_MoonriseAreas", "ORI_Laezel_LeftMoonriseAfterExecution");
+
+IF
+EntityEvent(_, "ORI_Laezel_LeftMoonriseAfterExecution", _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee, _, _, _, _)
+AND
+DB_GlobalFlag(CURRENTREGION_SCL_Main_A_f76b85b5-b557-4409-98fd-cc7b22f8292b, _, _, _, _)
+THEN
+SetFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee);
+
+IF
+EntityEvent(_, "ORI_Laezel_LeftMoonriseAfterExecution", _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee, _, _, _, _)
+AND NOT
+DB_GlobalFlag(CURRENTREGION_SCL_Main_A_f76b85b5-b557-4409-98fd-cc7b22f8292b, _, _, _, _)
+THEN
+DB_ORI_Laezel_WantingToGoBackToCrecheInSCL(1);
+
+IF
+DB_ORI_Laezel_WantingToGoBackToCrecheInSCL(1, _, _, _, _)
+AND
+DB_GlobalFlag(CURRENTREGION_SCL_Main_A_f76b85b5-b557-4409-98fd-cc7b22f8292b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_CanProceedToAct3_64850ffe-e278-4742-91f2-3cecd77d1257, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee, _, _, _, _)
+THEN
+SetFlag(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee);
+NOT DB_ORI_Laezel_WantingToGoBackToCrecheInSCL(1);
+
+IF
+FlagSet(ORI_Laezel_State_ProgressedAct2WithoutCreche_fab091d9-6841-40d8-8ba7-28974f39e9ee, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, NULL_00000000-0000-0000-0000-000000000000, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+IF
+DialogRequestFailed(GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, _, _, _, _)
+AND NOT
+DB_GlobalFlag(Laezel_InParty_Event_TalkedAboutGoingBackToCreche_2ed119bc-45c6-47c4-a525-99dc65d673bf, _, _, _, _)
+THEN
+TimerLaunch("ORI_Laezel_ProgressInAct2WithoutCreche_DialogRequestFailed_RetryDelay", 2000);
+
+IF
+TimerFinished("ORI_Laezel_ProgressInAct2WithoutCreche_DialogRequestFailed_RetryDelay", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, NULL_00000000-0000-0000-0000-000000000000, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+IF
+FlagSet(ORI_Laezel_State_CanProceedToAct3_64850ffe-e278-4742-91f2-3cecd77d1257, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_ExclamationDialog_NeverStop(GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_RelationshipDialog_Autostart(GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_ExclamationDialog_NeverStop(GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_RelationshipDialog_Autostart(GLO_Laezel_WRD_ProgressInAct2WithoutCreche_aa6fdbc8-6a7f-dd46-4a6f-366e36eeb4ab, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_GlobalFlag(ORI_Laezel_Knows_FoundCreche_1ea76d79-24c5-4d63-a9cd-178266f1673d, _, _, _, _)
+THEN
+NOT DB_OneShot_ADTrigger(S_ORI_Laezel_DeadGithyankiArea_36925a49-d565-4867-9cc1-df9c718c748d, TWN_Laezel_AD_DeadGithyankiBodyWithMap_66c84401-c0c9-a740-52e9-aa923b82edeb, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+IF
+DB_State_Current(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "EscortingCaravan", _, _)
+THEN
+PROC_RemoveOneShotAD(S_ORI_Laezel_DeadGithyankiArea_36925a49-d565-4867-9cc1-df9c718c748d);
+DB_ORI_Laezel_PreventDeadGithADDuringDriderEscord(1);
+
+IF
+DB_ORI_Laezel_PreventDeadGithADDuringDriderEscord(1, _, _, _, _)
+AND NOT
+DB_State_Current(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "EscortingCaravan", _, _)
+AND NOT
+DB_GlobalFlag(TWN_Laezel_State_SawDeadGithBody_2d432bc9-0199-4f5b-a46f-041e32b82ebb, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+NOT DB_ORI_Laezel_PreventDeadGithADDuringDriderEscord(1);
+DB_OneShot_ADTrigger(S_ORI_Laezel_DeadGithyankiArea_36925a49-d565-4867-9cc1-df9c718c748d, TWN_Laezel_AD_DeadGithyankiBodyWithMap_66c84401-c0c9-a740-52e9-aa923b82edeb, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+IF
+AutomatedDialogStarted(TWN_Laezel_AD_DeadGithyankiBodyWithMap_66c84401-c0c9-a740-52e9-aa923b82edeb, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+PROC_ShowMarker(_Var2, "TWN_DeadGithyankiWithMapToCreche");
+
+IF
+GameBookInterfaceClosed(S_ORI_Laezel_DeadGithyankiMapForCreche_7c48ba55-4644-4e41-ae1a-f056222f6580, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_BetrayedByVlaakith_175d8487-99dc-4009-9b45-6e9f29708cd7, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TWN_Laezel_DeadGithMapRead", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StartPartyOriginMoment(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, TWN_DeadGithMap_OM_Laezel_AOM_ACM_COM_OOM_d4f08733-b8a3-a1ba-73ce-fd564e19ac07);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_StartedMoonrise_7cf55703-f947-4fd2-98b0-c03afb9bac5f, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Laezel_State_StartedMoonrise_7cf55703-f947-4fd2-98b0-c03afb9bac5f);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_SHA_Temple_SUB_348b76ee-33d8-471b-a95d-7ded0d6cdfd5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_StartedMoonrise_7cf55703-f947-4fd2-98b0-c03afb9bac5f, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Laezel_State_StartedMoonrise_7cf55703-f947-4fd2-98b0-c03afb9bac5f);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("TWN_VlaakithAttack", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, TWN_Laezel_WRD_AmbushedByVlaakithsGith_1f0867aa-2061-975e-06a3-c7d7133cf6de, NULL_00000000-0000-0000-0000-000000000000, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+IF
+FlagSet(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(ORI_Laezel_State_HasNotPassedCreche_946ca251-adb9-4177-9e12-64499d02cff1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

@@ -1,0 +1,52 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+AttackedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, _, _, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SceneManager(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND
+QRY_GetCharacterOwnerIfItemSummon(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneManager_HandleViolence(_Var1, _Var9, _Var8, "Attacked", _Var7);
+
+IF
+KilledBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var1 != _Var3
+AND
+QRY_GetCharacterOwnerIfItemSummon(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneManager_HandleViolence(_Var1, _Var5, _Var6, "Died", _Var4);
+DB_InternScene_DeathHandled(_Var6, _Var1);
+
+IF
+Died((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_InternScene_DeathHandled(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneInterrupted(_Var1, NULL_00000000-0000-0000-0000-000000000000, _Var3, "Died");
+
+IF
+Died((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternScene_DeathHandled(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternScene_DeathHandled(_Var2, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

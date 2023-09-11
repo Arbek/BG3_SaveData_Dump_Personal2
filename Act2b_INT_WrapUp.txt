@@ -1,0 +1,91 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_INT_WrapUpPos_03b350c5-4ecc-414e-a6b6-1617546b5437);
+
+KBSECTION
+IF
+DB_InRegion(_Var1, S_INT_AstralPlaneArea_37dec4e1-9db0-44a9-bd39-a5f4362d2ab2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetLongRestAvailable(0);
+
+IF
+ReadyCheckPassed("INT_EmperorRevealed_ReturnReadyCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(INT_State_InAstralPrison_7144b3fc-b354-4e6b-b392-c20004be4324, _Var1);
+SetLongRestAvailable(1);
+
+IF
+ReadyCheckPassed("INT_EmperorRevealed_ReturnReadyCheck", _, _, _, _)
+THEN
+NOT DB_PartyDialogSuppressionZone(S_INT_PartySuppressionZone_AstralPlane_d3f3f7e9-c70a-4322-9e86-716ccc649692);
+NOT DB_PartyDialogSuppressionZone(S_CAMP_INT_Area_9ef2ce12-074b-456a-9808-19c80dff20ff);
+
+IF
+ReadyCheckPassed("INT_EmperorRevealed_ReturnReadyCheck", _, _, _, _)
+AND
+DB_INT_ReadyToLeave(1, _, _, _, _)
+AND
+QRY_CountHelperReset("INT_CAMP_CRDIndex", _, _, _, _)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CountHelper("INT_CAMP_CRDIndex", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CountHelper("INT_CAMP_CRDIndex", _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Try_CampRelationshipDialog(_Var1, _Var2);
+PROC_INT_RespawnOffStageCampCharacters();
+
+PROC
+PROC_INT_RespawnOffStageCampCharacters()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetVisible(_Var1, 1);
+
+IF
+DB_InRegion(_Var1, S_INT_WrapUpPos_03b350c5-4ecc-414e-a6b6-1617546b5437, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_INT_ReadyToLeave(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_INT_AstralPlaneArea_37dec4e1-9db0-44a9-bd39-a5f4362d2ab2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("INT_EmperorRevealed_WrapUp", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(S_INT_PortalToAstralPlane_Daisy_a3ee6e1e-78d6-4cd1-aa59-fb59ca27df96, 0);
+PROC_SetOnStage(S_INT_PortalToAstralPlane_Emperor_c20431a7-90e8-4610-b9f4-7c14c432c50a, 1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_INT_PortalToAstralPlane_Emperor_c20431a7-90e8-4610-b9f4-7c14c432c50a, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_INT_AstralPlane_ReturnTeleport_301f9145-4d37-4dbc-80d3-ea43d37209fe, "INT_AstralPlane_Returned");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "INT_AstralPlane_Returned", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "INT_AstralPlane_ReturnAnim", 500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "INT_AstralPlane_ReturnAnim", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlayAnimation(_Var1, CUST_Exiting_Astral_Plane_01_4043d9a9-8692-469b-9e7d-691ccfba8c3a, "INT_AstralPrism_ReturnAnimFinished");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2b"

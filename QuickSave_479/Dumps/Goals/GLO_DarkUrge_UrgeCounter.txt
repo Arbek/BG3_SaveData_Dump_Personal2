@@ -1,0 +1,63 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_DeclareCounter("ORI_DarkUrge_Urges");
+
+KBSECTION
+IF
+FlagSet(ORI_DarkUrge_Event_HadUrge_f6cc5466-1052-4dcd-76da-72680082f795, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_DarkUrge_UnexperiencedUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IncreaseCounter("ORI_DarkUrge_Urges");
+
+QRY
+QRY_ORI_DarkUrge_UnexperiencedUrge((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogName(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ORI_DarkUrge_UnexperiencedUrge((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogName(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_ExperiencedUrges(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_ExperiencedUrges(_Var2);
+
+PROC
+PROC_CounterIncreased("ORI_DarkUrge_Urges", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+_Var1 > 2
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "ORI_Avatar_DarkUrge", "SawUrges");
+
+IF
+FlagSet(ORI_DarkUrge_Event_HadUrge_f6cc5466-1052-4dcd-76da-72680082f795, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(ORI_DarkUrge_Event_HadUrge_f6cc5466-1052-4dcd-76da-72680082f795, _Var1, _Var2);
+
+IF
+DB_GlobalFlag(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+QuestUpdateUnlocked(_, "ORI_Avatar_DarkUrge", "SawUrges", (CHARACTER)_, (CHARACTER)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+PROC_RemoveCounter("ORI_DarkUrge_Urges");
+SysClear("DB_ORI_DarkUrge_ExperiencedUrges", 1);
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_DarkUrge_SetupSubgoals"

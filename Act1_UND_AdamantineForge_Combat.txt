@@ -1,0 +1,114 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+AddPreferredAiTargetTag(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, UND_ADMANTINEGOLEM_TAUNT_c70bfd7e-1287-42cd-bb5a-fa0f17bfcf38);
+DB_UND_AdamantinteGolem_Mephits(S_UND_AdamantinteGolem_Mephit_001_c33491f2-17f1-48bd-ad4c-7df70049025e);
+DB_UND_AdamantinteGolem_Mephits(S_UND_AdamantinteGolem_Mephit_002_e96e33ae-870c-4cc2-9742-201e61dbe162);
+DB_UND_AdamantinteGolem_Mephits(S_UND_AdamantinteGolem_Mephit_003_2c07b751-f1d1-41f9-a3a6-1f9597171b32);
+DB_UND_AdamantinteGolem_Mephits(S_UND_AdamantinteGolem_Mephit_004_8df15cf3-5880-4618-8c5d-b1522dff1bac);
+
+KBSECTION
+IF
+DB_UND_AdamantinteGolem_Mephits(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+
+IF
+WentOnStage(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, 1, _, _, _)
+THEN
+ApplyStatus(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, "UND_ADAMANTINEGOLEM_SUPERHEATED", 12, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "UND_ADMANTINEGOLEM_TAUNT", _, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_UND_AdamantineGolem_Tauntee(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_AdamantineGolem_Tauntee(_Var1);
+
+IF
+StatusApplied(_, "UND_ADMANTINEGOLEM_TAUNT_HELPER", (GUIDSTRING)_Var2, _, _)
+AND
+DB_UND_AdamantineGolem_Tauntee(_Var4, _, _, _, _)
+AND
+_Var2 != _Var4
+THEN
+RemoveStatus(_Var4, "UND_ADMANTINEGOLEM_TAUNT", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "UND_ADMANTINEGOLEM_TAUNT", _, _, (GUIDSTRING)_Var1)
+THEN
+NOT DB_UND_AdamantineGolem_Tauntee(_Var1);
+
+IF
+DownedChanged((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+HasActiveStatus(_Var1, "UND_ADMANTINEGOLEM_TAUNT", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "UND_ADMANTINEGOLEM_TAUNT", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusAttempt(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, "BURNING_LAVA", _, _, (GUIDSTRING)_)
+THEN
+ApplyStatus(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, "UND_ADAMANTINEGOLEM_SUPERHEATED", 12, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusApplied(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, "AI_HELPER_SCRIPTEVENT", _, _, _)
+AND
+GetHitpointsPercentage(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, _Var3, _, _, _)
+AND
+_Var3 <= 70
+AND
+QRY_OnlyOnce("UND_AdamantinteGolem_StartPhase2", _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, _, _, _, _)
+THEN
+PROC_UND_AdamantinteGolem_SpawnMephits();
+
+IF
+TextEvent("UND_AdamantineForge_SpawnMephits", _, _, _, _)
+THEN
+PROC_UND_AdamantinteGolem_SpawnMephits();
+
+PROC
+PROC_UND_AdamantinteGolem_SpawnMephits()
+AND
+DB_UND_AdamantinteGolem_Mephits(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AppearAt(_Var1, _Var1, 1, UTIL_Spawn_01_510ff37e-0618-40e4-8ce0-236e3dc9c291, "UND_AdamantinteGolem_Mephits_JoinCombat");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "UND_AdamantinteGolem_Mephits_JoinCombat", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetCombatGroupID(_Var1, "a78e643e-ecdb-3d86-7e62-8a2eaf7c8a6f");
+EnterCombat(_Var1, S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255);
+
+IF
+CastSpell(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, "Shout_UND_Phase2_AdamantineGolem", _, _, _)
+THEN
+MusicPlayGeneral("Adamantine_Golem_Fight_Phase_II");
+
+PROC
+PROC_StateSet_Defeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_AdamantinteGolem_Mephits(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_AdamantinteGolem_Mephits(_Var1);
+
+IF
+DB_PermaDefeated(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, _, _, _, _)
+THEN
+MusicPlayGeneral("Music_Fight_AdamantineGolem_Win");
+
+IF
+Died(S_UND_KethericCity_AdamantineGolem_2a5997fc-5f2a-4a13-b309-bed16da3b255, _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+SysClear("DB_UND_AdamantinteGolem_Mephits", 1);
+SysClear("DB_UND_AdamantineGolem_Tauntee", 1);
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

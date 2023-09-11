@@ -1,0 +1,44 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_SteepsShop_Weapons_ca3c6f78-e6df-4fc9-90de-7c4cc19a9bab, S_LOW_SteepsTrader_Weapons_3c4ebba4-d2ba-4f07-98ed-bc523845ce3b);
+DB_ItemShopTrigger(S_LOW_SteepsShop_Weapons_ca3c6f78-e6df-4fc9-90de-7c4cc19a9bab, S_LOW_SteepsTrader_Weapons_3c4ebba4-d2ba-4f07-98ed-bc523845ce3b);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_SteepsShop_BooksAndScrolls_fccb7ab1-9c29-485a-ad1d-c8a7fd20f888, S_LOW_SteepsTrader_BooksAndScrolls_70a074ae-db79-4f1a-9b12-62a380adbd18);
+DB_ItemShopTrigger(S_LOW_SteepsShop_BooksAndScrolls_fccb7ab1-9c29-485a-ad1d-c8a7fd20f888, S_LOW_SteepsTrader_BooksAndScrolls_70a074ae-db79-4f1a-9b12-62a380adbd18);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_SteepsShop_Armor_396e8970-3d7d-495f-b682-591088a5dcc3, S_LOW_SteepsTrader_Armor_dc7d1866-a206-4029-81a4-ad18ffbcf3ea);
+DB_ItemShopTrigger(S_LOW_SteepsShop_Armor_396e8970-3d7d-495f-b682-591088a5dcc3, S_LOW_SteepsTrader_Armor_dc7d1866-a206-4029-81a4-ad18ffbcf3ea);
+DB_Dialogs(S_LOW_SteepsTrader_Armor_dc7d1866-a206-4029-81a4-ad18ffbcf3ea, LOW_SteepsTrader_Armor_75dc121a-6767-8d3a-4ebf-dda646084fe4);
+DB_Dialogs(S_LOW_SteepsTrader_BooksAndScrolls_70a074ae-db79-4f1a-9b12-62a380adbd18, LOW_SteepsTrader_BooksAndScrolls_b4ae10b7-7c83-25b4-1825-655b0523d2b3);
+DB_Dialogs(S_LOW_SteepsTrader_Consumables_99f983a5-e869-4712-b9db-b12272e53cc6, LOW_SteepsTrader_Consumables_e26a5a8b-cf92-5261-cd62-934ed66f8fd2);
+DB_Dialogs(S_LOW_SteepsTrader_Weapons_3c4ebba4-d2ba-4f07-98ed-bc523845ce3b, LOW_SteepsTrader_Weapons_eb3d9bd3-7ccd-7f35-8533-8e86f20d4d0d);
+DB_LOW_SteepsEvacuation_Characters(S_LOW_SteepsEvacuation_Father_9cb808d0-305e-4983-acff-58313fc5ce3e);
+DB_LOW_SteepsEvacuation_Characters(S_LOW_SteepsEvacuation_Mother_a50e70b0-972e-4fa0-bf0d-2fe54b11e713);
+DB_LOW_SteepsEvacuation_Characters(S_LOW_SteepsEvacuation_Child1_4d171372-75ff-40d1-8ea0-7c80273db8e5);
+DB_LOW_SteepsEvacuation_Characters(S_LOW_SteepsEvacuation_Child2_8f095e66-076f-48cd-b85e-6e46b358675d);
+
+KBSECTION
+IF
+FlagSet(LOW_Evacuation_HasMet_MadeDealWithSailor_76df3b6e-c3c2-f9b3-d6b6-7e1dd160725f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CharacterMoveTo(S_LOW_SteepsEvacuation_Sailor_91550f0a-a04b-4cb1-b0d9-3d83dc902dae, S_LOW_SteepsEvacuation_CaptainLeavesPoint_8d4469a5-eb82-471a-b1ee-1a6969a6b99b, "Walk", "LOW_SteepsEvacuation_CaptainLeaving");
+
+IF
+EntityEvent(S_LOW_SteepsEvacuation_Sailor_91550f0a-a04b-4cb1-b0d9-3d83dc902dae, "LOW_SteepsEvacuation_CaptainLeaving", _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_LOW_SteepsEvacuation_Sailor_91550f0a-a04b-4cb1-b0d9-3d83dc902dae, "Walk", 0, "");
+
+IF
+LongRestStarted()
+AND
+DB_GlobalFlag(LOW_Evacuation_HasMet_MadeDealWithSailor_76df3b6e-c3c2-f9b3-d6b6-7e1dd160725f, _, _, _, _)
+AND
+DB_LOW_SteepsEvacuation_Characters(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

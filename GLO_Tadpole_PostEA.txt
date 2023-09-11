@@ -1,0 +1,897 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_TadpolePowers_UnlockedByDefault(NULL_00000000-0000-0000-0000-000000000000);
+DB_TadpolePowers_DebugTags(TADPOLE_00_c15c2234-9b19-453e-99cc-00b7358b9fce, "TAD_IllithidPersuasion");
+DB_TadpolePowers_DebugTags(TADPOLE_01_c67231b6-93d5-4bab-888b-c5eeaa60a8df, "Shout_TAD_PsionicOverload");
+DB_TadpolePowers_DebugTags(TADPOLE_02_f8b010f9-9e1b-49bb-92a9-986e91331926, "TAD_PeaceBreaker");
+DB_TadpolePowers_DebugTags(TADPOLE_03_9cde0249-0e85-4d4d-b410-a88b5f073215, "Rush_ForceTunnel");
+DB_TadpolePowers_DebugTags(TADPOLE_04_0a6b3d54-dcb5-4fa3-a47c-bed147936461, "Target_TAD_ConcentratedBlast");
+DB_TadpolePowers_DebugTags(TADPOLE_05_9d789ea8-3982-418d-b0e9-e1fa731c132d, "Target_TAD_TransfuseHealth");
+DB_TadpolePowers_DebugTags(TADPOLE_06_aad197e7-b335-423b-a718-384f1774e5de, "Target_StageFright");
+DB_TadpolePowers_DebugTags(TADPOLE_07_bbc4f0e0-38fd-40da-af69-0660ce53d92a, "TAD_DrainAbility");
+DB_TadpolePowers_DebugTags(TADPOLE_08_488c84ef-24a7-4d56-8343-0eba225eb842, "TAD_LuckOfTheFarRealms");
+DB_TadpolePowers_DebugTags(TADPOLE_09_b2666bd3-eeba-4bea-8395-673ccb9930ed, "TAD_Charm");
+DB_TadpolePowers_DebugTags(TADPOLE_10_08b493da-3bbc-41f9-848d-73b7b9ecfacd, "TAD_Displace");
+DB_TadpolePowers_DebugTags(TADPOLE_11_efc0b8ab-5ab2-4859-b1e7-6aa244d35f70, "Shout_Repulsor");
+DB_TadpolePowers_DebugTags(TADPOLE_12_6cda55d9-75ce-490d-8636-5a16ffd7ccdb, "TAD_CullTheWeak");
+DB_TadpolePowers_DebugTags(TADPOLE_13_814c5204-7803-4a5d-ab3e-4b5f976f37db, "TAD_PsionicBacklash");
+DB_TadpolePowers_DebugTags(TADPOLE_14_38e0fbdf-f3bb-42ae-a6c6-def7a3009eec, "Target_TAD_ShieldOfThralls");
+DB_TadpolePowers_DebugTags(TADPOLE_15_120777be-9221-4e7a-9dbc-295cb36faa0c, "Target_TAD_PerilousStakes");
+DB_TadpolePowers_DebugTags(TADPOLE_16_6661566d-269e-4497-9129-bd793fb5b9e8, "Shout_TAD_DisplacerBeast");
+DB_TadpolePowers_DebugTags(TADPOLE_17_52ef4242-0716-4aeb-9800-0b98f97124a1, "Target_TAD_Imperil");
+DB_TadpolePowers_DebugTags(TADPOLE_18_a7b5acb7-0c12-4aad-9b2d-e9a9f1fd2f71, "TAD_Expertise");
+DB_TadpolePowers_DebugTags(TADPOLE_19_521814d2-8cf2-4da5-9dad-726d2973f4da, "TAD_PsionicDominance");
+DB_TadpolePowers_DebugTags(TADPOLE_20_b99ebe04-463e-427c-bb22-e3d7583c63e3, "Target_TAD_BlackHole");
+DB_TadpolePowers_DebugTags(TADPOLE_21_6c5dce0a-92a6-476a-a527-ff4c68c14a60, "Projectile_TAD_Levitate");
+DB_TadpolePowers_DebugTags(TADPOLE_22_34b507c8-c414-450b-824d-128fd9e57ed7, "Zone_TAD_MindBlast");
+DB_TadpolePowers_DebugTags(TADPOLE_23_2dd0903c-c5ff-454f-94e0-678a66bfa9c1, "Target_TAD_MindSanctuary");
+DB_TadpolePowers_DebugTags(TADPOLE_24_bf2e5c5e-a664-4f71-a017-bc4def71d50d, "TAD_Freecast");
+DB_TadpolePowers_DebugTags(TADPOLE_25_27ec7196-c8ca-4b56-9b15-105b21c01281, "Target_TAD_AbsorbIntellect");
+NOT DB_Tadpole_NonTadpoledDialog(NULL_00000000-0000-0000-0000-000000000000, "");
+DB_TadpolePowers_TadpolePowerJar_Templates(UNI_TadpolePowerJar_1ec327be-3b7f-4502-9586-860e057e09ae);
+DB_TadpolePowers_TadpolePowerJar_Templates(UNI_TadpolePowerJar_Absolute_d1f2b294-fdf8-43df-8d11-19743077cb68);
+NOT DB_TadpolePowers_GainedHalfIllithidBenefits(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_DaisyAccepted_TopOfStack(NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+TadpolePowerAssigned((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_TadpolePowerAssigned(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_TadpolePowerAssigned(_Var1, _Var2);
+SetFlag(GLO_Tadpole_State_PartyUsedPowers_688ca26d-3a3d-c5d1-fccd-572c0d6f3e08, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetTag(_Var1, TADPOLE_ASSIGNED_089d4ca5-2cf0-4f54-84d9-1fdea055c93f);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, (ITEMROOT)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_Tadpole_PAD_RefusalBeforeDaisy_5b0b0783-aba5-9d5e-b1da-3f8c1e53b389, _Var1);
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Not_Ready_19f3b19a-b51e-46d5-8349-47b907d8c003);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, (ITEMROOT)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DaisyAccepted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_Tadpole_PAD_Refusal_7796cab2-9587-8ba5-d921-741f6ae10805, _Var1);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, (ITEMROOT)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyAccepted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tadpole_HadConsumeDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogName(GLO_Tadpole_Consume_b8af6722-476f-9d04-d36d-484db6e0d56f, _, _Var1, _Var1, _Var1)
+THEN
+AddTadpole(_Var1, 1);
+Die(_Var3);
+DB_GLO_TadpoleTreeEnabled(1);
+SetFlag(GLO_Tadpole_Event_FirstConsumed_fab5ae97-23b5-4bf2-88ae-0b1bd57523d8, _Var1, 0);
+
+IF
+FlagSet(GLO_Tadpole_Event_FirstConsumed_fab5ae97-23b5-4bf2-88ae-0b1bd57523d8, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_DaisyAccepted_TopOfStack(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DaisyAccepted_TopOfStack(_Var1);
+
+IF
+FlagSet(GLO_Tadpole_Event_FirstConsumed_fab5ae97-23b5-4bf2-88ae-0b1bd57523d8, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+IterateInventoryByTemplate(_Var4, _Var3, "TAD_ConsumeTadpole", "");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "TAD_ConsumeTadpole", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DaisyAccepted_TopOfStack(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+AddTadpole(_Var2, 1);
+Die(_Var1);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, (ITEMROOT)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyAccepted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Tadpole_HadConsumeDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DaisyDreams_GetDaisy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_Tadpole_Consume_b8af6722-476f-9d04-d36d-484db6e0d56f, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tadpole_HadConsumeDialog(1);
+DB_Tadpole_That_Triggered_ConsumeDialog(_Var3);
+
+IF
+LevelLoaded("WLD_Main_A", _, _, _, _)
+AND
+QRY_OnlyOnce("PostEA_WLD_TrueSoul_Definitions", _, _, _, _)
+THEN
+SetTag(S_FOR_PriestConqueringGod_003_21507c79-dfea-421a-b149-4b5646d3941d, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed);
+
+IF
+TagSet((GUIDSTRING)_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_HasIllithidTag(_Var1);
+
+IF
+TagCleared((CHARACTER)_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_HasIllithidTag(_Var1);
+
+IF
+DB_HasIllithidTag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var4, _, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_Tadpole_PartyMetATrueSoul_2aa29ce5-dbf4-dc9d-4e40-1a0288325c24, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Tadpole_PartyMetATrueSoul_2aa29ce5-dbf4-dc9d-4e40-1a0288325c24);
+
+PROC
+PROC_Tadpole_Create((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_LevelUnreachable("SCL_Main_A", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Tadpole_ShowCorpseADToPlayers(_Var1);
+
+PROC
+PROC_Tadpole_ShowCorpseADToPlayers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Sees(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TadPole_TadpoleSpawned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("GLO_TadpoledCorpseSpotted_", _Var3, _Var4, _Var1, _Var1)
+AND
+QRY_OnlyOncePerUser(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_Tadpole_TadpoleOnCorpseAD(_Var2);
+
+PROC
+PROC_Tadpole_TadpoleOnCorpseAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDaisyAD(_Var1, GLO_Tadpole_DaisyAD_TadpoleOnTrueSoulCorpse_d7b78e15-931f-62ae-b60c-722f33821dc7);
+PROC_DaisyAD(_Var1, GLO_Tadpole_DaisyAD_TadpoleOnTrueSoulCorpse_d7b78e15-931f-62ae-b60c-722f33821dc7);
+DebugText(_Var1, "Started Daisy AD");
+
+IF
+TextEvent("testdaisyad", (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+GetTextEventParamUUID(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDaisyAD(_Var2, _Var1);
+PROC_DaisyAD(_Var2, _Var1);
+DebugText(_Var2, "Started Daisy AD debug");
+
+PROC
+PROC_Tadpole_TadpoleOnCorpseAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_DaisyAD_TadpoleSpotted_Played01_9d680206-5b3d-723a-7c73-a745b56f1117, _Var1, 0, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var1, GLO_Tadpole_DaisyAD_TadpoleOnTrueSoulCorpse_d7b78e15-931f-62ae-b60c-722f33821dc7);
+
+PROC
+PROC_BlockLootCorpse((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TadPole_TadpoleBurstQueued(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TadPole_HadTrueSoulCorpseDialogue(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TadPole_TadpoleSpawned(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(UNI_TadpolePowerJar_1ec327be-3b7f-4502-9586-860e057e09ae, _Var2, 1, 0);
+DB_TadPole_TadpoleSpawned(_Var2);
+DB_CustomLootCorpseResponse(_Var1, _Var2, 1);
+
+PROC
+PROC_BlockLootCorpse((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TadPole_TadpoleBurstQueued(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TadPole_HadTrueSoulCorpseDialogue(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(GLO_Tadpole_TrueSoulCorpse_8ceb5646-8c9b-f8f9-cfea-7e6a9f94159e, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_TadPole_HadTrueSoulCorpseDialogue(_Var2);
+DB_TadPole_TadpoleSpawned(_Var2);
+DB_CustomLootCorpseResponse(_Var1, _Var2, 0);
+
+IF
+DialogRequestFailed(GLO_Tadpole_TrueSoulCorpse_8ceb5646-8c9b-f8f9-cfea-7e6a9f94159e, _, _, _, _)
+AND
+DB_TadPole_HadTrueSoulCorpseDialogue(_Var2, _, _, _, _)
+THEN
+NOT DB_TadPole_HadTrueSoulCorpseDialogue(_Var2);
+NOT DB_TadPole_TadpoleSpawned(_Var2);
+
+IF
+DialogEnded(GLO_Tadpole_TrueSoulCorpse_8ceb5646-8c9b-f8f9-cfea-7e6a9f94159e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(GLO_Tadpole_Event_TadpoleEscape_9c6f9058-99d6-0261-7c96-b6b974c4861b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TadPole_HadTrueSoulCorpseDialogue(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(Tadpole_6426104b-3e00-4ff5-90c7-c25cc27b916f, _Var2, 0, 1, "", 0, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_Tadpole_TadpoleCreature(_Var3, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(GLO_Tadpole_TrueSoulCorpse_8ceb5646-8c9b-f8f9-cfea-7e6a9f94159e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GLO_Tadpole_Event_HarvestedFromCorpse_d98db044-81f4-45a7-960c-221c01a58d96, _Var1, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(UNI_TadpolePowerJar_1ec327be-3b7f-4502-9586-860e057e09ae, _Var2, 1, 1);
+StartVoiceBark(FOR_DeathOfATrueSoul_VB_TadpoleLeaves_de2546f7-3463-7594-8bfa-e61e0d7c8d0f, _Var2);
+
+IF
+TemplateAddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetEntityEvent(_Var2, "GLO_TadpoleJar_StopSpotting", 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "GLO_TadpoleJar_Spotted", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_LevelUnreachable("SCL_Main_A", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+PROC_Tadpole_TadpoleInJarAD(_Var1);
+
+PROC
+PROC_Tadpole_TadpoleInJarAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveDaisyAD(_Var1, GLO_Tadpole_DaisyAD_TadpoleInJar_32ddb72e-fed0-1e84-7f31-eddf59c388de);
+PROC_DaisyAD(_Var1, GLO_Tadpole_DaisyAD_TadpoleInJar_32ddb72e-fed0-1e84-7f31-eddf59c388de);
+
+PROC
+PROC_Tadpole_TadpoleInJarAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_DaisyAD_TadpoleSpotted_Played01_9d680206-5b3d-723a-7c73-a745b56f1117, _Var1, 0, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var1, GLO_Tadpole_DaisyAD_TadpoleInJar_32ddb72e-fed0-1e84-7f31-eddf59c388de);
+
+IF
+TemplateAddedTo((ROOT)_Var1, (ITEM)_Var2, (CHARACTER)_Var3, _, (ROOT)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Tadpole_HadConsumeDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyAccepted(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetBestAvatarForCompanion(_Var3, 1, 1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DaisyDreams_GetDaisy(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_Tadpole_Consume_b8af6722-476f-9d04-d36d-484db6e0d56f, _Var6, _Var5, _Var1, _Var1)
+THEN
+DB_GLO_Tadpole_HadConsumeDialog(1);
+DB_Tadpole_That_Triggered_ConsumeDialog(_Var2);
+
+IF
+TemplateAddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Tadpole_HadConsumeDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyAccepted(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DaisyDreams_GetDaisy(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_Tadpole_Consume_b8af6722-476f-9d04-d36d-484db6e0d56f, _Var5, _Var3, _Var1, _Var1)
+THEN
+DB_GLO_Tadpole_HadConsumeDialog(1);
+DB_Tadpole_That_Triggered_ConsumeDialog(_Var2);
+
+IF
+DialogRequestFailed(GLO_Tadpole_Consume_b8af6722-476f-9d04-d36d-484db6e0d56f, _, _, _, _)
+AND
+DB_Tadpole_That_Triggered_ConsumeDialog(_Var2, _, _, _, _)
+THEN
+NOT DB_GLO_Tadpole_HadConsumeDialog(1);
+NOT DB_Tadpole_That_Triggered_ConsumeDialog(_Var2);
+
+IF
+DialogEnded(GLO_Tadpole_Consume_b8af6722-476f-9d04-d36d-484db6e0d56f, _, _, _, _)
+AND
+DB_Tadpole_That_Triggered_ConsumeDialog(_Var2, _, _, _, _)
+THEN
+NOT DB_Tadpole_That_Triggered_ConsumeDialog(_Var2);
+
+IF
+FlagSet(GLO_Tadpole_Event_FirstConsumed_fab5ae97-23b5-4bf2-88ae-0b1bd57523d8, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Tadpole_That_Triggered_ConsumeDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_That_Triggered_ConsumeDialog(_Var3);
+AddTadpole(_Var1, 1);
+Die(_Var3);
+DB_GLO_TadpoleTreeEnabled(1);
+
+IF
+TemplateAddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_TadpolePowers_TadpolePowerJar_Templates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tadpole_HadConsumeDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_TadpoleTreeEnabled(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AddTadpole(_Var3, 1);
+Die(_Var2);
+
+IF
+DB_GLO_TadpoleTreeEnabled(1, _, _, _, _)
+THEN
+SetFlag(GLO_Tadpole_State_TreeUnlocked_f7691d3d-345b-4984-8eed-6f238a9f84be, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(GLO_Daisy_State_IndividualAccepted_8d442938-2051-4b53-8e4c-4dccb08f35f8, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_DaisyAccepted(_Var1);
+ClearTag(_Var1, TADPOLE_REFUSAL_e7aa40e4-05e4-41c4-a3ee-bc95d934d35c);
+
+IF
+DB_GLO_DaisyUnlocked(1, _, _, _, _)
+THEN
+SetFlag(GLO_Daisy_State_Unlocked_100c65da-7fab-4643-9630-db143451edc9, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DaisyAccepted(_Var1);
+
+IF
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TadpolePowers_UnlockedByDefault(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DaisyAccepted(_Var1);
+
+IF
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DaisyAccepted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+SetTag(_Var1, TADPOLE_REFUSAL_e7aa40e4-05e4-41c4-a3ee-bc95d934d35c);
+
+IF
+FlagSet(GLO_Tadpole_Event_BlockedTadpoleConvinceFailRepeatableApprovalDrain_250e7baf-77e9-c42e-1981-05412a5f8457, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 2, _Var1, _Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var1, _Var3, 0, -5, _)
+THEN
+ClearFlag(GLO_Tadpole_Event_BlockedTadpoleConvinceFailRepeatableApprovalDrain_250e7baf-77e9-c42e-1981-05412a5f8457, _Var1, 0);
+
+IF
+FlagSet(GLO_Tadpole_Event_BlockedTadpoleConvinceFailRepeatableApprovalDrain_250e7baf-77e9-c42e-1981-05412a5f8457, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var1, _Var3, 0, -5, _)
+THEN
+ClearFlag(GLO_Tadpole_Event_BlockedTadpoleConvinceFailRepeatableApprovalDrain_250e7baf-77e9-c42e-1981-05412a5f8457, _Var1, 0);
+
+IF
+LevelGameplayStarted(_, _, (STRING)_, (STRING)_, (STRING)_)
+THEN
+DB_Tadpole_AllowUIEvents(1);
+
+IF
+Activated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Tadpole_Activated(_Var1);
+
+IF
+Deactivated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Tadpole_Activated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_Activated(_Var1);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsActive(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_Tadpole_Activated(_Var1);
+
+IF
+DB_Tadpole_Activated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Tadpole_Activated(_Var1);
+
+IF
+TagSet((CHARACTER)_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Tadpole_Activated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Tadpole_AllowUIEvents(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_TadpoleTreeEnabled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyAccepted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_TadpoleTreeEnabledForPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_TadpoleTreeEnabledForPlayer(_Var1);
+SetTadpoleTreeState(_Var1, 2);
+AddTadpole(_Var1, 1);
+AddTadpolePower(_Var1, "TAD_IllithidPersuasion", 1);
+SetTag(_Var1, TADPOLE_TREE_UNLOCKED_efedb058-d4f5-4ab8-8add-bd5e32cdd9cd);
+
+IF
+DB_Tadpole_AllowUIEvents(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Tadpole_Activated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_TadpoleTreeEnabled(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTadpoleTreeState(_Var1, 0);
+
+IF
+DB_Tadpole_AllowUIEvents(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Tadpole_Activated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_TadpoleTreeEnabled(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DaisyAccepted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+SetTadpoleTreeState(_Var1, 1);
+
+IF
+DB_Tadpole_AllowUIEvents(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Tadpole_Activated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_TadpoleTreeEnabled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+THEN
+SetTadpoleTreeState(_Var1, 0);
+
+IF
+DB_Tadpole_AllowUIEvents(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Tadpole_Activated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_TadpoleTreeEnabled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DaisyAccepted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND NOT
+DB_GLO_TadpoleTreeEnabledForPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_TadpoleTreeEnabledForPlayer(_Var1);
+SetTadpoleTreeState(_Var1, 2);
+AddTadpole(_Var1, 1);
+AddTadpolePower(_Var1, "TAD_IllithidPersuasion", 1);
+SetTag(_Var1, TADPOLE_TREE_UNLOCKED_efedb058-d4f5-4ab8-8add-bd5e32cdd9cd);
+
+IF
+TextEvent("tadui", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamInteger(1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetTadpoleTreeState(_Var1, _Var2);
+
+IF
+FlagSet(GLO_Daisy_State_AstralIndividualAccepted_9c5367df-18c8-4450-9156-b818b9b94975, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(GLO_Daisy_State_IndividualAccepted_8d442938-2051-4b53-8e4c-4dccb08f35f8, _Var1, 0);
+
+IF
+FlagSet(GLO_Daisy_State_AstralIndividualAccepted_9c5367df-18c8-4450-9156-b818b9b94975, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_Tadpole_UseAstralTadpoleAfterDialogue(_Var1, _Var2);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_Tadpole_UseAstralTadpoleAfterDialogue(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tadpole_UseAstralTadpoleAfterDialogue(_Var3, _Var2);
+ObjectTimerLaunch(_Var3, "GLO_Tadpole_UseAstralTadpoleAfterDialogue", 1500);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "GLO_Tadpole_UseAstralTadpoleAfterDialogue", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Tadpole_Astral(_, _Var1, _Var1, _Var1, _Var1)
+AND
+GetItemByTemplateInPartyInventory(LOOT_MF_Tadpole_Astral_A_4a82e6f2-839f-434e-addf-b07dd1578194, _Var1, _Var3, _Var1, _Var1)
+AND
+QRY_ItemInMagicPockets(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DaisyDreams_GetEmperor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetEmperor(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(GLO_Tadpole_UseAstralTadpole_a995e01c-7374-d37d-0816-08158bbdd166, _Var4, _Var1, 1, 1, 0, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tadpole_Astral(_Var3);
+
+IF
+FlagSet(INT_EmperorRevealed_State_PartialCeremorph_bc1c1148-0ed1-8586-39b2-5aff43c3b393, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+DB_GLO_DaisyAccepted(_Var1);
+DB_GLO_DaisyUnlocked(1);
+DB_GLO_Tadpole_HadConsumeDialog(1);
+DB_GLO_TadpoleTreeEnabled(1);
+SetFlag(GLO_Daisy_State_IndividualAccepted_8d442938-2051-4b53-8e4c-4dccb08f35f8, _Var1, 0);
+SetFlag(GLO_Tadpole_Event_FirstConsumed_fab5ae97-23b5-4bf2-88ae-0b1bd57523d8, _Var1, 0);
+SetTag(_Var1, PARTIAL_CEREMORPH_c0cd4ed8-11d1-4fb1-ae3a-3a14e41267c8);
+ApplyStatus(_Var1, "TAD_PARTIAL_CEREMORPH", -1, 1, _Var1);
+
+IF
+StatusApplied((CHARACTER)_Var1, "TAD_PARTIAL_CEREMORPH", _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AddCustomMaterialOverride(_Var1, "398ca8ae-c3c0-47f5-8e45-d9402e198389");
+
+IF
+StatusApplied((CHARACTER)_Var1, "TAD_PARTIAL_CEREMORPH", _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TadpolePowers_GainedHalfIllithidBenefits(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_TadpolePowers_GainedHalfIllithidBenefits(_Var1);
+AddTadpole(_Var1, 6);
+AddTadpolePower(_Var1, "Shout_TAD_PsionicOverload", 1);
+AddTadpolePower(_Var1, "TAD_PeaceBreaker", 1);
+AddTadpolePower(_Var1, "Rush_ForceTunnel", 1);
+AddTadpolePower(_Var1, "Target_TAD_ConcentratedBlast", 1);
+AddTadpolePower(_Var1, "Target_TAD_TransfuseHealth", 1);
+AddTadpolePower(_Var1, "Projectile_TAD_Levitate", 1);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "TAD_PARTIAL_CEREMORPH", _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveCustomMaterialOverride(_Var1, "398ca8ae-c3c0-47f5-8e45-d9402e198389");
+
+PROC
+PROC_GLO_Tadpole_GiveAstralTadpoleTo((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("GLO_Tadpole_GivenAstralTadpole", _Var1, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(LOOT_MF_Tadpole_Astral_A_4a82e6f2-839f-434e-addf-b07dd1578194, _Var1, 1, 1);
+
+IF
+TemplateAddedTo(LOOT_MF_Tadpole_Astral_A_4a82e6f2-839f-434e-addf-b07dd1578194, _, (GUIDSTRING)_Var2, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+SetFlag(GLO_Tadpole_State_ReceivedAstralTadpole_390b8985-7256-42c0-a205-62e5f275d55d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GLO_DaisyUnlocked(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Daisy_State_AstralIndividualAccepted_9c5367df-18c8-4450-9156-b818b9b94975, _Var1, 0);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, LOOT_MF_Tadpole_Astral_A_4a82e6f2-839f-434e-addf-b07dd1578194, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GLO_Daisy_State_AstralIndividualAccepted_9c5367df-18c8-4450-9156-b818b9b94975, _Var1, 0, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_Tadpole_PAD_Refusal_7796cab2-9587-8ba5-d921-741f6ae10805, _Var1);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, LOOT_MF_Tadpole_Astral_A_4a82e6f2-839f-434e-addf-b07dd1578194, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GLO_Daisy_State_AstralIndividualAccepted_9c5367df-18c8-4450-9156-b818b9b94975, _Var1, 1, _Var1, _Var1)
+AND
+DB_GLO_Tadpole_Astral(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+IF
+TemplateUseStarted((CHARACTER)_Var1, LOOT_MF_Tadpole_Astral_A_4a82e6f2-839f-434e-addf-b07dd1578194, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Tadpole_Astral(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_Daisy_State_AstralIndividualAccepted_9c5367df-18c8-4450-9156-b818b9b94975, _Var1, 1, _Var1, _Var1)
+AND
+QRY_GLO_DaisyDreams_GetEmperor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetEmperor(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(GLO_Tadpole_UseAstralTadpole_a995e01c-7374-d37d-0816-08158bbdd166, _Var3, _Var1, 1, 1, 0, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tadpole_Astral(_Var2);
+
+IF
+DialogEnded(GLO_Tadpole_UseAstralTadpole_a995e01c-7374-d37d-0816-08158bbdd166, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(GLO_Tadpole_Event_AstralTouchedTadpoleDestroyed_7c43d181-2bb0-ed4d-5fed-c19752617955, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tadpole_Astral(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var2);
+
+IF
+DialogEnded(GLO_Tadpole_UseAstralTadpole_a995e01c-7374-d37d-0816-08158bbdd166, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_Tadpole_Astral(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GLO_Tadpole_Event_AstralTouchedTadpoleEaten_249a47a8-7c31-8360-7d93-197a3c6b4057, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var2);
+
+IF
+DialogEnded(GLO_Tadpole_UseAstralTadpole_a995e01c-7374-d37d-0816-08158bbdd166, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_Tadpole_Astral(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tadpole_Astral(_Var2);
+
+IF
+DialogEnded(GLO_Tadpole_UseAstralTadpole_a995e01c-7374-d37d-0816-08158bbdd166, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_Tadpole_UseAstralTadpole_State_Incombat_51db1dd2-94c9-425d-8ac1-0a504e2ca3fe, _Var2, 0);
+
+PROC
+PROC_DialogFlagSetup(GLO_Tadpole_UseAstralTadpole_a995e01c-7374-d37d-0816-08158bbdd166, (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Tadpole_UseAstralTadpole_State_Incombat_51db1dd2-94c9-425d-8ac1-0a504e2ca3fe, _Var2, 0);
+
+IF
+TadpolePowerAssigned((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TadpolePowers_DebugTags(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var3, 0, _Var1, _Var1)
+THEN
+SetTag(_Var1, _Var3);
+
+PROC
+PROC_DoDebugSetup((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, TADPOLE_TREE_UNLOCKED_efedb058-d4f5-4ab8-8add-bd5e32cdd9cd, 1, _Var1, _Var1)
+THEN
+DB_GLO_DaisyUnlocked(1);
+DB_GLO_TadpoleTreeEnabled(1);
+DB_GLO_Tadpole_HadConsumeDialog(1);
+
+PROC
+PROC_DoDebugSetup((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TadpolePowers_DebugTags(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+AddTadpole(_Var2, 1);
+AddTadpolePower(_Var2, _Var4, 1);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, _, _, (DIALOGRESOURCE)_Var1)
+AND
+DB_Tadpole_NonTadpoledDialog(_Var1, _Var10, _Var1, _Var1, _Var1)
+AND
+QRY_Tadpole_NonTadpoledDialog_GetSpeakers(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var12, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(NGB_NoTadpole_a2d0ce57-3e76-3917-041b-fc13793be32b, _Var11, _Var12, _Var1, _Var1)
+THEN
+PROC_Tadpole_NonTadpoledDialog_SetFlags(_Var11, _Var10);
+NOT DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var11, _Var12);
+
+PROC
+PROC_Tadpole_NonTadpoledDialog_SetFlags((GUIDSTRING)_Var1, "Character", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_Tadpole_NonTadpoledDialog_FlaggedSpeaker(_Var1, GLO_Tadpole_NoTadpole_Character_4fd98a12-07b6-94ac-25fd-bf4efea2195a);
+
+PROC
+PROC_Tadpole_NonTadpoledDialog_SetFlags((GUIDSTRING)_Var1, "CharacterHostile", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_Tadpole_NonTadpoledDialog_FlaggedSpeaker(_Var1, GLO_Tadpole_NoTadpole_CharacterHostile_a09e5d6a-b7bb-b205-cb6a-a95ae0107b8b);
+
+IF
+DB_Tadpole_NonTadpoledDialog_FlaggedSpeaker(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2, _Var1);
+
+IF
+DialogEnded(NGB_NoTadpole_a2d0ce57-3e76-3917-041b-fc13793be32b, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Tadpole_NonTadpoledDialog_FlaggedSpeaker(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DialogSpeakers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+ClearFlag(_Var3, _Var2);
+NOT DB_Tadpole_NonTadpoledDialog_FlaggedSpeaker(_Var2, _Var3);
+
+QRY
+QRY_Tadpole_NonTadpoledDialog_GetSpeakers(_, _, _, _, _, _, _, _, _, _)
+AND
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var7, _Var8, _, _, _)
+THEN
+NOT DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var7, _Var8);
+
+QRY
+QRY_Tadpole_NonTadpoledDialog_GetSpeakers((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var1, _Var2);
+
+QRY
+QRY_Tadpole_NonTadpoledDialog_GetSpeakers((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var1, _Var3);
+
+QRY
+QRY_Tadpole_NonTadpoledDialog_GetSpeakers((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var4, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var1, _Var4);
+
+QRY
+QRY_Tadpole_NonTadpoledDialog_GetSpeakers((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var5, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var1, _Var5);
+
+QRY
+QRY_Tadpole_NonTadpoledDialog_GetSpeakers((GUIDSTRING)_Var1, _, _, _, _, (GUIDSTRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Tadpole_NonTadpoledDialog_Speakers(_Var1, _Var6);
+
+
+EXITSECTION
+ENDEXITSECTION
+

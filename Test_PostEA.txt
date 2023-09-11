@@ -1,0 +1,131 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+TextEvent("wrd", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, Test_RelationshipDialog_dbef58ac-27a0-be66-3e67-a5d1dba65325, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba);
+
+IF
+TextEvent("wrd2", _, _, _, _)
+THEN
+NOT DB_ExclamationDialog_NeverStop(Test_RelationshipDialog_dbef58ac-27a0-be66-3e67-a5d1dba65325, NULL_00000000-0000-0000-0000-000000000000);
+PROC_RelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, Test_RelationshipDialog_dbef58ac-27a0-be66-3e67-a5d1dba65325, NULL_00000000-0000-0000-0000-000000000000, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0);
+
+IF
+TextEvent("wrd2ns", _, _, _, _)
+THEN
+DB_ExclamationDialog_NeverStop(Test_RelationshipDialog_dbef58ac-27a0-be66-3e67-a5d1dba65325, NULL_00000000-0000-0000-0000-000000000000);
+PROC_RelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, Test_RelationshipDialog_dbef58ac-27a0-be66-3e67-a5d1dba65325, NULL_00000000-0000-0000-0000-000000000000, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0);
+
+IF
+TextEvent("wrd3", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ShadowHeart_InParty_95ca3833-09d0-5772-b16a-c7a5e9208fe5, LOW_SorcerousSundries_State_NightOfAradinAttack_680a27a3-c15c-4e8d-8c39-f9bc781c1feb, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0);
+
+IF
+DB_RelationshipDialogsFinished(_Var1, Test_RelationshipDialog_dbef58ac-27a0-be66-3e67-a5d1dba65325, _Var2, _Var1, _Var1)
+THEN
+NOT DB_RelationshipDialogsFinished(_Var1, Test_RelationshipDialog_dbef58ac-27a0-be66-3e67-a5d1dba65325, _Var2);
+
+IF
+TextEvent("skillchecktest", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(DIALOGRESOURCEGUID_SkillCheckTest_8fa7e9db-19c6-76a2-ee9c-35ef4a75c7bc, S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("gd", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartInteractiveVoiceBark(GroupDiscussion_IVB_c4aa59f6-0865-d21b-b2c0-879c55f3a8ad, _Var1);
+
+IF
+TextEvent("igd", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamUUID(1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GroupDiscussion_HasPlayed(_Var2);
+PROC_GroupDiscussion_InstantStart(_Var1, _Var2);
+
+IF
+TextEvent("dgd", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamUUID(1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GroupDiscussion_HasPlayed(_Var2);
+PROC_GroupDiscussion_DelayedStart(_Var1, _Var2);
+
+IF
+TextEvent("tadpolereaction", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_Tadpole_TrueSoulCorpse_8ceb5646-8c9b-f8f9-cfea-7e6a9f94159e, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("gd3", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartInteractiveVoiceBark(GLO_Astarion_GD_IVB_VampireRevelation_0b2fc87f-0258-585c-d7f1-f458c0b03c78, _Var1);
+
+IF
+TextEvent("gd4", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartInteractiveVoiceBark(DEN_Apprentice_GD_IVB_Cyanide_298d2a94-2731-8f9a-2e46-adc89b1ee695, _Var1);
+
+IF
+Falling((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_DEBUG_Falling(_Var1);
+
+IF
+TextEvent("showfalling", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopLoopBeamEffect(_Var1, "DEBUG_FALLING_ITEM_BEAMS");
+
+IF
+TextEvent("showfalling", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEBUG_Falling(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 100
+THEN
+PROC_LoopBeamEffect(VFX_Script_SCL_BrainPuzzle_Untyped_Beam_01_5d83ff09-90a0-1743-67bd-edfe72068bff, _Var1, _Var2, "Dummy_HeadFX", "", "DEBUG_FALLING_ITEM_BEAMS", "__ANY__");
+
+IF
+TextEvent("dialogfail", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(TEST_Greever_e15eda4c-7c4b-d72f-4cca-0f92a9e9111b, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

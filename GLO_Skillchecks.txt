@@ -1,0 +1,1117 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Singleton("GLO_SkillRollHack", 0);
+DB_GLO_Skillcheck_DefaultAbility("Athletics", "Strength");
+DB_GLO_Skillcheck_DefaultAbility("Acrobatics", "Dexterity");
+DB_GLO_Skillcheck_DefaultAbility("SleightOfHand", "Dexterity");
+DB_GLO_Skillcheck_DefaultAbility("Stealth", "Dexterity");
+DB_GLO_Skillcheck_DefaultAbility("Arcana", "Intelligence");
+DB_GLO_Skillcheck_DefaultAbility("History", "Intelligence");
+DB_GLO_Skillcheck_DefaultAbility("Investigation", "Intelligence");
+DB_GLO_Skillcheck_DefaultAbility("Nature", "Intelligence");
+DB_GLO_Skillcheck_DefaultAbility("Religion", "Intelligence");
+DB_GLO_Skillcheck_DefaultAbility("AnimalHandling", "Wisdom");
+DB_GLO_Skillcheck_DefaultAbility("Insight", "Wisdom");
+DB_GLO_Skillcheck_DefaultAbility("Medicine", "Wisdom");
+DB_GLO_Skillcheck_DefaultAbility("Perception", "Wisdom");
+DB_GLO_Skillcheck_DefaultAbility("Survival", "Wisdom");
+DB_GLO_Skillcheck_DefaultAbility("Deception", "Charisma");
+DB_GLO_Skillcheck_DefaultAbility("Intimidation", "Charisma");
+DB_GLO_Skillcheck_DefaultAbility("Performance", "Charisma");
+DB_GLO_Skillcheck_DefaultAbility("Persuasion", "Charisma");
+DB_InvestigationSkillCheckADBlocked(NULL_00000000-0000-0000-0000-000000000000);
+DB_TemporaryDCsubstitute(50, DC_Legacy_50_e0a7c461-08bf-459d-9c9a-747008ced85c);
+DB_TemporaryDCsubstitute(25, DC_Legacy_25_306ba0ce-1a69-4a46-9ca0-7d3e8f5be954);
+DB_TemporaryDCsubstitute(20, DC_Legacy_20_881bda2f-b08b-4788-b0ec-e410b5bacc57);
+DB_TemporaryDCsubstitute(19, DC_Legacy_19_1afda678-eb97-4b25-9548-0908e84b5475);
+DB_TemporaryDCsubstitute(15, DC_Legacy_15_bddbb9b8-a242-4c3e-a2eb-3fd274c0c539);
+DB_TemporaryDCsubstitute(14, DC_Legacy_14_598ee99a-f9e9-4a07-a98a-d1379131daa1);
+DB_TemporaryDCsubstitute(12, DC_Legacy_12_98197cc5-8713-44bb-9afc-f5fe32bc5ff9);
+DB_TemporaryDCsubstitute(11, DC_Legacy_11_f4c9d750-49a9-4b7d-a27c-92b801b7d808);
+DB_TemporaryDCsubstitute(10, DC_Legacy_10_625be976-7a67-4394-97c8-14c69715ae4b);
+DB_TemporaryDCsubstitute(8, DC_Legacy_8_f149a3ce-7625-4b9c-97b5-cfefaf791b64);
+DB_TemporaryDCsubstitute(5, DC_Legacy_5_6e246ccd-6149-4ec4-a325-034309a18138);
+DB_TemporaryDCsubstitute(0, DC_Legacy_0_98d69b07-f551-4d77-af31-41d074748dc0);
+NOT DB_KnowledgeSkillcheck_AlwaysPlayAD("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_PerceptionSkillCustomAD(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_InvestigationSkillCustomAD(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_TryAbilityCheck((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5)
+AND
+QRY_GLO_SkillCheck_CheckInvalidTarget(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_SkillCheck_CheckInvalidTarget(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_SkillCheck_CheckAdvantage_Internal(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryModifiedAbilityCheck_Internal(_Var1, _Var6, _Var3, _Var4, _Var7, _Var8);
+
+PROC
+PROC_TryModifiedAbilityCheck_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5, 2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RequestPassiveRoll(_Var1, _Var2, "RawAbility", _Var3, DC_Legacy_0_98d69b07-f551-4d77-af31-41d074748dc0, 0, _Var5);
+
+PROC
+PROC_TryModifiedAbilityCheck_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5, -2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RequestPassiveRoll(_Var1, _Var2, "RawAbility", _Var3, DC_Legacy_50_e0a7c461-08bf-459d-9c9a-747008ced85c, 0, _Var5);
+
+PROC
+PROC_TryModifiedAbilityCheck_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var6 != 2
+AND
+_Var6 != -2
+THEN
+RequestPassiveRoll(_Var1, _Var2, "RawAbility", _Var3, _Var4, _Var6, _Var5);
+
+PROC
+PROC_TrySkillCheck((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5)
+THEN
+PROC_TrySkillCheck(_Var1, _Var2, _Var3, _Var4, _Var5, "");
+
+PROC
+PROC_TrySkillCheck((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5, (STRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_SkillCheck_CheckInvalidTarget(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_SkillCheck_CheckInvalidTarget(_Var7, _Var8, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_SkillCheck_CheckAdvantage_Internal(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryModifiedSkillCheck_Internal(_Var1, _Var7, _Var3, _Var4, _Var8, _Var6, _Var9);
+
+PROC
+PROC_TryModifiedSkillCheck_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5, (STRING)_Var6, 2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RequestPassiveRoll(_Var1, _Var2, "SkillCheck", _Var3, DC_Legacy_0_98d69b07-f551-4d77-af31-41d074748dc0, 0, _Var5);
+
+PROC
+PROC_TryModifiedAbilityCheck_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5, (STRING)_Var6, -2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RequestPassiveRoll(_Var1, _Var2, "SkillCheck", _Var3, DC_Legacy_50_e0a7c461-08bf-459d-9c9a-747008ced85c, 0, _Var5);
+
+PROC
+PROC_TryModifiedSkillCheck_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (DIFFICULTYCLASS)_Var4, (STRING)_Var5, (STRING)_Var6, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var7 != 2
+AND
+_Var7 != -2
+THEN
+RequestPassiveRoll(_Var1, _Var2, "SkillCheck", _Var3, _Var4, _Var7, _Var5);
+
+QRY
+QRY_GLO_SkillCheck_CheckInvalidTarget(_, _, _, _, _)
+AND
+DB_QRYRTN_GLO_SkillCheck_CheckInvalidTarget(_Var3, _Var4, _, _, _)
+THEN
+NOT DB_QRYRTN_GLO_SkillCheck_CheckInvalidTarget(_Var3, _Var4);
+
+QRY
+QRY_GLO_SkillCheck_CheckInvalidTarget((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_SkillCheck_InvalidTargetEvent(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_SkillCheck_CheckInvalidTarget(NULL_00000000-0000-0000-0000-000000000000, _Var3);
+
+QRY
+QRY_GLO_SkillCheck_CheckInvalidTarget((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_SkillCheck_InvalidTargetEvent(_Var1, _Var2, _, _Var1, _Var1)
+AND
+IsItem(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var2, _Var4, _Var5, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_SkillCheck_CheckInvalidTarget(NULL_00000000-0000-0000-0000-000000000000, _Var5);
+DB_GLO_SkillCheck_InvalidTargetEvent(_Var1, _Var2, _Var5);
+
+QRY
+QRY_GLO_SkillCheck_CheckInvalidTarget((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_GLO_SkillCheck_CheckInvalidTarget(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_SkillCheck_CheckInvalidTarget(_Var1, _Var2);
+
+IF
+RollResult((STRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, _, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_SkillCheck_InvalidTargetEvent(_, _, _Var1, _Var1, _Var1)
+THEN
+PROC_RollResult(_Var1, _Var2, _Var3, _Var4);
+
+IF
+RollResult((STRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, _, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_SkillCheck_InvalidTargetEvent(_Var7, _Var8, _Var1, _Var1, _Var1)
+THEN
+PROC_RollResult(_Var8, _Var2, _Var7, _Var4);
+
+PROC
+PROC_RollResult((STRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_KnowledgeCheck((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5)
+THEN
+PROC_KnowledgeCheck(_Var1, _Var2, _Var3, _Var4, _Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_KnowledgeCheck((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5, (DIALOGRESOURCE)_Var6, (FLAG)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, _, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _Var2, _Var3, _Var6, _Var7, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck_Internal(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_KnowledgeCheck((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5, (DIALOGRESOURCE)_Var6, (FLAG)_Var7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, _, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _Var2, _Var3, _Var6, _Var7, _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeSkillcheck_AlwaysPlayAD(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var6 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_DialogName(_Var6, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var6, _Var1);
+
+PROC
+PROC_KnowledgeCheck_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5, (DIALOGRESOURCE)_Var6, (FLAG)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_KnowledgeSkillcheck_TargetOverride(_Var3, _, _Var1, _Var1, _Var1)
+THEN
+DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _Var2, _Var3, _Var6, _Var7, _Var3);
+PROC_TrySkillCheck(_Var1, _Var3, _Var4, _Var5, "GLO_KnowledgeCheck");
+
+PROC
+PROC_KnowledgeCheck_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5, (DIALOGRESOURCE)_Var6, (FLAG)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeSkillcheck_TargetOverride(_Var3, _Var8, _Var1, _Var1, _Var1)
+THEN
+DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _Var2, _Var3, _Var6, _Var7, _Var8);
+PROC_TrySkillCheck(_Var1, _Var8, _Var4, _Var5, "GLO_KnowledgeCheck");
+
+PROC
+PROC_RollResult("GLO_KnowledgeCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _Var3, _, _Var5, _Var6, _Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var6 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetFlag(_Var6, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_RollResult("GLO_KnowledgeCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _Var4, _Var5, _Var6, _Var7, _Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _Var4, _Var5, _Var6, _Var7, _Var2);
+PROC_GLO_KnowledgeCheckEnded(_Var1, _Var4, _Var5, _Var6, _Var3);
+
+PROC
+PROC_GLO_KnowledgeCheckEnded((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var4, 1)
+AND NOT
+DB_KnowledgeSkillCheck(_, _Var2, _Var3, 1, _Var1)
+THEN
+PROC_GLO_KnowledgeCheckSuccess(_Var1, _Var2, _Var3);
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_KnowledgeCheckEnded((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var4, 1)
+AND NOT
+DB_KnowledgeSkillCheck(_, _Var2, _Var3, 1, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TryStartAD(_Var4, _Var1);
+
+PROC
+PROC_GLO_KnowledgeCheckEnded((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var4, 1)
+AND
+DB_KnowledgeSkillCheck(_, _Var2, _Var3, 1, _Var1)
+AND
+DB_KnowledgeSkillcheck_AlwaysPlayAD(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TryStartAD(_Var4, _Var1);
+
+PROC
+PROC_GLO_KnowledgeCheckEnded((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var4, 0)
+AND NOT
+DB_KnowledgeSkillCheck_AwaitingResult(_, _Var2, _Var3, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_, _Var2, _Var3, 1, _Var1)
+THEN
+PROC_GLO_KnowledgeCheckFailure(_Var1, _Var2, _Var3);
+
+PROC
+PROC_GLO_KnowledgeCheckFailure((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_KnowledgeCheckEnded((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var4, 0)
+AND NOT
+DB_KnowledgeSkillCheck_AwaitingResult(_, _Var2, _Var3, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_, _Var2, _Var3, 1, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TryStartAD(_Var4, _Var1);
+
+PROC
+PROC_GLO_KnowledgeCheckEnded((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var4, (INTEGER)_Var5)
+AND
+_Var5 != 2
+THEN
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, _Var5);
+
+QRY
+QRY_GLO_KnowledgeCheck_Succeeded((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GLO_KnowledgeCheck_Done(_Var1, _Var2, _Var3, 1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_KnowledgeCheck_Failed((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GLO_KnowledgeCheck_Done(_Var1, _Var2, _Var3, 0, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_KnowledgeCheck_Done((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, 0, (CHARACTER)_Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 1, _Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 0, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_KnowledgeCheck_Done((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, 1, (CHARACTER)_Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_KnowledgeCheck_Done((CHARACTER)_Var1, (STRING)_Var2, NULL_00000000-0000-0000-0000-000000000000, 0, (CHARACTER)_Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var1, _Var2, _, 1, _Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var2, _, 0, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_KnowledgeCheck_Done((CHARACTER)_Var1, (STRING)_Var2, NULL_00000000-0000-0000-0000-000000000000, 1, (CHARACTER)_Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var2, _, 1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_KnowledgeCheck_Done((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_KnowledgeCheck_Done((CHARACTER)_Var1, (STRING)_Var2, NULL_00000000-0000-0000-0000-000000000000, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GLO_KnowledgeCheck_Done(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_KnowledgeCheck_Done((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var2, _, _, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_KnowledgeCheck_ForceComplete((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, 0, (CHARACTER)_Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 1, _Var1)
+THEN
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 0);
+
+PROC
+PROC_GLO_KnowledgeCheck_ForceComplete((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, 1, (CHARACTER)_Var1)
+THEN
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 1);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(_Var4);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_Var4);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _Var4, _Var2, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_SkillCheck_CheckAdvantage(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_KnowledgeSkillCheck_AwaitingResult(_Var1, _, _Var2, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_SkillCheck_CheckAdvantage(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(2);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(-2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(-2);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(-1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(0);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(1);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(-1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(-1);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(0);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_Internal_CheckAdvantage(0);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_KnowledgeCheck_MP((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5, (DIALOGRESOURCE)_Var6, (FLAG)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var8, _Var2, _Var3, _, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, _Var8, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck(_Var8, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeCheckItem_AD(_Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var1, _Var3, _Var2, _, _Var1)
+THEN
+PROC_KnowledgeCheck(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6, _Var7);
+
+IF
+UseStarted((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeCheckItem_AD(_Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var3, _Var2, 1, _Var1)
+AND
+_Var6 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TryStartAD(_Var6, _Var1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeCheckItem_AD(_Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var3, _Var2, 0, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var1, _Var3, _Var2, 1, _Var1)
+AND
+_Var6 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TryStartAD(_Var6, _Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TutorialCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558
+AND
+DB_KnowledgeCheckItem_AD(_Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var1, _Var3, _Var2, _, _Var1)
+THEN
+PROC_KnowledgeCheck(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6, _Var7);
+
+IF
+UseStarted((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TutorialCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558
+AND
+DB_KnowledgeCheckItem_AD(_Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var3, _Var2, _Var8, _Var1)
+THEN
+PROC_GLO_KnowledgeCheckEnded(_Var1, _Var3, _Var2, _Var6, _Var8);
+
+IF
+DB_KnowledgeCheckTrigger(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_KnowledgeCheckTrigger_AD(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_KnowledgeCheckTrigger_AD(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeCheckTrigger(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_KnowledgeCheckTrigger_AD(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_KnowledgeCheckTrigger_AD(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var2);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_KnowledgeCheckTrigger_AD(_Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck_MP(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeCheckTrigger_AD(_Var2, _Var3, _Var4, _Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var3);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_KnowledgeCheckTrigger_AD(_Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var5);
+
+PROC
+PROC_KnowledgeCheck_Clear((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_KnowledgeCheckTrigger_AD(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+NOT DB_KnowledgeCheckTrigger_AD(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_KnowledgeCheck_Clear((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_KnowledgeCheckTrigger(_Var2, _Var1, _Var3, _Var4, _Var1)
+THEN
+NOT DB_KnowledgeCheckTrigger(_Var2, _Var1, _Var3, _Var4);
+
+IF
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var4, _Var2, _Var3, 1, _Var1)
+THEN
+DB_KnowledgeSkillCheck(_Var4, _Var2, _Var3, 1);
+
+IF
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 0, _Var1)
+AND
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 1, _Var1)
+THEN
+NOT DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 0);
+
+IF
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_KnowledgeCheckTrigger_AD(_Var2, _Var5, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var5
+THEN
+PROC_KnowledgeCheck_Propagate(_Var1, _Var2, _Var5, _Var4);
+
+IF
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_KnowledgeCheckItem_AD(_Var2, _Var5, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck_Propagate(_Var1, _Var2, _Var5, _Var4);
+
+PROC
+PROC_KnowledgeCheck_Propagate((GUIDSTRING)_Var1, (STRING)_Var2, (TRIGGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+DB_KnowledgeCheck_Propagating(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_KnowledgeCheck_Propagating(_Var2);
+PROC_KnowledgeCheck_Propagate_Internal(_Var1, _Var2, _Var3, _Var4);
+NOT DB_KnowledgeCheck_Propagating(_Var2);
+
+PROC
+PROC_KnowledgeCheck_Propagate_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (TRIGGER)_Var3, 1, (GUIDSTRING)_Var1)
+THEN
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 1);
+
+PROC
+PROC_KnowledgeCheck_Propagate_Internal((GUIDSTRING)_Var1, (STRING)_Var2, (TRIGGER)_Var3, 0, (GUIDSTRING)_Var1)
+AND NOT
+DB_KnowledgeSkillCheck(_Var1, _Var2, _, 1, _Var1)
+THEN
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 0);
+
+IF
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 1, _Var1)
+AND NOT
+DB_KnowledgeCheck_Propagating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FallibleCheckItem(_Var2, _Var4, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_KnowledgeCheck_Propagating(_Var2);
+PROC_CharacterPassedItemSkillCheck(_Var1, _Var2, _Var4);
+NOT DB_KnowledgeCheck_Propagating(_Var2);
+
+IF
+DB_KnowledgeSkillCheck(_Var1, _Var2, _Var3, 0, _Var1)
+AND NOT
+DB_KnowledgeCheck_Propagating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FallibleCheckItem(_Var2, _Var4, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_KnowledgeCheck_Propagating(_Var2);
+PROC_CharacterFailedItemSkillCheck(_Var1, _Var2, _Var4);
+NOT DB_KnowledgeCheck_Propagating(_Var2);
+
+PROC
+PROC_CharacterPassedItemSkillCheck((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_KnowledgeCheckTrigger_AD(_Var2, _Var4, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck_Propagate(_Var1, _Var2, _Var4, 1);
+
+PROC
+PROC_CharacterPassedItemSkillCheck((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_KnowledgeCheckItem_AD(_Var2, _Var4, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck_Propagate(_Var1, _Var2, _Var4, 1);
+
+PROC
+PROC_CharacterFailedItemSkillCheck((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_KnowledgeCheckTrigger_AD(_Var2, _Var4, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck_Propagate(_Var1, _Var2, _Var4, 0);
+
+PROC
+PROC_CharacterFailedItemSkillCheck((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_KnowledgeCheckItem_AD(_Var2, _Var4, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck_Propagate(_Var1, _Var2, _Var4, 1);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FallibleCheckItem(_Var3, _Var2, _Var4, _Var5, "", _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Skillcheck_DefaultAbility(_Var4, _Var7, _Var1, _Var1, _Var1)
+THEN
+PROC_MakeFallibleItemCheck(_Var1, _Var3, _Var2, _Var4, _Var5, _Var7);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FallibleCheckItem(_Var3, _Var2, _Var4, _Var5, _Var6, _, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var6 != ""
+THEN
+PROC_MakeFallibleItemCheck(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6);
+
+PROC
+PROC_MakeFallibleItemCheck((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5, (STRING)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_FallibleItemCheck_AwaitingResult(_Var1, _Var2, _Var3);
+PROC_TrySkillCheck(_Var1, _Var3, _Var4, _Var5, "GLO_FallibleItemCheck", _Var6);
+
+PROC
+PROC_RollResult("GLO_FallibleItemCheck", (CHARACTER)_Var1, (ITEM)_Var2, 1, (CHARACTER)_Var1)
+AND
+DB_FallibleItemCheck_AwaitingResult(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+PROC_CharacterPassedItemSkillCheck(_Var1, _Var3, _Var2);
+
+PROC
+PROC_CharacterPassedItemSkillCheck((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RollResult("GLO_FallibleItemCheck", (CHARACTER)_Var1, (ITEM)_Var2, 0, (CHARACTER)_Var1)
+AND
+DB_FallibleItemCheck_AwaitingResult(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+PROC_CharacterFailedItemSkillCheck(_Var1, _Var3, _Var2);
+
+PROC
+PROC_CharacterFailedItemSkillCheck((CHARACTER)_Var1, (STRING)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RollResult("GLO_FallibleItemCheck", (CHARACTER)_Var1, (ITEM)_Var2, _, (CHARACTER)_Var1)
+AND
+DB_FallibleItemCheck_AwaitingResult(_Var1, _Var4, _Var2, _Var1, _Var1)
+THEN
+NOT DB_FallibleItemCheck_AwaitingResult(_Var1, _Var4, _Var2);
+
+IF
+DB_FallibleItemCheck_AwaitingResult(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_FallibleCheckItem(_Var2, _Var3, _, _, _, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var7 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PlayAnimation(_Var1, _Var7, "");
+
+QRY
+QRY_TemporaryDCsubstitute((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_QRYRTN_TemporaryDCsubstitute(DC_Legacy_50_e0a7c461-08bf-459d-9c9a-747008ced85c);
+
+QRY
+QRY_TemporaryDCsubstitute((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_TemporaryDCsubstitute(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var1 <= _Var2
+AND
+DB_QRYRTN_TemporaryDCsubstitute(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_TemporaryDCsubstitute(_Var4);
+DB_QRYRTN_TemporaryDCsubstitute(_Var3);
+
+IF
+DualEntityEvent((CHARACTER)_Var1, (ITEM)_Var2, "PUZZLE_HiddenPerception_CheckPlayer", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_PerceptionSkillCheck(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_PerceptionSkillCheck_AwaitingResult(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetVarInteger(_Var2, "DC", _Var4, _Var1, _Var1)
+AND
+QRY_TemporaryDCsubstitute(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_TemporaryDCsubstitute(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PerceptionSkillCheck_AwaitingResult(_Var1, _Var2);
+PROC_TrySkillCheck(_Var1, _Var2, "Perception", _Var5, "GLO_HiddenItemCheck");
+
+PROC
+PROC_RollResult("GLO_HiddenItemCheck", (CHARACTER)_Var1, (ITEM)_Var2, 1, (CHARACTER)_Var1)
+AND NOT
+DB_PerceptionSkillCheck(_, _Var2, 1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_HiddenPerceptionCheckSucceeded(_Var1, _Var4, _Var2);
+
+PROC
+PROC_RollResult("GLO_HiddenItemCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PerceptionSkillCheck(_, _Var2, 1, _Var1, _Var1)
+AND NOT
+CharacterGetOwner(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_HiddenPerceptionCheckSucceeded(_Var1, _Var1, _Var2);
+
+PROC
+PROC_RollResult("GLO_HiddenItemCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1)
+THEN
+DB_PerceptionSkillCheck(_Var1, _Var2, 1);
+SetEntityEvent(_Var2, "StoryReveal");
+PROC_LaunchPerceptionSkillCheckAD(_Var1, _Var2);
+
+PROC
+PROC_RollResult("GLO_HiddenItemCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 0, (GUIDSTRING)_Var1)
+AND NOT
+DB_PerceptionSkillCheck(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_PerceptionSkillCheck(_Var1, _Var2, 0);
+
+PROC
+PROC_RollResult("GLO_HiddenItemCheck", (CHARACTER)_Var1, (ITEM)_Var2, _, (CHARACTER)_Var1)
+AND
+DB_PerceptionSkillCheck_AwaitingResult(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PerceptionSkillCheck_AwaitingResult(_Var1, _Var2);
+
+IF
+DualEntityEvent((CHARACTER)_Var1, (ITEM)_Var2, "PUZZLE_DiscoveredHiddenItem", (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_LaunchPerceptionSkillCheckAD(_Var1, _Var2);
+
+PROC
+PROC_LaunchPerceptionSkillCheckAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PerceptionSkillCheckADBlocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetUUID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("PerceptionSkillCheck_AD_", _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_PerceptionSkillCheck_About(_Var1, _Var2, _Var4);
+ObjectTimerLaunch(_Var1, _Var4, 500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PerceptionSkillCheck_About(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_OnlyOnceForNearbyPlayers_Timeout(_Var1, "PerceptionSkillCheck_AD_Timeout", 10000, _Var1, _Var1)
+THEN
+PROC_PerceptionSkillCheckAD_TryStart(_Var1, _Var3);
+
+PROC
+PROC_PerceptionSkillCheckAD_TryStart((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PerceptionSkillCustomAD(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var1);
+
+PROC
+PROC_PerceptionSkillCheckAD_TryStart((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PerceptionSkillCustomAD(_Var2, _, _Var1, _Var1, _Var1)
+AND
+IsTrap(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_PerceptionSuccess_48825dbe-a320-7c4c-fe3e-372b717d5bc9, _Var1);
+
+PROC
+PROC_PerceptionSkillCheckAD_TryStart((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PerceptionSkillCustomAD(_Var2, _, _Var1, _Var1, _Var1)
+AND
+IsTrap(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_PerceptionSuccess_Trap_8aae78c8-a937-e386-0a0e-66e1046e8577, _Var1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PerceptionSkillCheck_About(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_PerceptionSkillCheck_About(_Var1, _Var3, _Var2);
+
+PROC
+PROC_HiddenPerceptionCheckSucceeded((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, "CONST_PreventADSpam", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 <= 6
+THEN
+PROC_CONST_PreventADSPam(_Var3);
+
+PROC
+PROC_CONST_PreventADSPam((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(CONST_SuppressTrapADs_cf3d6d5b-5c2d-403f-a0c3-105922f8c5f1, _Var1, 1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, "CONST_PreventADSpam");
+RealtimeObjectTimerLaunch(_Var1, "CONST_PreventADSpam", 5000);
+
+PROC
+PROC_CONST_PreventADSPam((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(CONST_SuppressTrapADs_cf3d6d5b-5c2d-403f-a0c3-105922f8c5f1, _Var1, 0, _Var1, _Var1)
+THEN
+SetFlag(CONST_SuppressTrapADs_cf3d6d5b-5c2d-403f-a0c3-105922f8c5f1, _Var1, 0);
+RealtimeObjectTimerLaunch(_Var1, "CONST_PreventADSpam", 5000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CONST_PreventADSpam", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(CONST_SuppressTrapADs_cf3d6d5b-5c2d-403f-a0c3-105922f8c5f1, _Var1, 0);
+
+IF
+DualEntityEvent((CHARACTER)_Var1, (ITEM)_Var2, "PUZZLE_HiddenInvestigation_CheckPlayer", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_InvestigationSkillCheck(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_InvestigationSkillCheck_AwaitingResult(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetVarInteger(_Var2, "DC", _Var4, _Var1, _Var1)
+AND
+QRY_TemporaryDCsubstitute(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_TemporaryDCsubstitute(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InvestigationSkillCheck_AwaitingResult(_Var1, _Var2);
+PROC_TrySkillCheck(_Var1, _Var2, "Investigation", _Var5, "GLO_HiddenInvestigationItemCheck");
+
+PROC
+PROC_RollResult("GLO_HiddenInvestigationItemCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1)
+THEN
+DB_InvestigationSkillCheck(_Var1, _Var2, 1);
+SetEntityEvent(_Var2, "StoryReveal");
+PROC_LaunchInvestigationSkillCheckAD(_Var1, _Var2);
+
+PROC
+PROC_RollResult("GLO_HiddenInvestigationItemCheck", (CHARACTER)_Var1, (ITEM)_Var2, 0, (CHARACTER)_Var1)
+AND NOT
+DB_InvestigationSkillCheck(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_InvestigationSkillCheck(_Var1, _Var2, 0);
+
+PROC
+PROC_RollResult("GLO_HiddenInvestigationItemCheck", (CHARACTER)_Var1, (ITEM)_Var2, _, (CHARACTER)_Var1)
+AND
+DB_InvestigationSkillCheck_AwaitingResult(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InvestigationSkillCheck_AwaitingResult(_Var1, _Var2);
+
+PROC
+PROC_LaunchInvestigationSkillCheckAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_InvestigationSkillCheckADBlocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetUUID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("InvestigationSkillCheck_AD_", _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_InvestigationSkillCheck_About(_Var1, _Var2, _Var4);
+ObjectTimerLaunch(_Var1, _Var4, 500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InvestigationSkillCheck_About(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_OnlyOnceForNearbyPlayers_Timeout(_Var1, "InvestigationSkillCheck_AD_Timeout", 10000, _Var1, _Var1)
+THEN
+PROC_InvestigationSkillCheckAD_TryStart(_Var1, _Var3);
+
+PROC
+PROC_InvestigationSkillCheckAD_TryStart((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InvestigationSkillCustomAD(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var1);
+
+PROC
+PROC_InvestigationSkillCheckAD_TryStart((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_InvestigationSkillCustomAD(_Var2, _, _Var1, _Var1, _Var1)
+AND
+IsTrap(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_InvestigationSuccess_6f56969d-fb35-38f1-26ff-5b6c4db3ea68, _Var1);
+
+PROC
+PROC_InvestigationSkillCheckAD_TryStart((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_InvestigationSkillCustomAD(_Var2, _, _Var1, _Var1, _Var1)
+AND
+IsTrap(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_InvestigationSuccess_Trap_174f5c13-764b-26f6-83cd-4ea72b50abd9, _Var1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InvestigationSkillCheck_About(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_InvestigationSkillCheck_About(_Var1, _Var3, _Var2);
+
+PROC
+PROC_TryVoiceBarkedSkillcheck((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5, (FLAG)_Var6, (VOICEBARKRESOURCE)_Var7, (INTEGER)_Var8, (REAL)_Var9, (CHARACTER)_Var1)
+AND NOT
+DB_VoiceBarkedSkillCheck_Running(_, _Var3, _, _, _)
+THEN
+DB_VoiceBarkedSkillCheck_Running(_Var1, _Var3, _Var6, _Var7, _Var8);
+
+PROC
+PROC_TryVoiceBarkedSkillcheck((CHARACTER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (DIFFICULTYCLASS)_Var5, _, _, _, (REAL)_Var9, (CHARACTER)_Var1)
+AND
+DB_Players(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_VoiceBarkedSkillCheck_Tried(_Var10, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_VoiceBarkedSkillCheck_InProgress(_Var10, _Var3, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var10, _Var11, _Var1, _Var1)
+AND
+_Var11 < _Var9
+THEN
+DB_VoiceBarkedSkillCheck_InProgress(_Var10, _Var3);
+PROC_TrySkillCheck(_Var10, _Var2, _Var4, _Var5, _Var3);
+
+PROC
+PROC_TryVoiceBarkedSkillcheck((CHARACTER)_Var1, _, (STRING)_Var3, _, _, _, _, _, _, (CHARACTER)_Var1)
+AND NOT
+DB_VoiceBarkedSkillCheck_InProgress(_, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_VoiceBarkedSkillCheck_Clear(_Var3);
+
+PROC
+PROC_RollResult((STRING)_Var1, (GUIDSTRING)_Var2, _, (INTEGER)_Var4, (STRING)_Var1)
+AND
+_Var4 != 2
+THEN
+DB_VoiceBarkedSkillCheck_Tried(_Var2, _Var1);
+
+PROC
+PROC_RollResult((STRING)_Var1, (CHARACTER)_Var2, _, _, (STRING)_Var1)
+AND
+DB_VoiceBarkedSkillCheck_InProgress(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_VoiceBarkedSkillCheck_InProgress(_Var2, _Var1);
+
+PROC
+PROC_RollResult((STRING)_Var1, (CHARACTER)_Var2, _, 1, (STRING)_Var1)
+AND
+DB_VoiceBarkedSkillCheck_Running(_, _Var1, _Var5, _Var6, _)
+AND NOT
+DB_GlobalFlag(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var5);
+StartVoiceBark(_Var6, _Var2);
+
+PROC
+PROC_RollResult((STRING)_Var1, (CHARACTER)_Var2, _, 0, (STRING)_Var1)
+AND NOT
+DB_VoiceBarkedSkillCheck_InProgress(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_VoiceBarkedSkillCheck_Running(_Var5, _Var1, _Var6, _Var7, 1)
+AND NOT
+DB_GlobalFlag(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(_Var7, _Var5);
+
+PROC
+PROC_RollResult((STRING)_Var1, _, _, _, (STRING)_Var1)
+AND NOT
+DB_VoiceBarkedSkillCheck_InProgress(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_VoiceBarkedSkillCheck_Clear(_Var1);
+
+PROC
+PROC_VoiceBarkedSkillCheck_Clear((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_VoiceBarkedSkillCheck_Running(_Var2, _Var1, _Var3, _Var4, _Var5)
+THEN
+NOT DB_VoiceBarkedSkillCheck_Running(_Var2, _Var1, _Var3, _Var4, _Var5);
+
+
+EXITSECTION
+ENDEXITSECTION
+

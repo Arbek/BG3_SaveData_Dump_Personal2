@@ -1,0 +1,347 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_SurrenderOnKnockedOutDialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DoNotRemoveKnockedOutCharacterOnLongRest(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_ForceRemoveKnockedOutCharacterOnLongRest(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DontRemoveDialogsOnKnockedOut(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_DefeatCounter_AllDefeatedGlobalFlag("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_DefeatCounter_AllPermaDefeatedGlobalFlag("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_DefeatCounter_IgnoreWaitForCombatEnd("");
+NOT DB_DialogKnockedOut(NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_GLO_DefeatCounter(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter_State(_Var1, _Var2, "Active");
+PROC_GLO_DefeatCounter_CheckFinished(_Var2);
+
+IF
+DB_GLO_DefeatCounter_State(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_GLO_DefeatCounter(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_DefeatCounter_State(_Var1, _Var2, _Var3);
+
+IF
+DB_GLO_DefeatCounter(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter_State(_Var1, _Var2, "Defeated");
+PROC_GLO_DefeatCounter_CheckFinished(_Var2);
+
+IF
+DB_GLO_DefeatCounter(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter_State(_Var1, _Var2, "PermaDefeated");
+PROC_GLO_DefeatCounter_CheckFinished(_Var2);
+
+IF
+DB_GLO_DefeatCounter_State(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_GLO_DefeatCounter_State(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var3 != _Var4
+THEN
+NOT DB_GLO_DefeatCounter_State(_Var1, _Var2, _Var4);
+
+PROC
+PROC_GLO_DefeatCounter_CheckFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_DefeatCounter_Target(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DefeatCounter_Count(_Var1, "Defeated", _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DefeatCounter_Count(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DefeatCounter_Count(_Var1, "PermaDefeated", _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DefeatCounter_Count(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_DefeatCounter_Notify(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_GLO_DefeatCounter_CheckFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_DefeatCounter_Target(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DefeatCounter_Count(_Var1, "Active", _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DefeatCounter_Count(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DefeatCounter_Count(_Var1, "Defeated", _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DefeatCounter_Count(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_DefeatCounter_Count(_Var1, "PermaDefeated", _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DefeatCounter_Count(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, _Var4, _Var6, _Var1, _Var1)
+AND
+IntegerSum(_Var6, _Var5, _Var7, _Var1, _Var1)
+THEN
+PROC_GLO_DefeatCounter_Notify(_Var1, _Var7, _Var4, _Var5);
+
+PROC
+PROC_GLO_DefeatCounter_Notify((STRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (STRING)_Var1)
+AND
+_Var4 >= _Var2
+AND NOT
+DB_GLO_DefeatCounter_PermaCountMet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_DefeatCounter_WaitForCombatEnd(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter_PermaCountMet(_Var1);
+PROC_GLO_DefeatCounter_AllPermaDefeated(_Var1);
+
+PROC
+PROC_GLO_DefeatCounter_Notify((STRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (STRING)_Var1)
+AND
+IntegerSum(_Var3, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var5 >= _Var2
+AND NOT
+DB_GLO_DefeatCounter_CountMet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_DefeatCounter_WaitForCombatEnd(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter_CountMet(_Var1);
+PROC_GLO_DefeatCounter_AllDefeated(_Var1);
+
+PROC
+PROC_GLO_DefeatCounter_Notify((STRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (STRING)_Var1)
+AND
+IntegerSum(_Var3, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var5 < _Var2
+AND
+DB_GLO_DefeatCounter_CountMet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_DefeatCounter_WaitForCombatEnd(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_DefeatCounter_CountMet(_Var1);
+PROC_GLO_DefeatCounter_AllNoLongerDefeated(_Var1);
+
+QRY
+QRY_GLO_DefeatCounter_WaitForCombatEnd((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_DefeatCounter_IgnoreWaitForCombatEnd(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DefeatCounter_State(_Var2, _Var1, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter_WaitForCombatEnd(_Var1, _Var4);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_DefeatCounter_WaitForCombatEnd(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_DefeatCounter_WaitForCombatEnd(_Var2, _Var1);
+PROC_GLO_DefeatCounter_CheckFinished(_Var2);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_DefeatCounter_AllDefeatedGlobalFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var2);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_DefeatCounter_AllPermaDefeatedGlobalFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var2);
+
+PROC
+PROC_GLO_DefeatCounter_AllNoLongerDefeated((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_DefeatCounter_AllDefeatedGlobalFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(_Var2);
+
+QRY
+QRY_GLO_DefeatCounter_Count((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_GLO_DefeatCounter_Count(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GLO_DefeatCounter_Count(_Var3);
+
+QRY
+QRY_GLO_DefeatCounter_Count((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_QRYRTN_GLO_DefeatCounter_Count(0);
+
+QRY
+QRY_GLO_DefeatCounter_Count((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_DefeatCounter_State(_Var3, _Var1, _Var2, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DefeatCounter_Count(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GLO_DefeatCounter_Count(_Var4);
+DB_QRYRTN_GLO_DefeatCounter_Count(_Var5);
+
+IF
+SwitchedCombat(_, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_GLO_DefeatCounter_WaitForCombatEnd(_Var4, _Var2, _, _, _)
+AND NOT
+DB_GLO_DefeatCounter_WaitForCombatEnd(_Var4, _Var3, _, _, _)
+THEN
+DB_GLO_DefeatCounter_WaitForCombatEnd(_Var4, _Var3);
+
+IF
+FlagSet(GLO_KnockOut_Event_SetKO_a182fdbb-fecf-90b7-1c12-dd52eca53f65, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(GLO_KnockOut_Event_SetKO_a182fdbb-fecf-90b7-1c12-dd52eca53f65, _Var1);
+ApplyStatus(_Var1, "KNOCKED_OUT", -1);
+
+IF
+DB_KnockedOut(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, TRADER_91d5ebc6-91ea-44db-8a51-216860d69b5b, 1, _Var1, _Var1)
+THEN
+PROC_ClearGeneratedItems(_Var1);
+
+PROC
+PROC_LongRest()
+THEN
+PROC_GLO_Knockout_Cleanup();
+
+PROC
+PROC_LevelUnloading(_, (STRING)_, (STRING)_, (STRING)_, (STRING)_)
+THEN
+PROC_GLO_Knockout_Cleanup();
+
+PROC
+PROC_GLO_Knockout_Cleanup()
+AND
+DB_KnockedOut(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "KNOCKED_OUT_TEMPORARILY", 0, _Var1, _Var1)
+AND NOT
+DB_DoNotRemoveKnockedOutCharacterOnLongRest(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ScatterStoryItems(_Var1);
+PurgeOsirisQueue(_Var1);
+SetOnStage(_Var1, 0);
+PROC_Surrender_Fled(_Var1);
+
+PROC
+PROC_GLO_Knockout_Cleanup()
+AND
+DB_KnockedOut(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "KNOCKED_OUT_TEMPORARILY", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "KNOCKED_OUT");
+
+PROC
+PROC_GLO_Knockout_Cleanup()
+AND
+DB_GLO_Knockout_HadDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, _Var2);
+NOT DB_GLO_Knockout_HadDialog(_Var1, _Var2);
+
+PROC
+PROC_GLO_Knockout_Cleanup()
+AND
+DB_KnockedOut(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ForceRemoveKnockedOutCharacterOnLongRest(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ScatterStoryItems(_Var1);
+PurgeOsirisQueue(_Var1);
+SetOnStage(_Var1, 0);
+PROC_Surrender_Fled(_Var1);
+
+IF
+FlagSet(GLO_KnockedOut_Event_Wake_4095904d-ce99-1d77-7dfd-a77f04005032, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(GLO_KnockedOut_Event_Wake_4095904d-ce99-1d77-7dfd-a77f04005032, _Var1, _Var2);
+RemoveStatus(_Var1, "KNOCKED_OUT");
+
+PROC
+PROC_KnockedOut((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DontRemoveDialogsOnKnockedOut(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, "KNOCKED_OUT_TEMPORARILY", _Var3, _Var1, _Var1)
+THEN
+PROC_GLO_Knockout_RemoveDialog(_Var1, _Var3);
+
+PROC
+PROC_GLO_Knockout_RemoveDialog((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+SetHasDialog(_Var1, 0);
+
+PROC
+PROC_GLO_Knockout_RemoveDialog((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GetHasDialogAny(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetHasDialogAny(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Knockout_HadDialog(_Var1, _Var2);
+SetHasDialog(_Var1, 0);
+
+PROC
+PROC_KnockedOut((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogKnockedOut(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+
+PROC
+PROC_KnockedOut((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogKnockedOut(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DialogKnockedOut(_Var1);
+
+IF
+DB_ForceRemoveKnockedOutCharacterOnLongRest(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ForceRemoveKnockedOutCharacterOnLongRest_Applied(_Var1);
+ApplyStatus(_Var1, "FORCE_KNOCKED_OUT_PERMANENTLY", -1);
+
+IF
+DB_ForceRemoveKnockedOutCharacterOnLongRest_Applied(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ForceRemoveKnockedOutCharacterOnLongRest(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ForceRemoveKnockedOutCharacterOnLongRest_Applied(_Var1);
+RemoveStatus(_Var1, "FORCE_KNOCKED_OUT_PERMANENTLY");
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "FORCE_KNOCKED_OUT_PERMANENTLY", _, _, (GUIDSTRING)_Var1)
+AND
+DB_ForceRemoveKnockedOutCharacterOnLongRest_Applied(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ForceRemoveKnockedOutCharacterOnLongRest_Applied(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

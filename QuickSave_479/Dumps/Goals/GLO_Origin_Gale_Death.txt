@@ -1,0 +1,583 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, 0);
+PROC_SetInvulnerable(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, 1);
+DB_ORI_Gale_DeathVoiceDialogs(Gale_DeathVoice_39f17d8c-1af1-2074-6c4e-87f48f3a4625);
+DB_ORI_Gale_DeathVoiceDialogs(Gale_DeathVoice_StatusFallback_c32a6907-3add-4f48-5a77-ec1660ec82c2);
+DB_ORI_Gale_DeathVoiceDialogs(ORI_Gale_Deathvoice_Reminder_d4538145-784c-bd63-9d96-67f7fe7379d5);
+
+KBSECTION
+PROC
+PROC_LongRest()
+AND
+DB_Dead(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_ORI_Gale_DeadCounter(_, _, _, _, _)
+AND NOT
+DB_OnlyOnce("ORI_Gale_Explode", _, _, _, _)
+THEN
+DB_ORI_Gale_DeadCounter(0);
+
+PROC
+PROC_LongRest()
+AND
+DB_Dead(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_ORI_Gale_DeadCounter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var1, 1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_DeadCounter(_Var1);
+DB_ORI_Gale_DeadCounter(_Var2);
+
+IF
+Resurrected(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+ClearFlag(ORI_Gale_State_InChasm_cff2a312-9719-4510-b5c3-a91c4fb7be8c, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_OnlyOnce("ORI_Gale_Explode");
+
+IF
+Resurrected(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_ORI_Gale_DeadCounter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_DeadCounter(_Var1);
+
+PROC
+PROC_LongRest()
+AND NOT
+DB_OnlyOnce("ORI_Gale_Explode", _, _, _, _)
+AND
+DB_ORI_Gale_DeadCounter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 > 2
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_InChasm_cff2a312-9719-4510-b5c3-a91c4fb7be8c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Gale_Explosion();
+
+IF
+EntityEvent(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_Gale_PostDeathTeleport", _, _, _)
+THEN
+NOT DB_ORI_Gale_Teleporting(1);
+PROC_ORI_Gale_Explosion();
+
+IF
+TextEvent("ORI_Gale_Explosion", _, _, _, _)
+THEN
+PROC_ORI_Gale_Explosion();
+
+IF
+Dying(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Gale_DyingCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_DyingCombat(_Var1);
+
+IF
+Dying(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_Gale_DyingCombat(_Var1);
+
+IF
+EnteredChasm(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_ORI_Gale_VoiceLocation(_Var3, _Var4, _Var5);
+
+IF
+Died(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_ORI_Gale_VoiceLocation(_, _, _, _, _)
+AND
+GetPosition(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var4, _Var5, _Var6, _)
+THEN
+DB_ORI_Gale_VoiceLocation(_Var4, _Var5, _Var6);
+
+IF
+Died(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_ORI_Gale_CombatSpeaker(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_ORI_Gale_CombatSpeaker(_Var1);
+
+IF
+Died(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_ORI_Gale_DyingCombat(_, _, _, _, _)
+THEN
+PROC_ORI_Gale_TrySetupDeathvoice();
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Gale_DyingCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_DyingCombat(_Var1);
+PROC_ORI_Gale_TrySetupDeathvoice();
+
+PROC
+PROC_ORI_Gale_TrySetupDeathvoice()
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_OnlyOnce("Gale_DeathVoice", _, _, _, _)
+THEN
+PROC_ORI_Gale_SetupDeathvoice();
+
+PROC
+PROC_ORI_Gale_TrySetupDeathvoice()
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+PROC_ORI_Gale_SetupDeathvoice();
+
+PROC
+PROC_ORI_Gale_SetupDeathvoice()
+AND
+DB_ORI_Gale_VoiceLocation(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+TeleportToPosition(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, _Var1, _Var2, _Var3, "", 0, 0, 0, 0, 1);
+SetOnStage(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, 1);
+SetDetached(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, 1);
+SetVisible(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, 0);
+DB_SpotPlayers(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_CustomRadius(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice", 8);
+DB_CustomDialogRange(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 12);
+DB_SpotPlayers_BlockTargetFTB(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+DB_SpotPlayers_IncludeWildshapedPlayers(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+DB_SpotPlayers_IncludeFollowers(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+DB_SpotPlayers_IncludeSummons(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+DB_SpotPlayers_TargetIgnoreCantTalk(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+DB_SpotPlayers_Continuous(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+PROC_SpotPlayers_RestartSpotting(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+
+PROC
+PROC_SpotPlayers_Spotted(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_ORI_Gale_TryDeathVoice(_Var1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+AND
+DB_SpotPlayers_Spotted(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice", _Var5, _, _)
+AND
+InSamePartyGroup(_Var5, _Var3, 1, _, _)
+THEN
+PROC_ORI_Gale_TryDeathVoice(_Var5);
+
+PROC
+PROC_ORI_Gale_TryDeathVoice((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_PickDeathVoiceDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_ORI_Gale_PickDeathVoiceDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Gale_PlayDeathvoiceDialog(_Var2, _Var3);
+
+PROC
+PROC_ORI_Gale_PlayDeathvoiceDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OnlyOnce("Gale_DeathVoice", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(ORI_Gale_Deathvoice_Reminder_d4538145-784c-bd63-9d96-67f7fe7379d5, _Var1, 0, 0, 1, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+
+PROC
+PROC_ORI_Gale_PlayDeathvoiceDialog((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("Gale_DeathVoice", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(_Var2, S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, _Var1, 0, 0, 1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("Gale_DeathVoice");
+PROC_SpotPlayers_StopSpotting(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+
+IF
+DialogStarted((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_ORI_Gale_DeathVoiceDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("Gale_DeathVoice");
+PROC_SpotPlayers_StopSpotting(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, "GLO_Gale_DeathVoice");
+
+QRY
+QRY_ORI_Gale_PickDeathVoiceDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_ORI_Gale_PickDeathVoiceDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_ORI_Gale_PickDeathVoiceDialog(_Var2);
+
+QRY
+QRY_ORI_Gale_PickDeathVoiceDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_PickDeathVoiceDialog(Gale_DeathVoice_39f17d8c-1af1-2074-6c4e-87f48f3a4625);
+
+QRY
+QRY_ORI_Gale_PickDeathVoiceDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_PickDeathVoiceDialog(Gale_DeathVoice_StatusFallback_c32a6907-3add-4f48-5a77-ec1660ec82c2);
+
+IF
+Resurrected(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Gale_DyingCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_DyingCombat(_Var1);
+
+IF
+Resurrected(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+DB_ORI_Gale_VoiceLocation(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_VoiceLocation(_Var1, _Var2, _Var3);
+
+IF
+Resurrected(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+SetOnStage(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, 0);
+NOT DB_CustomDialogRange(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 12);
+
+IF
+DialogEnded(Gale_DeathVoice_39f17d8c-1af1-2074-6c4e-87f48f3a4625, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetOnStage(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, 0);
+NOT DB_CustomDialogRange(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 12);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_FindDeathSpeaker()
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathSpeakerEligible(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_ORI_Gale_DeathSpeaker(_Var1);
+
+QRY
+QRY_ORI_Gale_DeathSpeakerEligible((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Gale_DyingCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 0, 1, _Var1, _Var1)
+AND NOT
+QRY_ORI_Gale_DeathSpeakerBlock(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ORI_Gale_DeathSpeakerEligible((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_ORI_Gale_DeathSpeakerBlock(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 0, 1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ORI_Gale_DeathSpeakerBlock((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_DeathVoiceDialogs(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Gale_DeathVoice_CacheFTB(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Gale_DeathVoice_BringInFTBSpeakers(_Var2);
+ForceTurnBasedMode(_Var2, 1);
+
+PROC
+PROC_ORI_Gale_DeathVoice_BringInFTBSpeakers((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var2, _, _Var1, _Var1)
+AND
+_Var2 != S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604
+AND
+QRY_OnlyOnce_Reset("ORI_Gale_DeathVoice_JoinDeathVoice", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var5, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var7, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_DeathVoiceDialogs(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var8, _Var1, _Var1)
+AND
+_Var8 <= 10
+AND
+QRY_OnlyOnce("ORI_Gale_DeathVoice_JoinDeathVoice", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var5, _Var2);
+
+IF
+EnteredForceTurnBased((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var1, _, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604
+AND
+QRY_OnlyOnce_Reset("ORI_Gale_DeathVoice_JoinDeathVoice", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var4, _Var5, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var7, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_DeathVoiceDialogs(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var5, _Var1, _Var8, _Var1, _Var1)
+AND
+_Var8 <= 10
+AND
+QRY_OnlyOnce("ORI_Gale_DeathVoice_JoinDeathVoice", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var4, _Var1);
+
+QRY
+QRY_ORI_Gale_DeathVoice_CacheFTB((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInForceTurnBasedMode(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_Gale_DeathVoice_CachedFTB(_Var1, _Var2);
+NOT DB_ORI_Gale_DeathVoice_CachedFTB(_Var1, _Var3);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_ORI_Gale_DeathVoiceDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_DeathVoice_CachedFTB(_Var3, 0, _Var1, _Var1, _Var1)
+THEN
+ForceTurnBasedMode(_Var3, 0);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_ORI_Gale_DeathVoiceDialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_DeathVoice_CachedFTB(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_DeathVoice_CachedFTB(_Var3, _Var4);
+
+IF
+Died(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_ORI_Gale_InChasm(1, _, _, _, _)
+THEN
+NOT DB_ORI_Gale_AuraSuppressed(1);
+ApplyStatus(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_GALE_NECROTICAURA", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EnteredChasm(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_ORI_Gale_InChasm(1);
+NOT DB_ORI_Gale_AuraSuppressed(1);
+RemoveStatus(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_GALE_NECROTICAURA");
+
+IF
+Resurrected(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+NOT DB_ORI_Gale_InChasm(1);
+NOT DB_ORI_Gale_AuraSuppressed(1);
+RemoveStatus(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_GALE_NECROTICAURA");
+
+IF
+StatusAttempt(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "RESURRECTING", _, _, (GUIDSTRING)_)
+THEN
+RemoveStatus(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_GALE_NECROTICAURA");
+DB_ORI_Gale_AuraSuppressed(1);
+
+IF
+StatusRemoved(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "RESURRECTING", _, _, _)
+AND
+DB_ORI_Gale_AuraSuppressed(1, _, _, _, _)
+AND NOT
+DB_ORI_Gale_InChasm(1, _, _, _, _)
+THEN
+ApplyStatus(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_GALE_NECROTICAURA", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusRemoved(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "RESURRECTING", _, _, _)
+AND
+DB_ORI_Gale_AuraSuppressed(1, _, _, _, _)
+THEN
+NOT DB_ORI_Gale_AuraSuppressed(1);
+
+PROC
+PROC_ORI_Gale_DisableDeathEffect()
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+SysClear("DB_ORI_Gale_DyingCombat", 1);
+SysClear("DB_ORI_Gale_InChasm", 1);
+SysClear("DB_QRYRTN_ORI_Gale_DeathSpeaker", 1);
+SysClear("DB_ORI_Gale_DeathVoiceDialogs", 1);
+SysClear("DB_ORI_Gale_DeathVoiceDialogs", 1);
+SetOnStage(S_GLO_Gale_DeathVoice_736c736b-34d8-4dc6-98ac-3f78378ad06d, 0);
+RemoveStatus(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "ORI_GALE_NECROTICAURA");
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

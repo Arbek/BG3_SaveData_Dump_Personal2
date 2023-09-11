@@ -1,0 +1,120 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_NPCAttackAD(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_NPCAttackAD(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogNPCs(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var5, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatDialogs_NoStop(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogGetCategory(_Var3, "Repeated automated NPC Dialog", _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+
+IF
+CombatStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CombatDialogs_CombatStarted(_Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_CombatDialogs_CombatStarted(_Var1);
+
+IF
+AutomatedDialogStarted(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_DialogNPCs(_Var2, _Var3, _, _, _)
+AND
+DB_Is_InCombat(_Var3, _Var5, _, _, _)
+AND NOT
+DB_CombatDialogs_CombatStarted(_Var5, _, _, _, _)
+AND
+DB_DialogName(_Var6, _Var2, _, _, _)
+AND NOT
+DB_CombatDialogs_NoStop(_Var6, _, _, _, _)
+AND
+DialogGetCategory(_Var2, "Repeated automated NPC Dialog", _, _, _)
+THEN
+PROC_ForceStopDialog(_Var3);
+
+IF
+StartAttack(_, _, (GUIDSTRING)_Var3, (INTEGER)_Var4, _)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsCharacter(_Var3, 1, _, _, _)
+THEN
+PROC_TryStartNPCAttackAD(_Var3, _Var4);
+
+IF
+StartAttackPosition(_, _, _, _, (GUIDSTRING)_Var5, (INTEGER)_Var6, _, _, _, _)
+AND
+_Var5 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsCharacter(_Var5, 1, _, _, _)
+THEN
+PROC_TryStartNPCAttackAD(_Var5, _Var6);
+
+PROC
+PROC_TryStartNPCAttackAD((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_NPCAttackAD_StoryActionHandled(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_NPCAttackAD(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogNPCs(_, _Var1, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND NOT
+DB_NPCAttackAD_Timer(_Var6, _, _Var1, _Var1, _Var1)
+AND
+QRY_GetFairRand("GLO_NPCAttackAD", 10, _Var1, _Var1, _Var1)
+AND
+DB_FairRand_ReturnVal(0, _Var1, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var6, _Var8, _Var1, _Var1, _Var1)
+AND
+Concatenate("GLO_NPCAttackAD_Timer_", _Var8, _Var9, _Var1, _Var1)
+THEN
+DB_NPCAttackAD_Timer(_Var6, _Var9);
+TimerLaunch(_Var9, 45000);
+DB_NPCAttackAD_StoryActionHandled(_Var1, _Var2);
+PROC_TryStartAD(_Var3, _Var1);
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_NPCAttackAD_Timer(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_NPCAttackAD_Timer(_Var2, _Var1);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_NPCAttackAD_StoryActionHandled(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_NPCAttackAD_StoryActionHandled(_Var1, _Var2);
+
+IF
+LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_NPCAttackAD_StoryActionHandled(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_NPCAttackAD_StoryActionHandled(_Var1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

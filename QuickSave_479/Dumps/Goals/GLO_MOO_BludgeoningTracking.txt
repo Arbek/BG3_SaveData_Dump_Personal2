@@ -1,0 +1,52 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+AddedTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsWeapon(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, BLUDGEONING_3cbf1ad9-ebb4-4b37-8075-945fbfb471b3, 1, _Var1, _Var1)
+THEN
+PROC_MOO_BludgeoningTracking_SetFlag(_Var2);
+DB_MOO_BludgeoningTracking_Weapons(_Var2, _Var1);
+
+PROC
+PROC_MOO_BludgeoningTracking_SetFlag((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_MOO_BludgeoningTracking_Weapons(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_HasToolForGnomes_1ab0ffbf-c758-4def-8a86-3b841c82a7c1, _Var1, 0);
+
+IF
+RemovedFrom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_BludgeoningTracking_Weapons(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_BludgeoningTracking_Weapons(_Var2, _Var1);
+PROC_MOO_BludgeoningTracking_Recheck(_Var2);
+
+PROC
+PROC_MOO_BludgeoningTracking_Recheck((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_MOO_BludgeoningTracking_Weapons(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Jailbreak_State_HasToolForGnomes_1ab0ffbf-c758-4def-8a86-3b841c82a7c1, _Var1, 0);
+
+IF
+LevelLoaded("INT_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

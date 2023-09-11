@@ -1,0 +1,121 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_ScryingEye(S_GOB_Eye_7e80dd2a-19f6-4411-8a52-35c3878ef4c8, S_GOB_EyeArea_62864eb1-2d97-4381-a10d-f80014ce246d);
+DB_CRIME_Guards_RegionReinforcements("WLD_Main_A_GOB", 1);
+DB_CRIME_Guards_RegionInfo("WLD_Main_A_GOB", "GOB_ThroneRoom", NULL_00000000-0000-0000-0000-000000000000);
+DB_CRIME_Guards_RegionGuard("WLD_Main_A_GOB", "GOB_ThroneRoom", S_GOB_GuardPolite_56540e3d-f1ac-441b-a690-5f9602c04b86);
+DB_CRIME_Guards_RegionGuard("WLD_Main_A_GOB", "GOB_ThroneRoom", S_GOB_GuardVulgar_a063d18e-d513-4d30-80ea-40a5bffb4bd7);
+DB_CRIME_Guards_RegionGuard("WLD_Main_A_GOB", "GOB_ThroneRoom", S_GOB_GoblinLush_d738c9a4-a031-4dd9-912f-93cda8d8d8b7);
+DB_CRIME_Guards_RegionGuard("WLD_Main_A_GOB", "GOB_ThroneRoom", S_GOB_RaiderChieftain_5bac0842-c1d4-4358-a85c-24ab745d0280);
+DB_CRIME_Guards_RegionGuard("WLD_Main_A_GOB", "GOB_ThroneRoom", S_GOB_WarchiefGrumpy_126e39d1-7c38-453c-888b-4cddce7f3e41);
+DB_GLO_ScryingEye_PerRegionCrime(GOB_ScryingEyes_State_ActedHostile_6d856772-02c4-4d20-812a-99af5c6dde37, S_GOB_Festivities_SUB_217424e5-f9b7-4441-ab09-715076696a12);
+DB_GLO_ScryingEye_PerRegionCrime(GOB_ScryingEyes_State_ActedHostile_6d856772-02c4-4d20-812a-99af5c6dde37, S_GOB_PriestDungeon_SUB_d693268c-84c9-44c2-ac7d-11ebc5524764);
+DB_GLO_ScryingEye_PerRegionCrime(GOB_ScryingEyes_State_ActedHostile_6d856772-02c4-4d20-812a-99af5c6dde37, S_GOB_ThroneRoom_SUB_bb81678b-641c-43fc-bd41-53295d59be03);
+DB_GLO_ScryingEye_PerRegionCrime(GOB_ScryingEyes_State_ActedHostile_6d856772-02c4-4d20-812a-99af5c6dde37, S_GOB_WolfPens_SUB_a9a4a7c2-87c6-4031-9859-7eddb0528ff6);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_Leaders_a25829dd-772a-6b00-572f-e036f89471aa);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_Guards_f75246c5-0984-ec12-ee44-954231e0a219);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_GoblinKing_Minions_b5763ce7-a39d-4371-d14f-748b22c74971);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_GoblinKing_c5f4ad9e-0a09-b7bd-499c-baf58e10587c);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_GoblinPriest_2d0b3c0e-279c-29c5-5e14-57de02a5dce9);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_GoblinPriest_Minions_f4070cb5-e834-4bd2-58ba-ebf462e9f3fd);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_GoblinPriest_Guards_6d266e80-f605-488d-a2e0-2c4e8ea19384);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_GoblinPriest_Ogre_fa18e2bb-e9ea-4053-9cf1-2d9acb5bf545);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_RaidersNearHeretic_1f30d2dc-3034-4237-9aed-0edf1e1f1c36);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_Bravado_83d9ecec-772f-487a-85f9-79aaee46befb);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_WolfPens_7adb52e1-1e4d-5312-3b0e-eb262d0a72e0);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_WolfPens_Backup_805a2548-8ff2-464e-d975-b34e703f7825);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_WolfPens_Worgs_2df5ac7c-486f-ad96-dabb-31cf3b26dc89);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_WolfPens_Worgs_2df5ac7c-486f-ad96-dabb-31cf3b26dc89);
+DB_GLO_ScryingEye_AbsoluteFactions(ACT1_GOB_Torturers_8a9e7e9a-1e72-eed1-8175-6c8d50ef7372);
+PROC_CharacterDisableAllCrimes(S_GOB_Eye_7e80dd2a-19f6-4411-8a52-35c3878ef4c8);
+
+KBSECTION
+QRY
+QRY_GOB_ScryingEye_ShouldTrigger((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_GuardDisabled((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_Guards_RegionGuard("WLD_Main_A_GOB", "GOB_ThroneRoom", _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GOB_BattleStations_Event_ToStation_03a8bd66-c23f-4989-9a7b-775cf475104b, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Sees(_Var1, S_GOB_Eye_7e80dd2a-19f6-4411-8a52-35c3878ef4c8, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GOB_BattleStations_Event_ToStation_03a8bd66-c23f-4989-9a7b-775cf475104b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GOB_WolfPens_State_HalsinIsInParty_7d95447a-3fd3-4ac9-851f-b817106d54ef, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_VBPlayed", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_TimerLaunched", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_TimerLaunched");
+TimerLaunch("GOB_GoblinThrone_NoticeScryingEye_Timer", 1500);
+
+IF
+TimerFinished("GOB_GoblinThrone_NoticeScryingEye_Timer", _, _, _, _)
+AND
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_TimerLaunched", _, _, _, _)
+THEN
+NOT DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_TimerLaunched");
+
+IF
+TimerFinished("GOB_GoblinThrone_NoticeScryingEye_Timer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Sees(_Var1, S_GOB_Eye_7e80dd2a-19f6-4411-8a52-35c3878ef4c8, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_VBPlayed", _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, S_GOB_Eye_7e80dd2a-19f6-4411-8a52-35c3878ef4c8, _Var2, _Var1, _Var1)
+AND
+_Var2 < 15
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "GOB_GoblinThrone_NoticeScryingEye", _Var1, _Var1, _Var1)
+THEN
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_VBPlayed");
+StartVoiceBark(GOB_GoblinThrone_VB_NoticeScryingEye_2892b0e3-13a5-b61f-c4b4-414b37d25eab, _Var1);
+
+IF
+TimerFinished("GOB_GoblinThrone_NoticeScryingEye_Timer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Sees(_Var1, S_GOB_Eye_7e80dd2a-19f6-4411-8a52-35c3878ef4c8, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_VBPlayed", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_TimerLaunched", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GOB_ScryingEye_BlockEvent("GOB_GoblinThrone_NoticeScryingEye_TimerLaunched");
+TimerLaunch("GOB_GoblinThrone_NoticeScryingEye_Timer", 1500);
+
+IF
+DB_Sees(_Var1, S_GOB_Eye_7e80dd2a-19f6-4411-8a52-35c3878ef4c8, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GOB_State_ScryingEyeSeen_9ff6a163-91ac-34e9-f8e7-7902ebf2cfba, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GOB_State_ScryingEyeSeen_9ff6a163-91ac-34e9-f8e7-7902ebf2cfba);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

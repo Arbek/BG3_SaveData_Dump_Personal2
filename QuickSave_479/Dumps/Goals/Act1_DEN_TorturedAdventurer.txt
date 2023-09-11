@@ -1,0 +1,71 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+CharacterMoveTo(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, S_GOB_TorturedAdventurer_EscapeMove1_ba4958ac-e37d-436c-b40e-2ca536062829, "Run", "TorturedAdventurer_FirstJump");
+
+KBSECTION
+IF
+EntityEvent(_, "TorturedAdventurer_FirstJump", _, _, _)
+AND NOT
+DB_CantAct(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, _, _, _, _)
+THEN
+UseSpell(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, "Projectile_Jump_NoFallDamage", S_GOB_TorturedAdventurer_EscapeJump1_97823e7e-da18-4193-b324-8afc30a4feb4);
+PROC_DisappearOutOfSight(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, "Run", 0, "GOB_TorturedAdventurer_Event_DashOff");
+
+IF
+EntityEvent(_, "DEN_HappyTorturers_Event_AdventurerArrived", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_AddOrUpdateDenNPC(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, "", NULL_00000000-0000-0000-0000-000000000000);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847);
+DB_Dialogs(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, DEN_TorturedAdventurer_Resting_b2315435-5fda-8c48-38aa-231c448b758c);
+SetHasDialog(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, 1);
+SetFlag(GOB_TorturedAdventurer_State_Resting_75e6b157-74c3-4bb1-bba7-c8046cd1486d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EntityEvent(_, "GOB_TorturedAdventurer_Event_DashOff", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_AppearOutOfSightTo(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, S_DEN_TorturedAdventurer_Idle_103f07fe-8c42-4e61-8f7f-3ecbd8a96cbb, S_DEN_TorturedAdventurer_Idle_103f07fe-8c42-4e61-8f7f-3ecbd8a96cbb, "DEN_HappyTorturers_Event_AdventurerArrived");
+
+IF
+FlagSet(GOB_TorturedAdventurer_State_Resting_75e6b157-74c3-4bb1-bba7-c8046cd1486d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_PermaDefeatedEvent(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, DEN_TorturedAdventurer_State_PermaDefeated_4c189a10-58da-4b82-90d8-804cda9c4c6d);
+Use(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, S_DEN_TorturedAdventurer_IdleBedroll_0e3bf7f6-9c73-4dca-8728-ded6ef833f1c, "");
+
+IF
+EntityEvent(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DebugText(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, _Var1);
+
+IF
+EntityEvent(_, "GOB_TorturedAdventurer_Deactivated", _, _, _)
+AND NOT
+IsDead(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, 1, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+PROC_AppearOutOfSightTo(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, S_DEN_TorturedAdventurer_Idle_103f07fe-8c42-4e61-8f7f-3ecbd8a96cbb, S_DEN_TorturedAdventurer_Idle_103f07fe-8c42-4e61-8f7f-3ecbd8a96cbb, "DEN_HappyTorturers_Event_AdventurerArrived");
+
+IF
+TextEvent("debug_tp", _, _, _, _)
+THEN
+TeleportTo(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, S_DEN_TorturedAdventurer_Idle_103f07fe-8c42-4e61-8f7f-3ecbd8a96cbb, "debug_tp", 0, 0, 0);
+
+IF
+TextEvent("debug_use", _, _, _, _)
+THEN
+Use(S_GOB_TorturedAdventurer_0dd6e9f1-d32d-41f1-b230-d540558e0847, S_DEN_TorturedAdventurer_IdleBedroll_0e3bf7f6-9c73-4dca-8728-ded6ef833f1c, "debug_use");
+
+IF
+EntityEvent(_, "GOB_TorturedAdventurer_Event_DashOff", _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "HIDDEN_WLD_Boosters", "GOB_Torturers_Freed");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1_GOB_HappyTorturers"

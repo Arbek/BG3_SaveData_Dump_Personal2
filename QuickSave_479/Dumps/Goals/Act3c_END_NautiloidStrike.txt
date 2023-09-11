@@ -1,0 +1,497 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_001_d9f6374e-f2ec-42e1-8be8-59f24e9c0091);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_002_db1d24d4-1e92-4b33-ac86-32ef586bed5f);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_003_c2fe1566-ba04-4f7e-8d98-298df5e2e765);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_004_65299ba6-5221-4d72-8a0a-09cbd3bdcac0);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_005_1d2ce6a9-936f-4824-91ec-372f845227e8);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_006_97e5f46b-afd3-4d4f-a9b9-4edad2a30bb5);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_007_62280193-5e9a-40f0-bae5-b7ffcbe50242);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_008_c228aee0-0c9b-4df9-b6c9-8178ffbcc7e9);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_009_44f10724-2d92-4a32-9598-79264b9cee1a);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_010_24be470c-0c59-4063-81a3-6602e73528fe);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_011_5469a61f-6408-48c0-b162-cb7a6db5970d);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_012_1bf6855f-3510-4d92-a34e-90702a43eddd);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_013_a6996023-b1e4-4610-8faf-6d2f312b2641);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_014_3abfb659-dd78-4c2c-99bf-60d31874c988);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_015_bb25f420-f264-4d4e-8da3-17e518ba681a);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_017_ab7a3a9a-3a28-4344-809d-e773f68e6498);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_018_5ec4d250-03ed-4247-a4f4-97369f88c7fe);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_019_645a2250-75ef-4c88-aa18-3b9e2d7f7894);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_016_e7b45e22-93da-4858-bad4-d2cb9622a9fe);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_021_0131a23e-6331-4e74-9e43-34cceec48ec5);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_022_1e1b5011-f234-4ba0-ba10-3b1db036a879);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_023_369030f6-b062-4118-bd0e-4843f08cc8d7);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_024_c40f6321-c6c3-4e09-995a-06e9bc31c049);
+DB_END_NautiloidStrike_Helpers(S_END_NautiloidStrikeTargetHelper_020_c6b7f0a5-7c52-4e04-962b-fa7acca56b6e);
+DB_END_NautiloidStrike_DropPodTypes(0, "END_NautiloidStrike_IntDevPod", "ProjectileStrike_END_HighHallInterior_IntDevPodStrike");
+DB_END_NautiloidStrike_DropPodTypes(1, "END_NautiloidStrike_MindFlayerPod", "ProjectileStrike_END_HighHallInterior_MindFlayerPodStrike");
+DB_END_NautiloidStrike_CastSpacingTime(200);
+DB_END_NautiloidStrike_TotalBufferTime(0);
+DB_END_NautiloidStrike_EntityHitTime(0);
+
+KBSECTION
+IF
+TextEvent("end_strikeclear", _, _, _, _)
+THEN
+PROC_END_NautiloidStrike_ClearAll();
+
+IF
+TextEvent("end_strikefire", _, _, _, _)
+AND NOT
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_, _, _, _, _)
+AND
+GetHostCharacter(_Var2, _, _, _, _)
+THEN
+DebugText(_Var2, "No targets primed!");
+
+PROC
+PROC_END_NautiloidStrike_SetTarget(_, _, (REAL)_, (REAL)_, (REAL)_)
+THEN
+PROC_END_NautiloidStrike_ResetSelectedHelpers();
+
+PROC
+PROC_END_NautiloidStrike_SetTarget(_, _, _, (REAL)_, (REAL)_)
+THEN
+PROC_END_NautiloidStrike_ResetSelectedHelpers();
+
+PROC
+PROC_END_NautiloidStrike_ResetSelectedHelpers()
+AND
+DB_OnlyOnce("END_NautiloidStrike_ResetOldestHelper", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("END_NautiloidStrike_ResetOldestHelper");
+
+PROC
+PROC_END_NautiloidStrike_ResetSelectedHelpers()
+AND
+DB_OnlyOnce("END_NautiloidStrike_SelectedHelper", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("END_NautiloidStrike_SelectedHelper");
+
+PROC
+PROC_END_NautiloidStrike_SetTarget((REAL)_Var1, (REAL)_Var2, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+THEN
+PROC_END_NautiloidStrike_SelectPlaceAndReadyHelper(_Var1, _Var2, 0);
+
+PROC
+PROC_END_NautiloidStrike_SetTarget((REAL)_Var1, (REAL)_Var2, (INTEGER)_Var3, (REAL)_Var1, (REAL)_Var1)
+THEN
+PROC_END_NautiloidStrike_SelectPlaceAndReadyHelper(_Var1, _Var2, _Var3);
+
+PROC
+PROC_END_NautiloidStrike_SelectPlaceAndReadyHelper(_, _, 0, _, _)
+AND NOT
+QRY_END_NautiloidStrike_HelperIsAvailable()
+AND
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var3, _, _, _, _)
+AND
+QRY_OnlyOnce("END_NautiloidStrike_ResetOldestHelper", _, _, _, _)
+THEN
+PROC_END_NautiloidStrike_Clear(_Var3);
+
+PROC
+PROC_END_NautiloidStrike_SelectPlaceAndReadyHelper(_, _, 1, _, _)
+AND NOT
+QRY_END_NautiloidStrike_HelperIsAvailable()
+AND
+DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var3, _, _, _, _)
+AND
+QRY_OnlyOnce("END_NautiloidStrike_ResetOldestHelper", _, _, _, _)
+THEN
+PROC_END_NautiloidStrike_Clear(_Var3);
+
+QRY
+QRY_END_NautiloidStrike_HelperIsAvailable()
+AND
+DB_END_NautiloidStrike_Helpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_END_NautiloidStrike_SelectPlaceAndReadyHelper((REAL)_Var1, (REAL)_Var2, (INTEGER)_Var3, (REAL)_Var1, (REAL)_Var1)
+AND
+QRY_END_NautiloidStrike_GetAvailableHelpers()
+AND
+DB_QRY_RTN_END_SelectedHelper(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_END_SelectedHelper(_Var4);
+PROC_END_NautiloidStrike_MoveTargetHelperToPos(_Var4, _Var1, _Var2);
+ApplyStatus(_Var4, "END_BOMBARDMENT_AI_AVOIDAREA", -1, 1, S_END_NautiloidCannonHelper_5f06accf-0a2e-46bb-b3d2-8219e5748623);
+PROC_END_NautiloidStrike_SetStrikeType(_Var4, _Var3);
+SetForceUpdate(_Var4, 1);
+
+PROC
+PROC_END_NautiloidStrike_SetStrikeType((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1);
+ApplyStatus(_Var1, "END_HIGHHALLINTERIOR_NAUTILOIDTARGET_VFX", -1, 1, S_END_NautiloidCannonHelper_5f06accf-0a2e-46bb-b3d2-8219e5748623);
+
+PROC
+PROC_END_NautiloidStrike_SetStrikeType((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var1);
+ApplyStatus(_Var1, "END_HIGHHALLINTERIOR_DROPPODTARGET_VFX", -1, 1, S_END_NautiloidCannonHelper_5f06accf-0a2e-46bb-b3d2-8219e5748623);
+
+QRY
+QRY_END_NautiloidStrike_GetAvailableHelpers()
+AND
+DB_END_NautiloidStrike_Helpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("END_NautiloidStrike_SelectedHelper", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("END_NautiloidStrike_SelectedHelper");
+DB_QRY_RTN_END_SelectedHelper(_Var1);
+
+PROC
+PROC_END_NautiloidStrike_MoveTargetHelperToPos((GUIDSTRING)_Var1, (REAL)_Var2, (REAL)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TeleportToPosition(_Var1, _Var2, 200, _Var3, "", 0, 0, 0, 0, 1);
+
+PROC
+PROC_END_NautiloidStrike_SetForceUpdate((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_END_NautiloidStrike_ForceUpdatingObject(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_END_NautiloidStrike_ForceUpdatingObject(_Var1);
+SetForceUpdate(_Var1, 1);
+
+PROC
+PROC_END_NautiloidStrike_SetForceUpdate((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_END_NautiloidStrike_ForceUpdatingObject(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_ForceUpdatingObject(_Var1);
+SetForceUpdate(_Var1, 0);
+
+PROC
+PROC_END_NautiloidStrike_ClearForceUpdatedObjects()
+AND
+DB_END_NautiloidStrike_ForceUpdatingObject(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_ForceUpdatingObject(_Var1);
+SetForceUpdate(_Var1, 0);
+
+PROC
+PROC_END_NautiloidStrike_FireAll()
+AND
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+Random(1500, _Var2, _Var1, _Var1, _Var1)
+THEN
+RealTimeObjectTimerLaunch(_Var1, "END_NautiloidStrike_Fire", _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "END_NautiloidStrike_Fire", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_END_NautiloidStrike_FireStrike("ProjectileStrike_END_HighHallInterior_NautiloidStrike", _Var1);
+PROC_END_NautiloidStrike_Clear(_Var1);
+PROC_END_NautiloidStrike_StikeCasted();
+
+PROC
+PROC_END_NautiloidStrike_FireSequence()
+AND
+DB_OnlyOnce("END_NautiloidStrike_FireThenWaitForNext", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("END_NautiloidStrike_FireThenWaitForNext");
+
+PROC
+PROC_END_NautiloidStrike_FireSequence()
+AND NOT
+DB_GlobalFlag(END_NautiloidStrike_State_CurrentlyFiring_dc0e8671-348f-45a9-b09f-f7627b7ceee7, _, _, _, _)
+THEN
+SetFlag(END_NautiloidStrike_State_CurrentlyFiring_dc0e8671-348f-45a9-b09f-f7627b7ceee7);
+PROC_END_NautiloidStrike_FireNextInSequence();
+
+PROC
+PROC_END_NautiloidStrike_FireNextInSequence()
+AND
+DB_END_NautiloidStrike_CastSpacingTime(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_END_NautiloidStrike_EntityHitTime(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_END_NautiloidStrike_TotalBufferTime(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_TotalBufferTime(_Var4);
+DB_END_NautiloidStrike_TotalBufferTime(_Var3);
+PROC_END_NautiloidStrike_ResetEntityHitTime();
+
+PROC
+PROC_END_NautiloidStrike_ResetEntityHitTime()
+AND
+DB_END_NautiloidStrike_EntityHitTime(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_EntityHitTime(_Var1);
+DB_END_NautiloidStrike_EntityHitTime(0);
+
+PROC
+PROC_END_NautiloidStrike_FireNextInSequence()
+AND
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_END_NautiloidStrike_TotalBufferTime(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("END_NautiloidStrike_FireThenWaitForNext", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("END_NautiloidStrike_FireThenWaitForNext");
+DB_END_NautiloidStrike_PrimedStrikeQueue(_Var1);
+RealTimeObjectTimerLaunch(_Var1, "END_NautiloidStrike_NextFire", _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "END_NautiloidStrike_NextFire", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_END_NautiloidStrike_PrimedStrikeQueue(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_END_NautiloidStrike_FireStrike("ProjectileStrike_END_HighHallInterior_NautiloidStrike", _Var1);
+RealTimeObjectTimerLaunch(_Var1, "END_NautiloidStrike_ClearHelper", 1400);
+RealTimeObjectTimerLaunch(_Var1, "END_NautiloidStrike_WaitForHit", 1800);
+PROC_END_NautiloidStrike_StikeCasted();
+
+IF
+ObjectTimerFinished(_, "END_NautiloidStrike_WaitForHit", _, _, _)
+AND
+QRY_END_NautiloidStrike_FireSequenceReachedEnd()
+THEN
+ClearFlag(END_NautiloidStrike_State_CurrentlyFiring_dc0e8671-348f-45a9-b09f-f7627b7ceee7);
+PROC_END_NautiloidStrike_ResetEntityHitTime();
+
+IF
+ObjectTimerFinished(_, "END_NautiloidStrike_WaitForHit", _, _, _)
+AND NOT
+QRY_END_NautiloidStrike_FireSequenceReachedEnd()
+AND
+DB_OnlyOnce("END_NautiloidStrike_FireThenWaitForNext", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("END_NautiloidStrike_FireThenWaitForNext");
+PROC_END_NautiloidStrike_FireNextInSequence();
+
+IF
+CastedSpell(_, "ProjectileStrike_END_HighHallInterior_NautiloidStrike", _, _, _)
+AND
+DB_END_NautiloidStrike_StrikeCastID(_Var5, _, _, _, _)
+THEN
+NOT DB_END_NautiloidStrike_StrikeCastID(_Var5);
+
+IF
+CastedSpell(_, "ProjectileStrike_END_HighHallInterior_NautiloidStrike", _, _, (INTEGER)_Var4)
+AND NOT
+DB_END_NautiloidStrike_StrikeCastID(_Var4, _, _, _, _)
+THEN
+DB_END_NautiloidStrike_StrikeCastID(_Var4);
+
+IF
+AttackedBy(_, S_END_NautiloidCannonHelper_5f06accf-0a2e-46bb-b3d2-8219e5748623, S_END_NautiloidCannonHelper_5f06accf-0a2e-46bb-b3d2-8219e5748623, _, _, _, (INTEGER)_Var5, _, _, _)
+AND
+DB_END_NautiloidStrike_StrikeCastID(_Var5, _, _, _, _)
+THEN
+NOT DB_END_NautiloidStrike_StrikeCastID(_Var5);
+PROC_END_NautiloidStrike_EntityHitCastBuffer();
+
+QRY
+QRY_END_NautiloidStrike_FireSequenceReachedEnd()
+AND NOT
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_END_NautiloidStrike_EntityHitCastBuffer()
+AND
+DB_END_NautiloidStrike_EntityHitTime(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 == 0
+THEN
+NOT DB_END_NautiloidStrike_EntityHitTime(_Var1);
+DB_END_NautiloidStrike_EntityHitTime(400);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "END_NautiloidStrike_ClearHelper", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_END_NautiloidStrike_PrimedStrikeQueue(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_PrimedStrikeQueue(_Var1);
+PROC_END_NautiloidStrike_Clear(_Var1);
+
+IF
+FlagCleared(END_NautiloidStrike_State_CurrentlyFiring_dc0e8671-348f-45a9-b09f-f7627b7ceee7, _, _, _, _)
+AND
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var3, _, _, _, _)
+THEN
+NOT DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var3);
+
+PROC
+PROC_END_NautiloidStrike_FireStrike((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GlobalFlag(END_General_State_CurrentlyInBrainBattle_0d7205b2-0d55-4540-8737-543253873cd6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_END_NautiloidStrike_SpellAndTargetAfterTeleport(_Var1, _Var2);
+TeleportTo(S_END_NautiloidCannonHelper_5f06accf-0a2e-46bb-b3d2-8219e5748623, _Var2, "END_HighHallInterior_ArrivedAtFirePosition");
+
+IF
+EntityEvent(S_END_NautiloidCannonHelper_5f06accf-0a2e-46bb-b3d2-8219e5748623, "END_HighHallInterior_ArrivedAtFirePosition", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_END_NautiloidStrike_SpellAndTargetAfterTeleport(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_SpellAndTargetAfterTeleport(_Var1, _Var2);
+UseSpell(S_END_NautiloidCannonHelper_5f06accf-0a2e-46bb-b3d2-8219e5748623, _Var1, _Var2);
+
+PROC
+PROC_END_NautiloidStrike_FireStrike((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GlobalFlag(END_General_State_CurrentlyInBrainBattle_0d7205b2-0d55-4540-8737-543253873cd6, _Var1, _Var1, _Var1, _Var1)
+THEN
+CreateProjectileStrikeAt(_Var2, _Var1);
+
+PROC
+PROC_END_NautiloidStrike_StikeCasted()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_END_NautiloidStrike_FireRandomDropPod()
+AND
+Random(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_END_NautiloidStrike_FireDropPods(_Var1);
+
+PROC
+PROC_END_NautiloidStrike_FireDropPods((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_END_NautiloidStrike_DropPodTypes(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+Random(1500, _Var5, _Var1, _Var1, _Var1)
+THEN
+RealTimeObjectTimerLaunch(_Var2, _Var3, _Var5);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_END_NautiloidStrike_DropPodTypes(_, _Var2, _Var4, _Var1, _Var1)
+THEN
+PROC_END_NautiloidStrike_FireStrike(_Var4, _Var1);
+PROC_END_NautiloidStrike_Clear(_Var1);
+
+IF
+StatusApplied((CHARACTER)_Var1, "END_NAUTILOID_POD_INTELLECT_DEVOURER", _, _, (CHARACTER)_Var1)
+THEN
+PROC_END_NautiloidStrike_IntDevPodCharSet(_Var1);
+PROC_END_NautiloidStrike_DropPodCharSet(_Var1);
+
+PROC
+PROC_END_NautiloidStrike_IntDevPodCharSet((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied((CHARACTER)_Var1, "END_NAUTILOID_POD_INTELLECT_DEVOURER_DETONATOR", _, _, (CHARACTER)_Var1)
+THEN
+PROC_END_NautiloidStrike_IntDevPodDetonatorCharSet(_Var1);
+PROC_END_NautiloidStrike_DropPodCharSet(_Var1);
+
+PROC
+PROC_END_NautiloidStrike_IntDevPodDetonatorCharSet((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied((CHARACTER)_Var1, "END_NAUTILOID_POD_MIND_FLAYER", _, _, (CHARACTER)_Var1)
+THEN
+PROC_END_NautiloidStrike_MindFlayerPodCharSet(_Var1);
+PROC_END_NautiloidStrike_DropPodCharSet(_Var1);
+
+PROC
+PROC_END_NautiloidStrike_MindFlayerPodCharSet((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PlayAnimation(_Var1, UTIL_Spawn_01_510ff37e-0618-40e4-8ce0-236e3dc9c291, "");
+
+PROC
+PROC_END_NautiloidStrike_DropPodCharSet((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+CastedSpell(_, (STRING)_Var2, _, _, _)
+AND
+DB_END_NautiloidStrike_DropPodTypes(_, _, _Var2, _, _)
+THEN
+PROC_END_NautiloidStrike_DropPodCasted();
+
+PROC
+PROC_END_NautiloidStrike_DropPodCasted()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_END_NautiloidStrike_ClearAll()
+AND
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1);
+
+PROC
+PROC_END_NautiloidStrike_ClearAll()
+AND
+DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var1);
+
+PROC
+PROC_END_NautiloidStrike_ClearAll()
+AND
+DB_END_NautiloidStrike_Helpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "END_HIGHHALLINTERIOR_NAUTILOIDTARGET_VFX");
+RemoveStatus(_Var1, "END_HIGHHALLINTERIOR_DROPPODTARGET_VFX");
+RemoveStatus(_Var1, "END_BOMBARDMENT_AI_AVOIDAREA");
+SetForceUpdate(_Var1, 0);
+
+PROC
+PROC_END_NautiloidStrike_ClearAll()
+AND
+DB_GlobalFlag(END_NautiloidStrike_State_CurrentlyFiring_dc0e8671-348f-45a9-b09f-f7627b7ceee7, _, _, _, _)
+THEN
+ClearFlag(END_NautiloidStrike_State_CurrentlyFiring_dc0e8671-348f-45a9-b09f-f7627b7ceee7);
+
+PROC
+PROC_END_NautiloidStrike_Clear((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_PrimedStrikeHelpers(_Var1);
+RemoveStatus(_Var1, "END_HIGHHALLINTERIOR_NAUTILOIDTARGET_VFX");
+RemoveStatus(_Var1, "END_BOMBARDMENT_AI_AVOIDAREA");
+
+PROC
+PROC_END_NautiloidStrike_Clear((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_NautiloidStrike_PrimedDropPodHelpers(_Var1);
+RemoveStatus(_Var1, "END_HIGHHALLINTERIOR_DROPPODTARGET_VFX");
+RemoveStatus(_Var1, "END_BOMBARDMENT_AI_AVOIDAREA");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3c"

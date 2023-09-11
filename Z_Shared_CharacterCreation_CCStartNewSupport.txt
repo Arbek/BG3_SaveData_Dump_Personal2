@@ -1,0 +1,22 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+UserAvatarCreated((INTEGER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+NOT DB_DoNotFace(_Var2);
+SetTag(_Var2, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+DB_Players(_Var2);
+DB_GLO_PlayerCharactersSetup(1);
+PROC_PlayersSelected("ccStartNew");
+NOT DB_GLO_PlayerCharactersSetup(1);
+PROC_CheckPartyFull();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Z_Shared_CharacterCreation"

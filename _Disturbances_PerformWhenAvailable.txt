@@ -1,0 +1,486 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ReregisterObjectsOnRegionSwap("GEB_PerformWhenAvailable");
+
+KBSECTION
+PROC
+PROC_Disturbance_PerformWhenAvailable((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, _)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var2, _Var3, _Var4, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _)
+THEN
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_ForceUpdating(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Disturbance_PerformWhenAvailable_ForceUpdating(_Var1);
+SetForceUpdate(_Var1, 1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+THEN
+PROC_RegisterLevelObject("GEB_PerformWhenAvailable", _Var1);
+
+PROC
+PROC_LevelObjectRegistered("GEB_PerformWhenAvailable", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, "GEB_PerformWhenAvailable_StopForceActivate");
+
+PROC
+PROC_LevelObjectRegistered("GEB_PerformWhenAvailable", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Disturbance_PerformWhenAvailable_CurrentLevel(_Var1);
+
+QRY
+QRY_Disturbance_PerformWhenAvailable_IsBlockingStatus((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_StatusGroups_UnconsciousOrEquivalent(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_IsCharaterUnconsciousOrEquivalent(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Disturbance_PerformWhenAvailable_Incapacitated(_Var1, _Var2);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Incapacitated(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_Incapacitated(_Var1, _Var2);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, 0)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _, _, _, _)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Incapacitated(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, 0);
+NOT DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, 0);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, 1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _, _, _, 0)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _, _, _, _)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Incapacitated(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, 1);
+NOT DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, 1);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, 1)
+AND
+Random(2000, _Var5, _Var1, _Var1, _Var1)
+AND
+IntegerSum(3000, _Var5, _Var6, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "GEB_PerformWhenAvailable_StartDelay", _Var6);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, 0)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Start(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, 0)
+THEN
+PROC_Disturbance_PerformWhenAvailable_CancelDelayedStarting(_Var1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_CancelDelayedStarting((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, 1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Reevaluate(_Var1, _Var2, _Var3, _Var4, 1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GEB_PerformWhenAvailable_StartDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, _)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Start(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Start((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, _Var2, _Var3, _Var4, 0);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var4, _Var5, _Var7)
+THEN
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var2, _Var4, _Var5, _Var7, _Var6);
+NOT DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var4, _Var5, _Var7);
+
+PROC
+PROC_CharacterRegisterCrime_Blocked((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var4, _Var5, _Var7)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var4, _Var5, _Var7);
+NOT DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var4, _Var5, _Var7);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Reevaluate(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Reevaluate(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Reevaluate(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess(_Var1, _Var2, _Var3, _Var4, _Var6);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Reevaluate(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess(_Var1, _Var2, _Var3, _Var4, _Var6);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Reevaluate(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess(_Var1, _Var2, _Var3, _Var4, _Var6);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, "Confronting", _, (INTEGER)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var2, _Var4, _Var5, _Var6, _, _Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess(_Var2, _Var4, _Var5, _Var6, _Var1);
+
+IF
+OnCrimeResolved((INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var7, _Var8, _Var9, _Var10, _, _Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess(_Var7, _Var8, _Var9, _Var10, _Var1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND
+DB_Disturbance_PerformWhenAvailable_CheckSuccess(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_CheckSuccess(1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var4, (INTEGER)_Var5)
+AND NOT
+QRY_Disturbance_PerformWhenAvailable_Retry(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+PROC_Disturbance_PerformWhenAvailable_ClearOngoing(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_Finished(_Var1, _Var2, _Var3, _Var4, _Var5);
+DB_Disturbance_PerformWhenAvailable_CheckSuccess(1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Finished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_CheckSuccess(1, _Var1, _Var1, _Var1, _Var1)
+AND
+Random(5000, _Var6, _Var1, _Var1, _Var1)
+AND
+IntegerSum(500, _Var6, _Var7, _Var1, _Var1)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var5);
+DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_ClearOngoing(_Var1, _Var2, _Var3, _Var4);
+RealtimeObjectTimerCancel(_Var1, "GEB_Disturbance_PerformWhenAvailable_Requeue");
+RealtimeObjectTimerLaunch(_Var1, "GEB_Disturbance_PerformWhenAvailable_Requeue", _Var7);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GEB_Disturbance_PerformWhenAvailable_Requeue", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_Reevaluate(_Var1, _Var2, _Var3, _Var4, 0);
+
+QRY
+QRY_Disturbance_PerformWhenAvailable_Retry((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var4, (INTEGER)_Var5)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Disturbance_PerformWhenAvailable_QueueEmpty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Cleanup((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_UnregisterLevelObject("GEB_PerformWhenAvailable", _Var1);
+RealtimeObjectTimerLaunch(_Var1, "GEB_PerformWhenAvailable_StopForceActivate", 100);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Cleanup((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_StopForceActivate(_Var1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GEB_PerformWhenAvailable_StopForceActivate", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_StopForceActivate(_Var1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_StopForceActivate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, "GEB_PerformWhenAvailable_StopForceActivate");
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_StopForceActivate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_ForceUpdating(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_ForceUpdating(_Var1);
+SetForceUpdate(_Var1, 0);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Cleanup((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7);
+PROC_CRIME_StopForAllCriminals(_Var7);
+
+IF
+DB_RegisteredLevelObjects("GEB_PerformWhenAvailable", _Var1, _Var2, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Queued(_Var2, _, _, _, _)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var2, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_Starting(_Var2, _, _, _, _)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_BlockFinalize(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_Cleanup(_Var2, 0);
+
+IF
+OnCrimeRemoved((INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_CheckSuccess(_Var7, _Var8, _Var9, _Var10, _Var1);
+
+IF
+OnCrimeMergedWith((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Disturbance_PerformWhenAvailable_BlockFinalize(_Var3);
+NOT DB_Disturbance_PerformWhenAvailable_Ongoing(_Var3, _Var4, _Var5, _Var6, _Var7, _Var1);
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var3, _Var4, _Var5, _Var6, _Var7, _Var2);
+NOT DB_Disturbance_PerformWhenAvailable_BlockFinalize(_Var3);
+
+PROC
+PROC_LevelUnloading(_, _, _, _, _)
+AND
+DB_Disturbance_PerformWhenAvailable_CurrentLevel(_Var2, _, _, _, _)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_CurrentLevel(_Var2);
+PROC_Disturbance_PerformWhenAvailable_Cleanup(_Var2, 1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_ClearQueued((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_ClearQueuedAll((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5);
+PROC_Disturbance_PerformWhenAvailable_Finished(_Var1, _Var2, _Var3, _Var4, 0);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_ClearStarting((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+ObjectTimerCancel(_Var1, "GEB_PerformWhenAvailable_StartDelay");
+NOT DB_Disturbance_PerformWhenAvailable_Starting(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_ClearOngoing((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Disturbance_PerformWhenAvailable_Ongoing(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Reevaluate((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_ClearQueuedAll(_Var1);
+PROC_Disturbance_PerformWhenAvailable_ClearStarting(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_ClearOngoing(_Var1, _Var2, _Var3, _Var4);
+RealtimeObjectTimerCancel(_Var1, "GEB_Disturbance_PerformWhenAvailable_Requeue");
+NOT DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_Finished(_Var1, _Var2, _Var3, _Var4, 0);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Reevaluate((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_ClearQueuedAll(_Var1);
+PROC_Disturbance_PerformWhenAvailable_ClearStarting(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_ClearOngoing(_Var1, _Var2, _Var3, _Var4);
+RealtimeObjectTimerCancel(_Var1, "GEB_Disturbance_PerformWhenAvailable_Requeue");
+NOT DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_Finished(_Var1, _Var2, _Var3, _Var4, 0);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Reevaluate((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable_ClearQueuedAll(_Var1);
+PROC_Disturbance_PerformWhenAvailable_ClearStarting(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_ClearOngoing(_Var1, _Var2, _Var3, _Var4);
+RealtimeObjectTimerCancel(_Var1, "GEB_Disturbance_PerformWhenAvailable_Requeue");
+NOT DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_Finished(_Var1, _Var2, _Var3, _Var4, 0);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Reevaluate((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_Disturbance_PerformWhenAvailable_BlockFinalize(_Var1);
+PROC_Disturbance_PerformWhenAvailable_ClearStarting(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_ClearOngoing(_Var1, _Var2, _Var3, _Var4);
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5);
+NOT DB_Disturbance_PerformWhenAvailable_BlockFinalize(_Var1);
+
+PROC
+PROC_Disturbance_PerformWhenAvailable_Reevaluate((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Disturbance_PerformWhenAvailable_BlockFinalize(_Var1);
+PROC_Disturbance_PerformWhenAvailable_ClearStarting(_Var1, _Var2, _Var3, _Var4);
+PROC_Disturbance_PerformWhenAvailable_ClearOngoing(_Var1, _Var2, _Var3, _Var4);
+RealtimeObjectTimerCancel(_Var1, "GEB_Disturbance_PerformWhenAvailable_Requeue");
+NOT DB_Disturbance_PerformWhenAvailable_DelayedRequeue(_Var1, _Var2, _Var3, _Var4);
+DB_Disturbance_PerformWhenAvailable_Queued(_Var1, _Var2, _Var3, _Var4, _Var5);
+NOT DB_Disturbance_PerformWhenAvailable_BlockFinalize(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

@@ -1,0 +1,606 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_HAV_EnteringHaven_SpotTrigger_38b4a5b6-47a3-4e3c-826a-1b63c60863f7);
+DB_SpotPlayers_SpotTrigger_ManualRegistering(S_HAV_EnteringHaven_SpotTrigger_38b4a5b6-47a3-4e3c-826a-1b63c60863f7);
+DB_HAV_CheckpointSpotters(S_HAV_HavenOutcasts_BarricadeGuards_Melee_Dwarf_b1d8b327-1f27-4921-aa2b-dd18a9d67fc8);
+DB_HAV_CheckpointSpotters(S_HAV_EnteringHaven_Guard_f48078e6-ec51-49a2-a244-9d0a72af5257);
+DB_HAV_CheckpointSpotters(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+DB_Inclusion_Object(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, HAV_EnteringHaven_Inclusion_FlamingFist_fc2d07b4-9cf7-4163-bbc8-b570ddcb01f4, NULL_00000000-0000-0000-0000-000000000000);
+DB_Inclusion_NPCDialog(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6);
+DB_FlagReactionAfterDialog(HAV_EnteringHaven_TrespasserSpotted_368a6fef-ece0-a1db-f1da-146dd32a6634, GEB_HAV_EnteringHaven_Trespassing_dfd1e6a2-4c9a-1492-e88d-515a05211ffd);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_000_d565aab4-ff0a-4308-b7e3-a5e5f154e7ce);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_001_49a87b36-76fc-4232-aad8-dd4d0421ec10);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_002_3a942fe3-a6d1-4792-af82-2fc062280e30);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_003_936d0aec-0f0f-4c6d-b273-ff1f5eb121fd);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_004_0af8daa0-0654-42be-a9f8-a33909d4a188);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_005_dd3eca42-427e-4565-9db1-471a11ef82d6);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_006_e79b17a6-6f64-45e4-a553-b59060790461);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_007_e6455d59-6f13-4570-b834-4f4ab0918b24);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_008_767ac3d2-cb9a-40bb-8769-4ccd92ca54ff);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_009_85677d5f-d076-46fc-b006-9458c20d8d26);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_010_22780b26-0e56-43d4-8e3e-3b70ef9cd106);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_011_83cb9f05-b086-4ced-b77a-9b5d938ae960);
+DB_HAV_EnteringHaven_Claws(S_HAV_CrawlingClaw_012_467d4447-810d-49f9-be8a-48067b1852f1);
+DB_HAV_EnteringHaven_SetupVouchers(1);
+DB_HAV_EnteringHaven_DenVouchers(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, 1);
+DB_HAV_EnteringHaven_DenVouchers(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, 0);
+DB_Inclusion_Object(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, DEN_ThiefHideoutLeader_Inclusion_Start_5e66d4cf-2bed-d0c1-b003-cfd14b8ad04d, NULL_00000000-0000-0000-0000-000000000000);
+DB_CorpseCleanup_Area(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab);
+DB_CorpseCleanup_Area(S_HAV_Haven_SUB_Cellar_eee18cb6-443a-4b8f-ad19-58dff3d731d8);
+DB_HAV_EnteringHaven_ExtraSpeaker(S_HAV_HavenOutcasts_BarricadeGuards_Melee_Dwarf_b1d8b327-1f27-4921-aa2b-dd18a9d67fc8);
+DB_HAV_EnteringHaven_ExtraSpeaker(S_HAV_HavenOutcasts_BarricadeYeller_Ranger_b612ef5f-3381-4486-8959-84dd399fb1ae);
+DB_HAV_EnteringHaven_ExtraSpeaker(S_HAV_HavenOutcasts_FountainPatrol_Caster_ff70f59a-7d50-4e69-a768-60a97c6fb57d);
+DB_DialogBlockTradeButton(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c);
+
+KBSECTION
+IF
+LevelGameplayStarted("SCL_Main_A", 1, _, _, _)
+AND
+QRY_OnlyOnce("HAV_EnteringHaven_Init", _, _, _, _)
+THEN
+DB_HAV_EnteringHaven_IsEditor(1);
+
+IF
+TextEvent("havchec", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(DEBUG_HAV_EnteringHaven_CheckpointOn_194ea2a3-2638-072c-7761-07dc7e8eeb70);
+
+IF
+TextEvent("skiphavchec", _, _, _, _)
+THEN
+SetFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412);
+
+IF
+FlagSet(DEBUG_HAV_EnteringHaven_CheckpointOn_194ea2a3-2638-072c-7761-07dc7e8eeb70, _, _, _, _)
+AND
+DB_HAV_EnteringHaven_IsEditor(1, _, _, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(S_HAV_EnteringHaven_PlayerApproach_6fff604b-3521-44f6-8e75-3203c7fb91bc);
+NOT DB_HAV_EnteringHaven_IsEditor(1);
+DB_TrespassTrigger(S_HAV_EnteringHaven_ForbiddenArea_307bf271-9af2-4572-967a-e87edf41bf54, S_HAV_TrespassReturnPos_28cd1e46-be2c-44c2-810f-a6d4c6c3b25c, "HAV_EnteringHaven_ForbiddenArea");
+
+IF
+LevelGameplayStarted("SCL_Main_A", 0, _, _, _)
+AND
+QRY_OnlyOnce("HAV_EnteringHaven_Init", _, _, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(S_HAV_EnteringHaven_PlayerApproach_6fff604b-3521-44f6-8e75-3203c7fb91bc);
+DB_TrespassTrigger(S_HAV_EnteringHaven_ForbiddenArea_307bf271-9af2-4572-967a-e87edf41bf54, S_HAV_TrespassReturnPos_28cd1e46-be2c-44c2-810f-a6d4c6c3b25c, "HAV_EnteringHaven_ForbiddenArea");
+
+IF
+FlagSet(Debug_Teleport_HAV_Inside_b6a37cf7-1a4d-01c0-37fe-cbfc8133e7d2, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GlobalSetFlagAndCache(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412);
+PROC_HAV_EnteringHaven_Admitted();
+
+IF
+FlagSet(Debug_HAV_MolVouched_c400ba5f-13a5-2439-c206-e3592cf1b2e3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_Children(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+Resurrect(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+RemoveStatus(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, "KNOCKED_OUT", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_PermaDefeated(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925);
+ClearFlag(MOO_FirstFloor_DukeDouble_Quest_Accepted_10d8d681-e2a3-c472-e7d9-08718f2eaea2, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(GOB_State_LeadersAreDead_a1c5b01f-4b7f-47ab-82b0-d24d9c6d8bc6, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_GlobalSetFlagAndCache(HAV_EnteringHaven_State_MolVouched_ff4181d3-63ff-49ea-b26e-bc96c919119e);
+TeleportTo(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, S_HAV_EnteringHaven_MolPoint_9052d5fa-fd15-4fae-9faf-3f25544f99da);
+SetFlag(Debug_HAV_MolsDeal_ThreeWaySetup_2b492e4d-bc82-0619-cdec-321cd55a7f41, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_State_Progress(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, "HAV_FlamingSpy", "Spy_CaptureReady");
+
+IF
+FlagSet(Debug_HAV_MarcusVouched_bbf5313e-f92b-0014-0761-a870fda3f0c5, _, _, _, _)
+AND NOT
+DB_Defeated(S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, _, _, _, _)
+THEN
+ClearFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(Debug_HAV_MarcusVouched_bbf5313e-f92b-0014-0761-a870fda3f0c5, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(HAV_EnteringHaven_State_FlamingSpyVouch_f3850740-f19b-44c0-a018-00fa00e87b31, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_HAV_CheckpointSpotters(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers(_Var1, "HAV_EnteringHaven_CheckpointSpot", NULL_00000000-0000-0000-0000-000000000000, HAV_EnteringHaven_GainedAccess_StopSpotting_a51abf96-f5df-4dca-9acd-414eee740884);
+DB_SpotPlayers_Continuous(_Var1, "HAV_EnteringHaven_CheckpointSpot");
+DB_SpotPlayers_SpotTrigger(_Var1, "HAV_EnteringHaven_CheckpointSpot", S_HAV_EnteringHaven_SpotTrigger_38b4a5b6-47a3-4e3c-826a-1b63c60863f7);
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, "HAV_EnteringHaven_CheckpointSpot");
+DB_SpotPlayers_SpotterIgnoreCantTalk(_Var1, "HAV_EnteringHaven_CheckpointSpot");
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, "HAV_EnteringHaven_CheckpointSpot");
+DB_SpotPlayers_HasTag(_Var1, "HAV_EnteringHaven_CheckpointSpot", REALLY_HALSIN_9b8709f9-8d2a-4b4e-a465-8505c561d7f5, 0);
+
+IF
+FlagSet(HAV_EnteringHaven_State_JaheiraToGate_397c63c3-47c8-ceb4-fd12-fc848d820c3f, _, _, _, _)
+AND NOT
+DB_CantMove(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+THEN
+CharacterMoveTo(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_HAV_Checkpoint_JaheiraHome2_54db1d5b-11fb-48de-b799-f5c67d02b5c7, "Walk", "");
+
+IF
+DB_GlobalFlag(SCL_HarperScouts_State_ShadowsDefeated_bae50f7d-7347-4fb7-ae8a-9fda8f84fc9f, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_HarperScouts_State_HarpersDefeated_40be395c-f852-49ee-a30c-6531fbacd59c, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(HAV_EnteringHaven_State_HasSavedHarpers_8d3e8576-659d-4d2b-962a-6d562fd8cb49);
+
+PROC
+PROC_SCL_Drider_HarpersWin_SidedWithHarpers()
+AND NOT
+DB_GlobalFlag(SCL_Drider_Event_PlayersWillFindCaravanAtAmbush_b3f55a3b-4cbd-4181-8c8f-ecc8ff4eaf9c, _, _, _, _)
+THEN
+DB_HAV_EnteringHaven_HarperAmbushersSaved(1);
+PROC_GlobalSetFlagAndCache(HAV_EnteringHaven_State_HasSavedHarpers_8d3e8576-659d-4d2b-962a-6d562fd8cb49);
+
+IF
+DB_GlobalFlag(SCL_HarperScouts_State_HarpersDefeated_40be395c-f852-49ee-a30c-6531fbacd59c, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_HasSavedHarpers_8d3e8576-659d-4d2b-962a-6d562fd8cb49, _, _, _, _)
+AND NOT
+DB_HAV_EnteringHaven_HarperAmbushersSaved(1, _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(HAV_EnteringHaven_State_HasSavedHarpers_8d3e8576-659d-4d2b-962a-6d562fd8cb49);
+
+IF
+DB_HAV_EnteringHaven_Spotted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_Spotted(_, "HAV_EnteringHaven_CheckpointSpot", _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAV_EnteringHaven_Spotted(_Var1);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, "HAV_EnteringHaven_CheckpointSpot", _Var2, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_Spotted(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_ClawsActive(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_DialogStarting(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_IsEditor(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_DefeatCounter_CountMet("HAV_EnteringHaven_ClawsDefeated", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_HAV_EnteringHaven_TadpoleCheckpoint_RevealedMarcus_b6d58e9d-ae50-95c5-0776-60d68fd8c71b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_EnteringHaven_TriggerDialog(_Var2, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, "HAV_EnteringHaven_CheckpointSpot", _Var2, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_Spotted(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_ClawsActive(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_DialogStarting(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_IsEditor(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogRequestCache_SpeakerList_Speakers(_, _, _Var2, _, _Var1)
+AND
+DB_CantTalk(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_EnteringHaven_NonSpeakingEnter(_Var2);
+
+PROC
+PROC_HAV_EnteringHaven_NonSpeakingEnter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_CheckpointSpotters(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+LookAtEntity(_Var2, _Var1, 4);
+SetWeaponUnsheathed(_Var2, 0, 0);
+
+PROC
+PROC_HAV_EnteringHaven_NonSpeakingEnter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_HAV_EnteringHaven_AddToMuteCheckpointDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_CheckpointSpotters(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("PROC_HAV_EnteringHaven_NonSpeakingEnter", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_Arrival_Trespassers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(GEB_GetOutOfHere1_01d8d9e1-bde1-0792-688b-a11f04c440dd, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("PROC_HAV_EnteringHaven_NonSpeakingEnter");
+
+PROC
+PROC_HAV_EnteringHaven_NonSpeakingEnter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_HAV_EnteringHaven_AddToMuteCheckpointDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_CheckpointSpotters(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("PROC_HAV_EnteringHaven_NonSpeakingEnter", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(GEB_HAV_EnteringHaven_Trespassing_dfd1e6a2-4c9a-1492-e88d-515a05211ffd, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("PROC_HAV_EnteringHaven_NonSpeakingEnter");
+
+PROC
+PROC_HAV_EnteringHaven_NonSpeakingEnter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_HAV_EnteringHaven_Spotted(_Var1);
+NOT DB_OnlyOnce("PROC_HAV_EnteringHaven_NonSpeakingEnter");
+
+QRY
+QRY_HAV_EnteringHaven_AddToMuteCheckpointDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce_Reset("HAV_EnteringHaven_AddToMuteCheckpointDialog", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(GEB_GetOutOfHere1_01d8d9e1-bde1-0792-688b-a11f04c440dd, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_HAV_CheckpointSpotters(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HAV_EnteringHaven_AddToMuteCheckpointDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var2, _Var1);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, "HAV_EnteringHaven_CheckpointSpot", _Var2, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_Spotted(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_ClawsActive(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_EnteringHaven_DialogStarting(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var3, _Var2);
+
+PROC
+PROC_DialogFlagSetup(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, _, _, _, _, (GUIDSTRING)_Var6, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_HAV_EnteringHaven_Spotted(_Var6);
+DB_HAV_EnteringHaven_DialogStarting(1);
+
+IF
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_EnteringHaven_DialogStarting(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAV_EnteringHaven_DialogStarting(1);
+
+IF
+DialogRequestFailed(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_HAV_EnteringHaven_DialogStarting(1);
+
+PROC
+PROC_HAV_EnteringHaven_TriggerDialog((GUIDSTRING)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DebugText(_Var1, "Starting Dialog");
+
+PROC
+PROC_HAV_EnteringHaven_TriggerDialog((GUIDSTRING)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_FlamingSpyRevealed_89e1eb87-a718-8dc2-026d-f4db8321b686, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_WasVouchedFor_49b15dc5-9283-0937-4d7e-e66f3d8d5a11, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_HAV_EnteringHaven_GetAvailableHarper()
+AND
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(2, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialogCustom(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var3, _Var4, S_HAV_EnteringHaven_Guard_f48078e6-ec51-49a2-a244-9d0a72af5257, _Var2, _Var1, 0, 0, 1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_EnteringHaven_NonSpeakingEnter(_Var1);
+
+PROC
+PROC_HAV_EnteringHaven_TriggerDialog((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_FlamingSpyRevealed_89e1eb87-a718-8dc2-026d-f4db8321b686, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialogCustom(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, 0, 1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_EnteringHaven_NonSpeakingEnter(_Var1);
+
+PROC
+PROC_HAV_EnteringHaven_TriggerDialog((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_FlamingSpyRevealed_89e1eb87-a718-8dc2-026d-f4db8321b686, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_WasVouchedFor_49b15dc5-9283-0937-4d7e-e66f3d8d5a11, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialogCustom(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, 0, 1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_EnteringHaven_NonSpeakingEnter(_Var1);
+
+QRY
+QRY_HAV_EnteringHaven_GetAvailableHarper()
+AND
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(_Var1, _Var2);
+
+QRY
+QRY_HAV_EnteringHaven_GetAvailableHarper()
+THEN
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(1, NULL_00000000-0000-0000-0000-000000000000);
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(2, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_HAV_EnteringHaven_GetAvailableHarper()
+AND
+DB_SCL_HarperScouts_BridgeDialogues(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_SCL_HarperBridge_b68e6789-b6d3-4b39-866c-78dcfb37e7f0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(1, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(1, NULL_00000000-0000-0000-0000-000000000000);
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(1, _Var1);
+
+QRY
+QRY_HAV_EnteringHaven_GetAvailableHarper()
+AND
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(1, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_HarpersBackAtInn_9e0b8ee1-ccf7-4645-92da-4ec8be45508e, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersLearnMissedCaravan_cd3620bc-c471-4a6a-b0e0-336806bbfce3, _, _, _, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, 1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(2, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(2, _Var1);
+NOT DB_QRYRTN_HAV_EnteringHaven_AvailableHarper(2, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogStarted(GEB_HAV_EnteringHaven_Trespassing_dfd1e6a2-4c9a-1492-e88d-515a05211ffd, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogNPCs(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_HAV_EnteringHaven_GuardSpottedSneaker(_Var2);
+
+PROC
+PROC_FlagReactionAfterDialog((CHARACTER)_Var1, HAV_EnteringHaven_TrespasserSpotted_368a6fef-ece0-a1db-f1da-146dd32a6634, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAV_EnteringHaven_GuardSpottedSneaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_EnteringHaven_TriggerDialog(_Var1, _Var2);
+TeleportTo(_Var1, S_HAV_TrespassReturnPos_28cd1e46-be2c-44c2-810f-a6d4c6c3b25c, "HAV_EnteringHaven_TeleportedToCheckpoint", 1, 1, 1, 1, 1);
+CharacterStopCrime(_Var1, "HAV_EnteringHaven_ForbiddenArea", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_HAV_EnteringHaven_GuardSpottedSneaker(_Var2);
+
+PROC
+PROC_FlagReactionAfterDialog((CHARACTER)_Var1, HAV_EnteringHaven_TrespasserSpotted_368a6fef-ece0-a1db-f1da-146dd32a6634, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAV_EnteringHaven_GuardSpottedSneaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _Var3, _Var1, _Var1, _Var1)
+THEN
+CharacterStopCrime(_Var1, "HAV_EnteringHaven_ForbiddenArea", NULL_00000000-0000-0000-0000-000000000000);
+TeleportTo(_Var1, S_HAV_TrespassReturnPos_28cd1e46-be2c-44c2-810f-a6d4c6c3b25c, "HAV_EnteringHaven_TeleportedToCheckpoint", 1, 1, 1, 1, 1);
+PROC_DialogAddListeningActor(_Var3, _Var1);
+NOT DB_HAV_EnteringHaven_GuardSpottedSneaker(_Var2);
+
+IF
+FlagSet(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_HAV_EnteringHaven_Admitted();
+
+IF
+FlagSet(HAV_EnteringHaven_Event_ClawsKilled_d3669128-2cb3-49be-8245-59cedfdc38ef, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_HAV_EnteringHaven_Admitted();
+
+IF
+CombatStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(S_HAV_CrawlingClaw_000_d565aab4-ff0a-4308-b7e3-a5e5f154e7ce, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAV_EnteringHaven_Admitted();
+
+PROC
+PROC_HAV_EnteringHaven_Admitted()
+THEN
+PROC_RemoveDBTrespassTrigger(S_HAV_EnteringHaven_ForbiddenArea_307bf271-9af2-4572-967a-e87edf41bf54, S_HAV_TrespassReturnPos_28cd1e46-be2c-44c2-810f-a6d4c6c3b25c);
+PROC_TriggerUnregisterForPlayers(S_HAV_EnteringHaven_SpotTrigger_38b4a5b6-47a3-4e3c-826a-1b63c60863f7);
+PROC_GlobalSetFlagAndCache(HAV_EnteringHaven_GainedAccess_StopSpotting_a51abf96-f5df-4dca-9acd-414eee740884);
+
+PROC
+PROC_HAV_EnteringHaven_Admitted()
+AND
+DB_HAV_CheckpointSpotters(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers(_Var1, "HAV_EnteringHaven_CheckpointSpot", NULL_00000000-0000-0000-0000-000000000000, HAV_EnteringHaven_GainedAccess_StopSpotting_a51abf96-f5df-4dca-9acd-414eee740884);
+NOT DB_SpotPlayers_SpotTrigger(_Var1, "HAV_EnteringHaven_CheckpointSpot", S_HAV_EnteringHaven_SpotTrigger_38b4a5b6-47a3-4e3c-826a-1b63c60863f7);
+NOT DB_SpotPlayers_SpotTrigger_ManualRegistering(S_HAV_EnteringHaven_SpotTrigger_38b4a5b6-47a3-4e3c-826a-1b63c60863f7);
+NOT DB_HAV_CheckpointSpotters(_Var1);
+
+PROC
+PROC_HAV_EnteringHaven_Admitted()
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_FlamingSpyRevealed_89e1eb87-a718-8dc2-026d-f4db8321b686, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+THEN
+PROC_HAV_TakingIsobel_TrySendingGuardToIsobel();
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "HAV_EnteringHaven_ForbiddenArea", _, _, _)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "HAV_EnteringHaven_ForbiddenArea", _, _, _)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_Event_ClawsKilled_d3669128-2cb3-49be-8245-59cedfdc38ef, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_HAV_EnteringHaven_ExtraSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, S_HAV_Checkpoint_JaheiraHome2_54db1d5b-11fb-48de-b799-f5c67d02b5c7, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+IF
+DB_HAV_EnteringHaven_SetupVouchers(1, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _, _, _, _)
+AND
+DB_HAV_EnteringHaven_DenVouchers(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_Inclusion_NPCDialog(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _Var1);
+
+IF
+DB_HAV_EnteringHaven_SetupVouchers(1, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_State_LeadersAreDead_a1c5b01f-4b7f-47ab-82b0-d24d9c6d8bc6, _, _, _, _)
+AND
+DB_HAV_EnteringHaven_DenVouchers(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_Inclusion_NPCDialog(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _Var1);
+
+QRY
+QRY_Inclusion_SpeakerIsAvailableForInclusion(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, S_DEN_ThiefHideoutLeader_c8ab1ca6-96bb-467e-91c9-af87bc4d3925, (GUIDSTRING)_Var2, _)
+AND
+DB_HAV_EnteringHaven_DenVouchers(_Var3, _, _, _, _)
+AND
+QRY_SpeakerIsAvailable(_Var3, _, _, _, _)
+AND
+IsInTrigger(_Var3, S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, 1, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Inclusion_Object(_Var4, _Var1, _, _Var1, _Var1)
+AND
+DB_HAV_EnteringHaven_DenVouchers(_Var4, _, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var3, _Var4, _, _Var1, _Var1)
+THEN
+CharacterMoveTo(_Var4, S_HAV_NightsongFollowup_FlorrickPos_Square_e556932a-b14c-4b22-abea-5a4f2532762d, "Run", "");
+
+IF
+DB_GlobalFlag(HAV_EnteringHaven_State_Entangled_2c1ddc2f-6cdf-d804-423b-60e46f69af7c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "ENSNARED", 1, 1, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+
+IF
+FlagCleared(HAV_EnteringHaven_State_Entangled_2c1ddc2f-6cdf-d804-423b-60e46f69af7c, _, _, _, _)
+AND
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _Var3, _, _, _)
+AND
+DB_DialogPlayers(_Var3, _Var4, _, _, _)
+THEN
+RemoveStatus(_Var4, "ENSNARED", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_GlobalFlag(HAV_EnteringHaven_State_Entangled_2c1ddc2f-6cdf-d804-423b-60e46f69af7c, _, _, _, _)
+AND NOT
+DB_DialogName(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, _, _, _)
+THEN
+ClearFlag(HAV_EnteringHaven_State_Entangled_2c1ddc2f-6cdf-d804-423b-60e46f69af7c, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_HAV_EnteringHaven_Claws(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+QRY
+QRY_CorpseLooting_BlockMakeOwned((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAV_EnteringHaven_Claws(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_GlobalFlag(HAV_EnteringHaven_State_AttackedJaheira_38e31278-b40b-4d39-b79b-ce56f9f973bf, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(Act2_HAV_Haven_e52bfc8c-7826-470d-a9f5-f6fae80dde82, 0);
+PROC_HAV_Haven_SetupOtherHarpers();
+
+PROC
+PROC_HAV_Haven_SetupOtherHarpers()
+AND
+DB_GlobalFlag(SCL_HarperScouts_State_ArrivedAtLastLight_a601f3de-a13e-49e4-bf7f-f51eefb3eeda, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(Act2_SCL_HarperScouts_4581a713-8023-4ceb-b4ae-2c740e7f1e73, 0);
+
+PROC
+PROC_HAV_Haven_SetupOtherHarpers()
+AND NOT
+DB_GlobalFlag(SCL_Drider_State_HarpersMovingToAmbush_5bde3cff-5e95-4c86-b368-75c744e02411, _, _, _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 0);
+
+IF
+FlagSet(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_HAV_EnteringHaven_Admitted();
+
+PROC
+PROC_HAV_EnteringHaven_Admitted()
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+NOT DB_HAV_EnteringHaven_SetupVouchers(1);
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

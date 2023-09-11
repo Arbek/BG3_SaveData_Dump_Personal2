@@ -1,0 +1,26 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckLevelStart("END_Main");
+DB_RegionSafeSpot("END_Main", StartPoint_004_0674afda-bf24-47ff-889f-5dc81b59ca61);
+
+KBSECTION
+IF
+LevelLoaded("END_Main", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("END_Main", _, _, _, _)
+AND
+DB_CurrentLevel("END_Main", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+SetFlag(END_General_State_Started_a0fd5f91-e4b3-4d01-84d3-9ff484139e99);
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

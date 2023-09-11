@@ -1,0 +1,1273 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_842bec1d-a049-c09a-1bcc-c5d73cc4d30b);
+DB_DoNotFace(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+DB_Dialogs(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, DEN_Apprentice_WoundedBird_c6801ff8-9cd4-958a-7dd4-062e859bc274);
+DB_GLO_CharacterCorpseDialog(S_DEN_DissectedDrow_0cb0cdde-16f8-440d-b73a-ceb385183ea9, DEN_DissectedDrow_Dead_8dffcf93-b16d-98d6-1ba6-1f6dc9b86342);
+DB_GLO_CharacterCorpseDialog(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_Dead_31647b3a-c130-6206-4e07-491b588de2e9);
+DB_GlobalFlagReactionAfterDialog(DEN_Apprentice_Event_WoundedBirdDies_9f6f8aac-27b6-1d57-38a6-a0f6a7520f56, DEN_Apprentice_WoundedBird_c6801ff8-9cd4-958a-7dd4-062e859bc274);
+DB_GlobalFlagReactionAfterDialog(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, DEN_Apprentice_Cyanide_38403daa-33ef-8543-1bc2-ca6f941a29f4);
+DB_GlobalFlagReactionAfterDialog(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, DEN_Apprentice_LockedUp_8eb4471a-5f13-055b-786c-6d593512c2a9);
+DB_OneShot_VoiceBarkTrigger(S_DEN_DrowReactVBSphere_df0a08a6-2a89-4771-87b4-df17d03b21dd, DEN_Apprentice_VB_SeeDrow_95c5594d-628f-f9a9-dbe2-112fb680e410, "GlobalIgnoreFailure");
+DB_DEN_Apprentice_TadpoledGender("Male", DEN_Apprentice_State_HasMaleTadpoled_06edf64b-e10f-49d6-9411-8878dcf5c46a);
+DB_DEN_Apprentice_TadpoledGender("Neutral", DEN_Apprentice_State_HasGenderNeutralTadpoled_56369087-b161-415b-a9f4-2bda7fd62ab0);
+DB_DropMutingStatussesDialog(DEN_Apprentice_CombatStarts_03b77114-5e1d-dd80-cfcd-3d3a4e6ac47f);
+DB_DeadEvent(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_State_Dead_900e56ea-6e14-5d93-4425-c2afe466e6f2);
+Equip(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_AppCirclet_59b54a3c-1825-49a3-b216-830edfd388ab);
+ClearOwnership(S_DEN_TunnelSideOut_2f7d97b3-b061-49bf-a90c-a8365151ce35);
+DB_HasItemEvent(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, DEN_Apprentice_State_HasAntidote_9a325766-081f-308d-f98e-ed7c9ce707af);
+DB_HasItemEvent(S_DEN_WyvernPoison_24ba1342-8c62-4029-83d3-2b4aed11561c, DEN_Apprentice_State_HasWyvernPoison_90ac3304-d106-4a25-9d20-c97ede397acd);
+DB_GiveItemToEvent(S_DEN_WyvernPoison_24ba1342-8c62-4029-83d3-2b4aed11561c, DEN_Apprentice_Event_GiveWyvenPoison_23c131ba-6a0f-40bf-9bd6-f15a094d78fb);
+PROC_TriggerRegisterForPlayers(S_DEN_ApprenticeMainArea_4c6ed570-1e77-4305-bf5f-879750f48f14);
+TriggerRegisterForCharacter(S_DEN_DruidLair_SUB_a9794f19-187a-4d79-b739-443548411d29, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+PROC_DeclareCounter("DEN_Apprentice_InspectingBook");
+DB_DEN_Apprentice_ImportantItems(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a);
+DB_DEN_Apprentice_ImportantItems(S_DEN_WyvernPoison_24ba1342-8c62-4029-83d3-2b4aed11561c);
+DB_DEN_Apprentice_ItemsToClear(S_DEN_AntidoteCauldron_6d0a1890-df27-4f17-96ef-2f0c3b5ba064);
+DB_DEN_Apprentice_ItemsToClear(S_DEN_AntidoteRecipeBook_6557e2a7-ee82-4c5a-a26b-9056e4eb03df);
+DB_DEN_Apprentice_ItemsToClear(S_DEN_AntidoteHerbs_fc2fadee-01b5-46ca-81a3-503f4c03ba13);
+SetOnStage(S_DEN_ApprenticeRewardPouch_e7ee5c9f-9201-4abb-9969-587c7102f9ab, 0);
+DB_DeadEvent(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, DEN_Apprentice_State_DeadBird_3be08dca-4ffa-9bed-dd28-f59ea9402ce5);
+PROC_SetHitpointsPercentage_BlockSelfHealing(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, 30);
+DB_DoNotFace(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123);
+PROC_CharacterDisableAllCrimes(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, 1);
+DB_DEN_Apprentice_BirdNames("ExhaustedBird", "DEN_Apprentice_ExhaustedBirdName");
+DB_DEN_Apprentice_BirdNames("HealedBird", "DEN_Apprentice_HealedBirdName");
+DB_State_Current(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "WoundedBird");
+DB_State_Priority(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "WoundedBird", 0);
+DB_State_Priority(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "ExhaustedBird", 100);
+DB_State_Priority(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "HealedBird", 200);
+DB_State_Priority(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "DeadBird", 300);
+DB_State_Current(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TendingToBird");
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TendingToBird", 0);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "Working", 100);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_BuildUp", 300);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_Cyanide", 400);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_LockedIn", 500);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_LockedInCured", 550);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_HostileInit", 600);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_HostileRedeemable", 625);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_HostilePermanent", 650);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_Persuaded", 700);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "PostTadpoled_Studying", 800);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "GroveStateChanged", 900);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "GobHuntVictory", 950);
+DB_State_Priority(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "PermaDefeated", 1000);
+DB_DEN_Apprentice_LastChanceStates("TadpoledScene_LockedIn");
+DB_DEN_Apprentice_LastChanceStates("TadpoledScene_HostileRedeemable");
+DB_DEN_Apprentice_HostileStatesSwitch(0, 1, "TadpoledScene_HostileRedeemable");
+DB_DEN_Apprentice_HostileStatesSwitch(1, 1, "TadpoledScene_HostilePermanent");
+DB_DEN_Apprentice_HostileStatesSwitch(1, 0, "TadpoledScene_HostilePermanent");
+DB_DEN_Apprentice_HostileStatesSwitch(0, 0, "TadpoledScene_HostilePermanent");
+DB_DEN_Apprentice_VB(0, DEN_Apprentice_VB_LockedUp_9a11b63c-9ec5-8d02-2a3d-b831c5d12b77);
+DB_DEN_Apprentice_VB(1, DEN_Apprentice_VB_Cyanide_2363bc05-2fb8-f072-7265-c9110d4fecf5);
+
+KBSECTION
+IF
+FlagSet(DEN_Apprentice_Knows_HeardAboutNettie_07818e31-1a13-0dd8-f02c-c27984614d17, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(DEN_Apprentice_Knows_HeardAboutNettie_PartialInfo_9ea0ca41-93e7-454b-92ca-721061285751, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(DEN_Apprentice_Debug_StartScene_fdc8d2a8-28c3-9878-9457-84f2a0397705, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(DEN_Apprentice_Debug_StartScene_fdc8d2a8-28c3-9878-9457-84f2a0397705, _Var1);
+PROC_DEN_Apprentice_Debug_SetupScene(_Var1);
+
+IF
+TextEvent("denapptad", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Apprentice_Debug_SetupScene(_Var1);
+
+PROC
+PROC_DEN_Apprentice_Debug_SetupScene((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+TeleportTo(_Var1, TRIGGERGUID_S_DEN_ApprenticePoint_5c98f4ff-9be3-4233-a2b4-7d054cf8ee62);
+SetFlag(DEN_Apprentice_Event_RevealedTadpole_246e8df4-cd5d-da9f-7b19-cd8785478c6e, _Var1);
+PROC_DEN_Apprentice_TadpoleSceneStarts(_Var1);
+ObjectTimerLaunch(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_StartTadpoleAD", 1000);
+
+IF
+FlagSet(DEN_Apprentice_Debug_TadpoleDoneStayed_6eef77ec-e971-2076-553e-c0cbdabf33f1, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DEN_Apprentice_Debug_TadpoledSceneSolved(_Var1);
+SetFlag(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(DEN_Apprentice_State_TookPoison_6a7f0114-2003-2735-f6b2-f918b3a1a884, _Var1);
+SetFlag(DEN_Apprentice_Quest_FindHalsin_b86c4657-4b06-6b30-aa26-23fde56f23a2, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Apprentice_CleanScene();
+PROC_DEN_Apprentice_SetPostScene();
+
+IF
+FlagSet(DEN_Apprentice_Debug_TadpoleDoneLeft_6a4b6ac4-5dcb-230d-fe30-47329a33440e, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DEN_Apprentice_Debug_TadpoledSceneSolved(_Var1);
+TeleportTo(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_AppTadProxBox_6afdf30e-f1dc-4a4c-a29c-e73f8ddc5105);
+Die(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+PROC_DEN_Apprentice_CleanScene();
+PROC_DEN_Apprentice_SetPostScene();
+
+PROC
+PROC_DEN_Apprentice_Debug_TadpoledSceneSolved((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_ItemUnlockAndOpen(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6);
+SetFlag(DEN_Apprentice_Event_RevealedTadpole_246e8df4-cd5d-da9f-7b19-cd8785478c6e, _Var1);
+PROC_DEN_Apprentice_TadpoleSceneSetUp(_Var1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_DEN_DruidChamber_SUB_3302eeff-b41c-41c9-8402-0229086ae7a9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Apprentice_StartADing", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_StartADing");
+
+PROC
+PROC_State_Changed(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", _, (STRING)_, (STRING)_)
+THEN
+NOT DB_DoNotFace(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "Working");
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", _, (STRING)_, (STRING)_)
+THEN
+SetEntityEvent(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_StopCaringForBird");
+
+IF
+FlagSet(DEN_Apprentice_UserShortcut_7141e2c1-f9bd-6d7e-956a-e78d4ed45520, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_State_Current(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "WoundedBird", _, _)
+THEN
+UseSpell(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "Target_DEN_Nettie_HealingWord", S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, NULL_00000000-0000-0000-0000-000000000000);
+PROC_State_Progress(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "ExhaustedBird");
+
+IF
+StatusApplied(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, (STRING)_Var1, (CHARACTER)_Var2, _, (STRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "WoundedBird", _Var1, _Var1)
+AND
+QRY_IsHealingStatus(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Apprentice_State_PlayerHealedBird_863a9e6c-79c2-9843-3f09-56a48d6feb34, NULL_00000000-0000-0000-0000-000000000000);
+PROC_State_Progress(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "ExhaustedBird");
+
+PROC
+PROC_State_Changed(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "ExhaustedBird", _, _)
+THEN
+PROC_DEN_Apprentice_UpdateBirdName();
+ApplyStatus(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "EXHAUSTED", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+ObjectTimerLaunch(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WounderBird_HealingProcess", 60000, 1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(DEN_Apprentice_Event_WoundedBirdDies_9f6f8aac-27b6-1d57-38a6-a0f6a7520f56, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+THEN
+Die(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+IF
+Dying(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetDeathType(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != "CinematicDeath"
+THEN
+CreateSurface(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "SurfaceBlood", 0.8, -1, S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123);
+
+IF
+Dying(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, _, _, _, _)
+THEN
+PROC_State_Progress(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "DeadBird");
+
+IF
+FlagSet(DEN_Apprentice_Event_RemoveBirdExhaustion_352ab466-a13f-ed19-2088-adf348c4ad1b, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_WoundedBird_RemoveExhaustion();
+
+IF
+DialogEnded(DEN_Apprentice_WoundedBird_c6801ff8-9cd4-958a-7dd4-062e859bc274, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_Event_RemoveBirdExhaustion_352ab466-a13f-ed19-2088-adf348c4ad1b, _, _, _, _)
+THEN
+PROC_DEN_WoundedBird_RemoveExhaustion();
+
+IF
+ObjectTimerFinished(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WounderBird_HealingProcess", _, _, _)
+THEN
+ObjectTimerCancel(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WounderBird_HealingProcess");
+ObjectTimerLaunch(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WounderBird_HealingProcess", 3000, 1);
+
+PROC
+PROC_DEN_WoundedBird_RemoveExhaustion()
+THEN
+ObjectTimerCancel(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WounderBird_HealingProcess");
+
+PROC
+PROC_DEN_WoundedBird_RemoveExhaustion()
+AND
+HasActiveStatus(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "EXHAUSTED", 1, _, _)
+THEN
+RemoveStatus(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "EXHAUSTED");
+
+IF
+StatusRemoved(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "EXHAUSTED", _, _, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "HealedBird");
+
+PROC
+PROC_State_Changed(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", "HealedBird", _, _)
+THEN
+SetFlag(DEN_Apprentice_UserShortcut_7141e2c1-f9bd-6d7e-956a-e78d4ed45520, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DoNotFace(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123);
+PROC_DEN_Apprentice_UpdateBirdName();
+PROC_SelfHealing_Enable(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123);
+PROC_RemoveDialogEntryForSpeaker(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, DEN_Apprentice_WoundedBird_c6801ff8-9cd4-958a-7dd4-062e859bc274);
+DB_Dialogs(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, DEN_Apprentice_HealedBird_76eae63c-b4b4-e39c-01bd-9a60e739ee98);
+PROC_CharacterEnableAllCrimes(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123);
+
+IF
+FlagSet(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND NOT
+DB_PermaDefeated(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, _, _, _, _)
+THEN
+SetHitpointsPercentage(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, 100);
+PROC_DEN_WoundedBird_RemoveExhaustion();
+PROC_DEN_WoundedBird_ComeBack();
+
+PROC
+PROC_DEN_WoundedBird_ComeBack()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_DEN_DruidLair_SUB_a9794f19-187a-4d79-b739-443548411d29, _Var1, _Var1, _Var1)
+AND
+IsOnStage(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_AppearOutOfSightTo(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, _Var1, S_DEN_AppOwnership_6b0e6f9c-bffe-4643-922e-2c97ea39dca7, "");
+
+PROC
+PROC_DEN_WoundedBird_ComeBack()
+AND
+IsOnStage(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, 0, _, _, _)
+THEN
+PROC_Appear(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123);
+
+PROC
+PROC_DEN_Apprentice_UpdateBirdName()
+AND
+DB_State_Current(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "DEN_WoundedBird", _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_BirdNames(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetStoryDisplayName(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, _Var2);
+
+IF
+StatusRemoved(S_DEN_WoundedBird_200bc56e-f3e1-445b-8b75-a5ddb541e123, "EXHAUSTED", _, _, _)
+AND
+DB_DEN_Apprentice_BirdNames(_Var3, _Var4, _, _, _)
+THEN
+NOT DB_DEN_Apprentice_BirdNames(_Var3, _Var4);
+
+IF
+FlagSet(DEN_Apprentice_Event_RevealedTadpole_246e8df4-cd5d-da9f-7b19-cd8785478c6e, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogName(DEN_Apprentice_842bec1d-a049-c09a-1bcc-c5d73cc4d30b, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Apprentice_StartTadpoleScene", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Apprentice_State_IsTadpoledPlayer_7eee9d99-f469-464d-aad4-8f3ee9a275fa, _Var1);
+PROC_DEN_Apprentice_TadpoleSceneStarts(_Var1);
+
+PROC
+PROC_DEN_Apprentice_TadpoleSceneStarts((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_BuildUp");
+DB_GLO_DefeatCounter(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_DefeatCounter");
+PROC_DEN_Apprentice_TadpoleSceneSetUp(_Var1);
+SetForceUpdate(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, 1);
+DB_CustomDialogRange(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, 14);
+CharacterDisableCrime(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "KeepAnEyeOnMe");
+PROC_CRIME_KeepingAnEyeOut_Stop(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+PROC_TriggerRegisterForPlayers(S_DEN_AppTadInBox_2411c846-27d1-446d-9faa-20a5dc12dea9);
+PROC_DEN_GreetingReaction_Stop(_Var1);
+
+PROC
+PROC_DEN_Apprentice_TadpoleSceneSetUp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(DEN_DruidLair_Knows_HiddenLibraryEntrance_a883fb97-2402-4ab7-b66b-898c857b0199, NULL_00000000-0000-0000-0000-000000000000);
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+DB_Dialogs(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_TadpoledScene_d58ac991-ee3b-6f7d-a444-3cce6a9bc6d0);
+DB_DEN_Apprentice_Tadpoled(_Var1);
+DB_DEN_Apprentice_TadpoledSceneStarted(1);
+
+PROC
+PROC_DEN_Apprentice_TadpoleSceneSetUp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetGender(_Var1, 0, _Var2, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_TadpoledGender(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var3, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+
+IF
+DialogEnded(DEN_Apprentice_842bec1d-a049-c09a-1bcc-c5d73cc4d30b, _, _, _, _)
+AND
+DB_DEN_Apprentice_Tadpoled(_, _, _, _, _)
+THEN
+ObjectTimerLaunch(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_StartTadpoleAD", 1000);
+
+IF
+ObjectTimerFinished(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_StartTadpoleAD", _, _, _)
+THEN
+PROC_TryStartAD(DEN_Apprentice_AD_TadpoledStart_421a572d-d89b-f536-0e17-b7e17f6d3d57, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+
+QRY
+QRY_SelectCustomDialog(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DEN_Apprentice_Tadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_State_IsBeforeState(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_LockedIn", _Var1, _Var1)
+AND
+DB_OnlyOnce("DEN_Apprentice_StartTadpoleScene", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(DIALOGRESOURCEGUID_DEN_Apprentice_AD_Busy_119aea6e-0e8a-a92a-05f9-5bc51e054f9e, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+
+IF
+EntityEvent(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_Event_OpenDoor", _, _, _)
+AND
+QRY_OnlyOnce("DEN_Apprentice_OpenSecretDoor", _, _, _, _)
+AND
+IsClosed(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, 1, _, _, _)
+THEN
+PROC_DEN_Apprentice_UnlocksDoor("");
+
+PROC
+PROC_DEN_Apprentice_UnlocksDoor((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PlayAnimation(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, CUST_CloseDoor_Magic_NETTIE_01_da815583-d392-43c5-8dd7-7489cf1663a4, _Var1);
+PROC_DEN_DruidLair_OpenDoorWithCiclet(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6);
+
+IF
+FlagSet(DEN_Apprentice_Event_OpenDoor_c907d84e-5a75-babb-a033-51fef0b7b773, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_DruidLair_OpenDoorWithCiclet(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6);
+NOT DB_BlockedWaypointZone(S_DEN_AppTadWaypointBlockBox_1867e14e-ebca-44ed-88f0-eefc467b6d9a);
+
+IF
+Opened((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_DruidLair_LibraryDoors(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_BlockedWaypointZone(S_DEN_AppTadWaypointBlockBox_1867e14e-ebca-44ed-88f0-eefc467b6d9a, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_BlockedWaypointZone(S_DEN_AppTadWaypointBlockBox_1867e14e-ebca-44ed-88f0-eefc467b6d9a);
+
+IF
+FlagSet(DEN_Apprentice_Event_CloseDoor_34899fcd-efd7-8b8d-9ebf-8b1a4949cdfd, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_DruidLair_UsingCircletVFX(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, VFX_Script_DEN_SecretDoor_DoorClose_Root_01_77be6293-36ee-ea2e-d9ce-7caf0a76d420);
+PROC_DEN_Apprentice_LockUp();
+
+PROC
+PROC_DEN_Apprentice_FallbackCloseDoor()
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_Event_OpenDoor_c907d84e-5a75-babb-a033-51fef0b7b773, _, _, _, _)
+THEN
+PROC_DEN_Apprentice_LockUp();
+
+PROC
+PROC_DEN_Apprentice_LockUp()
+THEN
+PROC_DruidLair_CancelDoorOpening(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6);
+PROC_ItemCloseAndLock(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, "DEN_Apprentice_CircletKey");
+SetOwner(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+DB_BlockedWaypointZone(S_DEN_AppTadWaypointBlockBox_1867e14e-ebca-44ed-88f0-eefc467b6d9a);
+
+IF
+FlagSet(DEN_Apprentice_Event_CheckOtherPlayers_8a3433c9-9261-3be6-2a0a-4d13398b520a, _, _, _, _)
+AND
+DB_DEN_Apprentice_Tadpoled(_Var3, _, _, _, _)
+AND
+DB_InRegion(_Var4, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, _, _, _)
+AND
+_Var4 != _Var3
+AND NOT
+DB_HiddenCharacters(_Var4, _, _, _, _)
+AND
+QRY_SpeakerIsInDialogRange(_Var4, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _)
+THEN
+SetFlag(DEN_Apprentice_State_SeesExtraPlayers_45011961-da83-7951-08e7-4a9864f12b4c, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(DEN_Apprentice_Event_ApplyPoison_f4df286d-2866-4acd-818f-6008e8db4212, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DEN_Apprentice_InitiatePoison(_Var1);
+PROC_DEN_Apprentice_InitCustomCrime();
+
+IF
+FlagSet(DEN_Apprentice_Knows_AntidoteLocation_4e21e95a-5c3c-7cbe-bd6e-5dfb0500b7b8, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+THEN
+DebugText(_Var3, "todo: map marker on book / or check if player already have it");
+
+PROC
+PROC_DEN_Apprentice_InitCustomCrime()
+THEN
+DB_DEN_Apprentice_OverridingCrimes(1);
+DB_DEN_Apprentice_MessingAround("Steal");
+DB_DEN_Apprentice_MessingAround("PickPocketFailed");
+DB_DEN_Apprentice_MessingAround("Vandalise");
+DB_DEN_Apprentice_MessingAround("MoveForbiddenItem");
+DB_DEN_Apprentice_MessingAround("UseForbiddenItem");
+DB_DEN_Apprentice_MessingAround("Sneaking");
+DB_DEN_Apprentice_MessingAround("LootOwnedCorpse");
+
+IF
+CharacterPickpocketSuccess((CHARACTER)_Var1, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_OverridingCrimes(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Apprentice_Event_AntidoteStolenAfterPoisoned_d01d2503-0582-b78f-1678-d800c1e70e0a, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var4, (INTEGER)_Var5)
+AND
+DB_InRegion(_Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_OverridingCrimes(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_Apprentice_BlockedCrime(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "DEN_Apprentice_MessingAround", NULL_00000000-0000-0000-0000-000000000000, _Var4, 0);
+
+QRY
+QRY_DEN_Apprentice_BlockedCrime((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DEN_Apprentice_MessingAround(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Apprentice_BlockedCrime((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_DEN_Apprentice_MessingAround(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_GetCrimeFamily(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_GetCrimeFamily(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_MessingAround(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(DEN_CGB_Apprentice_1c709c48-4c30-391e-bdd8-86d5c84f3ec6, _, _, _, _)
+AND
+IsReposed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, 1, _, _, _)
+THEN
+SetEntityEvent(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "ClearCrimeReturn", 1);
+
+IF
+AutomatedDialogStarted(GEB_AD_Noticed_Pickpocket_8813c644-9d95-cb63-401e-9df6cca6b8f7, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogNPCs(_Var1, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_OverridingCrimes(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsReposed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, 1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "ClearCrimeReturn", 1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "EmptyPocketNoticedInvestigation", (GUIDSTRING)_Var2, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, (INTEGER)_Var3)
+AND
+DB_InRegion(_Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_OverridingCrimes(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Apprentice_CheckIfAntidoteStolen(_Var2);
+
+PROC
+PROC_DEN_Apprentice_CheckIfAntidoteStolen(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, _, _, _, _)
+THEN
+PROC_DEN_Apprentice_CheckReactToLostAntidote();
+
+PROC
+PROC_DEN_Apprentice_CheckIfAntidoteStolen(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, _, _, _, _)
+AND NOT
+QRY_DEN_Apprentice_CheckAutoStartLockedUpDialog()
+THEN
+PROC_DEN_Apprentice_OverrideEmptyPocketNoticedInvestigation(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a);
+
+QRY
+QRY_DEN_Apprentice_CheckAutoStartLockedUpDialog()
+AND NOT
+DB_State_Current(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_LockedInCured", _, _)
+AND
+DB_DEN_Apprentice_Tadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CharacterIsHidden(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var1, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_Apprentice_AutoStartLockedUpDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Apprentice_CheckIfAntidoteStolen((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+_Var1 != S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a
+THEN
+PROC_DEN_Apprentice_OverrideEmptyPocketNoticedInvestigation(_Var1);
+
+PROC
+PROC_DEN_Apprentice_OverrideEmptyPocketNoticedInvestigation((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_Apprentice_Tadpoled(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+CrimeGetNewID(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrimeWithPosition(_Var2, "DEN_Apprentice_MessingAround_Investigate", _Var1, _Var3, _Var4, _Var5, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var6);
+
+IF
+DialogEnded(DEN_CGB_Apprentice_1c709c48-4c30-391e-bdd8-86d5c84f3ec6, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_ObjectCountHelper(_Var2, "DEN_Apprentice_TadpoledCrimeCounter");
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, _, (GUIDSTRING)_Var3, _, _, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_ObjectCountHelper(_Var3, "DEN_Apprentice_TadpoledCrimeCounter", _Var7, _Var1, _Var1)
+AND
+_Var7 >= 3
+THEN
+SetFlag(DEN_Apprentice_Event_MessedAroundTooMuch_acd98847-3403-df30-ebed-605a85f70000, _Var3);
+
+PROC
+PROC_DEN_Apprentice_ClearCustomCrime()
+AND
+DB_DEN_Apprentice_MessingAround(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Apprentice_MessingAround(_Var1);
+
+PROC
+PROC_DEN_Apprentice_ClearCustomCrime()
+AND
+DB_ObjectCountHelper(_Var1, "DEN_Apprentice_TadpoledCrimeCounter", _Var2, _Var1, _Var1)
+THEN
+NOT DB_ObjectCountHelper(_Var1, "DEN_Apprentice_TadpoledCrimeCounter", _Var2);
+
+PROC
+PROC_DEN_Apprentice_ClearCustomCrime()
+THEN
+NOT DB_DEN_Apprentice_OverridingCrimes(1);
+ClearOwnership(S_DEN_BookRowWithAntidote_1d1842dc-300a-8e24-3959-b1b6afaf54db);
+
+IF
+EntityEvent(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_Event_LockStorage", _, _, _)
+THEN
+DB_CustomDialogRange(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, 20);
+PROC_CharacterMoveTo(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_AppDrowPoint_5e5c4845-6282-49e7-a10a-946acf568809, "Walk", "DEN_Apprentice_Event_StartDialog");
+
+IF
+EntityEvent(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_Event_StartDialog", _, _, _)
+THEN
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_Cyanide");
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_Cyanide", _, _)
+THEN
+SetFlag(DEN_Apprentice_Event_ReachedCyanideDialog_bcc31a3c-72e6-4720-98f1-6b7c2a40c6ba, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Apprentice_RegisterSpottingTadpoled("DEN_Apprentice_CyanideDialog");
+
+PROC
+PROC_SpotPlayers_Spotted(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CyanideDialog", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialogCustom(DEN_Apprentice_Cyanide_38403daa-33ef-8543-1bc2-ca6f941a29f4, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, 0, 0, 1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup(DEN_Apprentice_Cyanide_38403daa-33ef-8543-1bc2-ca6f941a29f4, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_DEN_Apprentice_CyanideDialogStarted(1);
+PROC_DEN_Apprentice_InitCustomCrime();
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+DB_Dialogs(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_LockedUp_8eb4471a-5f13-055b-786c-6d593512c2a9);
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_LockedIn");
+
+QRY
+QRY_SelectCustomDialog(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_State_Current(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_Cyanide", _Var1, _Var1)
+AND
+GetFlag(DEN_Apprentice_Event_RevealedTadpole_246e8df4-cd5d-da9f-7b19-cd8785478c6e, _Var1, 1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Apprentice_CyanideDialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, 1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(DEN_Apprentice_Cyanide_38403daa-33ef-8543-1bc2-ca6f941a29f4, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1);
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_Cyanide", _, (STRING)_)
+THEN
+PROC_DEN_Apprentice_StopSpotting("DEN_Apprentice_CyanideDialog");
+
+IF
+DialogEnded(DEN_Apprentice_Cyanide_38403daa-33ef-8543-1bc2-ca6f941a29f4, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_DEN_Apprentice_CleanScene();
+PROC_DEN_Apprentice_FallbackCloseDoor();
+
+IF
+DialogEnded(DEN_Apprentice_Cyanide_38403daa-33ef-8543-1bc2-ca6f941a29f4, _, _, _, _)
+AND NOT
+DB_Is_InCombat(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _, _)
+AND NOT
+DB_Defeated(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_Event_OpenDoor_c907d84e-5a75-babb-a033-51fef0b7b773, _, _, _, _)
+AND
+IsClosed(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, 1, _, _, _)
+THEN
+PROC_ItemUnlockAndOpen(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6);
+
+PROC
+PROC_DEN_Apprentice_RegisterSpottingTadpoled("DEN_Apprentice_CuredEarly", _, _, _, _)
+THEN
+DB_SpotPlayers_IncludeWildshapedPlayers(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly");
+DB_SpotPlayers_TargetIgnoreCantTalk(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly");
+DB_SpotPlayers_SpotterIgnoreCantTalk(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly");
+DB_SpotPlayers_HasObjectFlag(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly", DEN_Apprentice_State_IsTadpoledPlayer_7eee9d99-f469-464d-aad4-8f3ee9a275fa, 1);
+
+PROC
+PROC_DEN_Apprentice_RegisterSpottingTadpoled("DEN_Apprentice_CyanideDialog", _, _, _, _)
+THEN
+DB_SpotPlayers_HasObjectFlag(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CyanideDialog", DEN_Apprentice_Event_RevealedTadpole_246e8df4-cd5d-da9f-7b19-cd8785478c6e, 1);
+
+PROC
+PROC_DEN_Apprentice_RegisterSpottingTadpoled((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_SpotPlayers_Continuous(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1);
+DB_SpotPlayers_SpotTrigger_ManualRegistering(S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61);
+DB_SpotPlayers_SpotTrigger(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61);
+DB_SpotPlayers(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_DEN_Apprentice_StopSpotting("DEN_Apprentice_CuredEarly", _, _, _, _)
+THEN
+NOT DB_SpotPlayers_IncludeWildshapedPlayers(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly");
+NOT DB_SpotPlayers_TargetIgnoreCantTalk(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly");
+NOT DB_SpotPlayers_SpotterIgnoreCantTalk(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly");
+NOT DB_SpotPlayers_HasObjectFlag(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly", DEN_Apprentice_State_IsTadpoledPlayer_7eee9d99-f469-464d-aad4-8f3ee9a275fa, 1);
+
+PROC
+PROC_DEN_Apprentice_StopSpotting("DEN_Apprentice_CyanideDialog", _, _, _, _)
+THEN
+NOT DB_SpotPlayers_HasObjectFlag(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CyanideDialog", DEN_Apprentice_Event_RevealedTadpole_246e8df4-cd5d-da9f-7b19-cd8785478c6e, 1);
+
+PROC
+PROC_DEN_Apprentice_StopSpotting((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+NOT DB_SpotPlayers_Continuous(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1);
+NOT DB_SpotPlayers(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SpotPlayers_SpotTrigger_ManualRegistering(S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61);
+NOT DB_SpotPlayers_SpotTrigger(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61);
+
+PROC
+PROC_DEN_Apprentice_CheckReactToLostAntidote()
+AND
+DB_DEN_Apprentice_Tadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", _Var2, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_LastChanceStates(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Apprentice_PrepReactToCure(_Var1);
+
+PROC
+PROC_DEN_Apprentice_PrepReactToCure((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("DEN_Apprentice_CuredEarlyOrStoleAntidote", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Apprentice_State_CuredEarly_62717062-614e-41b4-a26a-e03d1ab7af62, _Var1);
+SetFlag(DEN_Apprentice_Event_CuredBeforePersuasion_f36d90d4-58de-2183-ce22-8ab698e1d67b, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Apprentice_RegisterSpottingTadpoled("DEN_Apprentice_CuredEarly");
+
+PROC
+PROC_SpotPlayers_Spotted(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_CuredEarly", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_DEN_Apprentice_AutoStartLockedUpDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_Apprentice_GiveCombatFeedback(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Apprentice_TurnHostile();
+
+QRY
+QRY_DEN_Apprentice_AutoStartLockedUpDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialogCustom(DEN_Apprentice_LockedUp_8eb4471a-5f13-055b-786c-6d593512c2a9, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, 0, 0, 1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_Pickpocket_CheckPockets_ObjectTimerCancel(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_LockedInCured");
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_LockedIn", _, (STRING)_)
+THEN
+PROC_DEN_Apprentice_StopSpotting("DEN_Apprentice_CuredEarly");
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_Tadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_Poisoned(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Apprentice_State_TadpolePlayerDied_54d81e00-8430-4905-a4fe-84e22e3971cd, _Var1);
+PROC_DEN_Apprentice_CheckReactToLostAntidote();
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_Tadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_Apprentice_MustOpenDoor()
+THEN
+DB_DEN_Apprentice_CheckReopenDoor(1);
+
+IF
+DB_DEN_Apprentice_CheckReopenDoor(1, _, _, _, _)
+AND NOT
+DB_CantTalk(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _, _)
+THEN
+PROC_DEN_Apprentice_TryReopenDoor();
+
+PROC
+PROC_DEN_Apprentice_TryReopenDoor()
+AND
+QRY_DEN_Apprentice_MustOpenDoor()
+THEN
+NOT DB_DEN_Apprentice_CheckReopenDoor(1);
+PROC_CharacterMoveTo(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, "Walk", "DEN_Apprentice_ReopenDoor");
+
+IF
+EntityEvent((CHARACTER)_Var1, "DEN_Apprentice_ReopenDoor", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DEN_Apprentice_UnlocksDoor("");
+
+QRY
+QRY_DEN_Apprentice_MustOpenDoor()
+AND
+DB_DEN_Apprentice_TadpoledSceneStarted(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_State_TadpoleSceneDone_694528f9-7991-84b9-2fdd-816daa7dc013, _, _, _, _)
+AND
+IsInTrigger(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, 1, _, _)
+AND
+IsClosed(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, 1, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+EnteredCombat(CHARACTERGUID_S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_IfCurrentProgress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_LockedIn", "TadpoledScene_HostileInit");
+
+IF
+EnteredCombat(CHARACTERGUID_S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _, _)
+AND
+DB_DEN_Apprentice_TadpoledSceneStarted(1, _, _, _, _)
+THEN
+PROC_DEN_Apprentice_CleanScene();
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("DEN_Apprentice_DefeatCounter", _, _, _, _)
+THEN
+PROC_DEN_Apprentice_SetPostScene();
+
+PROC
+PROC_DEN_Apprentice_CleanScene()
+THEN
+SetEntityEvent(CHARACTERGUID_S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_Event_EndTadpoleScene");
+PROC_TriggerUnregisterForPlayers(S_DEN_AppTadInBox_2411c846-27d1-446d-9faa-20a5dc12dea9);
+SetForceUpdate(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, 0);
+CharacterEnableCrime(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "KeepAnEyeOnMe");
+
+PROC
+PROC_DEN_Apprentice_CleanScene()
+AND
+DB_CustomDialogRange(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CustomDialogRange(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, _, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_)
+THEN
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_Persuaded");
+PROC_DEN_ApprenticePersuaded_JournalHook();
+DB_DEN_Apprentice_AllowCombatAD(1);
+PROC_DEN_Apprentice_SetPostScene();
+
+PROC
+PROC_DEN_ApprenticePersuaded_JournalHook()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Apprentice_SetPostScene()
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_State_TadpoleSceneDone_694528f9-7991-84b9-2fdd-816daa7dc013, _, _, _, _)
+THEN
+NOT DB_GLO_DefeatCounter(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_DefeatCounter");
+PROC_DEN_Apprentice_ClearCustomCrime();
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+DB_Dialogs(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_Stayed_f86fb61b-c636-d6b2-e7ab-c4bf06d383f4);
+PROC_GlobalSetFlagAndCache(DEN_Apprentice_State_TadpoleSceneDone_694528f9-7991-84b9-2fdd-816daa7dc013);
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "PostTadpoled_Studying");
+PROC_DEN_Apprentice_CheckLaunchVB();
+PROC_DEN_Apprentice_CheckClearOwnerships();
+
+PROC
+PROC_DEN_Apprentice_CheckClearOwnerships()
+AND
+DB_GlobalFlag(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, _, _, _, _)
+AND
+DB_DEN_Apprentice_Tadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Apprentice_ClearOwnerships();
+
+PROC
+PROC_DEN_Apprentice_ClearOwnerships()
+AND
+DB_DEN_Apprentice_ItemsToClear(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+Exists(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+ClearOwnership(_Var1);
+
+PROC
+PROC_DEN_Apprentice_ClearOwnerships()
+AND
+DB_DEN_Apprentice_ItemsToClear(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Apprentice_ItemsToClear(_Var1);
+
+PROC
+PROC_DEN_Apprentice_CheckLaunchVB()
+AND
+DB_DEN_Apprentice_Tadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_DEN_DruidLair_SUB_a9794f19-187a-4d79-b739-443548411d29, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "DEN_Apprentice_Timer_LockedUpVB", 4500);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "DEN_Apprentice_Timer_LockedUpVB", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, S_DEN_DruidLair_SUB_a9794f19-187a-4d79-b739-443548411d29, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_VB(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(_Var3, _Var1);
+
+QRY
+QRY_DEN_Apprentice_NotBehindLockedDoor((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Apprentice_NotBehindLockedDoor((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_InRegion(_Var1, S_DEN_LabToTunnelRoomBox_5de3e19e-26a3-4276-aa40-170c61e6842a, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Apprentice_GiveCombatFeedback((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(DEN_Apprentice_Event_MessedAroundTooMuch_acd98847-3403-df30-ebed-605a85f70000, _Var1);
+
+QRY
+QRY_DEN_Apprentice_GiveCombatFeedback((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialogCustom(DEN_Apprentice_CombatStarts_03b77114-5e1d-dd80-cfcd-3d3a4e6ac47f, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, 0, 0, 1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_Tadpoled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_State_IsBeforeState(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_Persuaded", _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Apprentice_Event_CloseDoor_34899fcd-efd7-8b8d-9ebf-8b1a4949cdfd, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Apprentice_Quest_TookPoison_441540c2-a410-dc95-6b20-ae96109f38c1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Apprentice_Event_NettieTurnsHostile_55b84bac-1247-7b8d-a33f-65491749a02f, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Apprentice_TurnHostile();
+
+IF
+FlagSet(DEN_Apprentice_Event_NettieTurnsHostile_55b84bac-1247-7b8d-a33f-65491749a02f, _, (INTEGER)_Var2, _, _)
+AND
+_Var2 != 0
+THEN
+DB_DEN_Apprentice_TurnHostileAfterDialog(1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_DialogNPCs(_Var2, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _)
+AND
+DB_DEN_Apprentice_TurnHostileAfterDialog(1, _, _, _, _)
+THEN
+NOT DB_DEN_Apprentice_TurnHostileAfterDialog(1);
+PROC_DEN_Apprentice_TurnHostile();
+
+PROC
+PROC_OnDialogAttack_GoingHostile(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _, _)
+AND
+QRY_DEN_CheckPeaceState()
+AND
+DB_DEN_Apprentice_OverridingCrimes(1, _, _, _, _)
+THEN
+PROC_DEN_Apprentice_TurnHostile();
+
+PROC
+PROC_DEN_Apprentice_TurnHostile()
+AND NOT
+DB_PermaDefeated(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _, _)
+THEN
+SetFaction(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, ACT1_DEN_Apprentice_Hostile_7d6edeba-cbc6-4e7e-ac06-e9eb28222532);
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_HostileInit", _, _)
+THEN
+SetFlag(DEN_Apprentice_State_HostileToTadpoled_e336c7e3-27b7-4068-adb9-9cf31d310be2, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_DefeatCounter(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice_TadpoleSceneCombat");
+DB_NPCAttackAD(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_AD_TadpoledCombat_0693ec5c-79da-3444-a6dd-542d4d1a46a7);
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "TadpoledScene_HostileInit", (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetFlag(DEN_Apprentice_Event_NettieTurnsHostile_55b84bac-1247-7b8d-a33f-65491749a02f, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_Apprentice_State_SomeoneGotPoisoned_35ce5ccc-aa41-48f4-aae2-cf0d64572740, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_HostileStatesSwitch(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", _Var3);
+
+IF
+FlagSet(DEN_Apprentice_Event_CombatADFinished_7cd9687b-e205-aa18-94d5-4792184c1b80, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_NPCAttackAD(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_AD_TadpoledCombat_0693ec5c-79da-3444-a6dd-542d4d1a46a7);
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("DEN_Apprentice_TadpoleSceneCombat", _, _, _, _)
+THEN
+SetFlag(DEN_Apprentice_State_DiedInTadpoleScene_624f3b7a-3772-469f-8368-8cde7540337f, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_Is_InCombat(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_AllowCombatAD(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_Tadpoled(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsEnemy(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var2, 1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Apprentice_AllowCombatAD(1);
+DB_NPCAttackAD(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_AttackOnDen_AD_ApprenticeLastStand_8824181c-149a-dcf2-935a-046d5431a2df);
+
+IF
+AutomatedDialogStarted(DEN_AttackOnDen_AD_ApprenticeLastStand_8824181c-149a-dcf2-935a-046d5431a2df, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_NPCAttackAD(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, DEN_Apprentice_AD_TadpoledCombat_0693ec5c-79da-3444-a6dd-542d4d1a46a7);
+
+PROC
+PROC_DialogFlagSetup(DEN_Apprentice_Dead_31647b3a-c130-6206-4e07-491b588de2e9, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, _Var1, _Var1, _Var1)
+AND
+IsClosed(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, 1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Apprentice_State_AllowLockedInSwDQuestion_f7adf6b4-c68d-4534-b49e-8630a84fe835, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(DEN_Apprentice_Dead_31647b3a-c130-6206-4e07-491b588de2e9, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(DEN_Apprentice_State_AllowLockedInSwDQuestion_f7adf6b4-c68d-4534-b49e-8630a84fe835, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(DEN_Apprentice_Event_GiveAntidote_e60bf645-9b5f-45a2-adf5-5e1fc5dae9b7, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ToInventory(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, _Var1, 0, 1);
+ClearOwnership(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a);
+Use(_Var1, S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, "");
+
+IF
+FlagSet(DEN_Apprentice_Event_TookThorn_fa16b889-88de-3067-6cbf-a71bf5df15ba, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetPosition(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+CreateAt(UNI_DEN_PoisonousThorn_A_Unidentified_b47a53a6-9533-4896-9d74-69aa0cff7c81, _Var3, _Var4, _Var5, 0, 0, "", _Var6, _Var1, _Var1)
+THEN
+DB_DEN_Apprentice_UnidentifiedThorn(_Var6);
+ToInventory(_Var6, _Var1, 1, 0, 0);
+
+IF
+FlagSet(DEN_Apprentice_Knows_IdentifiedBranch_782eab90-646c-ca40-b8fc-a814641ce064, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_DEN_Apprentice_UnidentifiedThorn(_Var2, _, _, _, _)
+THEN
+NOT DB_DEN_Apprentice_UnidentifiedThorn(_Var2);
+Transform(_Var2, UNI_DEN_PoisonousThorn_A_Cinematic_91c883ff-9c21-4da8-bc34-1eab397e92ab, POLYMORPH_a0ddddc8-255f-4014-9f63-d7608eb1c2a0);
+
+IF
+FlagSet(DEN_Apprentice_Knows_IdentifiedBranch_782eab90-646c-ca40-b8fc-a814641ce064, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_OneShotPlayerTrigger(S_DEN_DalelandsBookRevealSphere_ded38295-b828-4957-8ba8-9f24da67a163);
+
+PROC
+PROC_OneShotTriggerEntered((CHARACTER)_Var1, S_DEN_DalelandsBookRevealSphere_ded38295-b828-4957-8ba8-9f24da67a163, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+Exists(S_DEN_AntidoteRecipeBook_6557e2a7-ee82-4c5a-a26b-9056e4eb03df, 1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(S_DEN_AntidoteRecipeBook_6557e2a7-ee82-4c5a-a26b-9056e4eb03df, 0, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(S_DEN_AntidoteRecipeBook_6557e2a7-ee82-4c5a-a26b-9056e4eb03df, S_DEN_DalelandsBookRevealSphere_ded38295-b828-4957-8ba8-9f24da67a163, 1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DIALOGRESOURCEGUID_GLO_PerceptionSuccess_48825dbe-a320-7c4c-fe3e-372b717d5bc9, _Var1);
+PROC_PlayPerceptionRevealEffect(S_DEN_AntidoteRecipeBook_6557e2a7-ee82-4c5a-a26b-9056e4eb03df, "DEN_Apprentice_HighlightBook");
+
+IF
+RemovedFrom((ITEM)_Var1, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_Apprentice_ImportantItems(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Apprentice_ImportantItems(_Var1);
+SetStoryItem(_Var1, 0);
+
+IF
+Opened(S_DEN_LibraryEntryDoor_df1f2445-3737-4410-8f8c-b7af5967dea6, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Apprentice_Event_ReachedCyanideDialog_bcc31a3c-72e6-4720-98f1-6b7c2a40c6ba, _, _, _, _)
+THEN
+SetStoryItem(S_DEN_AppCirclet_59b54a3c-1825-49a3-b216-830edfd388ab, 0);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_Final", _, _)
+AND
+Exists(S_DEN_AppCirclet_59b54a3c-1825-49a3-b216-830edfd388ab, 1, _, _, _)
+THEN
+SetStoryItem(S_DEN_AppCirclet_59b54a3c-1825-49a3-b216-830edfd388ab, 0);
+
+IF
+FlagSet(DEN_Apprentice_Event_GiveReward_f7b09592-a221-3414-2ffa-32df23ca4b61, NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+QRY_DEN_Apprentice_TryAddingAntidoteToPouch()
+THEN
+SetOnStage(S_DEN_ApprenticeRewardPouch_e7ee5c9f-9201-4abb-9969-587c7102f9ab, 1);
+ToInventory(S_DEN_ApprenticeRewardPouch_e7ee5c9f-9201-4abb-9969-587c7102f9ab, _Var2, 1, 1, 1);
+
+QRY
+QRY_DEN_Apprentice_TryAddingAntidoteToPouch()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Apprentice_TryAddingAntidoteToPouch()
+AND
+DB_DEN_Apprentice_Poisoned(_, _, _, _, _)
+AND
+Exists(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, 1, _, _, _)
+AND
+IsInInventoryOf(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, 1, _, _)
+THEN
+ToInventory(S_DEN_Antidote_3d02e275-1530-455c-9d58-bfac847e105a, S_DEN_ApprenticeRewardPouch_e7ee5c9f-9201-4abb-9969-587c7102f9ab, 1, 0, 1);
+
+IF
+FlagSet(DEN_Apprentice_Event_RevealedTadpole_246e8df4-cd5d-da9f-7b19-cd8785478c6e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveOneShotVoiceBarkTrigger(S_DEN_DrowReactVBSphere_df0a08a6-2a89-4771-87b4-df17d03b21dd, DEN_Apprentice_VB_SeeDrow_95c5594d-628f-f9a9-dbe2-112fb680e410);
+
+IF
+FlagSet(GLO_Halsin_Knows_IsFound_a0d83476-e2d0-4972-a76b-b23c39078cd7, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveOneShotVoiceBarkTrigger(S_DEN_DrowReactVBSphere_df0a08a6-2a89-4771-87b4-df17d03b21dd, DEN_Apprentice_VB_SeeDrow_95c5594d-628f-f9a9-dbe2-112fb680e410);
+
+IF
+GameBookInterfaceClosed(S_DEN_DruidTadpoleBook_acd84c20-a9f1-4c80-861a-e8636f77e02e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("DEN_Apprentice_ReadResearch", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_Halsin_Knows_IsFound_a0d83476-e2d0-4972-a76b-b23c39078cd7, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(DEN_Apprentice_VB_TadpoleResearch_6463bde7-14a8-2f8e-e208-7e3243fd5e9c, _Var1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_DEN_SecretLibrary_SUB_14dd754c-4b74-4aa7-bbec-471c2f8a0c61, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Apprentice_CyanideDialogStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Apprentice_State_Dead_900e56ea-6e14-5d93-4425-c2afe466e6f2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "GLO_Tadpole", "LearnedResearchHalsin", 0, _Var1)
+AND
+QRY_OnlyOnce("DEN_Apprentice_ReadResearch", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_Halsin_Knows_IsFound_a0d83476-e2d0-4972-a76b-b23c39078cd7, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "GLO_Tadpole", "LearnedResearchHalsin");
+StartVoiceBark(DEN_Apprentice_VB_TadpoleResearch_6463bde7-14a8-2f8e-e208-7e3243fd5e9c, _Var1);
+
+IF
+FlagSet(DEN_Apprentice_State_TadpoleSceneDone_694528f9-7991-84b9-2fdd-816daa7dc013, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_DEN_Apprentice_ReadyMonitorIntro(1);
+
+PROC
+PROC_DEN_PlayerLeftDen((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Apprentice_ReadyMonitorIntro(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_PlayerInDen(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Apprentice_ReadyMonitorIntro(1);
+RealtimeObjectTimerLaunch(_Var1, "DEN_Apprentice_CheckIfInCampAtNight", 2000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "DEN_Apprentice_CheckIfInCampAtNight", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Apprentice_ReadyMonitorIntro(1);
+
+IF
+ObjectTimerFinished(_, "DEN_Apprentice_CheckIfInCampAtNight", _, _, _)
+AND NOT
+DB_DEN_Apprentice_ReadyMonitorIntro(1, _, _, _, _)
+THEN
+SetFlag(DEN_Apprentice_State_MonitorIntroRequirementMet_fdf075ba-072b-4788-9edb-1ad85949d06d, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "GobHuntVictory", _, _)
+AND
+DB_GlobalFlag(DEN_Apprentice_Event_NettieTurnsHostile_55b84bac-1247-7b8d-a33f-65491749a02f, _, _, _, _)
+THEN
+SetFaction(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, ACT1_DEN_Apprentice_4565e710-476b-6f86-1f7b-0ca50a6045c7);
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "GobHuntVictory", _, _)
+AND
+DB_GlobalFlag(DEN_Apprentice_Event_NettieTurnsHostile_55b84bac-1247-7b8d-a33f-65491749a02f, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 <= -45
+THEN
+AddAttitudeTowardsPlayer(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _Var1, 45);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_DEN_DefaultStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_NoTieflingsStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "GroveStateChanged");
+
+PROC
+PROC_State_Changed(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", _, _, _)
+AND NOT
+QRY_State_IsBeforeState(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "PostTadpoled_Studying", _, _)
+THEN
+PROC_DEN_Apprentice_CheckThornAvoided();
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_GoblinHuntVictory", _, _)
+THEN
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "GobHuntVictory");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DEN_VictoryStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Apprentice_ClearOwnerships();
+
+PROC
+PROC_StateSet_PermaDefeated(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, _, _, _, _)
+THEN
+PROC_State_Progress(S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf, "DEN_Apprentice", "PermaDefeated");
+
+PROC
+PROC_DialogFlagSetup(DEN_DissectedDrow_Dead_8dffcf93-b16d-98d6-1ba6-1f6dc9b86342, _, _, _, _)
+AND
+Exists(S_DEN_DissectedDrow_OnSlab_2174dd69-d425-407d-988d-6fc83ccf94f1, 1, _, _, _)
+AND
+IsInTrigger(S_DEN_DissectedDrow_0cb0cdde-16f8-440d-b73a-ceb385183ea9, S_DEN_DissectedDrow_OnSlab_2174dd69-d425-407d-988d-6fc83ccf94f1, 1, _, _)
+THEN
+SetFlag(DEN_DissectedDrow_State_OnSlab_484984e1-8bcd-4d23-b694-602bcf2079e6, S_DEN_DissectedDrow_0cb0cdde-16f8-440d-b73a-ceb385183ea9, 0);
+
+PROC
+PROC_DialogFlagSetup(DEN_DissectedDrow_Dead_8dffcf93-b16d-98d6-1ba6-1f6dc9b86342, _, _, _, _)
+AND
+Exists(S_DEN_DissectedDrow_OnSlab_2174dd69-d425-407d-988d-6fc83ccf94f1, 1, _, _, _)
+AND
+IsInTrigger(S_DEN_DissectedDrow_0cb0cdde-16f8-440d-b73a-ceb385183ea9, S_DEN_DissectedDrow_OnSlab_2174dd69-d425-407d-988d-6fc83ccf94f1, 0, _, _)
+THEN
+ClearFlag(DEN_DissectedDrow_State_OnSlab_484984e1-8bcd-4d23-b694-602bcf2079e6, S_DEN_DissectedDrow_0cb0cdde-16f8-440d-b73a-ceb385183ea9, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

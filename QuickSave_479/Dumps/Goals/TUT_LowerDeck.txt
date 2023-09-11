@@ -1,0 +1,452 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_TUT_LowerDeck_CombatEvent_5eb34cda-5b4e-4667-895f-c7683f228cc9);
+PROC_TriggerRegisterForPlayers(S_TUT_LowerDeck_GuideDialogTrigger_5ec4613a-ca05-451b-a952-481922e179d1);
+PROC_TriggerRegisterForParty(S_TUT_LaezelCinematicSpectatorTrigger_255025f1-ddac-4141-af34-eb8e32fc6839);
+PROC_TriggerRegisterForParty(S_TUT_LowerDeck_GuideInnerTrigger_4a295043-24aa-40dd-8be5-f9ac13765782);
+DB_OneShotPlayerTrigger(S_TUT_ImpRoom_ShakeTrigger_711cd164-5c53-490d-aada-5614b278e957);
+DB_TUT_LowerDeck_UndesiredGuideTags(ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed);
+PROC_SetOnStage(S_TUT_GithGuide_201a0ee6-6411-4564-aaea-1ca057bfea04, 0);
+DB_GLO_DefeatCounter(S_FirstFight_Imp_Melee_01_07f1512b-efe9-4eb8-8ade-783435e9d7c9, "TUT_LowerDeck_ImpsDefeated");
+DB_GLO_DefeatCounter(S_FirstFight_Imp_Ranged_01_38d1ce2f-4f19-4266-971d-61f08bc1a895, "TUT_LowerDeck_ImpsDefeated");
+DB_GLO_DefeatCounter(S_FirstFight_Imp_Melee_02_5c5bd50b-147e-42e5-93cb-59a754df91ec, "TUT_LowerDeck_ImpsDefeated");
+SetOnStage(S_FirstFight_Imp_Ranged_02_df44fa65-5399-47d6-b5bb-70e4b8e63314, 0);
+DB_DropMutingStatussesDialog(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344);
+DB_DialogBlockAttackButton(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344);
+DB_DialogBlockTradeButton(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344);
+DB_IgnoreMutingStatussesDialog(TUT_LowerDeck_AD_UsWaitingAtEntrance_e092c714-1a9b-1a62-b17a-3324c4e08f11);
+
+KBSECTION
+PROC
+PROC_Tutorial_Start()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "TUT_SUMMON_BLOCK", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "TUT_SUMMON_BLOCK", -1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_TUT_LowerDeck_GuideDialogTrigger_5ec4613a-ca05-451b-a952-481922e179d1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_TUT_LowerDeck_GuideRecruitmentGoingOn(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_Guide(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_PathOfHell_TeleportsToEntrance", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var3, 1);
+SetVisible(_Var3, 0);
+TeleportTo(_Var3, S_TUT_LowerDeck_GuideDialogTrigger_5ec4613a-ca05-451b-a952-481922e179d1, "TUT_LowerDeck_TeleportedGuide", 0, 0, 0, 0, 1);
+PROC_TUT_LowerDeck_FindDialogueSpeaker(_Var1);
+
+IF
+FlagSet(TUT_LowerDeck_Event_SetGuideVisible_5b044d7c-ba8d-47f5-b056-dbe941c9cf72, _, _, _, _)
+AND
+QRY_OnlyOnce("TUT_LowerDeck_GuideAppears", _, _, _, _)
+AND
+DB_TUT_Guide(_Var3, _, _, _, _)
+THEN
+SetVisible(_Var3, 1);
+
+IF
+WentOnStage(S_TUT_GithGuide_201a0ee6-6411-4564-aaea-1ca057bfea04, 1, _, _, _)
+THEN
+SetFlag(TUT_LowerDeck_State_GuideAppeared_4d3c156f-b09c-4f18-b031-d5caa8acf184);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_TUT_LowerDeck_GuideInnerTrigger_4a295043-24aa-40dd-8be5-f9ac13765782, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_LowerDeck_AddedCharToGuideDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_LowerDeck_GuideRecruitmentGoingOn(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LowerDeck_AddedCharToGuideDialog(_Var1);
+PROC_DialogAddListeningActor(_Var2, _Var1);
+
+IF
+EnteredTrigger(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, S_TUT_LowerDeck_GuideInnerTrigger_4a295043-24aa-40dd-8be5-f9ac13765782, _, _, _)
+AND NOT
+DB_OnlyOnce("TUT_LowerDeck_GuideAppears", _, _, _, _)
+AND NOT
+QRY_AnyAvatarInTrigger(S_TUT_LowerDeck_GuideDialogTrigger_5ec4613a-ca05-451b-a952-481922e179d1, _, _, _, _)
+AND
+QRY_OnlyOnce("TUT_LowerDeck_UsTempLeaves", _, _, _, _)
+THEN
+PROC_TryStartAD(TUT_LowerDeck_AD_UsWaitingAtEntrance_e092c714-1a9b-1a62-b17a-3324c4e08f11, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+IF
+AutomatedDialogEnded(TUT_LowerDeck_AD_UsWaitingAtEntrance_e092c714-1a9b-1a62-b17a-3324c4e08f11, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_TUT_Lab_TempRemoveBrain();
+
+IF
+AutomatedDialogRequestFailed(TUT_LowerDeck_AD_UsWaitingAtEntrance_e092c714-1a9b-1a62-b17a-3324c4e08f11, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_TUT_Lab_TempRemoveBrain();
+
+IF
+TimerFinished("TUT_LowerDeck_TimerUsTempLeaveParty", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+CharacterGetOwner(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TUT_Lab_DevourerIsFollowing(1);
+ClearFlag(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6);
+PROC_TUT_Misc_TutorialCompanion_RemoveCompanion(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, "dismissed", "");
+PROC_CharacterDisableAllCrimes(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+DB_TUT_Lab_OwnerUs(_Var1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_LowerDeck_AddedCharToGuideDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_TUT_LaezelCinematicSpectatorTrigger_255025f1-ddac-4141-af34-eb8e32fc6839, _Var1, _Var1, _Var1)
+THEN
+DB_LowerDeck_AddedCharToGuideDialog(_Var2);
+PROC_DialogAddListeningActor(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_InRegion(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558, S_TUT_LaezelCinematicSpectatorTrigger_255025f1-ddac-4141-af34-eb8e32fc6839, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+
+PROC
+PROC_TUT_LowerDeck_FindDialogueSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TimerCancel("TUT_LowerDeck_TimerUsTempLeaveParty");
+
+PROC
+PROC_TUT_LowerDeck_FindDialogueSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TUT_LowerDeck_RemoveBlockers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TUT_LowerDeck_StartDialogue(_Var1);
+
+PROC
+PROC_TUT_LowerDeck_FindDialogueSpeaker((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_TUT_LowerDeck_RemoveBlockers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TUT_LowerDeck_StartDialogue(_Var2);
+
+PROC
+PROC_TUT_LowerDeck_FindDialogueSpeaker((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyFollowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TUT_LowerDeck_StartDialogue(_Var2);
+
+QRY
+QRY_TUT_LowerDeck_RemoveBlockers((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+HasActiveStatus(_Var1, "SILENCED", 1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("TUT_LowerDeck_CombatScene", _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "SILENCED");
+
+QRY
+QRY_TUT_LowerDeck_RemoveBlockers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("TUT_LowerDeck_CombatScene", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveAllPolymorphs(_Var1);
+
+QRY
+QRY_TUT_LowerDeck_RemoveBlockers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("TUT_LowerDeck_CombatScene", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_TUT_LowerDeck_StartDialogue((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_LowerDeck_AddedCharToGuideDialog(_Var1);
+
+PROC
+PROC_TUT_LowerDeck_StartDialogue((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TUT_Guide(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_LowerDeck_CombatScene", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_TUT_LowerDeck_GuideRecruitmentGoingOn(_Var1);
+
+IF
+DialogEnded(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_TUT_Lab_OwnerUs(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterEnableAllCrimes(S_TUT_Lab_TrappedDevourer_6ca92237-eb1e-4ed8-a1ee-18b3bef21558);
+SetFlag(TUT_Lab_DevourerIsFollower_fdac4665-45bf-40ec-9f87-12674cbad1d6);
+PROC_TUT_Misc_TutorialCompanion_RecruitBrain(_Var2);
+
+IF
+DialogEnded(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_OnlyOnce("TUT_LowerDeck_GuideAppears", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_Guide(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetVisible(_Var2, 1);
+
+IF
+DialogEnded(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_LowerDeck_AddedCharToGuideDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LowerDeck_AddedCharToGuideDialog(_Var2);
+
+IF
+DialogEnded(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_TUT_Guide(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(TUT_LowerDeck_Event_LaezelBecomesFollower_6625adc5-8c6d-448f-8963-26dcf458e6ae, _Var3, 1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_LowerDeck_GuidePartyFollower", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_TutorialCompanion(_Var2);
+DB_TUT_Misc_TutorialCompanion_OldFaction(_Var2, _Var4);
+PROC_TUT_Misc_CheckCustomRecruitAltGith(_Var3);
+PROC_TUT_LowerDeck_GuideDialogue(_Var2);
+PROC_TUT_Misc_UpdateHelmMarkerPosition("UpperFloor");
+
+IF
+DialogEnded(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+DB_TUT_Guide(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(TUT_LowerDeck_Event_LaezelBecomesFollower_6625adc5-8c6d-448f-8963-26dcf458e6ae, _Var2, 0, _Var1, _Var1)
+THEN
+SetFlag(TUT_LowerDeck_Event_LaezelBecomesFollower_6625adc5-8c6d-448f-8963-26dcf458e6ae, _Var2);
+PROC_CheckPartyFull();
+PROC_GLO_PartyMembers_Add(_Var3, _Var2);
+
+PROC
+PROC_TUT_Misc_CheckCustomRecruitAltGith((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TUT_Guide(S_TUT_GithGuide_201a0ee6-6411-4564-aaea-1ca057bfea04, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TUT_Misc_TutorialCompanion_Recruitment(S_TUT_GithGuide_201a0ee6-6411-4564-aaea-1ca057bfea04, _Var1);
+
+IF
+DialogEnded(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "TUT_SUMMON_BLOCK", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "TUT_SUMMON_BLOCK");
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("TUT_LowerDeck_ImpsDefeated", _, _, _, _)
+THEN
+TimerLaunch("TUT_LowerDeck_ADDelay", 3000);
+SetFlag(TUT_LowerDeck_State_ImpsDead_c505f03a-c6d4-4ac5-a0a1-ea805fc1a589);
+
+IF
+FlagSet(LOW_LowerDeck_Event_ImpRoomTeleportPlayers_66c9ae56-50b5-46ee-a9a0-fc4e2b21657a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TUT_LowerDeck_CheckCharNeedTeleport();
+
+IF
+DialogEnded(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_TUT_LowerDeck_CheckCharNeedTeleport();
+
+PROC
+PROC_TUT_LowerDeck_CheckCharNeedTeleport()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TUT_LowerDeck_TeleportedToImpRoom(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_TUT_LaezelCinematicSpectatorTrigger_255025f1-ddac-4141-af34-eb8e32fc6839, 1, _Var1, _Var1)
+THEN
+PROC_TUT_LowerDeck_TeleportCharToImpRoom(_Var1);
+
+PROC
+PROC_TUT_LowerDeck_CheckCharNeedTeleport()
+AND
+DB_TUT_Guide(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TUT_LowerDeck_TeleportedToImpRoom(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_TUT_LaezelCinematicSpectatorTrigger_255025f1-ddac-4141-af34-eb8e32fc6839, 1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+PROC_TUT_LowerDeck_TeleportCharToImpRoom(_Var1);
+
+PROC
+PROC_TUT_LowerDeck_TeleportCharToImpRoom((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetPosition(TUT_ImpRoom_CombatPlayerPosition_001_df89b981-d542-4337-9b25-d637050d80b6, _Var2, _Var3, _Var4, _Var1)
+AND
+FindValidPosition(_Var2, _Var3, _Var4, 10, _Var1, 1, _Var5, _Var6, _Var7, _Var1)
+THEN
+TeleportToPosition(_Var1, _Var5, _Var6, _Var7, "TUT_LowerDeck_TeleportedToImpRoom", 0, 1, 0, 0, 1);
+
+IF
+DB_GLO_DefeatCounter(_Var1, "TUT_LowerDeck_ImpsDefeated", _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "TUT_LOWERDECK_INITIATIVEBOOST", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "TUT_LOWERDECK_INITIATIVEBOOST", -1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "TUT_LowerDeck_TeleportedToImpRoom", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_TUT_LowerDeck_TeleportedToImpRoom(_Var1);
+
+IF
+DialogEnded(TUT_LowerDeck_AfterImpFight_77547ae6-d1b6-886f-b3f4-22fcb582e344, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_TUT_LowerDeck_GuideRecruitmentGoingOn(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TUT_LowerDeck_GuideRecruitmentGoingOn(_Var1);
+
+PROC
+PROC_TUT_LowerDeck_GuideDialogue(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+DB_Tutorial_Start_PlayerPodAssigned(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_TUT_Start_LaezelPod_0aa6b2a4-808a-4eb3-84d7-face5ac13e44);
+PROC_RemoveDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+DB_Dialogs(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, TUT_Start_Laezel_c62d7e26-beb5-0afe-becd-68a25c7f4314);
+NOT DB_OriginInPartyDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, Laezel_InParty2_93bf58f5-5111-9730-1ee2-62dfb0b00c96);
+DB_OriginInPartyDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, TUT_Start_Laezel_c62d7e26-beb5-0afe-becd-68a25c7f4314);
+
+PROC
+PROC_TUT_LowerDeck_GuideDialogue(S_TUT_GithGuide_201a0ee6-6411-4564-aaea-1ca057bfea04, _, _, _, _)
+THEN
+DB_Dialogs(S_TUT_GithGuide_201a0ee6-6411-4564-aaea-1ca057bfea04, TUT_Start_AltGuide_d2957339-a41d-5346-c861-9acaf2a7663c);
+
+IF
+TagSet(S_TUT_GithGuide_201a0ee6-6411-4564-aaea-1ca057bfea04, (TAG)_Var1, (TAG)_Var1, (TAG)_Var1, (TAG)_Var1)
+AND
+DB_TUT_LowerDeck_UndesiredGuideTags(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearTag(S_TUT_GithGuide_201a0ee6-6411-4564-aaea-1ca057bfea04, _Var1);
+
+IF
+RelationChanged(Origin_Laezel_bee8449b-d682-93c8-e7da-9e4bad369476, (FACTION)_Var1, 0, 0, (FACTION)_Var1)
+AND
+FactionGetParentFaction(_Var1, 1, Hero_a1542c81-6895-929e-4522-10ce218bb360, _Var1, _Var1)
+THEN
+SetFaction(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, Origin_Laezel_Hostile_5d2675e2-6d65-4292-bd4b-269fa83d9e07);
+
+PROC
+PROC_OneShotTriggerEntered((GUIDSTRING)_Var1, S_TUT_ImpRoom_ShakeTrigger_711cd164-5c53-490d-aada-5614b278e957, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_TryStartAD(TUT_LowerDeck_PAD_ReactionToDragonAttack_140671e8-ceb3-546e-22e7-563f1a30dd78, _Var1);
+
+IF
+AutomatedDialogStarted(TUT_LowerDeck_PAD_ReactionToDragonAttack_140671e8-ceb3-546e-22e7-563f1a30dd78, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogSpeakers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_CameraShakeAroundObject(_Var2, 3000, 20);
+
+IF
+TimerFinished("TUT_LowerDeck_ADDelay", _, _, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(S_TUT_LowerDeck_RoomTrigger_ebbf3bb5-d79a-49f0-b085-eae705c8fc66);
+
+PROC
+PROC_Tutorial_Start()
+AND
+SysCount("DB_Players", 1, _Var1, _Var1, _Var1)
+AND
+_Var1 > 1
+THEN
+SetOnStage(S_FirstFight_Imp_Ranged_02_df44fa65-5399-47d6-b5bb-70e4b8e63314, 1);
+DB_GLO_DefeatCounter(S_FirstFight_Imp_Ranged_02_df44fa65-5399-47d6-b5bb-70e4b8e63314, "TUT_LowerDeck_ImpsDefeated");
+
+IF
+TextEvent("TUT_LowerDeck_TeleportTo_PathOfHell", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_Teleport_TUT_PathOfHell_1ee248d0-c2d2-49d8-ae32-35be078f9394, "", 1, 1, 1, 1, 1);
+
+IF
+DB_GlobalFlag(TUT_LowerDeck_Debug_TeleportPathOfHell_f20d8743-715e-4646-b583-48aa9f6a64f4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_Teleport_TUT_PathOfHell_1ee248d0-c2d2-49d8-ae32-35be078f9394, "", 1, 1, 1, 1, 1);
+
+IF
+TextEvent("TUT_LowerDeck_StartGuideDialog", _, _, _, _)
+THEN
+PROC_TUT_LowerDeck_Debug_StartGuideDialog();
+
+IF
+DB_GlobalFlag(TUT_LowerDeck_Debug_StartGuideDialog_123a0266-9989-4c8c-9bf6-e01e9719561b, _, _, _, _)
+THEN
+TimerLaunch("TUT_LowerDeck_GuideDialogTimer", 500);
+
+IF
+TimerFinished("TUT_LowerDeck_GuideDialogTimer", _, _, _, _)
+THEN
+PROC_TUT_LowerDeck_Debug_StartGuideDialog();
+
+PROC
+PROC_TUT_LowerDeck_Debug_StartGuideDialog()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TUT_PathOfHell_GuideRecruit", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("TUT_LowerDeck_CombatScene", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_Guide(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_Teleport_TUT_PathOfHell_1ee248d0-c2d2-49d8-ae32-35be078f9394, "", 1, 1, 1, 1, 1);
+TeleportTo(_Var2, S_TUT_LowerDeck_GuideInnerTrigger_4a295043-24aa-40dd-8be5-f9ac13765782, "", 0, 0, 0, 0, 1);
+PROC_TUT_LowerDeck_FindDialogueSpeaker(_Var1);
+
+PROC
+PROC_TUT_Helm_EndTutorial()
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Tutorial"

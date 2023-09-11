@@ -1,0 +1,154 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_SetOnStage(S_WYR_RaphaelTango_WarlockRecords_aa42c2a0-2ddd-400e-9cb2-32a7f5f796b6, 0);
+DB_BookFlags(S_WYR_RaphaelTango_WarlockRecords_aa42c2a0-2ddd-400e-9cb2-32a7f5f796b6, LOW_DevilsFee_Knows_HelsikWayHoH_6beeb7f7-53ec-c6dc-0261-95b8d7c2fb4e);
+
+KBSECTION
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_WYR_Bridge_SUB_ed5b53be-de5f-46e9-ab78-2707c0bfe61e, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_InviteToRaphael");
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_WYR_Bridge_SUB_ed5b53be-de5f-46e9-ab78-2707c0bfe61e, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TryTravelToSharessCaress();
+
+IF
+DB_State_Current(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_InviteToRaphael", _, _)
+AND
+IsInInventoryOf(S_WYR_RaphaelTango_WarlockRecords_aa42c2a0-2ddd-400e-9cb2-32a7f5f796b6, S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 0, _, _)
+THEN
+PROC_SetOnStage(S_WYR_RaphaelTango_WarlockRecords_aa42c2a0-2ddd-400e-9cb2-32a7f5f796b6, 1);
+ToInventory(S_WYR_RaphaelTango_WarlockRecords_aa42c2a0-2ddd-400e-9cb2-32a7f5f796b6, S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+
+IF
+LevelLoaded("CTY_Main_A", _, _, _, _)
+AND
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_InviteToRaphael", _, _)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_InviteToRaphael");
+
+IF
+LevelLoaded("CTY_Main_A", _, _, _, _)
+THEN
+PROC_GLO_Warlock_TryTravelToElfsongTavern();
+
+PROC
+PROC_GLO_Warlock_TryTravelToSharessCaress()
+AND NOT
+DB_GlobalFlag(GLO_Warlock_State_InSharessCaress_e3682219-f9b6-482f-9419-cc2adaf037c0, _, _, _, _)
+AND
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate", _, _)
+THEN
+PROC_GlobalClearFlagAndCache(GLO_Warlock_State_InElfsongTavern_05c25ac8-f10f-49f1-8d7e-c0c48d6772c9);
+PROC_GlobalSetFlagAndCache(GLO_Warlock_State_InSharessCaress_e3682219-f9b6-482f-9419-cc2adaf037c0);
+PROC_SetAnubisConfig(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "WYR_RaphaelTango_Warlock");
+PROC_GLO_SetupForAct_Place(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, S_WYR_RaphaelTango_WarlockSpot_42ee511c-2a8d-4201-a1b7-6848c23dd9b2, NULL_00000000-0000-0000-0000-000000000000, WYR_RaphaelTango_Warlock_0c6d3ba7-7e9e-c35f-35b6-ea6905a00ba5, "GLO_Warlock_InSharessCaress");
+
+PROC
+PROC_GLO_Warlock_TryTravelToElfsongTavern()
+AND NOT
+DB_GlobalFlag(GLO_Warlock_State_InElfsongTavern_05c25ac8-f10f-49f1-8d7e-c0c48d6772c9, _, _, _, _)
+AND NOT
+QRY_GLO_Warlock_CantTravelToElfsongTavern()
+AND
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate", _, _)
+THEN
+PROC_GlobalClearFlagAndCache(GLO_Warlock_State_InSharessCaress_e3682219-f9b6-482f-9419-cc2adaf037c0);
+PROC_GlobalSetFlagAndCache(GLO_Warlock_State_InElfsongTavern_05c25ac8-f10f-49f1-8d7e-c0c48d6772c9);
+PROC_SetAnubisConfig(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "WYR_RaphaelTango_Warlock");
+PROC_GLO_SetupForAct_Place(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, S_LOW_ElfsongTavern_WarlockSpot_3a0bd669-a931-4a5c-8c99-9008ae2ec144, NULL_00000000-0000-0000-0000-000000000000, WYR_RaphaelTango_Warlock_0c6d3ba7-7e9e-c35f-35b6-ea6905a00ba5, "GLO_Warlock_InElfsongTavern");
+
+QRY
+QRY_GLO_Warlock_CantTravelToElfsongTavern()
+AND NOT
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_InviteToRaphael", _, _)
+AND
+DB_State_Current(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_WaitForDeal", _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_State_Changed(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", _, "GLO_Warlock_InviteToRaphael", (STRING)_)
+THEN
+CharacterDisableAllCrimes(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+PROC_GLO_Warlock_ApplyStatus("GLO_KORRILLA_PROJECTEDIMAGE");
+PROC_GLO_Warlock_RemoveStatus("GLO_KORRILLA_STEALTH");
+PROC_GLO_Warlock_RemoveStatus("TWN_KORRILLATHESPY_PROXIMITYAURA");
+
+PROC
+PROC_GLO_Warlock_TeleportOut()
+AND NOT
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_InviteToRaphael", _, _)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate");
+
+PROC
+PROC_State_Changed(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", _, "GLO_Warlock_LeftBaldursGate", (STRING)_)
+THEN
+PROC_GlobalClearFlagAndCache(GLO_Warlock_State_InSharessCaress_e3682219-f9b6-482f-9419-cc2adaf037c0);
+PROC_GlobalClearFlagAndCache(GLO_Warlock_State_InElfsongTavern_05c25ac8-f10f-49f1-8d7e-c0c48d6772c9);
+
+PROC
+PROC_LongRest()
+AND
+DB_State_Current(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate", _, _)
+THEN
+PROC_GLO_Warlock_Leaves();
+
+PROC
+PROC_LevelUnloading("BGO_Main_A", _, _, _, _)
+AND
+DB_State_Current(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate", _, _)
+THEN
+PROC_GLO_Warlock_Leaves();
+
+PROC
+PROC_LevelUnloading("CTY_Main_A", _, _, _, _)
+AND
+DB_State_Current(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate", _, _)
+THEN
+PROC_GLO_Warlock_Leaves();
+
+PROC
+PROC_GLO_Warlock_Leaves()
+THEN
+PROC_SetOnStage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 0);
+
+IF
+FlagSet(WYR_RaphaelTango_Warlock_State_Talked_07639773-0bcd-8536-53ca-d025c1a6988a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_WaitForDeal");
+
+IF
+FlagSet(WYR_RaphaelTango_Event_BeganSoloScene_1048973a-9ed0-89e5-ce68-11e03fafc22c, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_WaitForDeal");
+
+IF
+FlagSet(GLO_Monitor_State_MadeDeal_86f40f63-0bfa-4ab6-b3b0-d01475c3cbdc, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_AfterDeal");
+
+IF
+FlagSet(WYR_RaphaelTango_State_RetreatedAfterAssault_36233fc0-0f9a-439a-95a7-a693b0527f2d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate");
+
+IF
+FlagSet(WYR_RaphaelTango_Warlock_State_TalkedAfterDeal_2faafab6-31b0-5db9-824f-b79ff9cc2073, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

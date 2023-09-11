@@ -1,0 +1,76 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_CrowdSupport_DisperseDead(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_GLO_CrowdSupport_DisperseFlag(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_CrowdSupport_DisperseVignette(NULL_00000000-0000-0000-0000-000000000000, "NameOfVignette", 0, 0);
+
+KBSECTION
+PROC
+PROC_LongRest()
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_CrowdSupport_DisperseDead(_Var2, _Var1, 0, _Var1, _Var1)
+THEN
+TriggerSetCrowdSpawningEnable(_Var2, 0);
+NOT DB_GLO_CrowdSupport_DisperseDead(_Var2, _Var1, 0);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_CrowdSupport_DisperseFlag(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerSetCrowdSpawningEnable(_Var2, 0);
+NOT DB_GLO_CrowdSupport_DisperseFlag(_Var2, _Var1);
+
+PROC
+PROC_CrowdSupport_DisperseCrowdOnDeath((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_CrowdSupport_DisperseDead(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+TriggerSetCrowdSpawningEnable(_Var2, 0);
+NOT DB_GLO_CrowdSupport_DisperseDead(_Var2, _Var1, 1);
+TriggerSetCrowdBehaviour(_Var2, 0);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_CrowdSupport_DisperseVignette(_Var1, _Var2, 1, 1, _Var1)
+THEN
+PROC_CrowdSupport_OffStageLinkedImmidiately(_Var2);
+PROC_CrowdSupport_DisperseCrowdOnDeath(_Var1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GLO_CrowdSupport_DisperseVignette(_Var1, _Var2, 1, 0, _Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CrowdSupport_OffStageLinked(_Var2);
+
+PROC
+PROC_CrowdSupport_OffStageLinked((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_CrowdSupport_DisperseVignette(_Var2, _Var1, _Var3, _Var4, _Var1)
+THEN
+SetOnStage(_Var2, 0);
+NOT DB_GLO_CrowdSupport_DisperseVignette(_Var2, _Var1, _Var3, _Var4);
+
+PROC
+PROC_CrowdSupport_OffStageLinkedImmidiately((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_CrowdSupport_DisperseVignette(_Var2, _Var1, _Var3, _Var4, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var2, "Run", 1, "");
+NOT DB_GLO_CrowdSupport_DisperseVignette(_Var2, _Var1, _Var3, _Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

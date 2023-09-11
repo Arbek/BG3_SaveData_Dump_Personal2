@@ -1,0 +1,90 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_DeclareCounter("ORI_DarkUrge_UrgeIndulge");
+
+KBSECTION
+IF
+FlagSet(ORI_DarkUrge_Event_IndulgedUrge_ceb8b4c2-b705-c26c-250d-a1c1c32e7cb5, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_DarkUrge_UnreactedUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IncreaseCounter("ORI_DarkUrge_UrgeIndulge");
+
+IF
+FlagSet(ORI_DarkUrge_Event_ResistedUrge_1abee43a-02e0-9805-646b-9d321aecba28, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_DarkUrge_UnreactedUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DecreaseCounter("ORI_DarkUrge_UrgeIndulge");
+
+QRY
+QRY_ORI_DarkUrge_UnreactedUrge((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogName(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ORI_DarkUrge_UnreactedUrge((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogName(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_ReactedUrges(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_ReactedUrges(_Var2);
+
+IF
+DB_ORI_DarkUrge_ReactedUrges(NULL_00000000-0000-0000-0000-000000000000, _, _, _, _)
+THEN
+NOT DB_ORI_DarkUrge_ReactedUrges(NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_CounterIncreased("ORI_DarkUrge_Urges", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "ORI_Avatar_DarkUrge", "ButlerAppearance", 1, _Var1)
+AND
+_Var1 > 3
+THEN
+QuestUpdate(_Var2, "ORI_Avatar_DarkUrge", "IndulgedUrges");
+
+PROC
+PROC_CounterDecreased("ORI_DarkUrge_Urges", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "ORI_Avatar_DarkUrge", "ButlerAppearance", 1, _Var1)
+AND
+_Var1 < -3
+THEN
+QuestUpdate(_Var2, "ORI_Avatar_DarkUrge", "ResistedUrges");
+
+IF
+FlagSet(ORI_DarkUrge_Event_IndulgedUrge_ceb8b4c2-b705-c26c-250d-a1c1c32e7cb5, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(ORI_DarkUrge_Event_IndulgedUrge_ceb8b4c2-b705-c26c-250d-a1c1c32e7cb5, _Var1, _Var2);
+
+IF
+FlagSet(ORI_DarkUrge_Event_ResistedUrge_1abee43a-02e0-9805-646b-9d321aecba28, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(ORI_DarkUrge_Event_ResistedUrge_1abee43a-02e0-9805-646b-9d321aecba28, _Var1, _Var2);
+
+IF
+QuestUpdateUnlocked(_, "ORI_Avatar_DarkUrge", "IndulgedUrges", (CHARACTER)_, (CHARACTER)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+PROC_RemoveCounter("ORI_DarkUrge_UrgeIndulge");
+SysClear("DB_ORI_DarkUrge_ReactedUrges", 1);
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_DarkUrge_SetupSubgoals"

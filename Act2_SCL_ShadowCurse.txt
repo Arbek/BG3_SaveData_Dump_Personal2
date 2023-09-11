@@ -1,0 +1,1655 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_MoonriseTower_b0b0721f-2a4f-4530-85cf-c67c0db25f92);
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_Haven_f4f81c2b-5428-4d06-a65e-3ba21e105cba);
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_KethericCityEntrance_53985661-c41b-40a0-b6af-3add4fbb392d);
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_HillsEntrance_a2135d8d-a2f3-4d1e-9eab-041d09dc20ec);
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_HavenBasement_ccd7ad8c-6315-4fe6-898b-051a74f0dbb4);
+DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_Main_5c64f194-e45c-40f0-b91e-9bcad384b401);
+DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_HavenBasement_1677b2e5-0b94-4336-8dd9-a4b2c80bf1d1);
+DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_HospitalBasement_f39a36bd-c94e-4bc5-8556-c4b280c4aab1);
+DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_Mausoleum_a980a674-7795-46e8-88e1-55d270498f4c);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Town_f2091d2d-2ac6-4e7e-ba08-315ffdd3e40a);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_HospitalBasement_fa03650f-6284-4d2c-b20a-7271b1c78901);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_LodgeArea_de7c9f83-802b-4bae-afe5-e6d8bb15a41e);
+PROC_TriggerRegisterForPlayers(S_HAV_Entrance_BlessingReminder_Inside_cd12c286-3362-4fac-bdf8-da2c019a4aad);
+PROC_TriggerRegisterForPlayers(S_HAV_Entrance_BlessingReminder_Outside_9f4d9b08-188e-4c10-9139-086e48ba8005);
+DB_HAV_ShadowCurse_BlessingReminders(S_HAV_HavenOutcasts_FountainPatrol_Caster_ff70f59a-7d50-4e69-a768-60a97c6fb57d);
+DB_HAV_ShadowCurse_BlessingReminders(S_HAV_HavenOutcasts_BarricadeGuards_Melee_Dwarf_b1d8b327-1f27-4921-aa2b-dd18a9d67fc8);
+DB_HAV_ShadowCurse_BlessingReminders(S_HAV_HavenOutcasts_BarricadeYeller_Ranger_b612ef5f-3381-4486-8959-84dd399fb1ae);
+DB_SCL_ShadowCurse_Active(1);
+DB_SCL_ShadowCurse_TriggerForcedTB(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SCL_ShadowCurse_LightStatus(NULL_00000000-0000-0000-0000-000000000000, "", NULL_00000000-0000-0000-0000-000000000000);
+DB_SCL_ShadowCurse_ResistantStatuses("HAV_SELUNEOINTMENT");
+DB_SCL_ShadowCurse_ResistantStatuses("SCL_SHADOWCURSE_TEMPORARY_IMMUNITY");
+DB_SCL_ShadowCurse_UndeadStatuses("SCL_SHADOW_CURSE_UNDEAD_NEW");
+DB_SCL_ShadowCurse_UndeadStatuses("SCL_SHADOW_CURSE_UNDEAD_HALSINLAKESIDE");
+SetTag(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ACT2_SHADOW_CURSE_RESISTANT_DONT_PROPAGATE_87dc3ebb-0eca-47d8-971e-3c500c743dd7);
+
+KBSECTION
+IF
+DB_SCL_Shadowcurse_SafeZones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForItems(_Var1);
+
+IF
+DB_SCL_Shadowcurse_Shadowblight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForItems(_Var1);
+
+IF
+DB_SCL_ShadowCurse_Active(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_InSCL(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDead(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_DiedCursed(_Var1);
+
+IF
+DB_SCL_ShadowCurse_Active(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_InSCL(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_DiedCursed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, SHADOW_a04374d9-c40f-4c41-a10f-7f3ca496b16a, 0, _Var1, _Var1)
+THEN
+PROC_SCL_Shadowcurse_Include(_Var1);
+
+PROC
+PROC_SCL_Shadowcurse_Include((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Area(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var2, _Var1);
+
+PROC
+PROC_SCL_Shadowcurse_Exclude((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Area(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var2, _Var1);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Area(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var2);
+
+IF
+DB_SCL_Shadowcurse_Area(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_InCursedArea(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_LeftCurseArea(_Var2, _Var1);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_Shadowcurse_Area(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_LeftCurseArea(_Var1, _Var2);
+
+IF
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InCursedArea(_Var1);
+
+QRY
+QRY_SCL_ShadowCurse_InCursedArea((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Area(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SCL_Shadowcurse_ExcludedFromCurse((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_MoonLanternWielder(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SCL_ShadowCurse_LeftCurseArea((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var2);
+
+PROC
+PROC_SCL_ShadowCurse_LeftCurseArea((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_SCL_Shadowcurse_ExcludedFromCurse(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InCursedArea(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_LeftCurseArea((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SCL_Shadowcurse_ExcludedFromCurse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InCursedArea(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_LeftCurseArea((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var3, _Var1);
+
+PROC
+PROC_SCL_ShadowCurse_LeftCurseArea((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var3, _Var1);
+
+IF
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var2, _Var1);
+
+IF
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var2, _Var1);
+
+IF
+ItemEnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var2);
+
+IF
+ItemLeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Light", 1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var6, 1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var6);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var2);
+
+IF
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var2);
+
+IF
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_Shadowcurse_SafeZones(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var2);
+
+IF
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InSafeZone(_Var1);
+
+IF
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InSafeZone(_Var1);
+PROC_ShadowCurse_LeftSafeZone(_Var1);
+
+IF
+ItemEnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var2);
+
+IF
+ItemLeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Light", 1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var6, 1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var6);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var2);
+
+IF
+DB_SCL_Shadowcurse_Shadowblight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_InBlightedArea(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InBlightedArea(_Var2, _Var1);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_Shadowcurse_Shadowblight(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var2);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_InBlightedArea(_Var1);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InBlightedArea(_Var1);
+
+QRY
+QRY_InShadowCurseSafeZone((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_InShadowCurseSafeZone((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+LevelUnloading("SCL_Main_A", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InCursedArea(_Var1);
+
+IF
+TagCleared((GUIDSTRING)_Var1, ACT2_SHADOW_CURSE_IMMUNE_b47643e0-583c-4808-b108-f6d3b605b0a9, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Area(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var2, _Var1);
+
+PROC
+PROC_ShadowCurse_TrackLight((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_TrackLight(_Var1);
+ApplyStatus(_Var1, "SCL_TRACKLIGHT", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ShadowCurse_LeftSafeZone((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShadowCurse_TrackLight(_Var1);
+
+IF
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_InShadowCurseSafeZone(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShadowCurse_TrackLight(_Var1);
+
+IF
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InCursedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_TrackLight(_Var1);
+RemoveStatus(_Var1, "SCL_TRACKLIGHT", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_InSafeZone(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_TrackLight(_Var1);
+RemoveStatus(_Var1, "SCL_TRACKLIGHT", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_TrackLight(_Var1);
+RemoveStatus(_Var1, "SCL_TRACKLIGHT", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "SCL_PrepareToCheckObscuredState", 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_PrepareToCheckObscuredState", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetEntityEvent(_Var1, "SCL_CheckObscuredState", 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_CheckObscuredState", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetObscuredState(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 != "Clear"
+THEN
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1);
+
+IF
+ObscuredStateChanged((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != "Clear"
+AND
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1);
+
+IF
+ObscuredStateChanged((GUIDSTRING)_Var1, "Clear", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1);
+
+IF
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1);
+
+IF
+DB_SCL_ShadowCurse_Resistant(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Resistant_Through_Status(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Resistant_Through_Tag(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_Resistant(_Var1);
+
+IF
+DB_SCL_ShadowCurse_Resistant_Through_Status(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_Resistant(_Var1);
+
+IF
+DB_SCL_ShadowCurse_Resistant_Through_Tag(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_Resistant(_Var1);
+
+IF
+TagSet((GUIDSTRING)_Var1, ACT2_SHADOW_CURSE_RESISTANT_DONT_PROPAGATE_87dc3ebb-0eca-47d8-971e-3c500c743dd7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_SCL_ShadowCurse_Resistant_Through_Tag(_Var1);
+
+IF
+TagCleared((GUIDSTRING)_Var1, ACT2_SHADOW_CURSE_RESISTANT_DONT_PROPAGATE_87dc3ebb-0eca-47d8-971e-3c500c743dd7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_SCL_ShadowCurse_Resistant_Through_Tag(_Var1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_ResistantStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_Resistant_Through_Status(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_ResistantStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCL_ShadowCurse_IsResistantThroughStatus(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_Resistant_Through_Status(_Var1);
+
+QRY
+QRY_SCL_ShadowCurse_IsResistantThroughStatus((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_ResistantStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Resistant(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_ValidTarget(_Var1);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_ValidTarget(_Var1);
+
+IF
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_Resistant(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_ValidTarget(_Var1);
+
+IF
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_ValidTarget(_Var1);
+
+IF
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_PartyProtectedBy(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_PartyProtectedBy(_Var1, _Var2);
+
+IF
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+DB_SCL_ShadowCurse_PartyProtectedBy(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var2, _Var1, 1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsNotAloneInPartyGroup(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var2, _Var1, 1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_ValidTarget(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+DB_SCL_ShadowCurse_PartyProtectedBy(_Var1, _Var2);
+
+IF
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var2, _Var1, 1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_ValidTarget(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_NotPartyProtected(_Var2);
+DB_SCL_ShadowCurse_PartyProtectedBy(_Var2, _Var1);
+
+IF
+AttachedToPartyGroup((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var1, _Var2, 1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+DB_SCL_ShadowCurse_PartyProtectedBy(_Var1, _Var2);
+
+IF
+AttachedToPartyGroup((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_NotPartyProtected(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_NotPartyProtected(_Var2);
+DB_SCL_ShadowCurse_PartyProtectedBy(_Var2, _Var1);
+
+IF
+DetachedFromPartyGroup((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsNotAloneInPartyGroup(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+AttachedToPartyGroup((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsControlled(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_NotPartyProtected(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+GainedControl((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_ValidTarget(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var2);
+
+IF
+GainedControl((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SCL_ShadowCurse_EnvironmentalConditions(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_ValidTarget(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_NotPartyProtected(_Var2);
+DB_SCL_ShadowCurse_PartyProtectedBy(_Var2, _Var1);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "SCL_AREA", (CHARACTER)_Var2, _, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDead(_Var1, 0, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SCL_SHADOWCURSE_TEMPORARY_IMMUNITY", 18, 1);
+DB_SCL_ShadowCurse_Resistant_Through_Status(_Var1);
+
+IF
+StatusAttemptFailed((GUIDSTRING)_Var1, "SCL_SHADOWCURSE_TEMPORARY_IMMUNITY", _, _, (GUIDSTRING)_Var1)
+AND NOT
+QRY_SCL_ShadowCurse_IsResistantThroughStatus(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_Resistant_Through_Status(_Var1);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, "SCL_SHADOWCURSE_TEMPORARY_IMMUNITY", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "SCL_SHADOWCURSE_TEMPORARY_IMMUNITY", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_ValidTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCL_ShadowCurse_Undead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_MakeCurseSubject(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_MakeCurseSubject((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_ShadowCurse_Subject(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SCL_AREA", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_SCL_ShadowCurse_Subject(_Var1);
+
+QRY
+QRY_SCL_ShadowCurse_Undead((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_SCL_ShadowCurse_Subject(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_Resistant(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_ValidTarget(_Var1);
+PROC_SCL_ShadowCurse_Remove(_Var1);
+
+IF
+DB_SCL_ShadowCurse_Subject(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_ValidTarget(_Var1);
+PROC_SCL_ShadowCurse_Remove(_Var1);
+
+IF
+DB_SCL_ShadowCurse_Subject(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_NotPartyProtected(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_Remove(_Var1);
+
+IF
+DB_SCL_ShadowCurse_Subject(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_Remove(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_Remove((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveStatus(_Var1, "SCL_AREA");
+RemoveStatus(_Var1, "SCL_SHADOW_CURSE");
+RemoveStatus(_Var1, "SCL_SHADOW_CURSE_1");
+RemoveStatus(_Var1, "SCL_SHADOW_CURSE_2");
+RemoveStatus(_Var1, "SCL_SHADOW_CURSE_3");
+RemoveStatus(_Var1, "SCL_SHADOW_CURSE_4");
+NOT DB_SCL_ShadowCurse_Subject(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "SCL_AREA", _, _, (GUIDSTRING)_Var1)
+AND
+HasAppliedStatus(_Var1, "SCL_AREA", 0, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_Remove(_Var1);
+
+QRY
+QRY_WaypointTeleport_PlayerBlocked_SpecificReason((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_ShadowCurse_Subject(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+_Var2 != "SCL_MOONSHIELD_AURA"
+AND
+IsStatusFromGroup(_Var2, "SG_Light", 1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_LightStatus(_Var1, _Var2, _Var3);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShadowCurse_RemoveLightStatuses(_Var1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Light", 1, _Var1, _Var1)
+THEN
+PROC_ShadowCurse_RemoveLightStatuses(_Var1);
+
+IF
+TagSet((GUIDSTRING)_Var1, SPELLLIGHTOBJECT_292e7f29-ff10-462d-8be9-94ddd18970ea, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShadowCurse_RemoveLightStatuses(_Var1);
+
+IF
+Equipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_SCL_ShadowCurse_InBlightedArea(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShadowCurse_RemoveLightStatuses(_Var2);
+SetEntityEvent(_Var2, "SCL_ShadowCurse_RemoveEquipmentLightStatuses_1", 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_ShadowCurse_RemoveEquipmentLightStatuses_1", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetEntityEvent(_Var1, "SCL_ShadowCurse_RemoveEquipmentLightStatuses_2", 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_ShadowCurse_RemoveEquipmentLightStatuses_2", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetEntityEvent(_Var1, "SCL_ShadowCurse_RemoveEquipmentLightStatuses_3", 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "SCL_ShadowCurse_RemoveEquipmentLightStatuses_3", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShadowCurse_RemoveLightStatuses(_Var1);
+
+PROC
+PROC_ShadowCurse_RemoveShadowblightTrigger((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Shadowcurse_Shadowblight(_Var1);
+PROC_TriggerUnregisterForPlayers(_Var1);
+TriggerUnregisterForItems(_Var1);
+
+PROC
+PROC_ShadowCurse_RemoveLightStatuses((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_LightStatus(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_LightRemoved(_Var1);
+
+PROC
+PROC_ShadowCurse_RemoveLightStatuses((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveStatusesWithGroup(_Var1, "SG_Light");
+
+PROC
+PROC_ShadowCurse_RemoveLightStatuses((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_EquippedItemSlots(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedItem(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_ShadowCurse_RemoveLightStatuses(_Var3);
+
+PROC
+PROC_ShadowCurse_RemoveLightStatuses((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, SPELLLIGHTOBJECT_292e7f29-ff10-462d-8be9-94ddd18970ea, 1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 00000000-0000-0000-0000-000000000000, 0, 0);
+
+PROC
+PROC_SCL_ShadowCurse_LightRemoved((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SCL_ShadowCurse_GetOwnerOrSelf(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_SCL_ShadowCurse_Owner(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_LightRemoved_Internal(_Var1, _Var2);
+
+PROC
+PROC_SCL_ShadowCurse_LightRemoved_Internal((GUIDSTRING)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != _Var1
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var2, "SCL_ShadowCurse_VB_LightsSnuffedOut", _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(SCL_ShadowCurse_VB_LightsSnuffedOut_58f2eea5-531b-4553-b191-98c0b658cee5, _Var2);
+
+PROC
+PROC_SCL_ShadowCurse_LightRemoved_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_LightStatus(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, _Var3, 1, _Var1, _Var1)
+AND
+GetStatusCurrentLifetime(_Var1, _Var3, _Var5, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_LightStatusToReapply(_Var2, _Var1, _Var3, _Var4, _Var5);
+
+PROC
+PROC_SCL_ShadowCurse_LightRemoved_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_LightStatus(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_LightStatus(_Var1, _Var3, _Var4);
+
+QRY
+QRY_SCL_ShadowCurse_GetOwnerOrSelf((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_SCL_ShadowCurse_Owner(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_SCL_ShadowCurse_Owner(_Var2);
+
+QRY
+QRY_SCL_ShadowCurse_GetOwnerOrSelf((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetInventoryOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_SCL_ShadowCurse_Owner(_Var2);
+
+QRY
+QRY_SCL_ShadowCurse_GetOwnerOrSelf((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_SCL_ShadowCurse_Owner(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_SCL_ShadowCurse_Owner(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_LightStatus(_Var1, _Var2, _Var5, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_LightStatus(_Var1, _Var2, _Var5);
+
+IF
+DB_SCL_ShadowCurse_LightStatusToReapply(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsEquipped(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+GetInventoryOwner(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_ObjectLeftBlightedArea(_Var2);
+
+IF
+DB_SCL_ShadowCurse_LightStatusToReapply(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_ObjectLeftBlightedArea(_Var2);
+
+IF
+ItemLeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_ObjectLeftBlightedArea(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_ObjectLeftBlightedArea((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InBlightedArea(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_ObjectLeftBlightedArea((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var2);
+
+PROC
+PROC_SCL_ShadowCurse_ObjectLeftBlightedArea((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_SCL_ShadowCurse_LightStatusToReapply(_Var2, _Var1, _Var3, _Var4, _Var5)
+THEN
+ApplyStatus(_Var1, _Var3, _Var5, 1, _Var4);
+NOT DB_SCL_ShadowCurse_LightStatusToReapply(_Var2, _Var1, _Var3, _Var4, _Var5);
+
+IF
+DB_GlobalFlag(HAV_TakingIsobel_Event_GiveOintment_efb6aed5-fd07-433b-b0c5-b980bf77bb2c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(CURRENTREGION_SCL_Main_A_f76b85b5-b557-4409-98fd-cc7b22f8292b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "HAV_SELUNEOINTMENT", -1, 1, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "HAV_SELUNEOINTMENT", _, _, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(HAV_TakingIsobel_State_HasSeluneOintment_01e2ae8a-17d7-4e42-861b-2747bbb59e40, _Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "HAV_SELUNEOINTMENT", _, _, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(HAV_TakingIsobel_State_HasSeluneOintment_01e2ae8a-17d7-4e42-861b-2747bbb59e40, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(HAV_TakingIsobel_State_HasSeluneOintment_01e2ae8a-17d7-4e42-861b-2747bbb59e40, _Var1);
+
+IF
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND NOT
+DB_HAV_ShadowCurse_BlessingReminderOn(1, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_HAV_Entrance_BlessingReminder_Outside_9f4d9b08-188e-4c10-9139-086e48ba8005, _, _, _)
+AND NOT
+DB_InRegion(_, S_HAV_Entrance_BlessingReminder_Inside_cd12c286-3362-4fac-bdf8-da2c019a4aad, _, _, _)
+THEN
+DB_HAV_ShadowCurse_BlessingReminderOn(1);
+PROC_TriggerUnregisterForPlayers(S_HAV_Entrance_BlessingReminder_Outside_9f4d9b08-188e-4c10-9139-086e48ba8005);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_HAV_Entrance_BlessingReminder_Inside_cd12c286-3362-4fac-bdf8-da2c019a4aad, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAV_ShadowCurse_BlessingReminderOn(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_HAV_Entrance_BlessingReminder_Outside_9f4d9b08-188e-4c10-9139-086e48ba8005, 1, _Var1, _Var1)
+AND NOT
+QRY_HAV_ShadowCurse_CancelBlessingReminder(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_ShadowCurse_BlessingReminders(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CanSee(_Var2, _Var1, 1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_OncePerUserAndNearbyPlayers_IsSet(_Var1, "HAV_ExitBlessingReminder", _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(HAV_ExitBlessingReminder_249c1a1e-9fc0-7472-89cd-9aee034b9d55, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_OncePerUserAndNearbyPlayers_Set(_Var1, "HAV_ExitBlessingReminder", 10);
+
+QRY
+QRY_HAV_ShadowCurse_CancelBlessingReminder((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+HasActiveStatus(_Var1, "SCL_MOONSHIELD", 1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(S_HAV_Entrance_BlessingReminder_Inside_cd12c286-3362-4fac-bdf8-da2c019a4aad);
+
+QRY
+QRY_HAV_ShadowCurse_CancelBlessingReminder((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "HAV_SELUNEOINTMENT", 1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(S_HAV_Entrance_BlessingReminder_Inside_cd12c286-3362-4fac-bdf8-da2c019a4aad);
+
+PROC
+PROC_SCL_ShadowCurse_Off()
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForItems(_Var1);
+NOT DB_SCL_Shadowcurse_Shadowblight(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_Off()
+AND
+DB_SCL_Shadowcurse_Area(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Shadowcurse_Area(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_Off()
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForItems(_Var1);
+NOT DB_SCL_Shadowcurse_SafeZones(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_Off()
+THEN
+GoalCompleted;
+
+IF
+TextEvent("SCL_ShadowCurse_Off", (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SCL_Shadowcurse_SafeZones(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_MoonriseTower_b0b0721f-2a4f-4530-85cf-c67c0db25f92);
+NOT DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_Haven_f4f81c2b-5428-4d06-a65e-3ba21e105cba);
+NOT DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_KethericCityEntrance_53985661-c41b-40a0-b6af-3add4fbb392d);
+NOT DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_HillsEntrance_a2135d8d-a2f3-4d1e-9eab-041d09dc20ec);
+NOT DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_HavenBasement_ccd7ad8c-6315-4fe6-898b-051a74f0dbb4);
+NOT DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_Main_5c64f194-e45c-40f0-b91e-9bcad384b401);
+NOT DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_HavenBasement_1677b2e5-0b94-4336-8dd9-a4b2c80bf1d1);
+NOT DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_HospitalBasement_f39a36bd-c94e-4bc5-8556-c4b280c4aab1);
+NOT DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_Mausoleum_a980a674-7795-46e8-88e1-55d270498f4c);
+NOT DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Brewery_cacafbf4-8188-417b-8885-c3602edb725b);
+NOT DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Graveyard_3019d319-77f3-4dcd-9ba4-e54a53a45631);
+NOT DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Hospital_f2091d2d-2ac6-4e7e-ba08-315ffdd3e40a);
+NOT DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Masonry_4bc3e026-8b4e-4ed2-ba68-41305d128a9b);
+NOT DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_TollHouse_f5a599ea-6425-4603-8588-13a6b7899ba1);
+NOT DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_HospitalBasement_fa03650f-6284-4d2c-b20a-7271b1c78901);
+NOT DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_LodgeArea_de7c9f83-802b-4bae-afe5-e6d8bb15a41e);
+TriggerSetAtmosphere(ATM_SCL_RuinsBattlefield_G_8840f07a-3f33-45df-93db-7f97e9904747, "468e3ebb-2681-e28a-43d9-01b884caabfa");
+TriggerSetLighting(LTN_SCL_RuinsBattlefield_G_4d0e202a-4ecd-403d-959c-69fcc76cdefc, "6ec897a4-997e-3632-30ba-e66ad63dcec6");
+
+IF
+TextEvent("SCL_ShadowCurse_On", _, _, _, _)
+THEN
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_MoonriseTower_b0b0721f-2a4f-4530-85cf-c67c0db25f92);
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_Haven_f4f81c2b-5428-4d06-a65e-3ba21e105cba);
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_KethericCityEntrance_53985661-c41b-40a0-b6af-3add4fbb392d);
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_HillsEntrance_a2135d8d-a2f3-4d1e-9eab-041d09dc20ec);
+DB_SCL_Shadowcurse_SafeZones(S_ShadowCurse_SafeZone_HavenBasement_ccd7ad8c-6315-4fe6-898b-051a74f0dbb4);
+DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_Main_5c64f194-e45c-40f0-b91e-9bcad384b401);
+DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_HavenBasement_1677b2e5-0b94-4336-8dd9-a4b2c80bf1d1);
+DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_HospitalBasement_f39a36bd-c94e-4bc5-8556-c4b280c4aab1);
+DB_SCL_Shadowcurse_Area(S_ShadowCurse_CurseArea_Mausoleum_a980a674-7795-46e8-88e1-55d270498f4c);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Brewery_cacafbf4-8188-417b-8885-c3602edb725b);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Graveyard_3019d319-77f3-4dcd-9ba4-e54a53a45631);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Hospital_f2091d2d-2ac6-4e7e-ba08-315ffdd3e40a);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_Masonry_4bc3e026-8b4e-4ed2-ba68-41305d128a9b);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_TollHouse_f5a599ea-6425-4603-8588-13a6b7899ba1);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_HospitalBasement_fa03650f-6284-4d2c-b20a-7271b1c78901);
+DB_SCL_Shadowcurse_Shadowblight(S_ShadowCurse_BlightArea_LodgeArea_de7c9f83-802b-4bae-afe5-e6d8bb15a41e);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SCL_MOONSHIELD_AURA", _, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_SCL_MoonShieldFogVolume(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+IsInInventory(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_MoonShieldFogVolume(_Var1);
+AddFogVolume(_Var1, S_SCL_MoonlanternFogVolume_ea3d6604-0ace-44b1-b920-a68ebec1f56e);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SCL_MOONSHIELD_AURA", _, _, (GUIDSTRING)_Var1)
+AND
+IsInInventory(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsEquipped(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetInventoryOwner(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_MoonShieldFogVolume(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_MoonShieldFogVolume(_Var4);
+AddFogVolume(_Var4, S_SCL_MoonlanternFogVolume_ea3d6604-0ace-44b1-b920-a68ebec1f56e);
+
+IF
+Equipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+HasActiveStatus(_Var1, "SCL_MOONSHIELD_AURA", 1, _Var1, _Var1)
+AND NOT
+DB_SCL_MoonShieldFogVolume(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_MoonShieldFogVolume(_Var2);
+AddFogVolume(_Var2, S_SCL_MoonlanternFogVolume_ea3d6604-0ace-44b1-b920-a68ebec1f56e);
+
+IF
+RemovedFrom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_MoonShieldFogVolume(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCL_GotMoonShieldObject(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_MoonShieldFogVolume(_Var2);
+RemoveFogVolume(_Var2);
+
+IF
+RemovedFrom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "SCL_MOONSHIELD_AURA", 1, _Var1, _Var1)
+AND NOT
+IsInInventory(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_MoonShieldFogVolume(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_MoonShieldFogVolume(_Var1);
+AddFogVolume(_Var2, S_SCL_MoonlanternFogVolume_ea3d6604-0ace-44b1-b920-a68ebec1f56e);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "SCL_MOONSHIELD_AURA", _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_MoonShieldFogVolume(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_MoonShieldFogVolume(_Var1);
+RemoveFogVolume(_Var1);
+
+IF
+StatusRemoved((ITEM)_Var1, "SCL_MOONSHIELD_AURA", _, _, (ITEM)_Var1)
+AND
+IsInInventory(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsEquipped(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetInventoryOwner(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_MoonShieldFogVolume(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCL_GotMoonShieldObject(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_MoonShieldFogVolume(_Var4);
+RemoveFogVolume(_Var4);
+
+IF
+AddedTo((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "SCL_MOONSHIELD_AURA", 1, _Var1, _Var1)
+AND
+DB_SCL_MoonShieldFogVolume(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_MoonShieldFogVolume(_Var1);
+RemoveFogVolume(_Var1);
+
+IF
+Unequipped((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "SCL_MOONSHIELD_AURA", 1, _Var1, _Var1)
+AND NOT
+QRY_SCL_GotMoonShieldObject(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_MoonShieldFogVolume(_Var2);
+RemoveFogVolume(_Var2);
+
+QRY
+QRY_SCL_GotMoonShieldObject((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_EquippedItemSlots(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedItem(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+HasActiveStatus(_Var3, "SCL_MOONSHIELD_AURA", 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("SCL_ShadowCurse_TestFog", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AddFogVolume(_Var1, Shared_FogVolume_6435f26f-2f2f-4c4d-990f-8ff5fd0a47b8);
+
+IF
+TextEvent("SCL_ShadowCurse_TestFogOff", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveFogVolume(_Var1);
+
+QRY
+QRY_GLO_Spells_IgnoreFriendlyFire((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomDefeatedState(_Var1, "SCL_Shadowcurse");
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CustomDefeatedState(_Var1, "SCL_Shadowcurse", _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCL_ShadowCurse_HasAnyOtherCurseStatusApplied(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CustomDefeatedState(_Var1, "SCL_Shadowcurse");
+
+QRY
+QRY_SCL_ShadowCurse_HasAnyOtherCurseStatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var2
+AND
+HasAppliedStatus(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Undead(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_OverrideAnubisConfig(_Var1, "SCL_CursedCharacter", _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_AnubisConfigOverrideIndex(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_Undead(_Var1, _Var6);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SCL_ShadowCurse_HasAnyUndeadStatus(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_Undead(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_Undead(_Var1, _Var5);
+PROC_RemoveAnubisConfigOverride(_Var1, _Var5);
+
+QRY
+QRY_SCL_ShadowCurse_HasAnyUndeadStatus((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_ShadowCurse_UndeadStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SCL_SHADOW_CURSE", _, _, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_TriggerForcedTB(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "SCL_ShadowCurse_FTB", _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_TriggerForcedTB(_Var1);
+
+IF
+DB_SCL_ShadowCurse_TriggerForcedTB(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+ForceTurnBasedMode(_Var1, 1);
+ObjectTimerLaunch(_Var1, "SCL_ShadowCurseFTB_Cooldown", 12000, 1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_ShadowCurseFTB_Cooldown", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_SCL_ShadowCurse_TriggerForcedTB(_Var1);
+
+IF
+DB_SCL_ShadowCurse_TriggerForcedTB(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_ShadowCurse_ADChecker(_Var1);
+
+PROC
+PROC_SCL_ShadowCurse_ADChecker((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+AND NOT
+QRY_IsCharaterUnconsciousOrEquivalent(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 > 30
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "SCL_ShadowCurse_ADChecker", _Var1, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var2, SCL_ShadowCurse_EmperorAD_CompanionCursed_a5768cd9-85ff-a4a4-d28a-f4b375bd0674);
+
+PROC
+PROC_SCL_ShadowCurse_ADChecker((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "SCL_ShadowCurse_ADChecker", _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(SCL_EntryPoint_VB_Curse_829b5e47-510f-4445-60c5-f95b5fd12e8d, _Var1);
+
+PROC
+PROC_SCL_ShadowCurse_ADChecker((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce_Reset("SCL_Shadowcurse_ADChecker", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "SCL_SHADOW_CURSE", _, _, (GUIDSTRING)_Var1)
+AND
+DB_OnlyOnce_PerUser(_Var4, "SCL_ShadowCurse_FTB", _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers_Reset("SCL_ShadowCurse_FTB", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Shadowcurse_Shadowblight(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOncePerUser_Reset("SCL_ShadowCurse_VB_LightsSnuffedOut", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Equipped((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, SCL_SHADOWCURSE_LANTERN_d40f0c3a-d95d-49fe-ae62-ca90ff2c2202, 1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_MoonLanternWielder(_Var2, _Var1);
+PROC_SCL_Shadowcurse_Include(_Var2);
+
+IF
+Unequipped((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ShadowCurse_MoonLanternWielder(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_MoonLanternWielder(_Var2, _Var1);
+
+IF
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_MoonLanternWielder(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Shadowcurse_Exclude(_Var1);
+
+IF
+DB_SCL_ShadowCurse_MoonLanternWielder(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var2, SCL_SHADOWCURSE_LANTERN_INBLIGHT_8a98d81f-ec79-483e-aa89-9e71806a339e);
+
+IF
+DB_SCL_ShadowCurse_MoonLanternWielder(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearTag(_Var2, SCL_SHADOWCURSE_LANTERN_INBLIGHT_8a98d81f-ec79-483e-aa89-9e71806a339e);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, SCL_SHADOWCURSE_LANTERN_d40f0c3a-d95d-49fe-ae62-ca90ff2c2202, 1, _Var1, _Var1)
+THEN
+DB_SCL_ShadowCurse_LanternInBlight(_Var1);
+SetTag(_Var1, SCL_SHADOWCURSE_LANTERN_INBLIGHT_8a98d81f-ec79-483e-aa89-9e71806a339e);
+
+IF
+DB_SCL_ShadowCurse_LanternInBlight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ShadowCurse_LanternInBlight(_Var1);
+ClearTag(_Var1, SCL_SHADOWCURSE_LANTERN_INBLIGHT_8a98d81f-ec79-483e-aa89-9e71806a339e);
+
+IF
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_Resistant(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Shadowcurse_ShowLightIndicator(_Var1);
+
+PROC
+PROC_SCL_Shadowcurse_ShowLightIndicator((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_SCL_ShadowCurse_ShowingLight(_Var1);
+ApplyStatus(_Var1, "SCL_SHADOWCURSE_SHOWLIGHT", -1, 1);
+
+PROC
+PROC_SCL_Shadowcurse_HideLightIndicator((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_SCL_ShadowCurse_ShowingLight(_Var1);
+RemoveStatus(_Var1, "SCL_SHADOWCURSE_SHOWLIGHT");
+
+IF
+DB_SCL_ShadowCurse_ShowingLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_Immune(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Shadowcurse_HideLightIndicator(_Var1);
+
+IF
+DB_SCL_ShadowCurse_ShowingLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_Resistant(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Shadowcurse_HideLightIndicator(_Var1);
+
+IF
+DB_SCL_ShadowCurse_ShowingLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_ShadowCurse_TrackLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Shadowcurse_HideLightIndicator(_Var1);
+
+IF
+DB_SCL_ShadowCurse_InBlightedArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_ShadowCurse_ShowingLight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Shadowcurse_HideLightIndicator(_Var1);
+
+
+EXITSECTION
+SysClear("DB_SCL_ShadowCurse_ResistanceStatuses", 1);
+SysClear("DB_HAV_ShadowCurse_BlessingReminders", 1);
+SysClear("DB_SCL_ShadowCurse_InSafeZone", 1);
+SysClear("DB_SCL_ShadowCurse_InSafeZone", 2);
+SysClear("DB_SCL_ShadowCurse_InCursedArea", 1);
+SysClear("DB_SCL_ShadowCurse_InCursedArea", 2);
+SysClear("DB_SCL_ShadowCurse_InBlightedArea", 1);
+SysClear("DB_SCL_ShadowCurse_InBlightedArea", 2);
+SysClear("DB_SCL_ShadowCurse_PartyGroup", 2);
+SysClear("DB_SCL_ShadowCurse_SafetyByLead", 1);
+SysClear("DB_SCL_ShadowCurse_NotPartyProtected", 1);
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

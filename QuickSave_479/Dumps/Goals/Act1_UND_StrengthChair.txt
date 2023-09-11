@@ -1,0 +1,96 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+ReposeAdded((CHARACTER)_Var1, S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_StrengthChair(_Var1);
+
+IF
+ReposeAdded((CHARACTER)_Var1, S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07, "UND_SUSSURTREEANTIMAGIC", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "UND_STRENGTH_CHAIR", -1, 1, S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07);
+
+IF
+ReposeRemoved((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_StrengthChair(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "UND_STRENGTH_CHAIR");
+NOT DB_UND_StrengthChair(_Var1);
+
+IF
+StatusApplied(S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07, "UND_SUSSURTREEANTIMAGIC", _, _, _)
+AND
+DB_UND_StrengthChair(_Var3, _, _, _, _)
+THEN
+RemoveStatus(_Var3, "UND_STRENGTH_CHAIR");
+
+IF
+StatusRemoved(S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07, "UND_SUSSURTREEANTIMAGIC", _, _, _)
+AND
+DB_UND_StrengthChair(_Var3, _, _, _, _)
+THEN
+ApplyStatus(_Var3, "UND_STRENGTH_CHAIR", -1, 1, S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07);
+
+IF
+StatusApplied((CHARACTER)_Var1, "UND_STRENGTH_CHAIR", S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_StrengthChairAD(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(UND_SussurTower_PAD_StrengthChair_170e9485-b967-d045-b69d-1d6cf1918f55, _Var1);
+DB_UND_StrengthChairAD(_Var1, 0);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "UND_STRENGTH_CHAIR", _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_StrengthChairAD(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(UND_SussurTower_PAD_StrengthChair_Stand_bcddf1c9-7799-c9e7-35a5-c33ebf5bbaac, _Var1);
+NOT DB_UND_StrengthChairAD(_Var1, 0);
+DB_UND_StrengthChairAD(_Var1, 1);
+
+IF
+RemovedFrom(S_UND_StrengthChair_Leg_46e7d280-a9e2-47bb-88f2-0f9098e15b93, S_UND_StrengthChair_95409119-5348-4b46-af92-627d1ea8ef07, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetClosestAlivePlayer(S_UND_StrengthChair_Leg_46e7d280-a9e2-47bb-88f2-0f9098e15b93, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 < 15
+THEN
+LookAtEntity(_Var1, S_UND_StrengthChair_Leg_46e7d280-a9e2-47bb-88f2-0f9098e15b93);
+PROC_TryStartAD(UND_SussurTower_PAD_StrengthChair_Leg_96314698-6183-b803-601c-dbbf61bf9362, _Var1);
+
+IF
+TextEvent("und_chair_reset", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_UND_StrengthChairAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_StrengthChairAD(_Var1, _Var2);
+
+IF
+TextEvent("und_chair_leg", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_UND_StrengthChair_Leg_46e7d280-a9e2-47bb-88f2-0f9098e15b93, _Var1);
+LookAtEntity(_Var1, S_UND_StrengthChair_Leg_46e7d280-a9e2-47bb-88f2-0f9098e15b93);
+PROC_TryStartAD(UND_SussurTower_PAD_StrengthChair_Leg_96314698-6183-b803-601c-dbbf61bf9362, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

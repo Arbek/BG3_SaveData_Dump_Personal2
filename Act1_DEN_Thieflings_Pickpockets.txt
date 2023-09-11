@@ -1,0 +1,803 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, DEN_Thieflings_Pickpocket_001_def4d965-3830-47db-a248-a3119d0780f3);
+DB_Dialogs(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, DEN_Thieflings_Pickpocket_002_6745c8da-5bc2-745c-9de6-44e76547f37b);
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 0);
+DB_HasItemEvent(S_DEN_Thieflings_PickpocketRing_2f8e7e4d-e62a-431c-ae3e-84c45af15742, DEN_Thieflings_State_HasPickpocketRing_24082037-9781-bdff-d256-5403daba0e65);
+DB_Inclusion_Object(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, DEN_General_Inclusion_Pickpocket_e9d7ced3-038f-5251-4549-a3a45c806409, DEN_General_Inclusion_End_Pickpocket_775864b0-e967-ffdc-1394-4b3a12c7e787);
+DB_Inclusion_NPCDialog(DEN_Thieflings_AD_MerchantLeaves_c4a17297-34ad-1af4-3b70-e1bdae4dd5ae, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+DB_DEN_Thieflings_KnowsMolFlags(DEN_Thieflings_Event_CheckKnowsMol_5ba5ce16-e293-eae9-1702-7dc53090e291, "KnowsMolLeader");
+DB_DEN_Thieflings_KnowsMolFlags(DEN_Thieflings_Event_CheckKnowsHideout_96faca4d-3ae6-f56c-f356-30193ff3aacb, "KnowsMolAndHideout");
+TriggerSetItemsOwner(S_DEN_PickPocketOwnerBox_ff314a2a-736c-47c8-b740-1b1f4763ba45, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af);
+DB_Singleton_GUID("DEN_Thieflings_TheftDC", Act1_Medium_fa621d38-6f83-4e42-a55c-6aa651a75d46);
+
+KBSECTION
+IF
+CrimeIsRegistered(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, "EmptyPocketNoticed", (INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+CrimeIgnoreCrime(_Var1, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af);
+
+IF
+FlagSet(DEN_Thieflings_Event_OpenPickpocketTrade_15c067ce-37ea-23a3-c13d-8f8be70f965d, _, _, _, _)
+AND
+DB_DialogNPCs(_Var3, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, _, _, _)
+AND
+DB_DialogPlayers(_Var3, _Var5, 1, _, _)
+AND
+QRY_DEN_Thieflings_CanPickpocket()
+THEN
+ClearFlag(DEN_Thieflings_Event_OpenPickpocketTrade_15c067ce-37ea-23a3-c13d-8f8be70f965d, NULL_00000000-0000-0000-0000-000000000000);
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 1);
+SetDualEntityEvent(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var5, "DEN_Thieflings_SetMark");
+
+IF
+FlagSet(DEN_Thieflings_Event_OpenPickpocketTrade_15c067ce-37ea-23a3-c13d-8f8be70f965d, _, _, _, _)
+AND
+DB_DialogNPCs(_Var3, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, _, _, _)
+AND
+DB_DialogPlayers(_Var3, _Var5, 1, _, _)
+AND NOT
+QRY_DEN_Thieflings_CanPickpocket()
+THEN
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 1);
+
+QRY
+QRY_DEN_Thieflings_CanPickpocket()
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_Event_PlayerRobbed_Twice_7ba0e606-d82c-c07b-6bac-b9add0838c36, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_State_ResolvedThieflings_97712596-cf53-341f-160e-d2a83dbf98ff, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_Event_CaughtThief_d0a01e3d-ce38-df20-2a92-ece24b52118e, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+MovedFromTo((GUIDSTRING)_Var1, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1)
+AND NOT
+GetTemplate(_Var1, LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var3, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, _, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var3, _Var2, _, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_Event_PlayerPurchased_a30003ed-df8e-314c-1a2d-2f8cc7961c1b, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af);
+
+IF
+DialogEnded(DEN_Thieflings_Pickpocket_001_def4d965-3830-47db-a248-a3119d0780f3, _, _, _, _)
+AND
+GetFlag(DEN_Thieflings_Event_PlayerPurchased_a30003ed-df8e-314c-1a2d-2f8cc7961c1b, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 1, _, _)
+THEN
+ClearFlag(DEN_Thieflings_Event_PlayerPurchased_a30003ed-df8e-314c-1a2d-2f8cc7961c1b, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af);
+
+IF
+TradeEnds((CHARACTER)_Var1, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogNPCs(_Var2, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, _, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var1, 1, _Var1, _Var1)
+AND
+DB_DialogName(DEN_Thieflings_Pickpocket_001_def4d965-3830-47db-a248-a3119d0780f3, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_Thieflings_CanPickpocket()
+THEN
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 0);
+PROC_DEN_Thieflings_CheckCanSteal(_Var1);
+
+PROC
+PROC_DEN_Thieflings_CheckCanSteal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var1, 1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_State_ThiefInPosition_ff626731-79c9-4938-bdaf-7a825d9999d0, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_Thieflings_PickpocketOccupied_4dd68cb1-3886-4fa3-aaee-4d4eb57acced, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, 0, _Var1, _Var1)
+THEN
+PROC_DEN_Thieflings_CheckTheftDetect(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var2);
+
+PROC
+PROC_DEN_Thieflings_CheckCanSteal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_State_ThiefInPosition_ff626731-79c9-4938-bdaf-7a825d9999d0, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, "DEN_Thieflings_TheftProcessed");
+
+PROC
+PROC_DEN_Thieflings_CheckTheftDetect((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Singleton_GUID("DEN_Thieflings_TheftDC", _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Thieflings_CheckDetect(_Var1, _Var2);
+PROC_TrySkillCheck(_Var3, _Var1, "Perception", _Var4, "DEF_Thieflings_CheckTheft");
+
+PROC
+PROC_RollResult("DEF_Thieflings_CheckTheft", (CHARACTER)_Var1, (CHARACTER)_Var2, 1, (CHARACTER)_Var1)
+AND
+DB_DEN_Thieflings_CheckDetect(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_Event_CaughtThief_d0a01e3d-ce38-df20-2a92-ece24b52118e, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(DEN_Thieflings_State_CaughtStealing_50c194d8-08f5-bc4f-3aed-f2f011a17654, NULL_00000000-0000-0000-0000-000000000000);
+DB_DEN_Thieflings_ThiefDetector(_Var1, _Var2);
+PROC_ForceStopDialog(_Var1);
+
+PROC
+PROC_RollResult("DEF_Thieflings_CheckTheft", (CHARACTER)_Var1, (CHARACTER)_Var2, 0, (CHARACTER)_Var1)
+AND
+DB_DEN_Thieflings_CheckDetect(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var3, _Var4, 1, _Var1, _Var1)
+THEN
+DB_DEN_Thieflings_PickpocketDialog(_Var2, _Var3);
+DB_DEN_Thieflings_CheckInventoryPlayer(_Var4);
+IterateInventory(_Var4, "DEN_Thieflings_AddToStealable", "DEN_Thieflings_InventoryStealCheckDone");
+
+PROC
+PROC_RollResult("DEF_Thieflings_CheckTheft", (CHARACTER)_Var1, (CHARACTER)_Var2, _, (CHARACTER)_Var1)
+AND
+DB_DEN_Thieflings_CheckDetect(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Thieflings_CheckDetect(_Var2, _Var4);
+
+IF
+EntityEvent((ITEM)_Var1, "DEN_Thieflings_AddToStealable", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_DEN_Thieflings_Stealable(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_CheckInventoryPlayer(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStoryItem(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsEquipped(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_DEN_Thieflings_PickpocketRing_2f8e7e4d-e62a-431c-ae3e-84c45af15742
+AND
+ItemGetGoldValue(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 >= 30
+AND
+GetTemplate(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 != LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f
+AND
+_Var5 != S_DebugBook_31ee023c-d151-40f6-917e-84066772783b
+THEN
+DB_DEN_Thieflings_Stealable(_Var1, _Var4);
+
+IF
+EntityEvent(_, "DEN_Thieflings_InventoryStealCheckDone", _, _, _)
+AND
+DB_DEN_Thieflings_PickpocketDialog(_, _Var3, _, _, _)
+AND
+DB_DialogPlayers(_Var3, _Var4, 1, _, _)
+THEN
+NOT DB_DEN_Thieflings_CheckInventoryPlayer(_Var4);
+PROC_DEN_Thieflings_ChooseStealableItem();
+
+PROC
+PROC_DEN_Thieflings_ChooseStealableItem()
+AND
+SysCount("DB_DEN_Thieflings_Stealable", 2, _Var1, _Var1, _Var1)
+AND
+Random(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+AND
+SysFactAtIndex("DB_DEN_Thieflings_Stealable", 2, _Var3, "DB_DEN_Thieflings_ChosenStealable", _Var1)
+AND
+DB_DEN_Thieflings_ChosenStealable(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_PickpocketDialog(_Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+SysClear("DB_DEN_Thieflings_Stealable", 2);
+PROC_DEN_Thieflings_TryStealFromPlayer(_Var6, _Var7);
+NOT DB_DEN_Thieflings_PickpocketDialog(_Var6, _Var7);
+
+PROC
+PROC_DEN_Thieflings_ChooseStealableItem()
+AND NOT
+DB_DEN_Thieflings_ChosenStealable(_, _, _, _, _)
+AND
+DB_DEN_Thieflings_PickpocketDialog(_Var3, _Var4, _, _, _)
+AND
+DB_DialogPlayers(_Var4, _Var5, 1, _, _)
+AND
+GetGold(_Var5, _Var6, _, _, _)
+AND
+_Var6 > 0
+THEN
+SetFlag(DEN_Thieflings_Event_OnlyStoleGold_83967d8c-7ea6-48bb-86a4-d03d0f9b30eb, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Thieflings_TryStealFromPlayer(_Var3, _Var4);
+NOT DB_DEN_Thieflings_PickpocketDialog(_Var3, _Var4);
+
+IF
+DialogEnded(DEN_Thieflings_Pickpocket_001_def4d965-3830-47db-a248-a3119d0780f3, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DEN_Thieflings_ThiefDetector(_, _, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var4, _, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var4, 0.5);
+
+IF
+DialogEnded(DEN_Thieflings_Pickpocket_001_def4d965-3830-47db-a248-a3119d0780f3, _, _, _, _)
+AND
+DB_DEN_Thieflings_ThiefDetector(_Var2, _, _, _, _)
+THEN
+PROC_DEN_Thieflings_PickpocketDiscovered();
+
+PROC
+PROC_DEN_Thieflings_PickpocketDiscovered()
+AND
+DB_DEN_Thieflings_ThiefDetector(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(DEN_Thieflings_CaughtThief_2fa416ac-2e97-1636-496d-20c0ed5effdb, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Thieflings_ThiefDetector(_Var1, _Var2);
+
+IF
+EntityEvent((CHARACTER)_Var1, "DEN_Thieflings_Event_ThiefCaught", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Thieflings_ThiefDetector(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DEN_Thieflings_CaughtThief_2fa416ac-2e97-1636-496d-20c0ed5effdb, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(DEN_Thieflings_CaughtThief_2fa416ac-2e97-1636-496d-20c0ed5effdb, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DEN_Thieflings_ThiefDetector(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Thieflings_ThiefDetector(_Var2, _Var3);
+SetFlag(DEN_Thieflings_Event_CaughtThief_d0a01e3d-ce38-df20-2a92-ece24b52118e, NULL_00000000-0000-0000-0000-000000000000);
+SetEntityEvent(_Var3, "DEN_Thieflings_PlayTheftAD");
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 1);
+SetEntityEvent(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, "DEN_Thieflings_TheftProcessed");
+
+IF
+FlagSet(DEN_Thieflings_Event_DropPickpocketLoot_f109378c-e3a0-a0ce-79b0-7938eff72106, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_DEN_Thieflings_KidShakeLootDrop(_Var2);
+
+PROC
+PROC_DEN_Thieflings_KidShakeLootDrop((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_GenerateTradeTreasure(_Var1, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+IterateInventory(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, "DEN_Thieflings_InPickpocketInventory", "");
+
+IF
+EntityEvent((ITEM)_Var1, "DEN_Thieflings_InPickpocketInventory", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+GetPosition(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var2, _Var3, _Var4, _Var1)
+THEN
+ClearOwnership(_Var1);
+ScatterAt(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_DEN_Thieflings_KidShakeLootDrop((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+Random(9, _Var2, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var2, 0);
+TemplateDropFromCharacter(LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var2);
+ClearFlag(DEN_Thieflings_Event_DropPickpocketLoot_f109378c-e3a0-a0ce-79b0-7938eff72106, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+
+IF
+TemplateRemovedFrom(LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f, (ITEM)_Var1, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+ClearOwnership(_Var1);
+
+IF
+DialogEnded(DEN_Thieflings_Pickpocket_002_6745c8da-5bc2-745c-9de6-44e76547f37b, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_ThiefCaughtInDialog_3dc9225d-8c10-cdd8-f299-5774b5ff5ca4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Thieflings_PickpocketMoveToHideout", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Thieflings_PickpocketMoveToHideout();
+
+PROC
+PROC_DEN_Thieflings_PickpocketMoveToHideout()
+THEN
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 1);
+SetEntityEvent(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, "DEN_Thieflings_TheftProcessed");
+
+PROC
+PROC_DEN_Thieflings_TryStealFromPlayer((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_ChosenStealable(_Var4, _, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var4, _Var3, 0, _Var1, _Var1)
+AND
+GetGold(_Var3, _Var6, _Var1, _Var1, _Var1)
+AND
+_Var6 <= 0
+THEN
+SetEntityEvent(_Var1, "DEN_Thieflings_TheftProcessed");
+
+PROC
+PROC_DEN_Thieflings_TryStealFromPlayer((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_ChosenStealable(_Var4, _, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var4, _Var3, 1, _Var1, _Var1)
+THEN
+ToInventory(_Var4, _Var1, 1, 0, 0);
+PROC_DEN_Thieflings_ProcessStolenItem(_Var1);
+
+PROC
+PROC_DEN_Thieflings_TryStealFromPlayer((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND NOT
+DB_DEN_Thieflings_ChosenStealable(_, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_OnlyStoleGold_83967d8c-7ea6-48bb-86a4-d03d0f9b30eb, _Var1, _Var1, _Var1, _Var1)
+AND
+GetGold(_Var3, _Var6, _Var1, _Var1, _Var1)
+AND
+_Var6 > 0
+THEN
+ClearFlag(DEN_Thieflings_Event_OnlyStoleGold_83967d8c-7ea6-48bb-86a4-d03d0f9b30eb, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Thieflings_ProcessStolenItem(_Var1);
+
+PROC
+PROC_DEN_Thieflings_TryStealFromPlayer((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+GetGold(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 > 20
+AND
+_Var4 <= 35
+AND
+IntegerProduct(_Var4, -1, _Var5, _Var1, _Var1)
+THEN
+AddGold(_Var3, _Var5);
+AddGold(_Var1, _Var4);
+PROC_DEN_Thieflings_ProcessStolenItem(_Var1);
+
+PROC
+PROC_DEN_Thieflings_TryStealFromPlayer((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+GetGold(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 > 35
+THEN
+AddGold(_Var3, -35);
+AddGold(_Var1, 35);
+PROC_DEN_Thieflings_ProcessStolenItem(_Var1);
+
+PROC
+PROC_DEN_Thieflings_TryStealFromPlayer((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_State_KeptMagicRing_fcc3a30b-05bf-778d-f741-f8a04c740a8a, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(S_DEN_Thieflings_PickpocketRing_2f8e7e4d-e62a-431c-ae3e-84c45af15742, _Var3, 1, _Var1, _Var1)
+AND
+IsEquipped(S_DEN_Thieflings_PickpocketRing_2f8e7e4d-e62a-431c-ae3e-84c45af15742, 0, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_State_RingStolenBack_82856867-0355-b02f-f99e-2c19b6c51675, NULL_00000000-0000-0000-0000-000000000000);
+ToInventory(S_DEN_Thieflings_PickpocketRing_2f8e7e4d-e62a-431c-ae3e-84c45af15742, _Var1, 1, 0, 0);
+PROC_DEN_Thieflings_ProcessStolenItem(_Var1);
+
+PROC
+PROC_DEN_Thieflings_TryStealFromPlayer((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_PlayerRobbed_ec548492-a88e-ae81-ca4d-7970d804ec5b, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_Event_PlayerRobbed_Twice_7ba0e606-d82c-c07b-6bac-b9add0838c36, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_DEN_Thieflings_TryStealFromPlayer((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(DEN_Thieflings_Event_SuccessfulPickpocket_fe4d3b4d-ce37-4058-0aeb-db99b2b39927, NULL_00000000-0000-0000-0000-000000000000, 1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_Event_PlayerRobbed_ec548492-a88e-ae81-ca4d-7970d804ec5b, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_Event_PlayerRobbed_ec548492-a88e-ae81-ca4d-7970d804ec5b, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_DEN_Thieflings_ProcessStolenItem((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(DEN_Thieflings_CarryingStolenItem_fa3c6306-8f42-49c6-9289-ef615670d65c, _Var1, 0, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_CarryingStolenItem_fa3c6306-8f42-49c6-9289-ef615670d65c, _Var1);
+SetFlag(DEN_Thieflings_Event_SuccessfulPickpocket_fe4d3b4d-ce37-4058-0aeb-db99b2b39927, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogEnded(DEN_Thieflings_Pickpocket_001_def4d965-3830-47db-a248-a3119d0780f3, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_State_CaughtStealing_50c194d8-08f5-bc4f-3aed-f2f011a17654, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_Event_MerchantKidLeaves_9783bb1f-bde7-c61a-16aa-89e267dd7180, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, "DEN_Thieflings_TheftProcessed");
+PROC_Thieflings_PickpocketDialogEndProcess();
+
+PROC
+PROC_Thieflings_PickpocketDialogEndProcess()
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_PlayerRobbed_ec548492-a88e-ae81-ca4d-7970d804ec5b, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_SuccessfulPickpocket_fe4d3b4d-ce37-4058-0aeb-db99b2b39927, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+THEN
+ClearFlag(DEN_Thieflings_Event_SuccessfulPickpocket_fe4d3b4d-ce37-4058-0aeb-db99b2b39927, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_Thieflings_PickpocketDialogEndProcess()
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_PlayerRobbed_ec548492-a88e-ae81-ca4d-7970d804ec5b, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_SuccessfulPickpocket_fe4d3b4d-ce37-4058-0aeb-db99b2b39927, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+THEN
+ClearFlag(DEN_Thieflings_CarryingStolenItem_fa3c6306-8f42-49c6-9289-ef615670d65c, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+ClearFlag(DEN_Thieflings_Event_SuccessfulPickpocket_fe4d3b4d-ce37-4058-0aeb-db99b2b39927, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_Thieflings_PickpocketDialogEndProcess()
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_PlayerRobbed_Twice_7ba0e606-d82c-c07b-6bac-b9add0838c36, _, _, _, _)
+THEN
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 1);
+
+IF
+EntityEvent(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, "DEN_Thieflings_PlayTheftAD", _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_Event_CaughtThief_d0a01e3d-ce38-df20-2a92-ece24b52118e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_EasyOnPickpocket_fa3e62c7-8eb8-43e5-fbd0-30ce7bfc2bed, _, _, _, _)
+THEN
+PROC_TryStartAD(DEN_Thieflings_AD_KidTheft_c4b20283-3b7d-ebd6-75b2-3f0d1a34048f, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+
+IF
+EntityEvent((CHARACTER)_Var1, "DEN_Thieflings_PutItemInStash", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DEN_Thieflings_StashDeposit(_Var1);
+
+PROC
+PROC_DEN_Thieflings_StashDeposit(S_DEN_RobberKid_94e865e9-790d-4633-a378-8fb50832b5e9, _, _, _, _)
+AND
+GetFlag(DEN_Thieflings_State_HasStolenLocket_e6fba99f-42cd-5a66-4a7b-23b3f77e993b, S_DEN_RobberKid_94e865e9-790d-4633-a378-8fb50832b5e9, 1, _, _)
+THEN
+ToInventory(S_DEN_AdventurerLocket_dbfd4598-a941-4169-927c-9e823aad81c5, S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, 1, 0, 0);
+
+PROC
+PROC_DEN_Thieflings_StashDeposit((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Thieflings_ChosenStealable(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var2, _Var1, 1, _Var1, _Var1)
+AND
+GetStackAmount(_Var2, _Var4, _, _Var1, _Var1)
+THEN
+ToInventory(_Var2, S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, _Var4, 0, 0);
+DB_DEN_Thieflings_LooseStash(_Var2);
+
+PROC
+PROC_DEN_Thieflings_StashDeposit((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInInventoryOf(S_DEN_Thieflings_PickpocketRing_2f8e7e4d-e62a-431c-ae3e-84c45af15742, _Var1, 1, _Var1, _Var1)
+THEN
+ToInventory(S_DEN_Thieflings_PickpocketRing_2f8e7e4d-e62a-431c-ae3e-84c45af15742, S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, 1, 0, 0);
+
+PROC
+PROC_DEN_Thieflings_StashDeposit(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_Thieflings_ChosenStealable(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var1, S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, 1, _Var1, _Var1)
+THEN
+DB_DEN_Thieflings_StolenItems(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var1, _Var2);
+DB_DEN_Thieflings_TalliedStealable(_Var1, _Var2);
+PROC_DEN_Thieflings_TallyStolenTotalValue();
+
+PROC
+PROC_DEN_Thieflings_StashDeposit(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_Thieflings_ChosenStealable(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Thieflings_ChosenStealable(_Var1, _Var2);
+
+PROC
+PROC_DEN_Thieflings_StashDeposit(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetGold(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 > 0
+AND
+IntegerProduct(-1, _Var1, _Var2, _Var1, _Var1)
+THEN
+AddGold(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var2);
+AddGold(S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, _Var1);
+DB_DEN_Thieflings_StolenItems(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, NULL_00000000-0000-0000-0000-000000000000, _Var1);
+DB_DEN_Thieflings_TalliedStealable(NULL_00000000-0000-0000-0000-000000000000, _Var1);
+PROC_DEN_Thieflings_TallyStolenTotalValue();
+
+PROC
+PROC_DEN_Thieflings_StashDeposit(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _, _, _, _)
+THEN
+ClearFlag(DEN_Thieflings_CarryingStolenItem_fa3c6306-8f42-49c6-9289-ef615670d65c, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+SetEntityEvent(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, "DEN_Thieflings_UsedStash");
+
+IF
+DialogEnded(DEN_Thieflings_Pickpocket_001_def4d965-3830-47db-a248-a3119d0780f3, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_MerchantKidLeaves_9783bb1f-bde7-c61a-16aa-89e267dd7180, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Thieflings_MerchantKidMoveToHideout", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 0);
+TimerLaunch("DEN_Thieflings_MerchantKidLeaves", 2000);
+
+IF
+TimerFinished("DEN_Thieflings_MerchantKidLeaves", _, _, _, _)
+AND
+QRY_DEN_Thieflings_CheckPickpocketsCanLeave()
+THEN
+SetEntityEvent(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, "DEN_Thieflings_MerchantKidToHideout");
+
+IF
+TimerFinished("DEN_Thieflings_MerchantKidLeaves", _, _, _, _)
+AND NOT
+QRY_DEN_Thieflings_CheckPickpocketsCanLeave()
+THEN
+TimerLaunch("DEN_Thieflings_MerchantKidLeaves", 6000);
+
+QRY
+QRY_DEN_Thieflings_CheckPickpocketsCanLeave()
+AND NOT
+DB_DialogNPCs(_, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, _, _, _)
+AND NOT
+DB_DialogNPCs(_, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(DEN_Thieflings_Event_TransferPickpocketRing_5e3646ca-a0d8-299d-5908-eb2d0ae7b043, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ToInventory(S_DEN_Thieflings_PickpocketRing_2f8e7e4d-e62a-431c-ae3e-84c45af15742, _Var1, 1, 0);
+
+IF
+DialogStarted(DEN_Thieflings_Pickpocket_002_6745c8da-5bc2-745c-9de6-44e76547f37b, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_State_ThiefInPosition_ff626731-79c9-4938-bdaf-7a825d9999d0, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_Thieflings_PickpocketOccupied_4dd68cb1-3886-4fa3-aaee-4d4eb57acced, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, 0, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_PickpocketOccupied_4dd68cb1-3886-4fa3-aaee-4d4eb57acced, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+
+IF
+DialogEnded(DEN_Thieflings_Pickpocket_002_6745c8da-5bc2-745c-9de6-44e76547f37b, _, _, _, _)
+AND
+GetFlag(DEN_Thieflings_PickpocketOccupied_4dd68cb1-3886-4fa3-aaee-4d4eb57acced, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, 1, _, _)
+THEN
+ClearFlag(DEN_Thieflings_PickpocketOccupied_4dd68cb1-3886-4fa3-aaee-4d4eb57acced, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+
+IF
+DialogStarted(DEN_Thieflings_Pickpocket_001_def4d965-3830-47db-a248-a3119d0780f3, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Hideout_State_ResolvedThieflings_97712596-cf53-341f-160e-d2a83dbf98ff, _, _, _, _)
+AND
+CanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 0, _, _, _)
+THEN
+SetCanTrade(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, 1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_DEN_Hideout_AbandonedADArea_5cf09039-e7fd-4d70-b001-1aced4695bc9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_SpottedPlayerTrespassers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_Thieflings_Event_HideoutCallForHelp_d653abaf-f717-344e-5b04-cc7853ee3ba8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_Event_MerchantKidLeaves_9783bb1f-bde7-c61a-16aa-89e267dd7180, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Hideout_PlayAbandonedAD", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DEN_Thieflings_AD_AbandonedHideoutThreat_949aa767-b2c2-fd36-3ee3-08ff427cf410, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_DEN_Hideout_AbandonedADArea_5cf09039-e7fd-4d70-b001-1aced4695bc9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_State_RippedOffPickpocketKid_b2981bfc-fe9b-eb0a-5c76-2221e1228f5e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Thieflings_Event_MerchantKidLeaves_9783bb1f-bde7-c61a-16aa-89e267dd7180, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_Thieflings_Pickpocket1_PCIsNotAChump_836b089f-cec2-84f3-0324-fce468bb4c0b, _Var1, 0, _Var1, _Var1)
+AND
+GetFlag(DEN_Thieflings_Pickpocket1_PCShowedHandSignal_0ee5b852-7952-b800-9947-240655b8be70, _Var1, 0, _Var1, _Var1)
+AND NOT
+DB_DEN_Thieflings_PlayerNearStall(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_Thieflings_AtStallCheck(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Thieflings_PlayerNearStall(1);
+SetEntityEvent(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, "DEN_Thieflings_PlayerNearStall");
+
+QRY
+QRY_DEN_Thieflings_AtStallCheck((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+AND
+DB_InRegion(_Var2, S_DEN_Hideout_AbandonedADArea_5cf09039-e7fd-4d70-b001-1aced4695bc9, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_DEN_Hideout_AbandonedADArea_5cf09039-e7fd-4d70-b001-1aced4695bc9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_PlayerNearStall(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_Thieflings_AtStallCheck(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Thieflings_PlayerNearStall(1);
+SetEntityEvent(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, "DEN_Thieflings_PlayersLeftStall");
+
+IF
+FlagSet(DEN_Thieflings_Event_CheckKnowsHideout_96faca4d-3ae6-f56c-f356-30193ff3aacb, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_HideoutLeader_HasMet_d018a0dc-99de-2652-813c-19450c65a6a3, _Var1, 0, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Thieflings", "KnowsMolLeader", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Thieflings", "ToldHideout");
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_KnowsMolFlags(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_HideoutLeader_HasMet_d018a0dc-99de-2652-813c-19450c65a6a3, _Var2, 0, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "DEN_Thieflings", _Var4);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Thieflings_KnowsMolFlags(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_HideoutLeader_HasMet_d018a0dc-99de-2652-813c-19450c65a6a3, _Var2, 1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "DEN_Thieflings", "AlreadyKnowsMol");
+
+IF
+FlagSet(DEN_Thieflings_Event_MagicTrick_43c91012-34f9-2228-6a98-c35128721994, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(DEN_Thieflings_Event_MagicTrick_43c91012-34f9-2228-6a98-c35128721994, NULL_00000000-0000-0000-0000-000000000000);
+PlayAnimation(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, CUST_SleightOfHandMagicTrick_01_3d8dd81a-eddb-43bf-b2ca-8120122a8c55);
+PlayAnimation(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, CUST_ObserveMagicTrick_01_076d15de-f0bf-4fec-9b74-7c8d8cca5841);
+
+IF
+FlagSet(DEN_Thieflings_Event_TransferPickpocketRing_5e3646ca-a0d8-299d-5908-eb2d0ae7b043, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+ClearFlag(DEN_Thieflings_Event_TransferPickpocketRing_5e3646ca-a0d8-299d-5908-eb2d0ae7b043, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, _Var1);
+
+IF
+FlagSet(DEBUG_DEN_Thieflings_AddStealableToInventory_1f86909f-d59d-b136-457b-7a3893860f5e, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(DEBUG_DEN_Thieflings_AddStealableToInventory_1f86909f-d59d-b136-457b-7a3893860f5e, _Var1);
+TemplateAddTo(LOOT_Gold_A_1c3c9c74-34a1-4685-989e-410dc080be6f, _Var1, 1000, 0);
+TemplateAddTo(CONS_Potion_Healing_A_d47006e9-8a51-453d-b200-9e0d42e9bbab, _Var1, 1, 0);
+TemplateAddTo(WPN_HUM_LightCrossbow_A_0_43b7fbf5-7f6e-4e9e-bce7-c679eea44593, _Var1, 1, 0);
+
+IF
+FlagSet(DEBUG_DEN_Thieflings_PlayerGotRobbed_32ecd7f5-8522-9450-110f-ab50c5795930, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(DEBUG_DEN_Thieflings_PlayerGotRobbed_32ecd7f5-8522-9450-110f-ab50c5795930, _Var1);
+PROC_DEBUG_Thieflings_PlayerGotRobbed(_Var1);
+
+IF
+FlagSet(DEBUG_DEN_Thieflings_PlayerGotRobbed_Noticed_dc7cf38e-4a20-02d7-4a3e-d57511fc80b6, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(DEBUG_DEN_Thieflings_PlayerGotRobbed_Noticed_dc7cf38e-4a20-02d7-4a3e-d57511fc80b6, _Var1);
+SetFlag(DEN_Thieflings_Knows_PlayerRobbed_5069e274-6ede-e00d-aa94-784648a0499e, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_DEBUG_Thieflings_PlayerGotRobbed(_Var1);
+
+PROC
+PROC_DEBUG_Thieflings_PlayerGotRobbed((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(DEN_Thieflings_Pickpocket1_HasMet_a347724b-ab0c-722c-4c93-b4f22a7757e5, _Var1, 0);
+SetFlag(DEN_Thieflings_Pickpocket2_HasMet_90070be5-b2dd-1ab6-3178-881b6aed8175, _Var1, 0);
+SetFlag(DEN_Thieflings_Event_PlayerRobbed_ec548492-a88e-ae81-ca4d-7970d804ec5b, NULL_00000000-0000-0000-0000-000000000000, 0);
+TemplateAddTo(CONS_Potion_Healing_A_d47006e9-8a51-453d-b200-9e0d42e9bbab, S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, 1, 0);
+SetFlag(DEN_Thieflings_State_HoldingStolenGoods_b21939d8-362b-cafc-91ee-ad2fa26df511, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("stealconring", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_Event_TransferPickpocketRing_5e3646ca-a0d8-299d-5908-eb2d0ae7b043, _Var1, 0);
+
+IF
+TextEvent("pickpocketnoticed", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEBUG_DEN_Thieflings_PlayerGotRobbed_Noticed_dc7cf38e-4a20-02d7-4a3e-d57511fc80b6, _Var1, 0);
+
+PROC
+PROC_DEBUG_Thieflings_PlayerGotRobbed((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetItemByTemplateInInventory(CONS_Potion_Healing_A_d47006e9-8a51-453d-b200-9e0d42e9bbab, S_DEN_HideoutKidStash_6a957f96-e910-4a3b-ad12-03359775c4b8, _Var2, _Var1, _Var1)
+THEN
+DB_DEN_Thieflings_StolenItems(S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, _Var2, 0);
+DB_DEN_Thieflings_LooseStash(_Var2);
+
+IF
+TextEvent("gotoppkids", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, "", 1, 1, 1);
+
+IF
+TextEvent("caughtppkid", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Thieflings_Pickpocket1_HasMet_a347724b-ab0c-722c-4c93-b4f22a7757e5, _Var1, 0);
+PROC_ForceStopDialog(_Var1);
+TeleportTo(_Var1, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab, "", 1, 1, 1);
+SetFlag(DEN_Thieflings_Event_CaughtThief_d0a01e3d-ce38-df20-2a92-ece24b52118e, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(DEN_Thieflings_State_CaughtStealing_50c194d8-08f5-bc4f-3aed-f2f011a17654, NULL_00000000-0000-0000-0000-000000000000);
+DB_DEN_Thieflings_ThiefDetector(_Var1, S_DEN_Pickpocket_540ddc1f-42c6-4347-ba03-b3cf3d3942ab);
+SetEntityEvent(_Var1, "DEN_Thieflings_Event_ThiefCaught");
+
+IF
+TextEvent("merchantkidleave", _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, _, _)
+AND
+QRY_OnlyOnce("DEN_Thieflings_MerchantKidMoveToHideout", _, _, _, _)
+THEN
+SetFlag(DEN_Thieflings_Event_MerchantKidLeaves_9783bb1f-bde7-c61a-16aa-89e267dd7180, NULL_00000000-0000-0000-0000-000000000000);
+SetEntityEvent(S_DEN_PickpocketTrader_e1fda08b-45d4-41db-84b5-20e9931ba5af, "GLO_ADLoop_Disable");
+TimerLaunch("DEN_Thieflings_MerchantKidLeaves", 2000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

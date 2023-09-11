@@ -1,0 +1,229 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SCE_IsobelNightsongReunion_ReunionMembers(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+DB_SCE_IsobelNightsongReunion_ReunionMembers(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211);
+
+KBSECTION
+PROC
+PROC_SCE_CharacterInEpilogueHook(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+THEN
+PROC_RemoveNPCADs(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+PROC_SetRelationToPlayers(ACT1_SHA_Nightsong_89d54194-f9fd-4a99-879a-e11971bfe3e4, 50);
+PROC_SetRelationMutual(ACT1_SHA_Nightsong_89d54194-f9fd-4a99-879a-e11971bfe3e4, Act2_HAV_Isobel_e8503b65-35b3-40a4-8fa6-43ba3a22655c, 100);
+
+IF
+FlagSet(SCE_State_AtEpilogue_3541abb5-6aaf-48c7-bf30-5a13b3abc718, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCE_IsobelNightsongReunion_ReunionMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(S_SCE_ReunionDialog_StartTrigger_60bde26f-d9d2-499e-b062-1933658c3f42);
+PROC_SceneDialogOnly("SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, S_SCE_ReunionDialogTrigger_19929d0b-f585-4dac-b2b3-41dd35e2a22f);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_SCE_ReunionDialog_StartTrigger_60bde26f-d9d2-499e-b062-1933658c3f42, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_SCE_Isobel_Debrief_IdlePoint_255969ec-7683-4925-98be-f6b5674eba04, "Walk", "");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_SCE_ReunionDialog_StartTrigger_60bde26f-d9d2-499e-b062-1933658c3f42, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SCE_IsobelNightsongReunion_AllMembersPresent()
+AND
+QRY_StartDialog(SCE_IsobelNightsongReunion_b487cee2-7e58-13bc-7ee3-74be836327d1, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(SCE_IsobelNightsongReunion_b487cee2-7e58-13bc-7ee3-74be836327d1, _, _, _, _)
+AND NOT
+DB_OnlyOnce("SCE_IsobelNightsongReunion_MainReunionStarted", _, _, _, _)
+THEN
+DB_OnlyOnce("SCE_IsobelNightsongReunion_MainReunionStarted");
+
+PROC
+PROC_TWN_Finale_StartCheck((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCE_IsobelNightsongReunion_JoiningCamp_cea17782-fc15-19d3-e658-7f2f955ebd9f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, _Var1, _Var1)
+THEN
+PROC_SCE_NightsongIsobelReunion_MoveNightsongToCamp();
+PROC_SceneOver("SCE_IsobelNightsongReunion_Scene_MainReunion");
+
+PROC
+PROC_TWN_Finale_StartCheck((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCE_IsobelNightsongReunion_JoiningCamp_cea17782-fc15-19d3-e658-7f2f955ebd9f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, _Var1, _Var1)
+THEN
+PROC_SCE_NightsongIsobelReunion_MoveIsobelToCamp();
+PROC_SceneOver("SCE_IsobelNightsongReunion_Scene_MainReunion");
+
+IF
+TeleportedToCamp(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+AND
+DB_SceneManager(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SCE_IsobelNightsongReunion_Scene_MainReunion", _, _, _)
+THEN
+PROC_SceneOver("SCE_IsobelNightsongReunion_Scene_MainReunion");
+
+IF
+TeleportedToCamp(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+AND
+DB_SceneManager(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "SCE_IsobelNightsongReunion_Scene_MainReunion", _, _, _)
+THEN
+PROC_SceneOver("SCE_IsobelNightsongReunion_Scene_MainReunion");
+
+IF
+TeleportedToCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCE_IsobelNightsongReunion_JoiningCamp_cea17782-fc15-19d3-e658-7f2f955ebd9f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCE_IsobelAndNightsong_AddIsobelToCamp", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCE_NightsongIsobelReunion_MoveIsobelToCamp();
+
+IF
+TeleportedToCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCE_IsobelNightsongReunion_JoiningCamp_cea17782-fc15-19d3-e658-7f2f955ebd9f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SceneManager(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCE_IsobelAndNightsong_AddNSToCamp", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCE_NightsongIsobelReunion_MoveNightsongToCamp();
+
+IF
+DialogEnded(TWN_Finale_LeavingAct_06d434ac-008b-1994-5dc5-f8fcd681553d, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_TriggerUnregisterForPlayers(S_SCE_ReunionDialogTrigger_19929d0b-f585-4dac-b2b3-41dd35e2a22f);
+GoalCompleted;
+
+PROC
+PROC_SceneOver("SCE_IsobelNightsongReunion_Scene_MainReunion", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_SCE_ReunionDialogTrigger_19929d0b-f585-4dac-b2b3-41dd35e2a22f);
+PROC_SCE_NightsongIsobelReunion_MoveNightsongToCamp();
+PROC_SCE_NightsongIsobelReunion_MoveIsobelToCamp();
+
+QRY
+QRY_SelectCustomDialog((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SceneManager(_Var1, "SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, _Var1, _Var1)
+AND
+QRY_SCE_IsobelNightsongReunion_AllMembersPresent()
+AND
+DB_SceneManager(_Var3, "SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND
+QRY_SpeakerIsAvailable(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(SCE_IsobelNightsongReunion_b487cee2-7e58-13bc-7ee3-74be836327d1, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _Var2);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SceneManager(_Var1, "SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, _Var1, _Var1)
+AND
+QRY_SCE_IsobelNightsongReunion_AllMembersPresent()
+AND
+DB_SceneManager(_Var3, "SCE_IsobelNightsongReunion_Scene_MainReunion", _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND NOT
+QRY_SpeakerIsAvailable(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GEB_AD_CantTalkNow_ae991ba1-8a2e-9cc7-b4c2-379af7f058c5, _Var1);
+
+QRY
+QRY_SCE_IsobelNightsongReunion_AllMembersPresent()
+AND
+DB_SceneManager(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SCE_IsobelNightsongReunion_Scene_MainReunion", _, _, _)
+AND
+DB_SceneManager(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "SCE_IsobelNightsongReunion_Scene_MainReunion", _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_PermaDefeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+THEN
+NOT DB_SCE_Debrief_Participant(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_SCE_IsobelPoint_d51cd5c0-9a39-4f86-9da5-116af810b914, SCE_IsobelSoloReunion_29607941-2c6d-8244-742c-db0c577b1933);
+DB_SCE_Debrief_Participant(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_SCE_Isobel_Debrief_IdlePoint_255969ec-7683-4925-98be-f6b5674eba04, SCE_IsobelSoloReunion_29607941-2c6d-8244-742c-db0c577b1933);
+
+IF
+TextEvent("SCE_SetupNightsong_MoveToCamp", _, _, _, _)
+THEN
+PROC_State_Progress(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, "HAV_FlamingSpy", "Spy_DefaultBehaviour");
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_AtMoonrise");
+PROC_SCE_NightsongIsobelReunion_MoveIsobelToCamp();
+PROC_SCE_NightsongIsobelReunion_MoveNightsongToCamp();
+
+IF
+TextEvent("SCE_SetupNightsong_FreedFromShar", _, _, _, _)
+THEN
+PROC_IsobelNightsongReunion_Debug_FreedFromShar();
+
+IF
+TextEvent("SCE_SetupNightsong_FreedFromColony", _, _, _, _)
+THEN
+PROC_IsobelNightsongReunion_Debug_FreedFromColony();
+
+PROC
+PROC_SCE_DEBUG_SituationSpecificFlagSet()
+AND NOT
+DB_GlobalFlag(SCE_IsobelNightsongReunion_Debug_FreeFromShar_8a9f49d5-43ab-465a-adcd-7b95418d0048, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCE_IsobelNightsongReunion_Debug_FreeFromColony_dd23fae6-2a2e-4486-81a0-9b65bcdb03d2, _, _, _, _)
+THEN
+PROC_IsobelNightsongReunion_Debug_FreedFromShar();
+
+IF
+DB_GlobalFlag(SCE_IsobelNightsongReunion_Debug_FreeFromShar_8a9f49d5-43ab-465a-adcd-7b95418d0048, _, _, _, _)
+THEN
+PROC_IsobelNightsongReunion_Debug_FreedFromShar();
+
+IF
+DB_GlobalFlag(SCE_IsobelNightsongReunion_Debug_FreeFromColony_dd23fae6-2a2e-4486-81a0-9b65bcdb03d2, _, _, _, _)
+THEN
+PROC_IsobelNightsongReunion_Debug_FreedFromColony();
+
+PROC
+PROC_IsobelNightsongReunion_Debug_FreedFromShar()
+THEN
+NOT DB_NoLowAttitudeDialog(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+SetFlag(SHA_NightsongPrison_State_NightsongFreed_24f27b06-6665-79ed-d7bf-e4bf356ca2fa);
+PROC_State_Progress(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated");
+PROC_SceneOver("SHA_NightsongPrison_MeetingNightsong");
+PROC_SelfHealing_Enable(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b);
+
+PROC
+PROC_IsobelNightsongReunion_Debug_FreedFromColony()
+THEN
+SetFlag(COL_KethericShowdown_State_NightsongFreed_bfe9a480-01bd-0474-f461-d18734170415);
+PROC_State_Progress(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_KethericDefeated");
+PROC_SceneOver("SHA_NightsongPrison_MeetingNightsong");
+
+
+EXITSECTION
+PROC_SceneOver("SCE_IsobelNightsongReunion_Scene_MainReunion");
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

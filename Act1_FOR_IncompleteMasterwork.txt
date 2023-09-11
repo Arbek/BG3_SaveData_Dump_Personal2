@@ -1,0 +1,612 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_FOR_IncompleteMasterwork_BookItems(S_FOR_MasterworkJournal_cee097d0-630e-494d-839d-e8340bba8f84);
+DB_FOR_IncompleteMasterwork_BookItems(S_FOR_MasterworkPlans_e2496600-f704-4160-be88-8cb38f001d0f);
+DB_FOR_IncompleteMasterwork_CellarDoors(S_FOR_MasterworkOutsideDoor_c899d16c-60b1-4339-b09f-8eb00e157be8);
+DB_FOR_IncompleteMasterwork_CellarDoors(S_FOR_MasterworkInsideDoor_1126e63b-576f-4b6e-86dd-ee23b213b4ec);
+DB_DialogBlockAttackButton(FOR_IncompleteMasterwork_ForgeWeapon_46bddf1c-a80c-55e9-4233-bf855224604f);
+DB_FOR_IncompleteMasterwork_FirepitBellow(S_FOR_MasterworkBellow_e014b6d1-f0f4-415f-9a9c-a22922f512f6);
+DB_FOR_IncompleteMasterwork_ForgingFurnace(S_FOR_MasterworkForge_8515bf4e-40eb-460b-a48e-9d48cec16379);
+SetOnStage(S_FOR_MasterworkForge_AfterForgingWeapon_b8841077-d2c0-4312-ab07-cd14be7f5f38, 0);
+DB_HasItemEvent(S_FOR_MasterworkPlans_e2496600-f704-4160-be88-8cb38f001d0f, FOR_IncompleteMasterwork_State_HasApprenticePlans_59af54f7-58fb-4959-912d-1c954708aa86);
+DB_PlayerHasTemplateItem(QUEST_FOR_SussurBark_ea99e006-80e1-414a-8995-c03d92eaf170, FOR_IncompleteMasterwork_State_HasSussurBark_48982c92-16b6-407f-88b7-caf295b15fb1);
+PROC_TriggerRegisterForPlayers(S_FOR_Masterwork_SeeFurnaceTrigger_aa53d528-7a22-4ea5-a035-b8fa4a5f3bf9);
+PROC_TriggerRegisterForPlayers(S_FOR_Bottomless_BlacksmithCellar_19f4b8fe-b0a1-4d20-9b4f-273c296a8e86);
+DB_FOR_IncompleteMasterwork_WeaponTemplates(QUEST_FOR_SussurDagger_8733edb7-f04e-4b6d-ad48-7d49fb782bef, FOR_IncompleteMasterwork_Quest_ObtainedDagger_9855b313-e281-49d7-960d-f4d0b834f398);
+DB_FOR_IncompleteMasterwork_WeaponTemplates(QUEST_FOR_SussurGreatsword_44dedec0-df82-4ed3-b9ca-147bd830e312, FOR_IncompleteMasterwork_Quest_ObtainedGreatsword_68e94e91-fb18-49a2-9905-21969999c72d);
+DB_FOR_IncompleteMasterwork_WeaponTemplates(QUEST_FOR_SussurSickle_6b95bb45-41c3-4954-ac2f-ef1aa169b0b6, FOR_IncompleteMasterwork_Quest_ObtainedSickle_488b4302-8a6b-4241-8e27-ba7f92876afe);
+DB_QuestDef_State(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, "FOR_IncompleteMasterwork", "ReachedNoReturn");
+
+KBSECTION
+IF
+FlagSet(FOR_IncompleteMasterwork_State_HasSussurBark_48982c92-16b6-407f-88b7-caf295b15fb1, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("FOR_SussurBarkTakenVB", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_IncompleteMasterwork_VB_TakeSussurSap_214ca8d7-3f81-ab3e-76f2-a97570ed2a8a, _Var1);
+
+IF
+FlagSet(FOR_IncompleteMasterwork_State_HasSussurBark_48982c92-16b6-407f-88b7-caf295b15fb1, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_IncompleteMasterwork_Knows_SussurBarkUseful_f095c8bf-dc4b-41c8-9923-035f339e62ce, NULL_00000000-0000-0000-0000-000000000000);
+PROC_FOR_IncompleteMasterwork_FindSussurBark(_Var1);
+
+IF
+GameBookInterfaceClosed((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_BookItems(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_IncompleteMasterwork_GetBookVB(_Var1, _Var2);
+
+PROC
+PROC_FOR_IncompleteMasterwork_GetBookVB(S_FOR_MasterworkJournal_cee097d0-630e-494d-839d-e8340bba8f84, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("FOR_IncompleteMasterwork_ReadsJournal", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(FOR_IncompleteMasterwork_Knows_ApprenticePlans_5816c50d-a1a9-4586-9851-bf355cfa9536, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_IncompleteMasterwork_VB_TakeJournal_970c4b58-b718-8a6c-5a6d-ed1d3fa79bdc, _Var1);
+
+PROC
+PROC_FOR_IncompleteMasterwork_GetBookVB(S_FOR_MasterworkPlans_e2496600-f704-4160-be88-8cb38f001d0f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("FOR_IncompleteMasterwork_ReadsPlans", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_IncompleteMasterwork_VB_TakePlans_c8fe2362-c049-0700-f41a-66fa2641ac66, _Var1);
+
+PROC
+PROC_FOR_IncompleteMasterwork_GetBookVB(S_FOR_MasterworkJournal_cee097d0-630e-494d-839d-e8340bba8f84, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(FOR_IncompleteMasterwork_Knows_Journal_37fa0b70-ef66-44b5-ade4-e8adc79ab8f6, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_IncompleteMasterwork_Knows_Journal_37fa0b70-ef66-44b5-ade4-e8adc79ab8f6, NULL_00000000-0000-0000-0000-000000000000);
+PROC_FOR_IncompleteMasterwork_FindJournal(_Var1);
+
+PROC
+PROC_FOR_IncompleteMasterwork_GetBookVB(S_FOR_MasterworkPlans_e2496600-f704-4160-be88-8cb38f001d0f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(FOR_IncompleteMasterwork_Knows_ApprenticePlans_5816c50d-a1a9-4586-9851-bf355cfa9536, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_IncompleteMasterwork_Knows_ApprenticePlans_5816c50d-a1a9-4586-9851-bf355cfa9536, NULL_00000000-0000-0000-0000-000000000000);
+PROC_FOR_IncompleteMasterwork_FindPlans(_Var1);
+
+IF
+VoiceBarkEnded(FOR_IncompleteMasterwork_VB_TakePlans_c8fe2362-c049-0700-f41a-66fa2641ac66, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+GetFlag(FOR_IncompleteMasterwork_Event_NatureCheck_0c43282b-3dd4-4394-9ac3-47304cac9dce, _Var2, 1, _Var1, _Var1)
+THEN
+ClearFlag(FOR_IncompleteMasterwork_Event_NatureCheck_0c43282b-3dd4-4394-9ac3-47304cac9dce, _Var2);
+PROC_FOR_IncompleteMasterwork_SussurHistoryCheck(_Var2);
+
+PROC
+PROC_FOR_IncompleteMasterwork_SussurHistoryCheck((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TrySkillCheck(_Var1, S_FOR_MasterworkPlans_e2496600-f704-4160-be88-8cb38f001d0f, "Nature", DC_Legacy_15_bddbb9b8-a242-4c3e-a2eb-3fd274c0c539, "FOR_SussurNatureCheck");
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage((CHARACTER)_Var1, S_FOR_MasterworkPlans_e2496600-f704-4160-be88-8cb38f001d0f, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, REALLY_UNDERDARK_2d0a73b9-f113-4d35-bdee-a31ab9163d74, 1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(1);
+
+PROC
+PROC_RollResult("FOR_SussurNatureCheck", (CHARACTER)_Var1, _, 1, (CHARACTER)_Var1)
+THEN
+SetFlag(FOR_IncompleteMasterwork_Event_NatureCheckSuccess_f2c6a036-2df1-4c07-9f8f-68a3ceffffe4, _Var1);
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "KnowsSussurTree");
+
+PROC
+PROC_RollResult("FOR_SussurNatureCheck", (CHARACTER)_Var1, _, _, (CHARACTER)_Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "FOR_SussurNatureCheck", 500);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "FOR_SussurNatureCheck", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+StartVoiceBark(FOR_IncompleteMasterwork_VB_NatureCheckOutcome_6d8332d4-725b-db84-bd06-52e79f69637f, _Var1);
+
+PROC
+PROC_FOR_IncompleteMasterwork_FindJournal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "FOR_IncompleteMasterwork", "FindPlansBeforeJournal", 0, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "FindJournal");
+
+PROC
+PROC_FOR_IncompleteMasterwork_FindPlans((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_FOR_IncompleteMasterwork_AlreadyFoundPlans()
+AND NOT
+DB_GlobalFlag(FOR_IncompleteMasterwork_Knows_Journal_37fa0b70-ef66-44b5-ade4-e8adc79ab8f6, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "FindPlansBeforeJournal");
+
+PROC
+PROC_FOR_IncompleteMasterwork_FindPlans((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_FOR_IncompleteMasterwork_AlreadyFoundPlans()
+AND
+DB_GlobalFlag(FOR_IncompleteMasterwork_Knows_Journal_37fa0b70-ef66-44b5-ade4-e8adc79ab8f6, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "FindPlansAfterJournal");
+
+QRY
+QRY_FOR_IncompleteMasterwork_AlreadyFoundPlans()
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "FOR_IncompleteMasterwork", "FindPlansAfterJournal", 1, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_FOR_IncompleteMasterwork_AlreadyFoundPlans()
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "FOR_IncompleteMasterwork", "FindPlansBeforeJournal", 1, _)
+THEN
+DB_NOOP(1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_UND_SussurTree_VB_f7723a0a-72f0-4519-8b20-8c35ddb0a990, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestIsAccepted(_Var1, "FOR_IncompleteMasterwork", 1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "TakeSussurBark");
+
+PROC
+PROC_FOR_IncompleteMasterwork_FindSussurBark((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_FOR_IncompleteMasterwork_HadSussurBark()
+AND
+DB_GlobalFlag(FOR_IncompleteMasterwork_Knows_ApprenticePlans_5816c50d-a1a9-4586-9851-bf355cfa9536, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "FindSussurBark");
+
+PROC
+PROC_FOR_IncompleteMasterwork_FindSussurBark((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_FOR_IncompleteMasterwork_HadSussurBark()
+AND NOT
+DB_GlobalFlag(FOR_IncompleteMasterwork_Knows_ApprenticePlans_5816c50d-a1a9-4586-9851-bf355cfa9536, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "FoundSussurBarkBeforePlans");
+
+QRY
+QRY_FOR_IncompleteMasterwork_HadSussurBark()
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "FOR_IncompleteMasterwork", "FindSussurBark", 1, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_FOR_IncompleteMasterwork_HadSussurBark()
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "FOR_IncompleteMasterwork", "FoundSussurBarkBeforePlans", 1, _)
+THEN
+DB_NOOP(1);
+
+IF
+StatusApplied((CHARACTER)_Var1, "ETHEREAL", _, _, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, SPIDER_PHASE_c3b3e9cd-ad18-475a-8df1-4562b2a6af19, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("FOR_FirstPhaseSpiderEtherealCast", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_FirstPhaseSpiderEtherealCast(_Var1, _Var4);
+PROC_FOR_FirstPhaseSpiderEtherealCast_TryVB(_Var1);
+
+PROC
+PROC_FOR_FirstPhaseSpiderEtherealCast_TryVB((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_FirstPhaseSpiderEtherealCast(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetClosestAlivePlayer(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 < 30
+AND
+QRY_SpeakerIsAvailable(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_IncompleteMasterwork_VB_PhaseSpiderDisappear_9c1c65a6-005d-754f-b369-bd133176574b, _Var3);
+NOT DB_FOR_FirstPhaseSpiderEtherealCast(_Var1, _Var2);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_FirstPhaseSpiderEtherealCast(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_IncompleteMasterwork_VB_PhaseSpiderDisappear_9c1c65a6-005d-754f-b369-bd133176574b, _Var1);
+NOT DB_FOR_FirstPhaseSpiderEtherealCast(_Var2, _Var3);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_FirstPhaseSpiderEtherealCast(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_FirstPhaseSpiderEtherealCast(_Var1, _Var2);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_FirstPhaseSpiderEtherealCast(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_FirstPhaseSpiderEtherealCast(_Var1, _Var3);
+
+IF
+FlagSet(FOR_IncompleteMasterwork_State_HasApprenticePlans_59af54f7-58fb-4959-912d-1c954708aa86, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(FOR_IncompleteMasterwork_State_PartyHasApprenticePlans_946dde0d-e7aa-4322-b514-129831007a91, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagCleared(FOR_IncompleteMasterwork_State_HasApprenticePlans_59af54f7-58fb-4959-912d-1c954708aa86, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(FOR_IncompleteMasterwork_State_PartyHasApprenticePlans_946dde0d-e7aa-4322-b514-129831007a91, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(FOR_IncompleteMasterwork_State_HasSussurBark_48982c92-16b6-407f-88b7-caf295b15fb1, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(FOR_IncompleteMasterwork_State_PartyHasSussurBark_8f60a9ea-809b-4ebd-ba8e-f80461cb012c, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagCleared(FOR_IncompleteMasterwork_State_HasSussurBark_48982c92-16b6-407f-88b7-caf295b15fb1, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(FOR_IncompleteMasterwork_State_PartyHasSussurBark_8f60a9ea-809b-4ebd-ba8e-f80461cb012c, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_FirepitBellow(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var3, "FOR_KindleFurnace");
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "BURNING", 1, _Var1, _Var1)
+AND
+GetFlag(FOR_IncompleteMasterwork_State_FurnaceSecondStage_5682443b-4907-4fe5-acbd-67ef89a35388, _Var2, 0, _Var1, _Var1)
+THEN
+PROC_FOR_IncompleteMasterwork_TryStartForgeWeaponVB(_Var1);
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+
+PROC
+PROC_FOR_IncompleteMasterwork_TryStartForgeWeaponVB((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_FOR_IncompleteMasterwork_ForgeWeaponVB(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_IncompleteMasterwork_VB_ForgeWeapon_aa5a4538-c3e6-e9db-1e46-7cba79525450, _Var1);
+DB_FOR_IncompleteMasterwork_ForgeWeaponVB(1);
+
+IF
+VoiceBarkEnded(FOR_IncompleteMasterwork_VB_ForgeWeapon_aa5a4538-c3e6-e9db-1e46-7cba79525450, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_FOR_IncompleteMasterwork_ForgeWeaponVB(1);
+
+IF
+VoiceBarkFailed(FOR_IncompleteMasterwork_VB_ForgeWeapon_aa5a4538-c3e6-e9db-1e46-7cba79525450, _, _, _, _)
+THEN
+NOT DB_FOR_IncompleteMasterwork_ForgeWeaponVB(1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(FOR_IncompleteMasterwork_State_FurnaceSecondStage_5682443b-4907-4fe5-acbd-67ef89a35388, _Var2, 0, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var2, "FOR_StartFurnace");
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+
+IF
+TemplatesCombined(UNI_FOR_IncompleteMasterwork_Furnace_b269ae5b-54d7-4558-9d4a-c288aaaa6b79, QUEST_FOR_SussurBark_ea99e006-80e1-414a-8995-c03d92eaf170, _, _, _, (CHARACTER)_Var4, (ITEM)_Var5, _, _, _)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var6, _, _, _, _)
+THEN
+NOT DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var6);
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var5);
+PROC_TryStartAD(FOR_IncompleteMasterwork_PAD_ForgeAndBarkCombined_bed12218-5f78-03e4-3406-53843a110f40, _Var4);
+
+IF
+Combined((ITEM)_Var1, _, _, _, _, (CHARACTER)_Var6, (ITEM)_Var7, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var7, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_FOR_IncompleteMasterwork_WeaponTemplates(_Var8, _Var9, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var9, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+Combined((ITEM)_Var1, _, _, _, _, (CHARACTER)_Var6, (ITEM)_Var7, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var7, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_FOR_IncompleteMasterwork_WeaponTemplates(_Var8, _, _Var1, _Var1, _Var1)
+THEN
+PROC_FOR_IncompleteMasterwork_ForgeWeapon(_Var1, _Var6);
+
+PROC
+PROC_FOR_IncompleteMasterwork_ForgeWeapon((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+QRY_FOR_IncompleteMasterwork_StartForgeDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanInteract(_Var1, 0);
+PROC_FOR_IncompleteMasterwork_ReplaceFurnace(S_FOR_MasterworkForge_AfterForgingWeapon_b8841077-d2c0-4312-ab07-cd14be7f5f38);
+PROC_IncompleteMasterwork_UpdateJournalReward(_Var2);
+
+QRY
+QRY_FOR_IncompleteMasterwork_StartForgeDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(FOR_IncompleteMasterwork_ForgeWeapon_46bddf1c-a80c-55e9-4233-bf855224604f, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(FOR_IncompleteMasterwork_ForgeWeapon_46bddf1c-a80c-55e9-4233-bf855224604f, _, _, _, _)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var2, _, _, _, _)
+THEN
+SetCanInteract(_Var2, 0);
+
+IF
+DialogEnded(FOR_IncompleteMasterwork_ForgeWeapon_46bddf1c-a80c-55e9-4233-bf855224604f, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogSpeakers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_FOR_IncompleteMasterwork_ReplaceFurnace(S_FOR_MasterworkForge_AfterForgingWeapon_b8841077-d2c0-4312-ab07-cd14be7f5f38);
+PROC_IncompleteMasterwork_UpdateJournalReward(_Var2);
+
+PROC
+PROC_FOR_IncompleteMasterwork_ReplaceFurnace((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "BURNING");
+RealtimeObjectTimerLaunch(_Var1, "FOR_ReplaceForge", 500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "FOR_ReplaceForge", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var2);
+DB_FOR_IncompleteMasterwork_ForgingFurnace(_Var1);
+SetOnStage(_Var2, 0);
+SetOnStage(_Var1, 1);
+
+PROC
+PROC_IncompleteMasterwork_UpdateJournalReward((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(FOR_IncompleteMasterwork_Quest_ObtainedGreatsword_68e94e91-fb18-49a2-9905-21969999c72d, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "ObtainedGreatsword");
+
+PROC
+PROC_IncompleteMasterwork_UpdateJournalReward((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(FOR_IncompleteMasterwork_Quest_ObtainedDagger_9855b313-e281-49d7-960d-f4d0b834f398, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "ObtainedDagger");
+
+PROC
+PROC_IncompleteMasterwork_UpdateJournalReward((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(FOR_IncompleteMasterwork_Quest_ObtainedSickle_488b4302-8a6b-4241-8e27-ba7f92876afe, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "ObtainedSickle");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_FOR_Masterwork_SeeFurnaceTrigger_aa53d528-7a22-4ea5-a035-b8fa4a5f3bf9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(FOR_IncompleteMasterwork_Knows_FurnaceSeen_27c8af8a-7972-431c-acff-6f823de00e5d, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_IncompleteMasterwork_Knows_FurnaceSeen_27c8af8a-7972-431c-acff-6f823de00e5d, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_FOR_Masterwork_HoleTrigger_58a41860-508d-4ca5-9804-bc7c5c972002, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "FOR_MasterworkJump", 100);
+DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, 0);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Projectile_Jump", _, _, _)
+AND
+DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, 0);
+DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, 1);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "SHOCKWAVE", _, _, (CHARACTER)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, 0);
+DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, 1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "FOR_MasterworkJump", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+TeleportTo(_Var1, S_FOR_MasterworkCellarTP_dad85c7e-5194-43fc-992a-634cffc20be6, "FOR_BlacksmithCellarTP", 1, 1, 1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "FOR_MasterworkJump", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "");
+TeleportTo(_Var1, S_FOR_MasterworkCellarTP_dad85c7e-5194-43fc-992a-634cffc20be6, "FOR_BlacksmithCellarTP", 0, 0, 1);
+
+IF
+ItemEnteredTrigger((ITEM)_Var1, S_FOR_Masterwork_HoleTrigger_58a41860-508d-4ca5-9804-bc7c5c972002, _, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+TeleportTo(_Var1, S_FOR_MasterworkCellarTP_dad85c7e-5194-43fc-992a-634cffc20be6, "", 0, 0, 1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "FOR_BlacksmithCellarTP", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+HasActiveStatus(_Var1, "PRONE_FALLEN", 0, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "FEATHER_FALL", 0, _Var1, _Var1)
+AND
+DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "PRONE_FALLEN", 6, 1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "FOR_BlacksmithCellarTP", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_IncompleteMasterwork_ShouldFallProne(_Var1, _Var2);
+
+IF
+DualEntityEvent(_, S_FOR_MasterworkDoorLever_10b982b0-c3c0-45eb-8006-242a60dd9fc7, "FOR_IncompleteMasterwork_UsedLever", _, _)
+AND
+DB_FOR_IncompleteMasterwork_UsedCellarLever(1, _, _, _, _)
+THEN
+NOT DB_FOR_IncompleteMasterwork_UsedCellarLever(1);
+
+IF
+DualEntityEvent(_, S_FOR_MasterworkDoorLever_10b982b0-c3c0-45eb-8006-242a60dd9fc7, "FOR_IncompleteMasterwork_UsedLever", (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_FOR_IncompleteMasterwork_TryUnlockDoors();
+
+IF
+DualEntityEvent(_, S_FOR_MasterworkDoorLever_10b982b0-c3c0-45eb-8006-242a60dd9fc7, "FOR_IncompleteMasterwork_UsedLever", (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_FOR_IncompleteMasterwork_TryLockDoors();
+
+IF
+Unlocked((ITEM)_Var1, _, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_FOR_IncompleteMasterwork_CellarDoors(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_IncompleteMasterwork_UsedCellarLever(1);
+PROC_FOR_IncompleteMasterwork_TryUnlockDoors();
+
+PROC
+PROC_FOR_IncompleteMasterwork_TryUnlockDoors()
+AND NOT
+DB_FOR_IncompleteMasterwork_UsedCellarLever(1, _, _, _, _)
+AND
+DB_FOR_IncompleteMasterwork_CellarDoors(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsLocked(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_IncompleteMasterwork_UsedCellarLever(1);
+Unlock(_Var1);
+PROC_TryStartAD(GLO_AD_MechanicalClick_fc8d3dc5-b947-6354-3aa9-d1f02fd51af4, _Var1);
+
+PROC
+PROC_FOR_IncompleteMasterwork_TryLockDoors()
+AND NOT
+DB_FOR_IncompleteMasterwork_UsedCellarLever(1, _, _, _, _)
+AND
+DB_FOR_IncompleteMasterwork_CellarDoors(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsLocked(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_IncompleteMasterwork_UsedCellarLever(1);
+Lock(_Var1, "FOR_IncompleteMasterwork_CellarKey");
+PROC_TryStartAD(GLO_AD_MechanicalClick_fc8d3dc5-b947-6354-3aa9-d1f02fd51af4, _Var1);
+
+IF
+DestroyedBy(S_FOR_MasterworkDestructibleWall_4d9a981d-256d-4837-8e7f-d37170a911c0, _, _, _, (CHARACTER)_)
+THEN
+SetEntityEvent(S_FOR_MasterworkDestructibleWall_4d9a981d-256d-4837-8e7f-d37170a911c0, "StoryReveal");
+
+IF
+TextEvent("IncompleteMasterwork_KnowsPlans", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("FOR_IncompleteMasterwork_ReadsPlans", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(FOR_IncompleteMasterwork_Knows_ApprenticePlans_5816c50d-a1a9-4586-9851-bf355cfa9536, NULL_00000000-0000-0000-0000-000000000000);
+QuestUpdate(_Var1, "FOR_IncompleteMasterwork", "FindPlans");
+
+IF
+TextEvent("IncompleteMasterwork_UnlockDoors", _, _, _, _)
+THEN
+PROC_FOR_IncompleteMasterwork_TryUnlockDoors();
+
+IF
+TextEvent("IncompleteMasterwork_GiveBark", _, _, _, _)
+AND
+QRY_OnlyOnce_Reset("Debug_FOR_GiveBark", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("Debug_FOR_GiveBark", _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_UND_SussurBark_ec9aee1d-4965-4620-a81a-a05ccefd8b05, _Var1, 1, 1, 1);
+
+IF
+TextEvent("IncompleteMasterwork_GiveRewards", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(QUEST_FOR_SussurGreatsword_44dedec0-df82-4ed3-b9ca-147bd830e312, _Var1, 1, 1);
+TemplateAddTo(QUEST_FOR_SussurDagger_8733edb7-f04e-4b6d-ad48-7d49fb782bef, _Var1, 1, 1);
+TemplateAddTo(QUEST_FOR_SussurSickle_6b95bb45-41c3-4954-ac2f-ef1aa169b0b6, _Var1, 1, 1);
+
+IF
+TextEvent("IM_ForcePlansVB", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("IM_ForcePlansVB", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(FOR_IncompleteMasterwork_VB_TakePlans_c8fe2362-c049-0700-f41a-66fa2641ac66, _Var1);
+
+IF
+TextEvent("IM_ForcePlansVB", _, _, _, _)
+THEN
+NOT DB_OnlyOnce("IM_ForcePlansVB");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

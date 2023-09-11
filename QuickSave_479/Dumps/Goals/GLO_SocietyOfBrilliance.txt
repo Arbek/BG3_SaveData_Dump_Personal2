@@ -1,0 +1,33 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+UsingSpell((GUIDSTRING)_Var1, "Shout_UND_SocietyOfBrilliance_Teleportation", _, _, _)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "UND_SocietyOfBrilliance_TeleportAnimationsDelay", 600);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "UND_SocietyOfBrilliance_TeleportAnimationsDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PlayEffectAtPosition(VFX_Spells_Cast_Intent_Utility_DimensionDoor_Root_01_7a4c033f-4128-31c0-fc04-951f8b7f2242, _Var2, _Var3, _Var4, 1);
+PlayEffect(_Var1, VFX_Spells_Cast_Intent_Utility_DimensionDoor_BodyFX_Textkey_01_f4de2ffb-353f-a215-3311-f729bd8de1d6);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, "Shout_UND_SocietyOfBrilliance_Teleportation", _, _, _)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

@@ -1,0 +1,83 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_HAG_Hagspawn_HusbandJake_133bf997-7c0d-4c64-88c9-9b9cd439dbb5, 0);
+SetCanInteract(S_HAG_HusbandGrave_11f47099-24f3-4e40-b905-c45c55fd46a6, 0);
+PROC_SetInvulnerable(S_HAG_HusbandGrave_11f47099-24f3-4e40-b905-c45c55fd46a6, 1);
+PROC_LoopEffect(VFX_Status_Invisible_Overlay_01_5c8e5059-318b-7a8e-661c-f9ee9bddb44d, S_HAG_HusbandForcefield_9b9f7ce6-5cd9-49a8-8cd7-57f661bde17f, "HAG_ForcefieldHack", "WLD_Main_A", "");
+SetHasDialog(S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, 1);
+DB_GLO_CharacterCorpseDialog(S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, HAG_Hagspawn_SurrogateMother_Dead_c7f31506-a854-c501-0e5f-b4a9560f0b2d);
+DB_Inclusion_Object(CHARACTERGUID_S_HAG_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, HAG_SurrogateMother_Event_StartInclusion_5322beb0-0973-a876-384f-88008f139f74, HAG_SurrogateMother_Event_EndInclusion_30bf2bc5-e1b5-4827-b4e6-65a54ee45f3d);
+DB_HasItemEvent(S_HAG_HagSpawn_MayrinaLocket_1f23ba5b-f11e-4b70-a637-83ecf8794c1a, HAG_State_HasSurrogateMotherLocket_7c84955f-6832-4358-bf08-d783f972241b);
+DB_GiveItemToEventWithClear(S_HAG_HagSpawn_MayrinaLocket_1f23ba5b-f11e-4b70-a637-83ecf8794c1a, HAG_HagSpawn_Event_GiveSurrogateMotherLocket_3959a400-85e8-486f-bdcf-fb34ef8f4c9e);
+
+KBSECTION
+PROC
+PROC_HAG_Hagspawn_InitTeaScene()
+AND NOT
+DB_GlobalFlag(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAG_HagSpawn_SurrogateMother_State_InLair_400601e6-9c76-4d93-a4bf-d561de28cc10, _, _, _, _)
+AND NOT
+DB_OnlyOnce("HAG_FleeToLair", _, _, _, _)
+THEN
+RemoveStatus(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_DISGUISE_DEN");
+ApplyStatus(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HAG_DISGUISE", -1, 1, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+TeleportTo(S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, ITEMGUID_S_HAG_Hagspawn_MotherChair_1da54818-6916-484b-b56a-65e0d15ab5f2);
+Use(S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, ITEMGUID_S_HAG_Hagspawn_MotherChair_1da54818-6916-484b-b56a-65e0d15ab5f2, "");
+PROC_State_Progress(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HagTea", "MayrinaTeaScene");
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "HagTea", _Var2, _Var1, _Var1)
+AND NOT
+DB_HAG_TriggerDialogStates(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(HAG_Hagspawn_SurrogateMother_AD_HagOccupied_f9a80aa8-9f34-1d1c-ee7c-20c4e4823b40, S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, _Var1);
+
+IF
+FlagSet(HAG_Hagspawn_State_InitialSceneDone_ddd2ea7d-9ffd-27b6-4b7d-e6cd90b9db56, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_HAG_TeaSceneOver();
+
+PROC
+PROC_StateSet_PermaDefeated(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _, _, _, _)
+THEN
+PROC_HAG_TeaSceneOver();
+
+PROC
+PROC_StateSet_PermaDefeated(S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd, _, _, _, _)
+THEN
+PROC_HAG_TeaSceneOver();
+
+PROC
+PROC_HAG_TeaSceneOver()
+THEN
+SetFlag(HAG_Hagspawn_TeaSceneOver_6868a610-7164-4299-a06f-3b5d1c102ea9, NULL_00000000-0000-0000-0000-000000000000, 0);
+GoalCompleted;
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_HAG_HagHouse_fae45ba1-2da5-4ab7-b24b-8bf7539a3c64, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_TryStartAD(HAG_Hagspawn_AD_HagSurrogateMotherStartScene_f0b0eeac-2db6-66f6-d910-0e704c238895, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, S_HAG_Hagspawn_SurrogateMother_08c970d7-3138-45e8-8965-68eadf4b07cd);
+
+IF
+TextEvent("HAG_SetupResurrection", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAG_TeaSceneOver();
+SetEntityEvent(_Var1, "DEBUG_HAG_SetupResurrection");
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

@@ -1,0 +1,124 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HiddenWallCount(0);
+
+KBSECTION
+IF
+FlagSet((FLAG)_Var1, _, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_HiddenWallEvent(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_OpenWall(_Var4);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HiddenWallItem(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CommentHiddenEffect(_Var1);
+PROC_OpenWall(_Var3);
+
+IF
+DB_HiddenWallTrigger(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_HW_CharCountInTrigger(_Var1, 0);
+
+IF
+EnteredTrigger(_, (TRIGGER)_Var2, _, _, _)
+AND
+DB_HiddenWallTrigger(_Var2, _Var3, _, _, _)
+AND
+DB_HW_CharCountInTrigger(_Var2, _Var4, _, _, _)
+AND
+IntegerSum(_Var4, 1, _Var5, _, _)
+THEN
+NOT DB_HW_CharCountInTrigger(_Var2, _Var4);
+DB_HW_CharCountInTrigger(_Var2, _Var5);
+
+IF
+LeftTrigger(_, (TRIGGER)_Var2, _, _, _)
+AND
+DB_HiddenWallTrigger(_Var2, _Var3, _, _, _)
+AND
+DB_HW_CharCountInTrigger(_Var2, _Var4, _, _, _)
+AND
+IntegerSubtract(_Var4, 1, _Var5, _, _)
+THEN
+NOT DB_HW_CharCountInTrigger(_Var2, _Var4);
+DB_HW_CharCountInTrigger(_Var2, _Var5);
+
+IF
+DB_HW_CharCountInTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 < 0
+THEN
+NOT DB_HW_CharCountInTrigger(_Var1, _Var2);
+DB_HW_CharCountInTrigger(_Var1, 0);
+
+IF
+DB_HW_CharCountInTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 > 0
+AND
+DB_HiddenWallTrigger(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_OpenWall(_Var3);
+
+IF
+DB_HW_CharCountInTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 == 0
+AND
+DB_HiddenWallTrigger(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CloseWall(_Var3);
+
+IF
+EntityEvent((ITEM)_Var1, "Open", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_HiddenWall(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_OpenWall(_Var2);
+
+PROC
+PROC_Register_HiddenWall((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_HiddenWall(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HiddenWallCount(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+NOT DB_HiddenWallCount(_Var3);
+DB_HiddenWallCount(_Var4);
+DB_HiddenWall(_Var4, _Var1);
+DB_HW_ClosedWalls(_Var4);
+
+PROC
+PROC_OpenWall((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_HW_ClosedWalls(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HiddenWall(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HW_ClosedWalls(_Var1);
+SetOnStage(_Var2, 0);
+
+PROC
+PROC_CloseWall((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_HW_ClosedWalls(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HiddenWall(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_HW_ClosedWalls(_Var1);
+SetOnStage(_Var2, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,595 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ORI_DarkUrge_FavouriteExcluded(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+DB_ORI_DarkUrge_FavouriteExcluded(S_Player_Minsc_0de603c5-42e2-4811-9dad-f652de080eba);
+DB_ORI_DarkUrge_FavouriteExcluded(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_ORI_DarkUrge_FavouriteExcluded(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+DB_ORI_DarkUrge_FavouriteExcluded(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101);
+DB_ORI_DarkUrge_FavouriteExcluded(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, ORI_DarkUrge_State_LeastFavouriteAstarion_108faa65-8980-4370-bd42-3eb850db753c);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, ORI_DarkUrge_State_LeastFavouriteGale_1d2d52ec-493b-4e8e-85bc-d2a156868078);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, ORI_DarkUrge_State_LeastFavouriteHalsin_ec79e3cf-b5c5-4bed-a035-37cda22b13d5);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, ORI_DarkUrge_State_LeastFavouriteJaheira_b8115729-8e87-46d1-b3a4-24821d8fbba7);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, ORI_DarkUrge_State_LeastFavouriteKarlach_67e3bac1-f4ec-4e37-a285-144bc61d51df);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, ORI_DarkUrge_State_LeastFavouriteLaezel_aca78d93-165e-4f17-aadf-2bf49e2f4737);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, ORI_DarkUrge_State_LeastFavouriteMinthara_81a4801f-61f0-485f-8d5d-cf5db375059c);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ORI_DarkUrge_State_LeastFavouriteShadowheart_412d0874-e55b-44c1-9f8d-bc3e97242e4a);
+DB_ORI_DarkUrge_LeastFavouriteFlags(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, ORI_DarkUrge_State_LeastFavouriteWyll_cd4e3012-118c-425d-a223-1bd538b5ac77);
+DB_ORI_DarkUrge_FavouriteKillCandidateFlag(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, ORI_DarkUrge_State_SparedIsobelWithAstarion_c2c08227-ae06-4f64-82e9-4ae221cdd123);
+DB_ORI_DarkUrge_FavouriteKillCandidateFlag(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, ORI_DarkUrge_State_SparedIsobelWithGale_a318c0cd-f261-41c9-88c9-3cddceb477b7);
+DB_ORI_DarkUrge_FavouriteKillCandidateFlag(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, ORI_DarkUrge_State_SparedIsobelWithKarlach_40ad195b-2fa2-492d-9fc5-359fb363c65d);
+DB_ORI_DarkUrge_FavouriteKillCandidateFlag(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, ORI_DarkUrge_State_SparedIsobelWithLaezel_bcd9eb6c-4537-442b-bc28-d7010b8d96ff);
+DB_ORI_DarkUrge_FavouriteKillCandidateFlag(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ORI_DarkUrge_State_SparedIsobelWithShadowheart_1dad6424-0946-45d5-a523-3428dd17c8e8);
+DB_ORI_DarkUrge_FavouriteKillCandidateFlag(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, ORI_DarkUrge_State_SparedIsobelWithWyll_150efcb9-0b87-4fbf-af6c-44fa3292fab7);
+
+KBSECTION
+IF
+ApprovalRatingChangeAttempt((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteExcluded(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteCharacter(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1);
+
+IF
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+IF
+DB_ApprovalRating(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+IF
+DB_ORI_Dating(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_ApprovalRating_Updating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+IF
+FlagCleared((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_, _Var1, _, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_, _Var1, _, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+IF
+FlagCleared((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_, _, _Var1, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_, _, _Var1, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+PROC
+PROC_ORI_DarkUrge_RecheckFavourite()
+AND
+DB_ApprovalRating(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteExcluded(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ApprovalRating_Updating(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var4
+AND NOT
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Dating(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Dating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var4, _Var2, _Var5, _Var1, _Var1)
+AND
+_Var3 > _Var5
+AND NOT
+QRY_ORI_DarkUrge_Favourite_IsPhantomApproval(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_ORI_DarkUrge_Favourite_IsPhantomApproval(_Var4, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_FavouriteCharacter(_Var4);
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1);
+
+PROC
+PROC_ORI_DarkUrge_RecheckFavourite()
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Dating(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteExcluded(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var1
+AND NOT
+DB_ORI_Partnered(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Dating(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_FavouriteCharacter(_Var1);
+DB_ORI_DarkUrge_FavouriteCharacter(_Var3);
+
+PROC
+PROC_ORI_DarkUrge_RecheckFavourite()
+AND
+DB_ApprovalRating(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteExcluded(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ApprovalRating_Updating(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var4
+AND NOT
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Dating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Dating(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var4, _Var2, _Var5, _Var1, _Var1)
+AND
+_Var3 > _Var5
+AND NOT
+QRY_ORI_DarkUrge_Favourite_IsPhantomApproval(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_ORI_DarkUrge_Favourite_IsPhantomApproval(_Var4, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_FavouriteCharacter(_Var4);
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1);
+
+PROC
+PROC_ORI_DarkUrge_RecheckFavourite()
+AND
+DB_ORI_Partnered(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteExcluded(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+NOT DB_ORI_DarkUrge_FavouriteCharacter(_Var3);
+DB_ORI_DarkUrge_FavouriteCharacter(_Var2);
+
+QRY
+QRY_ORI_DarkUrge_Favourite_IsPhantomApproval((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_FavouriteCharacter(_Var1);
+PROC_ORI_DarkUrge_FindNewDarkUrgeFavouriteCharacter();
+
+PROC
+PROC_ORI_DarkUrge_FindNewDarkUrgeFavouriteCharacter()
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteExcluded(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteCharacter(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_FavouriteCharacter(_Var2);
+
+PROC
+PROC_ORI_DarkUrge_FindNewDarkUrgeFavouriteCharacter()
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("ORI_DarkUrge_NewFavouritePerson", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Dating(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteExcluded(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_DarkUrge_NewFavouritePerson", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_FavouriteCharacter(_Var3);
+
+PROC
+PROC_ORI_DarkUrge_FindNewDarkUrgeFavouriteCharacter()
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteCharacter(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("ORI_DarkUrge_NewFavouritePerson", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteExcluded(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_DarkUrge_NewFavouritePerson", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_FavouriteCharacter(_Var3);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, _, _, _, (CHARACTER)_Var5, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogSpeakers(_Var7, _Var5, _, _Var1, _Var1)
+AND
+DB_DialogName(CAMP_DarkUrge_MurderOfAlfira_SD_BloodOnHands_06b3f254-a0ba-d0fb-d8f4-6e2541cb5a2c, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_DarkUrge_State_FavouriteExists_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_DarkUrge_State_FavouriteAvailable_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c);
+
+IF
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_DarkUrge_State_FavouriteExists_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_DarkUrge_State_FavouriteAvailable_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c);
+
+IF
+CharacterReservedUserIDChanged((CHARACTER)_Var1, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_DarkUrge_State_FavouriteAvailable_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c);
+
+IF
+DB_GlobalFlag(GLO_DarkUrge_State_FavouriteExists_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c, _, _, _, _)
+AND NOT
+DB_ORI_DarkUrge_FavouriteCharacter(_, _, _, _, _)
+THEN
+ClearFlag(GLO_DarkUrge_State_FavouriteAvailable_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c);
+
+IF
+DB_GlobalFlag(GLO_DarkUrge_State_FavouriteExists_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_DarkUrge_State_FavouriteAvailable_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c);
+
+IF
+DB_GlobalFlag(GLO_DarkUrge_State_FavouriteExists_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_DarkUrge_State_FavouriteAvailable_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c);
+
+IF
+DB_GlobalFlag(GLO_DarkUrge_State_FavouriteExists_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SameUser(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_DarkUrge_State_FavouriteAvailable_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c);
+
+IF
+CharacterReservedUserIDChanged((CHARACTER)_Var1, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(GLO_DarkUrge_State_FavouriteExists_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SameUser(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_DarkUrge_State_FavouriteAvailable_a1fbabc2-e7d7-4cb1-91ee-a24b744bef1c);
+
+IF
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+IF
+ApprovalRatingChangeAttempt((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Dating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_LeastFavouriteFlags(_Var1, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1);
+
+PROC
+PROC_ORI_DarkUrge_RecheckFavourite()
+AND
+DB_ApprovalRating(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Dating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_LeastFavouriteFlags(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_ApprovalRating_Updating(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var5
+AND
+DB_ApprovalRating(_Var5, _Var2, _Var6, _Var1, _Var1)
+AND
+_Var3 < _Var6
+AND NOT
+QRY_ORI_DarkUrge_Favourite_IsPhantomApproval(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_ORI_DarkUrge_Favourite_IsPhantomApproval(_Var5, _Var6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var5);
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1);
+
+QRY
+QRY_ORI_DarkUrge_LeastFavourite_HasHigherApproval((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 > _Var2
+THEN
+DB_NOOP(1);
+
+IF
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1);
+PROC_ORI_DarkUrge_FindNewDarkUrgeLeastFavouriteCharacter();
+
+PROC
+PROC_ORI_DarkUrge_FindNewDarkUrgeLeastFavouriteCharacter()
+AND
+QRY_OnlyOnce_Reset("ORI_DarkUrge_NewLeastFavouritePerson", _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Dating(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_LeastFavouriteFlags(_Var2, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_DarkUrge_NewLeastFavouritePerson", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var2);
+
+IF
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1);
+PROC_ORI_DarkUrge_FindNewDarkUrgeLeastFavouriteCharacter();
+
+IF
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1);
+PROC_ORI_DarkUrge_FindNewDarkUrgeLeastFavouriteCharacter();
+
+IF
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_LeastFavouriteFlags(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2);
+
+IF
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_LeastFavouriteFlags(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_LeastFavouriteCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1);
+
+IF
+FlagSet(ORI_DarkUrge_Event_KillFavouriteCharacter_65863750-e926-1f14-a3da-cda0b6ad1863, _, (INTEGER)_Var2, _, _)
+AND
+_Var2 != 0
+AND
+DB_DialogSpeakers(_Var2, _Var3, 2, _, _)
+AND
+DB_ORI_DarkUrge(_Var4, _, _, _, _)
+THEN
+DB_DialogDeath(_Var3);
+DB_Camp_QueuedMorningIVB(CAMP_GD_SparedIsobel_IVB_AfterMurder_322898bd-dec2-222f-a78b-25ebb4e0fcfc, _Var4);
+Die(_Var3, 0, _Var4, 0, 1, 0);
+PROC_Origins_CompanionLeavePermanently(_Var3, "Killed");
+PROC_ORI_DarkUrge_DeathRitualCircle(_Var3);
+DB_Camp_StayInCampAfterLongRest(1);
+DB_CorpseCleanup_Ignore(_Var3);
+
+IF
+FlagSet(ORI_DarkUrge_Event_KillFavouriteCharacter_65863750-e926-1f14-a3da-cda0b6ad1863, _, 0, _, _)
+AND
+DB_Camp_NightMode(1, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var2, _, _, _, _)
+AND
+DB_Camp_QueuedNight(NIGHT_DarkUrge_SparedIsobel_bc8b660e-33e9-44f7-9bc2-b869db5ac1f8, _, _, _, _)
+THEN
+DB_Camp_QueuedMorningIVB(CAMP_GD_SparedIsobel_IVB_AfterMurder_322898bd-dec2-222f-a78b-25ebb4e0fcfc, _Var2);
+
+IF
+FlagSet(ORI_DarkUrge_Event_KillFavouriteCharacter_65863750-e926-1f14-a3da-cda0b6ad1863, _, 0, _, _)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var2, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+Die(_Var2, 0, _Var3, 0, 1, 0);
+PROC_Origins_CompanionLeavePermanently(_Var2, "Killed");
+
+IF
+DialogStarted(CAMP_DarkUrge_SparedIsobel_SD_6971c0fa-ab56-41a4-a841-579d744d747e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_ORI_DarkUrge_FavouriteCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_FavouriteKillCandidateFlag(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var3, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(ORI_DarkUrge_Event_KillFavouriteCharacter_65863750-e926-1f14-a3da-cda0b6ad1863, _, (INTEGER)_Var2, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+IF
+FlagSet(NIGHT_DarkUrge_KilledIsobel_c46aba07-a156-4bcd-a2da-3411651f28c2, _, (INTEGER)_Var2, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+IF
+FlagSet(ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_ORI_DarkUrge_FavouriteExcluded(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+PROC_ORI_DarkUrge_RecheckFavourite();
+
+
+EXITSECTION
+SysClear("DB_ORI_DarkUrge_FavouriteExcluded", 1);
+SysClear("DB_ORI_DarkUrge_LeastFavouriteFlags", 2);
+SysClear("DB_ORI_DarkUrge_FavouriteKillCandidateFlag", 2);
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_DarkUrge_SetupSubgoals"

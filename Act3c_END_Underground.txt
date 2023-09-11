@@ -1,0 +1,191 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_END_SewerGrateEntryADBox_4d538d3c-403f-4a4e-8d4a-f41d5920455c);
+PROC_TriggerRegisterForPlayers(S_END_EathquakesAndRoarsArea_b6b738ea-0b22-4d11-8a3f-7514d2b29a9e);
+PROC_TriggerRegisterForParty(S_END_Underground_MainArea_6b369032-9224-461a-adb6-13d48e3c669c);
+TriggerRegisterForCharacter(S_END_Underground_MainArea_6b369032-9224-461a-adb6-13d48e3c669c, S_END_LootingGoblins_DoomedGoobo_d1c792f9-e0c1-4815-8732-7efae250ead2);
+SetCombatGroupID(S_END_LootingGoblins_DoomedGoobo_d1c792f9-e0c1-4815-8732-7efae250ead2, "END_Underground_LonelySearchingPod1");
+DB_END_Underground_Rats(S_END_Underground_CraniumRat_01_48e88717-0014-4a56-91f1-ba22bebcfee4);
+DB_END_Underground_Rats(S_END_Underground_CraniumRat_02_640f7818-19e2-4701-874c-e666c8edfe5d);
+DB_END_Underground_Rats(S_END_Underground_CraniumRat_03_bb1b1cbf-ca8c-4d00-a1ee-05bedbd361cc);
+DB_END_Underground_FirstGroup(S_END_LootingGoblin_001_7d55edfb-e760-4614-a1b6-8adcd73b0eaf);
+DB_END_Underground_FirstGroup(S_END_DrowOverseer_c651e22b-3c80-4d20-9e63-1e6c56e75644);
+DB_END_Underground_AlertedSearchers(S_END_DriderSearcher_6470d294-1bf3-4057-acad-8a86041867ed);
+DB_END_Underground_AlertedSearchers(S_END_Underground_Necromite_01_e72b443b-42ef-4abe-9521-4826d8d4a163);
+DB_END_Underground_AlertedSearchers(S_END_Underground_Necromite_02_4d38ac87-7c48-4340-b8e4-c64e3d172420);
+DB_END_Underground_AlertedSearchers(S_END_Underground_Necromite_03_413620f7-b18e-474d-a7ca-3936d371b870);
+DB_END_Underground_AlertedSearchers(S_END_GoblinSearcher_002_1bc4898e-4a86-4afd-b51f-ecdcd9bca6b6);
+DB_END_Underground_AlertedSearchers(S_END_DrowSearcher_02_7ea9230e-21c1-4006-92b5-4c2394ceb890);
+DB_END_Underground_AlertedSearchers(S_END_MindflayerUnderground_1f2231d9-160b-47ff-ac71-bbb93d412357);
+DB_END_Underground_AlertedSearchers(S_END_DrowSearcher_01_ae163003-75f6-4d98-a977-3773137b3e41);
+DB_END_Underground_AlertedSearchers(S_END_GoblinSearcher_001_73fbdd39-2b3a-4408-8469-3c9665195ce5);
+DB_END_Underground_PatrolFollowers(S_END_DriderSearcher_6470d294-1bf3-4057-acad-8a86041867ed, S_END_Underground_Necromite_01_e72b443b-42ef-4abe-9521-4826d8d4a163);
+DB_END_Underground_PatrolFollowers(S_END_DriderSearcher_6470d294-1bf3-4057-acad-8a86041867ed, S_END_Underground_Necromite_02_4d38ac87-7c48-4340-b8e4-c64e3d172420);
+DB_END_Underground_PatrolFollowers(S_END_DriderSearcher_6470d294-1bf3-4057-acad-8a86041867ed, S_END_Underground_Necromite_03_413620f7-b18e-474d-a7ca-3936d371b870);
+
+KBSECTION
+IF
+EnteredTrigger((CHARACTER)_Var1, S_END_EathquakesAndRoarsArea_b6b738ea-0b22-4d11-8a3f-7514d2b29a9e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CameraShakeAroundObject(_Var1, 4000, 30);
+ObjectTimerLaunch(_Var1, "END_Underground_DragonFlyBy_Sound", 1000);
+PROC_TriggerUnregisterForPlayers(S_END_EathquakesAndRoarsArea_b6b738ea-0b22-4d11-8a3f-7514d2b29a9e);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "END_Underground_DragonFlyBy_Sound", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlaySound(_Var1, "Dragon_Rig_DFLT_CUST_Fly_Over_01_Roar");
+
+IF
+DB_END_Underground_FirstGroup(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "END_Underground_SearchersGroup");
+
+IF
+DB_END_Underground_AlertedSearchers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "END_Underground_SearchersGroup");
+
+IF
+DB_END_Underground_Rats(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_END_Underground_AllGroups(_Var1);
+
+IF
+DB_END_Underground_FirstGroup(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_END_Underground_AllGroups(_Var1);
+
+IF
+DB_END_Underground_AlertedSearchers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_END_Underground_AllGroups(_Var1);
+
+IF
+DB_END_Underground_PatrolFollowers(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_END_Underground_AllGroups(_Var1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_END_SewerGrateEntryADBox_4d538d3c-403f-4a4e-8d4a-f41d5920455c, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TryStartAD(END_Underground_PAD_StealthAdvisory_1b2d1481-6fed-c6ca-8e4a-efc3d0a32e13, _Var1);
+PROC_TriggerUnregisterForPlayers(S_END_SewerGrateEntryADBox_4d538d3c-403f-4a4e-8d4a-f41d5920455c);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_END_Underground_MainArea_6b369032-9224-461a-adb6-13d48e3c669c, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TryStartAD(END_Underground_AD_NetherbrainPsionicWarning_0c09cc9f-4ac0-e02f-197d-bbda363eb469, _Var1);
+SetEntityEventReal(_Var1, "GLO_CombatWait", 2.5);
+TriggerUnregisterForCharacter(S_END_Underground_MainArea_6b369032-9224-461a-adb6-13d48e3c669c, _Var1);
+SetFlag(END_Underground_GoblinCalledForAid_efd1a259-a1e8-4972-8e48-02c00308de97);
+PROC_END_Underground_CallForHelp(_Var1);
+
+PROC
+PROC_END_Underground_CallForHelp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetCombatGroupID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_END_Underground_AllGroups(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+IsInCombat(_Var3, 0, _Var1, _Var1, _Var1)
+AND
+_Var4 < 12
+THEN
+SetCombatGroupAndEnterCombat(_Var3, _Var2, _Var1);
+
+PROC
+PROC_END_Underground_CallForHelp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetCombatGroupID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_END_Underground_AllGroups(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInCombat(_Var3, 0, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+_Var4 >= 12
+THEN
+DB_END_Underground_CallForHelp_Caller(_Var1, _Var2);
+PROC_CharacterMoveTo(_Var3, S_END_Underground_GoblinHelpPoint_94b6be6d-ccd1-4123-a47f-479e3b957575, "Run", "END_Underground_CallForHelp_MoveEnded");
+
+IF
+EntityEvent((CHARACTER)_Var1, "END_Underground_CallForHelp_MoveEnded", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_Underground_CallForHelp_Caller(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupAndEnterCombat(_Var1, _Var3, _Var2);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_Underground_AllGroups(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var1, ACT3_END_HighHallAbsolutists_aeffb3e9-0b6c-43ab-9bc9-0928c24c30a2);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_END_Underground_MainArea_6b369032-9224-461a-adb6-13d48e3c669c, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_END_Underground_AllGroups(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var2, ACT3_END_HighHallAbsolutists_aeffb3e9-0b6c-43ab-9bc9-0928c24c30a2);
+PROC_TriggerUnregisterForParty(S_END_Underground_MainArea_6b369032-9224-461a-adb6-13d48e3c669c);
+
+PROC
+PROC_LevelLoadedOnce("END_Main", _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Origin_PartOfTheTeam_Minthara_fa0e4e0b-08f9-4094-bfed-5205481c683c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _, _)
+THEN
+TeleportTo(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, S_END_MintharaPoint_8633b4e5-c09a-40e9-83cc-415aef60fa21);
+SetOnStage(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 1);
+SetFaction(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, ACT3_END_HighHallAbsolutists_aeffb3e9-0b6c-43ab-9bc9-0928c24c30a2);
+DEV_EnableAnubis(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, "END_UndergroundMinthara");
+DB_END_Underground_AllGroups(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+IF
+UseStarted((CHARACTER)_Var1, S_END_SewerDoorLever_9d3821d7-38e4-4a8c-8192-413c6f97cd0e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+Open(S_END_SewerDoor_1d71fc3e-7696-45cc-8df8-5a90d148922c);
+
+IF
+DB_END_Underground_PatrolFollowers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetForceUpdate(_Var2, 1);
+PROC_Follow(_Var2, _Var1);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_Underground_PatrolFollowers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetForceUpdate(_Var1, 0);
+SetForceUpdate(_Var2, 0);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_Underground_PatrolFollowers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_END_Underground_PatrolFollowers(_Var1, _Var2);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_END_Underground_PatrolFollowers(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetForceUpdate(_Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3c"

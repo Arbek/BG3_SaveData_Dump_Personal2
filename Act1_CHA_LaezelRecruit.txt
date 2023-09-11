@@ -1,0 +1,2420 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CHA_LaezelRecruit_Cager(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, 2, CHA_LaezelRecruitment_State_Tiefling1Missing_d40bbf05-3884-42aa-b639-c20697703d6d);
+DB_CHA_LaezelRecruit_Cager(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, 3, CHA_LaezelRecruitment_State_Tiefling2Missing_d6342f1d-f875-460a-b6eb-769c8790c86b);
+DB_CHA_LaezelRecruit_CagerDeathPoint(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, S_CHA_CagerDeathPoint1_eddeb431-6a81-4f64-a333-0de764b5f7cb);
+DB_CHA_LaezelRecruit_CagerDeathPoint(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, S_CHA_CagerDeathPoint2_418d83b8-eaa0-45e5-a371-aaa13ce79484);
+PROC_TriggerRegisterForPlayers(S_CHA_LaezelControlBox_cc892a8d-edd0-481d-bc03-2ebcb34c6ce2);
+PROC_TriggerRegisterForPlayers(S_CHA_LaezelSceneBox_91215202-bfee-459e-a887-ad096e462046);
+DB_CHA_LaezelRecruit_Updates("Attacked", "AttackedAlt");
+DB_CHA_LaezelRecruit_Updates("ReleasedEarly", "ReleasedEarlyAlt");
+DB_CHA_LaezelRecruit_TieflingsDefeated(0, "TieflingsDefeated");
+DB_CHA_LaezelRecruit_TieflingsDefeated(1, "Freed");
+DB_CHA_LaezelRecruit_DeathAD(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, CHA_LaezelRecruitment_AD_OtherDied1_e24afd2d-1b3d-378c-6c5a-d3b48463c681);
+DB_CHA_LaezelRecruit_DeathAD(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, CHA_LaezelRecruitment_AD_OtherDied2_edac3a63-4c29-24e5-4bdc-536e124cf700);
+DB_GLO_Cinematic_PositionedDialog(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, "CHA_LaezelRecruit");
+DB_GLO_Cinematic_PositionFlags("CHA_LaezelRecruit", S_CHA_LaezelRecruit_FromWagonBox_69923808-8065-4517-b6b2-7e29b43d9365, CHA_LaezelRecruitment_Event_WagonPosition_694a4d7b-e54b-4436-8be0-1cd80007b47b);
+DB_GLO_Cinematic_PositionFlags("CHA_LaezelRecruit", S_CHA_LaezelRecruit_FromArchBox_a4298583-97b6-44f9-83bc-c720ca4944e4, CHA_LaezelRecruitment_Event_ArchPosition_2d2c98e3-856a-4681-85cf-a3c46cd175f9);
+
+KBSECTION
+IF
+TextEvent("LZdiedTUT", _, _, _, _)
+THEN
+PROC_CRA_LaezelRecruit_DebugInit();
+
+PROC
+PROC_CRA_LaezelRecruit_DebugInit()
+AND
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_PrioTalkTo(_Var1);
+
+PROC
+PROC_CRA_LaezelRecruit_DebugInit()
+THEN
+NOT DB_CRA_LaezelRecruit_LeaveOutOfSight(1);
+NOT DB_CHA_LaezelRecruitment_RecruitDialogStarted(1);
+PROC_TriggerUnregisterForPlayers(S_CRA_LaezelResurrectSphere_15341d9b-c8d8-4516-87ac-d414d61bab0b);
+TeleportTo(S_CRA_LaezelResurrectSphere_15341d9b-c8d8-4516-87ac-d414d61bab0b, S_PLA_GithBridgeEndPosTrigger_3dfeb29c-1e3c-4d13-89d5-a2a766c4b13e, "", 0, 0, 0);
+PROC_GlobalClearFlagAndCache(ORI_LaezelRecruitment_Event_CrashVersionDone_df73c46d-ed94-47de-be8b-36df1dbd973f);
+PROC_GlobalClearFlagAndCache(ORI_Laezel_Resurrection_HasMet_84fc0271-6af4-d318-d600-ca4d9a0091d8);
+PROC_CHA_LaezelRecruit_ResolveScene();
+Die(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+TeleportTo(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_TUT_GuideDeath_11989862-14e9-44e1-877f-f99c05d574f8, "", 0, 0, 0);
+SetOnStage(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+PROC_CHA_LaezelRecruit_InitNPC_CrashVersion();
+
+IF
+TextEvent("LZdiedTUTtoGC", _, _, _, _)
+THEN
+ClearFlag(ORI_LaezelRecruitment_State_PlainsVersionInitiated_59bda4f5-708b-4f23-aaba-d5f387ae95c2, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CRA_LaezelRecruit_DebugInit();
+TeleportTo(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_PLA_LaezelRecruitPoint_9f9daa3c-b446-4d03-a2a1-0a9383adccbe);
+
+IF
+TextEvent("recruitlaezel", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DIALOGRESOURCEGUID_DebugBook_3af7dec4-4c08-9e44-9064-ec038ebad0ea, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("recruitlaezel", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+TeleportTo(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1);
+PROC_GLO_PartyMembers_Add(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1);
+SetFlag(SetPreset_Default_7eabc516-c15c-46ff-a99d-60d4a9f7037e, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+PROC_CHA_LaezelRecruit_InitPlayer(1);
+
+IF
+TextEvent("tplaezelcombatout", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CHA_LaezelSceneBox_91215202-bfee-459e-a887-ad096e462046, 1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var3, S_Debug_Chapel_0dfa6e6c-599c-47d4-84e1-3bffc7c8839b);
+
+IF
+TextEvent("tplaezelcombatfar", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CHA_LaezelSceneBox_91215202-bfee-459e-a887-ad096e462046, 1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var3, S_CHA_Debug_LaezelRecruitPoint_22095e5a-57af-438e-a303-6c5a38b2cef8);
+
+IF
+TextEvent("tplaezelothernear", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CHA_LaezelControlBox_cc892a8d-edd0-481d-bc03-2ebcb34c6ce2, 1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var3, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var3, S_CHA_LaezelOutPoint_ec8e8914-775c-42c7-a372-46d118ddcec7);
+
+IF
+TextEvent("tpbandittolz", _, _, _, _)
+THEN
+Die(S_CHA_Exterior_Bandit_Caster_01_0f4300f6-0e1e-4d6c-a582-5da588d64ea7, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+Die(S_CHA_Exterior_Bandit_Melee_02_b5c913f9-f081-45bd-8e95-e34d0735b645, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+Die(S_CHA_Exterior_Bandit_Ranger_01_fa1a1fbd-2152-40e4-b53d-29e95d54279e, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+TeleportTo(S_CHA_Exterior_Bandit_Melee_01_538e38b9-e3a4-452a-8369-60eb1fe8c40d, S_CHA_LaezelRecruit_FromArchBox_a4298583-97b6-44f9-83bc-c720ca4944e4);
+
+IF
+TextEvent("leavewithlaezel", _, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_Init");
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("WLD_Main_A", _, _, _, _)
+THEN
+TimerLaunch("ORI_Laezel_InitialSetup_AfterTutorial", 500);
+
+IF
+TimerFinished("ORI_Laezel_InitialSetup_AfterTutorial", _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_Init();
+
+PROC
+PROC_CHA_LaezelRecruit_Init()
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+IsDead(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_InitNPC_ChapelVersion();
+
+PROC
+PROC_CHA_LaezelRecruit_Init()
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+IsDead(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_InitNPC_CrashVersion();
+PROC_CHA_LaezelRecruit_InitPlayer(1);
+
+PROC
+PROC_CHA_LaezelRecruit_Init()
+AND
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+PROC_CRA_LaezelRecruit_EndCrashVersion();
+PROC_CHA_LaezelRecruit_InitPlayer(1);
+
+PROC
+PROC_CHA_LaezelRecruit_Init()
+AND NOT
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+PROC_CRA_LaezelRecruit_EndCrashVersion();
+PROC_CHA_LaezelRecruit_InitPlayer(0);
+
+PROC
+PROC_CHA_LaezelRecruit_InitNPC_ChapelVersion()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+DB_SceneManager(_Var1, "CHA_LaezelTieflings");
+
+PROC
+PROC_CHA_LaezelRecruit_InitNPC_ChapelVersion()
+THEN
+PROC_CRA_LaezelRecruit_EndCrashVersion();
+TriggerRegisterForCharacter(S_PLA_NPCInterruptionBox_198849d7-7f06-4520-a9e6-1ddedfe38660, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+SetFlag(ORI_LaezelRecruitment_State_ChapelVersionInitiated_e6015bdf-276e-47b2-9a43-9bc0c981e1ad, NULL_00000000-0000-0000-0000-000000000000);
+PROC_GLO_Origins_SetRecruitmentDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, Laezel_Recruitment_InCage_131cf573-180d-5307-6d6e-6a369319e161);
+PROC_TriggerRegisterForPlayers(S_PLA_UpdateLaezelRecruitBox_1a1deda3-7203-4e57-a017-7ccb1c6ed181);
+DB_CHA_LaezelRecruit_CagerJump(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, S_CHA_CagerJumpStart1_c7627758-d59a-47b8-9b21-5ddb85159a6a, S_CHA_CagerJumpTarget1_b6905a58-cb78-4d48-9545-007d87f6fbda);
+DB_CHA_LaezelRecruit_CagerJump(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, S_CHA_CagerJumpStart2_3b2c2e88-26e4-4f65-bf3f-8f018a558323, S_CHA_CagerJumpTarget2_a87f6957-45a7-4bbd-8bcf-d7ecbcf462a2);
+SetOwner(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea);
+DB_SceneTriggerManager("CHA_LaezelTieflings", S_CHA_LaezelSceneBox_91215202-bfee-459e-a887-ad096e462046, 0);
+DB_SceneManager(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelTieflings");
+TeleportTo(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_CHA_LaezelStartPoint_26e040b6-4bab-45b3-b34a-cfc49417a95d);
+FlushOsirisQueue(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+TriggerRegisterForCharacter(S_CHA_CageBox_2de737cb-3353-444d-81dc-ce9a170a6837, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+PROC_TriggerRegisterForPlayers(S_CHA_SceneStartSphere_0ed6e6c4-890b-4523-ba9b-815e314de8cd);
+PROC_TriggerRegisterForPlayers(S_CHA_LaezelProximityBox_5ddb309f-8ceb-4517-8465-16e5c850faf8);
+DB_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_TieflingsHostile_856bc630-9ad2-d2ed-db8c-7baafee77404, CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4);
+DB_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f, CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4);
+DB_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_TieflingsGetLaezel_5e8867b9-67e5-dc2d-934f-4471a25a5ddf, CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4);
+DB_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_TieflingsHostile_856bc630-9ad2-d2ed-db8c-7baafee77404, CHA_LaezelRecruitment_PickASide_8780ce61-d16e-79c1-82cc-5d65b9894dd4);
+DB_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_LaezelHostile_510657f4-4dd5-4b51-16bd-707942066182, CHA_LaezelRecruitment_PickASide_8780ce61-d16e-79c1-82cc-5d65b9894dd4);
+DB_CHA_LaezelRecruit_AllowAD(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f);
+DB_CHA_LaezelRecruit_AllowAD(CHA_LaezelRecruitment_Event_TieflingsHostile_856bc630-9ad2-d2ed-db8c-7baafee77404);
+PROC_SetCanFight(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+SetCanJoinCombat(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+DB_CustomDialogRange(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 14);
+RemoveHarmfulStatuses(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+ApplyStatus(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LAEZELRECRUIT_IGNOREFALLDAMAGE", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_CHA_LaezelRecruit_IgnoringFallDamage(1);
+ApplyStatus(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "GROUNDED", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_CHA_LaezelRecruitment_StartRecruitmentDialogFlag(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f);
+DB_CHA_LaezelRecruitment_StartRecruitmentDialogFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0);
+DB_CHA_LaezelRecruitment_StartRecruitmentDialogFlag(CHA_LaezelRecruitment_State_CagersAreDead_80d4178f-e95f-41dd-a17c-5f757481331f);
+SetFlag(CHA_LaezelRecruitment_State_PlayerDidntHelpLaezel_6ed97f29-00b3-4341-a866-dc8cac2a0c82, NULL_00000000-0000-0000-0000-000000000000);
+DB_DialogBlockAttackButton(CHA_LaezelRecruitment_PickASide_8780ce61-d16e-79c1-82cc-5d65b9894dd4);
+DB_DialogBlockTradeButton(CHA_LaezelRecruitment_PickASide_8780ce61-d16e-79c1-82cc-5d65b9894dd4);
+DB_DialogBlockAttackButton(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4);
+DB_DialogBlockTradeButton(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4);
+DB_Dialogs_DialogBlockStatusesDialogOverride(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, CHA_LaezelRecruitment_TieflingsSceneFallback_56ac7209-f467-1aef-b522-8695ac5b682d);
+DB_IgnoreMutingStatussesDialog(CHA_LaezelRecruitment_TieflingsSceneFallback_56ac7209-f467-1aef-b522-8695ac5b682d);
+
+PROC
+PROC_CHA_LaezelRecruit_InitNPC_ChapelVersion()
+AND
+GetHitpointsPercentage(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 < 80
+THEN
+SetHitpointsPercentage(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 80);
+
+PROC
+PROC_CHA_LaezelRecruit_InitNPC_ChapelVersion()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 0);
+
+PROC
+PROC_CHA_LaezelRecruit_InitNPC_ChapelVersion()
+THEN
+DB_DefeatedEvent(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, CHA_LaezelRecruitment_State_NymessaIsDefeated_fa1ecbcf-2927-8f5a-e269-f18446b212ef);
+DB_CHA_LaezelRecruit_ReturningADs(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, CHA_LaezelRecruitment_AD_ReturnAnyCombat2_fc919d64-0a3d-1daf-29d5-7d38fb357790);
+DB_CHA_LaezelRecruit_ReturningADs(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, CHA_LaezelRecruitment_AD_ReturnAnyCombat1_7336f7d2-b120-88eb-ba80-62d659f50833);
+DB_CHA_LaezelRecruit_LeavingADs(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, CHA_LaezelRecruitment_AD_LeavingAnyCombat2_bc21359b-6a27-8e5e-9ad0-798d1d75c111);
+DB_CHA_LaezelRecruit_LeavingADs(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, CHA_LaezelRecruitment_AD_LeavingAnyCombat1_527a8a6f-df2a-52b6-46c7-09469c30fd3c);
+DB_SpotPlayers(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, "CHA_LaezelRecruit_TieflingSpot", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, "CHA_LaezelRecruit_TieflingSpot", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_Continuous(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, "CHA_LaezelRecruit_TieflingSpot");
+DB_SpotPlayers_Continuous(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, "CHA_LaezelRecruit_TieflingSpot");
+
+PROC
+PROC_CHA_LaezelRecruit_ClearEdgeCaseDB()
+THEN
+NOT DB_CHA_LaezelRecruit_ReturningADs(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, CHA_LaezelRecruitment_AD_ReturnAnyCombat2_fc919d64-0a3d-1daf-29d5-7d38fb357790);
+NOT DB_CHA_LaezelRecruit_ReturningADs(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, CHA_LaezelRecruitment_AD_ReturnAnyCombat1_7336f7d2-b120-88eb-ba80-62d659f50833);
+NOT DB_CHA_LaezelRecruit_LeavingADs(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, CHA_LaezelRecruitment_AD_LeavingAnyCombat2_bc21359b-6a27-8e5e-9ad0-798d1d75c111);
+NOT DB_CHA_LaezelRecruit_LeavingADs(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, CHA_LaezelRecruitment_AD_LeavingAnyCombat1_527a8a6f-df2a-52b6-46c7-09469c30fd3c);
+NOT DB_SpotPlayers(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, "CHA_LaezelRecruit_TieflingSpot", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SpotPlayers(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, "CHA_LaezelRecruit_TieflingSpot", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_SpotPlayers_Continuous(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, "CHA_LaezelRecruit_TieflingSpot");
+NOT DB_SpotPlayers_Continuous(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, "CHA_LaezelRecruit_TieflingSpot");
+
+PROC
+PROC_CHA_LaezelRecruit_InitNPC_ChapelVersion()
+THEN
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "SceneStart");
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "SceneStart", 0);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "OpeningCage", 50);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_Init", 100);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_OpenCage", 110);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelFell", 120);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_TieflingsInPosition", 130);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelAttacks", 140);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "PickASide", 150);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", 175);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "TieflingsLeavingAlone", 200);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "Hostile", 300);
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "Finished", 400);
+DB_CHA_LaezelRecruit_LeavingStates("LeavingWithLaezel_Init");
+DB_CHA_LaezelRecruit_LeavingStates("LeavingWithLaezel_OpenCage");
+DB_CHA_LaezelRecruit_LeavingStates("LeavingWithLaezel_LaezelFell");
+DB_CHA_LaezelRecruit_LeavingStates("LeavingWithLaezel_TieflingsInPosition");
+DB_CHA_LaezelRecruit_LeavingStates("LeavingWithLaezel_LaezelAttacks");
+
+PROC
+PROC_CHA_LaezelRecruit_InitPlayer((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_CHA_LaezelRecruit_CheckAutoResolveScene();
+
+PROC
+PROC_CHA_LaezelRecruit_InitPlayer(0, _, _, _, _)
+THEN
+DB_OnlyOnce("CHA_LaezelRecruit_LeavesCage");
+SetFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_SetCanFight(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+SetCanJoinCombat(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "Finished");
+
+PROC
+PROC_CHA_LaezelRecruit_InitNPC_CrashVersion()
+THEN
+PROC_GlobalSetFlagAndCache(ORI_LaezelRecruitment_State_CrashVersionInitiated_a80f2bd8-ffa1-4065-a92a-d01d59907637);
+PROC_GLO_Origins_SetRecruitmentDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, Laezel_Recruitment_Crash_623fcc21-96e1-79c2-5d06-9e48f3a378b3);
+PROC_TriggerRegisterForPlayers(S_PLA_UpdateLaezelRecruitBox_1a1deda3-7203-4e57-a017-7ccb1c6ed181);
+TriggerRegisterForCharacter(S_PLA_NPCInterruptionBox_198849d7-7f06-4520-a9e6-1ddedfe38660, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+PROC_SelfHealing_Disable(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+IF
+DB_GlobalFlag(ORI_LaezelRecruitment_State_CrashVersionInitiated_a80f2bd8-ffa1-4065-a92a-d01d59907637, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Laezel_State_CaringAboutZorru_05c85d1f-11e6-4219-a047-901b958c3578, _, _, _, _)
+THEN
+PROC_ORI_Laezel_StopCaringAboutZorru();
+
+IF
+UsingSpellOnTarget(_, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "Teleportation_Revivify_Scroll", _, _, _, _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var5, _, _, _, _)
+THEN
+NOT DB_CHA_LaezelRecruit_PrioTalkTo(_Var5);
+
+IF
+UsingSpellOnTarget((CHARACTER)_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "Teleportation_Revivify_Scroll", _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_LaezelRecruitment_State_CrashVersionInitiated_a80f2bd8-ffa1-4065-a92a-d01d59907637, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_Resurrection_HasMet_84fc0271-6af4-d318-d600-ca4d9a0091d8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_LaezelRecruitment_Event_CrashVersionDone_df73c46d-ed94-47de-be8b-36df1dbd973f, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var1);
+SetFlag(CRA_LaezelRecruitment_State_ResurrectedLaezel_a45fa5c8-7e74-4ea3-846c-018f0e01733f, _Var1);
+
+IF
+Resurrected(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_LaezelRecruitment_State_CrashVersionInitiated_a80f2bd8-ffa1-4065-a92a-d01d59907637, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_LaezelRecruitment_Event_CrashVersionDone_df73c46d-ed94-47de-be8b-36df1dbd973f, _, _, _, _)
+AND NOT
+QRY_CRA_LaezelRecruit_BlockCRAVersion()
+THEN
+TeleportTo(S_CRA_LaezelResurrectSphere_15341d9b-c8d8-4516-87ac-d414d61bab0b, S_PLA_GithBridgeEndPosTrigger_3dfeb29c-1e3c-4d13-89d5-a2a766c4b13e, "", 0, 0, 0);
+PROC_TriggerRegisterForPlayers(S_CRA_LaezelResurrectSphere_15341d9b-c8d8-4516-87ac-d414d61bab0b);
+TeleportTo(S_CRA_LaezelResurrectSphere_15341d9b-c8d8-4516-87ac-d414d61bab0b, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "", 0, 0, 0);
+TimerLaunch("CRA_LaezelRecruit_StartResurrectDialog", 4100);
+
+IF
+TimerFinished("CRA_LaezelRecruit_StartResurrectDialog", _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_Resurrection_HasMet_84fc0271-6af4-d318-d600-ca4d9a0091d8, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_LaezelRecruitment_Event_CrashVersionDone_df73c46d-ed94-47de-be8b-36df1dbd973f, _, _, _, _)
+AND
+QRY_SpeakerIsAvailable(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_StartRecruitDialog(Laezel_Recruitment_Crash_623fcc21-96e1-79c2-5d06-9e48f3a378b3);
+
+IF
+DialogStarted(Laezel_Recruitment_Crash_623fcc21-96e1-79c2-5d06-9e48f3a378b3, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_CHA_LaezelRecruitment_RecruitDialogStarted(1);
+
+IF
+Died(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_CRA_LaezelResurrectSphere_15341d9b-c8d8-4516-87ac-d414d61bab0b);
+
+PROC
+PROC_GLO_PartyMembers_Add(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_TriggerUnregisterForPlayers(S_PLA_UpdateLaezelRecruitBox_1a1deda3-7203-4e57-a017-7ccb1c6ed181);
+TriggerUnregisterForCharacter(S_PLA_NPCInterruptionBox_198849d7-7f06-4520-a9e6-1ddedfe38660, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+PROC_CRA_LaezelRecruit_EndCrashVersion();
+
+IF
+FlagSet(ORI_LaezelRecruitment_Event_InvitedToCamp_5ac352a5-58c2-a8ed-1957-199d8bc284da, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_TriggerUnregisterForPlayers(S_PLA_UpdateLaezelRecruitBox_1a1deda3-7203-4e57-a017-7ccb1c6ed181);
+TriggerUnregisterForCharacter(S_PLA_NPCInterruptionBox_198849d7-7f06-4520-a9e6-1ddedfe38660, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+PROC_CRA_LaezelRecruit_EndCrashVersion();
+
+IF
+DB_CRA_LaezelRecruit_LeaveOutOfSight(1, _, _, _, _)
+AND
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+PROC_CRA_LaezelRecruit_EndCrashVersion();
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_CRA_LaezelResurrectSphere_15341d9b-c8d8-4516-87ac-d414d61bab0b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_LaezelRecruitment_State_CrashVersionInitiated_a80f2bd8-ffa1-4065-a92a-d01d59907637, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_LaezelRecruitment_Event_CrashVersionDone_df73c46d-ed94-47de-be8b-36df1dbd973f, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRA_LaezelRecruit_LeaveOutOfSight(1);
+
+IF
+DB_CRA_LaezelRecruit_LeaveOutOfSight(1, _, _, _, _)
+AND NOT
+DB_CantAct(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_LaezelRecruitment_Event_InvitedToCamp_5ac352a5-58c2-a8ed-1957-199d8bc284da, _, _, _, _)
+THEN
+PROC_CRA_LaezelRecruit_EndCrashVersion();
+SetCanJoinCombat(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+PROC_DisappearOutOfSight(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "Sprint", 0, "CRA_LaezelRecruitment_LeftArea");
+
+IF
+EntityEvent(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CRA_LaezelRecruitment_LeftArea", _, _, _)
+THEN
+SetCanJoinCombat(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+
+PROC
+PROC_CRA_LaezelRecruit_EndCrashVersion()
+AND
+DB_GlobalFlag(ORI_LaezelRecruitment_State_CrashVersionInitiated_a80f2bd8-ffa1-4065-a92a-d01d59907637, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_LaezelRecruitment_Event_CrashVersionDone_df73c46d-ed94-47de-be8b-36df1dbd973f);
+NOT DB_CRA_LaezelRecruit_LeaveOutOfSight(1);
+PROC_TriggerUnregisterForPlayers(S_CRA_LaezelResurrectSphere_15341d9b-c8d8-4516-87ac-d414d61bab0b);
+PROC_SelfHealing_Enable(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_CHA_LaezelProximityBox_5ddb309f-8ceb-4517-8465-16e5c850faf8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "CHA_LaezelRecruitment_PlayerEnteredRegion");
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_CHA_LaezelProximityBox_5ddb309f-8ceb-4517-8465-16e5c850faf8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CheckOtherPlayersInTrigger(NULL_00000000-0000-0000-0000-000000000000, S_CHA_LaezelProximityBox_5ddb309f-8ceb-4517-8465-16e5c850faf8, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "CHA_LaezelRecruitment_PlayersLeftRegion");
+
+PROC
+PROC_CHA_LaezelRecruit_CancelStart()
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_SceneStart", _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_InRegion(_Var1, S_CHA_SceneStartSphere_0ed6e6c4-890b-4523-ba9b-815e314de8cd, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_SceneStart", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_ClearEdgeCaseDB();
+PROC_CHA_LaezelRecruit_StartScene(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_StartScene((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_CHA_LaezelRecruit_StartDialog(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_StartSceneFallback((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_CagerSpeaker(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_CagerSpeaker(3, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(CHA_LaezelRecruitment_TieflingsSceneFallback_56ac7209-f467-1aef-b522-8695ac5b682d, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var2, _Var3, _Var1, 0, 0, 1, 0, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DialogShouldIgnoreMutingStatusses(CHA_LaezelRecruitment_TieflingsSceneFallback_56ac7209-f467-1aef-b522-8695ac5b682d, _, _, _, _)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _, _, _, _)
+THEN
+NOT DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0);
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(1);
+
+QRY
+QRY_SpeakerIsAvailableForDialogSlot(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, CHA_LaezelRecruitment_TieflingsSceneFallback_56ac7209-f467-1aef-b522-8695ac5b682d, 1, 0, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_CHA_LaezelRecruit_SceneStarted(1);
+DB_CHA_LaezelRecruit_ReadyAutoResolve(1);
+SetFlag(CHA_LaezelRecruitment_Knows_LaezelWasTrapped_5fc67366-b75f-4889-9b60-2af37ad37786);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CHA_LaezelRecruit_StartDialog(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CHA_LaezelRecruit_CageBeingOpened((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_OpenCage((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_RecordPrioPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_PrioTalkTo(_Var2);
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_RecordPrioPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CHA_LaezelRecruit_PrioTalkTo(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var1);
+
+QRY
+QRY_CHA_LaezelRecruit_StartDialog((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_CHA_LaezelRecruit_PreDialogCleanup()
+AND
+QRY_CHA_LaezelRecruit_ProcessCagers()
+AND
+DB_CHA_LaezelRecruit_CagerSpeaker(2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_CagerSpeaker(3, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_CHA_LaezelRecruit_StartDialog_Internal(_Var1, _Var2, _Var4, _Var5, _Var3)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_PreDialogCleanup()
+AND
+DB_CHA_LaezelRecruit_CagerSpeaker(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_CagerSpeaker(_Var1, _Var2);
+
+QRY
+QRY_CHA_LaezelRecruit_PreDialogCleanup()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+ClearFlag(_Var3, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CHA_LaezelRecruit_PreDialogCleanup()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_ProcessCagers()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+QRY_CHA_LaezelRecruit_ProcessCager(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_ProcessCager((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DisappearedOutOfSight(_Var1, _, _, _, _, _, _, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 0, 1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_CagerSpeaker(_Var2, _Var1);
+
+QRY
+QRY_CHA_LaezelRecruit_ProcessCager((CHARACTER)_Var1, (INTEGER)_Var2, (FLAG)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CHA_LaezelRecruit_CagerSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var3, NULL_00000000-0000-0000-0000-000000000000);
+DB_CHA_LaezelRecruit_CagerSpeaker(_Var2, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CHA_LaezelRecruit_StartDialog_Internal(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, (CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, 0)
+AND NOT
+QRY_StartDialog(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var2, _Var3, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_IntroDialogFailed(_Var1);
+
+QRY
+QRY_CHA_LaezelRecruit_StartDialog_Internal((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, 0)
+AND
+QRY_StartDialog(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var3, _Var4, _Var2)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_StartDialog_Internal((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, 1)
+THEN
+DB_SelectedDialog(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var3, _Var4, _Var2);
+
+PROC
+PROC_CHA_LaezelRecruit_BlockRandomCombatReactions()
+THEN
+DB_OnlyOnce("CHA_LaezelRecruit_TieflingJoinCombat");
+DB_OnlyOnce("CHA_LaezelRecruit_LaezelCommentInCombat");
+DB_OnlyOnce("CHA_LaezelRecruit_TieflingCommentCombatEnded");
+NOT DB_CHA_LaezelRecruit_DoAD(1);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruit_SceneStart", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_ForceJoinCombat(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var8, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemy(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_TieflingJoinCombat", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CagersForceJoinCombat(_Var8, _Var7);
+
+PROC
+PROC_CHA_LaezelRecruit_CagersForceJoinCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var3, _, _, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_ForceJoinCombat(_Var3, _Var1, _Var2);
+PROC_EnterCombat(_Var3, _Var1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_ForceJoinCombat(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1);
+NOT DB_CHA_LaezelRecruit_ForceJoinCombat(_Var1, _Var3, _Var2);
+DB_GLO_PaladinOathbreaker_ProtectedNPCs(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea);
+DB_GLO_PaladinOathbreaker_ProtectedNPCs(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e);
+
+IF
+EnterCombatFailed((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_ForceJoinCombat(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_RetryJoinCombat(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_RetryJoinCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_RetryJoinCombat(_Var2);
+ObjectTimerLaunch(_Var2, "CHA_LaezelRecruit_RetryJoinCombat", 1000, 0);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "CHA_LaezelRecruit_RetryJoinCombat", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_RetryJoinCombat(_Var1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "CHA_LaezelRecruit_RetryJoinCombat", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_ForceJoinCombat(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_ForceJoinCombat(_Var2, _Var1, _Var3);
+
+IF
+ObjectTimerFinished(_, "CHA_LaezelRecruit_RetryJoinCombat", _, _, _)
+AND NOT
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1, _, _, _, _)
+THEN
+NOT DB_OnlyOnce("CHA_LaezelRecruit_TieflingJoinCombat");
+
+PROC
+PROC_LeftCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND
+DB_OnlyOnce("CHA_LaezelRecruit_TieflingJoinCombat", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, _, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CheckLeaveAfterRandomCombat();
+
+PROC
+PROC_CHA_LaezelRecruit_CheckLeaveAfterRandomCombat()
+AND
+QRY_CHA_LaezelRecruit_CanLeave()
+THEN
+NOT DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1);
+PROC_CHA_LaezelRecruit_ADOnLeavingAfterRandomCombat();
+SetFlag(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CHA_LaezelRecruit_TieflingsLeaveAlone();
+
+PROC
+PROC_CHA_LaezelRecruit_ADOnLeavingAfterRandomCombat()
+AND
+DB_CHA_LaezelRecruit_LeavingADs(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_TieflingCommentCombatEnded", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var2, _Var1);
+
+QRY
+QRY_CHA_LaezelRecruit_CanLeave()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CHA_LaezelSceneBox_91215202-bfee-459e-a887-ad096e462046, 0, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_CanLeave()
+AND
+DB_GlobalFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0, _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_CanLeave()
+AND
+DB_CantTalk_IgnoreCombat(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CHA_LaezelRecruit_CheckLeaveAfterRandomCombat()
+AND
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1, _, _, _, _)
+THEN
+NOT DB_OnlyOnce("CHA_LaezelRecruit_TieflingJoinCombat");
+
+IF
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1, _, _, _, _)
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruit_TieflingJoinCombat", _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_ADOnCombatEnded();
+
+PROC
+PROC_CHA_LaezelRecruit_ADOnCombatEnded()
+AND
+DB_OnlyOnce("CHA_LaezelRecruit_TieflingCommentCombatEnded", _, _, _, _)
+THEN
+NOT DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1);
+
+PROC
+PROC_CHA_LaezelRecruit_ADOnCombatEnded()
+AND
+DB_CHA_LaezelRecruit_ReturningADs(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_TieflingCommentCombatEnded", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CHA_LaezelRecruit_SetProximityFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_ADOnCombatEnded(_Var2);
+PROC_TryStartAD(_Var2, _Var1);
+
+QRY
+QRY_CHA_LaezelRecruit_SetProximityFlag((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInTrigger(_Var1, S_CHA_LaezelProximityBox_5ddb309f-8ceb-4517-8465-16e5c850faf8, 0, _Var1, _Var1)
+THEN
+SetFlag(CHA_LaezelRecruitment_Event_CombatEndedFar_2d92791a-188a-44b3-8777-22e20cfbda3e, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CHA_LaezelRecruit_SetProximityFlag((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+AutomatedDialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_CHA_LaezelRecruit_ADOnCombatEnded(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_ADOnCombatEnded(_Var1);
+NOT DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1);
+ClearFlag(CHA_LaezelRecruitment_Event_CombatEndedFar_2d92791a-188a-44b3-8777-22e20cfbda3e, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TurnEnded((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruit_LaezelCommentInCombat", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_DoAD(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CHA_LaezelRecruit_CanADInRandomCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_DoAD(1);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_DoAD(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CHA_LaezelRecruit_CanADInRandomCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_LaezelCommentInCombat", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialogCustom(CHA_LaezelRecruitment_AD_LaezelCombatComment_c46fe60f-d36d-c3cf-1b5d-ff7b2c611fb5, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OnlyOnce("CHA_LaezelRecruit_LaezelCommentInCombat");
+
+IF
+AutomatedDialogStarted(CHA_LaezelRecruitment_AD_LaezelCombatComment_c46fe60f-d36d-c3cf-1b5d-ff7b2c611fb5, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_CHA_LaezelRecruit_DoAD(1);
+
+QRY
+QRY_CHA_LaezelRecruit_CanADInRandomCombat((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+CanSee(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Defeated(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, _, _, _, _)
+AND NOT
+DB_Defeated(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(CHA_LaezelTieflings_State_Over_4afe6371-4768-464b-8f60-32c514ae6a8f, _, _, _, _)
+AND NOT
+DB_CHA_LaezelRecruitment_LeverPlayer(_, _, _, _, _)
+AND NOT
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "PickASide", _, _)
+AND
+Exists(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 1, _, _, _)
+THEN
+SetOwner(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e);
+
+IF
+DialogEnded(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, _, _, _, _)
+AND
+DB_GlobalFlag(CHA_LaezelRecruitment_Event_TieflingPullsLevel_3a3d294c-3713-3f17-beba-9fdfc83f825a, _, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "OpeningCage");
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "OpeningCage", (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogName(CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+IsDead(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CageBeingOpened(_Var2);
+PROC_CHA_LaezelRecruit_TieflingOpenCage(_Var3, _Var2);
+
+PROC
+PROC_CHA_LaezelRecruit_TieflingOpenCage(0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetEntityEvent(_Var1, "CHA_LaezelRecruitment_OpeningCage");
+UseSpell(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, "Projectile_MainHandAttack", S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_CHA_LaezelRecruit_TieflingOpenCage(1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetEntityEvent(_Var1, "CHA_LaezelRecruitment_WasToldToLowerCage");
+
+PROC
+PROC_CHA_LaezelRecruit_OpenCageFallback((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+Exists(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 0, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var3, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_OpenCageFallback", _Var1, _Var1, _Var1, _Var1)
+THEN
+Attack(_Var3, S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 1);
+
+IF
+FlagSet(CHA_LaezelRecruitment_Event_TieflingSaidLowerTrap_18a9ca4f-c33e-fdf9-7db0-949b803b2851, NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var2, "CHA_LaezelRecruitment_WasToldToLowerCage");
+PROC_CHA_LaezelRecruit_CageBeingOpened(_Var2);
+
+PROC
+PROC_CHA_LaezelRecruit_CageBeingOpened((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CHA_LaezelRecruit_ClearCageOwnership();
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "PickASide");
+DB_CHA_LaezelRecruitment_LeverPlayer(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_ClearCageOwnership()
+AND
+Exists(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 1, _, _, _)
+AND
+IsDestroyed(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 0, _, _, _)
+THEN
+ClearOwnership(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008);
+
+IF
+AttackedBy(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, (GUIDSTRING)_Var1, _, _, (INTEGER)_Var4, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_CHA_LaezelRecruit_CheckDestroyBottom(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_CheckDestroyBottom((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_DestroyBottom();
+PROC_CHA_LaezelRecruit_OpenCage(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_DestroyBottom()
+AND
+Exists(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 1, _, _, _)
+AND
+IsDestroyed(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 0, _, _, _)
+THEN
+Die(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008);
+
+PROC
+PROC_CHA_LaezelRecruit_CheckDestroyBottom((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHitpoints(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 < 1
+THEN
+ClearFlag(CHA_LaezelRecruitment_State_PlayerDidntHelpLaezel_6ed97f29-00b3-4341-a866-dc8cac2a0c82, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CHA_LaezelRecruit_BottomDestroyed(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_BottomDestroyed((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_CageOpened", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_OpenCage(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_OpenCage((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CheckFreedUpdate(_Var1, _Var2);
+
+PROC
+PROC_CHA_LaezelRecruit_CheckFreedUpdate((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetOwner(S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetFlag(CHA_LaezelRecruitment_Event_TieflingsHostile_856bc630-9ad2-d2ed-db8c-7baafee77404, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_CHA_LaezelRecruit_TieflingsHostile();
+PROC_CHA_LaezelRecruit_GiveUpdateWithAlt(_Var1, "ReleasedEarly");
+
+PROC
+PROC_CHA_LaezelRecruit_OpenCage((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruitment_LeavesCage", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruitment_LeftCage();
+
+IF
+LeftTrigger(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_CHA_CageBox_2de737cb-3353-444d-81dc-ce9a170a6837, _, _, _)
+THEN
+PROC_ForceStopDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+IF
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_AllowAD(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_AllowAD(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f);
+NOT DB_CHA_LaezelRecruit_AllowAD(CHA_LaezelRecruitment_Event_TieflingsHostile_856bc630-9ad2-d2ed-db8c-7baafee77404);
+SetEntityEvent(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelRecruit_AllowAD");
+
+IF
+Fell(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_IgnoringFallDamage(1, _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_RemoveFallBoost();
+
+QRY
+QRY_CHA_LaezelRecruit_LaezelIsAlreadyOut()
+AND NOT
+DB_GlobalFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0, _, _, _, _)
+AND
+IsInTrigger(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_CHA_CageBox_2de737cb-3353-444d-81dc-ce9a170a6837, 0, _, _)
+THEN
+PROC_CHA_LaezelRecruitment_LeftCage();
+
+IF
+LeftTrigger(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_CHA_CageBox_2de737cb-3353-444d-81dc-ce9a170a6837, _, _, _)
+THEN
+PROC_CHA_LaezelRecruitment_LeftCage();
+DB_ORI_Laezel_LeftCageBox(1);
+
+IF
+DB_ORI_Laezel_LeftCageBox(1, _, _, _, _)
+AND
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+THEN
+NOT DB_ORI_Laezel_LeftCageBox(1);
+PROC_CHA_LaezelRecruit_ClearCageOwnership();
+
+PROC
+PROC_CHA_LaezelRecruitment_LeftCage()
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruit_LeavesCage", _, _, _, _)
+THEN
+DB_OnlyOnce("CHA_LaezelRecruit_LeavesCage");
+PROC_SetCanFight(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+SetCanJoinCombat(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+RemoveStatus(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "GROUNDED", NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0, NULL_00000000-0000-0000-0000-000000000000, 0);
+TriggerUnregisterForCharacter(S_CHA_CageBox_2de737cb-3353-444d-81dc-ce9a170a6837, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+PROC_CHA_LaezelRecruit_SetCHADialog();
+PROC_SceneManager_RemoveFromScene(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelTieflings");
+PROC_SceneInterrupted(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "CHA_LaezelTieflings", "LaezelLeftCage");
+PROC_CHA_LaezelRecruit_CheckDisableDialogAgain();
+
+PROC
+PROC_CHA_LaezelRecruit_SetCHADialog()
+AND NOT
+DB_GlobalFlag(ORI_LaezelRecruitment_State_PlainsVersionInitiated_59bda4f5-708b-4f23-aaba-d5f387ae95c2, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_RecruitmentInCrecheActive_674e1fbb-7174-4c62-9581-08c67aeeaaa4, _, _, _, _)
+THEN
+PROC_GLO_Origins_SetRecruitmentDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, Laezel_Recruitment_a914c64a-30d8-0428-683a-99dd7879fc83, 1);
+
+IF
+Fell(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "PickASide", _, _)
+THEN
+TimerLaunch("CHA_LaezelRecruit_PickASideDelay", 1200);
+
+IF
+TimerFinished("CHA_LaezelRecruit_PickASideDelay", _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruitment_PickSide();
+
+PROC
+PROC_CHA_LaezelRecruitment_PickSide()
+AND
+QRY_State_IsBeforeState(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _, _)
+AND
+QRY_CHA_LaezelRecruitment_PickSidePlayer()
+THEN
+PROC_CHA_LaezelRecruitment_CheckPickSide();
+
+PROC
+PROC_CHA_LaezelRecruitment_CheckPickSide()
+AND NOT
+DB_CHA_LaezelRecruitment_SidingPlayer(_, _, _, _, _)
+AND
+GetFlag(CHA_LaezelRecruitment_Event_PersuadedKillLaezel_a3a395fa-8744-8e7b-0bd4-eaf0fee1736a, NULL_00000000-0000-0000-0000-000000000000, _Var2, _, _)
+THEN
+PROC_CHA_LaezelRecruit_PickASideDialogFailed(_Var2);
+
+PROC
+PROC_CHA_LaezelRecruitment_CheckPickSide()
+AND
+DB_CHA_LaezelRecruitment_SidingPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_StartDialog(CHA_LaezelRecruitment_PickASide_8780ce61-d16e-79c1-82cc-5d65b9894dd4, _Var1, 0, _Var1, _Var1)
+AND
+GetFlag(CHA_LaezelRecruitment_Event_PersuadedKillLaezel_a3a395fa-8744-8e7b-0bd4-eaf0fee1736a, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_PickASideDialogFailed(_Var2);
+
+PROC
+PROC_CHA_LaezelRecruitment_CheckPickSide()
+AND
+DB_CHA_LaezelRecruitment_SidingPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruitment_SidingPlayer(_Var1);
+PROC_CHA_LaezelRecruit_RecordPrioPlayer(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruitment_CheckPickSide()
+AND
+DB_CHA_LaezelRecruitment_LeverPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruitment_LeverPlayer(_Var1);
+
+QRY
+QRY_CHA_LaezelRecruitment_PickSidePlayer()
+AND
+DB_CHA_LaezelRecruitment_LeverPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruitment_SidingPlayer(_Var1);
+
+QRY
+QRY_CHA_LaezelRecruitment_PickSidePlayer()
+AND NOT
+DB_CHA_LaezelRecruitment_SidingPlayer(_, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND NOT
+DB_CHA_LaezelRecruitment_SidingPlayer(_, _, _, _, _)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _)
+THEN
+DB_CHA_LaezelRecruitment_SidingPlayer(_Var2);
+
+QRY
+QRY_CHA_LaezelRecruitment_PickSidePlayer()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CHA_LaezelRecruit_PickASideDialogFailed(0, _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_TieflingsHostile();
+
+PROC
+PROC_CHA_LaezelRecruit_PickASideDialogFailed(1, _, _, _, _)
+THEN
+DB_CHA_LaezelRecruit_SidedAgainstLaezel(1);
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_LaezelHostile_510657f4-4dd5-4b51-16bd-707942066182, CHA_LaezelRecruitment_PickASide_8780ce61-d16e-79c1-82cc-5d65b9894dd4, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_CHA_LaezelRecruit_SidedAgainstLaezel(1);
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel");
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _, _)
+AND
+DB_CHA_LaezelRecruit_SidedAgainstLaezel(1, _, _, _, _)
+AND
+GetFaction(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6);
+SetFaction(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, Origin_Laezel_Hostile_5d2675e2-6d65-4292-bd4b-269fa83d9e07);
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _, _)
+AND NOT
+DB_CHA_LaezelRecruit_SidedAgainstLaezel(1, _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_GiveSidedTieflingsUpdate();
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _, _)
+THEN
+PROC_CHA_LaezelRecruit_SetTieflingsHostileToLaezel();
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+
+QRY
+QRY_SelectCustomDialog((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _Var1, _Var1)
+AND
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_DoSolo(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(CHA_LaeZelRecruitment_LaezelDead_bb9c78e1-182b-69e3-c972-9feb27bd3d2b, S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, _Var2);
+
+QRY
+QRY_CHA_LaezelRecruit_DoSolo((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var3, _, _Var5, _Var1, _Var1)
+AND
+_Var3 != _Var1
+AND NOT
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CHA_LaezelRecruit_PreDialogCleanup()
+THEN
+SetFlag(_Var5, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CHA_LaezelRecruit_LaezelDeadSolo(_Var1, _Var2);
+
+PROC
+PROC_CHA_LaezelRecruit_LaezelDeadSolo(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom(CHA_LaeZelRecruitment_LaezelDead_bb9c78e1-182b-69e3-c972-9feb27bd3d2b, S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, 0, 1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CHA_LaezelRecruit_LaezelDeadSolo(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom(CHA_LaeZelRecruitment_LaezelDead_bb9c78e1-182b-69e3-c972-9feb27bd3d2b, NULL_00000000-0000-0000-0000-000000000000, S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, _Var1, 0, 0, 1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StateSet_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_LaezelRecruitment_State_ChapelVersionInitiated_e6015bdf-276e-47b2-9a43-9bc0c981e1ad, _, _, _, _)
+AND NOT
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _, _)
+AND NOT
+DB_GlobalFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruitment_SetDefeatedFlags();
+PROC_CHA_LaezelRecruit_PrepLeavingAlone();
+TimerLaunch("CHA_LaezelRecruit_ReadyToLeave", 2000);
+
+IF
+DB_PermaDefeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_LaezelRecruitment_State_ChapelVersionInitiated_e6015bdf-276e-47b2-9a43-9bc0c981e1ad, _, _, _, _)
+AND NOT
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _, _)
+AND NOT
+DB_GlobalFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, _, _, _, _)
+THEN
+SetFlag(CHA_LaezelRecruitment_State_LaezelIsDead_c0d0a93e-43b2-4209-9af1-747370774499);
+DB_CHA_LaezelRecruit_GiveDeathUpdate("LaezelDied");
+
+PROC
+PROC_StateSet_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _, _)
+THEN
+PROC_CHA_LaezelRecruitment_SetDefeatedFlags();
+PROC_CHA_LaezelRecruit_PrepLeavingAlone();
+DB_CHA_LaezelRecruit_GiveDeathUpdate("KilledLaezel");
+TimerLaunch("CHA_LaezelRecruit_ReadyToLeave", 20000);
+
+PROC
+PROC_CHA_LaezelRecruitment_SetDefeatedFlags()
+THEN
+SetFlag(CHA_LaezelRecruitment_State_LaezelIsDefeated_d22e4798-d9bd-4e74-8fc8-80242f3e3595);
+
+PROC
+PROC_CHA_LaezelRecruitment_SetDefeatedFlags()
+AND
+IsDead(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1, _, _, _)
+THEN
+SetFlag(CHA_LaezelRecruitment_State_LaezelIsDead_c0d0a93e-43b2-4209-9af1-747370774499);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_TieflingsHostile_856bc630-9ad2-d2ed-db8c-7baafee77404, CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+ClearFlag(CHA_LaezelRecruitment_State_PlayerDidntHelpLaezel_6ed97f29-00b3-4341-a866-dc8cac2a0c82, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CHA_LaezelRecruit_TieflingsHostile();
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_TieflingsHostile_856bc630-9ad2-d2ed-db8c-7baafee77404, CHA_LaezelRecruitment_PickASide_8780ce61-d16e-79c1-82cc-5d65b9894dd4, _, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(CHA_LaezelRecruitment_State_PlayerDidntHelpLaezel_6ed97f29-00b3-4341-a866-dc8cac2a0c82, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CHA_LaezelRecruit_TieflingsHostile();
+PROC_CHA_LaezelRecruit_CheckAutoResolveScene();
+
+PROC
+PROC_CHA_LaezelRecruit_TieflingsHostile()
+THEN
+PROC_CHA_LaezelRecruit_ClearCageOwnership();
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "Hostile");
+SetFlag(CHA_LaezelRecruitment_Knows_LaezelWasTrapped_5fc67366-b75f-4889-9b60-2af37ad37786);
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "Hostile", (STRING)_)
+THEN
+SetFlag(CHA_LaezelRecruitment_Event_TieflingsHostile_856bc630-9ad2-d2ed-db8c-7baafee77404, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "Hostile", _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _, _)
+AND NOT
+DB_Defeated(_Var2, _, _, _, _)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruitment_TieflingsHostileToPlayers", _, _, _, _)
+AND
+GetFaction(_Var2, _Var5, _, _, _)
+THEN
+PROC_SetRelationToPlayers(_Var5, 0);
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "Hostile", _)
+AND
+DB_CHA_LaezelRecruit_OpenCageFallback(_Var2, _, _, _, _)
+THEN
+NOT DB_CHA_LaezelRecruit_OpenCageFallback(_Var2);
+PROC_CHA_LaezelRecruit_OpenCageFallback(_Var2);
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "Hostile", (STRING)_)
+THEN
+PROC_CHA_LaezelRecruit_SetTieflingsHostileToLaezel();
+
+PROC
+PROC_CHA_LaezelRecruit_SetTieflingsHostileToLaezel()
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+GetFaction(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruitment_TieflingsHostileToLaezel", _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var5, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(_Var5, _Var1, 0);
+PROC_EnterCombat(_Var2, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+IF
+FlagSet(TemporaryHostilityAfterDialog_ca0cbe39-d121-069e-b408-c02954b32cf7, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_State_IsBeforeState(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _Var1, _Var1)
+AND
+DialogIsCrimeDialog(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_CHA_LaezelControlBox_cc892a8d-edd0-481d-bc03-2ebcb34c6ce2, 1, _Var1, _Var1)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel");
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, (CHARACTER)_Var2, "CHA_LaezelTieflings", (STRING)_Var3, (GUIDSTRING)_Var1)
+AND
+_Var3 != "StartedDialog"
+AND
+_Var3 != "DestroyedItem"
+THEN
+PROC_CHA_LaezelRecruit_ProcessInterruption(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CHA_LaezelRecruit_ProcessInterruption((CHARACTER)_Var1, _, "LeftTrigger", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CancelScene();
+
+PROC
+PROC_CHA_LaezelRecruit_ProcessInterruption(_, _, "LaezelLeftCage", _, _)
+AND
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "SceneStart", _, _)
+THEN
+PROC_CHA_LaezelRecruit_InterruptScene();
+
+PROC
+PROC_CHA_LaezelRecruit_ProcessInterruption((CHARACTER)_Var1, (CHARACTER)_Var2, "PlayerTeleportInDialog", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_InterruptScene();
+
+PROC
+PROC_CHA_LaezelRecruit_IntroDialogFailed((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_StartDialog_FailReason("ShapeshiftOverride", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_StartSceneFallback(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_InterruptScene();
+
+IF
+DialogEnded(CHA_LaezelRecruitment_TieflingsSceneFallback_56ac7209-f467-1aef-b522-8695ac5b682d, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CHA_LaezelRecruit_InterruptScene();
+
+PROC
+PROC_CHA_LaezelRecruit_ProcessInterruption(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, (CHARACTER)_Var1, "Attacked", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopSpecificDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4);
+SetFlag(CHA_LaezelRecruitment_State_PlayerAttackedLaezelInCage_c0b75a2d-f818-44f8-80f8-0cca7ccc8ca6, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CHA_LaezelRecruit_ProcessAttackingLaezel(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_ProcessAttackingLaezel((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_State_IsBeforeState(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "TieflingsLeavingAlone", _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CageBeingOpened(_Var1);
+PROC_CHA_LaezelRecruit_OpenCageFallback(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_ProcessInterruption((CHARACTER)_Var1, (CHARACTER)_Var2, "Attacked", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND
+_Var2 != S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12
+AND
+IsPlayer(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_AttackedTieflings(_Var2);
+
+PROC
+PROC_CHA_LaezelRecruit_AttackedTieflings((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_InterruptScene();
+
+PROC
+PROC_CHA_LaezelRecruit_AttackedTieflings((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "KillingLaezel", _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_OpenCageFallback(_Var1);
+PROC_CHA_LaezelRecruit_CheckGiveAttackedUpdate(_Var1);
+PROC_CHA_LaezelRecruit_InterruptScene();
+
+PROC
+PROC_CHA_LaezelRecruit_InterruptScene()
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_InterruptScene", _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_BlockRandomCombatReactions();
+PROC_CHA_LaezelRecruit_ClearEdgeCaseDB();
+NOT DB_CHA_LaezelRecruit_ScenePausedByRandomCombat(1);
+DB_GLO_PaladinOathbreaker_ProtectedNPCs(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea);
+DB_GLO_PaladinOathbreaker_ProtectedNPCs(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e);
+PROC_CHA_LaezelRecruit_TieflingsHostile();
+PROC_CHA_LaezelRecruit_CancelStart();
+PROC_CHA_LaezelRecruit_CheckAutoResolveScene();
+ClearFlag(CHA_LaezelRecruitment_Event_TieflingsGetLaezel_5e8867b9-67e5-dc2d-934f-4471a25a5ddf, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_ForceStopSpecificDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4);
+
+PROC
+PROC_CHA_LaezelRecruit_CancelScene()
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_InterruptScene", _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_BlockRandomCombatReactions();
+PROC_CHA_LaezelRecruit_ClearEdgeCaseDB();
+PROC_CHA_LaezelRecruit_CancelStart();
+PROC_CHA_LaezelRecruit_TieflingsLeaveAlone();
+SetFlag(CHA_LaezelRecruitment_Event_ReadyToLeave_e84c6f3a-00c3-4315-b49e-705a2e4c3caf, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CHA_LaezelRecruit_AnyTieflingAlive()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_AnyTieflingAlive()
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "Finished");
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var4, _, _, _Var1, _Var1)
+AND
+_Var4 != _Var1
+AND
+IsDead(_Var4, _Var7, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var4, _Var8, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CagerDeathReaction(_Var4, _Var7, _Var8);
+
+PROC
+PROC_CHA_LaezelRecruit_CagerDeathReaction((CHARACTER)_Var1, 1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(CHA_LaezelRecruitment_State_CagersAreDead_80d4178f-e95f-41dd-a17c-5f757481331f, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_CHA_LaezelRecruit_CagerDeathReaction((CHARACTER)_Var1, 0, (REAL)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 <= 16
+AND
+DB_CHA_LaezelRecruit_DeathAD(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_CagerDeathReaction(_, _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_DeathAD(_Var4, _Var5, _, _, _)
+THEN
+NOT DB_CHA_LaezelRecruit_DeathAD(_Var4, _Var5);
+
+IF
+TimerFinished("CHA_LaezelRecruit_ReadyToLeave", _, _, _, _)
+AND NOT
+DB_GlobalFlag(CHA_LaezelRecruitment_Event_ReadyToLeave_e84c6f3a-00c3-4315-b49e-705a2e4c3caf, _, _, _, _)
+THEN
+SetFlag(CHA_LaezelRecruitment_Event_ReadyToLeave_e84c6f3a-00c3-4315-b49e-705a2e4c3caf, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f, CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_ClearCageOwnership();
+PROC_CHA_LaezelRecruit_PrepLeavingAlone();
+PROC_CHA_LaezelRecruit_DisableDialogs();
+SetFlag(CHA_LaezelRecruitment_Event_ReadyToLeave_e84c6f3a-00c3-4315-b49e-705a2e4c3caf, NULL_00000000-0000-0000-0000-000000000000);
+ClearFlag(CHA_LaezelRecruitment_State_PlayerDidntHelpLaezel_6ed97f29-00b3-4341-a866-dc8cac2a0c82, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_CHA_LaezelRecruit_PrepLeavingAlone()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_NotReady(_Var1);
+PROC_SceneManager_RemoveFromScene(_Var1, "CHA_LaezelTieflings");
+PROC_CharacterDisableCrime(_Var1, "Vandalise");
+PROC_CharacterDisableCrime(_Var1, "VandaliseNoOwner");
+PROC_CharacterDisableCrime(_Var1, "MoveForbiddenItem");
+PROC_CharacterDisableCrime(_Var1, "ItemDestroy");
+
+PROC
+PROC_CHA_LaezelRecruit_DisableDialogs()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 0);
+
+IF
+FlagSet(CHA_LaezelRecruitment_Event_ReadyToLeave_e84c6f3a-00c3-4315-b49e-705a2e4c3caf, _, _, _, _)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruitment_TieflingsLeave_FallbackTimerStarted", _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var3, _, _, _, _)
+AND NOT
+DB_Defeated(_Var3, _, _, _, _)
+THEN
+ObjectTimerLaunch(_Var3, "CHA_LaezelRecruitment_TieflingsLeave_FallbackTimer", 15000, 1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CHA_LaezelRecruitment_TieflingsLeave_FallbackTimer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "CHA_LaezelRecruitment_TieflingsLeave_FallbackTimer");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "CHA_LaezelRecruitment_TieflingsLeave_FallbackTimer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_NotReady(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_NotReady(_Var1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "DEN_LaezelRecruit_ReadyToLeave", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_NotReady(_Var1);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_NotReady(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_NotReady(_Var1);
+
+IF
+DB_GlobalFlag(CHA_LaezelRecruitment_Event_ReadyToLeave_e84c6f3a-00c3-4315-b49e-705a2e4c3caf, _, _, _, _)
+AND NOT
+DB_CHA_LaezelRecruit_NotReady(_, _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _, _)
+AND NOT
+DB_CantTalk(_Var2, _, _, _, _)
+AND NOT
+QRY_CHA_LaezelRecruit_OtherBlocking(_Var2, _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_TieflingsLeaveAlone();
+
+QRY
+QRY_CHA_LaezelRecruit_OtherBlocking((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _Var1, _Var1)
+AND
+_Var2 != _Var1
+AND NOT
+QRY_CHA_LaezelRecruit_AllowLeaving(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_AllowLeaving((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_AllowLeaving((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CHA_LaezelRecruit_TieflingsLeaveAlone()
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruit_InterruptScene", _, _, _, _)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_TieflingsLeave", _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_CheckAutoResolveScene();
+PROC_CHA_LaezelRecruit_TieflingsDisappear();
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "TieflingsLeavingAlone");
+
+PROC
+PROC_CHA_LaezelRecruit_TieflingsDisappear()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 0);
+PROC_DisappearOutOfSightTo(_Var1, S_CHA_CagersLeavePoint_d39df1c5-1bfb-4f15-a44e-0199e1603bf9, "Walk", 0, "CHA_LaezelRecruitment_Event_TieflingDisappeared");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CHA_LaezelRecruitment_Event_TieflingDisappeared", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruit_TieflingCommentCombatEnded", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "Finished");
+
+IF
+FlagSet(CHA_LaezelRecruitment_Event_TieflingsGetLaezel_5e8867b9-67e5-dc2d-934f-4471a25a5ddf, _, (INTEGER)_Var2, _, _)
+AND
+DB_GlobalFlag(CHA_LaezelRecruitment_Quest_FailedPersuasion_7549fc4a-2910-d780-6a3a-1265d0df3f12, _, _, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_GiveFailedPersuationUpdate(_Var3);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CHA_LaezelRecruitment_Event_TieflingsGetLaezel_5e8867b9-67e5-dc2d-934f-4471a25a5ddf, CHA_LaeZelRecruitment_TieflingsScene_e08f550a-8f06-89f7-40ed-98b02eb515e4, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_Init");
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "LeavingWithLaezel_Init", _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _, _)
+AND NOT
+DB_CantAct(_Var2, _, _, _, _)
+THEN
+DB_CHA_LaezelRecruit_LeavingWithLaezel(_Var2);
+SetHasDialog(_Var2, 0);
+PROC_RemoveAllDialogEntriesForSpeaker(_Var2);
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "LeavingWithLaezel_Init", _)
+AND
+DB_CHA_LaezelRecruit_LeavingWithLaezel(_, _, _, _, _)
+THEN
+SetHasDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+PROC
+PROC_CHA_LaezelRecruit_CheckDisableDialogAgain()
+AND
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_LeavingStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "LeavingWithLaezel_Init", _)
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruit_LeavesCage", _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _, _)
+AND NOT
+DB_Defeated(_Var2, _, _, _, _)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_TieflingsOpenCage", _, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_OpenCage");
+Attack(_Var2, S_CHA_CageBottom_S_LT_PLT_CHA_CageBottom_106fde0f-c09d-8920-3204-dc169a0ef008, 1);
+
+IF
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_OpenCage", _, _)
+AND
+DB_OnlyOnce("CHA_LaezelRecruit_LeavesCage", _, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelFell");
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "LeavingWithLaezel_Init", _)
+AND
+DB_OnlyOnce("CHA_LaezelRecruit_LeavesCage", _, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelFell");
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _, "LeavingWithLaezel_LaezelFell", _)
+AND NOT
+QRY_CHA_LaezelRecruit_StartApproachingLaezel()
+THEN
+PROC_CHA_LaezelRecruit_TieflingsHostile();
+
+QRY
+QRY_CHA_LaezelRecruit_StartApproachingLaezel()
+AND
+DB_CHA_LaezelRecruit_LeavingWithLaezel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_CagerJump(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Walk", "CHA_LaezelRecruitment_TieflingInitiatedApproach");
+
+IF
+EntityEvent((CHARACTER)_Var1, "CHA_LaezelRecruitment_TieflingInitiatedApproach", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_CagerJump(_Var1, _, _Var3, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_TryToApproach(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "CHA_LaezelRecruitment_TieflingIsInPosition");
+
+QRY
+QRY_CHA_LaezelRecruit_TryToApproach((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetPosition(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+FindValidPosition(_Var3, _Var4, _Var5, 5, _Var1, 0, _Var6, _Var7, _Var8, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_MovingInPosition(_Var1);
+UseSpellAtPosition(_Var1, "Projectile_Jump", _Var6, _Var7, _Var8);
+RealtimeObjectTimerLaunch(_Var1, "CHA_LaezelRecruitment_Jump", 500);
+
+QRY
+QRY_CHA_LaezelRecruit_TryToApproach((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CHA_LaezelRecruit_MovingInPosition(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Run", "CHA_LaezelRecruitment_TieflingIsInPosition");
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "CHA_LaezelRecruitment_Jump", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_MovingInPosition(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_MovingInPosition(_Var1);
+LookAtEntity(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+SetEntityEvent(_Var1, "CHA_LaezelRecruitment_TieflingIsInPosition");
+
+IF
+EntityEvent(_, "CHA_LaezelRecruitment_TieflingIsInPosition", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_PLA_LaezelRecruit_CheckStartEscortAD();
+
+PROC
+PROC_PLA_LaezelRecruit_CheckStartEscortAD()
+AND NOT
+DB_CHA_LaezelRecruit_MovingInPosition(_, _, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_TieflingsInPosition");
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_TieflingsInPosition", _, _)
+AND NOT
+QRY_PLA_LaezelRecruit_StartEscortAD()
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelAttacks");
+
+QRY
+QRY_PLA_LaezelRecruit_StartEscortAD()
+AND
+DB_CHA_LaezelRecruit_LeavingWithLaezel(_, _, _, _, _)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruitment_AD_EscortStart", _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+QRY_CHA_LaezelRecruit_StartDialog(CHA_LaeZelRecruitment_AD_EscortStart_c7e6f696-dec1-c64d-04b6-cc8c48572e87, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _Var1, _Var1, _Var1)
+AND
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _Var1, _Var2, _Var1)
+AND
+DB_State_Priority(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelAttacks", _Var3, _Var1)
+AND
+_Var2 > _Var3
+THEN
+SetHasDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+
+IF
+AutomatedDialogEnded(CHA_LaeZelRecruitment_AD_EscortStart_c7e6f696-dec1-c64d-04b6-cc8c48572e87, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelAttacks");
+
+IF
+AutomatedDialogRequestFailed(CHA_LaeZelRecruitment_AD_EscortStart_c7e6f696-dec1-c64d-04b6-cc8c48572e87, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelAttacks");
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "LeavingWithLaezel_LaezelAttacks", _, _)
+THEN
+PROC_CHA_LaezelRecruitment_PickSide();
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_LeavingWithLaezel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_LeavingWithLaezel(_Var1);
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", (STRING)_Var1, "KillingLaezel", (STRING)_Var1)
+AND
+DB_CHA_LaezelRecruit_LeavingStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CancelLeavingWithLaezel();
+
+PROC
+PROC_State_Changed(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", (STRING)_Var1, "Hostile", (STRING)_Var1)
+AND
+DB_CHA_LaezelRecruit_LeavingStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_CancelLeavingWithLaezel();
+
+PROC
+PROC_CHA_LaezelRecruit_CancelLeavingWithLaezel()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_ClearStoryMove(_Var1);
+NOT DB_CHA_LaezelRecruit_LeavingWithLaezel(_Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_CancelLeavingWithLaezel()
+AND
+DB_CHA_LaezelRecruit_CagerJump(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_CagerJump(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CHA_LaezelRecruit_CancelLeavingWithLaezel()
+AND
+DB_CHA_LaezelRecruit_MovingInPosition(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_MovingInPosition(_Var1);
+
+IF
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_LeavingStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CHA_LaezelRecruitment_Event_ReadyToLeave_e84c6f3a-00c3-4315-b49e-705a2e4c3caf, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CHA_LaezelRecruitment_Event_ReadyToLeave_e84c6f3a-00c3-4315-b49e-705a2e4c3caf, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CHA_LaezelRecruit_CancelLeavingWithLaezel();
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CHA_LaezelRecruitment_StartRecruitmentDialogFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", _Var4, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_LeavingStates(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruitment_RecruitDialogStarted(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CHA_Laezel_TieflingsAreGone()
+AND
+GetFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0, NULL_00000000-0000-0000-0000-000000000000, 1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelRecruit_CheckStartRecruitmentDialog");
+ObjectTimerLaunch(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelRecruit_CheckStartRecruitmentDialog", 2000);
+
+QRY
+QRY_CHA_Laezel_TieflingsAreGone()
+AND
+DB_GlobalFlag(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_Laezel_TieflingsAreGone()
+AND
+DB_GlobalFlag(CHA_LaezelRecruitment_State_CagersAreDead_80d4178f-e95f-41dd-a17c-5f757481331f, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+ObjectTimerFinished(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelRecruit_CheckStartRecruitmentDialog", _, _, _)
+AND NOT
+DB_CantTalk(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_CHA_LaezelRecruitment_RecruitDialogStarted(_, _, _, _, _)
+THEN
+PROC_CHA_LaezelRecruit_StartRecruitDialog(Laezel_Recruitment_a914c64a-30d8-0428-683a-99dd7879fc83);
+
+IF
+DialogStarted(Laezel_Recruitment_a914c64a-30d8-0428-683a-99dd7879fc83, _, _, _, _)
+AND
+DB_GlobalFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0, _, _, _, _)
+THEN
+DB_CHA_LaezelRecruitment_RecruitDialogStarted(1);
+
+PROC
+PROC_CHA_LaezelRecruit_StartRecruitDialog((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_CHA_LaezelRecruitment_RecruitDialogStarted(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_StartPrioDialog_Avatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_StartPrioDialog_Savior(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_StartPrioDialog_SameUser(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_StartPrioDialog_Avatar((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetBestAvatarForCompanion(_Var2, 1, 1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var3, 0, 0, 1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_StartPrioDialog_Savior((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var2, 0, 0, 1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CHA_LaezelRecruit_StartPrioDialog_SameUser((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 != _Var2
+AND
+GetReservedUserID(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var4, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var4, 0, 0, 1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CHA_LaezelRecruit_StartRecruitDialog()
+AND
+DB_CHA_LaezelRecruit_PrioTalkTo(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_PrioTalkTo(_Var1);
+
+IF
+EnteredCombat(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_GlobalFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, _, _, _, _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _, _)
+AND NOT
+DB_Defeated(_Var2, _, _, _, _)
+AND
+IsEnemy(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var2, 1, _, _)
+THEN
+SetEntityEvent(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "ClearPeaceReturn", 1);
+
+IF
+FlagSet(CHA_LaezelRecruitment_State_CagersAreDead_80d4178f-e95f-41dd-a17c-5f757481331f, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _, _)
+AND
+IsInTrigger(_Var2, S_CHA_SceneStartSphere_0ed6e6c4-890b-4523-ba9b-815e314de8cd, 0, _, _)
+THEN
+SetEntityEvent(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelRecruit_StopInspectingCorpse");
+
+IF
+CharacterLootedCharacter(_, (CHARACTER)_Var2, _, _, _)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var2, _, _, _, _)
+THEN
+SetEntityEvent(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelRecruit_StopInspectingCorpse");
+
+IF
+OnThrown((CHARACTER)_Var1, _, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+THEN
+SetEntityEvent(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LaezelRecruit_StopInspectingCorpse");
+
+PROC
+PROC_CHA_LaezelRecruit_CheckGiveAttackedUpdate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "CHA_LaezelRecruit", "SidedLaezel", 0, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_GiveUpdateWithAlt(_Var1, "Attacked");
+
+PROC
+PROC_CHA_LaezelRecruit_GiveUpdateWithAlt((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Updates(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CHA_LeazelRecruit_GiveAltUpdate(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", _Var2);
+
+QRY
+QRY_CHA_LeazelRecruit_GiveAltUpdate((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_Var3, _, _, _Var1, _Var1)
+AND
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", _Var2);
+
+PROC
+PROC_CHA_LaezelRecruit_GiveUpdateWithAlt((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Updates(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_Updates(_Var2, _Var3);
+
+IF
+DB_Defeated(S_CHA_CagerLaezel1_2c8537fb-bf73-43a2-a8ff-48e41453adea, _, _, _, _)
+AND
+DB_Defeated(S_CHA_CagerLaezel2_863d6788-5887-45c8-bafa-87128631904e, _, _, _, _)
+AND NOT
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_CHA_SceneStartSphere_0ed6e6c4-890b-4523-ba9b-815e314de8cd, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_TieflingsDefeatedUpdate", _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(CHA_LaezelRecruitment_State_Freed_0fe8e284-83a6-c1ad-9f18-20ed58985cf0, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_TieflingsDefeated(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", _Var3);
+
+PROC
+PROC_CHA_LaezelRecruit_GiveFailedPersuationUpdate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_CHA_LeazelRecruit_GiveFailedPersuasionAltUpdate(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", "FailedPersuasion");
+
+QRY
+QRY_CHA_LeazelRecruit_GiveFailedPersuasionAltUpdate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_Cager(_, _, _Var4, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", "FailedPersuasionAlt");
+
+PROC
+PROC_CHA_LaezelRecruit_GiveSidedTieflingsUpdate()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", "SidedTieflings");
+
+IF
+DB_CHA_LaezelRecruit_GiveDeathUpdate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var2, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_GiveDeathUpdate(_Var1);
+QuestUpdate(_Var2, "CHA_LaezelRecruit", _Var1);
+
+PROC
+PROC_CHA_LaezelRecruit_CheckFreedUpdate((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", "Freed");
+
+IF
+FlagSet(CHA_LaezelRecruitment_HasMet_DidNotRecruit_757b73c0-5ea1-3b8c-5639-e4276d928cbf, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_CHA_LaezelRecruit_InitiatedRecruit(1);
+
+PROC
+PROC_CHA_LaezelRecruit_GiveLeavingUpdate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CHA_LaezelRecruit_SceneStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_InitiatedRecruit(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", "LeftArea");
+
+PROC
+PROC_CHA_LaezelRecruit_GiveLeavingUpdate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CHA_LaezelRecruit_SceneStarted(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_InitiatedRecruit(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CHA_LaezelRecruit_InitiatedRecruit(1);
+QuestUpdate(_Var1, "CHA_LaezelRecruit", "RefusedRecruit");
+
+PROC
+PROC_CHA_LaezelRecruit_GiveRecruitedUpdate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+QuestUpdate(_Var1, "CHA_LaezelRecruit", "Recruited");
+
+PROC
+PROC_GLO_PartyMembers_Add(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("CHA_LaezelRecruit_ResolveOnRecruit", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CHA_LaezelRecruit_GiveRecruitedUpdate(_Var1);
+PROC_CHA_LaezelRecruit_ResolveScene();
+
+PROC
+PROC_ORI_Laezel_StopCaringAboutZorru()
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruitment_EndScene", _, _, _, _)
+AND NOT
+DB_CHA_LaezelRecruit_ReadyAutoResolve(1, _, _, _, _)
+THEN
+DB_CHA_LaezelRecruit_ReadyAutoResolve(1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_GOB_ThroneRoom_SUB_bb81678b-641c-43fc-bd41-53295d59be03, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("CHA_LaezelRecruitment_EndScene", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CHA_LaezelRecruit_ReadyAutoResolve(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CHA_LaezelRecruit_ReadyAutoResolve(1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_CHA_LaezelControlBox_cc892a8d-edd0-481d-bc03-2ebcb34c6ce2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12
+AND
+DB_CHA_LaezelRecruit_ReadyAutoResolve(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CHA_LaezelRecruit_PlayersRemaining()
+THEN
+PROC_CHA_LaezelRecruit_GiveLeavingUpdate(_Var1);
+PROC_CHA_LaezelRecruit_ResolveScene();
+
+PROC
+PROC_CHA_LaezelRecruit_CheckAutoResolveScene()
+AND NOT
+QRY_CHA_LaezelRecruit_PlayersRemaining()
+THEN
+PROC_CHA_LaezelRecruit_ResolveScene();
+
+PROC
+PROC_CHA_LaezelRecruit_ResolveScene()
+AND
+QRY_OnlyOnce("CHA_LaezelRecruitment_EndScene", _, _, _, _)
+THEN
+DB_OnlyOnce("CHA_LaezelRecruit_ResolveOnRecruit");
+NOT DB_CHA_LaezelRecruit_ReadyAutoResolve(1);
+PROC_SceneOver("CHA_LaezelTieflings");
+PROC_State_Progress(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "LaezelStartScene", "Finished");
+PROC_CHA_LaezelRecruit_RemoveTieflings();
+PROC_CHA_LaezelRecruit_RemoveFallBoost();
+PROC_CHA_LaezelRecruit_DestroyBottom();
+PROC_CHA_LaezelRecruit_SetOffStage();
+
+PROC
+PROC_CHA_LaezelRecruit_SetOffStage()
+AND NOT
+DB_IronFlasked(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+IsPlayer(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0, _, _, _)
+AND
+IsDead(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0, _, _, _)
+AND
+GetFlag(ORI_LaezelRecruitment_Event_InvitedToCamp_5ac352a5-58c2-a8ed-1957-199d8bc284da, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+SetOnStage(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 0);
+SetFaction(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, Origin_Laezel_bee8449b-d682-93c8-e7da-9e4bad369476);
+RemoveHarmfulStatuses(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+ClearTag(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6);
+
+PROC
+PROC_CHA_LaezelRecruit_RemoveTieflings()
+AND NOT
+QRY_CHA_LaezelRecruit_KillTieflings()
+THEN
+PROC_CHA_LaezelRecruit_TieflingsLeaveAlone();
+
+QRY
+QRY_CHA_LaezelRecruit_KillTieflings()
+AND NOT
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_GlobalFlag(CHA_LaezelRecruitment_Event_TieflingsLeaveAlone_9cfe5720-e50c-8cae-cd23-f61aaf75499f, _, _, _, _)
+AND NOT
+QRY_CHA_LaezelRecruit_PlayersRemaining()
+AND
+DB_CHA_LaezelRecruit_Cager(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CHA_LaezelRecruit_CagerDeathPoint(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CHA_LaezelRecruitment_State_LaezelKilledTieflings_3dee3989-f099-f2dc-ee31-60d99d3a5856, NULL_00000000-0000-0000-0000-000000000000, 0);
+TeleportTo(_Var1, _Var4);
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+
+QRY
+QRY_CHA_LaezelRecruit_PlayersRemaining()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CHA_LaezelControlBox_cc892a8d-edd0-481d-bc03-2ebcb34c6ce2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SceneOver("CHA_LaezelTieflings", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_CHA_LaezelProximityBox_5ddb309f-8ceb-4517-8465-16e5c850faf8);
+PROC_TriggerUnregisterForPlayers(S_CHA_SceneStartSphere_0ed6e6c4-890b-4523-ba9b-815e314de8cd);
+SetFlag(CHA_LaezelTieflings_State_SceneOver_b6fcc020-c718-45d3-964d-2099f95a70c1, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_CustomDialogRange(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 14);
+SetHasDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1);
+PROC_CHA_LaezelRecruit_CancelStart();
+
+PROC
+PROC_CHA_LaezelRecruit_RemoveFallBoost()
+AND
+HasActiveStatus(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LAEZELRECRUIT_IGNOREFALLDAMAGE", 1, _, _)
+THEN
+RemoveStatus(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "CHA_LAEZELRECRUIT_IGNOREFALLDAMAGE");
+NOT DB_CHA_LaezelRecruit_IgnoringFallDamage(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

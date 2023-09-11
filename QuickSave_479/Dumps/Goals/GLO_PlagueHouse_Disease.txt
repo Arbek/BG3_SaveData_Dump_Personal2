@@ -1,0 +1,226 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(OUT_PlagueHouse_Knows_Infected_2a47db07-0fdd-b7d8-d1f6-e0b6aacfb562, _, _, _, _)
+THEN
+PROC_GLO_Plague_Worsen();
+
+IF
+RequestPickpocket((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_Infected(S_OUT_PlagueCorpse_6b812df6-c8c7-4b4e-9b9b-c6a81cb99e6c, _, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+PROC_GLO_Plague_CheckInfect(_Var1, _Var2);
+
+IF
+UsingSpellOnTarget((CHARACTER)_Var1, (CHARACTER)_Var2, "Target_UnarmedAttack", _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_GLO_Plague_Infected(S_OUT_PlagueCorpse_6b812df6-c8c7-4b4e-9b9b-c6a81cb99e6c, _, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Plague_CheckInfect(_Var1, _Var2);
+
+IF
+UsingSpellOnTarget((CHARACTER)_Var1, (CHARACTER)_Var2, "Target_SpeakWithDead", _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_GLO_Plague_Infected(S_OUT_PlagueCorpse_6b812df6-c8c7-4b4e-9b9b-c6a81cb99e6c, _, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Plague_CheckInfect(_Var1, _Var2);
+
+IF
+DialogStartRequested((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_Infected(S_OUT_PlagueCorpse_6b812df6-c8c7-4b4e-9b9b-c6a81cb99e6c, _, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Plague_CheckInfect(_Var1, _Var2);
+
+IF
+CharacterLootedCharacter((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_Infected(S_OUT_PlagueCorpse_6b812df6-c8c7-4b4e-9b9b-c6a81cb99e6c, _, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+PROC_GLO_Plague_CheckInfect(_Var1, _Var2);
+
+PROC
+PROC_GLO_Plague_CheckInfect((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+SysCount("DB_GLO_Plague_Infected", 3, _Var3, _Var1, _Var1)
+AND
+_Var3 < 15
+THEN
+PROC_GLO_Plague_CheckInfect_Internal(_Var1, _Var2);
+PROC_GLO_Plague_CheckInfect_Internal(_Var2, _Var1);
+
+PROC
+PROC_GLO_Plague_CheckInfect_Internal((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Dead(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsImmortal(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Plague_Infected(_Var1, _Var3, _, _Var1, _Var1)
+AND
+_Var3 != 0
+AND NOT
+DB_GLO_Plague_Infected(_Var2, 1, _, _Var1, _Var1)
+THEN
+DB_GLO_Plague_Infected(_Var2, 1, _Var1);
+
+IF
+DB_GLO_Plague_Infected(_Var1, 1, _, _Var1, _Var1)
+AND
+DB_GLO_Plague_Infected(_Var1, 0, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_Plague_Infected(_Var1, 0, _Var3);
+
+IF
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Plague_Infected(_Var1, 1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_GLO_Plague_Infected(_Var1, 1, _Var2);
+DB_GLO_Plague_Infected(_Var1, 2, _Var2);
+
+IF
+Resurrected((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_Infected(_Var1, 2, _Var2, _Var1, _Var1)
+THEN
+NOT DB_GLO_Plague_Infected(_Var1, 2, _Var2);
+DB_GLO_Plague_Infected(_Var1, 0, _Var2);
+
+QRY
+QRY_GLO_Plague_FinalStage((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_InfectedStage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Plague_InfectedLength(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_Plague_Worsen()
+AND
+DB_GLO_Plague_Infected(_Var1, 1, _, _Var1, _Var1)
+AND
+QRY_GLO_Plague_FinalStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Plague_InfectedStage(_Var1, -1);
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+PROC
+PROC_GLO_Plague_Worsen()
+AND
+DB_GLO_Plague_InfectedStage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Plague_InfectedStage(_Var1, -1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_Plague_InfectedStage(_Var1, _Var2);
+DB_GLO_Plague_InfectedStage(_Var1, _Var3);
+
+IF
+DB_GLO_Plague_Infected(_Var1, 1, _, _Var1, _Var1)
+AND NOT
+DB_GLO_Plague_InfectedStage(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Plague_InfectedStage(_Var1, 1);
+
+IF
+DB_GLO_Plague_InfectedStage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Plague_Infected(_Var1, 1, _, _Var1, _Var1)
+THEN
+NOT DB_GLO_Plague_InfectedStage(_Var1, _Var2);
+
+IF
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Plague_Infected(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+GetRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Plague_Status(_Var2, _Var3, _Var4);
+
+IF
+EnteredLevel((CHARACTER)_Var1, _, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CurrentLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Plague_Infected(_Var1, _Var4, _Var5, _Var1, _Var1)
+THEN
+PROC_GLO_Plague_Status(_Var1, _Var4, _Var5);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "OUT_CRAWLINGFEVER", _, _, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_Infected(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var4 != 0
+THEN
+PROC_GLO_Plague_Status(_Var1, _Var4, _Var5);
+
+IF
+FlagSet(GLO_Plague_State_Infected_1eed0ba4-f133-4964-ea21-d5df9316ee23, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Plague_Infected(_Var1, 1, _, _Var1, _Var1)
+AND NOT
+DB_GLO_Plague_Infected(_Var1, 2, _, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Plague_Infected(_Var1, 1, _Var1);
+
+PROC
+PROC_GLO_Plague_Status((CHARACTER)_Var1, (INTEGER)_Var2, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SetConditionalObjectFlag(_Var1, GLO_Plague_State_Infected_1eed0ba4-f133-4964-ea21-d5df9316ee23, _Var2);
+
+PROC
+PROC_GLO_Plague_Status((CHARACTER)_Var1, 0, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+HasActiveStatus(_Var1, "OUT_CRAWLINGFEVER", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "OUT_CRAWLINGFEVER");
+
+PROC
+PROC_GLO_Plague_Status((CHARACTER)_Var1, 1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Plague_InfectedStage(_Var1, -1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+PROC
+PROC_GLO_Plague_Status((CHARACTER)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 != 0
+AND
+HasActiveStatus(_Var1, "OUT_CRAWLINGFEVER", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "OUT_CRAWLINGFEVER", -1, 1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

@@ -1,0 +1,48 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+THEN
+DB_IRN_CombatAD_OnDeathCustom_SpeakerList(IRN_IronThrone_AD_PrisonerGroup1OnDeath_aa12a052-da09-59c7-f0e5-dc409a300ca8, S_GLO_IronThrone_Group1_Prisoner1_18991627-0e38-44d0-a8ac-31e1105d5392, S_GLO_IronThrone_Group1_Prisoner2_ced0a558-b5ed-4493-a499-1890ec48fbfb, S_GLO_IronThrone_Group1_Prisoner3_c8b6ebf5-e505-4dbd-bd85-dbf82684cbfb);
+DB_IRN_CombatAD_OnDeathCustom_SpeakerList(IRN_IronThrone_AD_PrisonerGroup2OnDeath_3897bbc8-f4ca-7556-3010-5a73bccc96eb, S_GLO_IronThrone_Group2_Prisoner1_aede3e82-f02b-4d6c-a92f-e9418b1b0e37, S_GLO_IronThrone_Group2_Prisoner2_ec0de12d-4a2f-4683-bb11-91473ec3577c, S_GLO_IronThrone_Group2_Prisoner3_d4f52268-f641-406e-b725-0ebf31193693);
+DB_IRN_CombatAD_OnDeathCustom_SpeakerList(IRN_IronThrone_AD_PrisonerGroup3OnDeath_856816af-755e-fbc2-a7e6-40edb77b9e34, S_GLO_IronThrone_Group3_Prisoner1_bbf324dd-8840-4d7d-a097-1937016ae4b8, S_GLO_IronThrone_Group3_Prisoner2_926d2515-b22a-4b51-8737-42a6c1ebd4f4, NULL_00000000-0000-0000-0000-000000000000);
+DB_IRN_CombatAD_OnDeathCustom_SpeakerList(IRN_IronThrone_AD_PrisonerGroup4OnDeath_b8d91068-8467-f1c7-11e5-13d551df000f, S_GLO_IronThrone_Group4_Prisoner1_a1831c84-e443-4ba9-95b2-49758d576bf5, S_GLO_IronThrone_Group5_Prisoner1_08ed18ea-c679-4845-93ab-a88fe73a2e55, NULL_00000000-0000-0000-0000-000000000000);
+DB_BUGFIX_Marker("GUS-301141");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_Visited_5b3fb5a7-61e8-44a9-a0a1-b6b45b59a23c, _, _, _, _)
+AND NOT
+DB_CurrentLevel("IRN_Main_A", _, _, _, _)
+THEN
+PROC_ApplySavegamePatches_GUS_303345();
+DB_BUGFIX_Marker("GUS-303345");
+
+PROC
+PROC_ApplySavegamePatches_GUS_303345()
+AND
+DB_GlobalFlag(IRN_Wyll_Event_MizoraAppearedToKillRavengard_3775e048-e7ec-48c2-a5cb-83acdd8c72dc, _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+
+PROC
+PROC_ApplySavegamePatches_GUS_303345()
+AND
+DB_GlobalFlag(IRN_Wyll_Event_MizoraAppearedToHelpRavengard_d0f84a78-d508-4194-b4f1-d663dbb10d8e, _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

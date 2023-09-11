@@ -1,0 +1,24 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DB_InRegion(_Var1, S_CAMP_ELFSONG_Area_000_1f57deba-bbd8-4614-a77f-63a158d333d9, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Tutorials_TrackedTimerStart(_Var1, "GLO_Tutorials_ElfsongTutorial", 3000);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((CHARACTER)_Var1, "GLO_Tutorials_ElfsongTutorial", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Elfsong_Dumbwaiter_1ac1174a-2a54-4539-b21c-f6dd9fef5856);
+PROC_GLO_Tutorials_TrackedTimer_EraseTimerRecord(_Var1, "GLO_Tutorials_ElfsongTutorial");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

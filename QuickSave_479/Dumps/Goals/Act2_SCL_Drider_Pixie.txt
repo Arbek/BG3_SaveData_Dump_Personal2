@@ -1,0 +1,240 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SCL_Pixie_ScreamingTimers(120);
+DB_SCL_Pixie_ScreamingTimers(180);
+DB_SCL_Pixie_ScreamingTimers(600);
+DB_FlagReactionAfterDialog(SCL_Drider_Debug_GiveMoonlantern_ed328cac-241f-1b35-de89-03c7b4e72ae0, DebugBook_3af7dec4-4c08-9e44-9064-ec038ebad0ea);
+
+KBSECTION
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCL_Pixie_MoonlanternHolder(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_StartPixieCall();
+
+IF
+FlagCleared(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Pixie_MoonlanternHolder(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Pixie_MoonlanternHolder(_Var1);
+
+IF
+FlagSet(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsInInventoryOf(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _Var1, 1, _Var1, _Var1)
+THEN
+DB_SCL_Pixie_MoonlanternHolder(_Var1);
+
+IF
+FlagSet(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+
+IF
+FlagSet(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_StartPixieCall();
+
+PROC
+PROC_SCL_Drider_StartPixieCall()
+AND NOT
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Pixie_Event_Released_8b8a6c7b-fc40-94a5-0139-1c6c43762651, _, _, _, _)
+THEN
+DB_SCL_Drider_StartPixieCall(1);
+PROC_SCL_Drider_TryStartPixieAD(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4);
+ObjectTimerLaunch(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "SCL_Drider_PixieAD", 12000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_Drider_PixieAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(GLO_Pixie_Event_Released_8b8a6c7b-fc40-94a5-0139-1c6c43762651, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_Drider_PixieAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(SCL_Drider_State_StopPixieCallingForHelp_86f63aa8-84bc-45b7-a7e2-0501a359c14b, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_Drider_PixieAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_Drider_PixieAD", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_StartPixieCall(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Drider_TryStartPixieAD(_Var1);
+ObjectTimerLaunch(_Var1, "SCL_Drider_PixieAD", 12000);
+
+PROC
+PROC_SCL_Drider_TryStartPixieAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_Drider_DriderCombatInProgress(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(SCL_Pixie_AD_AsksForHelp_efb1e2c4-9a8a-36bd-60fd-a4a86bfe1e77, _Var1);
+
+IF
+EnteredCombat(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_SCL_Drider_DriderCombatInProgress(_Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_Drider_DriderCombatInProgress(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Drider_DriderCombatInProgress(_Var1);
+
+IF
+DB_PermaDefeated(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _, _, _, _)
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+
+IF
+FlagSet(GLO_Pixie_Event_Released_8b8a6c7b-fc40-94a5-0139-1c6c43762651, _, (INTEGER)_Var2, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(SCL_Drider_State_StopPixieCallingForHelp_86f63aa8-84bc-45b7-a7e2-0501a359c14b, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_Pixie_BreakMoonlantern()
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SCL_Drider_BlockPixieInclusion(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var2, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4);
+
+IF
+DialogActorJoined((DIALOGRESOURCE)_Var1, _, S_GLO_Pixie_250b9342-fd7d-4a1d-a320-aa5e0dfbf2d5, _, (DIALOGRESOURCE)_Var1)
+AND
+DB_SCL_Drider_HarpersDialoguesAfterAmbush(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_Drider_BlockPixieInclusion(1);
+
+IF
+DialogActorJoined(SCL_Drider_HarperNarrator_AfterAmbush_7a3a0060-6ec0-ca87-01a9-b27a0ac5d8e7, _, S_GLO_Pixie_250b9342-fd7d-4a1d-a320-aa5e0dfbf2d5, _, (INTEGER)_)
+THEN
+DB_SCL_Drider_BlockPixieInclusion(1);
+
+IF
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _, _, _, _)
+THEN
+DB_SCL_Drider_BlockPixieInclusion(1);
+
+IF
+FlagSet(SCL_Drider_State_HasDriderMoonlantern_a48372d0-609f-48a4-9774-956f6f614c3c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventoryOf(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _Var1, 1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Pixie_BlockPixieDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Drider_PixieDialog(_Var1);
+
+IF
+FlagSet(SCL_Pixie_State_SwearingAndScreaming_e2d2f9a6-4311-442b-bb7c-78584ef4102b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _, _, _, _)
+AND NOT
+DB_SCL_Pixie_BlockScreams(1, _, _, _, _)
+AND NOT
+DB_SCL_Pixie_Screaming(1, _, _, _, _)
+THEN
+NOT DB_SCL_Drider_StartPixieCall(1);
+DB_SCL_Pixie_Screaming(1);
+PROC_SCL_Pixie_ScreamTimer();
+
+IF
+StatusApplied(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "SCL_PIXIE_SCREAMING", _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _, _, _, _)
+THEN
+PROC_TryStartAD(SCL_Pixie_AD_ScreamingInsideLantern_0ed0e64e-7cb3-5916-aeff-bd361b0a4c39, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4);
+
+IF
+StatusRemoved(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "SCL_PIXIE_SCREAMING", _, _, _)
+AND
+DB_SCL_Pixie_Screaming(1, _, _, _, _)
+AND NOT
+DB_SCL_Pixie_BlockScreams(1, _, _, _, _)
+THEN
+PROC_SCL_Pixie_ScreamTimer();
+
+PROC
+PROC_SCL_Pixie_ScreamTimer()
+AND NOT
+DB_SCL_Pixie_ScreamingTimers(_, _, _, _, _)
+THEN
+ApplyStatus(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "SCL_PIXIE_SCREAMING", 1200, 1);
+
+PROC
+PROC_SCL_Pixie_ScreamTimer()
+AND
+QRY_OnlyOnce_Reset("SCL_Pixie_Timer", _, _, _, _)
+AND
+DB_SCL_Pixie_ScreamingTimers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Pixie_Timer", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Pixie_ScreamingTimers(_Var1);
+ApplyStatus(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "SCL_PIXIE_SCREAMING", _Var1, 1);
+
+IF
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _, _, _, _)
+THEN
+DB_SCL_Pixie_BlockScreams(1);
+
+IF
+FlagCleared(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_SCL_Pixie_BlockScreams(1);
+
+PROC
+PROC_GLO_Pixie_BreakMoonlantern()
+THEN
+DB_SCL_Pixie_BlockScreams(1);
+ClearFlag(SCL_Pixie_State_SwearingAndScreaming_e2d2f9a6-4311-442b-bb7c-78584ef4102b, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(SCL_Pixie_Event_ApplyCurse_ccf8052d-33a6-ebed-621e-6847b412845b, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyStatus(_Var1, "GLO_PIXIECURSE", -1, 1, S_GLO_Pixie_250b9342-fd7d-4a1d-a320-aa5e0dfbf2d5);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, SCL_Drider_Debug_GiveMoonlantern_ed328cac-241f-1b35-de89-03c7b4e72ae0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(SCL_Drider_Debug_GiveMoonlantern_ed328cac-241f-1b35-de89-03c7b4e72ae0, _Var1);
+ToInventory(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

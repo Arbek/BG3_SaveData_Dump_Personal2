@@ -1,0 +1,127 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_ELF_772b1dc6-14be-417f-afa3-c6cf364f45b4, CONS_Elixir_Blood_Elf_9c96bc7d-5546-4f0b-8980-286325050e23, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_TIEFLING_7bf7207f-7406-49c0-b501-eaaa2bb4efd7, CONS_Elixir_Blood_Tiefling_9cd26812-b428-45be-9fa9-8ef55856c52b, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_DROWELF_676e854b-d74b-44f3-8363-3ef27164a54d, CONS_Elixir_Blood_Elf_9c96bc7d-5546-4f0b-8980-286325050e23, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_HUMAN_8e288154-e7ca-4277-b2df-e61639b1cce8, CONS_Elixir_Blood_Human_04edf181-9063-417f-a197-2d0c008b5943, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_GITHYANKI_e49c027c-6ec6-4158-9afb-8b59236d10fd, CONS_Elixir_Blood_Githyanki_ff858bad-e2fa-499b-bb43-c36349a09e4b, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_DWARF_ad129444-0f41-4114-9ee5-2b9902d7ca8d, CONS_Elixir_Blood_Dwarf_7196e628-a512-4447-94b3-49b2a9d1c182, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_HALFELF_277f9609-ad0c-4883-b56d-0850904e88df, CONS_Elixir_Blood_HalfElf_293ffe17-abc1-4842-b338-cd9482e3bcbc, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_HALFLING_2b40a033-7a5c-47e9-92f0-7de9b5cd3a42, CONS_Elixir_Blood_Halfling_dbeafcaf-825d-4b49-b36e-11aaf11ec794, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_HALFORC_ab3eff19-d094-4102-88bd-d097b6b6e4f0, CONS_Elixir_Blood_HalfOrc_b4b4a84c-95a2-46f5-9cb3-c0c53af11bde, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_GNOME_42483542-7915-4de5-a7d9-ac0d15fe301c, CONS_Elixir_Blood_Gnome_65e56bb5-909b-4f52-99e9-18fd1f39ef19, "");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_DRAGONBORN_39783f17-8484-46a6-aa3b-f3d51122e5f3, CONS_Elixir_Blood_Dragonborn_Acid_f21d19ce-b550-4d08-8eaf-55129772c6f2, "Dragonborn_Resistance_Acid");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_DRAGONBORN_39783f17-8484-46a6-aa3b-f3d51122e5f3, CONS_Elixir_Blood_Dragonborn_Lightning_b86d9910-d55e-4a16-a6b5-9f221071efa2, "Dragonborn_Resistance_Lightning");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_DRAGONBORN_39783f17-8484-46a6-aa3b-f3d51122e5f3, CONS_Elixir_Blood_Dragonborn_Fire_e258a58f-eda6-44f8-bba6-689b275d9d8f, "Dragonborn_Resistance_Fire");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_DRAGONBORN_39783f17-8484-46a6-aa3b-f3d51122e5f3, CONS_Elixir_Blood_Dragonborn_Ice_5e556eca-2989-42c7-a018-95770ae779a2, "Dragonborn_Resistance_Cold");
+DB_GLO_BloodElixirs_RacialElixirTemplates(REALLY_DRAGONBORN_39783f17-8484-46a6-aa3b-f3d51122e5f3, CONS_Elixir_Blood_Dragonborn_Poison_f737ed58-b467-4d6b-b1d0-76df984ec092, "Dragonborn_Resistance_Poison");
+NOT DB_GLO_BloodElixirs_BloodDrawTarget(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+KBSECTION
+IF
+TextEvent("getallbloodelixirs", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_BloodElixirs_RacialElixirTemplates(_, _Var3, _, _Var1, _Var1)
+THEN
+TemplateAddTo(_Var3, _Var1, 10, 1);
+
+IF
+TextEvent("getmybloodelixir", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_BloodElixirs_RacialElixirTemplates(_Var2, _Var3, _, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+TemplateAddTo(_Var3, _Var1, 1, 1);
+DB_DEBUG_BloodElixirs_WaitingForItem(_Var1);
+
+IF
+TextEvent("getotherbloodelixir", (TAG)_Var1, (TAG)_Var1, (TAG)_Var1, (TAG)_Var1)
+AND
+GetTextEventParamUUID(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_BloodElixirs_RacialElixirTemplates(_Var1, _Var3, _, _Var1, _Var1)
+THEN
+TemplateAddTo(_Var3, _Var2, 1, 1);
+DB_DEBUG_BloodElixirs_WaitingForItem(_Var2);
+
+IF
+TemplateAddedTo((ITEMROOT)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var3, _, (ITEMROOT)_Var1)
+AND
+DB_DEBUG_BloodElixirs_WaitingForItem(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_BloodElixirs_RacialElixirTemplates(_, _Var1, _, _Var1, _Var1)
+THEN
+DB_GLO_BloodElixirs_BloodDrawTarget(_Var2, _Var3, 0);
+NOT DB_DEBUG_BloodElixirs_WaitingForItem(_Var3);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "MOO_BLOODPOTION_DWARF", _, _, (GUIDSTRING)_Var1)
+AND
+DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, _Var4);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "MOO_BLOODPOTION_DWARF", _, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, 0);
+
+PROC
+PROC_RollResult("GAMEPLAY_SpellSavingThrowSave", (CHARACTER)_Var1, _, _, (CHARACTER)_Var1)
+AND
+DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, "MOO_BLOODPOTION_DWARF", 1, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+NOT DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, _Var4);
+DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, _Var5);
+
+IF
+DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, 3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_BloodElixirs_DwarfBloodPotionUser(_Var1, 3);
+RemoveStatus(_Var1, "MOO_BLOODPOTION_DWARF", _Var1);
+
+PROC
+PROC_ProcessUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_BloodElixirs_BloodDrawTarget(_Var2, _Var4, 0, _Var1, _Var1)
+THEN
+NOT DB_GLO_BloodElixirs_BloodDrawTarget(_Var2, _Var4, 0);
+DB_GLO_BloodElixirs_BloodDrawTarget(_Var2, _Var1, 1);
+
+IF
+LongRestFinished()
+AND
+DB_GLO_BloodElixirs_BloodDrawTarget(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "MOO_BLOODPOTION_SAPPED", -1, 1, _Var2);
+NOT DB_GLO_BloodElixirs_BloodDrawTarget(_Var1, _Var2, 1);
+DB_GLO_BloodElixirs_SappedPlayerADReady(_Var2);
+
+IF
+DB_GLO_BloodElixirs_SappedPlayerADReady(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_BloodElixirs_SappedPlayerADReady(_Var1);
+PROC_TryStartAD(MOO_InfernalVendor_PAD_FeelingSick_b9e6d373-8c9d-9003-d120-632127fd998a, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

@@ -1,0 +1,284 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_StoryActionHandled_NeverCombine("", "");
+NOT DB_CRIME_StoryActionHandled_NeverCombine("", "");
+
+KBSECTION
+QRY
+QRY_CRIME_StoryActionHandled((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var3 != -1
+AND
+QRY_CRIME_StoryActionHandled_Specific(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StoryActionHandled(1);
+
+QRY
+QRY_CRIME_StoryActionHandled((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var3 != -1
+AND NOT
+DB_StoryActionHandled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_StoryActionHandled_Generic(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StoryActionHandled(1);
+
+QRY
+QRY_CRIME_StoryActionHandled((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_StoryActionHandled(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_StoryActionHandled(1);
+
+PROC
+PROC_CRIME_StoryActionHandled_Reset((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var3, _Var4, _Var1, _Var5, _Var6, _Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_StoryActionHandled(_Var3, _Var4, _Var1, _Var5, _Var6, _Var2);
+
+PROC
+PROC_CRIME_StoryActionHandled_Reset((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_StoryActionHandle_CombineQueued(_Var3, _Var4, _Var1, _Var5, _Var6, _Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_StoryActionHandle_CombineQueued(_Var3, _Var4, _Var1, _Var5, _Var6, _Var2);
+
+QRY
+QRY_CRIME_StoryActionHandled_Combine((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (GUIDSTRING)_Var1)
+AND
+_Var7 <= _Var6
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+AND
+CrimeAddEvidence(_Var8, _Var4, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_StoryActionHandled_Combine((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (GUIDSTRING)_Var1)
+AND
+_Var7 <= _Var6
+AND
+_Var4 == NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_StoryActionHandled_Combine((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (CHARACTER)_Var1)
+AND
+_Var7 > _Var6
+AND
+DB_CRIME_StoryActionHandled(_Var1, _Var10, _Var3, _Var11, _Var12, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_StoryActionHandled_CombineOverride(_Var1, _Var2, _Var3, _Var4, _Var5, _Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_StoryActionHandled_CombineOverride((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CRIME_StoryActionHandle_CombineQueued(_Var1, _Var2, _Var3, _Var4, _Var5, _Var7);
+
+PROC
+PROC_CharacterRegisterCrime_Blocked((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_StoryActionHandle_CombineQueued(_Var7, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_StoryActionHandle_CombineQueued(_Var7, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_CharacterRegisterCrime_Success((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_StoryActionHandle_CombineQueued(_Var7, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var7, _Var8, _Var3, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeMergeEvidenceFrom(_Var6, _Var11);
+
+PROC
+PROC_CharacterRegisterCrime_Success((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_StoryActionHandle_CombineQueued(_Var7, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var7, _Var8, _Var3, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var6 != _Var11
+THEN
+NOT DB_CRIME_StoryActionHandle_CombineQueued(_Var7, _Var2, _Var3, _Var4, _Var5, _Var6);
+NOT DB_CRIME_StoryActionHandled(_Var7, _Var8, _Var3, _Var9, _Var10, _Var11);
+DB_CRIME_StoryActionHandled(_Var7, _Var2, _Var3, _Var4, _Var5, _Var6);
+CharacterStopCrimeWithID(_Var7, _Var11);
+
+QRY
+QRY_CRIME_StoryActionHandled_Specific((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var2, "Vandalise", _Var1, _Var1, _Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var1, _Var7, _Var3, _, _, _Var10, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_StoryActionHandled_NeverCombine(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_StoryActionHandled_NeverCombine(_Var7, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var7, "Vandalise", _Var1, _Var1, _Var1)
+AND
+CrimeGetTension(_Var10, _Var11, _Var1, _Var1, _Var1)
+AND
+CrimeTypeGetTension(_Var2, _Var12, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_StoryActionHandled_Combine(_Var1, _Var2, _Var3, _Var4, _Var5, _Var11, _Var12, _Var10, _Var6, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_IsAssaultOrMurder((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var1, "Assault", _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_IsAssaultOrMurder((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Assault_NoFallback(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_IsAssaultOrMurder((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var1, "Murder", _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_StoryActionHandled_Specific((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CRIME_IsAssaultOrMurder(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var1, _Var7, _Var3, _, _Var5, _Var9, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_StoryActionHandled_NeverCombine(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_StoryActionHandled_NeverCombine(_Var7, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsAssaultOrMurder(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetTension(_Var9, _Var10, _Var1, _Var1, _Var1)
+AND
+CrimeTypeGetTension(_Var2, _Var11, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_StoryActionHandled_Combine(_Var1, _Var2, _Var3, _Var4, _Var5, _Var10, _Var11, _Var9, _Var6, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_StoryActionHandled_Specific((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CRIME_IsAssaultOrMurder(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var1, _Var7, _Var3, _, _Var9, _Var10, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_StoryActionHandled_NeverCombine(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_StoryActionHandled_NeverCombine(_Var7, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_GetCrimeFamily(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_GetCrimeFamily(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_GetCrimeFamily(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_GetCrimeFamily(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+IsAlly(_Var5, _Var9, 1, _Var1, _Var1)
+AND
+CrimeGetTension(_Var10, _Var12, _Var1, _Var1, _Var1)
+AND
+CrimeTypeGetTension(_Var2, _Var13, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_StoryActionHandled_Combine(_Var1, _Var2, _Var3, _Var4, _Var5, _Var12, _Var13, _Var10, _Var6, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_StoryActionHandled_Generic((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var1, _Var2, _Var3, _Var4, _Var5, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_StoryActionHandled_Generic((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CRIME_StoryActionHandled(_Var1, _Var2, _Var3, _Var4, _Var5, _, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_StoryActionHandled_Register(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_StoryActionHandled_Register((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CRIME_StoryActionHandled(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+OnCrimeMergedWith((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_StoryActionHandled(_, _Var4, _Var5, _, _, _Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_StoryActionHandled(_Var3, _Var4, _Var5, _Var6, _Var7, _Var2);
+
+IF
+OnCrimeMergedWith((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_StoryActionHandled(_Var3, _Var4, _Var5, _Var6, _Var7, _Var1);
+
+IF
+OnCrimeResolved((INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_StoryActionHandled(_Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_StoryActionHandled(_Var7, _Var8, _Var9, _Var10, _Var11, _Var1);
+
+PROC
+PROC_CRIME_StoryActionHandled((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CRIME_StoryActionHandledManually(_Var1, _Var2);
+
+QRY
+QRY_CRIME_StoryActionHandled_Specific((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_StoryActionHandledManually(_Var5, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Died((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_StoryActionHandledManually(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_StoryActionHandledManually(_Var1, _Var2);
+
+PROC
+PROC_CRIME_AttackedInCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+THEN
+PROC_CRIME_StoryActionHandled(_Var1, _Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

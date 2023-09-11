@@ -1,0 +1,29 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+TextEvent("LevelUp", _, _, _, _)
+THEN
+SetFlag(Debug_LevelUpHack_77e836a8-c9f3-dee9-b03e-59b60e42be0b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(Debug_LevelUpHack_77e836a8-c9f3-dee9-b03e-59b60e42be0b, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GLO_Debug_LevelUpHack();
+ClearFlag(Debug_LevelUpHack_77e836a8-c9f3-dee9-b03e-59b60e42be0b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_GLO_Debug_LevelUpHack()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LevelUp(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

@@ -1,0 +1,100 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 0);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_NotAppeared", 0);
+DB_State_Current(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_NotAppeared");
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Proposal", 900);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Act1", 1000);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Act2", 1500);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Circus", 2000);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_InviteToRaphael", 3000);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_WaitForDeal", 3200);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_AfterDeal", 3400);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_LeftBaldursGate", 3600);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_HouseOfHope_Archive", 4000);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_HouseOfHope_OffStage", 4200);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_HouseOfHope_WithRaphael", 4500);
+DB_State_Priority(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_DefeatedInHell", 5000);
+DB_PermaDefeatedEvent(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, GLO_Warlock_State_PermaDefeated_9ddd355f-a036-494b-9da2-09e835b1a3bd);
+DB_DefeatedEvent(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, GLO_Warlock_State_Defeated_c45bb049-b0e2-47f7-8367-39af9d0586ea);
+DB_DeadEvent(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, GLO_Warlock_State_Dead_5879eb0a-4667-4d87-90b8-8eee6a38ff85);
+
+KBSECTION
+IF
+AttackedBy(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, (CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+
+IF
+AttackedBy(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, (GUIDSTRING)_Var1, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_InviteToRaphael", _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var1);
+
+PROC
+PROC_GLO_Warlock_TeleportOut()
+AND
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_HouseOfHope_WithRaphael", _, _)
+THEN
+PROC_GLO_Warlock_TeleportOut_Internal();
+
+PROC
+PROC_GLO_Warlock_TeleportOut_Internal()
+AND
+IsOnStage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 1, _, _, _)
+THEN
+PROC_ForceStopDialog(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+PROC_RemoveDialog(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+PurgeOsirisQueue(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+PROC_GLO_Monitor_EntityPoof(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+SetHitpointsPercentage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 100);
+
+PROC
+PROC_GLO_Warlock_ApplyAllStatuses()
+THEN
+PROC_GLO_Warlock_ApplyStatus("GLO_KORRILLA_PROJECTEDIMAGE");
+PROC_GLO_Warlock_ApplyStatus("GLO_KORRILLA_STEALTH");
+PROC_GLO_Warlock_ApplyStatus("TWN_KORRILLATHESPY_PROXIMITYAURA");
+
+PROC
+PROC_GLO_Warlock_RemoveAllStatuses()
+THEN
+PROC_GLO_Warlock_RemoveStatus("GLO_KORRILLA_PROJECTEDIMAGE");
+PROC_GLO_Warlock_RemoveStatus("GLO_KORRILLA_STEALTH");
+PROC_GLO_Warlock_RemoveStatus("TWN_KORRILLATHESPY_PROXIMITYAURA");
+
+PROC
+PROC_GLO_Warlock_ApplyStatus((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+HasAppliedStatus(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, 0, _Var1, _Var1)
+THEN
+ApplyStatus(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_Warlock_RemoveStatus((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+HasAppliedStatus(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, 1, _Var1, _Var1)
+THEN
+RemoveStatus(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(GLO_WarlockProposal_State_RaphaelWarlockMet_82d9eb12-512c-4f64-bd49-0630173168ed, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(GLO_Warlock_State_Encountered_eccb50a6-605a-423e-9f75-a49d16b71d16);
+SetFlag(GLO_Warlock_State_ShouldAppearInArchive_aaf145de-d32f-47f9-9334-49697509b561);
+
+IF
+FlagSet(GLO_KorrillaTheSpy_State_Talked_822981af-61bc-211c-44c2-e23c0917ee65, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(GLO_Warlock_State_Encountered_eccb50a6-605a-423e-9f75-a49d16b71d16);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

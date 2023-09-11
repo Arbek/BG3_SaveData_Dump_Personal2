@@ -1,0 +1,231 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HasItemEvent(S_DEN_AdventurerNote_a07e15dd-2a7d-4c65-a981-0e6510266168, DEN_AdventurersQuest_State_HasNote_370c7614-e4ff-7213-fe80-23980221bd45);
+DB_DialogMoneyTransfer(1, DEN_AdventurerLeader_46fea64f-e098-2df5-f4ee-825080ef9728, 5000);
+DB_DialogMoneyTransfer(1, DEN_AdventurersQuest_LeaderAtCorpses_753a0b1e-b28d-e00a-f77f-340cca458dc0, 5000);
+DB_DoNotFaceDialog(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, DEN_AdventurersQuest_LeaderAtCorpses_753a0b1e-b28d-e00a-f77f-340cca458dc0);
+DB_DEN_AdventurersQuest_AdventurerOnRoad(S_DEN_RobbedAdventurer_534bceaf-678c-40a0-8ca9-e1134f95ba0d, DEN_AdventurersQuest_RobbedAdventurerAtCorpses_ff43b1c2-9385-e13d-a4b8-16df167eb307, S_DEN_DeadPoint_003_af624df6-cf2a-468a-b7fc-74d46ff24934);
+DB_DEN_AdventurersQuest_AdventurerOnRoad(S_DEN_RaidAdventurer_4faf77a0-b883-4f7b-acbf-4500973f446d, DEN_AdventurersQuest_RaidAdventurerAtCorpses_7ac06f55-ebd5-ae29-22af-61df619451f5, S_DEN_DeadPoint_002_d439f0fc-d2c1-4ac2-b5e0-69eda1d9e4d3);
+DB_DEN_AdventurersQuest_AdventurerOnRoad(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, DEN_AdventurersQuest_LeaderAtCorpses_753a0b1e-b28d-e00a-f77f-340cca458dc0, S_DEN_DeadPoint_001_5170e97e-e483-4360-a09e-32f37f9d8116);
+DB_OneShot_VoiceBarkTrigger(S_DEN_AtCorpsesVBArea_0f297a62-e5e3-4970-b26f-2d33fcdf3029, DEN_AdventurersQuest_VB_AtCorpses_c1000ff3-dab9-c148-3b07-388f697f6ee2, "GlobalIgnoreFailure");
+DB_DEN_AdventurersQuest_DenDialogs(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, DEN_AdventurerLeader_46fea64f-e098-2df5-f4ee-825080ef9728);
+DB_DEN_AdventurersQuest_DenDialogs(S_DEN_RaidAdventurer_4faf77a0-b883-4f7b-acbf-4500973f446d, DEN_AdventurersQuest_RaidAdventurer_33617ce2-882e-8c82-83da-3c6b0e0b06ef);
+DB_DEN_Adventurers(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c);
+DB_DEN_Adventurers(S_DEN_RaidAdventurer_4faf77a0-b883-4f7b-acbf-4500973f446d);
+DB_DEN_Adventurers(S_DEN_RobbedAdventurer_534bceaf-678c-40a0-8ca9-e1134f95ba0d);
+PROC_TriggerRegisterForPlayers(S_DEN_AtCorpsesVBArea_0f297a62-e5e3-4970-b26f-2d33fcdf3029);
+DB_QuestDef_BookReadState("SHA_Nightsong", "HeardOf", S_DEN_AdventurerNote_a07e15dd-2a7d-4c65-a981-0e6510266168);
+DB_QuestDef_State(GOB_TempleAccess_Event_PuzzleSolved_e48a7760-a5b2-4f2e-9e9c-52645d772bd3, "SHA_Nightsong", "SolvedPuzzle");
+DB_QuestDef_BookReadState("SHA_Nightsong", "ReadHalsinDiary", S_GLO_HalsinDiary_5e4aafd4-f56c-4b05-ad5a-00eccdb87d9d);
+
+KBSECTION
+IF
+GameBookInterfaceClosed(S_GOB_SharTempleMap_f01b15a1-e670-43ac-abeb-e7ec9d5fc803, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestIsAccepted("SHA_Nightsong", _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "SHA_Nightsong", "SawBook", 0, _Var1)
+THEN
+QuestUpdate(_Var1, "SHA_Nightsong", "RefinedLocation");
+
+IF
+GameBookInterfaceClosed(S_GOB_SharTempleMap_f01b15a1-e670-43ac-abeb-e7ec9d5fc803, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QuestIsAccepted("SHA_Nightsong", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "SHA_Nightsong", "SawBook");
+
+IF
+Teleported((GUIDSTRING)_Var1, _, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, _, _, _, (STRING)_Var9, (GUIDSTRING)_Var1)
+AND
+_Var9 != "RegionSwap"
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_Nightsong_EnteredUnderdark(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestIsOpened("SHA_Nightsong", _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_UND_SharFortBox_3419cfbf-5ad0-473b-bfa6-f10cb1e4a415, 1, _Var1, _Var1)
+AND
+PositionIsInTrigger(_Var3, _Var4, _Var5, S_UND_Underdark_SUB_b379a862-a59f-4e52-9166-23fbe0e8976e, 0)
+THEN
+DB_UND_Nightsong_EnteredUnderdark(1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_UND_SharFortBox_3419cfbf-5ad0-473b-bfa6-f10cb1e4a415, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_Nightsong_EnteredUnderdark(1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_UND_Underdark_SUB_b379a862-a59f-4e52-9166-23fbe0e8976e, 1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "SHA_Nightsong", "EnteredUnderdark");
+NOT DB_UND_Nightsong_EnteredUnderdark(1);
+DB_UND_Nightsong_EnteredUnderdark(0);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_UND_SharFortBox_3419cfbf-5ad0-473b-bfa6-f10cb1e4a415, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_Nightsong_EnteredUnderdark(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CheckOtherPlayersInTrigger(NULL_00000000-0000-0000-0000-000000000000, S_UND_SharFortBox_3419cfbf-5ad0-473b-bfa6-f10cb1e4a415, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_Nightsong_EnteredUnderdark(1);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_Adventurers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Adventurers(_Var1);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Adventurers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Adventurers(_Var1);
+
+IF
+DB_GlobalFlag(DEN_RaidingParty_Quest_ConfrontationResolved_dc97da68-5ed9-ffe2-7582-2533be0efbcd, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_RaidingParty_State_PeacefulResolution_f4529d52-b459-6545-b4bf-8b2fb2cd6f2f, _, _, _, _)
+AND NOT
+DB_DEN_Adventurers(_, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, _, _, _, _)
+AND
+GetFlag(DEN_AdventurersQuest_Knows_AradinStory_31035679-797f-ae60-533f-17be40a174d3, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_DEN_AtCorpsesVBArea_0f297a62-e5e3-4970-b26f-2d33fcdf3029, _, _, _, _)
+THEN
+PROC_DEN_AdventurersQuest_AppearAtCorpses();
+
+PROC
+PROC_DEN_AdventurersQuest_AppearAtCorpses()
+THEN
+PROC_SetCorpseOwner(S_DEN_DeadAdventurer_004_482f39d8-b77e-443b-ab56-0e53b518c133, S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c);
+PROC_SetCorpseOwner(S_DEN_DeadAdventurer_005_031970f5-60d6-44fe-aa68-4cf6406a377d, S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c);
+PROC_SetCorpseOwner(S_DEN_DeadAdventurer_006_de3e1f50-ff58-4475-ab41-84995bc39a96, S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c);
+PROC_TriggerRegisterForPlayers(S_DEN_AtCorpsesArea_76c8dd06-59d4-42e8-8540-147fe0b02291);
+PROC_TriggerRegisterForPlayers(S_DEN_AtCorpseLeaveArea_d5f95907-d134-4ac1-ae66-dc5aabc62550);
+
+PROC
+PROC_DEN_AdventurersQuest_AppearAtCorpses()
+AND NOT
+DB_Defeated(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, _, _, _, _)
+THEN
+DB_DEN_AdventurersQuest_AdventurersOnRoad(1);
+PROC_RemoveOneShotVoiceBarkTrigger(S_DEN_AtCorpsesVBArea_0f297a62-e5e3-4970-b26f-2d33fcdf3029, DEN_AdventurersQuest_VB_AtCorpses_c1000ff3-dab9-c148-3b07-388f697f6ee2);
+
+PROC
+PROC_DEN_AdventurersQuest_AppearAtCorpses()
+AND NOT
+DB_Defeated(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, _, _, _, _)
+AND
+DB_DEN_AdventurersQuest_AdventurerOnRoad(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PurgeOsirisQueue(_Var1, 0);
+TeleportTo(_Var1, _Var3, "");
+SetOnStage(_Var1, 1);
+PROC_RemoveDialog(_Var1);
+LookFromTrigger(_Var1, _Var3, 1);
+DB_Dialogs(_Var1, _Var2);
+
+IF
+DialogEnded(DEN_AdventurersQuest_LeaderAtCorpses_753a0b1e-b28d-e00a-f77f-340cca458dc0, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c);
+PROC_DEN_AdventurersQuest_LeaveCorpses();
+
+PROC
+PROC_DEN_AdventurersQuest_LeaveCorpses()
+THEN
+NOT DB_DEN_AdventurersQuest_AdventurersOnRoad(1);
+
+PROC
+PROC_DEN_AdventurersQuest_LeaveCorpses()
+AND
+QRY_OnlyOnce("DEN_AdventurersQuest_LeaveCorpsesAD", _, _, _, _)
+THEN
+PROC_TryStartAD(DEN_AdventurersQuest_AD_LeavingCorpses_1810594b-3b36-7eee-4cb7-03afac0cb99b, S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c);
+
+IF
+EntityEvent(_, "DEN_AdventurersQuest_LeftCorpses", _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_AdventurersQuest_Event_LeftCorpses_28156d9f-a66d-4ec6-bc34-405a418635ff, _, _, _, _)
+THEN
+SetFlag(DEN_AdventurersQuest_Event_LeftCorpses_28156d9f-a66d-4ec6-bc34-405a418635ff, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+AutomatedDialogEnded(DEN_AdventurersQuest_AD_LeavingCorpses_1810594b-3b36-7eee-4cb7-03afac0cb99b, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_DisappearOutOfSightTo(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, S_DEN_AdventurersCorpseLeave_7454b27d-d9a5-49ed-b76e-14faf7d068c1, "Run", 0, "DEN_AdventurersQuest_LeftCorpses");
+
+PROC
+PROC_DisappearOutOfSightTo(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, S_DEN_AdventurersCorpseLeave_7454b27d-d9a5-49ed-b76e-14faf7d068c1, "Run", 0, "DEN_AdventurersQuest_LeftCorpses")
+AND
+DB_DEN_AdventurersQuest_AdventurerOnRoad(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var1 != S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c
+THEN
+PROC_ForceStopDialog(_Var1);
+PROC_DisappearOutOfSightTo(_Var1, S_DEN_AdventurersCorpseLeave_7454b27d-d9a5-49ed-b76e-14faf7d068c1, "Run", 1, "DEN_AdventurersQuest_LeftCorpses");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "DEN_AtDen_ReturnComplete", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_AdventurersQuest_DenDialogs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+DB_Dialogs(_Var1, _Var2);
+
+IF
+EntityEvent(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, "DEN_AdventurersQuest_LeftCorpses", _, _, _)
+THEN
+PROC_ClearCorpseOwner(S_DEN_DeadAdventurer_004_482f39d8-b77e-443b-ab56-0e53b518c133);
+PROC_ClearCorpseOwner(S_DEN_DeadAdventurer_005_031970f5-60d6-44fe-aa68-4cf6406a377d);
+PROC_ClearCorpseOwner(S_DEN_DeadAdventurer_006_de3e1f50-ff58-4475-ab41-84995bc39a96);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_DEN_AtCorpsesArea_76c8dd06-59d4-42e8-8540-147fe0b02291, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_AdvenutrersQuest_CheckLeaveCorpseArea(1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_DEN_AtCorpseLeaveArea_d5f95907-d134-4ac1-ae66-dc5aabc62550, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_AdvenutrersQuest_CheckLeaveCorpseArea(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_DEN_AtCorpseLeaveArea_d5f95907-d134-4ac1-ae66-dc5aabc62550, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, S_DEN_AdventurersCorpseLeave_7454b27d-d9a5-49ed-b76e-14faf7d068c1, "Run", 0, "DEN_AdventurersQuest_LeftCorpses");
+
+IF
+FlagSet(DEN_AdventurersQuest_Event_GiveContract_5f57b6eb-65b0-b3ed-cf26-abb70fd44ff2, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ToInventory(S_DEN_AdventurerNote_a07e15dd-2a7d-4c65-a981-0e6510266168, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

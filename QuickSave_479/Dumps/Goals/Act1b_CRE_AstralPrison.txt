@@ -1,0 +1,347 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0);
+PROC_TriggerRegisterForParty(S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0);
+DB_GlobalFlagReactionAfterDialog(CRE_AstralPrison_State_KilledDaisyDuringDialog_f19ad2b1-a8b8-48b8-8f38-f3c83e580f1e, CRE_AstralPrison_Daisy_985f1c50-b681-ac84-cd24-e2f068141345);
+DB_GlobalFlagReactionAfterDialog(CRE_AstralPrison_Event_DaisyReadyCheck_2e27eaa9-2e15-46a2-af3b-1eb1162e89b6, CRE_AstralPrison_Daisy_985f1c50-b681-ac84-cd24-e2f068141345);
+DB_DialogStarted_IgnoreStopConditions(CRE_AstralPrison_Daisy_985f1c50-b681-ac84-cd24-e2f068141345);
+DB_FlagReactionAfterDialog(CRE_AstralPrison_Event_StartDaisyDialog_799f4004-14e4-4b7c-811b-929618e3f557, CRE_AstralPrison_DaisyCaveEntrance_0b209c2a-169f-294b-8bbb-9a050f2290ee);
+SetOnStage(S_CRE_ExitPortal_87ca4464-d8ab-4fd2-b578-678b64666939, 0);
+DB_DangerZone(S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, "AstralPrism");
+DB_PartyDialogSuppressionZone(S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0);
+
+KBSECTION
+IF
+TextEvent("cre_gotoastral", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_CRE_AstralPlane_08bd2e32-e8b3-4981-8f34-29d443dc1aed, "", 1, 1, 1, 1, 1);
+
+IF
+TextEvent("cre_gotodaisy", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_CRE_DebugPos_DaisyField_cd1e7a98-f217-494e-9620-2a743eb5db98, "", 1, 1, 1, 1, 1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInMagicPockets(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_InfernalBox_Event_ForceGiveBox_7addbb64-502f-48aa-9b71-da1b8d6c28eb, _Var1, 0);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(S_CRE_AstralPrison_GlobeOfDomination_e7901694-5e21-4077-9a7b-b8d36b8b53a8, 1);
+
+IF
+UseStarted((CHARACTER)_Var1, S_CRE_DaisyCaveEntrance_446c526d-d3a0-4b22-b0b7-93713b467ff2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+THEN
+SetFlag(CRE_AstralPrison_State_MultipleAvatars_3f7252c0-1e94-4005-b58b-97e2228a3363);
+
+IF
+UseStarted((GUIDSTRING)_Var1, S_CRE_DaisyCaveEntrance_446c526d-d3a0-4b22-b0b7-93713b467ff2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CRE_AstralPrison_State_CompanionPresent_4e173d11-1589-4394-acd2-c80b67fe7382);
+
+IF
+UseStarted((GUIDSTRING)_Var1, S_CRE_DaisyCaveEntrance_446c526d-d3a0-4b22-b0b7-93713b467ff2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_DaisyDreams_GetDaisy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(CRE_AstralPrison_DaisyCaveEntrance_0b209c2a-169f-294b-8bbb-9a050f2290ee, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_SpeakerIsAvailableForInclusion(CRE_AstralPrison_DaisyCaveEntrance_0b209c2a-169f-294b-8bbb-9a050f2290ee, _, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _)
+AND
+QRY_SpeakerIsAvailable(_Var2, 1, _, _, _)
+AND
+DB_PartyMembers(_Var2, _, _, _, _)
+AND NOT
+DB_Avatars(_Var2, _, _, _, _)
+AND
+DB_Avatars(_Var3, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(CRE_AstralPrison_DaisyCaveEntrance_0b209c2a-169f-294b-8bbb-9a050f2290ee, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(CRE_AstralPrison_State_MultipleAvatars_3f7252c0-1e94-4005-b58b-97e2228a3363);
+ClearFlag(CRE_AstralPrison_State_CompanionPresent_4e173d11-1589-4394-acd2-c80b67fe7382);
+
+IF
+DialogEnded(CRE_AstralPrison_DaisyCaveEntrance_0b209c2a-169f-294b-8bbb-9a050f2290ee, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+GetFlag(CRE_AstralPrison_Event_StartDaisyDialog_799f4004-14e4-4b7c-811b-929618e3f557, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var2, 0.5);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, CRE_AstralPrison_Event_StartDaisyDialog_799f4004-14e4-4b7c-811b-929618e3f557, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRE_AstralPrison_HadDaisyDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_CRE_AstralPlane_DaisyDialog_TeleportSpot_3307f6bd-d4ed-4b29-a20c-98655763b9b6, "CRE_AstralPrion_PlayerTeleportedToCave", 0, 0, 0, 1, 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CRE_AstralPrion_PlayerTeleportedToCave", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_DaisyDreams_GetDaisy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRE_AstralPrison_StartDaisyDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRE_AstralPrison_HadDaisyDialog(_Var1);
+
+IF
+DialogStarted((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_CRE_AstralPrison_InDaisyDialog(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var2, _Var4);
+SetFlag(CRE_AstralPrison_State_DaisyDialogInProgress_43ef9bac-d79a-4337-b705-c5993724bc92);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRE_AstralPrison_InDaisyDialog(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var3, S_CRE_AstralPlane_DaisyDialog_ReturnSpot_37841cbe-59cb-441b-8f6b-74b5d0d27397, "", 0, 0, 0, 1, 1);
+SetOnStage(S_CRE_ExitPortal_87ca4464-d8ab-4fd2-b578-678b64666939, 1);
+ClearFlag(CRE_AstralPrison_State_DaisyDialogInProgress_43ef9bac-d79a-4337-b705-c5993724bc92);
+SetFlag(CRE_AstralPrison_State_DaisyDialogDone_040dd254-113c-48b5-aa2e-87ec799e7141);
+SetTag(_Var3, CRE_ASTRALPRISON_SPOKETODAISY_4c0924fc-5a3e-435b-8d1d-cd2e70968e54);
+
+IF
+DB_GlobalFlag(CRE_AstralPrison_State_DaisyDialogDone_040dd254-113c-48b5-aa2e-87ec799e7141, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, CRE_ASTRALPRISON_SPOKETODAISY_4c0924fc-5a3e-435b-8d1d-cd2e70968e54, 0, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRE_DaisyDialogDone", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(CRE_AstralPrison_VB_ComingOutOfCave_145a362f-0821-c237-e098-52622b7a9da5, _Var1);
+
+IF
+FlagSet(CRE_AstralPrison_State_DaisyDialogDone_040dd254-113c-48b5-aa2e-87ec799e7141, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+ApplyStatus(_Var3, "BLESS", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CRE_AstralPrison_GetNearbyUserAvatar(_, _, _, _, _)
+AND
+DB_QRYRTN_CRE_AstralPrison_NearbyUserAvatar(_Var2, _, _, _, _)
+THEN
+NOT DB_QRYRTN_CRE_AstralPrison_NearbyUserAvatar(_Var2);
+
+QRY
+QRY_CRE_AstralPrison_GetNearbyUserAvatar((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo_PreferAvatar(_Var2, _Var1, _Var3, 1, _Var1)
+AND
+_Var3 < 10
+AND
+QRY_SameUser(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRE_AstralPrison_NearbyUserAvatar(_Var2);
+
+QRY
+QRY_CRE_AstralPrison_StartDaisyDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+SetVisible(_Var1, 0);
+
+QRY
+QRY_CRE_AstralPrison_StartDaisyDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom(CRE_AstralPrison_Daisy_985f1c50-b681-ac84-cd24-e2f068141345, _Var1, _Var2, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_CRE_AstralPrison_InDaisyDialog(CRE_AstralPrison_Daisy_985f1c50-b681-ac84-cd24-e2f068141345, _Var2);
+
+IF
+DialogEnded(CRE_AstralPrison_Daisy_985f1c50-b681-ac84-cd24-e2f068141345, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+QRY_GLO_DaisyDreams_GetDaisy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_DaisyDreams_GetDaisy(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetVisible(_Var3, 1);
+TeleportTo(_Var3, S_CAMP_Act1b_DaisyTP_ed390955-547b-40dd-a949-b433de9721be);
+PROC_SetOnStage(_Var3, 0);
+
+IF
+DialogEnded(CRE_AstralPrison_Daisy_985f1c50-b681-ac84-cd24-e2f068141345, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_ClearScreenFadeTimeline(_Var2, 1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, S_CRE_ExitPortal_87ca4464-d8ab-4fd2-b578-678b64666939, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "CRE_AstralPrison_LeaveDelay", 500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRE_AstralPrison_LeaveDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ReadyCheckGlobal("CRE_AstralPrison_ReturnToCrecheReadyCheck", "CRE_AstralPrison_Leaving_ReadyCheck", 0, _Var1);
+ClearFlag(CRE_AstralPrison_Event_DaisyReadyCheck_2e27eaa9-2e15-46a2-af3b-1eb1162e89b6);
+
+IF
+ReadyCheckPassed("CRE_AstralPrison_ReturnToCrecheReadyCheck", _, _, _, _)
+THEN
+PROC_TeleportPartiesTo(S_CRE_AstralPrisonExitPosition_a07eb0c0-3bf4-46ec-8516-0f1ef4654fb4, "CRE_AstralPrison_Returned");
+SetFlag(CRE_AstralPrison_Event_LeftAstralPlane_58ec28f6-be1a-4044-8fbf-4229d8482bac);
+AllowNewPlayers(1);
+
+IF
+ReadyCheckFailed("CRE_AstralPrison_ReturnToCrecheReadyCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var1, CRE_AstralPrison_AD_ReadyCheckFailed_1e4698fa-122b-0b2f-dfb2-eb0e3e0690a5);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+IsInMagicPockets(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 1, _Var1, _Var1)
+THEN
+SetFlag(GLO_InfernalBox_Event_ForceGiveBox_7addbb64-502f-48aa-9b71-da1b8d6c28eb, _Var1, 0);
+SetOnStage(S_CRE_AstralPrisonEntrance_c8295f70-f69a-4a49-961f-309141d98bc0, 0);
+ClearFlag(CRE_ChainOfCommand_State_PlanecasterActive_5e5e9cb6-41d8-4a93-942d-3dca4d357561, NULL_00000000-0000-0000-0000-000000000000, 0);
+ClearFlag(CRE_AstralPrison_State_BoxUnlocked_07e04b03-e958-461c-bda9-b4131da6884b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(S_CRE_AstralPrison_GlobeOfDomination_e7901694-5e21-4077-9a7b-b8d36b8b53a8, 0);
+
+IF
+DB_InRegion(_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "CRE_ASTRALPRISON_GRAVITY", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_InRegion(_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "CRE_ASTRALPRISON_GRAVITY", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveStatus(_Var1, "CRE_ASTRALPRISON_GRAVITY", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TriggerUnregisterForCharacter(S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, _Var1);
+
+IF
+HitpointsChanged((CHARACTER)_Var1, (REAL)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 <= 0
+AND
+DB_InRegion(_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRE_AstralPrison_ResurrectAvatarQueued(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRE_AstralPrison_AvatarResurrecting(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "CRE_AstralPrison_ReviveAvatar", 2000, 1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "CRE_AstralPrison_ReviveAvatar", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CRE_AstralPrison_ResurrectAvatarQueued(_Var1);
+
+IF
+DB_CRE_AstralPrison_ResurrectAvatarQueued(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, ChasmRegion_AstralPlane_000_35c3fc55-bb04-4e00-a7c1-e700f80d4cd6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRE_AstralPrison_ResurrectAvatarQueued(_Var1);
+DB_CRE_AstralPrison_AvatarResurrecting(_Var1);
+Resurrect(_Var1);
+RemoveHarmfulStatuses(_Var1);
+SetHitpointsPercentage(_Var1, 1);
+ResetCooldowns(_Var1);
+
+IF
+HitpointsChanged((CHARACTER)_Var1, (REAL)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_AstralPrison_AvatarResurrecting(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 > 0
+AND
+GetReservedUserID(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "CRE_ASTRALPRISON_GRAVITY", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DaisyAD(_Var1, CRE_AstralPrison_DaisyAD_AvatarDies_6da881d6-5b26-d132-7234-f11516454bb5);
+NOT DB_DaisyAD_Triggered(CRE_AstralPrison_DaisyAD_AvatarDies_6da881d6-5b26-d132-7234-f11516454bb5, _Var3);
+NOT DB_CRE_AstralPrison_AvatarResurrecting(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(CRE_AstralPrison_State_InAstralPlane_93315997-599a-4cd6-948d-5853bde21260, _Var1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(CRE_AstralPrison_State_InAstralPlane_93315997-599a-4cd6-948d-5853bde21260, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1b"

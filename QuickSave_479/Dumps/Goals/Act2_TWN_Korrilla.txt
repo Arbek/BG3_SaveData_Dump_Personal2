@@ -1,0 +1,72 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_GLO_KorrillaAppearCheck_e92bd605-d256-4031-b976-ef65614586c7);
+
+KBSECTION
+IF
+TextEvent("TWN_TestKorrilla", _, _, _, _)
+THEN
+PROC_TeleportPartiesTo(S_GLO_KorrillaAppearCheck_e92bd605-d256-4031-b976-ef65614586c7, "");
+
+IF
+DB_InRegion(_Var1, S_GLO_KorrillaAppearCheck_e92bd605-d256-4031-b976-ef65614586c7, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TWN_Korrilla_Appear", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TWN_TeleportKorrillaAndWatch(S_GLO_KorrillaTownPos_552a7659-99de-4bf5-9108-8ab093fb0f56, _Var1);
+
+PROC
+PROC_TWN_TeleportKorrillaAndWatch((TRIGGER)_Var1, (GUIDSTRING)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+THEN
+TeleportTo(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, "", 0, 0, 0, 0, 1);
+CharacterDisableAllCrimes(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+PROC_GLO_Monitor_EntityFoop(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+DB_Dialogs(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, TWN_KorrillaTheSpy_Korrilla_aab4f3d2-4018-3855-d62d-62dc7cd1fef5);
+SetHitpointsPercentage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 100);
+LookAtEntity(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var2, 30);
+SetVisible(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 1);
+PROC_GLO_Warlock_ApplyAllStatuses();
+ObjectTimerLaunch(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "TWN_KorrillaPresenceTimer", 30000, 0);
+
+IF
+ObjectTimerFinished(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "TWN_KorrillaPresenceTimer", _, _, _)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+
+IF
+StatusApplied((CHARACTER)_Var1, "TWN_KORRILLATHESPY_ISNEAR", _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var1);
+
+IF
+DB_Sees(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "TWN_KORRILLATHESPY_ISNEAR", 1, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var1);
+
+IF
+DialogEnded(TWN_KorrillaTheSpy_Korrilla_aab4f3d2-4018-3855-d62d-62dc7cd1fef5, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

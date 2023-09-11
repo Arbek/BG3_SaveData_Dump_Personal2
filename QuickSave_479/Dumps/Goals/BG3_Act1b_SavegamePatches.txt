@@ -1,0 +1,179 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_CRE_KilledWithLance(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "DEAD_WILL_O_WISP", 1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_CAMP_CRE_Area_6de006e5-7944-4555-af07-96de24a8599e, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_CRE_DestructionSafePoint_ac7229e8-c9ca-42d9-b582-9033c1489237, "", 0, 0, 0, 1, 1);
+DB_BUGFIX_Marker("GUS-298934");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 6, 0, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "CRE_GITHINFIRMARY_AWAKENED", 1, _Var1, _Var1)
+AND
+DB_CRE_GithInfirmary_FlagToStatus(_Var2, _, _Var1, _Var1, _Var1)
+AND
+GetFlag(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "CRE_GITHINFIRMARY_AWAKENED", NULL_00000000-0000-0000-0000-000000000000);
+DB_BUGFIX_Marker("GUS-299174");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(S_CRE_AstralPrison_GlobeOfDomination_e7901694-5e21-4077-9a7b-b8d36b8b53a8, 1);
+DB_BUGFIX_Marker("GUS-300504");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_CurrentLevel("INT_Main_A", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForParty(S_CRE_AstralPlaneArea_cc0ba8c0-ae50-4f12-8ea4-7db1ff8e62b0);
+PROC_SetOnStage(S_CRE_AstralPrison_GlobeOfDomination_e7901694-5e21-4077-9a7b-b8d36b8b53a8, 0);
+DB_BUGFIX_Marker("GUS-300504");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND NOT
+DB_CRE_MageHandKids_BlockDisturbance("StartedDialog", _, _, _, _)
+THEN
+DB_CRE_MageHandKids_BlockDisturbance("StartedDialog");
+DB_BUGFIX_Marker("GUS-301058");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+THEN
+DB_DropMutingStatussesDialog(CRE_RooftopEagles_SWA_e77f9642-8977-3ba6-5f71-be62af70a029);
+DB_DropMutingStatussesDialog(CRE_RooftopEagles_SWA_SecondaryEagle_64109849-5c27-28fc-ba42-d6198821b233);
+DB_BUGFIX_Marker("GUS-300667");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+THEN
+DB_TryToFix("GUS-298343");
+
+IF
+DB_TryToFix("GUS-298343", _, _, _, _)
+AND
+DB_CurrentLevel("CRE_Main_A", _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-298343");
+TeleportToPosition(S_CAMP_CRE_Elminster_95d018e0-f824-4a86-89fc-8d72e1b5cd38, -388.27, 26.23, -998.811);
+NOT DB_TryToFix("GUS-298343");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 15, 0, _)
+AND
+DB_HandlingRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, INT_ORI_Gale_CRD_CrownOfKarsus_d61e7a6c-adde-2f37-447b-c096acc045e5, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, _Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HandlingRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, INT_ORI_Gale_CRD_CrownOfKarsus_d61e7a6c-adde-2f37-447b-c096acc045e5, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, _Var2);
+DB_HandlingRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, INT_ORI_Gale_CRD_CrownOfKarsus_d61e7a6c-adde-2f37-447b-c096acc045e5, ORI_Gale_IPRD_Act2End_05706143-82c3-616d-6850-9281f08c9b9f, _Var1, 0, _Var2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 15, 0, _)
+AND
+DB_RelationshipDialog_Queue(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, INT_ORI_Gale_CRD_CrownOfKarsus_d61e7a6c-adde-2f37-447b-c096acc045e5, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, _Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_RelationshipDialog_Queue(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, INT_ORI_Gale_CRD_CrownOfKarsus_d61e7a6c-adde-2f37-447b-c096acc045e5, NULL_00000000-0000-0000-0000-000000000000, _Var1, 0, _Var2);
+DB_RelationshipDialog_Queue(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, INT_ORI_Gale_CRD_CrownOfKarsus_d61e7a6c-adde-2f37-447b-c096acc045e5, ORI_Gale_IPRD_Act2End_05706143-82c3-616d-6850-9281f08c9b9f, _Var1, 0, _Var2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 13, 0, _)
+THEN
+PROC_ApplySavegamePatches_GUS_301515();
+DB_BUGFIX_Marker("GUS-301515");
+
+PROC
+PROC_ApplySavegamePatches_GUS_301515()
+THEN
+NOT DB_CampNight_CancelledBy(NIGHT_Laezel_VlaakithBetrayal_bdaa7b4d-e60f-477d-a870-197bd3f4f83e, CRE_Lance_Event_Exploded_f7d93dd1-c30e-4ef2-87c0-0cada12f180d);
+
+PROC
+PROC_ApplySavegamePatches_GUS_301515()
+AND
+DB_GlobalFlag(ORI_Laezel_State_MetVossInAct2_26563f96-bf5a-4895-b63b-036c7571bbbc, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_BetrayedByVlaakith_175d8487-99dc-4009-9b45-6e9f29708cd7, _, _, _, _)
+THEN
+SetFlag(ORI_Laezel_State_BetrayedByVlaakith_175d8487-99dc-4009-9b45-6e9f29708cd7);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_LevelLoadedOnce("CRE_Main_A", _, _, _, _)
+AND NOT
+DB_LevelUnreachable("CRE_Main_A", _, _, _, _)
+THEN
+DB_ApplySavegamePatches_GUS_302766_ApplyInCRE(1);
+
+IF
+DB_ApplySavegamePatches_GUS_302766_ApplyInCRE(1, _, _, _, _)
+AND
+DB_CurrentLevel("CRE_Main_A", _, _, _, _)
+THEN
+NOT DB_ApplySavegamePatches_GUS_302766_ApplyInCRE(1);
+TriggerRegisterForCharacter(S_CRE_SecurityOfficeLaezelLeaveArea_7b8493ab-9413-4330-9aa8-24b752a79980, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+DB_Origins_BlockTransferReasons("SpokeToVlaakith_LaezelAtPlanecaster");
+DB_Origins_BlockTransferReasons("TurnedHostileDuringInquisitor");
+DB_BUGFIX_Marker("GUS-302766");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_LevelLoadedOnce("CRE_Main_A", _, _, _, _)
+AND NOT
+DB_LevelUnreachable("CRE_Main_A", _, _, _, _)
+THEN
+DB_TopicalGreetingEndCondition_LeaveTrigger(TG_CRE_FoundCreche_d554c042-82dd-41fb-b9c3-1a01616f1393, S_CRE_Creche_TopFloor_SUB_01f823fe-7363-4f8a-bea3-31755b318738);
+DB_BUGFIX_Marker("GUS-302710");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

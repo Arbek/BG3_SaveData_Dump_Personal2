@@ -1,0 +1,46 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_LeverOnAttack_ExceptionTemplates(PUZ_Ketheric_Giant_Forge_Valve_A_8df19728-fcdc-4875-a015-128b1a2f2f36);
+
+KBSECTION
+IF
+AttackedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, _, "Attack", _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_LeverOnAttack_ExceptionTemplates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetCharacterOwnerIfItemSummon(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var7, _Var1, "GLO_HitByAttack", 1);
+
+IF
+AttackedBy((ITEM)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, _, "Offhand", _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_LeverOnAttack_ExceptionTemplates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetCharacterOwnerIfItemSummon(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var7, _Var1, "GLO_HitByAttack", 1);
+
+QRY
+QRY_GLO_LeverOnAttack_ExceptionTemplates((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_LeverOnAttack_ExceptionTemplates(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

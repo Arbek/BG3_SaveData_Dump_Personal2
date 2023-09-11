@@ -1,0 +1,728 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("TalkedToOlly_Cave");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("TalkedToOlly_Hideout");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("AgentsDied_Hideout");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("AgentsDied_Cave");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("RuganForced");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("NoSave_GotCargo_Hideout");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("SavedOlly_GotCargo_Hideout");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("SavedAgents_TookCargo");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("GotCargo_NoPassword");
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps("AgentsDied_NoSave");
+DB_PLA_ZhentShipmnt_Journal_PickUpChestFollowUps("AgentsDied_Hideout", "NoSave_GotCargo_Hideout");
+DB_PLA_ZhentShipmnt_Journal_PickUpChestFollowUps("TalkedToOlly_Hideout", "SavedOlly_GotCargo_Hideout");
+DB_PLA_ZhentShipmnt_Journal_PickUpChestFollowUps("AgentsDied_Cave", "GotCargo_NoPassword");
+DB_PLA_ZhentShipmnt_Journal_PickUpChestFollowUps("TalkedToOlly_Cave", "GotCargo_NoPassword");
+DB_PLA_ZhentShipmnt_Journal_PickUpChestFollowUps("RuganForced", "SavedAgents_TookCargo");
+DB_PLA_ZhentShipmnt_Journal_PickUpChestUpdateReceived(0);
+DB_PLA_ZhentShipmnt_Journal_WithChestSteps("GotCargo_NoPassword");
+DB_PLA_ZhentShipmnt_Journal_WithChestSteps("AgentsDied_NoSave");
+DB_PLA_ZhentShipmnt_Journal_WithChestSteps("SavedAgents_TookCargo");
+DB_PLA_ZhentShipmnt_Journal_WithChestSteps("NoSave_GotCargo_Hideout");
+DB_PLA_ZhentShipmnt_Journal_WithChestSteps("SavedOlly_GotCargo_Hideout");
+DB_QuestDef_State(PLA_ZhentShipment_Quest_DirectionsDead_8d437983-e741-2027-8ea6-d07bd501bc08, "PLA_ZhentShipment", "GotDirectionsDead");
+DB_QuestDef_State(PLA_ZhentShipment_Quest_PasswordDead_e1d4ba1b-868b-ccc4-4405-68a05fe97bce, "PLA_ZhentShipment", "GotPasswordDead");
+
+KBSECTION
+IF
+GameBookInterfaceClosed(S_PLA_ZhentShipment_NinefingersOrders_14ed5f04-c524-41a1-976e-4a857b326e6a, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_ZhentShipment", "AgreedHelp", 0, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "FoundOrders");
+
+PROC
+PROC_PLA_ZhentShipment_OnReadNinefingersOrders((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_ZhentShipment", "AgreedHelp", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "FoundCaravan");
+
+IF
+DialogEnded(PLA_ZhentShipment_Agent_003_Dead_2849e535-df84-70d3-e039-b224d1267747, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_Knows_SurvivorsInCave_6318e058-45f9-4640-a9f5-59489fccb843, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogGetInvolvedPlayer(_Var1, 1, _Var2, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "AgreedHelp", 1, _Var1)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "FoundCaravan");
+
+IF
+DialogEnded(PLA_ZhentShipment_Agent_003_Dead_2849e535-df84-70d3-e039-b224d1267747, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_Knows_RuganWentNorth_3d7e3562-babb-76b3-4d05-23aed66e481c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_Knows_SurvivorsInCave_6318e058-45f9-4640-a9f5-59489fccb843, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogGetInvolvedPlayer(_Var1, 1, _Var2, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "AgreedHelp", 0, _Var1)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "SpokeWithDead");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_PLA_ZhentShipment_NoticingZhentsArea_9741f301-f369-4ecc-b9f1-fe48d8bb107a, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_SurvivorsAreDead_bb54af09-b0c2-46c2-84e8-642280ccec6a, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PLA_ZhentShipment_AliveAgents(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, S_PLA_ZhentShipment_NoticingZhentsArea_9741f301-f369-4ecc-b9f1-fe48d8bb107a, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_ZhentShipment_Journal_NoticingZhentsInCave", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PLA_ZhentShipment_Journal_NoticingZhents();
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PLA_ZhentShipment_AliveAgents(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_ZhentShipment_Journal_NoticingZhentsInCave", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PLA_ZhentShipment_Journal_NoticingZhents();
+
+IF
+FlagSet(PLA_ZhentShipment_Knows_SurvivorsInCave_6318e058-45f9-4640-a9f5-59489fccb843, _, _, _, _)
+AND
+QRY_OnlyOnce("PLA_ZhentShipment_Journal_NoticingZhentsInCave", _, _, _, _)
+THEN
+PROC_PLA_ZhentShipment_Journal_NoticingZhents();
+
+PROC
+PROC_PLA_ZhentShipment_Journal_NoticingZhents()
+THEN
+PROC_TriggerUnregisterForParty(S_PLA_ZhentShipment_NoticingZhentsArea_9741f301-f369-4ecc-b9f1-fe48d8bb107a);
+
+PROC
+PROC_PLA_ZhentShipment_Journal_NoticingZhents()
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_Knows_SurvivorsInCave_6318e058-45f9-4640-a9f5-59489fccb843, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(PLA_ZhentShipment_Knows_SurvivorsInCave_6318e058-45f9-4640-a9f5-59489fccb843);
+
+PROC
+PROC_PLA_ZhentShipment_Journal_NoticingZhents()
+AND NOT
+DB_GlobalFlag(PLA_ConflictedFlind_Knows_Gnolls_c353a7d3-7561-05dc-c725-32e363ce6bf3, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(PLA_ConflictedFlind_Knows_Gnolls_c353a7d3-7561-05dc-c725-32e363ce6bf3);
+
+PROC
+PROC_PLA_ZhentShipment_Journal_NoticingZhents()
+AND NOT
+DB_GlobalFlag(PLA_ConflictedFlind_State_Gone_4152beef-e7d1-e10f-7b06-62584d3571f2, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_ZhentShipment", "AgreedHelp", 0, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "NoticedStruggle_Cave");
+
+PROC
+PROC_PLA_ZhentShipment_Journal_NoticingZhents()
+AND NOT
+DB_GlobalFlag(PLA_ConflictedFlind_State_Gone_4152beef-e7d1-e10f-7b06-62584d3571f2, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_ZhentShipment", "AgreedHelp", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "NoticedStruggle_Hideout");
+
+IF
+FlagSet(PLA_ZhentShipment_Quest_AttackedAgents_9efe32a4-5418-91b3-3674-6bfb15b2dda1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_ReadyToLeaveCave_e458690a-ebd9-a0a1-e44e-acca93224b3e, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "Attacked");
+
+PROC
+PROC_PLA_ConflictedFlind_StartInstigateAlliedWithGnolls()
+AND
+QRY_OnlyOnce("PLA_ZhentShipment_Journal_InstigateTimerLaunched", _, _, _, _)
+THEN
+TimerLaunch("PLA_ZhentShipment_Journal_Instigate_Timer", 3000);
+
+IF
+TimerFinished("PLA_ZhentShipment_Journal_Instigate_Timer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "Instigated");
+
+IF
+FlagSet(PLA_ConflictedFlind_State_Gone_4152beef-e7d1-e10f-7b06-62584d3571f2, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_Quest_HasMet_5359e72b-f8ca-d2d6-4c3a-8fc00efe5c2c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_PLA_ZhentShipment_Agent_001_fd9b4edd-7828-4e22-85a9-ead2ba9d29e4, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "GnollGone_HasMet");
+
+IF
+FlagSet(PLA_ConflictedFlind_State_Gone_4152beef-e7d1-e10f-7b06-62584d3571f2, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_Quest_HasMet_5359e72b-f8ca-d2d6-4c3a-8fc00efe5c2c, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_BothAgentsAreAlive_d7404f8a-8101-90c1-3105-0b49cddf7e1f, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "GnollGone_NotMet");
+
+IF
+FlagSet(PLA_ConflictedFlind_State_Gone_4152beef-e7d1-e10f-7b06-62584d3571f2, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_Quest_HasMet_5359e72b-f8ca-d2d6-4c3a-8fc00efe5c2c, _, _, _, _)
+AND
+DB_PermaDefeated(S_PLA_ZhentShipment_Agent_001_fd9b4edd-7828-4e22-85a9-ead2ba9d29e4, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_PLA_ZhentShipment_Agent_002_7eda738e-8a85-4975-a1e1-1b3b2c4d641c, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "GnollGone_RuganDied_HasMet");
+
+IF
+FlagSet(PLA_ConflictedFlind_State_Gone_4152beef-e7d1-e10f-7b06-62584d3571f2, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_Quest_HasMet_5359e72b-f8ca-d2d6-4c3a-8fc00efe5c2c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_BothAgentsAreAlive_d7404f8a-8101-90c1-3105-0b49cddf7e1f, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_SurvivorsAreDead_bb54af09-b0c2-46c2-84e8-642280ccec6a, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "GnollGone_OneDied_NotMet");
+
+IF
+FlagSet(PLA_ZhentShipment_Knows_SurvivorsAreDead_d889b0c1-89aa-480f-9735-b24f04525453, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var3, "PLA_ZhentShipment", "AgreedHelp", 1, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_ReadyToLeaveCave_e458690a-ebd9-a0a1-e44e-acca93224b3e, _, _, _, _)
+AND NOT
+QRY_PLA_ZhentShipment_Journal_SkipToChestPickedUp("AgentsDied_Hideout", _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "AgentsDied_Hideout");
+
+IF
+FlagSet(PLA_ZhentShipment_Knows_SurvivorsAreDead_d889b0c1-89aa-480f-9735-b24f04525453, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var3, "PLA_ZhentShipment", "AgreedHelp", 0, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_ReadyToLeaveCave_e458690a-ebd9-a0a1-e44e-acca93224b3e, _, _, _, _)
+AND NOT
+QRY_PLA_ZhentShipment_Journal_SkipToChestPickedUp("AgentsDied_Cave", _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "AgentsDied_Cave");
+
+IF
+FlagSet(PLA_ZhentShipment_Knows_SurvivorsAreDead_d889b0c1-89aa-480f-9735-b24f04525453, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_ReadyToLeaveCave_e458690a-ebd9-a0a1-e44e-acca93224b3e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_LeftCave_ae55c369-a884-41d7-9622-ad49ae1b019c, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "AgentsDied_NoSave");
+
+IF
+DialogEnded(PLA_ZhentShipment_Agent_002_5198e66c-1609-e216-ddde-9663b3caee09, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_ReadyToLeaveCave_e458690a-ebd9-a0a1-e44e-acca93224b3e, _, _, _, _)
+AND
+DB_PermaDefeated(S_PLA_ZhentShipment_Agent_001_fd9b4edd-7828-4e22-85a9-ead2ba9d29e4, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "AgreedHelp", 1, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "TalkedToOlly_Hideout");
+
+IF
+DialogEnded(PLA_ZhentShipment_Agent_002_5198e66c-1609-e216-ddde-9663b3caee09, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_ReadyToLeaveCave_e458690a-ebd9-a0a1-e44e-acca93224b3e, _, _, _, _)
+AND
+DB_PermaDefeated(S_PLA_ZhentShipment_Agent_001_fd9b4edd-7828-4e22-85a9-ead2ba9d29e4, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "AgreedHelp", 0, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "TalkedToOlly_Cave");
+
+IF
+DialogEnded(PLA_ZhentShipment_Agent_001_ba3b62b6-9ca9-2e36-eec0-8d7272a14c8a, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_ReadyToLeaveCave_e458690a-ebd9-a0a1-e44e-acca93224b3e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_Quest_AttackedAgents_9efe32a4-5418-91b3-3674-6bfb15b2dda1, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "AgreedHelp", 1, _)
+AND NOT
+QRY_PLA_ZhentShipment_Journal_RuganForced()
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "SavedAgents");
+
+IF
+DialogEnded(PLA_ZhentShipment_Agent_001_ba3b62b6-9ca9-2e36-eec0-8d7272a14c8a, _, _, _, _)
+AND
+QRY_PLA_ZhentShipment_Journal_RuganForced()
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "RuganForced");
+
+QRY
+QRY_PLA_ZhentShipment_Journal_RuganForced()
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_Intimidated_641d7a2e-724a-1533-41a9-9d074a5de560, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PLA_ZhentShipment_Journal_RuganForced()
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_Persuaded_0cc48ea5-9dad-42f1-bf61-d609bd83b914, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_PLA_ZhentShipment_AgentLeaveCave((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(PLA_ZhentShipment_State_HasShipment_73c09128-cbf6-441a-a882-96a891eee90f, _Var1, 1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "RuganForced", 1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "AgreedHelp", 1, _Var1)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "SavedAgents");
+
+PROC
+PROC_PLA_ZhentShipment_AgentLeaveCave((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(PLA_ZhentShipment_State_HasShipment_73c09128-cbf6-441a-a882-96a891eee90f, _Var1, 1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "RuganForced", 1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "AgreedHelp", 0, _Var1)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "GotPassword");
+
+IF
+FlagSet(PLA_ZhentShipment_State_HasShipment_73c09128-cbf6-441a-a882-96a891eee90f, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PLA_ZhentShipmnt_Journal_PickUpChestFollowUps(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var3, "PLA_ZhentShipment", _Var4, 1, _Var1)
+AND NOT
+DB_PLA_ZhentShipmnt_Journal_PickUpChestUpdateReceived(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_ZhentShipmnt_Journal_PickUpChestUpdateReceived(1);
+QuestUpdate(_Var3, "PLA_ZhentShipment", _Var5);
+
+IF
+QuestUpdateUnlocked((CHARACTER)_Var1, "PLA_ZhentShipment", (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_PLA_ZhentShipment_Journal_SkipToChestPickedUp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PLA_ZhentShipment_Journal_SkipToChestPickedUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_PLA_ZhentShipmnt_Journal_PickUpChestFollowUps(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_PLA_ZhentShipment_SomePlayerHasChest()
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PLA_ZhentShipmnt_Journal_PickUpChestUpdateReceived(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_ZhentShipmnt_Journal_PickUpChestUpdateReceived(1);
+QuestUpdate(_Var3, "PLA_ZhentShipment", _Var2);
+
+PROC
+PROC_PLA_ConflictedFlind_AfterAbandoningZhents()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_ZhentShipment", "AgreedHelp", 0, _Var1)
+AND
+QRY_PLA_ZhentShipment_SomePlayerHasChest()
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "GotCargo_NoPassword");
+
+IF
+FlagSet(PLA_ZhentShipment_State_ChestUnlocked_118e5e96-5ee0-4760-86f3-5e3044bc9f76, _, _, _, _)
+AND
+QRY_PLA_ZhentShipment_Journal_AnyChestOpenStepUnlocked()
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "ChestOpened");
+
+IF
+DestroyingBy(S_PLA_ZhentShipment_Chest_fc3f4359-ec62-4cbf-8756-ecb9780c34e8, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_ChestUnlocked_118e5e96-5ee0-4760-86f3-5e3044bc9f76, _, _, _, _)
+AND
+QRY_PLA_ZhentShipment_Journal_AnyChestOpenStepUnlocked()
+AND
+DB_Players(_Var4, _, _, _, _)
+THEN
+QuestUpdate(_Var4, "PLA_ZhentShipment", "ChestOpened");
+
+QRY
+QRY_PLA_ZhentShipment_Journal_AnyChestOpenStepUnlocked()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestIsAccepted(_Var1, "PLA_ZhentShipment", 1, _Var1, _Var1)
+AND
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_ZhentShipment", _Var2, 1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+QuestUpdateUnlocked((CHARACTER)_Var1, "PLA_ZhentShipment", (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PLA_ZhentShipmnt_Journal_ChestOpenSteps(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PLA_ZhentShipment_Journal_SkipToChestOpened()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PLA_ZhentShipment_Journal_SkipToChestOpened()
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_ChestUnlocked_118e5e96-5ee0-4760-86f3-5e3044bc9f76, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "ChestOpened");
+
+QRY
+QRY_PLA_ZhentShipment_Journal_SkipToChestOpened()
+AND
+DB_Destroyed(S_PLA_ZhentShipment_Chest_fc3f4359-ec62-4cbf-8756-ecb9780c34e8, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "ChestOpened");
+
+IF
+DialogEnded(PLA_ZhentShipment_Agent_001_ba3b62b6-9ca9-2e36-eec0-8d7272a14c8a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+GetFlag(PLA_ZhentShipment_Agent_001_ToldToMeet_d7f2080d-45aa-fb89-578e-947b3e21cb46, _Var3, 1, _Var1, _Var1)
+AND NOT
+QRY_PLA_ZhentShipment_Journal_RuganForced()
+AND
+QuestUpdateIsUnlocked(_Var3, "PLA_ZhentShipment", "AgreedHelp", 0, _Var1)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "GotPassword");
+
+IF
+FlagSet(PLA_EscapingZhentarim_State_Permitted_4af170a8-0c07-bc6e-ef28-3fa3a9eedef2, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var3, "PLA_ZhentShipment", "GotPassword", 1, _)
+THEN
+QuestUpdate(_Var3, "PLA_ZhentShipment", "EnteredHideout");
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_PLA_ZhentDungeon_053719f0-c4bf-487b-a0f4-44b11e7153c8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", "GotPassword", 1, _Var1)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "EnteredHideout");
+
+IF
+FlagSet(PLA_ZhentDungeon_State_FallBack_7a94f079-2bc8-495e-99f2-5b04b03a7d1d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_PLA_ZhentShipment_Journal_UpdateFallback();
+
+IF
+FlagSet(PLA_ZhentDungeon_Knows_Zhent02_Dead_089efe7b-7222-4bb1-ba92-c6dd77a8162e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_PLA_ZhentShipment_Journal_UpdateFallback();
+
+IF
+QuestUpdateUnlocked((CHARACTER)_Var1, "PLA_ZhentShipment", "SavedAgents", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_PLA_ZhentShipmnt_Journal_FallbackOrZarysDead()
+THEN
+PROC_PLA_ZhentShipment_Journal_UpdateFallback();
+
+IF
+QuestUpdateUnlocked((CHARACTER)_Var1, "PLA_ZhentShipment", "GotPassword", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_PLA_ZhentShipmnt_Journal_FallbackOrZarysDead()
+THEN
+PROC_PLA_ZhentShipment_Journal_UpdateFallback();
+
+PROC
+PROC_PLA_ZhentShipment_Journal_UpdateFallback()
+AND
+QRY_PLA_ZhentShipmnt_Journal_HasChestStepUnlocked()
+AND
+QRY_PLA_ZhentShipment_Journal_KnowsAboutHideout()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "HideoutFallback_HadChest");
+
+PROC
+PROC_PLA_ZhentShipment_Journal_UpdateFallback()
+AND
+DB_GlobalFlag(PLA_ZhentDungeon_State_NotWelcome_9a8d1e40-517d-ba04-5a9a-4d88fe6467a9, _, _, _, _)
+AND NOT
+QRY_PLA_ZhentShipmnt_Journal_HasChestStepUnlocked()
+AND
+QRY_PLA_ZhentShipment_Journal_KnowsAboutHideout()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "HideoutFallback_NotAllowed");
+
+PROC
+PROC_PLA_ZhentShipment_Journal_UpdateFallback()
+AND NOT
+DB_GlobalFlag(PLA_ZhentDungeon_State_NotWelcome_9a8d1e40-517d-ba04-5a9a-4d88fe6467a9, _, _, _, _)
+AND NOT
+QRY_PLA_ZhentShipmnt_Journal_HasChestStepUnlocked()
+AND
+QRY_PLA_ZhentShipment_Journal_KnowsAboutHideout()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "HideoutFallback_Attacked");
+
+QRY
+QRY_PLA_ZhentShipment_Journal_KnowsAboutHideout()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_ZhentShipment", "AgreedHelp", 1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PLA_ZhentShipment_Journal_KnowsAboutHideout()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_ZhentShipment", "AgreedHelp", 0, _Var1)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_RuganToldPassword_bf2e9687-2a08-5c3b-c45f-0be1025a4b75, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PLA_ZhentShipmnt_Journal_HasChestStepUnlocked()
+AND
+DB_PLA_ZhentShipmnt_Journal_WithChestSteps(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "PLA_ZhentShipment", _Var1, 1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PLA_ZhentShipmnt_Journal_FallbackOrZarysDead()
+AND
+DB_GlobalFlag(PLA_ZhentDungeon_State_FallBack_7a94f079-2bc8-495e-99f2-5b04b03a7d1d, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PLA_ZhentShipmnt_Journal_FallbackOrZarysDead()
+AND
+DB_GlobalFlag(PLA_ZhentDungeon_Knows_Zhent02_Dead_089efe7b-7222-4bb1-ba92-c6dd77a8162e, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_0cd5e00a-6490-e165-7cf7-b31bed8dd898, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_DeliveredUnlockedChest_e0d1eda7-7ad4-48d2-a12c-7c554ffe4fdd, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentDungeon_State_GnollZhentsPresent_2fe0f447-2276-a930-90c0-ab99b4dc8a2a, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_ChestLost_a672d90e-72fa-4ce3-8152-6969e39ab521, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "Rewarded_ZhentReturned");
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_0cd5e00a-6490-e165-7cf7-b31bed8dd898, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_DeliveredUnlockedChest_e0d1eda7-7ad4-48d2-a12c-7c554ffe4fdd, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentDungeon_State_GnollZhentsPresent_2fe0f447-2276-a930-90c0-ab99b4dc8a2a, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_ChestLost_a672d90e-72fa-4ce3-8152-6969e39ab521, _, _, _, _)
+AND
+GetFlag(PLA_ZhentShipment_State_HasShipment_73c09128-cbf6-441a-a882-96a891eee90f, S_PLA_ZhentDungeon_Zhent02_8a064abd-3582-4a32-a9f8-748ad60f63ca, 1, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "Rewarded_ZhentReturned");
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_0cd5e00a-6490-e165-7cf7-b31bed8dd898, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_DeliveredUnlockedChest_e0d1eda7-7ad4-48d2-a12c-7c554ffe4fdd, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_ChestLost_a672d90e-72fa-4ce3-8152-6969e39ab521, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentDungeon_State_GnollZhentsPresent_2fe0f447-2276-a930-90c0-ab99b4dc8a2a, _, _, _, _)
+AND
+GetFlag(PLA_ZhentShipment_State_HasShipment_73c09128-cbf6-441a-a882-96a891eee90f, S_PLA_ZhentDungeon_Zhent02_8a064abd-3582-4a32-a9f8-748ad60f63ca, 0, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "Rewarded_NoCargo");
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_0cd5e00a-6490-e165-7cf7-b31bed8dd898, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_DeliveredUnlockedChest_e0d1eda7-7ad4-48d2-a12c-7c554ffe4fdd, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentDungeon_State_GnollZhentsPresent_2fe0f447-2276-a930-90c0-ab99b4dc8a2a, _, _, _, _)
+AND
+GetFlag(PLA_ZhentShipment_State_HasShipment_73c09128-cbf6-441a-a882-96a891eee90f, S_PLA_ZhentDungeon_Zhent02_8a064abd-3582-4a32-a9f8-748ad60f63ca, 1, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "Rewarded_OnlyCargo");
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_0cd5e00a-6490-e165-7cf7-b31bed8dd898, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_DeliveredUnlockedChest_e0d1eda7-7ad4-48d2-a12c-7c554ffe4fdd, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_state_SaidLostChest_03ba8926-3ad8-bd72-f3b0-d5a6bb484805, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "HideoutFallback_ChestLost");
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_0cd5e00a-6490-e165-7cf7-b31bed8dd898, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_DeliveredUnlockedChest_e0d1eda7-7ad4-48d2-a12c-7c554ffe4fdd, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_state_SaidLostChest_03ba8926-3ad8-bd72-f3b0-d5a6bb484805, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "HideoutFallback_HadChest");
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_Trap_1e0f9dc3-8697-676c-1867-8695806ba968, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_SaidChestLost_03ba8926-3ad8-bd72-f3b0-d5a6bb484805, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_State_SaidChestUnlocked_5bea3690-e345-23c1-2f44-3c04e36876ca, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "HideoutFallback_ChestLost");
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_Trap_1e0f9dc3-8697-676c-1867-8695806ba968, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentDungeon_State_JoinedZhent_f952fd87-42f8-2633-f1b5-7e925138d56f, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "Rewarded_SentToBG");
+
+IF
+DialogEnded(PLA_ZhentDungeon_Zhent02_Trap_1e0f9dc3-8697-676c-1867-8695806ba968, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentShipment_state_SaidLostChest_03ba8926-3ad8-bd72-f3b0-d5a6bb484805, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_ZhentDungeon_State_JoinedZhent_f952fd87-42f8-2633-f1b5-7e925138d56f, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_ZhentShipment_State_SaidChestUnlocked_5bea3690-e345-23c1-2f44-3c04e36876ca, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "PLA_ZhentShipment", "HideoutFallback_HadChest");
+
+IF
+FlagSet(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_PLA_ZhentShipment_LeftAct();
+
+PROC
+PROC_PLA_ZhentShipment_LeftAct()
+AND
+QRY_PLA_ZhentShipment_SomePlayerHasChest()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "LeftAct_notDecided");
+
+PROC
+PROC_PLA_ZhentShipment_LeftAct()
+AND NOT
+QRY_PLA_ZhentShipment_SomePlayerHasChest()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_ZhentShipment", "LeftAct");
+
+
+EXITSECTION
+PROC_PLA_ZhentShipment_LeftAct();
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

@@ -1,0 +1,76 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_SHA_SharTempleRegion_71365cf4-2ef6-4c32-9a00-067bafa768db);
+DB_Dialogs(S_SHA_AcademyAltar_e533baa4-316d-469b-875f-e78480578244, SHA_AcademyAltar_a3350b28-26f1-7a9c-68d3-182ad937aa0a);
+DB_FlagReactionAfterDialog(SHA_AcademyAltart_Event_GiveBuff_1274df83-e5a2-47f6-87e5-6ec3f71dde26, SHA_AcademyAltar_a3350b28-26f1-7a9c-68d3-182ad937aa0a);
+DB_FlagReactionAfterDialog(SHA_AcademyAltart_Event_GiveDebuff_076a225b-2290-438a-9500-7c080016a276, SHA_AcademyAltar_a3350b28-26f1-7a9c-68d3-182ad937aa0a);
+
+KBSECTION
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_SHA_SharTempleRegion_71365cf4-2ef6-4c32-9a00-067bafa768db, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(SHA_PartyProgress_LeftSharTemple_aa03f4e8-2540-4ad5-af02-46494a40448d, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SHA_PartyProgress_LeftSharTemple_aa03f4e8-2540-4ad5-af02-46494a40448d, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, SHA_AcademyAltar_Event_GiveBuff_1274df83-e5a2-47f6-87e5-6ec3f71dde26, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(SHA_AcademyAltar_Event_GiveBuff_1274df83-e5a2-47f6-87e5-6ec3f71dde26, _Var1);
+SetFlag(SHA_AcademyAltar_State_HasBuff_f8bf8346-b736-475d-9619-6db92c496c16, _Var1);
+SetFlag(SHA_AcademyAltar_State_HasStatus_66f1a789-fafe-9e92-0d22-9b20b7bd5ad7, _Var1);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, SHA_AcademyAltar_Event_GiveBuff_1274df83-e5a2-47f6-87e5-6ec3f71dde26, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "SHA_ALTAR_BUFF", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SHA_ALTAR_BUFF", -1, 1);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, SHA_AcademyAltar_Event_GiveDebuff_076a225b-2290-438a-9500-7c080016a276, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(SHA_AcademyAltar_Event_GiveDebuff_076a225b-2290-438a-9500-7c080016a276, _Var1);
+SetFlag(SHA_AcademyAltar_State_HasDebuff_32d799a3-5796-4bb1-b2cc-84f1b693ee76, _Var1);
+SetFlag(SHA_AcademyAltar_State_HasStatus_66f1a789-fafe-9e92-0d22-9b20b7bd5ad7, _Var1);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, SHA_AcademyAltar_Event_GiveDebuff_076a225b-2290-438a-9500-7c080016a276, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "SHA_ALTAR_DEBUFF", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SHA_ALTAR_DEBUFF", -1, 1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "SHA_ALTAR_BUFF", _, _, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(SHA_AcademyAltar_State_HasBuff_f8bf8346-b736-475d-9619-6db92c496c16, _Var1);
+ClearFlag(SHA_AcademyAltar_State_HasStatus_66f1a789-fafe-9e92-0d22-9b20b7bd5ad7, _Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "SHA_ALTAR_DEBUFF", _, _, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(SHA_AcademyAltar_State_HasDebuff_32d799a3-5796-4bb1-b2cc-84f1b693ee76, _Var1);
+ClearFlag(SHA_AcademyAltar_State_HasStatus_66f1a789-fafe-9e92-0d22-9b20b7bd5ad7, _Var1);
+
+IF
+TextEvent("SHA_Teleport_LivingQuarters", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_SHA_LivingQuarters_OETeleportTo_134574c5-7246-4087-a90b-82dc80b12339);
+
+IF
+TextEvent("SHA_Teleport_SharSymbol", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_SHA_Crypt_Sarcophagus_OETeleportTo_85eae5ea-cf85-47c5-97a3-821f7e5ae772);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

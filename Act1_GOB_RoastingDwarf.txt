@@ -1,0 +1,79 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_GOB_RoastingDwarfOperator_000_1fe911f8-c9c9-4405-83fa-d343d59c7be9, GOB_Festivities_DwarfOperator000_f4cf220e-6443-7937-5f73-ff9a954b2768);
+DB_Dialogs(S_GOB_RoastingDwarfOperator_001_3837d519-dc92-459c-ab2d-1eac0b208fc7, GOB_Festivities_DwarfOperator001_a87f27a1-84bf-8bc9-ba3c-2b1a3aa2833d);
+DB_ItemOwnerShipTriggers("WLD_Main_A", S_GOB_RoastingDwarf_OwnershipTrigger_27e0f00b-e0e7-4afa-9a75-65d12806cff7, S_GOB_RoastingDwarfOperator_000_1fe911f8-c9c9-4405-83fa-d343d59c7be9);
+DB_HasItemEvent(S_GOB_SharTempleMap_f01b15a1-e670-43ac-abeb-e7ec9d5fc803, GOB_SharTempleEntrance_HasMap_8c35b5fe-1969-f575-7e69-218ca68f35df);
+DB_GiveItemToEvent(S_GOB_SharTempleMap_f01b15a1-e670-43ac-abeb-e7ec9d5fc803, GOB_SharTempleEntrance_GiveMap_8cc48f44-0038-4f68-8488-722ab13c31fe);
+DB_FlagReactionAfterDialog(GOB_RoastingDwarf_GavePants_e9bad0fd-452d-4443-abaf-966bffe26810, GOB_Festivities_DwarfOperator000_f4cf220e-6443-7937-5f73-ff9a954b2768);
+DB_GOB_RoastingDwarf_Pieces(S_GOB_RoastingDwarf_A_000_b82d2fc8-ba9b-451c-af91-d5c7ab29eaae);
+DB_GOB_RoastingDwarf_Pieces(S_GOB_RoastingDwarf_B_000_9782a866-ac02-4494-a3a4-2598a13cb84a);
+DB_GOB_RoastingDwarf_Pieces(S_GOB_RoastingDwarf_C_000_8897e6c4-dcd7-4fe4-8669-fc9c247d4a77);
+DB_GOB_RoastingDwarf_Pieces(S_GOB_RoastingDwarf_C_001_8df1feb1-e4cd-4e22-a9d5-552a5dbc9752);
+TriggerRegisterForItems(S_GOB_RoastingDwarf_StealingTrigger_4ea00991-09e9-4605-b6e8-4b5c895fd154);
+
+KBSECTION
+IF
+ItemLeftTrigger((ITEM)_Var1, S_GOB_RoastingDwarf_StealingTrigger_4ea00991-09e9-4605-b6e8-4b5c895fd154, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GOB_RoastingDwarf_Pieces(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GOB_RoastingDwarf_NotStolen()
+THEN
+PROC_GOB_RoastingDwarf_SetStolenFlag();
+
+IF
+ItemEnteredTrigger((GUIDSTRING)_Var1, S_GOB_RoastingDwarf_StealingTrigger_4ea00991-09e9-4605-b6e8-4b5c895fd154, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GOB_RoastingDwarf_Pieces(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_GOB_RoastingDwarf_ClearStolenFlag();
+
+IF
+AddedTo((ITEM)_Var1, _, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GOB_RoastingDwarf_Pieces(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GOB_RoastingDwarf_NotStolen()
+THEN
+PROC_GOB_RoastingDwarf_SetStolenFlag();
+
+IF
+DroppedBy((ITEM)_Var1, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GOB_RoastingDwarf_Pieces(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_GOB_RoastingDwarf_StealingTrigger_4ea00991-09e9-4605-b6e8-4b5c895fd154, 1, _Var1, _Var1)
+THEN
+PROC_GOB_RoastingDwarf_ClearStolenFlag();
+
+QRY
+QRY_GOB_RoastingDwarf_NotStolen()
+AND
+DB_GOB_RoastingDwarf_Pieces(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_GOB_RoastingDwarf_StealingTrigger_4ea00991-09e9-4605-b6e8-4b5c895fd154, 1, _Var1, _Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GOB_RoastingDwarf_SetStolenFlag()
+THEN
+SetFlag(GOB_RoastingDwarf_Quest_MeatStolen_21125a9e-8852-a631-e796-930160f74869, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_GOB_RoastingDwarf_ClearStolenFlag()
+THEN
+ClearFlag(GOB_RoastingDwarf_Quest_MeatStolen_21125a9e-8852-a631-e796-930160f74869, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

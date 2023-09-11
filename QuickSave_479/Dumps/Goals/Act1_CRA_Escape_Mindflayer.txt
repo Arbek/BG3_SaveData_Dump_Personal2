@@ -1,0 +1,153 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DeadEvent(CHARACTERGUID_S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, CRA_MindflayerDead_ae34ec9f-d08a-4f58-8eac-18c891c897be);
+PROC_SetHitpointsPercentage_BlockSelfHealing(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 3);
+SetCanJoinCombat(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 0);
+DB_DialogBlockAttackButton(CRA_Escape_Mindflayer_91f3b889-e31d-f687-2f57-b18c2e8a5048);
+DB_Dialogs(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, DIALOGRESOURCEGUID_CRA_Escape_Mindflayer_91f3b889-e31d-f687-2f57-b18c2e8a5048);
+DB_SpotPlayers(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "CRA_Escape_MindFlayerSpottedPlayer", CRA_Escape_MindFlayer_StartSpotting_e60ad2c9-4990-4c0e-8a7a-0d2a35ce86a3, CRA_Escape_MindFlayer_StopSpotting_d4082360-1ca9-43dc-a052-ca5fd0df7187);
+DB_SpotPlayers_CustomRadius(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "CRA_Escape_MindFlayerSpottedPlayer", 12);
+DB_KilledEvent(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, CRA_Escape_State_KilledMindflayer_85d96811-0978-3afa-d7c3-56035295c2dd);
+DB_PermaDefeatedEvent(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, CRA_Escape_State_MindFlayerDead_124c69b6-7c46-76f2-3f63-c8a835066cd2);
+DB_GlobalFlagReactionAfterDialog(CRA_Escape_Event_GiveInToMindflayer_6d7d1810-b42a-475b-95cb-85c6a6cdf6ac, CRA_Escape_Mindflayer_91f3b889-e31d-f687-2f57-b18c2e8a5048);
+DB_CRA_Escape_FootstepsTrigger(TRIGGERGUID_S_CRA_Escape_FootstepsBox_1_37d177db-8aa0-48e6-95d4-9ea7a7af8605);
+DB_CRA_Escape_FootstepsTrigger(TRIGGERGUID_S_CRA_Escape_FootstepsBox_2_3d22b751-8353-4c42-846c-1e59b497af99);
+DB_OneShot_VoiceBarkTrigger(S_CRA_Escape_MindflayerVB_9fdc1f34-15ac-4fa5-afef-aaae69620096, CRA_Escape_VB_SawMindflayer_d0db7e14-7233-951c-c321-395067a4b717, "PerUserAndNearbyPlayers");
+ApplyStatus(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "CRA_MINDFLAYER_LYING", -1, 1);
+PROC_CRA_Escape_MindflayerSceneInit();
+
+KBSECTION
+QRY
+QRY_CRIME_BlockRegisterCrime(_, _, _, S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRA_Escape_MindflayerSceneInit()
+AND
+DB_CRA_Escape_FootstepsTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(TRIGGERGUID_S_CRA_Escape_FootstepsBox_1_37d177db-8aa0-48e6-95d4-9ea7a7af8605);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRA_Escape_FootstepsTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "CRA_Escape_Footsteps", _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(VOICEBARKRESOURCEGUID_CRA_Escape_VB_OtherSurvivors_1a8b72d2-c0ca-5aa1-c045-80ffe2c4f1b6, _Var1);
+
+IF
+FlagSet(CRA_Escape_Event_KillMindflayer_c415a498-1598-4ac0-0bc2-c1fe5b185f7c, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CRA_Escape_KillMindflayerAfterCombat(_Var1);
+
+IF
+DialogEnded(DIALOGRESOURCEGUID_CRA_Escape_Mindflayer_91f3b889-e31d-f687-2f57-b18c2e8a5048, _, _, _, _)
+AND
+DB_CRA_Escape_KillMindflayerAfterCombat(_Var2, _, _, _, _)
+THEN
+NOT DB_CRA_Escape_KillMindflayerAfterCombat(_Var2);
+Die(CHARACTERGUID_S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 0, _Var2, 1, 1);
+
+IF
+FlagSet(CRA_Escape_Event_MindFlayerGetUp_44a21e1e-56f5-2f5b-fa45-f50ade4e2f7f, S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, _, (INTEGER)_, (INTEGER)_)
+THEN
+RemoveStatus(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "CRA_MINDFLAYER_LYING");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CRA_Escape_Event_GiveInToMindflayer_6d7d1810-b42a-475b-95cb-85c6a6cdf6ac, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+AND
+GetFaction(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, _Var5, _, _, _)
+THEN
+PROC_RemoveDialog(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4);
+Die(_Var3, 0, S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 0, 1);
+SetCanJoinCombat(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 1);
+SetEntityEvent(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "ClearPeaceReturn", 1);
+RemoveStatus(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "CRA_MINDFLAYER_LYING");
+SetHitpointsPercentage(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 70);
+PROC_SetRelationToPlayers(_Var5, 0);
+SetStoryDisplayName(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "CRA_Mindflayer_Rejuvenated");
+PROC_RemoveOneShotVoiceBarkTrigger(S_CRA_Escape_MindflayerVB_9fdc1f34-15ac-4fa5-afef-aaae69620096, CRA_Escape_VB_SawMindflayer_d0db7e14-7233-951c-c321-395067a4b717);
+
+PROC
+PROC_DEN_RaidingParty_ConfrontationCompleted()
+AND NOT
+DB_GlobalFlag(CRA_Escape_Event_GiveInToMindflayer_6d7d1810-b42a-475b-95cb-85c6a6cdf6ac, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, _, _, _, _)
+THEN
+PROC_ForceStopDialog(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4);
+Die(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 0);
+
+IF
+StatusRemoved(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "CRA_MINDFLAYER_LYING", (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_GlobalFlag(CRA_MindflayerDead_ae34ec9f-d08a-4f58-8eac-18c891c897be, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CRA_Escape_State_TriedHelpMindflayer_b5f97a3c-ce18-c95a-8483-8804405c0a39, _Var1);
+Die(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 0, _Var1, 1, 0);
+
+IF
+StatusApplied(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, (STRING)_Var1, (GUIDSTRING)_Var2, _, (STRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+QRY_IsHealingStatus(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CRA_MindflayerDead_ae34ec9f-d08a-4f58-8eac-18c891c897be, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CRA_Escape_State_TriedHelpMindflayer_b5f97a3c-ce18-c95a-8483-8804405c0a39, _Var2);
+Die(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 0, _Var2, 1, 0);
+
+IF
+KilledBy(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, (GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsInRange(_Var1, S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, 20, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "CRA_Escape_AD_KilledMindflayer", 2000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRA_Escape_AD_KilledMindflayer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_TryStartAD(DIALOGRESOURCEGUID_CRA_Escape_AD_KilledMindflayer_4f4f79dd-9d6e-9cf6-b79d-3e0f5d126aac, _Var1);
+
+IF
+FlagSet(CRA_MindflayerDead_ae34ec9f-d08a-4f58-8eac-18c891c897be, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CRA_Escape_Mindflayer_CleanUp();
+
+IF
+StatusRemoved(S_CRA_Escape_Mindflayer_d5385cd0-f371-43dc-a0a2-50381fc50ea4, "CRA_MINDFLAYER_LYING", _, _, (GUIDSTRING)_)
+THEN
+PROC_CRA_Escape_Mindflayer_CleanUp();
+
+PROC
+PROC_CRA_Escape_Mindflayer_CleanUp()
+THEN
+PROC_RemoveOneShotVoiceBarkTrigger(S_CRA_Escape_MindflayerVB_9fdc1f34-15ac-4fa5-afef-aaae69620096, CRA_Escape_VB_SawMindflayer_d0db7e14-7233-951c-c321-395067a4b717);
+
+PROC
+PROC_CRA_Escape_Mindflayer_CleanUp()
+AND
+DB_CRA_Escape_FootstepsTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForPlayers(_Var1);
+NOT DB_CRA_Escape_FootstepsTrigger(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

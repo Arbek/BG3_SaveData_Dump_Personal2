@@ -1,0 +1,290 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DEN_DefenderLeaders(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, CAMP_GoblinHuntCelebration_TieflingLeader_2ac7bfcd-6130-6eab-8496-ba4a7b1fdc3f);
+DB_DEN_DefenderLeaders(S_DEN_Trainer_02025646-347a-4235-aef7-e46b7c94b435, CAMP_GoblinHuntCelebration_Trainer_bc5948ea-0ce4-d90c-746a-ba5ee0ca07e7);
+DB_DEN_DefenderLeaders(S_DEN_BackupLeader_b304e07d-019c-4ec6-b5ea-c4ccb29ed892, CAMP_GoblinHuntCelebration_BackupLeader_e51fef81-ae3f-24d6-b0a4-4ccbc6bcc00d);
+DB_DEN_CurrentDefenderLeader(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+DB_IgnoreMutingStatussesDialog(DEN_Victory_Transition_50787765-f63b-996d-f7d5-b54cbe716a09);
+DB_Dialog_AddAllNearbyPlayersAtStart(DEN_Victory_Transition_50787765-f63b-996d-f7d5-b54cbe716a09);
+DB_DEN_Victory_NoDialogSwap(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+KBSECTION
+IF
+TextEvent("readygoblinhuntvictory", _, _, _, _)
+THEN
+PROC_DEN_RaidingParty_DebugResolveConfrontation();
+
+IF
+TextEvent("readygoblinhuntvictory", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_DefeatCounter(_Var1, "GOB_GoblinHunt_Leaders", _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_DefenderLeaders(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_DefenderLeaders(_Var1, _Var2);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_CurrentDefenderLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_CurrentDefenderLeader(_Var1);
+PROC_DEN_DefenderLeader_DefineNew();
+
+PROC
+PROC_DEN_DefenderLeader_DefineNew()
+AND
+DB_DEN_DefenderLeaders(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_CurrentDefenderLeader(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_CurrentDefenderLeader(_Var1);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_CurrentDefenderLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_AttackOnDen_BetrayTieflings();
+
+PROC
+PROC_DEN_Victory_NoDialogSwap_Init()
+THEN
+DB_DEN_Victory_NoDialogSwap(S_DEN_Squirrel_35ed8eab-1e0b-4ec8-92f2-1b8510cb3ad8);
+DB_DEN_Victory_NoDialogSwap(S_DEN_Rat_b61c2b37-da0d-47ad-ba9f-a4f8230f3b53);
+DB_DEN_Victory_NoDialogSwap(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb);
+
+PROC
+PROC_DEN_Victory_NoDialogSwap_Init()
+AND
+DB_DEN_DruidPets(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Victory_NoDialogSwap(_Var1);
+
+PROC
+PROC_DEN_Victory_NoDialogSwap_Init()
+AND
+DB_DEN_Druids(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Victory_NoDialogSwap(_Var1);
+
+PROC
+PROC_DEN_TieflingRefugees_StartVictory()
+THEN
+PROC_DEN_Victory_NoDialogSwap_Init();
+PROC_DEN_Victory_Setup();
+
+PROC
+PROC_DEN_Victory_Setup()
+THEN
+SetFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(DEN_General_State_KanonTryBurial_7edf4538-ae5d-4fdd-968d-9ce4f6c63d7f, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_DEN_Victory_CheckStartTransition();
+
+PROC
+PROC_DEN_Victory_Setup()
+AND
+DB_DEN_AttackOnDen_LeaveObjects(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+
+PROC
+PROC_DEN_Victory_Setup()
+AND
+DB_DEN_NPC(_Var1, _, _, _Var1, _Var1)
+THEN
+RemoveHarmfulStatuses(_Var1);
+LeaveCombat(_Var1);
+PROC_ForceStopDialog(_Var1);
+PurgeOsirisQueue(_Var1);
+
+PROC
+PROC_DEN_Victory_Setup()
+AND
+DB_DEN_CurrentDefenderLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, S_DEN_VictoryLeaderWaitPos_5e1be949-9a96-471c-b218-87f9fd67c064, "DEN_AttackOnDen_UpdateVictoryPosition");
+
+PROC
+PROC_DEN_Victory_Setup()
+AND
+DB_DEN_CurrentDefenderLeader(S_DEN_BackupLeader_b304e07d-019c-4ec6-b5ea-c4ccb29ed892, _, _, _, _)
+THEN
+SetOnStage(S_DEN_BackupLeader_b304e07d-019c-4ec6-b5ea-c4ccb29ed892, 1);
+SetEntityEvent(S_DEN_BackupLeader_b304e07d-019c-4ec6-b5ea-c4ccb29ed892, "DEN_Victory_TeleportToPosition");
+
+PROC
+PROC_DEN_Victory_Setup()
+AND
+DB_DEN_NPC(_Var1, _, _Var3, _Var1, _Var1)
+THEN
+PROC_DEN_Victory_SetupNPC(_Var1, _Var3);
+
+PROC
+PROC_DEN_Victory_Setup()
+THEN
+PROC_DEN_Victory_SetupOver();
+
+PROC
+PROC_DEN_Victory_SetupOver()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Victory_CheckStartTransition()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_IsInDen(_Var1, 1, S_DEN_DruidVault_SUB_f4c22466-5963-4192-b939-f1056f4f806a, S_DEN_Tunnel_SUB_6d2ed20e-f315-463a-9783-d02b173cb35a, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+PROC_DEN_Victory_StartTransition(_Var1);
+
+PROC
+PROC_DEN_Victory_StartTransition((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("DEN_Victory_MoveScene", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(DEN_Victory_Transition_50787765-f63b-996d-f7d5-b54cbe716a09, S_DEN_VictoryTiefling_4b11cdb4-a375-4b2b-9004-5f3de57da40f, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Victory_SetupNPC((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_DEN_Victory_Staying(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Victory_TryTeleport(_Var1);
+PROC_DEN_Victory_TrySwitchDialog(_Var1);
+
+PROC
+PROC_DEN_Victory_TryTeleport((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_DEN_Victory_CanTeleport(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "DEN_Victory_TeleportToPosition");
+
+QRY
+QRY_DEN_Victory_Staying(_, (GUIDSTRING)_Var2, _, _, _)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Victory_Staying((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_Victory_NoDialogSwap(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Victory_CanTeleport((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DEN_DruidPets(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Druids(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Victory_CanTeleport(S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Victory_SetupNPC((CHARACTER)_Var1, NULL_00000000-0000-0000-0000-000000000000, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DEN_Victory_NoDialogSwap(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+PROC_DEN_RemoveFromDenNPCs(_Var1);
+
+PROC
+PROC_DEN_Victory_SetupNPC((CHARACTER)_Var1, NULL_00000000-0000-0000-0000-000000000000, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_LeaveEvents(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, _Var2);
+
+PROC
+PROC_DEN_Victory_SetupNPC(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, _, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_)
+THEN
+Die(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, 0, 1);
+
+PROC
+PROC_DEN_Victory_TrySwitchDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DEN_Victory_NoDialogSwap(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_NPC(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+DB_Dialogs(_Var1, _Var3);
+
+PROC
+PROC_DEN_Victory_TrySwitchDialog(S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156);
+DB_Dialogs(S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, DEN_ShadowDruid_LeaderPostGoblins_7ea3a9b8-b726-8309-2b8e-d328c36d82bf);
+
+IF
+FlagSet(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+PROC_GLO_Origins_SetRecruitmentDialog(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, Wyll_Recruitment_PostDruidAttack_PostEA_3c61d907-0397-abae-bf10-6ca114d84d0c);
+
+IF
+DialogStarted(DEN_AttackOnDen_BackupLeader_92b83e7a-534b-ebbc-8e8a-7a89d0d1bdab, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(DEN_AttackOnDen_Event_TieflingPartyInvitation_545593fd-42e6-15c1-1e96-18e0e0be0443, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "DEN_Victory_TeleportToPosition", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_CurrentDefenderLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers_SpotTrigger(_Var1, "DEN_Victory_LeaderDialog", S_DEN_VictoryLeaderWaitArea_13345b61-58ef-4cf4-bb76-5fa3c3ee2d5d);
+DB_SpotPlayers(_Var1, "DEN_Victory_LeaderDialog", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted((GUIDSTRING)_Var1, "DEN_Victory_LeaderDialog", (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Dialogs(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(_Var3, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Dialogs(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_GoblinHunt_Event_LeaderMetPlayer_097d69b7-7e59-49ba-830a-b2b7f950aec7, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_GoblinHunt_Event_LeaderMetPlayer_097d69b7-7e59-49ba-830a-b2b7f950aec7, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

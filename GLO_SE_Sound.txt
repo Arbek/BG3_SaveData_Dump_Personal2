@@ -1,0 +1,203 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Sound_ScriptedCombatMusic(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Sound_Scripted_Music(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_Sound_Scripted_Music(_Var2, _Var3);
+PROC_Sound_Scripted_Music_FightStart(_Var2, _Var3);
+
+IF
+LeftCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Sound_Scripted_Music(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Sound_OtherPlayersInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Sound_Scripted_Music(_Var2, _Var3);
+PROC_Sound_Scripted_Music_FightStop(_Var2, _Var3);
+
+IF
+SwitchedCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Sound_Scripted_Music(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Sound_Scripted_Music(_Var2);
+DB_Sound_Scripted_Music(_Var3);
+
+QRY
+QRY_Sound_OtherPlayersInCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND
+DB_Is_InCombat(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Sound_Scripted_Music_FightStart((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Sound_ScriptedCombatMusic_Triggers(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_Sound_ScriptedCombatMusic_States(_Var2, "In", _Var5, _Var6, _Var1)
+THEN
+TriggerSetSoundState(_Var3, _Var5, _Var6, _Var4);
+
+PROC
+PROC_Sound_Scripted_Music_FightStop((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Sound_ScriptedCombatMusic_Triggers(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_Sound_ScriptedCombatMusic_States(_Var2, "Out", _Var5, _Var6, _Var1)
+THEN
+TriggerSetSoundState(_Var3, _Var5, _Var6, _Var4);
+
+PROC
+PROC_Sound_Scripted_Music_FightStart((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Sound_ScriptedCombatMusic_Events(_Var2, "In", _Var3, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+MusicPlayForPeer(_Var4, _Var3);
+
+PROC
+PROC_Sound_Scripted_Music_FightStop((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Sound_ScriptedCombatMusic_Events(_Var2, "Out", _Var3, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+MusicPlayForPeer(_Var4, _Var3);
+
+IF
+DB_Downed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Music_Trigger_DownedEvent(_Var3);
+
+PROC
+PROC_Music_Trigger_DownedEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Music_DownedTriggered(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Music_DownedTriggered(_Var2);
+MusicPlayForPeer(_Var1, "Music_Fight_PlayerDowned");
+
+PROC
+PROC_Music_Trigger_DownedEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Music_DownedTriggered(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Music_DownedTriggered(_Var2);
+
+IF
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+IsAlly(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+PROC_Music_Trigger_AllyDeadEvent(_Var3);
+
+PROC
+PROC_Music_Trigger_AllyDeadEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Music_AllyDeadTriggered(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Music_AllyDeadTriggered(_Var2);
+MusicPlayForPeer(_Var1, "Music_Fight_AllyKilled");
+
+PROC
+PROC_Music_Trigger_AllyDeadEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Music_AllyDeadTriggered(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Music_AllyDeadTriggered(_Var2);
+
+IF
+UseFinished((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsLocked(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PlaySound(_Var2, "Items_Generic_Locked");
+
+IF
+TextEvent("BG_PNC_Shadowheart_Arch_Shar", _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PlaySound(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "BGClickReaction_NarrativePrototype_SetShar");
+
+IF
+TextEvent("BG_PNC_Shadowheart_Arch_Questioning", _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PlaySound(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "BGClickReaction_NarrativePrototype_SetQuestioning");
+
+IF
+TextEvent("BG_PNC_Shadowheart_Arch_Salune", _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PlaySound(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "BGClickReaction_NarrativePrototype_SetSalune");
+
+IF
+TextEvent("BG_PNC_Shadowheart_Relation_Positive", _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PlaySound(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "BGClickReaction_RelationPrototype_SetPositive");
+
+IF
+TextEvent("BG_PNC_Shadowheart_Relation_Negative", _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PlaySound(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "BGClickReaction_RelationPrototype_SetNegative");
+
+IF
+TextEvent("BGClickReaction_RelationPrototype_Reset", _, _, _, _)
+AND
+DB_Players(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PlaySound(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "BGClickReaction_RelationPrototype_Reset");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

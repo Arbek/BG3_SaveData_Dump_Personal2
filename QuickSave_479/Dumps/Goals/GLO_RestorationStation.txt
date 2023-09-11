@@ -1,0 +1,93 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_GLO_RestorationStation(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_RestorationStation_OneTimeUse(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_RestorationStation_CustomDistance(NULL_00000000-0000-0000-0000-000000000000, 0);
+
+KBSECTION
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_RestorationStation(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_RestorationStation_Activate(_Var2, _Var1);
+
+PROC
+PROC_GLO_RestorationStation_Activate((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_RestorationStation_CustomDistance(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_RestoreNearbyAvailableParty(_Var2, _Var3);
+
+PROC
+PROC_GLO_RestorationStation_Activate((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_RestorationStation_CustomDistance(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_RestoreNearbyAvailableParty(_Var2);
+
+PROC
+PROC_GLO_RestorationStation_Activate((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlaySound(_Var1, "Spell_Passive_Cast_Healing_DiscipleOfLife_L1to3");
+PlayEffect(_Var2, VFX_Spells_Cast_Intent_Healing_ShoutAoE_Impact_Root_Textkey_01_27357584-12f2-6267-08c2-cbec69d3ef10);
+Transform(_Var1, FUR_MF_Resting_Device_B_823a1b67-0a13-4508-ae67-88312ee386ea, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+SetCanInteract(_Var1, 0);
+
+PROC
+PROC_GLO_RestorationStation_Activate((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_RestorationStation_OneTimeUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "GLO_RestorationStation_Cooldown", 5000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_RestorationStation_Cooldown", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveTransforms(_Var1);
+SetCanInteract(_Var1, 1);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_RestorationStation(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var1, _, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+PROC
+PROC_RestoreNearbyAvailableParty((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var3, _, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var3, _Var5, _Var1, _Var1)
+AND
+_Var5 <= _Var2
+THEN
+ApplyStatus(_Var3, "TUT_RESTORATION", 0, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "TUT_RESTORATION", _, _, (GUIDSTRING)_Var1)
+THEN
+PROC_CharacterFullRestore(_Var1);
+RemoveStatus(_Var1, "TUT_RESTORATION", NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_RestoreNearbyAvailableParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_RestoreNearbyAvailableParty(_Var1, 30);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

@@ -1,0 +1,194 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_CharacterCorpseDialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_CharacterCorpseDialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_CustomEntityCorpseDialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_CustomEntityCorpseDialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_DialogBlockTradeButton(GLO_SpeakWithDead_Generic_14019d29-4bf1-d48c-16ef-c422882268a1);
+
+KBSECTION
+IF
+StatusApplied((GUIDSTRING)_Var1, "SPEAK_WITH_DEAD", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+IsDead(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_CharacterCorpseDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PlayOriginMoment(_Var4, _Var1, _Var2, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(_Var4, _Var1, _Var2, 0, 0, 1, 0, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, CORPSE_SPOKEN_249ba319-6652-47ec-9f31-ef5be55429c3);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SPEAK_WITH_DEAD", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+IsDead(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_CharacterCorpseDialog(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsSpeakerReserved(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(GLO_SpeakWithDead_Generic_14019d29-4bf1-d48c-16ef-c422882268a1, _Var2, 0, 0, 1, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, CORPSE_SPOKEN_249ba319-6652-47ec-9f31-ef5be55429c3);
+
+IF
+DB_GLO_CharacterCorpseDialog(_, _Var2, _, _, _)
+THEN
+DB_DialogBlockTradeButton(_Var2);
+
+IF
+DB_GLO_CharacterCorpseDialog(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_WitnessKiller(_Var1, _Var1);
+
+PROC
+PROC_WitnessedKiller((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_GLO_CharacterCorpseDialog(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_SpeakWithDead_KnowsKillerShape(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_CharacterCorpseDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetRace(_Var3, 1, _Var4, _Var1, _Var1)
+AND
+GetGender(_Var3, 1, _Var5, _Var1, _Var1)
+AND
+DB_SpeakWithDead_KnowsKillerShape(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+SetFlag(GLO_SpeakWithDead_State_Killer_7827d93e-1619-402e-b9ec-3ec5d762b6ea, _Var3);
+DB_SpeakWithDead_KillerFlagSet(_Var3);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_SpeakWithDead_KillerFlagSet(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpeakWithDead_KillerFlagSet(_Var3);
+ClearFlag(GLO_SpeakWithDead_State_Killer_7827d93e-1619-402e-b9ec-3ec5d762b6ea, _Var3);
+
+IF
+FlagSet(GLO_SpeakWithDead_Event_QuestionAsked_9984cd59-2fad-46cb-bf61-96af6034fbea, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ObjectCountHelper(_Var1, "GLO_SpeakWithDead_QuestionCount");
+ClearFlag(GLO_SpeakWithDead_Event_QuestionAsked_9984cd59-2fad-46cb-bf61-96af6034fbea, _Var1);
+
+IF
+DB_ObjectCountHelper(_Var1, "GLO_SpeakWithDead_QuestionCount", 5, _Var1, _Var1)
+THEN
+SetFlag(GLO_SpeakWithDead_State_QuestionsLimitReached_01c40268-4a8d-4787-8566-77e01ff04762, _Var1, 0);
+ClearTag(_Var1, HASSWDDIALOG_21be1053-c642-4081-b64b-56678ae11594);
+
+IF
+DB_GLO_CharacterCorpseDialog(_Var1, _, _Var1, _Var1, _Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_GLO_Internal_CharacterHasSwDDialog(_Var1);
+
+IF
+DB_GLO_Internal_CharacterHasSwDDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_SpeakWithDead_State_QuestionsLimitReached_01c40268-4a8d-4787-8566-77e01ff04762, _Var1, 0, _Var1, _Var1)
+THEN
+SetTag(_Var1, HASSWDDIALOG_21be1053-c642-4081-b64b-56678ae11594);
+
+IF
+DB_GLO_Internal_CharacterHasSwDDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_CharacterCorpseDialog(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Internal_CharacterHasSwDDialog(_Var1);
+ClearTag(_Var1, HASSWDDIALOG_21be1053-c642-4081-b64b-56678ae11594);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SPEAK_WITH_DEAD", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+IsDead(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_CharacterCorpseDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_SpeakWithDead_State_PartySpokeWithDead_b375c49f-b908-4794-b12c-bf2c7122e19e, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_SpeakWithDead_State_PartySpokeWithDead_b375c49f-b908-4794-b12c-bf2c7122e19e);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SPEAK_WITH_DEAD", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+IsDead(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_CharacterCorpseDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_SpeakWithDead_State_CharacterSpokeWithDead_e1d72992-3fa4-4c5e-bdf2-2357e9a3ffed, _Var2, 0, _Var1, _Var1)
+THEN
+SetFlag(GLO_SpeakWithDead_State_CharacterSpokeWithDead_e1d72992-3fa4-4c5e-bdf2-2357e9a3ffed, _Var2);
+
+IF
+DB_GLO_CustomEntityCorpseDialog(_, _Var2, _Var3, _, _)
+THEN
+DB_GLO_CharacterCorpseDialog(_Var2, _Var3);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SPEAK_WITH_DEAD", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+DB_GLO_CustomEntityCorpseDialog(_Var1, _Var4, _Var5, _Var1, _Var1)
+THEN
+ApplyStatus(_Var4, "SPEAK_WITH_DEAD", -1, 1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_CustomEntityCorpseDialog(_Var3, _, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var2, _Var3);
+
+IF
+TagSet((GUIDSTRING)_Var1, HASSWDDIALOG_21be1053-c642-4081-b64b-56678ae11594, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_CustomEntityCorpseDialog(_Var2, _Var1, _, _Var1, _Var1)
+THEN
+SetTag(_Var2, HASSWDDIALOG_21be1053-c642-4081-b64b-56678ae11594);
+
+IF
+TagCleared((CHARACTER)_Var1, HASSWDDIALOG_21be1053-c642-4081-b64b-56678ae11594, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_CustomEntityCorpseDialog(_Var2, _Var1, _, _Var1, _Var1)
+THEN
+ClearTag(_Var2, HASSWDDIALOG_21be1053-c642-4081-b64b-56678ae11594);
+
+IF
+TagSet((CHARACTER)_Var1, CORPSE_SPOKEN_249ba319-6652-47ec-9f31-ef5be55429c3, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_CustomEntityCorpseDialog(_Var2, _Var1, _, _Var1, _Var1)
+THEN
+SetTag(_Var2, CORPSE_SPOKEN_249ba319-6652-47ec-9f31-ef5be55429c3);
+
+IF
+FlagSet(GLO_SpeakWithDead_State_QuestionsLimitReached_01c40268-4a8d-4787-8566-77e01ff04762, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_CustomEntityCorpseDialog(_Var3, _Var1, _, _Var1, _Var1)
+THEN
+SetFlag(GLO_SpeakWithDead_State_QuestionsLimitReached_01c40268-4a8d-4787-8566-77e01ff04762, _Var3);
+
+PROC
+PROC_SpeakWithDead_SetCustomKiller((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetRace(_Var2, 1, _Var3, _Var1, _Var1)
+AND
+GetGender(_Var2, 1, _Var4, _Var1, _Var1)
+THEN
+DB_SpeakWithDead_KnowsKillerShape(_Var1, _Var2, _Var3, _Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+

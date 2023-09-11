@@ -1,0 +1,34 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_MonkAmuletBanters(S_SCL_MonkAmulet_DriderBanter_671e2ee8-c467-4466-b591-211f102a9f50, SCL_MonkAmulet_AD_ShadowlandsComment_f84fa514-061a-26fe-61d3-20a01888df6e);
+DB_GLO_MonkAmuletBanters(S_SCL_MonkAmulet_KethericCityBanter_b258cf15-a395-407e-8619-a07247450d23, SCL_MonkAmulet_AD_ShadowlandsComment_f84fa514-061a-26fe-61d3-20a01888df6e);
+DB_GLO_MonkAmuletBanters(S_MOO_MonkAmulet_PrisonBanter_5c177370-2634-42c8-9772-fe5f0a78e5cb, MOO_MonkAmulet_AD_PrisonComment_fa33b82b-2c57-7f11-3ded-d0eb2ed23c62);
+DB_GLO_MonkAmuletBanters(S_SHA_MonkAmulet_DiscBanter_Trigger_e2d5e43c-0cd0-448f-a1eb-6c769c87a0de, SHA_MonkAmulet_AD_DiscComment_957d5944-f89f-7416-af92-c7291ff8d216);
+
+KBSECTION
+PROC
+PROC_SceneOver("TWN_Hospital_Operation", _, _, _, _)
+AND
+QRY_OnlyOnce("TWN_MonkAmulet_AD_HospitalComment", _, _, _, _)
+THEN
+TimerLaunch("TWN_MonkAmulet_AD_HospitalComment", 2000);
+
+PROC
+PROC_SceneInterrupted(_, _, "TWN_Hospital_Operation", _, _)
+AND
+QRY_OnlyOnce("TWN_MonkAmulet_AD_HospitalComment", _, _, _, _)
+THEN
+TimerLaunch("TWN_MonkAmulet_AD_HospitalComment", 2000);
+
+IF
+TimerFinished("TWN_MonkAmulet_AD_HospitalComment", _, _, _, _)
+THEN
+DB_GLO_MonkAmuletBanters(S_TWN_MonkAmulet_HospitalBanter_Trigger_1d2c7a81-a1c3-47f8-b4ff-266ebfb3a70a, TWN_MonkAmulet_AD_HospitalComment_264570e5-8120-613a-b6a5-77a83ca475a8);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

@@ -1,0 +1,256 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_GLO_FavouredSpeaker_Exclude("", NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+QRY
+QRY_GLO_SelectFavouredSpeaker_SingleTag((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_GLO_FavouredSpeakerConditions("_Temp_Default_SingleTag", _Var5, _Var6, _Var7, _Var1)
+THEN
+NOT DB_GLO_FavouredSpeakerConditions("_Temp_Default_SingleTag", _Var5, _Var6, _Var7);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_SingleTag((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_FavouredSpeakerConditions("_Temp_Default_SingleTag", _Var3, "Tag", 1);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_SingleTag((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, 1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_FavouredSpeakerConditions("_Temp_Default_SingleTag", AVATAR_306b9b05-1057-4770-aa17-01af21acd650, "Tag", 1);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_SingleTag((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker(_Var1, _Var2, "_Temp_Default_SingleTag", _Var1, _Var1)
+THEN
+DB_NOOP(0);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_TagExpression((GUIDSTRING)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_FavouredSpeaker_WithTagExpression("_Temp_Default_TagExpression", _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_FavouredSpeaker_WithTagExpression("_Temp_Default_TagExpression", _Var4);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_TagExpression((GUIDSTRING)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_FavouredSpeaker_WithTagExpression("_Temp_Default_TagExpression", _Var3);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_TagExpression((GUIDSTRING)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker(_Var1, _Var2, "_Temp_Default_TagExpression", _Var1, _Var1)
+THEN
+DB_NOOP(0);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SysClear("DB_GLO_SelectFavouredSpeaker_Candidates", 1);
+SysClear("DB_QRYRTN_GLO_SelectFavouredSpeaker", 1);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_FavouredSpeaker_Exclude(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SelectFavouredSpeaker_Candidates(_Var1);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 != _Var1
+AND NOT
+DB_GLO_FavouredSpeaker_Exclude(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SelectFavouredSpeaker_Candidates(_Var4);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker(_, _, (STRING)_Var3, _, _)
+AND
+DB_GLO_SelectFavouredSpeaker_Candidates(_Var4, _, _, _, _)
+AND NOT
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_, _, _, _, _)
+THEN
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var4);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker(_, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SysClear("DB_GLO_SelectFavouredSpeaker_CacheCandidateCheck", 3);
+SysClear("DB_QRYRTN_GLO_SelectFavouredSpeaker_CacheCanSeeCheck", 2);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker(_, (GUIDSTRING)_Var2, (STRING)_Var3, _, _)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var4, _, _, _, _)
+AND
+DB_GLO_SelectFavouredSpeaker_Candidates(_Var5, _, _, _, _)
+AND
+_Var5 != _Var4
+THEN
+PROC_GLO_SelectFavouredSpeaker_CheckAlternative(_Var5, _Var2, _Var3);
+
+QRY
+QRY_GLO_SelectNearbyPlayerSpeaker((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_SelectNearbyPlayerSpeaker", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_SelectNearbyPlayerSpeaker", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker(_Var3, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_SelectFavouredSpeaker_CheckAlternative((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_GLO_SelectFavouredSpeaker_EstablishedSuperiority(1);
+
+PROC
+PROC_GLO_SelectFavouredSpeaker_CheckAlternative((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_FavouredSpeakerConditions(_Var3, _Var4, _Var5, _Var6, _Var1)
+AND NOT
+DB_GLO_SelectFavouredSpeaker_EstablishedSuperiority(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_SelectFavouredSpeaker_CheckAlternativeCondition(_Var1, _Var2, _Var4, _Var5, _Var6);
+
+PROC
+PROC_GLO_SelectFavouredSpeaker_CheckAlternativeCondition((GUIDSTRING)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_SelectFavouredSpeaker_HasCondition(_Var6, _Var3, _Var4, _Var5, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker_HasCondition(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker_CanSee(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker_CacheCanSeeCheck(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+SysClear("DB_QRYRTN_GLO_SelectFavouredSpeaker", 1);
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var1);
+DB_GLO_SelectFavouredSpeaker_EstablishedSuperiority(1);
+
+PROC
+PROC_GLO_SelectFavouredSpeaker_CheckAlternativeCondition((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker_HasCondition(_Var6, _Var3, _Var4, _Var5, _Var1)
+AND NOT
+QRY_GLO_SelectFavouredSpeaker_HasCondition(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker_CanSee(_Var2, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker_CacheCanSeeCheck(_Var6, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SelectFavouredSpeaker_EstablishedSuperiority(1);
+
+PROC
+PROC_GLO_SelectFavouredSpeaker_CheckAlternative((GUIDSTRING)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_FavouredSpeaker_WithTagExpression(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_SelectFavouredSpeaker_EstablishedSuperiority(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_SelectFavouredSpeaker_CacheCandidateCheck(_Var4);
+PROC_GLO_SelectFavouredSpeaker_CheckAlternativeTagExpression(_Var1, _Var2, _Var4);
+
+PROC
+PROC_GLO_SelectFavouredSpeaker_CacheCandidateCheck((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_SelectFavouredSpeaker_CacheCandidateCheck(_Var2, _Var1, _, _Var1, _Var1)
+AND
+SatisfiesTagExpression(_Var2, _Var1, _Var4, _Var1, _Var1)
+THEN
+DB_GLO_SelectFavouredSpeaker_CacheCandidateCheck(_Var2, _Var1, _Var4);
+
+PROC
+PROC_GLO_SelectFavouredSpeaker_CheckAlternativeTagExpression((GUIDSTRING)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_SelectFavouredSpeaker_CacheCandidateCheck(_Var4, _Var3, 1, _Var1, _Var1)
+AND
+SatisfiesTagExpression(_Var1, _Var3, 0, _Var1, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker_CanSee(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker_CacheCanSeeCheck(_Var4, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SelectFavouredSpeaker_EstablishedSuperiority(1);
+
+PROC
+PROC_GLO_SelectFavouredSpeaker_CheckAlternativeTagExpression((GUIDSTRING)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_SelectFavouredSpeaker_CacheCandidateCheck(_Var4, _Var3, 0, _Var1, _Var1)
+AND
+SatisfiesTagExpression(_Var1, _Var3, 1, _Var1, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker_CanSee(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker_CacheCanSeeCheck(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+SysClear("DB_QRYRTN_GLO_SelectFavouredSpeaker", 1);
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var1);
+DB_GLO_SelectFavouredSpeaker_EstablishedSuperiority(1);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_HasCondition((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, "Tag", (INTEGER)_Var3, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(0);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_HasCondition((GUIDSTRING)_Var1, (FLAG)_Var2, "Flag", (INTEGER)_Var3, (GUIDSTRING)_Var1)
+AND
+GetFlag(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(0);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_CanSee((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker_CacheCanSeeCheck(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_SelectFavouredSpeaker_CanSee((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_GLO_SelectFavouredSpeaker_CacheCanSeeCheck(_Var2, _, _Var1, _Var1, _Var1)
+AND
+CanSee(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_SelectFavouredSpeaker_CacheCanSeeCheck(_Var2, _Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+

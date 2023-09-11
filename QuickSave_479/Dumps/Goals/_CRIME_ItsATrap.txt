@@ -1,0 +1,65 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+EnteredLevel((GUIDSTRING)_Var1, _, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CurrentLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsSummon(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsTrap(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, "CRIME_TrapSummoned");
+DB_CRIME_SummonedTrap(_Var1, 0);
+ObjectTimerLaunch(_Var1, "CRIME_TrapSummoned", 700);
+
+IF
+CastSpell((ITEM)_Var1, _, _, _, _)
+AND
+DB_CRIME_SummonedTrap(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_SummonedTrap(_Var1, 0);
+DB_CRIME_SummonedTrap(_Var1, 1);
+SetTrapArmed(_Var1, 1);
+SetTrapDiscovered(_Var1, 1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRIME_TrapSummoned", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_SummonedTrap(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+Exists(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+GetOwner(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanInteract(_Var1, 0);
+SetTrapArmed(_Var1, 1);
+SetTrapDiscovered(_Var1, 0);
+PROC_CharacterRegisterCrimeWithPosition(_Var5, "SpellTrapPlaced", _Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRIME_TrapSummoned", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_SummonedTrap(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_SummonedTrap(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

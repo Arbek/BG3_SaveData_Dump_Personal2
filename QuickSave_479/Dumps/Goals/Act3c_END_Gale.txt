@@ -1,0 +1,210 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_ORI_Gale_SetupEndGameJournal();
+
+KBSECTION
+IF
+EnteredTrigger(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_END_BrainBattleArea_b0cbe773-d02f-4074-8507-eab6033c3b27, _, _, _)
+AND
+HasSpell(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "Shout_END_Gale_ActivateNethereseOrb", 0, _, _)
+THEN
+AddSpell(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "Shout_END_Gale_ActivateNethereseOrb", 1, 0);
+
+PROC
+PROC_END_BrainBattle_EnterMind(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+RemoveSpell(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "Shout_END_Gale_ActivateNethereseOrb", 1);
+
+IF
+CastedSpell(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, "Shout_END_Gale_ActivateNethereseOrb", _, _, _)
+AND
+DB_InRegion(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_END_BrainBattleArea_b0cbe773-d02f-4074-8507-eab6033c3b27, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(END_BrainBattle_Event_GaleExplodedMidBattle_993173dd-a519-c8aa-67d7-b4fecfd2b5dc);
+
+QRY
+QRY_Gale_PreventGameOver()
+AND
+DB_InRegion(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_END_BrainBattleArea_b0cbe773-d02f-4074-8507-eab6033c3b27, _, _, _)
+THEN
+PROC_END_Gale_OrbDetonation();
+
+PROC
+PROC_END_Gale_OrbDetonation()
+AND
+DB_Is_InCombat(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_END_BrainBattleArea_b0cbe773-d02f-4074-8507-eab6033c3b27, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_GLO_Netherbrain_3858e896-d7dd-4699-b37d-d3919ff15ba7, 0, 0, 0, 0, _Var1, _Var1, _Var1)
+THEN
+DB_END_Gale_OrbDialogueStarted(1);
+PROC_END_BrainBattle_ClearBrainBattle();
+EndCombat(_Var1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Debug_Teleport_END_FinaleEntrance_2915874b-b742-42b7-991f-86a07aeff6ee);
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+
+PROC
+PROC_END_Gale_OrbDetonation()
+AND
+DB_Is_InCombat(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_END_BrainBattleArea_b0cbe773-d02f-4074-8507-eab6033c3b27, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, NULL_00000000-0000-0000-0000-000000000000, S_GLO_Netherbrain_3858e896-d7dd-4699-b37d-d3919ff15ba7, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0, 0, 0, 0, _Var1, _Var1)
+THEN
+DB_END_Gale_OrbDialogueStarted(1);
+PROC_END_BrainBattle_ClearBrainBattle();
+EndCombat(_Var1);
+TeleportTo(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, S_Debug_Teleport_END_FinaleEntrance_2915874b-b742-42b7-991f-86a07aeff6ee);
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 1);
+
+PROC
+PROC_END_Gale_OrbDetonation()
+AND
+DB_Is_InCombat(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_END_BrainBattleArea_b0cbe773-d02f-4074-8507-eab6033c3b27, _Var1, _Var1, _Var1)
+AND NOT
+DB_END_Gale_OrbDialogueStarted(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ShowGameOverMenu();
+
+IF
+DialogRequestFailed(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+ShowGameOverMenu();
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+
+IF
+DialogStarted(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(END_FinalDecisions_Event_GaleExploded_a32e3cb5-9536-3c3e-a4d2-1837ee3b6190, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(ORI_DarkUrge_State_GoMadEnding_a0bea44c-be8a-26e4-ded5-c6c5827d4190, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogStarted(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, _, _, _, _)
+AND
+DB_GlobalFlag(END_BrainBattle_Event_GaleExplodedMidBattle_993173dd-a519-c8aa-67d7-b4fecfd2b5dc, _, _, _, _)
+AND
+DB_PartyMembers(_Var2, _, _, _, _)
+THEN
+PROC_END_General_MakeAvatarUnavailable(_Var2);
+
+IF
+DialogEnded(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_END_BrainBattle_RevelryScene();
+
+IF
+DialogEnded(END_BrainBattle_Intro_4565e114-0153-0449-ea83-de3b972c7679, _, _, _, _)
+AND
+DB_GlobalFlag(END_BrainBattle_Event_GaleAscendsTheStalkAlone_217731da-1297-09b6-52b0-e9ee8580e70c, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+QRY_StartDialog_Fixed(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, S_GLO_Netherbrain_3858e896-d7dd-4699-b37d-d3919ff15ba7, _, _)
+THEN
+DetachFromPartyGroup(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+IF
+DialogEnded(END_BrainBattle_Intro_4565e114-0153-0449-ea83-de3b972c7679, _, _, _, _)
+AND
+DB_GlobalFlag(END_BrainBattle_Event_GaleAscendsTheStalkAlone_217731da-1297-09b6-52b0-e9ee8580e70c, _, _, _, _)
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+QRY_StartDialog_Fixed(END_BrainBattle_GaleExplosion_3b9653f5-17c7-6716-2919-3ad3a9c137fc, NULL_00000000-0000-0000-0000-000000000000, S_GLO_Netherbrain_3858e896-d7dd-4699-b37d-d3919ff15ba7, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _)
+THEN
+DetachFromPartyGroup(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+
+PROC
+PROC_ORI_Gale_SetupEndGameJournal()
+AND
+DB_GlobalFlag(ORI_Gale_State_Met_ElminsterInWYR_82b0cbde-1d3b-1f67-86a8-d05744462209, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_MystraOM_40a7e59c-2473-504b-27ec-b2903fd5cf96, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_MystraOM_State_RefusedOM_617d8194-0aa8-4fd9-9c8c-c6fd545afd64, _, _, _, _)
+THEN
+PROC_ORI_Gale_JournalUpdate("EndGame_SkippedMystra");
+
+PROC
+PROC_ORI_Gale_SetupEndGameJournal()
+AND NOT
+DB_GlobalFlag(ORI_Gale_Knows_ReadKarsusNotes_2b0e541f-f49e-7e82-27d6-15fccd6ff1ff, _, _, _, _)
+THEN
+PROC_ORI_Gale_JournalUpdate("EndGame_NoBook");
+
+PROC
+PROC_ORI_Gale_EndGameJournalUpdate((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GlobalFlag(ORI_Gale_Knows_ReadKarsusNotes_2b0e541f-f49e-7e82-27d6-15fccd6ff1ff, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_Gale_JournalUpdate(_Var1);
+
+PROC
+PROC_ORI_Gale_EndGameJournalUpdate((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GlobalFlag(ORI_Gale_Knows_ReadKarsusNotes_2b0e541f-f49e-7e82-27d6-15fccd6ff1ff, _Var1, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var1, "_NoBook", _Var2, _Var1, _Var1)
+THEN
+PROC_ORI_Gale_JournalUpdate(_Var2);
+
+PROC
+PROC_END_General_UpdateMindFlayerFlags(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+PROC_ORI_Gale_EndGameJournalUpdate("KarlachIllithid");
+
+PROC
+PROC_END_General_UpdateMindFlayerFlags(S_GLO_Orpheus_47c90728-af68-4cbc-baaa-6497eebd8d7e, _, _, _, _)
+THEN
+PROC_ORI_Gale_EndGameJournalUpdate("OrpheusIllithid");
+
+PROC
+PROC_END_General_UpdateMindFlayerFlags(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+PROC_ORI_Gale_EndGameJournalUpdate("GaleIllithid");
+
+PROC
+PROC_END_General_UpdateMindFlayerFlags(S_GLO_Emperor_73d49dc5-8b8b-45dc-a98c-927bb4e3169b, _, _, _, _)
+THEN
+PROC_ORI_Gale_EndGameJournalUpdate("EmperorIllithid");
+
+IF
+DialogEnded(END_MorphicPool_NetherbrainConfrontation_ce5161a9-9580-379a-6e1f-476a4ca688cf, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1, _Var1, _Var1)
+THEN
+PROC_ORI_Gale_EndGameJournalUpdate("FailedDominateBrain");
+
+IF
+DialogEnded(END_MorphicPool_NetherbrainConfrontation_ce5161a9-9580-379a-6e1f-476a4ca688cf, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogPlayers(_Var1, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1, _Var1, _Var1)
+THEN
+PROC_ORI_Gale_EndGameJournalUpdate("MissedDominateBrain");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3c"

@@ -1,0 +1,164 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DialogBlockTradeButton(MOO_WallTentacle_Tentacle_b923613f-2680-f288-9b36-9da0cf0b06b2);
+DB_DialogBlockAttackButton(MOO_WallTentacle_Tentacle_b923613f-2680-f288-9b36-9da0cf0b06b2);
+DB_Dialogs(S_MOO_WallTentacle_Ogress_c3b872b8-1937-4255-9d0c-29e490afd033, MOO_WallTentacle_Ogre_bb6cbfa8-fdc6-f374-6726-e2a62a90a2cd);
+DB_Dialogs(S_MOO_GuardRoom_001_3f94bfd0-5a3b-4ce3-8f12-61241b9a6a40, MOO_GuardRoom_Guard01_550790ef-22c8-93ec-1be7-e35225ec5577);
+DB_Dialogs(S_MOO_GuardRoom_002_ba3c32e1-ebc2-441a-b121-d7977452c160, MOO_GuardRoom_Guard02_49268078-f445-e6ea-9775-9b3393d0bc6f);
+DB_GlobalFlagReactionAfterDialog(MOO_WallTentacle_Event_ZappedToPrison_7ec4a41b-1145-47c4-8b51-58f51bc22bf9, MOO_WallTentacle_Tentacle_b923613f-2680-f288-9b36-9da0cf0b06b2);
+PROC_TriggerRegisterForPlayers(S_MOO_TentacleBox_f1cc19fd-e575-42c2-9587-34c1c1385c58);
+DB_MOO_WallTentacle_DialogID(0);
+
+KBSECTION
+IF
+FlagSet(MOO_KethericShowdown_State_Started_33489af3-23b7-4340-bbf6-19033c9dae03, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TriggerUnregisterForPlayers(S_MOO_TentacleBox_f1cc19fd-e575-42c2-9587-34c1c1385c58);
+SetCanInteract(S_MOO_TentacleDiscovery_c69677c6-a541-466d-b860-3ade09acfa0d, 1);
+SetFlag(MOO_WallTentacle_State_IsDestroyed_827386f2-35db-53d2-141c-40f4fddf7840);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_MOO_TentacleBox_f1cc19fd-e575-42c2-9587-34c1c1385c58, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_WallTentacle_HasRolled(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_WallTentacle_DiscoveredMucus(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TrySkillCheck(_Var1, S_MOO_TentacleDiscovery_c69677c6-a541-466d-b860-3ade09acfa0d, "Perception", DC_Legacy_Unsaved_5_8995961c-e165-df92-3fbc-e943ddb138f6, "MOO_WallTentacle_MucusDiscovered");
+DB_MOO_WallTentacle_HasRolled(_Var1);
+
+PROC
+PROC_RollResult("MOO_WallTentacle_MucusDiscovered", (CHARACTER)_Var1, (ITEM)_Var2, 1, (CHARACTER)_Var1)
+AND NOT
+DB_MOO_WallTentacle_DiscoveredMucus(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_WallTentacle_DiscoveredMucus(1);
+SetFlag(MOO_WallTentacle_Knows_LookInWalls_d2933990-106f-48da-86f6-66d148e9291d);
+SetCanInteract(_Var2, 1);
+PROC_PlayPerceptionRevealEffect(_Var2, "MOO_HiddenTreasure_Reveal");
+PROC_TriggerUnregisterForPlayers(S_MOO_TentacleBox_f1cc19fd-e575-42c2-9587-34c1c1385c58);
+
+IF
+FlagSet(MOO_WallTentacle_Knows_LookInWalls_d2933990-106f-48da-86f6-66d148e9291d, _, _, _, _)
+AND NOT
+DB_MOO_WallTentacle_UsedCrackedWall(1, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+ShowMapMarker(_Var3, "MOO_WallTentacle", 1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, S_MOO_TentacleDiscovery_c69677c6-a541-466d-b860-3ade09acfa0d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog(MOO_WallTentacle_AD_TentacleShaft_e61e3e03-223c-dc6b-e60d-38a26b115b85, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(MOO_WallTentacle_Event_PlayerInjured_92f8d50e-3372-51c3-4002-e9ea9954b5f2, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "MOO_TENTACLE_HIT", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "MOO_TENTACLE_HIT", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+UseStarted((GUIDSTRING)_Var1, S_MOO_WallTentacle_CrackedWall_3a4feef9-50e4-4917-8cc3-f3a616cb1a7d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_MOO_WallTentacle_CrackedWall_3a4feef9-50e4-4917-8cc3-f3a616cb1a7d, 0);
+
+PROC
+PROC_BlockUseOfItem((GUIDSTRING)_Var1, S_MOO_WallTentacle_CrackedWall_3a4feef9-50e4-4917-8cc3-f3a616cb1a7d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogName(MOO_WallTentacle_Tentacle_b923613f-2680-f288-9b36-9da0cf0b06b2, _, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom(MOO_WallTentacle_Tentacle_b923613f-2680-f288-9b36-9da0cf0b06b2, S_MOO_WallTentacle_CrackedWallSpeaker_d229fac1-cae2-4d1f-b797-9c8fdda72327, S_MOO_AbsoluteVoice_0d5ee5a7-1022-4006-b873-2bb3aa91b4a2, _Var1, 0, 0, 1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_MOO_WallTentacle_CrackedWall_3a4feef9-50e4-4917-8cc3-f3a616cb1a7d, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogName(MOO_WallTentacle_Tentacle_b923613f-2680-f288-9b36-9da0cf0b06b2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var2, _Var1);
+
+IF
+DialogStarted(MOO_WallTentacle_Tentacle_b923613f-2680-f288-9b36-9da0cf0b06b2, _, _, _, _)
+AND NOT
+DB_MOO_WallTentacle_UsedCrackedWall(1, _, _, _, _)
+THEN
+DB_MOO_WallTentacle_UsedCrackedWall(1);
+PROC_MOO_WallTentacle_ClearMarker();
+
+PROC
+PROC_MOO_WallTentacle_ClearMarker()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ShowMapMarker(_Var1, "MOO_WallTentacle", 0);
+
+IF
+DialogStarted(MOO_WallTentacle_Tentacle_b923613f-2680-f288-9b36-9da0cf0b06b2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_MOO_WallTentacle_UpdateID(_Var1);
+
+PROC
+PROC_MOO_WallTentacle_UpdateID((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_MOO_WallTentacle_DialogID(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+THEN
+NOT DB_MOO_WallTentacle_DialogID(_Var2);
+DB_MOO_WallTentacle_DialogID(_Var1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(MOO_WallTentacle_Event_ZappedToPrison_7ec4a41b-1145-47c4-8b51-58f51bc22bf9, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_MOO_WallTentacle_DialogID(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var4, _Var5, _Var6, _Var1)
+THEN
+PlayEffectAtPosition(VFX_Script_Tentacle_Teleport_01_3f4d2a5d-1772-9550-6ea6-05d733d102c0, _Var4, _Var5, _Var6);
+TeleportTo(_Var2, S_MOO_OublietteAppearPos_da5c04d6-6b54-43ac-b171-4c8157f1c9d4, "MOO_WallTentacle_OublietteArrived", 1, 1, 1, 1, 1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "MOO_WallTentacle_OublietteArrived", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PlayEffect(_Var1, VFX_Script_Tentacle_Teleport_01_3f4d2a5d-1772-9550-6ea6-05d733d102c0, "", 1);
+
+IF
+FlagSet(MOO_WallTentacle_Tentacle_EnteredVoid_49d4bd06-580e-1a06-8b7b-a96e17193deb, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+AND
+DB_Avatars(_Var3, _, _, _, _)
+THEN
+DB_MOO_WallTentacle_PlayerSpeakers(_Var3);
+
+IF
+DB_MOO_WallTentacle_PlayerSpeakers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(MOO_WallTentacle_Tentacle_EnteredVoid_49d4bd06-580e-1a06-8b7b-a96e17193deb, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DaisyAD_Played(_Var1, MOO_WallTentacle_DaisyAD_FeignSuprise_f8612f93-66c9-be94-d51a-9e96c2cd58e5, _Var1, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var1, MOO_WallTentacle_DaisyAD_FeignSuprise_f8612f93-66c9-be94-d51a-9e96c2cd58e5);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

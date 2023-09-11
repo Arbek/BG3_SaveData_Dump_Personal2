@@ -1,0 +1,332 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString1_2b74bfb0-0a66-30a9-7019-a4575df2df9b", Debug_CAMP_CampString1_b75b6383-4e62-4ebd-f09c-b1d4f2ae21c8);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString2_d74b1976-9057-e8c1-86c9-566cab704d46", Debug_CAMP_CampString2_eed4b73e-5fbc-c5e9-cd25-d98e71cec9b2);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString3_63e85729-5c8b-4e59-15f4-c88626eecbed", Debug_CAMP_CampString3_1bc8a2f1-7e9b-01a5-3cf4-1dd0a1e7da7d);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString4_3b0036d8-efc1-fdb4-5315-a3a0108b9667", Debug_CAMP_CampString4_a407ff83-e819-82eb-555f-4e33d871897c);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString5_dae5d3e6-9688-9b90-358c-18b75da0e8f3", Debug_CAMP_CampString5_ac88446a-c38a-3544-1664-940ae46dba75);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString6_47f3210c-e86f-6b84-fb3c-a3c165e85e1d", Debug_CAMP_CampString6_31c78931-6de6-e4b6-046a-1f975207e1c5);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString7_ef59ae26-3051-b5dc-e288-02a52f607a5b", Debug_CAMP_CampString7_18a94f12-4fee-6637-44bf-af9c9fba23cb);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString8_6105708a-7976-c9d2-3c94-7b4199752fe7", Debug_CAMP_CampString8_52e5327f-93a0-3888-db77-fbc30f06041e);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString9_73ea8bd6-2020-9bce-e64e-1419ac34df68", Debug_CAMP_CampString9_701c7968-e44d-a789-98f7-37bef5e7b60f);
+DB_CAMPDEBUGBOOK_StringVariableFlag("CampString10_91387b11-70c6-8b12-34ef-8556e8e60aa7", Debug_CAMP_CampString10_ecd33ebb-e2eb-439b-c769-0ede6a744e61);
+SetFlag(Debug_CAMP_IgnoreCampTypeRestrictions_4118a620-c0e5-afaf-1bec-2e260882a45f, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+KBSECTION
+IF
+FlagSet(Debug_CAMP_NoNightSelection_b7831dfa-d67c-05aa-4abd-b12c4a36dc52, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_CampNight_DEBUG_Disabled(1);
+
+IF
+FlagCleared(Debug_CAMP_NoNightSelection_b7831dfa-d67c-05aa-4abd-b12c4a36dc52, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_CampNight_DEBUG_Disabled(1);
+
+IF
+FlagSet(Debug_CAMP_InviteAll_43aec80b-9a45-64ef-d123-fbcea7b05c0d, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_OriginCampFlags(_Var2, _, _, _, _, _, _, _, _, _)
+AND NOT
+DB_Players(_Var2, _, _, _, _)
+THEN
+SetEntityEvent(_Var2, "DebugTeleportedToCamp");
+
+IF
+FlagSet(Debug_CAMP_InviteAllCompanions_98bcd2b6-c8d5-1a8e-72df-0eb0ded536ee, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_OriginCampFlags(_Var2, _, _, _, _, _, _, _, _, _)
+AND
+DB_Origins(_Var2, _, _, _, _)
+AND NOT
+DB_Players(_Var2, _, _, _, _)
+THEN
+SetEntityEvent(_Var2, "DebugTeleportedToCamp");
+
+IF
+FlagSet(Debug_CAMP_InviteAllFollowers_7492e9a8-119a-40ed-2950-911bb849924e, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_OriginCampFlags(_Var2, _, _, _, _, _, _, _, _, _)
+AND NOT
+DB_Origins(_Var2, _, _, _, _)
+AND NOT
+DB_Players(_Var2, _, _, _, _)
+THEN
+SetEntityEvent(_Var2, "DebugTeleportedToCamp");
+
+PROC
+PROC_CAMPDEBUGBOOK_ResetCampStrings()
+AND
+DB_CAMPDEBUGBOOK_LoadMoreStringTracker(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CAMPDEBUGBOOK_LoadMoreStringTracker(_Var1);
+
+PROC
+PROC_CAMPDEBUGBOOK_ResetCampStrings()
+AND
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var1, _Var2);
+
+IF
+DB_CAMPDEBUGBOOK_StringType(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_CAMPDEBUGBOOK_StringType(_Var2);
+
+QRY
+QRY_CAMPDEBUGBOOK_GetFreeDialogString((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_Var2, _Var3);
+
+QRY
+QRY_CAMPDEBUGBOOK_GetFreeDialogString((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CAMPDEBUGBOOK_StringVariableFlag(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var3, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_Var2, _Var3);
+
+QRY
+QRY_CAMPDEBUGBOOK_GetFreeDialogString((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMPDEBUGBOOK_LoadMoreStringTracker(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CAMPDEBUGBOOK_LoadMoreStringTracker(_Var1);
+
+IF
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_CAMPDEBUGBOOK_SetCampStringFlags()
+AND
+DB_CAMPDEBUGBOOK_StringVariableFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_CAMPDEBUGBOOK_SetCampStringFlags()
+AND
+DB_CAMPDEBUGBOOK_LoadMoreStringTracker(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 1, _Var1, _Var1)
+THEN
+ClearFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_CAMPDEBUGBOOK_SetCampStringFlags()
+AND NOT
+DB_CAMPDEBUGBOOK_LoadMoreStringTracker(_, _, _, _, _)
+AND
+GetFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+SetFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+QRY
+QRY_CAMPDEBUGBOOK_FirstObjectReached((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CAMPDEBUGBOOK_FirstObjectReached(1);
+
+QRY
+QRY_CAMPDEBUGBOOK_FirstObjectReached((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CAMPDEBUGBOOK_FirstObjectReached(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CAMPDEBUGBOOK_InitialPopulate((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_CAMPDEBUGBOOK_StringType(_Var1);
+PROC_CAMPDEBUGBOOK_ResetCampStrings();
+DB_CAMPDEBUGBOOK_FirstObjectReached(1);
+PROC_CAMPDEBUGBOOK_LoadMoreCampStrings(NULL_00000000-0000-0000-0000-000000000000);
+PROC_CAMPDEBUGBOOK_SetCampStringFlags();
+
+IF
+FlagSet(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, _, _, _, _)
+AND
+DB_CAMPDEBUGBOOK_LoadMoreStringTracker(_Var3, _, _, _, _)
+THEN
+ClearFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_CAMPDEBUGBOOK_LoadMoreStringTracker(_Var3);
+NOT DB_CAMPDEBUGBOOK_FirstObjectReached(1);
+PROC_CAMPDEBUGBOOK_LoadMoreCampStrings(_Var3);
+PROC_CAMPDEBUGBOOK_SetCampStringFlags();
+
+PROC
+PROC_CAMPDEBUGBOOK_LoadMoreCampStrings(_, _, _, _, _)
+AND
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var2, _Var3);
+
+IF
+DialogEnded(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CAMPDEBUGBOOK_ResetCampStrings();
+
+IF
+FlagSet(Debug_CAMP_PopulateNights_022ded9e-3b49-9b50-d7d1-9c7069b3159e, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(Debug_CAMP_PopulateNights_022ded9e-3b49-9b50-d7d1-9c7069b3159e, NULL_00000000-0000-0000-0000-000000000000, 0);
+DialogSetVariableString(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, "CampVerb_38f3388d-636e-4803-e947-5b186a5bc960", "Queue");
+PROC_CAMPDEBUGBOOK_InitialPopulate("CampNights");
+
+PROC
+PROC_CAMPDEBUGBOOK_LoadMoreCampStrings((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType("CampNights", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CampNight(_Var2, _, _Var1, _Var1, _Var1)
+AND
+QRY_CAMPDEBUGBOOK_FirstObjectReached(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMPDEBUGBOOK_GetFreeDialogString(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+GetFlagName(_Var2, _Var6, _Var1, _Var1, _Var1)
+AND
+GetFlagDescription(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var6, ": ", _Var8, _Var1, _Var1)
+AND
+Concatenate(_Var8, _Var7, _Var9, _Var1, _Var1)
+THEN
+DialogSetVariableString(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, _Var4, _Var9);
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var5, _Var2);
+
+IF
+FlagSet((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType("CampNights", _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(Debug_CAMP_IgnoreCampTypeRestrictions_4118a620-c0e5-afaf-1bec-2e260882a45f, NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var1, _Var1)
+THEN
+PROC_CAMPDEBUG_QueueNight(_Var3, _Var4);
+
+IF
+FlagSet(Debug_CAMP_InviteIndiPopulate_41a67fb9-2eb9-d517-0b96-b364a7acc0ca, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(Debug_CAMP_InviteIndiPopulate_41a67fb9-2eb9-d517-0b96-b364a7acc0ca, NULL_00000000-0000-0000-0000-000000000000, 0);
+DialogSetVariableString(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, "CampVerb_38f3388d-636e-4803-e947-5b186a5bc960", "Invite");
+PROC_CAMPDEBUGBOOK_InitialPopulate("Invite");
+
+PROC
+PROC_CAMPDEBUGBOOK_LoadMoreCampStrings((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType("Invite", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginCampFlags(_Var2, _Var3, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMPDEBUGBOOK_FirstObjectReached(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMPDEBUGBOOK_GetFreeDialogString(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+GetFlagName(_Var3, _Var10, _Var1, _Var1, _Var1)
+THEN
+DialogSetVariableString(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, _Var8, _Var10);
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var9, _Var2);
+
+IF
+FlagSet((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType("Invite", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var3, "DebugTeleportedToCamp");
+
+IF
+FlagSet(Debug_CAMP_PopulateCampTypes_567f1f72-6224-4553-5003-d7fa60d21ed6, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(Debug_CAMP_PopulateCampTypes_567f1f72-6224-4553-5003-d7fa60d21ed6, NULL_00000000-0000-0000-0000-000000000000, 0);
+DialogSetVariableString(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, "CampVerb_38f3388d-636e-4803-e947-5b186a5bc960", "Switch to");
+PROC_CAMPDEBUGBOOK_InitialPopulate("CampTypes");
+
+PROC
+PROC_CAMPDEBUGBOOK_LoadMoreCampStrings((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType("CampTypes", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMPDEBUGBOOK_GetFreeDialogString(FAKEUUID_00000000-0000-0000-1337-000000000001, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DialogSetVariableString(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, _Var2, "RESET CAMPTYPE OVERRIDE");
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var3, FAKEUUID_00000000-0000-0000-1337-000000000001);
+
+PROC
+PROC_CAMPDEBUGBOOK_LoadMoreCampStrings((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType("CampTypes", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var2, _Var3, _, _, _Var1)
+AND
+Exists(_Var3, 1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMPDEBUGBOOK_FirstObjectReached(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CAMPDEBUGBOOK_GetFreeDialogString(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CAMPDEBUGBOOK_GetFreeDialogString(_Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DialogSetVariableString(DebugBook_Camp_a4b60736-3e7a-5b59-099e-05f144d88532, _Var6, _Var2);
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var7, _Var3);
+
+IF
+FlagSet((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType("CampTypes", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var4, _Var3, _, _, _Var1)
+THEN
+DB_ActiveCamp_Override(_Var4);
+DB_ActiveCamp(_Var4);
+
+IF
+FlagSet((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CAMPDEBUGBOOK_FlagCampStringCouple(_Var1, FAKEUUID_00000000-0000-0000-1337-000000000001, _Var1, _Var1, _Var1)
+AND
+DB_CAMPDEBUGBOOK_StringType("CampTypes", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp_Override(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ActiveCamp_Override(_Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+

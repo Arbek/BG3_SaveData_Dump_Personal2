@@ -1,0 +1,259 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_TriggerEvents_TriggerSet("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TriggerEvents_AllPlayersLeftAllTriggersInSet("", "");
+NOT DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet("", "");
+NOT DB_TriggerEvents_AllPlayersLeft(NULL_00000000-0000-0000-0000-000000000000, "");
+NOT DB_TriggerEvents_AllPartyMembersLeft(NULL_00000000-0000-0000-0000-000000000000, "");
+
+KBSECTION
+IF
+DB_TriggerEvents_AllPlayersLeft(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_TriggerEvents_AllPlayersLeft_RemoveHelper(_Var1);
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+DB_TriggerEvents_AllPartyMembersLeft(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_TriggerEvents_AllPartyMembersLeft_RemoveHelper(_Var1);
+PROC_TriggerRegisterForParty(_Var1);
+
+IF
+DB_TriggerEvents_AllPlayersLeft_RemoveHelper(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TriggerEvents_AllPlayersLeft(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TriggerEvents_AllPlayersLeft_RemoveHelper(_Var1);
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+IF
+DB_TriggerEvents_AllPartyMembersLeft_RemoveHelper(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TriggerEvents_AllPartyMembersLeft(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TriggerEvents_AllPartyMembersLeft_RemoveHelper(_Var1);
+PROC_TriggerUnregisterForParty(_Var1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TriggerEvents_AllPlayersLeft(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, _Var3);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TriggerEvents_AllPartyMembersLeft(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPartyMemberInTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, _Var3);
+
+QRY
+QRY_TriggerEvents_AnyPlayerInTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TriggerEvents_AnyPartyMemberInTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TriggerEvents_AnyNotDefeatedPartyMemberInTrigger((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TriggerEvents_InTriggerSet((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet_Helper(_Var1, _, _Var1, _Var1, _Var1)
+AND
+Concatenate("TriggerSet_", _Var1, _Var4, _Var1, _Var1)
+THEN
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet_Helper(_Var1, _Var4);
+PROC_TriggerRegisterTriggerSetForPlayers(_Var1);
+
+IF
+DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet_Helper(_Var1, _, _Var1, _Var1, _Var1)
+AND
+Concatenate("TriggerSet_", _Var1, _Var4, _Var1, _Var1)
+THEN
+DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet_Helper(_Var1, _Var4);
+PROC_TriggerRegisterTriggerSetForParty(_Var1);
+
+IF
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet_Helper(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TriggerEvents_AllPlayersLeftAllTriggersInSet_Helper(_Var1, _Var2);
+PROC_TriggerUnregisterTriggerSetForPlayers(_Var1);
+
+IF
+DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet_Helper(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet_Helper(_Var1, _Var2);
+PROC_TriggerUnregisterTriggerSetForParty(_Var1);
+
+PROC
+PROC_TriggerRegisterTriggerSetForPlayers((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var2);
+
+PROC
+PROC_TriggerRegisterTriggerSetForParty((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForParty(_Var2);
+
+PROC
+PROC_TriggerUnregisterTriggerSetForPlayers((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var2);
+
+PROC
+PROC_TriggerUnregisterTriggerSetForParty((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForParty(_Var2);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet_Helper(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, _Var4);
+RealtimeObjectTimerLaunch(_Var1, _Var4, 500);
+
+IF
+LeftTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet_Helper(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, _Var4);
+RealtimeObjectTimerLaunch(_Var1, _Var4, 500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet_Helper(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTriggerSet(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, _Var4);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet_Helper(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_TriggerEvents_AllPartyMembersLeftAllTriggersInSet(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPartyMemberInTriggerSet(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, _Var4);
+
+QRY
+QRY_TriggerEvents_AnyPlayerInTriggerSet((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_TriggerEvents_AnyPlayerInTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TriggerEvents_AnyPartyMemberInTriggerSet((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_TriggerEvents_TriggerSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_TriggerEvents_AnyPartyMemberInTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_InRegions((CHARACTER)_Var1, (TRIGGER)_Var2, (TRIGGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_InRegions((CHARACTER)_Var1, (TRIGGER)_Var2, (TRIGGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_InRegions((CHARACTER)_Var1, (TRIGGER)_Var2, (TRIGGER)_Var3, (TRIGGER)_Var4, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_InRegions((CHARACTER)_Var1, (TRIGGER)_Var2, (TRIGGER)_Var3, (TRIGGER)_Var4, (CHARACTER)_Var1)
+AND
+QRY_InRegions(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

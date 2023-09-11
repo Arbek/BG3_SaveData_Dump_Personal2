@@ -1,0 +1,768 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_WYR_DapperDrow_StateFlags("Taproom", WYR_DapperDrow_State_InTaproom_ce15384c-361d-405e-817a-02dc7951c44f);
+DB_WYR_DapperDrow_StateFlags("MovingToRoom", WYR_DapperDrow_State_MovingToRoom_227569be-d3b8-4739-addd-cadb8c372f35);
+DB_WYR_DapperDrow_StateFlags("RoomBeforeIntimacy", WYR_DapperDrow_State_WaitingInRoom_32ff489d-aa5e-4ed6-ae88-e1132633995e);
+DB_WYR_DapperDrow_StateFlags("RoomIntimacy", WYR_DapperDrow_State_IntimacyInProgress_83aa5591-6e76-42dc-afb1-c3b3f6540fbf);
+DB_WYR_DapperDrow_StateFlags("RoomAfterIntimacy", WYR_DapperDrow_State_InRoomAfterIntimacy_beb9b918-45e0-4ba3-9443-236d2aa2fde4);
+DB_WYR_DapperDrow_StateFlags("MovingToTaproom", WYR_DapperDrow_State_MovingToTaproom_ab9408b3-d3c0-4472-983a-908ef1df4b87);
+DB_WYR_DapperDrow_StateFlags("Gone", WYR_DapperDrow_State_Gone_b87fd1a3-bd14-4991-8681-004d95936ac9);
+DB_WYR_DapperDrow_Drows(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, S_WYR_DapperDrow_Brother_TaproomPos_53492aea-1a0a-4301-a748-5224f10df51a, S_WYR_DapperDrow_Brother_RoomPos_2a1a5894-2a42-4a57-8777-311a0d7bfc9c, WYR_DapperDrow_Brother_742f76a6-ee4f-695d-2d84-25eac71e630d);
+DB_WYR_DapperDrow_Drows(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, S_WYR_DapperDrow_Sister_TaproomPos_35daa474-0254-4123-8113-c98991d95b50, S_WYR_DapperDrow_Sister_RoomPos_e64670fa-e4cd-4d33-80e3-b3b898624468, WYR_DapperDrow_Sister_9bafd623-4f2a-0842-d114-1fff99fe9324);
+DB_DialogMoneyTransfer(1, WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, 500, 3, 1);
+DB_DialogMoneyTransfer(2, WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, 500, 3, 2);
+DB_DialogMoneyTransfer(3, WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, 1000, 3, 1);
+DB_GlobalFlagReactionAfterDialog(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea);
+DB_GlobalFlagReactionAfterDialog(WYR_DapperDrow_Event_IntimacyCancel_24a92baa-3deb-cad3-5913-36208439d736, WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea);
+DB_TriggerEvents_AllPartyMembersLeft(S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, "WYR_DapperDrow_Event_AllPartyMembersLeftRoom");
+DB_DialogBlockAttackButton(WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5);
+DB_DoNotFaceDialog(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, WYR_DapperDrow_AD_Siblings_63d626fa-c19e-fb52-0c59-803fcb66298a);
+DB_DoNotFaceDialog(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, WYR_DapperDrow_AD_Siblings_63d626fa-c19e-fb52-0c59-803fcb66298a);
+DB_WYR_DapperDrow_HireFlag(WYR_DapperDrow_State_HiredBrother_e0d6ad5e-c5d4-9d8c-8c6f-997694d6f7b8, S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b);
+DB_WYR_DapperDrow_HireFlag(WYR_DapperDrow_State_HiredSister_390a05d9-0313-095d-1356-1884bdf6273e, S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a);
+DB_WYR_DapperDrow_HireFlag(WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800, S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b);
+DB_WYR_DapperDrow_HireFlag(WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800, S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a);
+PROC_CharacterDisableCrime(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, "KeepAnEyeOnMe");
+PROC_CharacterDisableCrime(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, "KeepAnEyeOnMe");
+
+KBSECTION
+IF
+DB_WYR_DapperDrow_Drows(_Var1, _Var2, _, _Var4, _Var1)
+THEN
+DB_Dialogs(_Var1, _Var4);
+PROC_WYR_DapperDrow_StateProgress(_Var1, "Taproom");
+TriggerRegisterForCharacter(S_WYR_DapperDrow_TaproomArea_ee94f8e8-6bb0-4d4d-8840-2f5611606b7b, _Var1);
+TriggerRegisterForCharacter(S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, _Var1);
+TeleportTo(_Var1, _Var2);
+
+PROC
+PROC_WYR_DapperDrow_StateProgress((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_StateFlags(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, _Var4, _, _Var1, _Var1)
+AND
+_Var4 != "Gone"
+THEN
+PROC_WYR_DapperDrow_StateChanged(_Var1, _Var4, _Var2);
+PROC_WYR_DapperDrow_StateUpdateFlag(_Var1, _Var2);
+
+PROC
+PROC_WYR_DapperDrow_StateProgress((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_StateFlags(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_StateUpdateFlag(_Var1, _Var2);
+PROC_WYR_DapperDrow_StateChanged(_Var1, "", _Var2);
+
+PROC
+PROC_WYR_DapperDrow_StateUpdateFlag((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+ClearFlag(_Var4, _Var1, 0);
+NOT DB_WYR_DapperDrow_CurrentStateFlag(_Var1, _Var3, _Var4);
+
+PROC
+PROC_WYR_DapperDrow_StateUpdateFlag((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_StateFlags(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var3, _Var1, 0);
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, _Var2, _Var3);
+
+PROC
+PROC_WYR_DapperDrow_StateChanged((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, "Taproom", _, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, _Var1);
+SetFlag(WYR_DapperDrow_Event_SiblingSelected_900c664f-e7cc-18ff-adb9-69969bf57b2d, S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, 0);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, "Taproom", _, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, _Var1);
+SetFlag(WYR_DapperDrow_Event_SiblingSelected_900c664f-e7cc-18ff-adb9-69969bf57b2d, S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, 0);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_, _Var1, _Var3, 1, _Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var4);
+
+IF
+DialogEnded(WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, _, _, _, _)
+AND
+DB_WYR_DapperDrow_Drows(_Var2, _, _, _, _)
+AND
+GetFlag(WYR_DapperDrow_Event_SiblingSelected_900c664f-e7cc-18ff-adb9-69969bf57b2d, _Var2, 1, _, _)
+THEN
+ClearFlag(WYR_DapperDrow_Event_SiblingSelected_900c664f-e7cc-18ff-adb9-69969bf57b2d, _Var2, 0);
+
+IF
+DB_WYR_DapperDrow_HireFlag(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_FlagReactionAfterDialog(_Var1, WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, _Var1, _Var1, _Var1)
+THEN
+DB_FlagReactionAfterDialog(_Var1, WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5);
+
+PROC
+PROC_FlagReactionAfterDialog((CHARACTER)_Var1, (FLAG)_Var2, WYR_DapperDrow_SiblingsThreeWay_86e1a78a-6cbe-0af6-5cdb-2db1c0f466d5, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_HireFlag(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_Hire(_Var1, _Var2);
+
+PROC
+PROC_WYR_DapperDrow_Hire((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_WYR_DapperDrow_Start(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_HireFlag(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_StateProgress(_Var3, "MovingToRoom");
+
+QRY
+QRY_WYR_DapperDrow_Start((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e);
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, _Var2);
+
+PROC
+PROC_DialogFlagSetup(WYR_DapperDrow_Brother_742f76a6-ee4f-695d-2d84-25eac71e630d, _, _, _, _)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, "Taproom", _, _, _)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, _Var4, _, _, _)
+AND
+_Var4 != "Taproom"
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_Event_SiblingHired_2ee8961d-501e-fdab-4846-0a0f887de3ab);
+
+PROC
+PROC_DialogFlagSetup(WYR_DapperDrow_Sister_9bafd623-4f2a-0842-d114-1fff99fe9324, _, _, _, _)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, "Taproom", _, _, _)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, _Var4, _, _, _)
+AND
+_Var4 != "Taproom"
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_Event_SiblingHired_2ee8961d-501e-fdab-4846-0a0f887de3ab);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_, _, _, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(WYR_DapperDrow_Event_SiblingHired_2ee8961d-501e-fdab-4846-0a0f887de3ab);
+
+IF
+FlagCleared(WYR_DapperDrow_Event_PlayerPartnerAgreedGroup_caac47bf-905e-ddf6-c76b-930a99bbab70, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartOfTheTeam(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var1
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var3, 1, _Var1, _Var1)
+THEN
+ClearFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var3, _Var2);
+
+IF
+FlagCleared(WYR_DapperDrow_Event_PlayerPartnerAgreedGroup_caac47bf-905e-ddf6-c76b-930a99bbab70, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(WYR_DapperDrow_State_HalsinGroupPlusOne_e6423eae-d8f1-a668-cd1a-29ec76e9d37d, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(WYR_DapperDrow_State_HalsinGroupPlusOne_e6423eae-d8f1-a668-cd1a-29ec76e9d37d, _Var1, _Var2);
+
+IF
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowMarker(_Var1, "WYR_DapperDrowRoom");
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_HideMarker(_Var1, "WYR_DapperDrowRoom");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_WYR_DapperDrow_TaproomArea_ee94f8e8-6bb0-4d4d-8840-2f5611606b7b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, "MovingToTaproom", _, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_StateProgress(_Var1, "Taproom");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, "MovingToRoom", _, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_StateProgress(_Var1, "RoomBeforeIntimacy");
+
+PROC
+PROC_LongRest()
+THEN
+PROC_WYR_DapperDroow_FastForwardMoving();
+
+IF
+FlagSet(Debug_Teleport_WYR_DapperDrow_9ecb42a9-59bb-4570-80a9-0d0c13da9ed7, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_WYR_DapperDroow_FastForwardMoving();
+
+IF
+FlagSet(Debug_Teleport_WYR_SharessCaress_1c6d5111-862a-4ac3-b6c2-64378f2cba8d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_WYR_DapperDroow_FastForwardMoving();
+
+PROC
+PROC_WYR_DapperDroow_FastForwardMoving()
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_State_PermaUnavailable_2d958aad-7077-4b53-b337-0636af755948, _, _, _, _)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _Var3, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, "MovingToRoom", _, _Var1, _Var1)
+THEN
+NOT DB_NotifyWhenReadyToMoveOn(_Var1, "WYR_DapperDrow_DisappearedToRoom_Notify");
+PROC_CancelDisappearOutOfSight(_Var1);
+PROC_SetOnStage(_Var1, 1);
+TeleportTo(_Var1, _Var3);
+
+PROC
+PROC_WYR_DapperDroow_FastForwardMoving()
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _Var2, _, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, "MovingToTaproom", _, _Var1, _Var1)
+THEN
+NOT DB_NotifyWhenReadyToMoveOn(_Var1, "WYR_DapperDrow_DisappearedToTaproom_Notify");
+PROC_CancelDisappearOutOfSight(_Var1);
+PROC_SetOnStage(_Var1, 1);
+TeleportTo(_Var1, _Var2);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, WYR_DapperDrow_State_HiredBrother_e0d6ad5e-c5d4-9d8c-8c6f-997694d6f7b8, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, "RoomBeforeIntimacy", _, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, _Var1, _Var1, _Var1)
+AND NOT
+QRY_WYR_DapperDrow_WrongPeopleInRoom(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, NULL_00000000-0000-0000-0000-000000000000, S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, _Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, WYR_DapperDrow_State_HiredSister_390a05d9-0313-095d-1356-1884bdf6273e, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, "RoomBeforeIntimacy", _, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, _Var1, _Var1, _Var1)
+AND NOT
+QRY_WYR_DapperDrow_WrongPeopleInRoom(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, NULL_00000000-0000-0000-0000-000000000000, _Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var2, WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800, _Var1, _Var1, _Var1)
+AND
+QRY_WYR_DapperDrow_StartIntimacyHiredBoth(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var2, 1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var6, WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800, _Var1, _Var1, _Var1)
+AND
+QRY_WYR_DapperDrow_StartIntimacyHiredBoth(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WYR_DapperDrow_StartIntimacyHiredBoth((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, _Var1, _Var1, _Var1)
+AND NOT
+QRY_WYR_DapperDrow_AnySiblingUnavailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_WYR_DapperDrow_WrongPeopleInRoom(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_WYR_DapperDrow_PartnerUnavailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, S_WYR_DapperDrow_Sister_7574fc5a-3645-4370-a778-0b38d0ef162a, S_WYR_DapperDrow_Brother_f25b5f9a-bfde-4d81-a3fb-74fc39dad95b, _Var1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_, _Var1, _Var3, 1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var3, WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var4, 1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var4);
+
+QRY
+QRY_WYR_DapperDrow_AnySiblingUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var2, _, _, _, _Var1)
+AND NOT
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_Event_IntimacySiblingUnavailable_fbf59322-a38e-78d3-bdf6-768aae261aeb);
+
+QRY
+QRY_WYR_DapperDrow_AnySiblingUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var2, _, _, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var2, _Var6, _, _Var1, _Var1)
+AND
+_Var6 != "RoomBeforeIntimacy"
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_Event_IntimacySiblingUnavailable_fbf59322-a38e-78d3-bdf6-768aae261aeb);
+
+QRY
+QRY_WYR_DapperDrow_PartnerUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1, _Var1, _Var1)
+AND NOT
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_Event_IntimacyHalsinUnavailable_5fbe3264-7f9f-d28f-0943-9fadb00d5fac);
+
+QRY
+QRY_WYR_DapperDrow_PartnerUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartOfTheTeam(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+AND
+_Var2 != S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var2, 1, _Var1, _Var1)
+AND NOT
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_Event_IntimacyPartnerUnavailable_b8043818-4a56-cc76-d2a0-2d0f3058cb36);
+
+QRY
+QRY_WYR_DapperDrow_WrongPeopleInRoom((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PlayerSummons(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+AND
+DB_InRegion(_Var2, S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, _Var1, _Var1, _Var1)
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var2, 0, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_Event_IntimacyRoomUnavailable_1b2e26df-e6ee-46df-dabc-34832d908849);
+
+IF
+DialogStarted(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_WYR_DapperDrow_ClearItnimacyEventFlags();
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_, _, _, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_ClearItnimacyEventFlags();
+
+PROC
+PROC_WYR_DapperDrow_ClearItnimacyEventFlags()
+THEN
+PROC_GlobalClearFlagAndCache(WYR_DapperDrow_Event_IntimacyRoomUnavailable_1b2e26df-e6ee-46df-dabc-34832d908849);
+PROC_GlobalClearFlagAndCache(WYR_DapperDrow_Event_IntimacySiblingUnavailable_fbf59322-a38e-78d3-bdf6-768aae261aeb);
+PROC_GlobalClearFlagAndCache(WYR_DapperDrow_Event_IntimacyHalsinUnavailable_5fbe3264-7f9f-d28f-0943-9fadb00d5fac);
+PROC_GlobalClearFlagAndCache(WYR_DapperDrow_Event_IntimacyPartnerUnavailable_b8043818-4a56-cc76-d2a0-2d0f3058cb36);
+
+IF
+DialogStarted(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, _, _, _, _)
+AND
+DB_WYR_DapperDrow_Drows(_Var2, _, _, _, _)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var2, "RoomBeforeIntimacy", _, _, _)
+THEN
+Close(S_WYR_SharessCaress_DapperDrowRoomDoor_2ac2357e-8dd9-4d3e-93eb-06354a681a99);
+PROC_WYR_DapperDrow_StateProgress(_Var2, "RoomIntimacy");
+
+IF
+DialogEnded(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _, _, _, _)
+AND
+DB_WYR_DapperDrow_Drows(_Var2, _, _, _, _)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var2, "RoomIntimacy", _, _, _)
+THEN
+PROC_WYR_DapperDrow_StateProgress(_Var2, "RoomBeforeIntimacy");
+
+PROC
+PROC_WYR_DapperDrow_StateChanged((CHARACTER)_Var1, _, "RoomIntimacy", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_TrespassTrigger(S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, _, _, _, _Var1)
+THEN
+DB_TrespassTrigger(S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, S_WYR_DapperDrow_NearRoomDoorPos_b014f4e3-fe1a-46cf-9c45-151a9ad704f9, "WYR_DapperDrow_Trespassing", _Var1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "WYR_DapperDrow_Trespassing", _, (CHARACTER)_Var3, (INTEGER)_Var4)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "WYR_DapperDrow_Trespassing", _, (CHARACTER)_Var3, (INTEGER)_Var4)
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_WYR_DapperDrow_StateChanged((CHARACTER)_Var1, _, "RoomAfterIntimacy", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TrespassTrigger(S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, _Var3, _, _Var1, _Var1)
+THEN
+PROC_RemoveDBTrespassTrigger(S_WYR_DapperDrow_RoomArea_e1b2c356-494b-4042-9d75-cf64a17c7faa, _Var3, _Var1);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability_Custom("Persuade", (INTEGER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (DIALOGRESOURCE)_Var5, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+CrimeGetType(_Var1, "WYR_DapperDrow_Trespassing", _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom("no");
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, "RoomAfterIntimacy", _, _Var1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(WYR_DapperDrow_Intimacy_0766f47e-3707-7978-9406-f816084a81ea, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_, _Var1, _Var3, 1, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var4, "RoomAfterIntimacy", _, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var4);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, "RoomIntimacy", _, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_StateProgress(_Var1, "RoomAfterIntimacy");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800, _Var1, _Var1, _Var1)
+THEN
+SetFlag(WYR_DapperDrow_HasMet_Siblings_Intimacy_40520989-424e-c498-3abd-67804b5cf8bd, _Var1, 0);
+SetFlag(WYR_DapperDrow_State_HadGroupIntimacy_be106638-b596-cdc6-a380-749e92786762, _Var1, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, WYR_DapperDrow_State_HiredBrother_e0d6ad5e-c5d4-9d8c-8c6f-997694d6f7b8, _Var1, _Var1, _Var1)
+THEN
+SetFlag(WYR_DapperDrow_HasMet_Brother_Intimacy_1299afb3-445c-d1a0-601e-3ff2f9299335, _Var1, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, WYR_DapperDrow_State_HiredSister_390a05d9-0313-095d-1356-1884bdf6273e, _Var1, _Var1, _Var1)
+THEN
+SetFlag(WYR_DapperDrow_HasMet_Sister_Intimacy_93ed2151-001b-b438-d5a1-c08aa2d1378d, _Var1, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_DapperDrow_Event_IntimacyCancel_24a92baa-3deb-cad3-5913-36208439d736, _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(WYR_DapperDrow_Event_IntimacyCancel_24a92baa-3deb-cad3-5913-36208439d736);
+PROC_WYR_DapperDrow_Stop();
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_DapperDrow_Event_IntimacyCancel_24a92baa-3deb-cad3-5913-36208439d736, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_ReturnMoney(_Var1, _Var2);
+
+IF
+EntityEvent(_, "WYR_DapperDrow_Event_AllPartyMembersLeftRoom", _, _, _)
+AND
+DB_GlobalFlag(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e, _, _, _, _)
+THEN
+PROC_WYR_DapperDrow_Stop();
+
+PROC
+PROC_WYR_DapperDrow_Stop()
+THEN
+PROC_GlobalClearFlagAndCache(WYR_DapperDrow_State_InProgress_4d795f16-b52c-d25c-0912-a2867d42893e);
+PROC_GlobalClearFlagAndCache(WYR_DapperDrow_Event_IntimacyDone_10cfd95c-876e-cce9-9138-5593b5b5a33e);
+
+PROC
+PROC_WYR_DapperDrow_Stop()
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800, _Var1, _Var1, _Var1)
+AND
+GetFlag(WYR_DapperDrow_Event_PlayerPartnerAgreedGroup_caac47bf-905e-ddf6-c76b-930a99bbab70, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(WYR_DapperDrow_Event_PlayerPartnerAgreedGroup_caac47bf-905e-ddf6-c76b-930a99bbab70, _Var1, 0);
+
+PROC
+PROC_WYR_DapperDrow_Stop()
+AND
+DB_WYR_DapperDrow_CurrentCustomer(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetFlag(_Var2, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(_Var2, _Var1, 0);
+NOT DB_WYR_DapperDrow_CurrentCustomer(_Var1, _Var2);
+
+PROC
+PROC_WYR_DapperDrow_Stop()
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+AND
+DB_WYR_DapperDrow_CurrentStateFlag(_Var1, _Var5, _, _Var1, _Var1)
+AND
+_Var5 != "Taproom"
+THEN
+PROC_WYR_DapperDrow_StateProgress(_Var1, "MovingToTaproom");
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+THEN
+PROC_WYR_DapperDrow_StateProgress(_Var1, "Gone");
+
+PROC
+PROC_WYR_DapperDrow_StateChanged((CHARACTER)_Var1, _, "Gone", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_DapperDrow_Drows(_Var1, _, _, _, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(WYR_DapperDrow_State_PermaUnavailable_2d958aad-7077-4b53-b337-0636af755948);
+
+IF
+FlagSet(WYR_DapperDrow_State_PermaUnavailable_2d958aad-7077-4b53-b337-0636af755948, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_WYR_DapperDrow_Stop();
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_Stop();
+
+IF
+FlagSet(GLO_Companion_Leave_363c71f4-8b46-c0c0-4bbb-0e5a85e4652d, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var1, 1, _Var1, _Var1)
+THEN
+PROC_WYR_DapperDrow_Stop();
+
+PROC
+PROC_WYR_DapperDrow_ReturnMoney((CHARACTER)_Var1, (FLAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(Debug_WYR_DapperDrow_Reset_766ecb0c-8526-bd65-3610-3b34ad668bca, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_WYR_DapperDrow_Stop();
+
+IF
+FlagSet(Debug_WYR_DapperDrow_Reset_766ecb0c-8526-bd65-3610-3b34ad668bca, _, _, _, _)
+AND
+DB_WYR_DapperDrow_Drows(_Var3, _Var4, _, _, _)
+THEN
+TeleportTo(_Var3, _Var4);
+PROC_WYR_DapperDrow_StateProgress(_Var3, "Taproom");
+
+IF
+FlagSet(Debug_WYR_DapperDrow_HireMale_a7f43744-03e0-2ae3-68c0-1085d1e9fe79, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(Debug_WYR_DapperDrow_HireMale_a7f43744-03e0-2ae3-68c0-1085d1e9fe79, _Var1, _Var2);
+SetFlag(WYR_DapperDrow_State_HiredBrother_e0d6ad5e-c5d4-9d8c-8c6f-997694d6f7b8, _Var1, 0);
+PROC_WYR_DapperDrow_Hire(_Var1, WYR_DapperDrow_State_HiredBrother_e0d6ad5e-c5d4-9d8c-8c6f-997694d6f7b8);
+TeleportTo(_Var1, S_Debug_Teleport_WYR_DapperDrow_43942fc9-6b75-4c14-b1a2-e157a4b786c2);
+PROC_WYR_DapperDroow_FastForwardMoving();
+
+IF
+FlagSet(Debug_WYR_DapperDrow_HireFemale_9f00501d-5b9f-dbd2-8f12-80720b789f1d, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(Debug_WYR_DapperDrow_HireFemale_9f00501d-5b9f-dbd2-8f12-80720b789f1d, _Var1, _Var2);
+SetFlag(WYR_DapperDrow_State_HiredSister_390a05d9-0313-095d-1356-1884bdf6273e, _Var1, 0);
+PROC_WYR_DapperDrow_Hire(_Var1, WYR_DapperDrow_State_HiredSister_390a05d9-0313-095d-1356-1884bdf6273e);
+TeleportTo(_Var1, S_Debug_Teleport_WYR_DapperDrow_43942fc9-6b75-4c14-b1a2-e157a4b786c2);
+PROC_WYR_DapperDroow_FastForwardMoving();
+
+IF
+FlagSet(Debug_WYR_DapperDrow_HireBoth_d56cf27c-11ae-34e5-299b-3c1c3dbb62bf, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(Debug_WYR_DapperDrow_HireBoth_d56cf27c-11ae-34e5-299b-3c1c3dbb62bf, _Var1, _Var2);
+SetFlag(WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800, _Var1, 0);
+PROC_WYR_DapperDrow_Hire(_Var1, WYR_DapperDrow_State_HiredBoth_4dc060ee-1076-ba53-8663-e436665b4800);
+TeleportTo(_Var1, S_Debug_Teleport_WYR_DapperDrow_43942fc9-6b75-4c14-b1a2-e157a4b786c2);
+PROC_WYR_DapperDroow_FastForwardMoving();
+
+IF
+FlagSet(Debug_WYR_DapperDrow_HireBoth_d56cf27c-11ae-34e5-299b-3c1c3dbb62bf, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Partnered(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, _Var3, _Var2);
+
+IF
+FlagSet(Debug_WYR_DapperDrow_HalsinJoins_d1c2ea6a-5305-42b2-9523-ffff60351ca0, _, (INTEGER)_Var2, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalClearFlagAndCache(Debug_WYR_DapperDrow_HalsinJoins_d1c2ea6a-5305-42b2-9523-ffff60351ca0);
+SetFlag(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var2);
+
+IF
+TextEvent("WYR_DapperDrow_HireBoth", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_WYR_DapperDrow_HireBoth_d56cf27c-11ae-34e5-299b-3c1c3dbb62bf, _Var1, 0);
+
+IF
+TextEvent("WYR_DapperDrow_HireFemale", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_WYR_DapperDrow_HireFemale_9f00501d-5b9f-dbd2-8f12-80720b789f1d, _Var1, 0);
+
+IF
+TextEvent("WYR_DapperDrow_HireMale", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_WYR_DapperDrow_HireMale_a7f43744-03e0-2ae3-68c0-1085d1e9fe79, _Var1, 0);
+
+IF
+TextEvent("WYR_DapperDrow_HalsinJoins", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(Debug_WYR_DapperDrow_HalsinJoins_d1c2ea6a-5305-42b2-9523-ffff60351ca0);
+
+IF
+TextEvent("WYR_DapperDrow_Reset", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(Debug_WYR_DapperDrow_Reset_766ecb0c-8526-bd65-3610-3b34ad668bca);
+
+IF
+TextEvent("WYR_DapperDrow_ToRoom", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_Debug_Teleport_WYR_DapperDrow_43942fc9-6b75-4c14-b1a2-e157a4b786c2);
+PROC_WYR_DapperDroow_FastForwardMoving();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

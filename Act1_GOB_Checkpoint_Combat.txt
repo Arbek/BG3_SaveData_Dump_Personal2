@@ -1,0 +1,136 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_GOB_Checkpoint_AiBoulderPath_Trigger_c9a25ff6-b0ad-436b-a468-dd56911b867c);
+DB_GOB_Checkpoint_CanTargetRollingBoulder(S_GOB_Checkpoint_Guard_003_bbeb9839-47c5-419d-9a44-9217b9e8892f);
+DB_GOB_Checkpoint_CanTargetRollingBoulder(S_GOB_Checkpoint_Guard_004_a70d559c-24e3-409d-b964-34811092ecac);
+
+KBSECTION
+IF
+DestroyedBy(S_GOB_Checkpoint_CMB_BoulderRope_3705c29b-50fb-405d-a197-bb4f01253ab2, (CHARACTER)_Var1, _, _, (CHARACTER)_Var1)
+THEN
+Die(S_GOB_Checkpoint_CMB_BoulderStopper_b0d8b390-14c4-454d-8155-4894b154838a);
+SetDualEntityEvent(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, _Var1, "CMB_SetAttackOwner");
+
+IF
+DestroyingBy(S_GOB_Checkpoint_CMB_BoulderStopper_b0d8b390-14c4-454d-8155-4894b154838a, _, _, _, (CHARACTER)_)
+THEN
+PlaySound(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "SE_GOB_Goblin_Checkpoint_Boulder");
+SetEntityEvent(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "CMB_BoulderActivate");
+SetEntityEvent(S_GOB_Checkpoint_Guard_003_bbeb9839-47c5-419d-9a44-9217b9e8892f, "CMB_BoulderActivate");
+ItemMoveTo(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, S_GOB_Checkpoint_CMB_BoulderMoveTo_01_20876d83-1490-40f2-987c-7898f2d4fb02, 2, 4, 0, "GOB_Checkpoint_CMB_Boulder_MoveTo_02", 1);
+ObjectTimerLaunch(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "CMB_ObjectOnMeChecker", 500);
+PROC_CameraShakeAroundObject(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, 100, 30);
+PlayAnimation(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, OBJ_Custom_01_db53ace6-b28a-4a14-803c-934b02c4bd2c, "");
+
+IF
+EntityEvent(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "GOB_Checkpoint_CMB_Boulder_MoveTo_02", _, _, _)
+THEN
+ItemMoveTo(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, S_GOB_Checkpoint_CMB_BoulderMoveTo_02_a06684de-e7ef-426d-b7fc-59514f8b9124, 4, 5, 0, "GOB_Checkpoint_CMB_Boulder_MoveTo_03", 1);
+PROC_CameraShakeAroundObject(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, 100, 30);
+
+IF
+EntityEvent(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "GOB_Checkpoint_CMB_Boulder_MoveTo_03", _, _, _)
+THEN
+ItemMoveTo(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, S_GOB_Checkpoint_CMB_BoulderMoveTo_03_389a4ada-9eca-4a74-9a7b-59f61ed94403, 4, 5, 0, "CMB_BoulderDeactivate", 1);
+PROC_CameraShakeAroundObject(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, 100, 30);
+
+IF
+EntityEvent(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "CMB_BoulderDeactivate", _, _, _)
+THEN
+DB_GOB_Checkpoint_CMB_Boulder_Stopped(1);
+ObjectTimerCancel(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "CMB_ObjectOnMeChecker");
+PROC_CameraShakeAroundObject(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, 200, 30);
+GoalCompleted;
+
+IF
+ObjectTimerFinished(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "CMB_ObjectOnMeChecker", _, _, _)
+AND NOT
+DB_GOB_Checkpoint_CMB_Boulder_Stopped(1, _, _, _, _)
+THEN
+ObjectTimerLaunch(S_GOB_Checkpoint_CMB_Boulder_14d518eb-69b7-482e-a09b-b10ab9dca0f2, "CMB_ObjectOnMeChecker", 200);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_GOB_Checkpoint_AiBoulderPath_Trigger_c9a25ff6-b0ad-436b-a468-dd56911b867c, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GOB_Checkpoint_CheckPlayersInBouldersPath();
+
+IF
+CombatRoundStarted((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsDestroyed(S_GOB_Checkpoint_CMB_BoulderRope_3705c29b-50fb-405d-a197-bb4f01253ab2, 0, _Var1, _Var1, _Var1)
+AND
+DB_GOB_Checkpoint_CanTargetRollingBoulder(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GOB_Checkpoint_CheckPlayersInBouldersPath();
+
+PROC
+PROC_GOB_Checkpoint_CheckPlayersInBouldersPath()
+AND
+IsDestroyed(S_GOB_Checkpoint_CMB_BoulderRope_3705c29b-50fb-405d-a197-bb4f01253ab2, 0, _, _, _)
+AND
+QRY_GOB_Checkpoint_PlayersInBouldersPath()
+AND
+DB_GOB_Checkpoint_PlayersInBouldersPath(1, _, _, _, _)
+AND
+DB_GOB_Checkpoint_CanTargetRollingBoulder(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_CurrentCombatRoundIsGreaterThan(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+AiAddInterestingItem(_Var1, S_GOB_Checkpoint_CMB_BoulderRope_3705c29b-50fb-405d-a197-bb4f01253ab2);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_GOB_Checkpoint_AiBoulderPath_Trigger_c9a25ff6-b0ad-436b-a468-dd56911b867c, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsDestroyed(S_GOB_Checkpoint_CMB_BoulderRope_3705c29b-50fb-405d-a197-bb4f01253ab2, 0, _Var1, _Var1, _Var1)
+AND
+QRY_GOB_Checkpoint_PlayersInBouldersPath()
+AND NOT
+DB_GOB_Checkpoint_PlayersInBouldersPath(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GOB_Checkpoint_CanTargetRollingBoulder(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+AiRemoveInterestingItem(_Var2, S_GOB_Checkpoint_CMB_BoulderRope_3705c29b-50fb-405d-a197-bb4f01253ab2);
+
+IF
+DestroyedBy(S_GOB_Checkpoint_CMB_BoulderRope_3705c29b-50fb-405d-a197-bb4f01253ab2, _, _, _, _)
+AND
+DB_GOB_Checkpoint_CanTargetRollingBoulder(_Var4, _, _, _, _)
+THEN
+AiRemoveInterestingItem(_Var4, S_GOB_Checkpoint_CMB_BoulderRope_3705c29b-50fb-405d-a197-bb4f01253ab2);
+
+QRY
+QRY_GOB_Checkpoint_PlayersInBouldersPath()
+THEN
+NOT DB_GOB_Checkpoint_PlayersInBouldersPath(1);
+
+QRY
+QRY_GOB_Checkpoint_PlayersInBouldersPath()
+AND
+DB_InRegion(_Var1, S_GOB_Checkpoint_AiBoulderPath_Trigger_c9a25ff6-b0ad-436b-a468-dd56911b867c, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GOB_Checkpoint_PlayersInBouldersPath(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GOB_Checkpoint_PlayersInBouldersPath(1);
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+SysClear("DB_GOB_Checkpoint_CanTargetRollingBoulder", 1);
+SysClear("DB_GOB_Checkpoint_CMB_Boulder_Stopped", 1);
+SysClear("DB_GOB_Checkpoint_PlayersInBouldersPath", 1);
+PROC_TriggerUnregisterForPlayers(S_GOB_Checkpoint_AiBoulderPath_Trigger_c9a25ff6-b0ad-436b-a468-dd56911b867c);
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

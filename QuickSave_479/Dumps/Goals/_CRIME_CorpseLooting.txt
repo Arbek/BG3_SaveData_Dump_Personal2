@@ -1,0 +1,341 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_CorpseLooting_ClearRedOutlineOnFactionTagged("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged("", "", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_SetCorpseOwner((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OwnedCorpse(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OwnedCorpse(_Var1, _Var3);
+
+PROC
+PROC_SetCorpseOwner((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_OwnedCorpse(_Var1, _Var2);
+
+PROC
+PROC_ClearCorpseOwner((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OwnedCorpse(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OwnedCorpse(_Var1, _Var2);
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OwnedCorpse(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+THEN
+DB_OwnerCorpse_DefeatedOwner(_Var2, _Var1);
+PROC_ClearCorpseOwner(_Var2);
+
+PROC
+PROC_StateCleared_Defeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OwnerCorpse_DefeatedOwner(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OwnerCorpse_DefeatedOwner(_Var2, _Var1);
+PROC_SetCorpseOwner(_Var2, _Var1);
+
+PROC
+PROC_SetCorpseOwner((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OwnerCorpse_DefeatedOwner(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OwnerCorpse_DefeatedOwner(_Var1, _Var3);
+
+PROC
+PROC_ClearCorpseOwner((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OwnerCorpse_DefeatedOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_OwnerCorpse_DefeatedOwner(_Var1, _Var2);
+
+IF
+CanBeLootedCapabilityChanged((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_CorpseLooting_BecameLootable(_Var1);
+
+PROC
+PROC_CorpseLooting_BecameLootable((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsPartyMember(_Var1, 1, 0, _Var1, _Var1)
+AND NOT
+DB_OwnedCorpse(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_CorpseLooting_ShouldMakeOwned(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetCorpseOwner(_Var1, _Var1);
+
+PROC
+PROC_CorpseLooting_BecameLootable((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CorpseLooting_CanBeOwned(_Var1);
+
+IF
+CanBeLootedCapabilityChanged((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_CorpseLooting_BecameUnlootable(_Var1);
+
+PROC
+PROC_CorpseLooting_BecameUnlootable((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OwnedCorpse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearCorpseOwner(_Var1);
+
+PROC
+PROC_CorpseLooting_BecameUnlootable((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_CorpseLooting_CanBeOwned(_Var1);
+
+IF
+DB_CorpseLooting_CanBeOwned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OwnedCorpse(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_CorpseLooting_OwnedCorpseActive(_Var1);
+
+IF
+DB_CorpseLooting_OwnedCorpseActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CorpseLooting_CharacterNoRedOutline(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCharacterLootOwned(_Var1, 1);
+
+QRY
+QRY_CorpseLooting_CharacterNoRedOutline((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+IF
+DB_CorpseLooting_OwnedCorpseActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CorpseLooting_CanBeOwned(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CorpseLooting_OwnedCorpseActive(_Var1);
+SetCharacterLootOwned(_Var1, 0);
+
+IF
+DB_CorpseLooting_OwnedCorpseActive(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OwnedCorpse(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CorpseLooting_OwnedCorpseActive(_Var1);
+SetCharacterLootOwned(_Var1, 0);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "SURRENDERED", _, _, (CHARACTER)_Var1)
+AND
+DB_CorpseLooting_CanBeOwned(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CorpseLooting_BecameLootable(_Var1);
+
+QRY
+QRY_CorpseLooting_ShouldMakeOwned((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_CorpseLooting_BlockMakeOwned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "SURRENDERED", 0, _Var1, _Var1)
+AND
+IsTagged(_Var1, MONSTER_90101158-141e-4896-8e60-f8db03f6dde3, 0, _Var1, _Var1)
+AND
+IsTagged(_Var1, BEAST_890b5a2a-e773-48df-b191-c887d87bec16, 0, _Var1, _Var1)
+AND
+CharacterGetCrimeRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 != ""
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CorpseLooting_ShouldMakeOwned((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CorpseLooting_ForceMakeOwned(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CorpseLooting_BlockMakeOwned((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CorpseLooting_ForceMakeOwned((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+IF
+DB_CorpseLooting_ClearRedOutlineOnFactionTagged(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_FactionTagging_TrackTag(_Var1, "GLO_CorpseLooting", _Var2, _Var3);
+
+IF
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_FactionTagging_TrackTag(_Var1, _Var2, _Var3, _Var4);
+DB_CorpseLooting_InternFactionGroup(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_FactionTagging_TrackTag(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_FactionTagging_TrackTag(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_FactionTagging_TagSet((STRING)_Var1, "GLO_CorpseLooting", (FACTION)_Var2, (TAG)_Var3, (STRING)_Var4)
+THEN
+PROC_CorpseLooting_LootOwnershipCleared("GLO_CorpseLooting", _Var2);
+PROC_FactionSetLootOwned(_Var2, 0);
+
+PROC
+PROC_FactionTagging_TagSet((STRING)_Var1, (STRING)_Var2, (FACTION)_Var3, (TAG)_Var4, (STRING)_Var5)
+AND
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+QRY_CorpseLooting_FactionGroupIsNOTTagged(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged(_Var1, _Var2, _Var6, _Var4, _Var1)
+THEN
+PROC_CorpseLooting_LootOwnershipCleared(_Var2, _Var6);
+PROC_FactionSetLootOwned(_Var6, 0);
+
+IF
+DB_CorpseLooting_InternFactionGroup(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+QRY_CorpseLooting_FactionGroupIsNOTTagged(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged(_Var1, _Var2, _Var5, _Var4, _Var1)
+THEN
+PROC_CorpseLooting_LootOwnershipCleared(_Var2, _Var5);
+PROC_FactionSetLootOwned(_Var5, 0);
+
+PROC
+PROC_CorpseLooting_LootOwnershipCleared((STRING)_Var1, (FACTION)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_CorpseLooting_InternFactionGroup(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_CorpseLooting_InternFactionGroup(_Var1, _Var2, _Var3, _Var4);
+
+QRY
+QRY_CorpseLooting_FactionGroupIsNOTTagged((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CorpseLooting_ClearRedOutlineOnFactionGroupTagged(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_FactionTagging_FactionTagged(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_FactionTagging_TagCleared((STRING)_Var1, (STRING)_Var2, (FACTION)_Var3, (TAG)_Var4, (STRING)_Var5)
+AND
+_Var5 != "BaseFactionChanged"
+AND
+DB_CorpseLooting_ClearRedOutlineOnFactionTagged(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+PROC_FactionSetLootOwned(_Var3, 1);
+
+PROC
+PROC_FactionSetLootOwned((FACTION)_Var1, 0, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CorpseLooting_FactionForbiddenCleared(_Var2, _Var1);
+
+PROC
+PROC_FactionSetLootOwned((FACTION)_Var1, 1, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CorpseLooting_FactionForbiddenCleared(_Var2, _Var1);
+
+PROC
+PROC_FactionSetLootOwned((FACTION)_Var1, (INTEGER)_Var2, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1)
+THEN
+FactionSetLootOwned(_Var1, _Var2);
+
+QRY
+QRY_CorpseLooting_CharacterNoRedOutline((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetBaseFaction(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_CorpseLooting_FactionNotForbidden(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CorpseLooting_FactionNotForbidden((STRING)_Var1, (FACTION)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CorpseLooting_FactionForbiddenCleared(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CorpseLooting_FactionNotForbidden((STRING)_Var1, (FACTION)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_CorpseLooting_FactionForbiddenCleared(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+FactionGetParentFaction(_Var2, 1, _Var3, _Var1, _Var1)
+AND
+QRY_CorpseLooting_FactionNotForbidden(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CorpseLooting_ClearRedOutlinesForDefeatCounter((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DefeatCounter(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_CorpseLooting_NoRedOutline(_Var2, _Var3);
+
+PROC
+PROC_CorpseLooting_NoRedOutline((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+SetCharacterLootOwned(_Var2, 0);
+
+PROC
+PROC_CorpseLooting_NoRedOutline((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CorpseLooting_NoRedOutline(_Var1, _Var2);
+
+QRY
+QRY_CorpseLooting_CharacterNoRedOutline((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CorpseLooting_NoRedOutline(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

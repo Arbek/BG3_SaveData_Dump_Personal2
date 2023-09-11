@@ -1,0 +1,63 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_UND_GpHookHorror_HookHorror(S_UND_HookHorror_Hunter_000_70866004-4b9d-4dde-a9c7-9891229c47c7);
+DB_UND_GpHookHorror_HookHorror(S_UND_HookHorror_Hunter_001_3d5a8ed5-771a-491b-93eb-9a65eb2dcf30);
+DB_UND_GpHookHorror_HookHorror_InternalCounter(S_UND_HookHorror_Hunter_000_70866004-4b9d-4dde-a9c7-9891229c47c7);
+DB_UND_GpHookHorror_HookHorror_InternalCounter(S_UND_HookHorror_Hunter_001_3d5a8ed5-771a-491b-93eb-9a65eb2dcf30);
+
+KBSECTION
+PROC
+PROC_UND_GP_HookHorrors_CalledToHelp()
+AND
+QRY_OnlyOnce("UND_GP_HermitMovesToHelp", _, _, _, _)
+THEN
+TimerLaunch("UND_GP_HemitHelpsHH", 2000);
+
+IF
+TimerFinished("UND_GP_HemitHelpsHH", _, _, _, _)
+THEN
+PROC_TryStartAD(UND_GP_HookHorror_AD_HermitHelp_fedc54df-dc4f-a0bd-6417-e2be44e146fb, S_UND_GP_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610);
+
+IF
+TurnStarted(S_UND_GP_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610, _, _, _, _)
+AND
+DB_UND_GPHookHorrors_ReactOnTurn(1, _, _, _, _)
+THEN
+NOT DB_UND_GPHookHorrors_ReactOnTurn(1);
+SetEntityEvent(S_UND_GP_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610, "GLO_BlockCombatFallbackAD", 1);
+PROC_TryStartAD(UND_GP_HookHorror_AD_HermitReaction_a2099858-8501-c496-cce4-8df26ed2ead8, S_UND_GP_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610);
+
+IF
+AutomatedDialogRequestFailed(UND_GP_HookHorror_AD_HermitReaction_a2099858-8501-c496-cce4-8df26ed2ead8, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetEntityEvent(S_UND_GP_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610, "GLO_AllowCombatFallbackAD");
+
+IF
+AutomatedDialogEnded(UND_GP_HookHorror_AD_HermitReaction_a2099858-8501-c496-cce4-8df26ed2ead8, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+SetEntityEvent(S_UND_GP_HookHorror_Hermit_2f00e363-09b2-4573-badc-f0995bef6610, "GLO_AllowCombatFallbackAD");
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_GpHookHorror_HookHorror(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_GpHookHorror_HookHorror_InternalCounter(_Var1);
+DB_UND_GPHookHorrors_ReactOnTurn(1);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_UND_GpHookHorror_HookHorror(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_GpHookHorror_HookHorror_InternalCounter(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(UND_GPHookHorrors_State_BothDied_d343352a-89c8-4ea5-aee8-551c86da8a37, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

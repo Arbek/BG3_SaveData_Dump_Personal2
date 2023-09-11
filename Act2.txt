@@ -1,0 +1,38 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckLevelStart("SCL_Main_A");
+DB_CheckLevelStart("WLD_SharTemple_E");
+DB_RegionSafeSpot("SCL_Main_A", StartPoint_000_f968a8d3-b06d-4fc2-acf1-1e650e35e52d);
+
+KBSECTION
+IF
+LevelLoaded("SCL_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("SCL_Main_A", _, _, _, _)
+AND
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+LevelLoaded("WLD_SharTemple_E", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("WLD_SharTemple_E", _, _, _, _)
+AND
+DB_CurrentLevel("WLD_SharTemple_E", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

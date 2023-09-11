@@ -1,0 +1,268 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_Stack_AddLast("LOW_TressymTrade_TressymPhase_Loot", S_LOW_TressymTrade_Item_01_e104ad81-84b8-441d-a913-764dbdf45d05);
+PROC_Stack_AddLast("LOW_TressymTrade_TressymPhase_Loot", S_LOW_TressymTrade_Item_02_7941ee85-f204-4414-b22e-51b4c2c776d3);
+PROC_Stack_AddLast("LOW_TressymTrade_TressymPhase_Location", S_LOW_TressymTrade_Location_01_a7925195-0a4f-4402-8fb1-9fa559daae61);
+PROC_Stack_AddLast("LOW_TressymTrade_TressymPhase_Location", S_LOW_TressymTrade_Location_02_877c8d50-b08d-4109-bb14-3604272de02a);
+PROC_Stack_AddLast("LOW_TressymTrade_TressymPhase_Flag", LOW_TressymTrade_State_Tressym_Item1Traded_cd6e0e2e-c37d-4f99-abf6-37870acf4739);
+PROC_Stack_AddLast("LOW_TressymTrade_TressymPhase_Flag", LOW_TressymTrade_State_Tressym_Item2Traded_c5e6115c-ecdd-4bf8-815c-78b0ccdffe7e);
+PROC_LOW_TressymTrade_Init();
+
+KBSECTION
+PROC
+PROC_LOW_TressymTrade_Init()
+AND
+DB_Stack("LOW_TressymTrade_TressymPhase_Loot", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+PROC
+PROC_LOW_TressymTrade_Init()
+AND NOT
+DB_WYR_Posthouse_Tressym(_, _, _, _, _)
+THEN
+DB_WYR_Posthouse_Tressym(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236);
+
+PROC
+PROC_LOW_TressymTrade_Init()
+AND
+DB_GlobalFlag(LOW_TressymTrade_Debug_MoveTressymToLOW_87b6df86-9ca2-fcf5-5f27-80b1d49bd90d, _, _, _, _)
+THEN
+ClearFlag(LOW_TressymTrade_Debug_MoveTressymToLOW_87b6df86-9ca2-fcf5-5f27-80b1d49bd90d);
+PROC_LOW_TressymTrade_DebugSetup();
+
+IF
+FlagSet(LOW_TressymTrade_Debug_MoveTressymToLOW_87b6df86-9ca2-fcf5-5f27-80b1d49bd90d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(LOW_TressymTrade_Debug_MoveTressymToLOW_87b6df86-9ca2-fcf5-5f27-80b1d49bd90d);
+PROC_LOW_TressymTrade_DebugSetup();
+PROC_LOW_TressymTrade_TressymInit();
+
+PROC
+PROC_LOW_TressymTrade_DebugSetup()
+AND
+DB_WYR_Posthouse_Tressym(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_Posthouse_Tressym(_Var1);
+DB_WYR_Posthouse_Tressym(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236);
+SetFlag(WYR_Posthouse_State_TressymHasGivenReward_939d0367-8bc7-487f-b8ef-15c5c9fd0faf);
+DB_LOW_TressymTrade_InitialSetup(1);
+
+IF
+LevelLoaded("CTY_Main_A", _, _, _, _)
+AND
+DB_LOW_TressymTrade_InitialSetup(1, _, _, _, _)
+THEN
+NOT DB_LOW_TressymTrade_InitialSetup(1);
+PROC_LOW_TressymTrade_TressymInit();
+
+PROC
+PROC_LOW_TressymTrade_TressymInit()
+AND
+DB_WYR_Posthouse_Tressym(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_LOW_TressymGetsNextLoot(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_LOW_TressymMoveToNextLocation(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(LOW_TressymTrade_State_Tressym_MovedToLOW_d1b28b14-9a4c-45f6-a6af-2d21ac722cd7);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236);
+DB_Dialogs(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, LOW_TressymTrade_GalesTressym_6bbdb0cc-9a74-63c4-ec0b-21d26e65714e);
+PROC_ClearOriginMoment(WYR_Posthouse_Tara_OM_Gale_AOM_COM_OOM_999ecebb-967d-172b-0411-3d455cdf27e6);
+SetOnStage(_Var1, 1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(LOW_TressymTrade_State_Tressym_ReadyToMoveToNextLocation_ba8501c2-bde5-41e1-80ea-d8c38440dde8, _, _, _, _)
+THEN
+PROC_LOW_TressymTrade_RemoveTradedItems();
+PROC_LOW_TressymTrade_NextPhase();
+ClearFlag(LOW_TressymTrade_State_Tressym_ReadyToMoveToNextLocation_ba8501c2-bde5-41e1-80ea-d8c38440dde8);
+
+PROC
+PROC_LOW_TressymTrade_RemoveTradedItems()
+AND
+DB_LOW_TressymTrade_TradedItem(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+PROC
+PROC_LOW_TressymTrade_NextPhase()
+AND
+DB_WYR_Posthouse_Tressym(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_LOW_TressymSetNextPhaseFlag()
+AND
+QRY_LOW_TressymGetsNextLoot(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_LOW_TressymMoveToNextLocation(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(LOW_TressymTrade_State_Tressym_ReadyToMoveToNextLocation_ba8501c2-bde5-41e1-80ea-d8c38440dde8);
+
+PROC
+PROC_LOW_TressymTrade_NextPhase()
+AND NOT
+DB_Stack("LOW_TressymTrade_TressymPhase_Flag", _, _, _, _)
+AND NOT
+QRY_LOW_TressymTrade_ToCamp()
+THEN
+SetOnStage(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, 0);
+
+QRY
+QRY_LOW_TressymTrade_ToCamp()
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_TressymJoined_c46cfbb6-2aad-47a9-81a1-bdd28a7919fb, _, _, _, _)
+AND NOT
+DB_ORI_Gale_SetupCurseProgression(2, _, _, _, _)
+THEN
+PROC_CampNight_GaleTressym_ToCamp(1);
+
+QRY
+QRY_LOW_TressymTrade_ToCamp()
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Gale_State_TressymJoined_c46cfbb6-2aad-47a9-81a1-bdd28a7919fb, _, _, _, _)
+THEN
+PROC_CampNight_GaleTressym_ToCamp(1);
+
+QRY
+QRY_LOW_TressymSetNextPhaseFlag()
+AND
+QRY_Stack_ExtractFirst("LOW_TressymTrade_TressymPhase_Flag", _, _, _, _)
+AND
+DB_QRYRTN_Stack_ExtractFirst(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var1);
+
+QRY
+QRY_LOW_TressymMoveToNextLocation((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_Stack_ExtractFirst("LOW_TressymTrade_TressymPhase_Location", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Stack_ExtractFirst(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, _Var2, "LOW_TressymTrade_TressymTeleported");
+
+QRY
+QRY_LOW_TressymGetsNextLoot((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_Stack_ExtractFirst("LOW_TressymTrade_TressymPhase_Loot", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Stack_ExtractFirst(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_TressymTrade_Tressym_CurrentLoot(_Var2);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "LOW_TressymTrade_TressymTeleported", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LOW_TressymTrade_Tressym_CurrentLoot(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var2, 1);
+ToInventory(_Var2, _Var1);
+
+IF
+DB_LOW_TressymTrade_Tressym_CurrentLoot(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_TressymTrade_Tressym_CurrentLoot(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_LOW_TressymTrade_Tressym_CurrentLoot(_Var2);
+
+QRY
+QRY_AlternateEvaluateTradeDeal((CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, _, (CHARACTER)_Var1)
+AND
+DB_WYR_Posthouse_Tressym(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 > 0
+AND
+DB_LOW_TressymTrade_Tressym_CurrentLoot(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+ExecuteDeal(_Var1, 1, 0);
+
+QRY
+QRY_AlternateEvaluateTradeDeal((CHARACTER)_Var1, (CHARACTER)_Var2, 0, _, (CHARACTER)_Var1)
+AND
+DB_WYR_Posthouse_Tressym(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_TressymTrade_Tressym_CurrentLoot(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+ExecuteDeal(_Var1, 0, -5);
+
+IF
+MovedFromTo((ITEM)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, 1, (ITEM)_Var1)
+AND
+DB_WYR_Posthouse_Tressym(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_TressymTrade_TradedItem(_Var1);
+
+IF
+MovedFromTo((ITEM)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, 1, (ITEM)_Var1)
+AND
+DB_LOW_TressymTrade_Tressym_CurrentLoot(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Posthouse_Tressym(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(LOW_TressymTrade_State_Tressym_ReadyToMoveToNextLocation_ba8501c2-bde5-41e1-80ea-d8c38440dde8);
+
+IF
+DialogEnded(WYR_Posthouse_GalesTressym_6bbdb0cc-9a74-63c4-ec0b-21d26e65714e, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_Tara_Event_ToCamp_976bb6a2-e5ad-50c3-5283-5e818dcbd6e3, _, _, _, _)
+AND
+QRY_OnlyOnce("LOW_TressymTrade_TressymLeaves", _, _, _, _)
+THEN
+PROC_CampNight_GaleTressym_ToCamp(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(LOW_TressymTrade_State_Tressym_Item2Traded_c5e6115c-ecdd-4bf8-815c-78b0ccdffe7e, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_TressymJoined_c46cfbb6-2aad-47a9-81a1-bdd28a7919fb, _, _, _, _)
+AND
+QRY_OnlyOnce("LOW_TressymTrade_TressymLeaves", _, _, _, _)
+THEN
+PROC_CampNight_GaleTressym_ToCamp(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(LOW_TressymTrade_State_Tressym_Item2Traded_c5e6115c-ecdd-4bf8-815c-78b0ccdffe7e, _, _, _, _)
+AND
+DB_WYR_Posthouse_Tressym(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("LOW_TressymTrade_TressymLeaves", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+
+IF
+TextEvent("LOW_Tressym_Init", _, _, _, _)
+THEN
+SetFlag(WYR_Posthouse_State_TressymHasGivenReward_939d0367-8bc7-487f-b8ef-15c5c9fd0faf);
+PROC_LOW_TressymTrade_TressymInit();
+
+IF
+TextEvent("LOW_Tressym_NextPhase", _, _, _, _)
+THEN
+PROC_LOW_TressymTrade_NextPhase();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

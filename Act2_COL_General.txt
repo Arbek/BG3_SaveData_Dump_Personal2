@@ -1,0 +1,328 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DangerZone(S_COL_DangerZone_e1c5bff0-5b2e-41cc-9be3-2ec8b6258da2, "COL_DangerZone");
+DB_GLO_RestorationStation(S_COL_RegenStation_16382bcc-bff9-419b-a66b-662d98c6abe2);
+DB_COL_Elevator_Positions(1, S_COL_Elevator_Up_453c18eb-a671-4bca-94be-d1942165eaaa);
+DB_COL_Elevator_Positions(0, S_COL_Elevator_Down_e35c68de-b6c7-49ff-9318-c963beda013d);
+DB_COL_Elevator_CurrentPosition(1);
+DB_COL_Elevator_Controllers(0, S_COL_Elevator_Controller_Down_3caa8daf-2cf4-4f16-9f35-7398063cd7b6);
+DB_COL_Elevator_Controllers(1, S_COL_Elevator_Controller_Up_9d984a5b-a8b5-47e0-b4a0-f7b559f6d401);
+DB_COL_Elevator_Controllers(-1, S_COL_Elevator_Controller_38c76a3f-beaf-417b-be7e-62773c705c8f);
+PROC_TriggerRegisterForParty(S_COL_OnElevator_a7e75c66-71e1-4326-84a3-adc73964d56c);
+DB_COL_Elevator_NearElevator(1, S_COL_NearElevator_Up_a32a3736-abc5-4303-82cd-62fe2ac06008);
+DB_COL_Elevator_NearElevator(0, S_COL_NearElevator_Down_3984d061-e0f0-4785-b151-7f9c72c98e75);
+DB_Shapeshifting_Inconspicuous_CustomTriggerExpr(S_COL_CrimeRegionTrigger_94247c94-4980-457a-9b23-f64985bedd05, "(SUMMON_26c78224-a4c1-43e4-b943-75e7fa1bfa41 & SPIDER_8c8932c5-45f7-4d45-8f62-182db82ddcb0) | GASEOUS_FORM_22d7c29e-28d8-4126-ab03-8a7adbf98850");
+DB_OneShot_VoiceBarkTrigger(S_COL_VB_Nautiloid_cb4b5cdf-8fee-4e56-b330-a067d2abec72, COL_Nautiloid_VB_bfbba7a8-7114-92da-2a4f-99265a9dcdf9);
+DB_OneShot_VoiceBarkTrigger(S_COL_Elevator_Banter_Trigger_57f5ef78-b506-45e3-91b6-c1db02d3efe9, COL_General_ElevatorBanter_VB_2adb3a58-30bd-aea4-8676-ec35e9ff9f98);
+PROC_TriggerUnregisterForPlayers(S_COL_Elevator_Banter_Trigger_57f5ef78-b506-45e3-91b6-c1db02d3efe9);
+DB_COL_IntDevWithDialogue(S_COL_Corridor_IntDev_001_419f338c-3860-40fe-b426-2d5a2140e794);
+DB_COL_IntDevWithDialogue(S_COL_Corridor_IntDev_002_6c739b5d-57fd-4978-afaf-c88b9eac47c2);
+DB_COL_IntDevWithDialogue(S_COL_Corridor_IntDev_003_cfc746e2-6b07-4f48-9fd1-319ed9a89c0e);
+DB_COL_IntDevWithDialogue(S_COL_Corridor_IntDev_004_4dbfa464-d92a-4af5-a599-df0f475c2981);
+DB_COL_IntDevWithDialogue(S_COL_Corridor_IntDev_005_ccec75cd-eaa1-4127-816f-a9aed5094dcf);
+DB_COL_IntDevWithDialogue(S_COL_Corridor_IntDev_006_055afb3f-dd91-40b3-a8a8-d9e35ff86cb1);
+DB_COL_IntDevWithDialogue(S_COL_Corridor_IntDev_007_c5fbaea1-9af5-4dad-bd6e-57b6c11b1bde);
+DB_COL_IntDevWithDialogue(S_COL_Corridor_IntDev_008_d2a11f55-3061-4109-9998-da606ebb6f4b);
+DB_AutoSaveTrigger(S_COL_Autosave1_3b6ca0e1-2879-47a6-8722-a0d7beb36c9a);
+DB_AutoSaveTrigger(S_COL_Autosave2_565c0e6c-5fad-4a5e-a832-04d861df97f5);
+PROC_TriggerRegisterForPlayers(S_COL_ColonyArea_NoOubliette_e35841eb-e9ae-4c13-8b46-832184d1ec5b);
+DB_InRegionFlag(S_COL_ColonyArea_NoOubliette_e35841eb-e9ae-4c13-8b46-832184d1ec5b, COL_State_InColony_NoOubliette_24d7035e-8698-4b83-9152-b09cb5ea5ded);
+PROC_RegisterWorldGossipTrigger(S_PartyBanterTrigger_Colony_612058ff-58e5-49d8-a66c-62615c7bf688);
+DB_WorldGossip_RegionTrigger(S_PartyBanterTrigger_Colony_612058ff-58e5-49d8-a66c-62615c7bf688, BANTERREGION_COL_Colony_93526d07-7ce5-46b6-8774-d5bef03d43f0);
+
+KBSECTION
+PROC
+PROC_COL_KethericShowdown_ChosenThree_CleanUp()
+THEN
+PROC_RemoveOneShotVoiceBarkTrigger(S_COL_VB_Nautiloid_cb4b5cdf-8fee-4e56-b330-a067d2abec72, COL_Nautiloid_VB_bfbba7a8-7114-92da-2a4f-99265a9dcdf9);
+PROC_RemoveOneShotVoiceBarkTrigger(S_COL_Elevator_Banter_Trigger_57f5ef78-b506-45e3-91b6-c1db02d3efe9, COL_General_ElevatorBanter_VB_2adb3a58-30bd-aea4-8676-ec35e9ff9f98);
+
+PROC
+PROC_COL_KethericShowdown_Init()
+AND
+DB_DialogName(WRLD_SCL_FloatingNautiloids_c6bea6fc-e0a2-4a53-855e-5688d7a68afa, _Var1, _Var1, _Var1, _Var1)
+THEN
+StopWorldTimeline(_Var1);
+
+IF
+DB_InRegion(_, S_COL_ColonyArea_NoOubliette_e35841eb-e9ae-4c13-8b46-832184d1ec5b, _, _, _)
+AND
+QRY_OnlyOnce("COL_OnFirstEntry", _, _, _, _)
+THEN
+PROC_COL_OnFirstEntry();
+
+PROC
+PROC_COL_OnFirstEntry()
+THEN
+DB_NOOP(1);
+
+IF
+DB_GlobalFlag(SCE_Epilogue_State_HasStarted_9b4bae0b-6464-4b0e-a0e3-41201c0c3c9e, _, _, _, _)
+AND NOT
+DB_COL_LivingPartyMemberInColony(_, _, _, _, _)
+AND
+QRY_OnlyOnce("COL_OnLastLeave", _, _, _, _)
+THEN
+PROC_COL_OnLastLeave();
+
+IF
+DB_InRegion(_Var1, S_COL_ColonyArea_NoOubliette_e35841eb-e9ae-4c13-8b46-832184d1ec5b, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_NecroLab_PlayerZombie(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_LivingPartyMemberInColony(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_COL_LivingPartyMemberInColony(_Var1);
+
+IF
+DB_COL_LivingPartyMemberInColony(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_COL_ColonyArea_NoOubliette_e35841eb-e9ae-4c13-8b46-832184d1ec5b, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_LivingPartyMemberInColony(_Var1);
+
+IF
+DB_COL_LivingPartyMemberInColony(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_COL_NecroLab_PlayerZombie(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_LivingPartyMemberInColony(_Var1);
+
+PROC
+PROC_COL_OnLastLeave()
+THEN
+DB_NOOP(1);
+
+IF
+DB_COL_Elevator_NearElevator(_, _Var2, _, _, _)
+THEN
+PROC_TriggerUnregisterForParty(_Var2);
+
+IF
+UseFinished((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_COL_Elevator_Controllers(_, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_COL_BlockElevatorController(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_COL_Elevator_Move();
+
+IF
+PlatformMovementFinished(_, "COL_Elevator_Arrived", _, _, _)
+AND
+DB_COL_Elevator_CurrentPosition(_Var2, _, _, _, _)
+AND
+DB_Negate(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_COL_Elevator_CurrentPosition(_Var2);
+DB_COL_Elevator_CurrentPosition(_Var3);
+
+IF
+PlatformMovementFinished(_, "COL_Elevator_Arrived", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_COL_Elevator_Moving(1);
+
+IF
+PlatformMovementFinished(_, "COL_Elevator_Arrived", _, _, _)
+AND
+DB_COL_Elevator_Controllers(_, _Var3, _, _, _)
+THEN
+SetCanInteract(_Var3, 1);
+
+QRY
+QRY_COL_BlockElevatorController((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_COL_Elevator_CurrentPosition(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_COL_Elevator_Controllers(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var3, _, _Var1, _Var1)
+THEN
+PROC_TryStartAD(COL_General_PAD_CallLiftFail_b59783b0-9efc-bf7e-fe85-573ccf0bc5a1, _Var1);
+
+QRY
+QRY_COL_BlockElevatorController((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_COL_Elevator_Moving(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var1, _, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+QRY
+QRY_COL_BlockElevatorController((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_COL_Elevator_Embarking(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var1, _, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+QRY
+QRY_COL_BlockElevatorController((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, _Var1, _, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+PROC
+PROC_COL_Elevator_Move()
+AND
+QRY_OnlyOnce("MusicNeuralApparatus_Elevator", _, _, _, _)
+THEN
+MusicPlayGeneral("MusicNeuralApparatus_Elevator");
+
+PROC
+PROC_COL_Elevator_Move()
+AND
+DB_COL_Elevator_Controllers(_, _Var2, _, _, _)
+THEN
+SetCanInteract(_Var2, 0);
+
+PROC
+PROC_COL_Elevator_Move()
+AND NOT
+QRY_COL_ElevatorEmbark()
+THEN
+PROC_COL_Elevator_DoMove();
+
+QRY
+QRY_COL_ElevatorEmbark()
+AND
+DB_InRegion(_Var1, S_COL_OnElevator_a7e75c66-71e1-4326-84a3-adc73964d56c, _Var1, _Var1, _Var1)
+AND
+DB_COL_Elevator_CurrentPosition(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_COL_Elevator_NearElevator(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var4, S_COL_OnElevator_a7e75c66-71e1-4326-84a3-adc73964d56c, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_Elevator_Embarking(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+InSamePartyGroup(_Var1, _Var4, 1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var4, _Var1, "Walk", "COL_Elevator_Embarked");
+DB_COL_Elevator_Embarking(_Var4);
+
+IF
+DB_COL_Elevator_Embarking(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_COL_OnElevator_a7e75c66-71e1-4326-84a3-adc73964d56c, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_Elevator_Embarking(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_COL_Elevator_WaitingForEmbark(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_COL_Elevator_WaitingForEmbark(_Var1);
+Freeze(_Var1);
+
+IF
+DB_COL_Elevator_WaitingForEmbark(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_COL_OnElevator_a7e75c66-71e1-4326-84a3-adc73964d56c, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_Elevator_WaitingForEmbark(_Var1);
+Unfreeze(_Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "COL_Elevator_Embarked", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_COL_Elevator_Embarking(_Var1);
+
+IF
+EntityEvent(_, "COL_Elevator_Embarked", _, _, _)
+AND NOT
+DB_COL_Elevator_Embarking(_, _, _, _, _)
+THEN
+PROC_COL_Elevator_Move();
+
+PROC
+PROC_COL_Elevator_DoMove()
+AND
+DB_COL_Elevator_WaitingForEmbark(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_COL_Elevator_WaitingForEmbark(_Var1);
+Unfreeze(_Var1);
+
+PROC
+PROC_COL_Elevator_DoMove()
+AND
+DB_COL_Elevator_CurrentPosition(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_COL_Elevator_Positions(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var3, _Var4, _Var5, _Var6, _Var1)
+THEN
+DB_COL_Elevator_Moving(1);
+PlatformMoveTo(PLT_COL_Elevator_000_ed92ff43-774c-4bf9-a961-4d7aada54fcf, _Var4, _Var5, _Var6, 4, "COL_Elevator_Arrived", 0);
+
+PROC
+PROC_COL_Elevator_DoMove()
+THEN
+TimerLaunch("COL_Lift_Gossip", 2000);
+
+IF
+TimerFinished("COL_Lift_Gossip", _, _, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(S_COL_Elevator_Banter_Trigger_57f5ef78-b506-45e3-91b6-c1db02d3efe9);
+
+IF
+PlatformMovementFinished(_, "COL_Elevator_Arrived", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TriggerUnregisterForPlayers(S_COL_Elevator_Banter_Trigger_57f5ef78-b506-45e3-91b6-c1db02d3efe9);
+PROC_RemoveOneShotVoiceBarkTrigger(S_COL_Elevator_Banter_Trigger_57f5ef78-b506-45e3-91b6-c1db02d3efe9, COL_General_ElevatorBanter_VB_2adb3a58-30bd-aea4-8676-ec35e9ff9f98);
+PROC_RemoveOneShotVoiceBarkTrigger(S_COL_VB_Nautiloid_cb4b5cdf-8fee-4e56-b330-a067d2abec72, COL_Nautiloid_VB_bfbba7a8-7114-92da-2a4f-99265a9dcdf9);
+
+IF
+DB_COL_TadpolingCentre_IntDevs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_COL_IntDevWithDialogue(_Var1);
+
+IF
+DB_COL_Butcher_IntDev(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_COL_IntDevWithDialogue(_Var1);
+
+IF
+DB_COL_IntDevWithDialogue(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_AD_Dialog(_Var1, COL_GEN_AD_IntellectDevourer_1cde5899-11a9-e82f-a49d-f038a554490e);
+
+IF
+AutomatedDialogEnded(COL_GEN_AD_IntellectDevourer_1cde5899-11a9-e82f-a49d-f038a554490e, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogSpeakers(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var3, _Var2, _, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var3, "COL_GEN_PAD_IntellectDevourerComment", _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(COL_GEN_VB_IntellectDevourerComment_67ad17ce-2f21-a31f-1ac0-da124fe0f94e, _Var3);
+
+PROC
+PROC_StateSet_PermaDefeated(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _, _, _, _)
+THEN
+DB_PartyDialogSuppressionZone(S_COL_DefeatedKetheric_PartySuppressionZone_feba40be-b1ad-4dd8-b181-94318bb6cb39);
+DB_PartyDialogSuppression_CustomDialogForParty(S_COL_DefeatedKetheric_PartySuppressionZone_feba40be-b1ad-4dd8-b181-94318bb6cb39, COL_PartySuppression_PAD_DefeatedKetheric_0e5a2a17-35a8-edfe-b4e4-24db8debe8c5);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

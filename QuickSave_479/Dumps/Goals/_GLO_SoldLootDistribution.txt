@@ -1,0 +1,442 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_LootDistribution_Distributor("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_LootDistribution_Receiver("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_LootDistribution_RandomPoolEntry("", NULL_00000000-0000-0000-0000-000000000000);
+DB_LootDistribution_Slot(0, "Melee Main Weapon");
+DB_LootDistribution_Slot(1, "Ranged Main Weapon");
+
+KBSECTION
+IF
+LevelUnloading(_, (STRING)_, (STRING)_, (STRING)_, (STRING)_)
+THEN
+PROC_LootDistribution_Trigger();
+
+PROC
+PROC_LongRest()
+THEN
+PROC_LootDistribution_Trigger();
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_ActiveContainer(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_ActiveContainer(_Var1, _Var2);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_Distributor(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LootDistribution_ActiveContainer(_Var1, _Var3);
+
+QRY
+QRY_LootDistribution_IsDistributable((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsWeapon(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_LootDistribution_IsDistributable((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsConsumable(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_EvaluateTradeDeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_LootDistribution_Distributor_WillDistribute(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_Distributor_WillDistribute(_Var1, _Var2);
+
+PROC
+PROC_EvaluateTradeDeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+IntegerToReal(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var4, _Var6, _Var1, _Var1, _Var1)
+AND
+QRY_LootDistribution_DistributorProfitRatioOkay(_Var5, _Var6, _Var1, _Var1, _Var1)
+THEN
+DB_LootDistribution_Distributor_WillDistribute(_Var1, _Var2);
+
+QRY
+QRY_LootDistribution_DistributorProfitRatioOkay((REAL)_Var1, (REAL)_Var2, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+_Var2 == 0
+AND
+_Var1 > 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_LootDistribution_DistributorProfitRatioOkay((REAL)_Var1, (REAL)_Var2, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+_Var2 != 0
+AND
+RealDivide(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 >= 2
+THEN
+DB_NOOP(1);
+
+IF
+MovedFromTo((ITEM)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, 1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_LootDistribution_Distributor_WillDistribute(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_LootDistribution_Distributor(_Var4, _Var3, _Var5, _Var1, _Var1)
+AND
+IsStoryItem(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_LootDistribution_IsDistributable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetStackAmount(_Var1, _Var6, _, _Var1, _Var1)
+THEN
+DB_LootDistribution_Distributor_Gained(_Var4, _Var3, _Var1, _Var6);
+
+IF
+RemovedFrom((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LootDistribution_Distributor_Gained(_Var3, _Var2, _Var1, _Var4, _Var1)
+AND
+GetStackAmount(_Var1, _Var5, _, _Var1, _Var1)
+AND
+IntegerSubtract(_Var4, _Var5, _Var7, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_Distributor_Gained(_Var3, _Var2, _Var1, _Var4);
+DB_LootDistribution_Distributor_Gained(_Var3, _Var2, _Var1, _Var7);
+
+IF
+Equipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LootDistribution_Distributor_Gained(_Var3, _Var2, _Var1, _Var4, _Var1)
+THEN
+NOT DB_LootDistribution_Distributor_Gained(_Var3, _Var2, _Var1, _Var4);
+
+IF
+DB_LootDistribution_Distributor_Gained(_Var1, _Var2, _Var3, 0, _Var1)
+THEN
+NOT DB_LootDistribution_Distributor_Gained(_Var1, _Var2, _Var3, 0);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_Distributor(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LootDistribution_Distributor_Gained(_Var1, _Var2, _Var4, _Var5, _Var1)
+AND
+IsInInventoryOf(_Var4, _Var2, 1, _Var1, _Var1)
+THEN
+ToInventory(_Var4, _Var3, _Var5, 0, 0);
+DB_LootDistribution_InPoolStash(_Var1, _Var3, _Var4);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_Distributor_Gained(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_Distributor_Gained(_Var1, _Var2, _Var3, _Var4);
+
+IF
+AddedTo((ITEM)_Var1, (ITEM)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_LootDistribution_Distributor(_Var4, _Var5, _Var2, _Var1, _Var1)
+AND NOT
+DB_LootDistribution_InPoolStash(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_LootDistribution_InPoolStash(_Var4, _Var2, _Var1);
+
+QRY
+QRY_LootDistribution_ItemInPool((ITEM)_Var1, (STRING)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LootDistribution_Distributor(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var1, _Var3, _Var5, _Var1, _Var1)
+AND
+IsInInventoryOf(_Var1, _Var4, _Var6, _Var1, _Var1)
+AND
+DB_LogicOr(_Var5, _Var6, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+RemovedFrom((ITEM)_Var1, _, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LootDistribution_InPoolStash(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_LootDistribution_ItemInPool(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_InPoolStash(_Var3, _Var4, _Var1);
+
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_LootDistribution_InPoolStash(_Var5, _Var6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_InPoolStash(_Var5, _Var6, _Var1);
+
+IF
+StackedWith((ITEM)_Var1, (ITEM)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LootDistribution_InPoolStash(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_InPoolStash(_Var3, _Var4, _Var1);
+
+QRY
+QRY_LootDistribution_NothingToDistribute((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_LootDistribution_InPoolStash(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_Pool_CandidateList(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_Pool_CandidateList(_Var1, _Var2);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_Pool_Processed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_Pool_Processed(_Var1);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_ActiveContainer(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_LootDistribution_NothingToDistribute(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_LootDistribution_Pool_Processed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LootDistribution_Receiver(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatusWithGroup(_Var3, "SG_Polymorph_BeastShape_NPC", 0, _Var1, _Var1)
+THEN
+DB_LootDistribution_Pool_CandidateList(_Var1, _Var3);
+DB_LootDistribution_Pool_Processed(_Var1);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+SysCount("DB_LootDistribution_Pool_CandidateList", 2, _Var1, _Var1, _Var1)
+AND
+_Var1 != 0
+AND
+IntegerProduct(_Var1, 2, _Var2, _Var1, _Var1)
+AND
+IntegerMin(_Var2, 50, _Var3, _Var1, _Var1)
+AND
+QRY_DoNTimes(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_DoNTimes(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetRandom("DB_LootDistribution_Pool_CandidateList", 2, "DB_LootDistribution_RandomPoolEntry", _Var1, _Var1)
+AND
+DB_LootDistribution_RandomPoolEntry(_Var5, _Var6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_Pool_CandidateList(_Var5, _Var6);
+DB_LootDistribution_Pool_CandidateList(_Var5, _Var6);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_Pool_CandidateList(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LootDistribution_SelectBestWeaponForNPC(_Var1, _Var2);
+
+PROC
+PROC_LootDistribution_SelectBestWeaponForNPC((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LootDistribution_BestWeapon(_Var3, _Var4, _Var5, _Var1, _Var1)
+THEN
+NOT DB_LootDistribution_BestWeapon(_Var3, _Var4, _Var5);
+
+PROC
+PROC_LootDistribution_SelectBestWeaponForNPC((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_LootDistribution_BestWeapon(NULL_00000000-0000-0000-0000-000000000000, "", -1);
+
+PROC
+PROC_LootDistribution_SelectBestWeaponForNPC((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LootDistribution_Slot(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_LootDistribution_GetEquippedWeaponScore(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_LootDistribution_GetEquippedWeaponScore(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_LootDistribution_BestWeapon(_Var7, "", _Var8, _Var1, _Var1)
+AND
+_Var6 > _Var8
+THEN
+NOT DB_LootDistribution_BestWeapon(_Var7, "", _Var8);
+DB_LootDistribution_BestWeapon(_Var5, "", _Var6);
+
+PROC
+PROC_LootDistribution_SelectBestWeaponForNPC((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LootDistribution_ActiveContainer(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_LootDistribution_InPoolStash(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+IsWeapon(_Var4, 1, _Var1, _Var1, _Var1)
+AND
+GetWeaponScoreForCharacter(_Var4, _Var2, _Var5, _Var1, _Var1)
+AND
+DB_LootDistribution_BestWeapon(_Var6, _Var7, _Var8, _Var1, _Var1)
+AND
+_Var5 > _Var8
+THEN
+NOT DB_LootDistribution_BestWeapon(_Var6, _Var7, _Var8);
+DB_LootDistribution_BestWeapon(_Var4, _Var1, _Var5);
+
+PROC
+PROC_LootDistribution_SelectBestWeaponForNPC((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LootDistribution_BestWeapon(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_LootDistribution_ActiveContainer(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_LootDistribution_Equipping(_Var1, _Var5, _Var2, _Var3);
+NOT DB_LootDistribution_InPoolStash(_Var1, _Var5, _Var3);
+ToInventory(_Var3, _Var2, 1, 0, 0);
+
+IF
+AddedTo((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LootDistribution_Equipping(_Var4, _Var5, _Var2, _Var1, _Var1)
+THEN
+Equip(_Var2, _Var1);
+
+IF
+Unequipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LootDistribution_Equipping(_Var3, _Var4, _Var2, _Var5, _Var1)
+THEN
+ToInventory(_Var1, _Var4, 1, 0, 0);
+DB_LootDistribution_InPoolStash(_Var3, _Var4, _Var1);
+
+IF
+Equipped((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_LootDistribution_Equipping(_Var3, _Var4, _Var2, _Var5, _Var1)
+THEN
+NOT DB_LootDistribution_Equipping(_Var3, _Var4, _Var2, _Var5);
+
+PROC
+PROC_LootDistribution_Trigger()
+AND
+DB_LootDistribution_ActiveContainer(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_LootDistribution_ValidPoolReceivers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+SysCount("DB_QRY_RTN_LootDistribution_ValidPoolReceivers", 1, _Var3, _Var1, _Var1)
+AND
+IntegerProduct(_Var3, 2, _Var4, _Var1, _Var1)
+AND
+DB_LootDistribution_InPoolStash(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+IsConsumable(_Var5, 1, _Var1, _Var1, _Var1)
+AND
+GetStackAmount(_Var5, _Var6, _, _Var1, _Var1)
+AND
+IntegerMin(_Var6, _Var4, _Var8, _Var1, _Var1)
+AND
+IntegerMin(_Var8, 100, _Var9, _Var1, _Var1)
+THEN
+PROC_LootDistribution_Consumable(_Var1, _Var2, _Var5, _Var9, _Var6);
+
+PROC
+PROC_LootDistribution_Consumable((STRING)_Var1, (ITEM)_Var2, (ITEM)_Var3, (INTEGER)_Var4, (INTEGER)_Var5)
+AND
+QRY_DoNTimes(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_DoNTimes(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_LootDistribution_GetRandomConsumableCandidate("DB_QRY_RTN_LootDistribution_ValidPoolReceivers", 1, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_LootDistribution_GetRandomConsumableCandidate(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_LootDistribution_GetRandomConsumableCandidate(_Var7);
+ToInventory(_Var3, _Var7, 1, 0, 0);
+
+PROC
+PROC_LootDistribution_Consumable((STRING)_Var1, (ITEM)_Var2, (ITEM)_Var3, (INTEGER)_Var4, (INTEGER)_Var5)
+AND
+_Var4 == _Var5
+THEN
+NOT DB_LootDistribution_InPoolStash(_Var1, _Var2, _Var3);
+
+QRY
+QRY_LootDistribution_GetEquippedWeaponScore((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRY_RTN_LootDistribution_GetEquippedWeaponScore(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_LootDistribution_GetEquippedWeaponScore(_Var3, _Var4);
+
+QRY
+QRY_LootDistribution_GetEquippedWeaponScore((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetEquippedItem(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+GetWeaponScoreForCharacter(_Var3, _Var1, _Var4, _Var1, _Var1)
+THEN
+DB_QRY_RTN_LootDistribution_GetEquippedWeaponScore(_Var3, _Var4);
+
+QRY
+QRY_LootDistribution_GetEquippedWeaponScore((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRY_RTN_LootDistribution_GetEquippedWeaponScore(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_LootDistribution_GetEquippedWeaponScore(NULL_00000000-0000-0000-0000-000000000000, -1);
+
+QRY
+QRY_LootDistribution_ValidPoolReceivers((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRY_RTN_LootDistribution_ValidPoolReceivers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_LootDistribution_ValidPoolReceivers(_Var2);
+
+QRY
+QRY_LootDistribution_ValidPoolReceivers((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LootDistribution_Pool_CandidateList(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_LootDistribution_ValidPoolReceivers(_Var2);
+
+QRY
+QRY_LootDistribution_GetRandomConsumableCandidate((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_GetRandom(_Var1, _Var2, "DB_QRY_RTN_LootDistribution_GetRandomConsumableCandidate");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

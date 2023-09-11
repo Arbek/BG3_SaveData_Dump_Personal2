@@ -1,0 +1,43 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_LOW_SWS_DocksRoad_FF_000_6e40bdc8-b4c1-4d60-b986-60517ced3400, LOW_SWS_DocksRoad_FF_00_b532fd2d-8e7b-41dc-3fa5-dfb5663215f8);
+DB_Dialogs(S_LOW_SWS_DocksRoad_FF_001_8a109c28-d87a-4268-90a7-a021f42b1045, LOW_SWS_DocksRoad_FF_01_9b6539ec-ead7-1587-1ffe-e38c3361ebaf);
+DB_Dialogs(S_LOW_SWS_DocksRoad_Sailor_000_6cc199cb-d016-4995-bab4-944bc30d5cc1, LOW_SWS_DocksRoad_Sailor_000_3cd4d9b1-5026-c378-f3b2-010c4bbe7587);
+DB_Dialogs(S_LOW_SWS_DocksRoad_Sailor_001_c5d28a10-3ed4-41f2-99bc-c421ada58001, LOW_SWS_DocksRoad_Sailor_001_e1285ecc-10e0-af1d-b4fb-a37bbc0c02a2);
+DB_Dialogs(S_LOW_SWS_DocksRoad_Sailor_002_d707df9f-9891-4635-a85b-3ab04989d151, LOW_SWS_DocksRoad_Sailor_002_fdee6362-3e80-9dee-6b2f-dec19be74746);
+DB_LOW_SWS_DocksRoad_Guards(S_LOW_SWS_DocksRoad_FF_000_6e40bdc8-b4c1-4d60-b986-60517ced3400);
+DB_LOW_SWS_DocksRoad_Guards(S_LOW_SWS_DocksRoad_FF_001_8a109c28-d87a-4268-90a7-a021f42b1045);
+DB_LOW_SWS_DocksRoad_Civilians(S_LOW_SWS_DocksRoad_Sailor_000_6cc199cb-d016-4995-bab4-944bc30d5cc1);
+DB_LOW_SWS_DocksRoad_Civilians(S_LOW_SWS_DocksRoad_Sailor_001_c5d28a10-3ed4-41f2-99bc-c421ada58001);
+DB_LOW_SWS_DocksRoad_Civilians(S_LOW_SWS_DocksRoad_Sailor_002_d707df9f-9891-4635-a85b-3ab04989d151);
+
+KBSECTION
+IF
+DB_LOW_SWS_DocksRoad_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReaction");
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReactionFallback");
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_DocksRoad_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_SWS_DocksRoad_DisperseCivs();
+
+PROC
+PROC_LOW_SWS_DocksRoad_DisperseCivs()
+AND
+DB_LOW_SWS_DocksRoad_Civilians(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b_LOW_SteelWatchStreets"

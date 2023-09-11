@@ -1,0 +1,388 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DialogBlockTradeButton(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DialogBlockTradeButton(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_BoughtFromMerchantInDialogFlag(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_GenTradeItems((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_TradeTreasureGeneratedSinceLongRest(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DoGenTradeItems(_Var1, _Var2);
+
+PROC
+PROC_DoGenTradeItems((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GenerateTradeTreasure(_Var1, _Var2);
+DB_TradeTreasureGeneratedSinceLongRest(_Var2);
+DB_TradeTreasureGeneratedEver(_Var2);
+
+PROC
+PROC_ClearGeneratedItems((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_ItemsCleared(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ItemsCleared(_Var1);
+ClearTradeGeneratedItems(_Var1);
+
+PROC
+PROC_SetCustomTradeTreasure((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetCustomTradeTreasure(_Var1, _Var2);
+PROC_ClearGeneratedItems(_Var1);
+PROC_ClearLastTradeTime(_Var1);
+
+PROC
+PROC_ClearLastTradeTime((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TradeTreasureGeneratedSinceLongRest(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TradeTreasureGeneratedSinceLongRest(_Var1);
+
+PROC
+PROC_GenerateTradeTreasure((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+GenerateItems(_Var1, _Var2);
+NOT DB_ItemsCleared(_Var2);
+
+PROC
+PROC_LongRest()
+AND
+DB_TradeTreasureGeneratedSinceLongRest(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TradeTreasureGeneratedSinceLongRest(_Var1);
+
+IF
+LeveledUp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TradeTreasureGeneratedSinceLongRest(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TradeTreasureGeneratedSinceLongRest(_Var2);
+
+IF
+Dying((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, TRADER_91d5ebc6-91ea-44db-8a51-216860d69b5b, 1, _Var1, _Var1)
+AND
+IsPartyMember(_Var1, 1, 0, _Var1, _Var1)
+AND NOT
+DB_TradeTreasureGeneratedEver(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetClosestPlayer(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_GenerateTradeTreasure(_Var2, _Var1);
+
+PROC
+PROC_StartTrade((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_StartTrade(_Var1, _Var2, 0);
+
+PROC
+PROC_StartTrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (TRADEMODE)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+PROC_GenTradeItems(_Var1, _Var2);
+PROC_TradeResetInsults(_Var1, _Var2);
+
+PROC
+PROC_StartTrade((CHARACTER)_Var1, (CHARACTER)_Var2, (TRADEMODE)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_StartTrade(_Var1, _Var2, _Var3, "");
+
+PROC
+PROC_StartTrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (TRADEMODE)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_Trade_InternalGetInitiallySelectedTradeObject(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_Trade_InternalGetInitiallySelectedObject(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StartTrade(_Var1, _Var2, _Var3, _Var5, _Var4);
+
+PROC
+PROC_StartTrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (TRADEMODE)_Var3, (ITEM)_Var4, (STRING)_Var5)
+THEN
+ActivateTrade(_Var1, _Var2, 1, _Var3, _Var4, _Var5);
+
+QRY
+QRY_Trade_InternalGetInitiallySelectedTradeObject((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRY_RTN_Trade_InternalGetInitiallySelectedObject(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_Trade_InternalGetInitiallySelectedObject(_Var3);
+
+QRY
+QRY_Trade_InternalGetInitiallySelectedTradeObject((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_Trade_GetInitiallySelectedTradeObject(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_Trade_GetInitiallySelectedTradeObject(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_Trade_GetInitiallySelectedTradeObject(_Var3);
+DB_QRY_RTN_Trade_InternalGetInitiallySelectedObject(_Var3);
+
+QRY
+QRY_Trade_InternalGetInitiallySelectedTradeObject((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_Trade_InternalGetInitiallySelectedObject(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Trade_InternalGetInitiallySelectedObject(NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_Trade_GetInitiallySelectedTradeObject((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_QRY_RTN_Trade_GetInitiallySelectedTradeObject(NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+RequestTrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (TRADEMODE)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+PROC_StartTrade(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_TradeResetInsults((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InsultCounter(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InsultCounter(_Var1, _Var2, _Var3);
+
+PROC
+PROC_TradeResetInsults((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_InsultCounter(_Var1, _Var2, 0);
+
+IF
+HappyWithDeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+QRY_AlternateEvaluateTradeDeal(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_EvaluateTradeDeal(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_EvaluateTradeDeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_GetAttitudeChangeForTrade(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_AttitudeAdjustMent(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+_Var5 != 0
+THEN
+AddAttitudeTowardsPlayer(_Var2, _Var1, _Var5);
+
+PROC
+PROC_EvaluateTradeDeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var3 >= _Var4
+AND
+DB_AttitudeAdjustMent(_Var1, _Var2, _Var5, _Var1, _Var1)
+THEN
+ExecuteDeal(_Var1, 1, _Var5);
+
+PROC
+PROC_EvaluateTradeDeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var3 < _Var4
+AND
+DB_AttitudeAdjustMent(_Var1, _Var2, _Var5, _Var1, _Var1)
+THEN
+ExecuteDeal(_Var1, 0, _Var5);
+
+QRY
+QRY_AlternateEvaluateTradeDeal((CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GetAttitudeChangeForTrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+DB_TempTradeBalance(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_TempTradeBalance(_Var1, _Var2, 0);
+
+QRY
+QRY_GetAttitudeChangeForTrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+IntegerSubtract(_Var3, _Var4, _Var5, _Var1, _Var1)
+AND
+DB_TempTradeBalance(_Var1, _Var2, _Var6, _Var1, _Var1)
+AND
+IntegerSum(_Var5, _Var6, _Var7, _Var1, _Var1)
+AND
+GetLevel(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND
+DataGetGoldValue(AttitudePoints_cb15f73a-5aca-404a-9186-5e172b7cf6c3, _Var8, _Var9, _Var1, _Var1)
+AND
+_Var9 != 0
+AND
+IntegerDivide(_Var7, _Var9, _Var10, _Var1, _Var1)
+AND
+IntegerModulo(_Var7, _Var9, _Var11, _Var1, _Var1)
+THEN
+NOT DB_TempTradeBalance(_Var1, _Var2, _Var6);
+DB_TempTradeBalance(_Var1, _Var2, _Var11);
+PROC_Trade_SetAttitudeAdjustment(_Var1, _Var2, _Var10);
+
+PROC
+PROC_Trade_SetAttitudeAdjustment((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AttitudeAdjustMent(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_AttitudeAdjustMent(_Var1, _Var2, _Var4);
+
+PROC
+PROC_Trade_SetAttitudeAdjustment((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var3 >= 0
+THEN
+DB_AttitudeAdjustMent(_Var1, _Var2, _Var3);
+
+PROC
+PROC_Trade_SetAttitudeAdjustment((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var3 < 0
+AND
+DB_InsultCounter(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 < 2
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+AND
+DB_TempTradeBalance(_Var1, _Var2, _Var6, _Var1, _Var1)
+THEN
+DB_AttitudeAdjustMent(_Var1, _Var2, 0);
+NOT DB_InsultCounter(_Var1, _Var2, _Var4);
+DB_InsultCounter(_Var1, _Var2, _Var5);
+NOT DB_TempTradeBalance(_Var1, _Var2, _Var6);
+DB_TempTradeBalance(_Var1, _Var2, 0);
+
+PROC
+PROC_Trade_SetAttitudeAdjustment((CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var3 < 0
+AND NOT
+DB_AttitudeAdjustMent(_Var1, _Var2, _, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(_Var2, _Var1, _Var5, _Var1, _Var1)
+AND
+IntegerSubtract(_Var5, 15, _Var6, _Var1, _Var1)
+AND
+IntegerMax(_Var6, -45, _Var7, _Var1, _Var1)
+AND
+IntegerSubtract(_Var7, _Var5, _Var8, _Var1, _Var1)
+THEN
+DB_AttitudeAdjustMent(_Var1, _Var2, _Var8);
+
+IF
+FlagSet(StartTrade_4e5de589-f40a-a10d-f088-3ea7482b75ec, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogNPCs(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+PROC_StartTrade(_Var1, _Var3);
+ClearFlag(StartTrade_4e5de589-f40a-a10d-f088-3ea7482b75ec, _Var1, _Var2);
+
+PROC
+PROC_DialogFlagSetup(_, (CHARACTER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_ManualTradeNPC(_Var2, _, _, _, _)
+AND
+DB_PreventTradeBetween(_Var2, _Var3, _, _, _)
+THEN
+SetCanTrade(_Var2, 0);
+
+PROC
+PROC_DialogFlagSetup(_, (CHARACTER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+IsTagged(_Var2, GHOST_3def9d73-7c73-487b-8111-d1df1dce076e, 1, _, _)
+THEN
+SetCanTrade(_Var2, 0);
+
+IF
+FlagSet(PreventTradeWithPlayer_b4405483-6875-4b6a-80ae-e6248ead0313, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DialogGetInvolvedPlayer(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+DB_ManualTradeNPC(_Var1);
+DB_PreventTradeBetween(_Var1, _Var3);
+ClearFlag(PreventTradeWithPlayer_b4405483-6875-4b6a-80ae-e6248ead0313, _Var1, _Var2);
+
+PROC
+PROC_DialogFlagSetup(_, (CHARACTER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_ManualTradeNPC(_Var2, _, _, _, _)
+AND NOT
+DB_PreventTradeBetween(_Var2, _Var3, _, _, _)
+THEN
+SetCanTrade(_Var2, 1);
+
+IF
+DialogStarted((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogBlockTradeButton(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Dialog_TempDisableTrade_ForNPC(_Var1, _Var2, 1);
+
+PROC
+PROC_Dialog_TempDisableTrade_ForNPC((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DialogGetInvolvedNPC(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var5, _Var1, _Var1)
+THEN
+PROC_Dialog_TempDisableTrade(_Var1, _Var4);
+PROC_Dialog_TempDisableTrade_ForNPC(_Var1, _Var2, _Var5);
+
+PROC
+PROC_Dialog_TempDisableTrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+CanTrade(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+SetCanTrade(_Var2, 0);
+DB_TradeTempDisabled(_Var1, _Var2);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TradeTempDisabled(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TradeTempDisabled(_Var1, _Var3);
+SetCanTrade(_Var3, 1);
+
+IF
+MovedFromTo(_, (CHARACTER)_Var2, (CHARACTER)_Var3, 1, _)
+AND
+DB_BoughtFromMerchantInDialogFlag(_Var2, _Var4, _Var5, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+DB_DialogPlayers(_Var6, _Var3, _, _, _)
+AND
+DB_DialogName(_Var4, _Var6, _, _, _)
+THEN
+SetFlag(_Var5, _Var3, _Var6);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_BoughtFromMerchantInDialogFlag(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var5, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetFlag(_Var4, _Var5, 1, _Var1, _Var1)
+THEN
+ClearFlag(_Var4, _Var5, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

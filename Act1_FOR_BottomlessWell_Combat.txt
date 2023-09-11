@@ -1,0 +1,185 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_FOR_BottomlessWell_Ettercaps(S_FOR_Bottomless_Ettercap_01_1c167d87-048b-40ac-9117-c87d5a2471fd);
+DB_FOR_BottomlessWell_Ettercaps(S_FOR_Bottomless_Ettercap_02_5c57bfc0-cd82-4b9f-9b70-b5475fb121db);
+TriggerRegisterForItems(S_FOR_Bottomless_SpiderQueen_CombatArea_595a078d-1c1d-4496-a57c-058bc964d66d);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_000_127bab56-fd82-460a-af3f-7f068a1dc2e6, 1);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_001_7116e9b2-ae0f-4966-8b8d-e83041643eb8, 1);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_002_e84260c9-037c-4670-befa-dea1d077d6e9, 1);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_003_d865b547-8794-4bad-ae5f-7e027e3d526d, 1);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_004_33cbc6fd-4338-411d-bf89-f819ea22a05d, 1);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_005_b37eb3ae-36f5-446e-8702-cd7807f02b5a, 2);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_006_10a79948-e09c-40c9-9c45-650ac8629503, 2);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_007_855336cb-f0a1-4aa0-b23a-af021a735d97, 2);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_008_17bcc154-bd91-41d9-9e9c-764d988fd5e3, 2);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_009_142d4eca-193a-4218-8d77-2a6c93913c58, 2);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_010_96bc51c7-9528-4c61-8e7f-eb8a835f2ee3, 2);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_011_483406be-9ab9-4718-b951-14005337b6ef, 3);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_012_3f2e4864-773d-43ca-9485-f0d7807622ee, 3);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_013_f46475a8-3071-45a3-a646-6aa5b3899bf1, 3);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_014_1bf5f486-6e8e-402f-82a8-290b20e51af6, 3);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_015_88d3ccb9-f92a-408c-9a7f-28ee032528d5, 3);
+DB_FOR_CMB_PhaseSpiderEggs(S_FOR_Bottomless_CMB_SpiderEgg_016_fcca37e3-2632-42c3-8c5d-33cc5ccfcbd6, 3);
+DB_FOR_CMB_PhaseSpiderQueen_WebPlatforms(PLT_SpiderWeb_12x4_Medium_5cef142f-e0ae-8d70-1285-44e116e28afc);
+DB_FOR_CMB_PhaseSpiderQueen_WebPlatforms(PLT_SpiderWeb_12x4_45657009-5949-80bd-253b-ceec6fb113ec);
+DB_FOR_CMB_PhaseSpiderQueen_WebPlatforms(PLT_SpiderWeb_12x4_5c8a2e6b-0405-1d35-b325-faffe7879b2a);
+DB_FOR_CMB_PhaseSpiderQueen_WebPlatforms(PLT_SpiderWeb_12x4_4ec039a8-1395-84aa-1967-a16043d30192);
+
+KBSECTION
+IF
+DB_FOR_BottomlessWell_Ettercaps(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "SpiderInfestationStart");
+
+IF
+UsingSpell(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, "Shout_FOR_SpiderQueen_Enrage", _, _, _)
+THEN
+PlaySound(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, "SE_FOR_Shout_SpiderQueen_Enrage");
+
+IF
+CastedSpell(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, "Shout_FOR_SpiderQueen_Enrage", _, _, _)
+THEN
+SetAiHint(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, NULL_00000000-0000-0000-0000-000000000000);
+TriggerSetSoundState(Amb_SV_VillageSubs_Cave_FZ_000_919c8b33-2c58-34e7-b85a-70f1ca9b8a33, "CombatPhase_FOR_Bottomless_SpiderQueen", "Enraged", 1);
+
+IF
+CastedSpell(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, "Target_FOR_SpiderQueen_HatchEggs", _, _, _)
+THEN
+SetEntityEventReal(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, "GLO_CombatWait", 3.8);
+
+IF
+StatusApplied((ITEM)_Var1, "FOR_SPIDEREGGHATCH", _, _, (ITEM)_Var1)
+AND
+DB_FOR_CMB_PhaseSpiderEggs(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_FOR_CMB_PhaseSpiderEggs(_Var5, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var5
+AND
+HasActiveStatus(_Var5, "FOR_SPIDEREGGHATCH", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var5, "FOR_SPIDEREGGHATCH", 1, 1, S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b);
+
+IF
+StatusApplied((ITEM)_Var1, "FOR_SPIDEREGGHATCH", _, _, (ITEM)_Var1)
+AND
+IsTagged(_Var1, ACT1_FOR_SPIDERQUEENEGGS_49458de3-20c1-4471-a8a6-2febeaf89e96, 1, _Var1, _Var1)
+AND
+Random(1000, _Var4, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 100, _Var5, _Var1, _Var1)
+THEN
+SetCanInteract(_Var1, 0);
+RealtimeObjectTimerLaunch(_Var1, "FOR_CMB_PhaseSpiderEggs_DelayRemoveStatus", _Var5);
+
+IF
+ObjectTimerFinished((ITEM)_Var1, "FOR_CMB_PhaseSpiderEggs_DelayRemoveStatus", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+RemoveStatus(_Var1, "FOR_SPIDEREGGHATCH");
+AiRemoveInterestingItem(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, _Var1);
+RealtimeObjectTimerLaunch(_Var1, "FOR_CMB_PhaseSpiderEggs_DelayDestroyEgg", 1500);
+
+IF
+ObjectTimerFinished((ITEM)_Var1, "FOR_CMB_PhaseSpiderEggs_DelayDestroyEgg", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+GetPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_FOR_CMB_PhaseSpiderEggs(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+PlayEffectAtPosition(VFX_Script_Spider_EggHatch_Exploding_01_8331601c-3ca5-b359-91fb-e36933af5755, _Var2, _Var3, _Var4);
+Die(_Var1);
+DB_FOR_CMB_PhaseSpiderEggs_SpawnPos(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_FOR_CMB_PhaseSpiderEggs_SpawnPos(_Var1, _Var5, _Var6, _Var7, _Var8)
+AND
+ConcatenateInteger("FOR_Spiderlings_", _Var8, _Var9, _Var1, _Var1)
+AND
+CreateAt(FOR_PhaseSpider_Spawn_6d111437-6a82-439a-b961-adaa85103512, _Var5, _Var6, _Var7, 0, 1, "FOR_CMB_PhaseSpiderEggs_SpawnFinished", _Var10, _Var1, _Var1)
+THEN
+NOT DB_FOR_CMB_PhaseSpiderEggs_SpawnPos(_Var1, _Var5, _Var6, _Var7, _Var8);
+RequestSetSwarmGroup(_Var10, _Var9);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "FOR_CMB_PhaseSpiderEggs_SpawnFinished", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetCombatGroupID(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, _Var2, _Var1, _Var1, _Var1)
+AND
+GetFaction(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var1, _Var3);
+SetCombatGroupID(_Var1, _Var2);
+PROC_EnterCombat(_Var1, S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b);
+
+IF
+EnteredCombat(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_FOR_CMB_PhaseSpiderEggs_UpdateClusterTargets();
+
+PROC
+PROC_FOR_CMB_PhaseSpiderEggs_UpdateClusterTargets()
+AND
+DB_FOR_CMB_PhaseSpiderEggs(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_FOR_CMB_PhaseSpiderEggs_ClusterTarget(_, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_FOR_CMB_PhaseSpiderEggs_ClusterTarget(_Var1, _Var2);
+
+IF
+DB_FOR_CMB_PhaseSpiderEggs_ClusterTarget(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+AiAddInterestingItem(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, _Var1);
+
+IF
+DestroyingBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_FOR_CMB_PhaseSpiderEggs(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_CMB_PhaseSpiderEggs(_Var1, _Var5);
+
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_FOR_CMB_PhaseSpiderEggs_ClusterTarget(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+AiRemoveInterestingItem(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, _Var1);
+NOT DB_FOR_CMB_PhaseSpiderEggs_ClusterTarget(_Var1, _Var5);
+PROC_FOR_CMB_PhaseSpiderEggs_UpdateClusterTargets();
+
+IF
+Died(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, _, _, _, _)
+THEN
+TriggerUnregisterForItems(S_FOR_Bottomless_SpiderQueen_CombatArea_595a078d-1c1d-4496-a57c-058bc964d66d);
+SysClear("DB_FOR_CMB_PhaseSpiderEggs", 2);
+
+IF
+DB_FOR_CMB_PhaseSpiderEggs(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, ACT1_FOR_SPIDERQUEENEGGS_49458de3-20c1-4471-a8a6-2febeaf89e96);
+
+IF
+PlatformDestroyed((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_FOR_CMB_PhaseSpiderQueen_WebPlatforms(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_FOR_CMB_PhaseSpiderQueen_WebPlatforms(_Var1);
+PROC_FOR_CMB_PhaseSpiderQueen_WebPlatforms();
+
+PROC
+PROC_FOR_CMB_PhaseSpiderQueen_WebPlatforms()
+AND NOT
+DB_FOR_CMB_PhaseSpiderQueen_WebPlatforms(_, _, _, _, _)
+AND
+HasActiveStatus(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, "FOR_SPIDERQUEEN_ENRAGE", 0, _, _)
+THEN
+SetAiHint(S_FOR_Bottomless_SpiderQueen_e6b2f3ba-2d02-4507-8680-6047322e1a4b, AI_HINT_RANGER_3cae4ff5-e9c0-485b-b695-f8830961a781);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

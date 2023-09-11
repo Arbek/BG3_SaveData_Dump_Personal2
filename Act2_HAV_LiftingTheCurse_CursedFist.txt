@@ -1,0 +1,210 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_CharacterCorpseDialog(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, HAV_CursedFist_Dead_CursedFist_64ae5a17-7924-1ac2-0490-7b2d3f40c057);
+DB_PermaDefeatedEvent(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, HAV_CursedFist_State_PermaDefeated_62ac2304-a7a6-4519-b661-37ea993b1f97);
+DB_Dialogs(S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, HAV_SavingPrisoners_FlamingFist_004_ac5537e8-1c8a-5dfb-bc15-e06c3fbceeae);
+DB_Dialogs(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d);
+SetCanTrade(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, 0);
+DB_HasItemEvent(S_HAV_AncientFist_ImportantItem_Surgeon_1329c22c-d23a-4d31-96b0-6b734074f1dc, SCL_AncientFist_ItemCollected_e04f808d-6a51-4597-800e-306fdb4f825a);
+DB_HasItemEvent(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, SCL_AncientFist_HasWrit_711ee270-1118-45c9-b1ab-a146ee7724c4);
+SetOnStage(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, 0);
+DB_GiveItemToEvent(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, SCL_AncientFist_WritHandOver_b683ed96-38c8-449f-a433-257cb53dc476);
+DB_GiveItemToEvent(S_HAV_AncientFist_ImportantItem_Surgeon_1329c22c-d23a-4d31-96b0-6b734074f1dc, SCL_AncientFist_FluteHandover_ac2f9c5a-c853-4569-949b-dea5e2c806ea);
+SetCanInteract(S_HAV_HalsinStool_143f59f3-8af6-42c6-92b3-f751907e462d, 0);
+SetVisible(S_HAV_HalsinStool_143f59f3-8af6-42c6-92b3-f751907e462d, 0);
+
+KBSECTION
+IF
+FlagSet(GLO_LiftingTheCurse_Debug_HalsinInHaven_3fe32e7b-9bd1-42c1-82e9-cc0f9c4b1dc2, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp("GLO_LiftingTheCurse_Debug_HalsinInHaven");
+
+PROC
+PROC_GLO_LiftingTheCurse_Debug_HalsinSetUp_State("GLO_LiftingTheCurse_Debug_HalsinInHaven", _, _, _, _)
+THEN
+SetOnStage(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+PROC_GlobalClearFlagAndCache(GLO_LiftingTheCurse_Debug_HalsinInHaven_3fe32e7b-9bd1-42c1-82e9-cc0f9c4b1dc2);
+PROC_GlobalClearFlagAndCache(HAV_LiftingTheCurse_Event_ShadowsAppear_f1a7ecc6-d211-4454-8f64-a9c4367c364a);
+PROC_GlobalClearFlagAndCache(HAV_LiftingTheCurse_Event_PortalAppears_333d9c5e-501a-470d-9708-90b9d9b1ec01);
+DB_Dialogs(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, HAV_HalsinQuest_Halsin_2b827a2e-2358-d97a-a59a-e52b8be10a46);
+TeleportTo(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, S_HAV_HalsinPoint_80c9ba1b-e997-4c89-9e40-0310ade1b8d5, "", 0, 0, 0, 1, 1);
+PROC_State_Progress(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtHaven");
+
+PROC
+PROC_HAV_FlamingFists_Init()
+AND
+DB_GlobalFlag(Debug_Act2Setup_State_DesireSaved_9ab00499-75ee-2b2f-74f9-fed1957e3f26, _, _, _, _)
+THEN
+DB_Inclusion_Object(S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, HAV_CursedFist_FlamingFist004_Inclusion_Start_e205443e-8d06-4cbd-8f8c-947b6c201be2, HAV_CursedFist_FlamingFist004_Inclusion_End_59ecd9f6-dae1-460f-bea7-06dfe82c2433);
+DB_Inclusion_NPCDialog(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373);
+PROC_GlobalSetFlagAndCache(HAV_CursedFist_State_CursedFistNotAlone_4d268b7e-76cd-4a54-9878-f86135b24ab8);
+
+IF
+FlagSet(GLO_LiftingTheCurse_Debug_GiveAllQuestItems_86f0cb68-56ec-4085-ad45-06ef7c61d5b0, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(GLO_LiftingTheCurse_Debug_GiveAllQuestItems_86f0cb68-56ec-4085-ad45-06ef7c61d5b0, _Var1);
+ToInventory(S_HAV_AncientFist_ImportantItem_Surgeon_1329c22c-d23a-4d31-96b0-6b734074f1dc, _Var1, 1, 1, 1);
+
+IF
+DB_GlobalFlag(HAV_CursedFist_State_CursedFistNotAlone_4d268b7e-76cd-4a54-9878-f86135b24ab8, _, _, _, _)
+AND
+IsOnStage(S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, 0, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(HAV_CursedFist_State_CursedFistNotAlone_4d268b7e-76cd-4a54-9878-f86135b24ab8);
+
+IF
+DB_PermaDefeated(S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_CursedFist_State_CursedFistNotAlone_4d268b7e-76cd-4a54-9878-f86135b24ab8, _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(HAV_CursedFist_State_CursedFistNotAlone_4d268b7e-76cd-4a54-9878-f86135b24ab8);
+
+PROC
+PROC_HAV_FlamingFists_Init()
+AND NOT
+DB_PermaDefeated(S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_Desire_State_Freed2_46dbc8ef-61fa-42c4-bc89-4a8f53d53e5b, _, _, _, _)
+THEN
+DB_Inclusion_Object(S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, HAV_CursedFist_FlamingFist004_Inclusion_Start_e205443e-8d06-4cbd-8f8c-947b6c201be2, HAV_CursedFist_FlamingFist004_Inclusion_End_59ecd9f6-dae1-460f-bea7-06dfe82c2433);
+DB_Inclusion_NPCDialog(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373);
+PROC_GlobalSetFlagAndCache(HAV_CursedFist_State_CursedFistNotAlone_4d268b7e-76cd-4a54-9878-f86135b24ab8);
+
+IF
+FlagSet(HAV_CursedFist_State_CursedFistNotAlone_4d268b7e-76cd-4a54-9878-f86135b24ab8, _, _, _, _)
+AND
+IsOnStage(S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, 1, _, _, _)
+THEN
+ToInventory(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, 1, 0, 1);
+SetOnStage(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, 1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(SCL_AncientFist_AttendingFistDialogSwitch_c7db1580-207c-46c9-8ae0-312e11603328, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_Mood_State_Siege_b509af8b-a331-47ac-8230-3b8c5ef9956b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SelectedDialog(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, _Var1);
+
+IF
+FlagSet(SCL_AncientFist_ItemReturned_9db703c7-de9a-4f1e-8338-46c0efcbc20f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_AncientFist_Heal();
+
+PROC
+PROC_AncientFist_Heal()
+THEN
+RemoveStatus(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, "SCL_ANCIENTFIST_CATATONIC");
+SetCanJoinCombat(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, 1);
+SetCanFight(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, 1);
+
+QRY
+QRY_HAV_AncientFist_RollConditions((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(SCL_AncientFist_HasWrit_711ee270-1118-45c9-b1ab-a146ee7724c4, S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, 0, _Var1, _Var1)
+AND
+GetFlag(HAV_AncientFist_State_AttemptedPerceptionCheck_73868789-75ef-438d-90aa-9a5bdc03d13e, _Var1, 0, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("HAV_AncientFist_WritSeen", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+GetFlag(SCL_AncientFist_WritHandOver_b683ed96-38c8-449f-a433-257cb53dc476, _Var2, 0, _Var1, _Var1)
+AND
+QRY_HAV_AncientFist_RollConditions(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TrySkillCheck(_Var2, S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, "Perception", Act2_Medium_89f0acd4-346f-479d-8b7a-1a3eb5382f6d, "HAV_AncientFist_WritPerception");
+
+PROC
+PROC_RollResult("HAV_AncientFist_WritPerception", (GUIDSTRING)_Var1, _, (INTEGER)_Var3, (GUIDSTRING)_Var1)
+AND
+_Var3 != 2
+THEN
+SetFlag(HAV_AncientFist_State_AttemptedPerceptionCheck_73868789-75ef-438d-90aa-9a5bdc03d13e, _Var1);
+
+PROC
+PROC_RollResult("HAV_AncientFist_WritPerception", (GUIDSTRING)_Var1, _, 1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("HAV_AncientFist_WritSeen", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, 1);
+PROC_TryStartAD(HAV_CursedFist_PAD_SpottedWrit_9b4180ee-5f9f-2617-6f6e-c53eb908966e, _Var1);
+PROC_PlayPerceptionRevealEffect(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, "HAV_PlayerSpottedWrit");
+
+IF
+DialogEnded(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+GetFlag(HAV_HalsinQuest_Halsin_Event_SearchFistInventoryAdvice_1490d24c-63a6-ed15-9056-d79339f768c2, _Var2, 1, _Var1, _Var1)
+AND
+GetFlag(SCL_AncientFist_WritHandOver_b683ed96-38c8-449f-a433-257cb53dc476, _Var2, 0, _Var1, _Var1)
+AND
+IsInInventoryOf(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, S_HAV_FlamingFist_004_eb083eb6-066c-4693-8fb8-575bc4c71373, 0, _Var1, _Var1)
+AND
+IsInInventory(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, 0, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("HAV_AncientFist_WritSeen", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HAV_AncientFist_RevealWrit", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, 1);
+PROC_TryStartAD(HAV_CursedFist_PAD_SpottedWrit_9b4180ee-5f9f-2617-6f6e-c53eb908966e, _Var2);
+PROC_PlayPerceptionRevealEffect(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, "HAV_PlayerSpottedWrit");
+
+IF
+FlagSet(SCL_ShadowCurse_State_CurseLifted_af78af4a-48b2-46a8-be6f-f25dfa579471, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, _, _, _, _)
+THEN
+SetCanTrade(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, 1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtHaven", _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_LiftingTheCurse_State_HalsinGoToLake_bc4cd1f7-5e60-40e1-a583-aa886fe5b682, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(HAV_LiftingTheCurse_State_HalsinAvailableForFist_38bd3ada-29d4-4a1d-900b-c58799aad3df, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DialogAddSpeakingActor(_Var1, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_State_Current(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "SCL_LiftingTheCurse", "SCL_LiftingTheCurse_State_HalsinAtHaven", _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAV_LiftingTheCurse_State_HalsinGoToLake_bc4cd1f7-5e60-40e1-a583-aa886fe5b682, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SelectedDialog(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(HAV_CursedFist_d19739b9-c366-4272-7306-6ad04076916d, S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, _Var1);
+
+IF
+GameBookInterfaceClosed(S_HAV_AncientFist_WritOfCommand_80b54d25-5274-4b70-b405-d979eb43a454, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("HAV_AncientFist_ReadWrit", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(HAV_CursedFist_PAD_Writ_7c1798ca-40d8-7880-cab1-7163e89690fe, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

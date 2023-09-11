@@ -1,0 +1,448 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, LOW_Figaros_Naaber_acedefc7-6e71-a067-3ccf-c1d31f24e694);
+PROC_TriggerRegisterForPlayers(S_WYR_FigaroSister_Naaber_StartSpot_Trigger_853ba17b-27c8-49b4-a46d-4fd85c808327);
+DB_GlobalFlagReactionAfterDialog(LOW_SerialKiller_State_NaaberDialog_Finish_9b7e052e-d8d4-fb55-602f-0fbe47a1489b, LOW_Figaros_Naaber_acedefc7-6e71-a067-3ccf-c1d31f24e694);
+DB_WYR_FigaroSister_ClothingReactivity("Figaro", S_LOW_Figaro_3ff2b7ea-3de2-4bdc-a600-c973f290bc09, WYR_FigaroSister_State_WearingFigaroClothes_f2d964ad-f362-42e2-9b77-c067e7b76a3b);
+DB_WYR_FigaroSister_ClothingReactivity("Carmen", S_WYR_FigaroSister_Carmen_99c32d1b-838c-4db2-8150-d4112aedc636, WYR_FigaroSister_State_WearingCarmenClothes_f8e42a71-88f6-4400-86e9-fed63f6078cb);
+DB_WYR_FigaroSister_Naaber_FollowTrigger(S_WYR_FigaroSister_Naaber_Follow_Trigger_08deaef5-4f97-4679-926d-6d92dddfa842);
+DB_GLO_CharacterCorpseDialog(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, WYR_FigaroSister_Naaber_Dead_44114beb-01c4-8701-d2cb-e86c10dd8f92);
+PROC_CharacterDisableAllCrimes(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+DB_WYR_FigaroSister_ClothingReactivity_Slots("Breast", 0);
+DB_WYR_FigaroSister_ClothingReactivity_Slots("Boots", 0);
+DB_WYR_FigaroSister_ClothingReactivity_Slots("VanityBody", 0);
+DB_WYR_FigaroSister_ClothingReactivity_Slots("VanityBoots", 0);
+
+KBSECTION
+PROC
+PROC_GlobalFlagReactionAfterDialog(LOW_SerialKiller_State_NaaberDialog_Finish_9b7e052e-d8d4-fb55-602f-0fbe47a1489b, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+PROC_DisappearOutOfSight(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "Walk", 1, "");
+PROC_SpotPlayers_StopSpotting("WYR_FigaroSister_Naaber");
+
+IF
+FlagSet(LOW_SerialKiller_State_NaaberDialog_Finish_9b7e052e-d8d4-fb55-602f-0fbe47a1489b, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+THEN
+QuestUpdate(_Var3, "HIDDEN_BGO_Boosters", "WYR_FigaroSister_FinishedNaaberDialog");
+
+IF
+DB_InRegion(_, S_WYR_FigaroSister_Naaber_StartSpot_Trigger_853ba17b-27c8-49b4-a46d-4fd85c808327, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_WYR_FigaroSister_Naaber_StartSpot_Trigger_853ba17b-27c8-49b4-a46d-4fd85c808327);
+PROC_TriggerRegisterForPlayers(S_WYR_FigaroSister_Naaber_Follow_Trigger_08deaef5-4f97-4679-926d-6d92dddfa842);
+DB_SpotPlayers(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_Naaber", LOW_SerialKiller_Event_NaaberSpotting_7692331d-6856-498a-9120-de07dd78c774, LOW_SerialKiller_Event_NaaberStopSpotting_24a0cca9-1b65-44c7-8e1b-002824f55612);
+
+PROC
+PROC_SpotPlayers_Spotted((GUIDSTRING)_Var1, "WYR_FigaroSister_Naaber", (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+GetUUID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("WYR_NaaberRepeatingAD", _Var3, _Var4, _Var1, _Var1)
+AND NOT
+DB_WYR_FigaroSister_Naaber(_, _, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_FigaroSister_Naaber_StartFollow(_Var2, _Var4);
+
+PROC
+PROC_WYR_FigaroSister_Naaber_StartFollow(_, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_FigaroSister_State_NaaberSawPlayer_2c7f47d6-9924-40c1-ac0b-e312e61d46c6, _, _, _, _)
+THEN
+SetFlag(WYR_FigaroSister_State_NaaberSawPlayer_2c7f47d6-9924-40c1-ac0b-e312e61d46c6);
+
+IF
+FlagSet(WYR_FigaroSister_State_NaaberShovedIntoRiver_3c5f936b-d777-4b35-9ae0-f8319cd40f87, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_FigaroSister_State_NaaberSawPlayer_2c7f47d6-9924-40c1-ac0b-e312e61d46c6, _, _, _, _)
+THEN
+ClearFlag(WYR_FigaroSister_State_NaaberSawPlayer_2c7f47d6-9924-40c1-ac0b-e312e61d46c6);
+
+PROC
+PROC_WYR_FigaroSister_Naaber_StartFollow((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Follow(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, _Var1);
+ObjectTimerLaunch(_Var1, _Var2, 30000);
+DB_WYR_FigaroSister_Naaber(_Var1, _Var2);
+
+PROC
+PROC_WYR_FigaroSister_Naaber_StartFollow((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_WYR_FigaroSister_NaaberRiversideState("Spotting", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, _, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_Figaros_Naaber_AD_991b0991-af6e-d3a8-4646-55feb37434b9, S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+
+IF
+DB_WYR_FigaroSister_Naaber_QueueRestartSpot(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_FigaroSister_Naaber_FollowTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_FigaroSister_Naaber_QueueRestartSpot(1);
+PROC_SpotPlayers_RestartSpotting(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_Naaber");
+DebugText(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "Restart spotting");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_Naaber(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WYR_FigaroSister_Naaber_FollowTrigger(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_FigaroSister_TryAD(_Var1, _Var2);
+
+PROC
+PROC_WYR_FigaroSister_TryAD((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ObjectTimerLaunch(_Var1, _Var2, 30000);
+
+PROC
+PROC_WYR_FigaroSister_TryAD(_, _, _, _, _)
+AND NOT
+DB_DialogSpeakers(_, S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, _, _, _)
+THEN
+PROC_TryStartAD(LOW_Figaros_Naaber_AD_991b0991-af6e-d3a8-4646-55feb37434b9, S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+
+IF
+DB_Following(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_FigaroSister_Naaber_FollowTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_FigaroSister_Naaber(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_StopFollow(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+ObjectTimerCancel(_Var1, _Var3);
+NOT DB_WYR_FigaroSister_Naaber(_Var1, _Var3);
+TimerLaunch("WYR_FigaroSister_Naaber_RestartSpot_Delay", 6000);
+
+IF
+TimerFinished("WYR_FigaroSister_Naaber_RestartSpot_Delay", _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_SerialKiller_State_NaaberDialog_Finish_9b7e052e-d8d4-fb55-602f-0fbe47a1489b, _, _, _, _)
+THEN
+DB_WYR_FigaroSister_Naaber_QueueRestartSpot(1);
+
+IF
+DialogStarted(LOW_Figaros_Naaber_acedefc7-6e71-a067-3ccf-c1d31f24e694, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+TimerCancel("WYR_FigaroSister_Naaber_RestartSpot_Delay");
+
+IF
+DialogEnded(LOW_Figaros_Naaber_acedefc7-6e71-a067-3ccf-c1d31f24e694, _, _, _, _)
+AND
+DB_WYR_FigaroSister_Naaber(_Var2, _Var3, _, _, _)
+THEN
+PROC_StopFollow(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+ObjectTimerCancel(_Var2, _Var3);
+NOT DB_WYR_FigaroSister_Naaber(_Var2, _Var3);
+
+IF
+DialogEnded(LOW_Figaros_Naaber_acedefc7-6e71-a067-3ccf-c1d31f24e694, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+TimerLaunch("WYR_FigaroSister_Naaber_RestartSpot_Delay", 25000);
+SetEntityEvent(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_Naaber_StopSleep", 1);
+
+IF
+FlagSet(WYR_FigaroSister_Debug_NaaberChasm_2004ed99-c740-4698-f97d-73c5bb2c5444, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+ClearFlag(WYR_FigaroSister_Debug_NaaberChasm_2004ed99-c740-4698-f97d-73c5bb2c5444, _Var1);
+PROC_WYR_FigaroSister_DEBUG_NaaberChasm(_Var1);
+
+IF
+TextEvent("Naaber_Chasm", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_FigaroSister_DEBUG_NaaberChasm(_Var1);
+
+PROC
+PROC_WYR_FigaroSister_DEBUG_NaaberChasm((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_FigaroSister_NaaberRiversideState(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_FigaroSister_NaaberRiversideState(_Var2);
+
+PROC
+PROC_WYR_FigaroSister_DEBUG_NaaberChasm((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CharacterFullRestore(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+SetOnStage(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, 1);
+TeleportTo(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, S_WYR_FigaroSister_DEBUG_Naaber_Chasm_Point_d398a72d-9e6c-4421-9b03-ddb874694be4, "", 0, 0, 0, 1, 0);
+TeleportTo(_Var1, S_WYR_FigaroSister_DEBUG_Point_5d7b1276-f516-49f2-b3ea-3564b25cd35c, "", 1, 1, 1, 1, 1);
+
+IF
+EnteredChasm(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, _, ChasmRegion_WC_Chiontar_8963a5a9-a4ef-44fe-8a72-0701f9774b9a, _, _, _, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_FigaroSister_State_NaaberShovedIntoRiver_3c5f936b-d777-4b35-9ae0-f8319cd40f87, _, _, _, _)
+AND NOT
+DB_SpotPlayers(_, "WYR_FigaroSister_Naaber", _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_WYR_FigaroSister_Naaber_StartSpot_Trigger_853ba17b-27c8-49b4-a46d-4fd85c808327);
+DB_SpotPlayers(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_Naaber", LOW_SerialKiller_Event_NaaberSpotting_7692331d-6856-498a-9120-de07dd78c774, LOW_SerialKiller_Event_NaaberStopSpotting_24a0cca9-1b65-44c7-8e1b-002824f55612);
+
+IF
+EnteredChasm(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, _, ChasmRegion_WC_Chiontar_8963a5a9-a4ef-44fe-8a72-0701f9774b9a, _, _, _, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_FigaroSister_State_NaaberShovedIntoRiver_3c5f936b-d777-4b35-9ae0-f8319cd40f87, _, _, _, _)
+AND
+DB_WYR_FigaroSister_Naaber(_Var5, _Var6, _, _, _)
+THEN
+NOT DB_WYR_FigaroSister_Naaber(_Var5, _Var6);
+
+IF
+EnteredChasm(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, _, ChasmRegion_WC_Chiontar_8963a5a9-a4ef-44fe-8a72-0701f9774b9a, _, _, _, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_FigaroSister_State_NaaberShovedIntoRiver_3c5f936b-d777-4b35-9ae0-f8319cd40f87, _, _, _, _)
+THEN
+EnterChasmProcessed(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, 1);
+PROC_SpotPlayers_StopSpotting(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_Naaber");
+PROC_StopFollow(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+TeleportTo(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, S_WYR_FigaroSister_Naaber_Riverside_Point_e8cf2752-8e2e-4318-a3cf-cf985d7b43cd, "", 0, 0, 0, 1, 1);
+SetFlag(WYR_FigaroSister_State_NaaberShovedIntoRiver_3c5f936b-d777-4b35-9ae0-f8319cd40f87);
+SetOnStage(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, 0);
+DB_WYR_FigaroSister_NaaberRiversideState("Chasm");
+PROC_TriggerRegisterForParty(S_WYR_FigaroSister_Naaber_Riverside_BlockAppear_Trigger_87532484-48f6-4bd9-82f9-29066f26e3a4);
+SetFlag(WYR_FigaroSister_Naaber_HasMet_AD_93541945-f6ed-99ec-184e-8dae4ab0b37b);
+
+IF
+WentOnStage(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, 0, _, _, _)
+AND
+DB_WYR_FigaroSister_NaaberRiversideState("Chasm", _, _, _, _)
+THEN
+NOT DB_WYR_FigaroSister_NaaberRiversideState("Chasm");
+DB_WYR_FigaroSister_NaaberRiversideState("Offstage");
+
+IF
+DB_WYR_FigaroSister_NaaberRiversideState("Offstage", _, _, _, _)
+AND NOT
+DB_InRegion(_, S_WYR_FigaroSister_Naaber_Riverside_BlockAppear_Trigger_87532484-48f6-4bd9-82f9-29066f26e3a4, _, _, _)
+THEN
+NOT DB_WYR_FigaroSister_NaaberRiversideState("Offstage");
+DB_WYR_FigaroSister_NaaberRiversideState("Spotting");
+SetOnStage(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, 1);
+PROC_SpotPlayers_RestartSpotting(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_Naaber");
+PROC_TriggerUnregisterForParty(S_WYR_FigaroSister_Naaber_Riverside_BlockAppear_Trigger_87532484-48f6-4bd9-82f9-29066f26e3a4);
+NOT DB_WYR_FigaroSister_Naaber_FollowTrigger(S_WYR_FigaroSister_Naaber_Follow_Trigger_08deaef5-4f97-4679-926d-6d92dddfa842);
+DB_WYR_FigaroSister_Naaber_FollowTrigger(S_WYR_FigaroSister_Naaber_Riverside_Follow_Trigger_62419598-5602-4b72-afb7-66aaccaeb23d);
+PROC_TriggerRegisterForPlayers(S_WYR_FigaroSister_Naaber_Riverside_Follow_Trigger_62419598-5602-4b72-afb7-66aaccaeb23d);
+
+PROC
+PROC_SpotPlayers_Spotted(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_Naaber", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_FigaroSister_NaaberRiversideState("Spotting", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_FigaroSister_NaaberRiversideState("Spotting");
+PROC_TryStartAD(WYR_FigaroSister_AD_Naaber_RiversideSpotted_87f94711-3988-88c8-2594-b230e8d79a5c, S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+
+IF
+AutomatedDialogEnded(WYR_FigaroSister_AD_Naaber_RiversideSpotted_87f94711-3988-88c8-2594-b230e8d79a5c, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_WYR_FigaroSister_Naaber_StartDefaultAD();
+
+IF
+AutomatedDialogRequestFailed(WYR_FigaroSister_AD_Naaber_RiversideSpotted_87f94711-3988-88c8-2594-b230e8d79a5c, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_WYR_FigaroSister_Naaber_StartDefaultAD();
+
+PROC
+PROC_WYR_FigaroSister_Naaber_StartDefaultAD()
+AND
+DB_WYR_FigaroSister_Naaber(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_Figaros_Naaber_AD_991b0991-af6e-d3a8-4646-55feb37434b9, S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+
+PROC
+PROC_WYR_FigaroSister_Naaber_StartDefaultAD()
+AND
+DB_WYR_FigaroSister_Naaber(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, _Var2);
+ObjectTimerLaunch(_Var1, _Var2, 8000);
+
+IF
+AttackedBy(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, (CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_FigaroSister_NaaberAttackedAD_OnCooldown(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogSpeakers(_, S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, _, _Var1, _Var1)
+THEN
+PROC_TryStartAD(WYR_FigaroSister_AD_Naaber_Attacked_08ab851d-757a-d01a-5a11-d073dd3ba5d5, S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203);
+DB_WYR_FigaroSister_NaaberAttackedAD_OnCooldown(1);
+RealtimeObjectTimerLaunch(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_NaaberAttackedAD", 3500);
+
+IF
+ObjectTimerFinished(S_WYR_FigaroSister_Naaber_fa22f4a3-53ba-4a35-9dec-a402244a5203, "WYR_FigaroSister_NaaberAttackedAD", _, _, _)
+THEN
+NOT DB_WYR_FigaroSister_NaaberAttackedAD_OnCooldown(1);
+
+IF
+MovedFromTo((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity(_, _Var3, _, _Var1, _Var1)
+AND NOT
+DB_WYR_FigaroSister_BlockTradeRegister(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_FigaroSister_BlockTradeRegister(_Var1);
+
+IF
+MovedFromTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, 1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity(_Var4, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_WYR_FigaroSister_BlockTradeRegister(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_FigaroSister_TradedItem(_Var1, _Var4);
+
+IF
+Equipped((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_TradedItem(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity(_Var3, _, _Var5, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_FigaroSister_WearingClothes(_Var2, _Var1, _Var3);
+
+IF
+Unequipped((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_TradedItem(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity(_Var3, _, _Var5, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_FigaroSister_WearingClothes(_Var2, _Var1, _Var3);
+
+IF
+DB_WYR_FigaroSister_WearingClothes(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+QRY_WYR_FigaroSister_IsClothingVisuallyWorn(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_FigaroSister_VisualClothes(_Var1, _Var2, _Var3);
+PROC_WYR_FigaroSister_CheckVisualClothing(_Var1, _Var3);
+
+IF
+DB_WYR_FigaroSister_VisualClothes(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_WYR_FigaroSister_WearingClothes(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_WYR_FigaroSister_VisualClothes(_Var1, _Var2, _Var3);
+PROC_WYR_FigaroSister_CheckVisualClothing(_Var1, _Var3);
+
+IF
+ArmorSetChanged((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WYR_FigaroSister_VisualClothes(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND NOT
+QRY_WYR_FigaroSister_IsClothingVisuallyWorn(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_FigaroSister_VisualClothes(_Var1, _Var3, _Var4);
+PROC_WYR_FigaroSister_CheckVisualClothing(_Var1, _Var4);
+
+IF
+ArmorSetChanged((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_WearingClothes(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+QRY_WYR_FigaroSister_IsClothingVisuallyWorn(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_FigaroSister_VisualClothes(_Var1, _Var3, _Var4);
+PROC_WYR_FigaroSister_CheckVisualClothing(_Var1, _Var4);
+
+PROC
+PROC_WYR_FigaroSister_CheckVisualClothing((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_VisualClothes(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND NOT
+DB_WYR_FigaroSister_PlayerWearingClothing(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity(_Var2, _, _Var5, _Var1, _Var1)
+THEN
+DB_WYR_FigaroSister_PlayerWearingClothing(_Var1, _Var2);
+SetFlag(_Var5, _Var1);
+
+PROC
+PROC_WYR_FigaroSister_CheckVisualClothing((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_WYR_FigaroSister_VisualClothes(_Var1, _, _Var2, _Var1, _Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity(_Var2, _, _Var5, _Var1, _Var1)
+THEN
+NOT DB_WYR_FigaroSister_PlayerWearingClothing(_Var1, _Var2);
+ClearFlag(_Var5, _Var1);
+
+QRY
+QRY_WYR_FigaroSister_IsClothingVisuallyWorn((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_EquippedItemSlots(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedItem(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+QRY_WYR_FigaroSister_CheckSlotVisible(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WYR_FigaroSister_CheckSlotVisible((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity_Slots(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_GetArmourSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetArmourSet(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WYR_FigaroSister_CheckSlotVisible((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_WYR_FigaroSister_ClothingReactivity_Slots(_Var2, _, _Var1, _Var1, _Var1)
+AND
+QRY_GetArmourSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetArmourSet(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity(_Var4, _, _Var1, _Var1, _Var1)
+AND
+Concatenate("Wearing clothes from ", _Var4, _Var6, _Var1, _Var1)
+THEN
+DebugText(_Var2, _Var6);
+
+IF
+FlagCleared((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_FigaroSister_ClothingReactivity(_Var4, _, _Var1, _Var1, _Var1)
+AND
+Concatenate("Stopped wearing clothes from ", _Var4, _Var6, _Var1, _Var1)
+THEN
+DebugText(_Var2, _Var6);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

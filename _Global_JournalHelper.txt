@@ -1,0 +1,270 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_QuestDef_PermaDefeatedState("", "", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_QuestDef_LevelUnloading("", "", "");
+
+KBSECTION
+IF
+TextEvent("qupd", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+GetTextEventParamString(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTextEventParamString(2, _Var2, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var3, _Var1, _Var2);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestDef_State(_Var1, _Var4, _Var5, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var2, _Var4, _Var5);
+
+IF
+FlagSet((GUIDSTRING)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QuestDef_State(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var5, _Var3, _Var4);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestDef_State_ConditionalFlag(_Var1, _Var4, _Var5, _Var6, _Var7)
+AND
+GetFlag(_Var7, NULL_00000000-0000-0000-0000-000000000000, _Var6, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var2, _Var4, _Var5);
+
+IF
+FlagSet((GUIDSTRING)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QuestDef_State_ConditionalFlag(_Var1, _Var3, _Var4, _Var5, _Var6)
+AND
+GetFlag(_Var6, NULL_00000000-0000-0000-0000-000000000000, _Var5, _Var1, _Var1)
+AND
+DB_Players(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var7, _Var3, _Var4);
+
+IF
+QuestUpdateUnlocked((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QuestDef_ChainedState(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var1, _Var2, _Var4);
+
+IF
+QuestUpdateUnlocked((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QuestDef_ChainedState(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var1, _Var4, _Var5);
+
+IF
+DB_QuestDef_ConditionalState(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+DB_QuestDef_ConditionalState(_Var1, _Var2, _Var1, _Var3, _Var1, _Var4, _Var5);
+
+IF
+DB_QuestDef_ConditionalState(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QuestDef_ConditionalState(_Var1, _Var2, _Var3, _Var4, _Var1, _Var5, _Var6);
+
+IF
+QuestUpdateUnlocked((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QuestDef_ConditionalState(_Var2, _Var3, _Var4, _Var5, _, _, _, _Var1, _Var1, _Var1)
+AND
+QRY_QuestDef_AllConditionsMet(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+PROC_QuestDef_QuestUpdate(_Var1, _Var4, _Var5);
+
+QRY
+QRY_QuestDef_AllConditionsMet((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND NOT
+QRY_QuestDef_AnyConditionsMissing(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_QuestDef_AnyConditionsMissing((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND
+DB_QuestDef_ConditionalState(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, _Var6, _Var7, _Var9, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestDef_SawDeadState(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var4, _Var2, _Var3);
+
+IF
+Dying((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QuestDef_SawDeadState(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var5, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var5, _Var2, _Var3);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestDef_SawDefeatedState(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var4, _Var2, _Var3);
+
+IF
+Dying((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QuestDef_SawDefeatedState(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var5, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var5, _Var2, _Var3);
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QuestDef_DefeatedState(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var4, _Var2, _Var3);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QuestDef_PermaDefeatedState(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var4, _Var2, _Var3);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QuestDef_SawPermaDefeatedState(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var4, _Var2, _Var3);
+
+IF
+GameBookInterfaceClosed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QuestDef_BookReadState(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var2, _Var3, _Var4);
+
+PROC
+PROC_QuestDef_QuestUpdate((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_QuestDef_BlockQuestUpdate(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, _Var2, _Var3);
+
+QRY
+QRY_QuestDef_BlockQuestUpdate((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LevelLoadedOnce((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QuestDef_LevelLoaded(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var4, _Var2, _Var3);
+
+PROC
+PROC_LevelUnloading((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QuestDef_LevelUnloading(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_QuestDef_QuestUpdate(_Var4, _Var2, _Var3);
+
+IF
+QuestAccepted(_, (STRING)_Var2, _, _, _)
+AND NOT
+DB_QuestIsAccepted(_Var2, _, _, _, _)
+THEN
+DB_QuestIsAccepted(_Var2);
+DB_QuestIsOpened(_Var2);
+
+IF
+QuestClosed((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QuestIsClosed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QuestIsOpened(_Var1);
+DB_QuestIsClosed(_Var1);
+
+PROC
+QuestUpdate((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var3, _Var1, _Var2);
+
+QRY
+QRY_QuestUpdateIsUnlockedForAny((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var3, _Var1, _Var2, 1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

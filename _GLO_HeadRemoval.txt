@@ -1,0 +1,264 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_OneTimeEventFlag(GLO_HeadRemoval_Event_HeadToInventory_65952066-e8d5-4f06-a685-9997e3b7e918);
+NOT DB_GLO_HeadRemoval(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_HeadRemoval_Dialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_HeadRemoval_NotFreshButFineDeathType("Electrocution");
+DB_GLO_HeadRemoval_NotFreshButFineDeathType("Cold");
+DB_GLO_HeadRemoval_NotFreshButFineDeathType("Incinerate");
+DB_GLO_HeadRemoval_RestrictedSurfaces("SurfaceLava");
+DB_GLO_HeadRemoval_RestrictedSurfaces("SurfaceChasm");
+
+KBSECTION
+IF
+DB_GLO_HeadRemoval(_Var1, _, _Var3, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var3, 0);
+
+QRY
+QRY_GLO_HeadRemoval_CanRemoveHeadCinematic((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval_Dialog(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsFreshCorpse(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_HeadRemoval_CanRemoveHeadInventory((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsFreshCorpse(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_HeadRemoval_CanRemoveHeadInventory((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDeathType(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval_NotFreshButFineDeathType(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetSurfaceGroundAt(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_RestrictedSurfaces(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval(_Var1, _, _Var3, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_Block(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_CanRemoveHeadCinematic(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_HeadToInventory(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_HeadRemoval_HeadInaccessible(_Var1);
+
+IF
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_HeadRemoval_HeadInaccessible(_Var1);
+
+IF
+EnteredChasm((CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_HeadRemoval(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_HeadRemoval_HeadInaccessible(_Var1);
+
+QRY
+QRY_GLO_HeadRemoval_HeadToInventory((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPutIntoInventory(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_HeadRemoval_CanRemoveHeadInventory(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_HeadRemoval_HeadPutIntoInventory(_Var1, _Var2);
+PROC_SetOnStage(_Var2, 1);
+ToInventory(_Var2, _Var1, 1, 0, 1);
+
+IF
+RemovedFrom((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_HeadRemoval(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval_HeadPutIntoInventory(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_HeadRemoval_HeadPutIntoInventory(_Var2, _Var1);
+PROC_GLO_HeadRemoval_OnHeadPicked(_Var2, _Var3);
+
+PROC
+PROC_GLO_HeadRemoval_OnHeadPicked((CHARACTER)_Var1, (CHARACTERROOT)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_HeadRemoval_HeadPicked(_Var1);
+Transform(_Var1, _Var2, DeathCorpse_ac4a5946-00cb-464f-9389-e3ac9e8b7e26);
+SetTag(_Var1, BLOCK_SPEAK_WITH_DEAD_70f9d685-b791-4ea2-88e4-fc8fc48b4234);
+CreateSurface(_Var1, "SurfaceBlood", 1, -1);
+
+IF
+DB_GLO_HeadRemoval_HeadInaccessible(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval_HeadPutIntoInventory(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_HeadRemoval_HeadPutIntoInventory(_Var1, _Var2);
+RequestDelete(_Var2);
+
+PROC
+PROC_BlockLootCorpse((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Dead(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval(_Var2, _, _Var4, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPutIntoInventory(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadPicked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_HeadRemoval_HeadInaccessible(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_Block(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_TryStartDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_HeadToInventory(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_HeadRemoval_HeadInaccessible(_Var2);
+
+QRY
+QRY_GLO_HeadRemoval_TryStartDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_HeadRemoval_Dialog(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_HeadRemoval_CanRemoveHeadCinematic(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_OpenLootSet(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_OverrideDialogInCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_HeadRemoval_OverrideDialogCantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var3, _Var1, _Var2, 0, 0, 1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_CustomLootCorpseResponse(_Var2, _Var1, 0);
+
+QRY
+QRY_GLO_HeadRemoval_OpenLootSet((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_HeadRemoval_OpenLootAfterDialog(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_HeadRemoval_OpenLootAfterDialog(_Var2, _Var3, _Var1);
+
+QRY
+QRY_GLO_HeadRemoval_OverrideDialogInCombat((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TemporarilyMuted(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_AD_CannotUseNow_Combat_964ad41a-9386-d74d-bbbb-0768d248b188, _Var1);
+DB_CustomLootCorpseResponse(_Var1, _Var2, 0);
+
+QRY
+QRY_GLO_HeadRemoval_OverrideDialogCantAct((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TemporarilyMuted(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_AD_CannotUseNow_057cb7cf-5aa4-1ed7-9639-65530939b2f9, _Var1);
+DB_CustomLootCorpseResponse(_Var1, _Var2, 0);
+
+IF
+DB_GLO_HeadRemoval_Dialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval(_Var1, _, _, _Var1, _Var1)
+THEN
+DB_FlagReactionAfterDialog(GLO_HeadRemoval_Event_HeadToInventory_65952066-e8d5-4f06-a685-9997e3b7e918, _Var2);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, GLO_HeadRemoval_Event_HeadToInventory_65952066-e8d5-4f06-a685-9997e3b7e918, (DIALOGRESOURCE)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_HeadRemoval_Dialog(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval(_Var3, _Var4, _Var5, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var5, 1);
+ToInventory(_Var5, _Var1, 1, 1, 1);
+PROC_GLO_HeadRemoval_OnHeadPicked(_Var3, _Var4);
+
+IF
+FlagSet(GLO_HeadRemoval_Event_OpenLoot_8b69f29d-3757-496a-87e5-5ad391117229, (CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+DB_DialogName(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HeadRemoval_Dialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_HeadRemoval_OpenLootAfterDialog(_Var4, _Var3, _Var1);
+
+IF
+FlagSet(GLO_HeadRemoval_Event_OpenLoot_8b69f29d-3757-496a-87e5-5ad391117229, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(GLO_HeadRemoval_Event_OpenLoot_8b69f29d-3757-496a-87e5-5ad391117229, _Var1, _Var2);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_DialogName(_Var3, _Var2, _, _, _)
+AND
+DB_GLO_HeadRemoval_OpenLootAfterDialog(_Var3, _Var4, _Var5, _, _)
+AND
+OpenCharacterLootUI(_Var4, _Var5, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DB_GLO_HeadRemoval_Dialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_DialogBlockTradeButton(_Var2);
+DB_DialogBlockAttackButton(_Var2);
+
+QRY
+QRY_GLO_HeadRemoval_Block((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

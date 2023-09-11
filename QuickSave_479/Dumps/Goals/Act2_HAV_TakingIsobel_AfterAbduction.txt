@@ -1,0 +1,64 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_HAV_TakingIsobel_AfterAbductionSetup();
+DB_HAV_TakingIsobel_AfterAbduction(1);
+
+KBSECTION
+IF
+DB_HAV_TakingIsobel_AfterAbduction(1, _, _, _, _)
+AND
+DB_Defeated(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+PROC_State_Progress(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel", "HAV_Isobel_State_DefeatedInHaven");
+GoalCompleted;
+
+PROC
+PROC_HAV_TakingIsobel_AfterAbductionSetup()
+AND
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+AND NOT
+DB_CantMove(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+AND NOT
+DB_OnlyOnce("HAV_Isobel_MoonriseAssault", _, _, _, _)
+THEN
+PROC_HAV_Isobel_MoveToEntrance();
+
+IF
+DB_GlobalFlag(MOO_Assault_State_InProgress_0f3a8f5d-7402-4220-bebb-d4b21d3db08d, _, _, _, _)
+AND NOT
+DB_CantMove(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+AND NOT
+DB_OnlyOnce("HAV_Isobel_MoonriseAssault", _, _, _, _)
+THEN
+PROC_HAV_Isobel_MoveToEntrance();
+
+PROC
+PROC_HAV_Isobel_MoveToEntrance()
+THEN
+TeleportTo(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, S_HAV_Isobel_MoonriseAssault_83c8bc1a-d38e-4363-a118-9fd825501bde, "", 0, 0, 0, 0, 1);
+DB_OnlyOnce("HAV_Isobel_MoonriseAssault");
+DB_SpotPlayers(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel_MoonriseAssault", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel_MoonriseAssault", S_HAV_Isobel_MoonriseAssault_SpotBox_240a4fa8-34d0-43a8-9446-6ddfbaf869ef);
+
+PROC
+PROC_SpotPlayers_Spotted(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "HAV_Isobel_MoonriseAssault", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog(HAV_Isobel_4a5bc7ea-4009-0de3-4ab7-da5bd379979e, S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_HAV_TakingIsobel_AfterAbductionSetup()
+AND
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+NOT DB_HAV_TakingIsobel_AfterAbduction(1);
+ENDEXITSECTION
+
+ParentTargetEdge "Act2_HAV_TakingIsobel_FollowUp_Saved"

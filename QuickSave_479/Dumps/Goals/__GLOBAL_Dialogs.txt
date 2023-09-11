@@ -1,0 +1,2345 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_PlayerName_DialogVars(1, "GEN_PlayerName_c11eee1e-7815-6143-7233-f2427799fa53");
+DB_PlayerName_DialogVars(2, "GEN_PlayerName2_85df4a15-4d9b-4f68-0512-d104305d8dac");
+DB_PlayerName_DialogVars(3, "GEN_PlayerName3_06efd872-a64f-cae5-10f5-16759a7d6466");
+DB_PlayerName_DialogVars(4, "GEN_Playername4_703fdb8e-725b-280d-4ad0-a0881729ffa7");
+NOT DB_DialogBlockAttackButton(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Dialogs_DialogBlockStatusesDialogOverride(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Dialogs_DialogBlockRestoreMutingStatuses(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_BanishedInDialog(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Dialogs_StartDatingDialog(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Dialogs_DatingDialog(NULL_00000000-0000-0000-0000-000000000000);
+DB_Dialog_SpeakerUpgradeSystem_Disabled(1);
+
+KBSECTION
+PROC
+PROC_TryStartAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DialogIsAutomated(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_TryStartAD_CheckAutomated(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 == 1
+AND
+QRY_StartDialog_Fixed(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_TryStartAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DialogIsAutomated(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_TryStartAD_CheckAutomated(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 == 1
+AND
+QRY_StartDialog_Fixed(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_TryStartAD((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (DIALOGRESOURCE)_Var1)
+AND
+DialogIsAutomated(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_TryStartAD_CheckAutomated(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 == 1
+AND
+QRY_StartDialog_Fixed(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_TryStartAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5)
+AND
+DialogIsAutomated(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TryStartAD_CheckAutomated((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TryStartAD_CheckAutomated((DIALOGRESOURCE)_Var1, 0, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+GUIDToString(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+Concatenate("Dialog started with Proc_TryStartAD is not automated according to its resource: ", _Var2, _Var3, _Var1, _Var1)
+THEN
+DebugBreak(_Var3);
+
+QRY
+QRY_StartDialog_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, _Var4, _Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, _Var4, _Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (INTEGER)_Var10)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, _Var7, _Var8, _Var9, _Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (INTEGER)_Var10, (INTEGER)_Var11, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Upgrade(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom_Fixed((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom_Fixed((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom_Fixed((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (INTEGER)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (INTEGER)_Var10)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, _Var7, _Var8, _Var9, _Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom_Upgrade((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (INTEGER)_Var10, (INTEGER)_Var11, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_Dialog_FindAndUpgradePlayer(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer(_Var12, _Var13, _Var14, _Var15, _Var16, _Var17, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var12, _Var13, _Var14, _Var15, _Var16, _Var17, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (INTEGER)_Var10, (INTEGER)_Var11, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var10 == -1
+AND
+DialogIsAllowingJoinCombat(_Var1, _Var12, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var12, _Var13, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var13, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogCustom_Fixed((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (INTEGER)_Var10, (INTEGER)_Var11, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var10 != -1
+AND NOT
+QRY_StartOverrideDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var9, _Var8, _Var1)
+AND
+QRY_StartDialog_Internal(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var10, _Var11, _Var1)
+THEN
+PROC_DialogFlagSetup_Internal(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_DialogFlagSetup_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var7 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_DialogFlagSetup(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_DialogFlagSetup_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, NULL_00000000-0000-0000-0000-000000000000, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var6 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_DialogFlagSetup(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+PROC
+PROC_DialogFlagSetup_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var5 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_DialogFlagSetup(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_DialogFlagSetup_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_DialogFlagSetup(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_DialogFlagSetup_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_DialogFlagSetup(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DialogFlagSetup_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_DialogFlagSetup(_Var1, _Var2);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer(_Var8, _Var9, _Var10, _Var11, _Var12, _Var13, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Dialog_FindAndUpgradePlayer(_Var8, _Var9, _Var10, _Var11, _Var12, _Var13);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Dialog_FindAndUpgradePlayer_PlayerFound(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Dialog_FindAndUpgradePlayer_PlayerFound(1);
+
+IF
+TextEvent("talk2avatar-on", _, _, _, _)
+THEN
+NOT DB_Dialog_SpeakerUpgradeSystem_Disabled(1);
+
+IF
+TextEvent("talk2avatar-off", _, _, _, _)
+THEN
+DB_Dialog_SpeakerUpgradeSystem_Disabled(1);
+
+IF
+GameOption("talk2avatar", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_BooleanStrings(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Dialog_SpeakerUpgradeSystem_Disabled(1);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Dialog_SpeakerUpgradeSystem_Disabled(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Dialog_FindAndUpgradePlayer(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_Dialog_SpeakerUpgradeSystem_Disabled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var1, _Var3, _Var2, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var1, _Var4, _Var2, _Var3, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var1, _Var5, _Var2, _Var3, _Var4, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var1, _Var6, _Var2, _Var3, _Var4, _Var5, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var12, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var1, _Var7, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var13, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Dialog_FindAndUpgradePlayer(_Var8, _Var9, _Var10, _Var11, _Var12, _Var13);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var8);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Dialog_FindAndUpgradePlayer_PlayerFound(1);
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var2);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_Dialog_FindAndUpgradePlayer_PlayerFound(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CharacterGetOwnerOrSelf(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetBestAvatarForCompanion(_Var8, 1, 1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(_Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+_Var9 != _Var3
+AND
+_Var9 != _Var4
+AND
+_Var9 != _Var5
+AND
+_Var9 != _Var6
+AND
+_Var9 != _Var7
+AND NOT
+QRY_Dialog_BlockSpeakerUpgrade(_Var1, _Var2, _Var9, _Var1, _Var1)
+THEN
+DB_Dialog_FindAndUpgradePlayer_PlayerFound(1);
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var9);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_Dialog_FindAndUpgradePlayer_PlayerFound(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CharacterGetOwnerOrSelf(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var8
+AND
+_Var8 != _Var3
+AND
+_Var8 != _Var4
+AND
+_Var8 != _Var5
+AND
+_Var8 != _Var6
+AND
+_Var8 != _Var7
+AND
+QRY_SpeakerIsAvailable(_Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Dialog_BlockSpeakerUpgrade(_Var1, _Var2, _Var8, _Var1, _Var1)
+THEN
+DB_Dialog_FindAndUpgradePlayer_PlayerFound(1);
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var8);
+
+QRY
+QRY_Dialog_FindAndUpgradePlayer_UpgradeSpeaker((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Dialog_FindAndUpgradePlayer_UpgradeSpeaker(_Var2);
+
+QRY
+QRY_Dialog_BlockSpeakerUpgrade((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (GUIDSTRING)_Var1)
+AND
+DialogIsAutomated(_Var1, _Var10, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var8, _Var11, _Var1, _Var1, _Var1)
+AND
+DB_LogicOr(_Var10, _Var11, _Var12, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableForDialogSlot(_Var2, _Var1, 1, _Var12, NULL_00000000-0000-0000-0000-000000000000)
+AND
+QRY_SpeakerIsAvailableForDialogSlot(_Var3, _Var1, 2, _Var12, _Var2)
+AND
+QRY_SpeakerIsAvailableForDialogSlot(_Var4, _Var1, 3, _Var12, _Var2)
+AND
+QRY_SpeakerIsAvailableForDialogSlot(_Var5, _Var1, 4, _Var12, _Var2)
+AND
+QRY_SpeakerIsAvailableForDialogSlot(_Var6, _Var1, 5, _Var12, _Var2)
+AND
+QRY_SpeakerIsAvailableForDialogSlot(_Var7, _Var1, 6, _Var12, _Var2)
+AND
+QRY_PrepForInteractiveDialog(_Var1, _Var2, _Var10, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog(_Var1, _Var3, _Var10, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog(_Var1, _Var4, _Var10, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog(_Var1, _Var5, _Var10, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog(_Var1, _Var6, _Var10, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog(_Var1, _Var7, _Var10, _Var1, _Var1)
+AND
+QRY_StartDialog_BlockAttackButton_Intern(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(_Var13, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Negate(_Var13, _Var14, _Var1, _Var1, _Var1)
+AND
+DB_LogicAnd(_Var9, _Var14, _Var15, _Var1, _Var1)
+AND
+QRY_DropMutingStatussesAndWait(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var15, _Var1, _Var1)
+AND
+QRY_StartDialogIfNotOngoingAD(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var15, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DropMutingStatussesAndWait((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_DialogShouldDropMutingStatusses(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatusses(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DropMutingStatusses(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_DropMutingStatusses(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_DropMutingStatusses(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_DropMutingStatusses(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_DropMutingStatusses(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+QRY_DropMutingStatusses(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_DialogStart_WaitingForDroppedMutingStatus_Speaker(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_DialogStart_WaitingForDroppedMutingStatus(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8);
+DB_DialogStart_SpeakerReserved(_Var2);
+DB_DialogStart_SpeakerReserved(_Var3);
+DB_DialogStart_SpeakerReserved(_Var4);
+DB_DialogStart_SpeakerReserved(_Var5);
+DB_DialogStart_SpeakerReserved(_Var6);
+DB_DialogStart_SpeakerReserved(_Var7);
+
+QRY
+QRY_DropMutingStatussesAndWait((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DialogShouldDropMutingStatusses((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatusses(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_DialogShouldDropMutingStatusses(_Var8);
+
+QRY
+QRY_DialogShouldDropMutingStatusses((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldDropMutingStatusses(1);
+
+QRY
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var3);
+
+QRY
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DropMutingStatussesDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1);
+
+QRY
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OriginDialog(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1);
+
+QRY
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern((GUIDSTRING)_Var1, NULL_00000000-0000-0000-0000-000000000000, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1);
+
+QRY
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1);
+
+QRY
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(0);
+
+QRY
+QRY_DialogShouldDropMutingStatusses((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_DialogShouldDropMutingStatusses(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldDropMutingStatusses(0);
+
+QRY
+QRY_DialogShouldIgnoreMutingStatusses((DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DialogShouldIgnoreMutingStatusses((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_DialogShouldIgnoreMutingStatusses(_Var4);
+
+QRY
+QRY_DialogShouldIgnoreMutingStatusses((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_IgnoreMutingStatussesDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(1);
+
+QRY
+QRY_DialogShouldIgnoreMutingStatusses((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_WildShaped(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var3, PETPAL_dc860a81-f3c2-4c1a-ab90-e7583324845c, 1, _Var1, _Var1)
+AND
+IsTagged(_Var2, BEAST_890b5a2a-e773-48df-b191-c887d87bec16, 1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(1);
+
+QRY
+QRY_DialogShouldIgnoreMutingStatusses((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0);
+
+QRY
+QRY_DropMutingStatusses((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogStart_WaitingForDroppedMutingStatus_Speaker(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_HasMutingStatusAndCache(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveMutingStatusesWithRestore(_Var1, _Var2);
+DB_DialogStart_WaitingForDroppedMutingStatus_Speaker(_Var1, _Var2);
+
+QRY
+QRY_DropMutingStatusses((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DialogShouldDropMutingStatussesForSpeaker((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogStart_WaitingForDroppedMutingStatus_Speaker(_, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dialogs_DialogBlockRestoreMutingStatuses(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_RestoreMutingStatuses(_Var3);
+
+QRY
+QRY_TemporarilyMuted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_HasMutingStatusAndCache(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TemporarilyMuted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_HasMutingStatusAndCache(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectMutedOverrideDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TemporarilyMuted(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dialogs_DialogBlockStatusesDialogOverride(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatusses(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_PAD_CantTalk_b38cbc45-e8b5-614d-baf0-79ae565086cb, _Var3);
+
+QRY
+QRY_HasMutedSpeakersWithLines((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_TemporarilyMuted(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogSpeakerHasLines(_Var1, 1, 1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_TemporarilyMuted(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogSpeakerHasLines(_Var1, 2, 1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_TemporarilyMuted(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogSpeakerHasLines(_Var1, 3, 1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_TemporarilyMuted(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogSpeakerHasLines(_Var1, 4, 1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_TemporarilyMuted(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogSpeakerHasLines(_Var1, 5, 1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, _Var2, _Var6, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HasMutedSpeakersWithLines((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_TemporarilyMuted(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogSpeakerHasLines(_Var1, 6, 1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, _Var2, _Var7, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_DialogStart_WaitingForDroppedMutingStatus_Speaker(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_AttemptingMutingStatuses(_Var2, _, _, _Var1, _Var1)
+AND NOT
+DB_CurrentMutingStatuses(_Var2, _, _, _Var1, _Var1)
+AND NOT
+DB_MutingStatuses_Restoring(_Var2, _, _, _Var1, _Var1)
+THEN
+NOT DB_DialogStart_WaitingForDroppedMutingStatus_Speaker(_Var1, _Var2);
+
+IF
+DB_DialogStart_WaitingForDroppedMutingStatus(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+AND NOT
+DB_DialogStart_WaitingForDroppedMutingStatus_Speaker(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DialogStart_WaitingForDroppedMutingStatus(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8);
+NOT DB_DialogStart_SpeakerReserved(_Var2);
+NOT DB_DialogStart_SpeakerReserved(_Var3);
+NOT DB_DialogStart_SpeakerReserved(_Var4);
+NOT DB_DialogStart_SpeakerReserved(_Var5);
+NOT DB_DialogStart_SpeakerReserved(_Var6);
+NOT DB_DialogStart_SpeakerReserved(_Var7);
+PROC_StartDialog_AfterDroppedMutingStatusses(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8);
+
+PROC
+PROC_StartDialog_AfterDroppedMutingStatusses((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+QRY_StartDialogIfNotOngoingAD(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+PROC_RestoreMutingStatuses(_Var2);
+PROC_RestoreMutingStatuses(_Var3);
+PROC_RestoreMutingStatuses(_Var4);
+PROC_RestoreMutingStatuses(_Var5);
+PROC_RestoreMutingStatuses(_Var6);
+PROC_RestoreMutingStatuses(_Var7);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogBlockAttackButton(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog_BlockAttackButton(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var5, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var6, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var7, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_StartDialog_BlockAttackButton_Intern_ValidHostileSpeaker(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_IsNPC(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsNPC(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsNPC(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsNPC(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsNPC(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsNPC(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(0);
+DB_QRY_RTN_StartDialog_BlockAttackButton_Intern(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern_ValidHostileSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogNPCs(_Var2, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_BlockAttackButton_Intern_ValidHostileSpeaker(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton_Intern_ValidHostileSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+QRY_ObjectFactionHostilityBlacklisted(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+CanFight(_Var2, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_BlockAttackButton((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogIfNotOngoingAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogStart_WaitingForDroppedMutingStatus(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _, _Var1, _Var1)
+THEN
+DB_StartDialogIfNotOngoingAD_Success(1);
+
+QRY
+QRY_StartDialogIfNotOngoingAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_IsOnGoingAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_StartDialogIfNotOngoingAD_Success(1);
+
+QRY
+QRY_StartDialogIfNotOngoingAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogStart_WaitingForDroppedMutingStatus(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _, _Var1, _Var1)
+AND NOT
+QRY_IsOnGoingAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_FreeAvailableInclusionSpeakers(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_SaveControlledPlayer(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+StartDialog_Internal(_Var1, _Var8, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, 1, _Var10, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StartDialog_PreDialogStarted(_Var1, 1, _Var10, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+PROC_StartDialog_StuckTimelineLoad_Detector(_Var1, _Var10);
+SysClear("DB_StartedDialog", 7);
+DB_StartedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+DB_StartDialogIfNotOngoingAD_Success(1);
+
+QRY
+QRY_StartDialogIfNotOngoingAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_StartDialogIfNotOngoingAD_Success(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogFailed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogIfNotOngoingAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_StartDialogIfNotOngoingAD_ClearSucces()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialogIfNotOngoingAD_ClearSucces()
+THEN
+NOT DB_StartDialogIfNotOngoingAD_Success(1);
+
+QRY
+QRY_IsOnGoingAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogName(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_AutomatedDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogSpeakers(_Var3, _Var2, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartDialog_SaveControlledPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DialogIsAutomated(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_StartDialog_SaveControlledPlayer(_Var1, _Var2);
+PROC_StartDialog_SaveControlledPlayer(_Var1, _Var3);
+PROC_StartDialog_SaveControlledPlayer(_Var1, _Var4);
+PROC_StartDialog_SaveControlledPlayer(_Var1, _Var5);
+PROC_StartDialog_SaveControlledPlayer(_Var1, _Var6);
+PROC_StartDialog_SaveControlledPlayer(_Var1, _Var7);
+
+QRY
+QRY_StartDialog_SaveControlledPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_SaveControlledPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dialog_SaveControlledPlayer(_Var1, _, _Var3, _Var1, _Var1)
+AND
+QRY_SameUser(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var3, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InteractiveDialogSpeaker(_, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_Dialog_SaveControlledPlayer(_Var1, _Var2, _Var3);
+
+PROC
+PROC_StartDialog_SaveControlledPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Dialog_SaveControlledPlayer(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_Dialog_SaveControlledPlayer(_Var1, _Var3, _Var2);
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_Dialog_SaveControlledPlayer(_Var1, _Var3, _Var5, _Var1, _Var1)
+AND
+IsControlled(_Var3, 1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var3, _Var5, _Var1, _Var1, _Var1)
+THEN
+MakePlayerActive(_Var5);
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_Dialog_SaveControlledPlayer(_Var1, _Var3, _Var5, _Var1, _Var1)
+THEN
+NOT DB_Dialog_SaveControlledPlayer(_Var1, _Var3, _Var5);
+
+QRY
+QRY_FreeAvailableInclusionSpeakers((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_FreeAvailableInclusionSpeakers((GUIDSTRING)_Var1, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var1);
+
+QRY
+QRY_FreeAvailableInclusionSpeakers(_, (GUIDSTRING)_Var2, _, _, _, _, _, _, _, _)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var2, _, _, _)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var2);
+
+QRY
+QRY_FreeAvailableInclusionSpeakers(_, _, (GUIDSTRING)_Var3, _, _, _, _, _, _, _)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var3, _, _, _)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var3);
+
+QRY
+QRY_FreeAvailableInclusionSpeakers(_, _, _, (GUIDSTRING)_Var4, _, _, _, _, _, _)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var4, _, _, _)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var4);
+
+QRY
+QRY_FreeAvailableInclusionSpeakers(_, _, _, _, (GUIDSTRING)_Var5, _, _, _, _, _)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var5, _, _, _)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var5);
+
+QRY
+QRY_FreeAvailableInclusionSpeakers(_, _, _, _, _, (GUIDSTRING)_Var6, _, _, _, _)
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var6, _, _, _)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var6);
+
+PROC
+PROC_StartDialog_StuckTimelineLoad_Detector((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GUIDToString(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("StuckTimelineLoad_Detector_", _Var3, _Var4, _Var1, _Var1)
+AND
+ConcatenateInteger(_Var4, _Var2, _Var5, _Var1, _Var1)
+THEN
+TimerLaunch(_Var5, 10000);
+DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var5);
+
+IF
+DialogStarted((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+TimerCancel(_Var3);
+NOT DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var3);
+
+IF
+AutomatedDialogStarted((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+TimerCancel(_Var3);
+NOT DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var3);
+
+IF
+DialogRequestFailed((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+TimerCancel(_Var3);
+NOT DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var3);
+
+IF
+AutomatedDialogRequestFailed((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+TimerCancel(_Var3);
+NOT DB_StartDialog_StuckTimelineLoad_Detection(_Var1, _Var2, _Var3);
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_StartDialog_StuckTimelineLoad_Detection(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+Concatenate("Dialog Timeline failed to load but Osiris got no fail event: ", _Var4, _Var5, _Var1, _Var1)
+THEN
+NOT DB_StartDialog_StuckTimelineLoad_Detection(_Var2, _Var3, _Var1);
+DB_StartDialog_StuckTimelineLoad_StuckDetected(_Var2);
+DebugBreak(_Var5);
+
+IF
+DB_StartDialog_StuckTimelineLoad_StuckDetected(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_PreDialogStarted((GUIDSTRING)_Var1, 1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var8, (GUIDSTRING)_Var1)
+THEN
+DB_DialogRequestCache_DialogInstance(_Var1, _Var2);
+PROC_DialogRequestCache_SetAutomated(_Var1, _Var2);
+PROC_DialogRequestCache_MakeSpeakerLists(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8);
+PROC_StartDialog_CheckMakeOriginActive(_Var1);
+PROC_StartDialog_AddExtraSpeakers(_Var1, _Var2);
+PROC_StartDialog_AddInclusionSpeakers(_Var1, _Var2);
+PROC_StartDialog_ChangeClothing(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_CheckMakeOriginActive((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OriginMoment_QueuedMoment(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 == OOM_018ab052-38df-6d2c-117f-8d7c1e56b061
+THEN
+MakePlayerActive(_Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddInclusionSpeakers((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogRequestCache_SetAutomated((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DialogIsAutomated(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_AutomatedDialog(_Var2);
+
+IF
+DialogActorJoinFailed((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_DialogRequestCache_RemoveSpeaker(_Var1, _Var2, _Var3);
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+THEN
+PROC_DialogRequestCache_RemoveSpeaker(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DialogRequestCache_RemoveSpeaker((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_DialogRequestCache_SpeakerList_Players(_Var1, _Var2, _Var3, _Var4);
+DB_DialogRequestCache_UpdatePlayerCount(_Var2);
+
+PROC
+PROC_DialogRequestCache_RemoveSpeaker((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_NPCs(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_DialogRequestCache_SpeakerList_NPCs(_Var1, _Var2, _Var3, _Var4);
+DB_DialogRequestCache_UpdateNPCCount(_Var2);
+
+PROC
+PROC_DialogRequestCache_RemoveSpeaker((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Speakers(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+IntegerSubtract(_Var5, 1, _Var6, _Var1, _Var1)
+THEN
+NOT DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, _Var5);
+DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, _Var6);
+NOT DB_DialogRequestCache_SpeakerList_Speakers(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_DialogRequestCache_RemoveSpeaker(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_DialogRequestCache_UpdateNPCCount(_Var2, _, _, _, _)
+AND
+DB_DialogRequestCache_NPCCount(_Var4, _Var2, _Var5, _, _)
+THEN
+NOT DB_DialogRequestCache_NPCCount(_Var4, _Var2, _Var5);
+DB_DialogRequestCache_NPCCount(_Var4, _Var2, 0);
+PROC_DialogRequestCache_UpdateNPCCount(_Var4, _Var2);
+
+PROC
+PROC_DialogRequestCache_RemoveSpeaker(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_DialogRequestCache_UpdatePlayerCount(_Var2, _, _, _, _)
+AND
+DB_DialogRequestCache_PlayerCount(_Var4, _Var2, _Var5, _, _)
+THEN
+NOT DB_DialogRequestCache_PlayerCount(_Var4, _Var2, _Var5);
+DB_DialogRequestCache_PlayerCount(_Var4, _Var2, 0);
+PROC_DialogRequestCache_UpdatePlayerCount(_Var4, _Var2);
+
+PROC
+PROC_DialogRequestCache_RemoveSpeaker((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogRequestCache_SpeakerList_Speakers(_Var1, _Var2, _, _, _Var1)
+THEN
+NOT DB_DialogRequestCache_DialogInstance(_Var1, _Var2);
+PROC_DialogRequestCache_MakeSpeakerLists_ClearCounters(_Var1, _Var2);
+
+PROC
+PROC_DialogRequestCache_RemoveSpeaker(_, (INTEGER)_Var2, _, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_)
+THEN
+NOT DB_DialogRequestCache_UpdateNPCCount(_Var2);
+NOT DB_DialogRequestCache_UpdatePlayerCount(_Var2);
+
+PROC
+PROC_DialogRequestCache_UpdateNPCCount((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_NPCs(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+PROC_DialogRequestCache_MakeSpeakerLists_UpdateCount(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DialogRequestCache_UpdatePlayerCount((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+PROC_DialogRequestCache_MakeSpeakerLists_UpdateCount(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DialogRequestCache_MakeSpeakerLists_UpdateCount((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogRequestCache_PlayerCount(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+NOT DB_DialogRequestCache_PlayerCount(_Var1, _Var2, _Var4);
+DB_DialogRequestCache_PlayerCount(_Var1, _Var2, _Var5);
+
+PROC
+PROC_DialogRequestCache_MakeSpeakerLists_UpdateCount((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_DialogRequestCache_NPCCount(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+NOT DB_DialogRequestCache_NPCCount(_Var1, _Var2, _Var4);
+DB_DialogRequestCache_NPCCount(_Var1, _Var2, _Var5);
+
+IF
+DialogRequestFailed((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_DialogRequestCache_ClearCache(_Var1, _Var2);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_DialogRequestCache_ClearCache(_Var1, _Var2);
+
+IF
+AutomatedDialogRequestFailed((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_DialogRequestCache_ClearCache(_Var1, _Var2);
+
+IF
+AutomatedDialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_DialogRequestCache_ClearCache(_Var1, _Var2);
+
+PROC
+PROC_DialogRequestCache_ClearCache((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Speakers(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+PROC_DialogRequestCache_RemoveSpeaker(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DialogRequestCache_MakeSpeakerLists((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, 0);
+DB_DialogRequestCache_PlayerCount(_Var1, _Var2, 0);
+DB_DialogRequestCache_NPCCount(_Var1, _Var2, 0);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var1, _Var2, _Var3);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var1, _Var2, _Var4);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var1, _Var2, _Var5);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var1, _Var2, _Var6);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var1, _Var2, _Var7);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var1, _Var2, _Var8);
+
+PROC
+PROC_DialogRequestCache_MakeSpeakerLists_ClearCounters((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_DialogRequestCache_PlayerCount(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+DB_DialogRequestCache_NPCCount(_Var1, _Var2, _Var5, _Var1, _Var1)
+THEN
+NOT DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, _Var3);
+NOT DB_DialogRequestCache_PlayerCount(_Var1, _Var2, _Var4);
+NOT DB_DialogRequestCache_NPCCount(_Var1, _Var2, _Var5);
+
+PROC
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogRequestCache_PlayerCount(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+DB_DialogRequestCache_SpeakerList_Players(_Var1, _Var2, _Var3, _Var5);
+NOT DB_DialogRequestCache_PlayerCount(_Var1, _Var2, _Var4);
+DB_DialogRequestCache_PlayerCount(_Var1, _Var2, _Var5);
+
+PROC
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_DialogRequestCache_NPCCount(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+DB_DialogRequestCache_SpeakerList_NPCs(_Var1, _Var2, _Var3, _Var5);
+NOT DB_DialogRequestCache_NPCCount(_Var1, _Var2, _Var4);
+DB_DialogRequestCache_NPCCount(_Var1, _Var2, _Var5);
+
+PROC
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+DB_DialogRequestCache_SpeakerList_Speakers(_Var1, _Var2, _Var3, _Var5);
+NOT DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, _Var4);
+DB_DialogRequestCache_SpeakerCount(_Var1, _Var2, _Var5);
+
+PROC
+PROC_DialogAddSpeakingActor((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2, 0, 0);
+
+PROC
+PROC_DialogAddSpeakingActor((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2, _Var3, 0);
+
+PROC
+PROC_DialogAddSpeakingActor((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var1)
+AND NOT
+DB_DialogEnding(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, 1, 1, 1, _Var1)
+AND
+DB_DialogRequestCache_DialogInstance(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog_IfInteractive(_Var6, _Var1, _Var2, _Var1, _Var1)
+THEN
+DialogAddActorAtReservedSlot(_Var1, _Var2, _Var3, 0, _Var4);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var6, _Var1, _Var2);
+
+PROC
+PROC_DialogAddSpeakingActorAt((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogEnding(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, 1, 1, 1, _Var1)
+AND
+DB_DialogRequestCache_DialogInstance(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog_IfInteractive(_Var5, _Var1, _Var2, _Var1, _Var1)
+THEN
+DialogAddActorAt(_Var1, _Var2, _Var3);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var5, _Var1, _Var2);
+
+QRY
+QRY_PrepForInteractiveDialog_IfInteractive((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AutomatedDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog(_Var1, _Var3, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PrepForInteractiveDialog_IfInteractive((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AutomatedDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PrepForInteractiveDialog(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogAddSpeakingActor((INTEGER)_Var1, (GUIDSTRING)_Var2, _, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestCache_DialogInstance(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugBreak("Can't add speaking actors to a dialogue that has already started.");
+
+PROC
+PROC_DialogAddSpeakingActorAt((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestCache_DialogInstance(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugBreak("Can't add speaking actors at slot to a dialogue that has already started.");
+
+QRY
+QRY_DialogAddInclusionActor((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogEnding(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, 1, 1, 1, _Var1)
+AND NOT
+DB_ObjectIsDialogSoftLocked(_, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogRequestCache_DialogInstance(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStop(_Var2);
+DialogAddActorAtReservedSlot(_Var1, _Var2, 0, 1, _Var3);
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var6, _Var1, _Var2);
+
+PROC
+PROC_DialogAddListeningActor((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogEnding(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, 1, 1, 1, _Var1)
+AND NOT
+DB_ObjectIsDialogSoftLocked(_, _Var2, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStop(_Var2);
+DialogAddActor(_Var1, _Var2);
+PROC_DialogAddListeningActor_UpdateSpeakerLists(_Var1, _Var2);
+
+PROC
+PROC_DialogAddListeningActor_UpdateSpeakerLists((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogRequestCache_DialogInstance(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogRequestCache_MakeSpeakerLists_Evaluate(_Var3, _Var1, _Var2);
+
+QRY
+QRY_PrepForInteractiveDialog(_, (GUIDSTRING)_Var2, 0, _, _)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND NOT
+DB_ObjectIsDialogSoftLocked(_, _Var2, _, _, _)
+THEN
+DialogRequestStop(_Var2);
+
+QRY
+QRY_PrepForInteractiveDialog(_, (GUIDSTRING)_Var2, 0, _, _)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_ObjectIsDialogSoftLocked(_, _Var2, _, _, _)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var2);
+
+QRY
+QRY_PrepForInteractiveDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsSpeakerReserved(_Var2, 0, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsOnGoingAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStop(_Var2);
+
+QRY
+QRY_PrepForInteractiveDialog(_, NULL_00000000-0000-0000-0000-000000000000, _, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PrepForInteractiveDialog(_, _, 1, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (DIALOGRESOURCE)_Var1)
+AND
+QRY_StartOverrideDialog_ClearPlayerSpeaker()
+AND NOT
+QRY_StartOverrideDialog_SetIfPlayer(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartOverrideDialog_SetIfPlayer(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartOverrideDialog_SetIfPlayer(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartOverrideDialog_SetIfPlayer(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartOverrideDialog_SetIfPlayer(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartOverrideDialog_SetIfPlayer(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartOverrideDialog_ClearPlayerSpeaker()
+THEN
+SysClear("DB_StartOverrideDialog_PlayerSpeaker", 1);
+
+QRY
+QRY_StartOverrideDialog_SetIfPlayer((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_StartOverrideDialog_PlayerSpeaker(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_StartOverrideDialog_PlayerSpeaker(_Var1);
+
+PROC
+PROC_DialogOverridden((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_StartOverrideDialog_Started(1);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, 1, (INTEGER)_Var8, (DIALOGRESOURCE)_Var1)
+AND
+QRY_StartOverrideDialog_ClearFailReasons()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartOverrideDialog_ClearFailReasons()
+AND
+DB_QRYRTN_StartDialog_FailReason(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_StartDialog_FailReason(_Var1);
+
+QRY
+QRY_StartOverrideDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, 1, (INTEGER)_Var8, (GUIDSTRING)_Var1)
+AND NOT
+DB_Dialogs_DialogBlockStatusesDialogOverride(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_HasMutedSpeakersWithLines(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatusses(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldIgnoreMutingStatusses(_Var1, _Var2, _Var10, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldIgnoreMutingStatusses(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("MutedOverride");
+PROC_DialogOverridden(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, 1, (INTEGER)_Var8, (GUIDSTRING)_Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_DialogsBlockedByCrimeHandling(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("CrimeOverride");
+PROC_DialogOverridden(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (GUIDSTRING)_Var1)
+AND NOT
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PlayOriginMoment(_Var1, _Var2, _Var10, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("OriginMomentOverride");
+PROC_DialogOverridden(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (GUIDSTRING)_Var1)
+AND NOT
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartOriginOverrideDialog(_Var1, _Var2, _Var10, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("AvatarSwapOverride");
+PROC_DialogOverridden(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, 1, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartLowAttitudeOverrideDialog(_Var1, _Var2, _Var9, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("LowAttOverride");
+PROC_DialogOverridden(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, _, _, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs_DialogBlockStatusesDialogOverride(_Var1, _Var10, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TemporarilyMuted(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DialogShouldDropMutingStatussesForSpeaker_Intern(_Var1, _Var11, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DialogShouldDropMutingStatussesForSpeaker_Intern(0, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var10, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("ShapeshiftOverride");
+PROC_DialogOverridden(_Var10, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, _, _, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs_StartDatingDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered(_Var10, _Var11, _Var1, _Var1, _Var1)
+AND
+_Var11 != _Var2
+AND
+QRY_StartDialog_Fixed(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("StartDatingOverride");
+PROC_DialogOverridden(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, _, _, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs_StartDatingDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(ORI_State_DoubleDating_41320aeb-8e1a-433d-a82e-3d78aff578da, _Var10, 1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("StartDatingOverride");
+PROC_DialogOverridden(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, _, _, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs_StartDatingDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_WasDating(_Var10, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("StartDatingOverride");
+PROC_DialogOverridden(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, _, _, (DIALOGRESOURCE)_Var1)
+AND NOT
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dialogs_DatingDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_StartOverrideDialog_PlayerSpeaker(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Dating(_Var10, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_StartDialog_FailReason("DatingOverride");
+PROC_DialogOverridden(GLO_AD_NonBondedCompanionDialog_62ba7c46-8d22-c591-f04c-2e99441cd02a, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+QRY
+QRY_StartOverrideDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var8, (INTEGER)_Var9, (GUIDSTRING)_Var1)
+AND
+DB_StartOverrideDialog_Started(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_StartOverrideDialog_Started(1);
+
+QRY
+QRY_SelectCustomDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_FailedToSelectDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OverrideSelectedDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SelectMutedOverrideDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialogOverridden(1);
+
+QRY
+QRY_FailedToSelectDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_SelectCrimeBusyDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectCustomDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectADForRequest(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectReflectionDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectCompanionFallback(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectRelationShipDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectCustomDialog_AfterGenerics(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectDBDialogs(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SelectDefaultDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("Failed to select dialog for ", _Var3, _Var4, _Var1, _Var1)
+THEN
+DebugBreak(_Var4);
+
+IF
+DialogStartRequested((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SelectAndStartDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectAndStartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 1, 1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, 1, 1, _Var1, _Var1)
+AND
+QRY_SelectDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_StartSelectedDialog()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_OverrideSelectedDialog(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+QRY_OverrideSelectedDialog(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+QRY_OverrideSelectedDialog(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND NOT
+QRY_OverrideSelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_OverrideSelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+QRY_OverrideSelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialogCustom_Fixed(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, 1, 1, -1, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+DB_SelectedDialogOverridden(1, _, _, _, _)
+THEN
+NOT DB_SelectedDialogOverridden(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+DB_QRYRTN_StartDialog_FailReason(_, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartSelectedDialog()
+AND
+QRY_CleanUpSelectedDialog()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CleanUpSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SelectedDialog(_Var1, _Var2);
+
+QRY
+QRY_CleanUpSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SelectedDialog(_Var1, _Var2, _Var3);
+
+QRY
+QRY_CleanUpSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4);
+
+QRY
+QRY_CleanUpSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+NOT DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+QRY
+QRY_CleanUpSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+QRY
+QRY_CleanUpSelectedDialog()
+AND
+DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SelectedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+IF
+DB_AD_Dialog(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+
+IF
+DB_AD_Dialog(_Var1, _Var2, _, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+
+IF
+DB_AD_Dialog(_Var1, _Var2, _, _Var1, _Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var2, 1);
+
+QRY
+QRY_SelectADForRequest((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AD_Dialog(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_ADRequested(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(_Var3, _Var1);
+
+IF
+DB_StartedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_AD_Dialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ADRequested(_Var2);
+
+QRY
+QRY_SelectADForRequest((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AD_Dialog(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND NOT
+DB_ADRequested(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ADRequested(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(_Var4, _Var1, _Var3);
+
+QRY
+QRY_SelectADForRequest((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AD_Dialog(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND NOT
+DB_ADRequested(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ADRequested(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(_Var4, _Var3, _Var1);
+
+IF
+DB_StartedDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_AD_Dialog(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_ADRequested(_Var2);
+DB_ADRequested(_Var3);
+
+IF
+AutomatedDialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ClearADRequests(_Var1, _Var2);
+
+IF
+AutomatedDialogRequestFailed((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ClearADRequests(_Var1, _Var2);
+
+PROC
+PROC_ClearADRequests((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AD_Dialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+NOT DB_ADRequested(_Var3);
+
+PROC
+PROC_ClearADRequests((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_AD_Dialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+NOT DB_ADRequested(_Var3);
+
+PROC
+PROC_ClearADRequests((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_AD_Dialog(_, _, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, _Var5, _, _Var1, _Var1)
+THEN
+NOT DB_ADRequested(_Var5);
+
+PROC
+PROC_ClearADRequests((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_AD_Dialog(_, _, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var5, 1, _Var1, _Var1)
+THEN
+NOT DB_ADRequested(_Var5);
+
+PROC
+PROC_RemoveNPCADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AD_Dialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AD_Dialog(_Var1, _Var2);
+NOT DB_ADRequested(_Var1);
+
+PROC
+PROC_RemoveNPCADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AD_Dialog(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_AD_Dialog(_Var1, _Var2, _Var3);
+NOT DB_ADRequested(_Var1);
+NOT DB_ADRequested(_Var2);
+
+PROC
+PROC_RemoveNPCADs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AD_Dialog(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_AD_Dialog(_Var2, _Var1, _Var3);
+NOT DB_ADRequested(_Var2);
+NOT DB_ADRequested(_Var1);
+
+QRY
+QRY_GetLowAttitudeDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRY_RTN_GetLowAttitudeDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_GetLowAttitudeDialog(_Var2);
+
+QRY
+QRY_GetLowAttitudeDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LowAttitudeDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_GetLowAttitudeDialog(_Var2);
+
+QRY
+QRY_GetLowAttitudeDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_GetLowAttitudeDialog(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRY_RTN_GetLowAttitudeDialog(GEB_Default_Hostile_f6394e88-2eca-142b-2ccd-b30fd3efc25f);
+
+QRY
+QRY_StartLowAttitudeOverrideDialog((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SceneManager(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_NoLowAttitudeDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetLowAttitudeDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_GetLowAttitudeDialog(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogIsAutomated(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, MUTE_693d950b-2617-43ac-8e3c-2ff5fda7f956, 0, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(_Var2, _Var3, _Var6, _Var1, _Var1)
+AND
+_Var6 <= -45
+AND
+QRY_StartDialogCustom_Fixed(_Var5, _Var2, _Var3, 0, 0, 1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Dying((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogDeath(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStop(_Var1);
+
+IF
+DB_Is_Banished(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_BanishedInDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStop(_Var1);
+
+IF
+DB_DialogPlayers(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_PlayerName_DialogVars(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDisplayName(_Var2, _Var6, _Var1, _Var1, _Var1)
+THEN
+DialogSetVariableTranslatedString(_Var5, _Var4, _Var6);
+
+IF
+DB_InteractiveDialogSpeaker(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_SleepingDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "SLEEPING", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "SLEEPING");
+
+IF
+DB_InteractiveDialogSpeaker(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_SleepingDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "SLEEP", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "SLEEP");
+
+QRY
+QRY_IsInAllowJoinCombatDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+SpeakerGetDialog(_Var1, 0, _Var2, _, _Var1)
+AND
+DialogIsAllowingJoinCombat(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsInAllowJoinCombatDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Speakers(_Var2, _, _Var1, _, _Var1)
+AND
+DialogIsAllowingJoinCombat(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartWorldDialog((DIALOGRESOURCE)_Var1, (TRIGGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+StartWorldTimeline(_Var1, _Var2, 1, _, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

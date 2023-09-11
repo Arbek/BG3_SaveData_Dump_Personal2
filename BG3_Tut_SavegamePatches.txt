@@ -1,0 +1,96 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_TUT_Lab_MindflayerFactions(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TUT_Lab_MindflayerFactions(_Var1);
+DB_BUGFIX_Marker("GUS-298035");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_TUT_TransformChamber_ShadowheartOnGround(1, _, _, _, _)
+THEN
+SetDoNotFaceFlag(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1);
+DB_BUGFIX_Marker("GUS-299963");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+GetOwner(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, _Var1, _Var1, _Var1)
+THEN
+MoveAllItemsTo(S_GLO_PuzzleBox_326324f9-0920-8f0f-3e85-3781fbf48282, _Var1, 0, 0, 0, 0);
+DB_BUGFIX_Marker("Puzzlebox contents");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_TrackedTimers(_Var1, "GLO_Tutorials_TemporaryEquipmentTutSuppression", "Finished");
+DB_BUGFIX_Marker("GUS-302670");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_ItemDialog_PlayerVB(S_TUT_Lab_Book_001_88754118-7c80-4eba-9191-02ad5f6c213c, TUT_Lab_VB_SocietyBook_fa218dec-3f89-136d-bf05-64ae5fdfc3fe, _, _, _)
+THEN
+NOT DB_ItemDialog_PlayerVB(S_TUT_Lab_Book_001_88754118-7c80-4eba-9191-02ad5f6c213c, TUT_Lab_VB_SocietyBook_fa218dec-3f89-136d-bf05-64ae5fdfc3fe);
+NOT DB_ItemDialog_PlayerVB(S_TUT_Lab_Book_002_2e55e20f-2fb4-4a7a-9a0d-78bc61a19ee0, TUT_Lab_VB_HistoryBook_e34ece39-a883-8dc1-8283-79f82267b2b5);
+NOT DB_ItemDialog_PlayerVB(S_TUT_Lab_Book_000_e7f3d57d-3ab1-4189-b79a-b803a66e832b, TUT_Lab_VB_GoblinBook_34bed1ed-5208-f5b2-8d3d-b32f9c03f066);
+NOT DB_ItemDialog_PlayerVB(S_TUT_Lab_Book_003_a0fa26b7-25ef-4e68-b6ed-1fd05c4fdccf, TUT_Lab_VB_IllithidEmpireBook_11f7be24-7cf0-1efc-2938-4b93bf28aea6);
+NOT DB_ItemDialog_PlayerVB(S_TUT_Lab_Book_004_d34c65bb-535f-46cb-99b6-f772d0236852, TUT_Lab_VB_MFBook_93eb6423-315d-5be4-9941-18f0e65623ce);
+NOT DB_ItemDialog_PlayerVB(S_TUT_Lab_Book_005_855d1730-5979-4821-924b-3b2205c752f5, TUT_LAB_VB_NautiloidBook_54522076-f1f2-35c0-2dc0-83a54333a9c9);
+DB_ItemDialog_NarratorAD(S_TUT_Lab_Book_000_e7f3d57d-3ab1-4189-b79a-b803a66e832b, TUT_Lab_PAD_GoblinBook_e15e9ac1-2f95-0686-0b16-039e9ed50897);
+DB_ItemDialog_NarratorAD(S_TUT_Lab_Book_001_88754118-7c80-4eba-9191-02ad5f6c213c, TUT_Lab_PAD_SocietyBook_a99b07f3-283f-8f8b-c878-2857c87cfc6e);
+DB_ItemDialog_NarratorAD(S_TUT_Lab_Book_002_2e55e20f-2fb4-4a7a-9a0d-78bc61a19ee0, TUT_Lab_PAD_HistoryBook_2558266c-a9fb-042d-fcd7-96242fb9f3d3);
+DB_ItemDialog_NarratorAD(S_TUT_Lab_Book_003_a0fa26b7-25ef-4e68-b6ed-1fd05c4fdccf, TUT_Lab_PAD_IllithidEmpireBook_d952b405-5452-573c-8e3e-1633e9169084);
+DB_ItemDialog_NarratorAD(S_TUT_Lab_Book_004_d34c65bb-535f-46cb-99b6-f772d0236852, TUT_Lab_PAD_MFBook_9fb50411-34c3-9118-e6b5-2769076c6776);
+DB_ItemDialog_NarratorAD(S_TUT_Lab_Book_005_855d1730-5979-4821-924b-3b2205c752f5, TUT_Lab_PAD_NautiloidBook_d9790085-2fab-91a8-9e4b-f20d12a7a63a);
+DB_BUGFIX_Marker("GUS-287854");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(TUT_TransformChamber_State_FreedShadowheart_c3980ab3-9370-4c2d-9c76-38aff5fe575a, _Var1, 1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 1, _Var1, _Var1, _Var1)
+AND
+IsEnemy(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, 0, _Var1, _Var1)
+AND NOT
+QRY_TUT_TransformChamber_RecruitedShadowheart()
+THEN
+PROC_GlobalSetFlagAndCache(TUT_TransformChamber_State_NotAvatar_286522b0-6dd1-4490-b9b3-c3c4133884b8);
+DB_BUGFIX_Marker("GUS-302683");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

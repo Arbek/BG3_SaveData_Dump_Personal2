@@ -1,0 +1,210 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GlobalFlagReactionAfterDialog(MOO_KethericHound_State_Sleep_4a44cc9b-a8a7-4ca8-8aaa-e19e8c04562a, MOO_KethericHound_Hound_SwA_704a223e-657a-9170-7458-5bcd493c6bce);
+DB_HasItemEvent(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, MOO_KethericHound_State_HasScratchBall_c063cc0d-2d9c-4fdc-97ba-75148e71d36a);
+PROC_CharacterDisableCrime(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, "UseForbiddenItem");
+TriggerRegisterForCharacter(S_MOO_UpperFloorInterior_SUB_93c522d3-04c4-4f71-a1dc-043478c51301, S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31);
+DB_TrespassTrigger(S_DEN_Tiefling005_Trespassing_a2f33199-1006-4371-ac62-3dbfbd6513fb, NULL_00000000-0000-0000-0000-000000000000, "DEN_StorageRoomTrespass");
+DB_BookFlags(S_MOO_MelodiaLetter_80590a99-b86d-4129-b763-c40f89e55e92, MOO_KethericsChambers_Knows_KethericsWife_265c4b21-25cb-4ea2-b9fe-0f37d035b886);
+DB_BookFlags(S_MOO_MyrkulLetter_1ae2a112-e446-44c1-8fbe-094505e651e6, GLO_Ketheric_Knows_IsobelIsDaughter_4157aaed-4605-4f91-ba30-98d7735ff5f9);
+PROC_TriggerRegisterForPlayers(S_MOO_IsobelRoomBox_25ef805a-d619-406a-8c60-2eec53e8183c);
+PROC_TriggerRegisterForPlayers(S_MOO_KethericRoomPoly_d16ef571-5545-4ae4-9c3f-2aae0daea6ea);
+
+KBSECTION
+IF
+TextEvent("moo_scratchball", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_FOR_Courier_Ball_c9602f79-27a8-4f79-b0f2-3aba300bd80f, _Var1, 1, 1, 1);
+
+IF
+TextEvent("moo_getwifeletter", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_MOO_MelodiaLetter_80590a99-b86d-4129-b763-c40f89e55e92, _Var1, 1, 0, 1);
+
+IF
+EntityEvent(S_MOO_KethericRoomLever_f684c040-fbe8-4f64-93b1-a15446241cb4, "MOO_KethericLever_Unlock", _, _, _)
+THEN
+PROC_ItemUnlockAndOpen(S_MOO_KethericBalconyDoor_bae900f7-e50a-48e7-8e20-5a81ac688fd9);
+
+IF
+EntityEvent(S_MOO_KethericRoomLever_f684c040-fbe8-4f64-93b1-a15446241cb4, "MOO_KethericLever_Lock", _, _, _)
+THEN
+PROC_ItemCloseAndLock(S_MOO_KethericBalconyDoor_bae900f7-e50a-48e7-8e20-5a81ac688fd9, "STORYLOCK");
+
+PROC
+PROC_SpotPlayers_Spotted(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, "MOO_UpperFloor_HoundSpot", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_StartDialog(MOO_KethericHound_Hound_SwA_704a223e-657a-9170-7458-5bcd493c6bce, S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_KethericHound_FailedTameCombat(_Var1);
+PROC_SetRelationToPlayers(ACT2_MOO_KethericHound_4755ac62-a42c-491c-b11c-7791f2a35297, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(MOO_KethericHound_State_Sleep_4a44cc9b-a8a7-4ca8-8aaa-e19e8c04562a, _, _, _, _)
+THEN
+ApplyStatus(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, "SLEEPING", -1, 1, S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31);
+
+IF
+DialogEnded(MOO_KethericHound_Hound_SwA_704a223e-657a-9170-7458-5bcd493c6bce, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(MOO_KethericHound_State_TameSuccess_d62b15e4-c363-471e-90c4-707eb8327f7b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_MOO_KethericHound_FailedTameCombat(_Var2);
+PROC_SetRelationToPlayers(ACT2_MOO_KethericHound_4755ac62-a42c-491c-b11c-7791f2a35297, 0);
+
+IF
+RelationChanged(ACT2_MOO_KethericHound_4755ac62-a42c-491c-b11c-7791f2a35297, Hero_a1542c81-6895-929e-4522-10ce218bb360, 0, _, _)
+AND
+DB_MOO_KethericHound_FailedTameCombat(_Var2, _, _, _, _)
+THEN
+PROC_EnterCombat(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, _Var2);
+
+PROC
+PROC_Combat_CallingForHelp(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, "MOO_KethericHoundHelp", _, _, _)
+AND
+QRY_MOO_KethericHound_GetNearestPlayer()
+AND
+DB_QRTN_MOO_KethericHound_NearestPlayer(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+CrimeGetNewID(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_MOO_KethericHound_GetNearestGuard()
+AND
+DB_QRTN_MOO_KethericHound_NearestGuard(_Var7, _, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_HomePos(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_Guards_HomePos(_Var9, _Var10, _Var11, _Var1, _Var1)
+THEN
+DB_MOO_KethericHound_CalledGuard(_Var6, _Var7, _Var9, _Var10, _Var11);
+PROC_ClearStoryMove(_Var7);
+PROC_CancelDisappearOutOfSight(_Var7);
+PROC_CharacterRegisterCrimeWithPosition(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, "GLO_ScryingEye_CombatReinforcement", NULL_00000000-0000-0000-0000-000000000000, _Var9, _Var10, _Var11, S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, _Var6);
+DB_CRIME_CrimeInvestigationPos(_Var6, _Var3, _Var4, _Var5);
+DB_CRIME_InvestigationNoWalkingTalking(_Var6);
+SetForceUpdate(_Var7, 1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_MOO_KethericHound_CalledGuard(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+GetDistanceToPosition(_Var2, _Var3, _Var4, _Var5, _Var6)
+THEN
+SetForceUpdate(_Var2, 0);
+NOT DB_MOO_KethericHound_CalledGuard(_Var1, _Var2, _Var3, _Var4, _Var5);
+DB_CRIME_Guards_Leaving(_Var2, _Var3, _Var4, _Var5);
+SetEntityEvent(_Var2, "ClearPeaceReturn", 1);
+PROC_CRIME_Guards_ReturnHome(_Var2, _Var3, _Var4, _Var5, _Var6);
+
+QRY
+QRY_MOO_KethericHound_GetNearestPlayer()
+AND
+DB_Is_InCombat(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_QRTN_MOO_KethericHound_NearestPlayer(_Var2, _Var3);
+
+IF
+DB_QRTN_MOO_KethericHound_NearestPlayer(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRTN_MOO_KethericHound_NearestPlayer(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 < _Var4
+THEN
+NOT DB_QRTN_MOO_KethericHound_NearestPlayer(_Var3, _Var4);
+
+QRY
+QRY_MOO_KethericHound_GetNearestGuard()
+AND
+DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", "Main Prison", _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_MOO_UpperFloorInterior_SUB_93c522d3-04c4-4f71-a1dc-043478c51301, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_GuardAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_QRTN_MOO_KethericHound_NearestGuard(_Var1, _Var2);
+
+IF
+DB_QRTN_MOO_KethericHound_NearestGuard(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRTN_MOO_KethericHound_NearestGuard(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 < _Var4
+THEN
+NOT DB_QRTN_MOO_KethericHound_NearestGuard(_Var3, _Var4);
+
+IF
+FlagSet(MOO_KethericHound_State_SmelledBlessing_8b18d9a1-fbad-5106-c428-38caae51c18c, _, _, _, _)
+AND
+DB_MOO_AssaultPositions(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, _Var3, _Var4, _, _)
+THEN
+NOT DB_MOO_AssaultPositions(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, _Var3, _Var4);
+DB_MOO_AssaultPositions(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, S_MOO_AssaultIsobelRoomPoint_001_71f34f15-c2d6-47e5-b664-febc2851826f, "MOO_Assault_KethericHound");
+DB_MOO_Assault_GenericDialog(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, MOO_Assault_CrestfallenHound_SwA_7eb4149b-371f-b90d-1a53-f1843d77690f);
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast", _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_MOO_KethericHound_4755ac62-a42c-491c-b11c-7791f2a35297, 0);
+PROC_SpotPlayers_StopSpotting(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, "MOO_UpperFloor_HoundSpot");
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+THEN
+NOT DB_Combat_CallingForHelp(S_MOO_KethericHound_9c7a8f97-bae8-4509-ad10-a67c17202a31, "MOO_KethericHoundHelp", "Shout_CallForHelp");
+
+PROC
+PROC_HiddenPerceptionCheckSucceeded(_, (CHARACTER)_Var2, S_MOO_MelodiaLetterPlank_6276edbc-cc09-4569-9050-f70f77ab2ac8, (CHARACTER)_, (CHARACTER)_)
+THEN
+SetFlag(MOO_KethericsChambers_State_FoundPlank_2466fd50-41a4-4274-8be4-81347e2a2af5);
+
+IF
+DualEntityEvent((CHARACTER)_Var1, S_MOO_MelodiaLetterPlank_6276edbc-cc09-4569-9050-f70f77ab2ac8, "MOO_KethericsChambers_Plank", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_KethericsChambers_State_FoundPlank_2466fd50-41a4-4274-8be4-81347e2a2af5, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_KethericsChambers_State_FoundPlank_2466fd50-41a4-4274-8be4-81347e2a2af5);
+PROC_TryStartAD(GLO_PerceptionSuccess_48825dbe-a320-7c4c-fe3e-372b717d5bc9, _Var1);
+SetEntityEvent(S_MOO_MelodiaLetterPlank_6276edbc-cc09-4569-9050-f70f77ab2ac8, "StoryReveal");
+
+IF
+AttackedBy(S_MOO_MelodiaLetterPlank_6276edbc-cc09-4569-9050-f70f77ab2ac8, (CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_KethericsChambers_State_FoundPlank_2466fd50-41a4-4274-8be4-81347e2a2af5, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, S_MOO_MelodiaLetterPlank_6276edbc-cc09-4569-9050-f70f77ab2ac8, "MOO_KethericsChambers_Plank", 1);
+
+PROC
+PROC_BookFlags_FlagSet(S_MOO_MelodiaLetter_80590a99-b86d-4129-b763-c40f89e55e92, MOO_KethericsChambers_Knows_KethericsWife_265c4b21-25cb-4ea2-b9fe-0f37d035b886, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+StartVoiceBark(MOO_KethericsChambers_VB_ReadWifesNote_fdd516d8-9089-fa89-15ff-a316c31e6a9a, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

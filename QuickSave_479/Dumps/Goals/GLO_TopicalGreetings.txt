@@ -1,0 +1,179 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_TopicalGreeting(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TopicalGreetingStartCondition_FlagSet(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TopicalGreetingStartCondition_FlagSetForAvatarOrigin(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TopicalGreetingStartCondition_FlagSetForCompanionOrigin(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TopicalGreetingEndCondition_LongRest(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TopicalGreetingEndCondition_LeaveCamp(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TopicalGreetingEndCondition_LeaveTrigger(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TopicalGreetingEndCondition_LeaveTriggerSet(NULL_00000000-0000-0000-0000-000000000000, "");
+NOT DB_TopicalGreetingEndCondition_FlagSet(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_TopicalGreetingEndCondition_CharacterLeftParty(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TopicalGreeting_IsValidNewTopic(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+PROC_TopicalGreeting_SetNewTopic(_Var1);
+DB_TopicalGreeting_Current(_Var1);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TopicalGreeting(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, _Var2, 0);
+
+PROC
+PROC_TopicalGreeting_UnlockTopic((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+QRY_TopicalGreeting_IsValidNewTopic(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+PROC_TopicalGreeting_SetNewTopic(_Var1);
+DB_TopicalGreeting_Current(_Var1);
+
+QRY
+QRY_TopicalGreeting_IsValidNewTopic((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TopicalGreeting(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TopicalGreeting_Current(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_TopicalGreeting_Old(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_TopicalGreeting_ClearOldTopic()
+AND
+DB_TopicalGreeting_Current(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginPartOfTheTeamFlag(_Var2, _, _, _, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, _Var2, 0);
+
+PROC
+PROC_TopicalGreeting_ClearOldTopic()
+AND
+DB_TopicalGreeting_Current(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_TopicalGreeting_Current(_Var1);
+DB_TopicalGreeting_Old(_Var1);
+
+PROC
+PROC_TopicalGreeting_SetNewTopic((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_OriginPartOfTheTeamFlag(_Var2, _, _, _, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var1, _Var2, 0);
+
+PROC
+PROC_LongRest()
+AND
+DB_TopicalGreeting_Current(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TopicalGreetingEndCondition_LongRest(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+
+PROC
+PROC_CAMP_LastPlayerLeftCamp()
+AND
+DB_TopicalGreeting_Current(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TopicalGreetingEndCondition_LeaveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TopicalGreetingEndCondition_LeaveTrigger(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_TopicalGreeting_Current(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CheckOtherPlayersInTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+
+IF
+DB_TopicalGreetingEndCondition_LeaveTriggerSet(_, _Var2, _, _, _)
+THEN
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet(_Var2, "TopicalGreeting_LeftTriggerSet");
+
+IF
+EntityEvent(_, "TopicalGreeting_LeftTriggerSet", _, _, _)
+AND
+DB_TriggerEvents_AllPlayersLeftAllTriggersInSet(_Var2, "TopicalGreeting_LeftTriggerSet", _, _, _)
+AND
+DB_TopicalGreetingEndCondition_LeaveTriggerSet(_Var3, _Var2, _, _, _)
+AND
+DB_TopicalGreeting_Current(_Var3, _, _, _, _)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+NOT DB_TriggerEvents_AllPlayersLeftAllTriggersInSet(_Var2, "TopicalGreeting_LeftTriggerSet");
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TopicalGreetingEndCondition_FlagSet(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TopicalGreeting_Current(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+
+IF
+CharacterLeftParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TopicalGreeting_Current(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TopicalGreetingEndCondition_CharacterLeftParty(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_ClearOldTopic();
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TopicalGreetingStartCondition_FlagSet(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_UnlockTopic(_Var4);
+
+IF
+FlagSet((FLAG)_Var1, _, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_TopicalGreetingStartCondition_FlagSetForAvatarOrigin(_Var4, _Var1, _Var5, _Var1, _Var1)
+AND
+DB_Avatars(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_UnlockTopic(_Var4);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_TopicalGreetingStartCondition_FlagSetForCompanionOrigin(_Var4, _Var1, _Var5, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TopicalGreeting_UnlockTopic(_Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,149 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DialogEnded(WYR_Posthouse_Tara_OM_Gale_AOM_COM_OOM_999ecebb-967d-172b-0411-3d455cdf27e6, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetFlag(COM_7075ec1a-70ad-bd25-3111-0a955cf07585, CAMP_Gale_Tressym_00706ce9-cbf7-95ee-912d-b42909b483a7, 0, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(WYR_Posthouse_State_TressymHasGivenReward_939d0367-8bc7-487f-b8ef-15c5c9fd0faf, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DefineSingleOriginMoment(WYR_Posthouse_GalesTressym_6bbdb0cc-9a74-63c4-ec0b-21d26e65714e, REALLY_GALE_9b0354c0-56d9-4723-8034-918ac9abab19, WYR_Posthouse_Tara_OM_Gale_AOM_COM_OOM_999ecebb-967d-172b-0411-3d455cdf27e6);
+
+IF
+DialogEnded(WYR_Posthouse_Tara_OM_Gale_AOM_COM_OOM_999ecebb-967d-172b-0411-3d455cdf27e6, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_OnlyOnce("WYR_Posthouse_GalesTressym_OM_Gale_AOM_COM_OOM");
+
+PROC
+PROC_LOW_TressymTrade_NextPhase()
+AND
+QRY_OnlyOnce("WYR_Posthouse_GalesTressym_OM_Gale_AOM_COM_OOM", _, _, _, _)
+THEN
+PROC_DefineSingleOriginMoment(WYR_Posthouse_GalesTressym_6bbdb0cc-9a74-63c4-ec0b-21d26e65714e, REALLY_GALE_9b0354c0-56d9-4723-8034-918ac9abab19, WYR_Posthouse_Tara_OM_Gale_AOM_COM_OOM_999ecebb-967d-172b-0411-3d455cdf27e6);
+
+IF
+FlagSet(ORI_Gale_State_TaraKiller_08844f2a-aab5-4d93-b810-e952d24d76b7, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+ChangeApprovalRating(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, 1, -20, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ORI_Gale_TaraRecognised()
+AND
+DB_GlobalFlag(WYR_Posthouse_State_Tressym_PlayersSeesGaleSymbol_722a4065-ee43-4ee8-b235-bc4a904d62c3, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(ORI_Gale_Knows_BrainHasCrownOfKarsus_FromRaphael_4451456b-6f9b-7de2-9fae-68fc5a86f9d9, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(ORI_Gale_State_ReactedElderBrain_be06e142-c83f-387b-b6e3-da74517f786c);
+
+PROC
+PROC_Camp_SetModeToDay()
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_GlobalFlag(NIGHT_Gale_BeMyGod_2259ec28-b538-4895-a431-30dc7e2ddf66, _, _, _, _)
+AND
+DB_ORI_Partnered(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(ORI_Gale_State_AcceptedBeMyGodProposal_3d452ca4-14e6-176a-88ad-47d0ef8271d3, _Var1, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_Gale_IPRD_BeMyGod", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_BeMyGod_0c7cb6c2-4097-9bb1-aa0e-6edfaa7abb2e, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1);
+
+PROC
+PROC_Camp_SetModeToDay()
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_GlobalFlag(NIGHT_Gale_BeMyGod_2259ec28-b538-4895-a431-30dc7e2ddf66, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_RejectedBeMyGodProposal_de72eaa6-c6f4-014c-b1a2-213c243c1dba, _, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Gale_IPRD_BeMyGod", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_BeMyGod_0c7cb6c2-4097-9bb1-aa0e-6edfaa7abb2e, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1);
+
+IF
+FlagSet(ORI_Gale_Knows_BrainHasCrownOfKarsus_FromRaphael_4451456b-6f9b-7de2-9fae-68fc5a86f9d9, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_BrainHasCrownOfKarsus_FromRaphael_0de0d760-e60f-8cab-6b0d-66c2ad67c638, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0);
+
+IF
+FlagSet(GLO_Monitor_State_MadeDeal_86f40f63-0bfa-4ab6-b3b0-d01475c3cbdc, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HoH_Warlock_State_ContractDestroyed_528a9080-f162-4a8c-bcc7-120db8fbd63f, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Gale_Knows_ReadKarsusNotes_2b0e541f-f49e-7e82-27d6-15fccd6ff1ff, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_SignedContract_bdc786ed-fa49-abf3-407e-b94bfab30b3c, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0);
+PROC_CancelRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_BrainHasCrownOfKarsus_FromRaphael_0de0d760-e60f-8cab-6b0d-66c2ad67c638);
+
+IF
+FlagSet(HoH_Warlock_State_ContractDestroyed_528a9080-f162-4a8c-bcc7-120db8fbd63f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_SignedContract_bdc786ed-fa49-abf3-407e-b94bfab30b3c);
+
+IF
+FlagSet(WYR_DapperDrow_State_PartnerAgreedGroup_b285bbaa-7b79-48c6-bf26-1b9f2de5cdb7, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_DrowSiblings_f9912803-da31-7f03-cd4c-ecf1d6baf076, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1);
+
+IF
+FlagSet(ORI_Gale_State_Met_ElminsterInWYR_82b0cbde-1d3b-1f67-86a8-d05744462209, _, _, _, _)
+AND
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+THEN
+SetFlag(TG_ORI_GaleMetElminsterInWYR_36accdc7-ac1f-41fa-8f13-e7dac633dbb8, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0);
+
+IF
+FlagSet(ORI_Gale_State_Met_ElminsterInWYR_82b0cbde-1d3b-1f67-86a8-d05744462209, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_Avatars(_Var3, _, _, _, _)
+THEN
+SetFlag(TG_ORI_GaleMetElminsterInWYR_36accdc7-ac1f-41fa-8f13-e7dac633dbb8, _Var3, 0);
+
+PROC
+PROC_StateSet_Defeated(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+AND NOT
+DB_Dead(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+THEN
+SetFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_Poof(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b);
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM();
+
+IF
+Dying(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, _, _, _, _)
+THEN
+RealtimeObjectTimerLaunch(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "GLO_Elminster_DeathTimer", 1470);
+
+IF
+ObjectTimerFinished(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, "GLO_Elminster_DeathTimer", _, _, _)
+THEN
+SetFlag(ORI_Gale_State_ElminsterWasDefeated_23d0595f-e384-4071-ba9b-3e6899c4fd4b, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 0);
+PROC_ORI_Gale_Elminster_SetupBackupMorningCFM();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

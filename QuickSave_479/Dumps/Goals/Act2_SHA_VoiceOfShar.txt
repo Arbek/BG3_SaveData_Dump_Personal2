@@ -1,0 +1,97 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SHA_VoiceOfShar_TrialCommentators(S_SHA_VoiceOfShar_TrialCommentator_000_166729d6-dcdf-4d19-91cb-6eda17adea9b, S_SHA_VoiceOfShar_CommentatorTrigger_000_4cae87b3-307b-4f87-b7f6-adc801578371);
+DB_SHA_VoiceOfShar_TrialCommentators(S_SHA_VoiceOfShar_TrialCommentator_001_677efb4d-c25e-4630-a760-624e37e7280c, S_SHA_VoiceOfShar_CommentatorTrigger_001_d5009755-8240-4819-8524-c9ddf8633bce);
+DB_SHA_VoiceOfShar_TrialCommentators(S_SHA_ObjectOfDarknessTrial_3892d0a6-24f4-402e-8b51-03ba8cfb4429, S_SHA_VoiceOfShar_CommentatorTrigger_002_059cf9e7-a91f-49b1-9fc0-172e634fbbff);
+DB_SHA_VoiceOfShar_TrialCommentators(S_SHA_MentalTortureTrial_98811843-1086-4931-a3bd-3fef817347fe, S_SHA_VoiceOfShar_CommentatorTrigger_003_5ca7d5d4-8545-4d38-9bd8-f583668a340f);
+DB_SHA_VoiceOfShar_TrialCommentators(S_SHA_PathOfDarknessTrial_ff2af557-dbc2-4e27-9c02-f13b25dbe86e, S_SHA_VoiceOfShar_CommentatorTrigger_004_7ffbb6af-9016-4ba5-842a-8b5fde0e2488);
+DB_SHA_VoiceOfShar_DialogList(SHA_VoiceOfShar_AD_ProgressionCommentary_267670e8-2eba-f75b-7f9a-22143a4e74f5);
+DB_SHA_VoiceOfShar_DialogList(SHA_VoiceOfShar_AD_TrialIntro_b151a489-8520-db59-8d6c-b3c782e8a11c);
+DB_SHA_VoiceOfShar_DialogList(SHA_VoiceOfShar_AD_Baptism_6fac169a-ef5a-1586-5f9d-1e729abb91ba);
+DB_SHA_VoiceOfShar_DialogList(SHA_VoiceOfShar_AD_Welcome_567d6c0e-44a8-7af9-6a99-650d06ffa3e0);
+DB_SHA_VoiceOfShar_DialogList(SHA_TrapJunction_AD_AlarmStatues_74b4194c-6ca1-6668-a946-1caf39cfc34b);
+DB_SHA_VoiceOfShar_EventFlags(SHA_Trials_State_PassedAnyTrial_0ae81489-c9c9-9841-5176-5328e845b304);
+DB_SHA_VoiceOfShar_EventFlags(SHA_Trials_State_TooManyFailures_3ff4ad0b-c8cd-652b-4781-fa671eb39330);
+DB_SHA_VoiceOfShar_EventFlags(SHA_Trials_State_AllTrialsPassed_1e2b44c1-b11d-4aca-8cc5-627bf7a32c65);
+PROC_TriggerRegisterForPlayers(S_SHA_VoiceOfShar_TrialGreeterTrigger_2c25a000-293b-471c-93cc-168e7b247800);
+PROC_TriggerRegisterForPlayers(S_SHA_VoiceOfShar_WelcomeTrigger_bf302b1f-19c1-4d27-bd8f-2268cde2012e);
+
+KBSECTION
+IF
+DB_SHA_VoiceOfShar_TrialCommentators(_, _Var2, _, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(_Var2);
+
+IF
+DB_GlobalFlag(SHA_Trials_State_PassedAnyTrial_0ae81489-c9c9-9841-5176-5328e845b304, _, _, _, _)
+THEN
+DB_SHA_VoiceOfShar_TrialCommentators(S_SHA_VoiceOfShar_TrialGreeter_9e31f828-ea66-4598-8f6e-bdaafd068774, S_SHA_VoiceOfShar_TrialGreeterTrigger_2c25a000-293b-471c-93cc-168e7b247800);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_VoiceOfShar_TrialCommentators(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SHA_VoiceOfShar_EventFlags(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SHA_VoiceOfShar_ReactedToEvents(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(SHA_VoiceOfShar_AD_ProgressionCommentary_267670e8-2eba-f75b-7f9a-22143a4e74f5, _Var3);
+DB_SHA_VoiceOfShar_ReactedToEvents(_Var4);
+
+IF
+DB_InRegion(_Var1, S_SHA_VoiceOfShar_TrialGreeterTrigger_2c25a000-293b-471c-93cc-168e7b247800, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SHA_Trials_State_PassedAnyTrial_0ae81489-c9c9-9841-5176-5328e845b304, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SHA_VoiceOfShar_GreetedAtTrials", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(SHA_VoiceOfShar_AD_TrialIntro_b151a489-8520-db59-8d6c-b3c782e8a11c, S_SHA_VoiceOfShar_TrialGreeter_9e31f828-ea66-4598-8f6e-bdaafd068774);
+
+IF
+DB_InRegion(_Var1, S_SHA_NightsongPrison_SafeBubble_8e7d954d-9291-433d-87d2-8401a856020d, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SHA_VoiceOfShar_BaptismOffered", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(SHA_VoiceOfShar_AD_Baptism_6fac169a-ef5a-1586-5f9d-1e729abb91ba, S_SHA_VoiceOfShar_BaptismVoice_3e660e73-e46b-449b-a3d1-cb4081ac0555);
+
+IF
+UseFinished(_, S_SHA_Crypt_TrapDefuser_03ba50b7-b34d-4416-9e90-72d6d8bb08c4, _, _, _)
+AND
+QRY_OnlyOnce("SHA_VoiceOfShar_Welcomed", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_SHA_VoiceOfShar_WelcomeTrigger_bf302b1f-19c1-4d27-bd8f-2268cde2012e);
+PROC_TryStartAD(SHA_VoiceOfShar_AD_Welcome_567d6c0e-44a8-7af9-6a99-650d06ffa3e0, S_SHA_VoiceOfShar_EntranceVoice_a386e1ac-3650-4460-8c29-c910218e4ac4);
+
+IF
+AutomatedDialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_VoiceOfShar_DialogList(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, _Var3, _, _Var1, _Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var3, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var5, _Var3, _Var6, _Var1, _Var1)
+AND
+_Var6 < 15
+AND
+QRY_OnlyOnce("SHA_VoiceOfShar_NotedVoice", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(SHA_VoiceOfShar_VB_VoiceReaction_ae2218a1-d1d0-b1d8-c468-eee3752cc1bf, _Var5);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

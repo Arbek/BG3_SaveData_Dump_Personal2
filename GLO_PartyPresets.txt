@@ -1,0 +1,386 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+QRY
+QRY_IsDebugProfileAvatar((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugProfileChar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1, _Var1, _Var1)
+THEN
+DB_Noop(1);
+
+QRY
+QRY_GameOver_BlockGameOver()
+AND
+DB_GLO_DebugPartySettingUp(1, _, _, _, _)
+AND NOT
+DB_Players(_, _, _, _, _)
+THEN
+DB_Noop(1);
+
+PROC
+PROC_TryClearAvatarTag((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DebugAVATARFound(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+
+IF
+CharacterLoadedInPreset((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_PartyPresets_Block(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DoNotFace(_Var1);
+SetOnStage(_Var1, 1);
+DB_DebugProfileChar(_Var1);
+PROC_SelectDebugAVATAR(_Var1);
+
+IF
+PartyPresetLoaded((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_PartyPresets_Block(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetupDebugParty();
+PROC_DoDebugSetup(_Var1);
+PROC_CheckPartyFull();
+SysClear("DB_DebugProfileChar", 1);
+
+IF
+PartyPresetLoaded(_, _, _, _, _)
+AND NOT
+DB_GLO_PartyPresets_Block(1, _, _, _, _)
+AND
+DB_DebugAVATARFound(_Var3, _, _, _, _)
+THEN
+NOT DB_DebugAVATARFound(_Var3);
+
+IF
+PartyPresetLoaded(_, _, _, _, _)
+AND
+DB_StoryReloaded(1, _, _, _, _)
+AND
+DB_CurrentLevel(_Var3, _, _, _, _)
+THEN
+NOT DB_StoryReloaded(1);
+DB_CharacterCreationStarted(0);
+PROC_GLO_Origins_SetupRecruitment(_Var3);
+
+IF
+DB_DebugAVATARFound(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MarkUndeadOrigin(_Var1);
+
+PROC
+PROC_SetupDebugParty()
+THEN
+PROC_VerifyDebugAvatar();
+
+PROC
+PROC_SetupDebugParty()
+THEN
+DB_GLO_DebugPartySettingUp(1);
+
+PROC
+PROC_SetupDebugParty()
+AND
+DB_StoryReloaded(1, _, _, _, _)
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsDebugProfileAvatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_PartyMembers_Initialize(_Var1);
+
+PROC
+PROC_SetupDebugParty()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_IsDebugProfileAvatar(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Players(_Var1);
+PROC_TryClearAvatarTag(_Var1);
+DB_GLO_PartyMembers_BlockReturnToRecruitmentPosition(_Var1);
+PROC_GLO_PartyMembers_Remove(_Var1, NULL_00000000-0000-0000-0000-000000000000, 1, 0);
+NOT DB_GLO_PartyMembers_BlockReturnToRecruitmentPosition(_Var1);
+
+PROC
+PROC_SetupDebugParty()
+AND
+DB_DebugProfileChar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_CompanionHasBeenRecruited_57c070c4-9dfb-4d61-9e7b-4111bc1df030, _Var1);
+PROC_AddDebugCharToParty(_Var1);
+
+PROC
+PROC_SetupDebugParty()
+THEN
+PROC_SetupDebugParty_ApprovalRating();
+
+PROC
+PROC_SetupDebugParty()
+THEN
+NOT DB_GLO_DebugPartySettingUp(1);
+
+PROC
+PROC_SelectDebugAVATAR((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DebugAVATARFound(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1, _Var1, _Var1)
+THEN
+DB_DebugAVATARFound(_Var1);
+
+PROC
+PROC_VerifyDebugAvatar()
+AND NOT
+DB_DebugAVATARFound(_, _, _, _, _)
+AND
+GetHostCharacter(_Var2, _, _, _, _)
+THEN
+SetTag(_Var2, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+DB_DebugAVATARFound(_Var2);
+
+PROC
+PROC_VerifyDebugAvatar()
+AND
+DB_DebugProfileChar(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_PartyMembers_DefaultFaction(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 0, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_PartyMembers_DefaultFaction(_Var1, _Var3);
+
+PROC
+PROC_AddDebugCharToParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugAVATARFound(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 0, _Var1, _Var1)
+THEN
+PROC_GLO_PartyMembers_Add(_Var1, _Var2);
+SetFlag(GLO_HasSelectedPreset_2acc4437-4ba5-4205-b045-3596d66c050b, _Var1);
+
+PROC
+PROC_AddDebugCharToParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugAVATARFound(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1, _Var1, _Var1)
+THEN
+BlockNewCrimeReactions(_Var1, 1);
+PROC_AssignCharacterToPlayer(_Var1, _Var2);
+DB_Players(_Var1);
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+SetHasDialog(_Var1, 0);
+AttachToPartyGroup(_Var1, _Var2);
+PROC_CheckPartyFull();
+
+PROC
+PROC_AddDebugCharToParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DebugAVATARFound(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+MakePlayer(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+MakePlayerActive(_Var1);
+SetTag(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+DB_DebugAVATARFound(_Var1);
+PROC_AddDebugCharToParty(_Var1);
+
+PROC
+PROC_AddDebugCharToParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1, _Var1, _Var1)
+THEN
+DB_Avatars(_Var1);
+
+PROC
+PROC_SetupDebugParty_ApprovalRating()
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetApprovalRating(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+PROC_SetupDebugParty_ReplaceApprovalRating(_Var2, _Var1, _Var3);
+
+PROC
+PROC_SetupDebugParty_ReplaceApprovalRating((CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_ApprovalRating(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_ApprovalRating(_Var1, _Var2, _Var3);
+
+PROC
+PROC_SetupDebugParty_ReplaceApprovalRating((CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ApprovalRating(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 != _Var3
+THEN
+DB_ApprovalRating(_Var1, _Var2, _Var3);
+NOT DB_ApprovalRating(_Var1, _Var2, _Var4);
+
+PROC
+PROC_Debug_GiveDebugBook()
+THEN
+DB_Noop(1);
+
+PROC
+PROC_DoDebugSetup((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_InDebugSetup(1);
+PROC_DebugResetPreviousRegion();
+PROC_DebugSetCurrentRegion(_Var1);
+PROC_DebugGiveTags(_Var1);
+PROC_DebugGiveGlobalFlags(_Var1);
+PROC_DebugGivePlayerCharacterFlags(_Var1);
+PROC_DebugGiveObjectFlags(_Var1);
+PROC_Debug_GiveDebugBook();
+FireOsirisEvents();
+NOT DB_InDebugSetup(1);
+
+PROC
+PROC_DebugResetPreviousRegion()
+AND
+DB_DebugPreviousRegion(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DebugRemoveObjectFlags(_Var1);
+PROC_DebugRemovePlayerCharacterFlags(_Var1);
+PROC_DebugRemoveGlobalFlags(_Var1);
+PROC_DebugRemoveTags(_Var1);
+
+PROC
+PROC_DebugSetCurrentRegion(_, _, _, _, _)
+AND
+DB_DebugPreviousRegion(_Var2, _, _, _, _)
+THEN
+NOT DB_DebugPreviousRegion(_Var2);
+
+PROC
+PROC_DebugSetCurrentRegion((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_DebugPreviousRegion(_Var1);
+
+PROC
+PROC_DebugGiveTag((CHARACTER)_Var1, (TAG)_Var2, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1, _Var1, _Var1)
+THEN
+SetTag(_Var1, _Var2);
+
+PROC
+PROC_DebugGiveTag((CHARACTER)_Var1, (TAG)_Var2, 0, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetTag(_Var1, _Var2);
+
+PROC
+PROC_DebugGiveTags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugTags(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DebugGiveTag(_Var4, _Var2, _Var3);
+
+PROC
+PROC_DebugGiveGlobalFlags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugGlobalFlags(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DebugGivePlayerCharacterFlags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugPlayerCharacterFlags(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2, _Var3, 0);
+
+PROC
+PROC_DebugGiveObjectFlags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugObjectFlags(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+SetFlag(_Var3, _Var2, 0);
+
+PROC
+PROC_DebugRemoveTags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugTags(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearTag(_Var4, _Var2);
+
+PROC
+PROC_DebugRemoveGlobalFlags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugGlobalFlags(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DebugRemovePlayerCharacterFlags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugPlayerCharacterFlags(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var2, _Var3, 0);
+
+PROC
+PROC_DebugRemoveObjectFlags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugObjectFlags(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+ClearFlag(_Var3, _Var2, 0);
+
+IF
+PartyPresetLoaded((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_PredefinePartyPreset_Loaded(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PredefinePartyPreset_Loaded(_Var1);
+
+IF
+DB_PredefinePartyPreset_Loaded(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsGameLevel(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_PartyPreset_SetupOrigins();
+
+PROC
+PROC_PartyPreset_SetupOrigins()
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_PartyMembers_Initialize(_Var1);
+
+PROC
+PROC_PartyPreset_SetupOrigins()
+THEN
+PROC_CheckPartyFull();
+
+
+EXITSECTION
+ENDEXITSECTION
+

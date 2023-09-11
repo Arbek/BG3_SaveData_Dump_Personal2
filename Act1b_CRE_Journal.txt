@@ -1,0 +1,72 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_CRE_BloodOfLathander_SecretPassageArea_87abb58c-ed26-4d4b-8f06-9160a142c4c2);
+PROC_TriggerRegisterForPlayers(S_CRE_BloodOfLathander_EnterTrapsArea_51b9e371-0b49-4eec-90ae-f539b5cbce38);
+PROC_TriggerRegisterForPlayers(S_CRE_BloodOfLathander_ExitTrapsArea_6754c8a5-88ff-4503-b8a7-d51f40f7e43e);
+DB_InRegionFlag(S_CRE_BloodOfLathander_SecretPassageArea_87abb58c-ed26-4d4b-8f06-9160a142c4c2, CRE_BloodOfLathander_Event_DiscoveredSecretPassage_4843682f-8d9f-428d-8049-d0d0a91a6216);
+DB_InRegionFlag(S_CRE_BloodOfLathander_EnterTrapsArea_51b9e371-0b49-4eec-90ae-f539b5cbce38, CRE_BloodOfLathander_Event_DiscoveredTrapsArea_4fbe4e86-249b-440a-a422-cf82eef0865b);
+DB_InRegionFlag(S_CRE_BloodOfLathander_ExitTrapsArea_6754c8a5-88ff-4503-b8a7-d51f40f7e43e, CRE_BloodOfLathander_Event_ExitTrapsArea_1803b51d-2cb9-4000-813b-be2f51d4211a);
+DB_HasItemEvent(S_CRE_DawnmasterCrest_b0b3322f-c707-4f96-a3c9-ab4265a7452a, CRE_BloodOfLathander_Event_DiscoveredCrest_ee0a2118-032a-43e7-bd5d-e4b98552a081);
+DB_QuestDef_State(CRE_BloodOfLathander_Event_DiscoveredSecretPassage_4843682f-8d9f-428d-8049-d0d0a91a6216, "CRE_BloodOfLathander", "DiscoveredSecretPassage");
+DB_QuestDef_State(CRE_BloodOfLathander_Event_DiscoveredTrapsArea_4fbe4e86-249b-440a-a422-cf82eef0865b, "CRE_BloodOfLathander", "ArrivedAtTraps");
+DB_QuestDef_State(CRE_BloodOfLathander_Event_ExitTrapsArea_1803b51d-2cb9-4000-813b-be2f51d4211a, "CRE_BloodOfLathander", "GotThroughTraps");
+DB_QuestDef_State(CRE_BloodOfLathander_Event_DiscoveredCrest_ee0a2118-032a-43e7-bd5d-e4b98552a081, "CRE_BloodOfLathander", "DiscoveredGithCrest");
+DB_QuestDef_State(CRE_BloodOfLathander_Event_TakenBlood_baf03563-0160-4e9d-833b-92b42c1a7cb8, "CRE_BloodOfLathander", "RetrievedLathander");
+DB_QuestDef_State(CRE_Lance_State_DisarmedByDestroy_2cf709bf-3276-4710-97ec-346dd28f45a9, "CRE_BloodOfLathander", "DisarmedLathanderTrap");
+
+KBSECTION
+IF
+AutomatedDialogEnded(CRE_Monastery_AD_FakeBloodSign_e2c320de-c43f-8ed2-7693-0d41f2e8f894, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate("CRE_BloodOfLathander", "ReadLathanderPlaque");
+
+IF
+DialogEnded(CRE_Pilgrim_Dead_44139537-8686-5be5-c68b-468f58cdbc0b, _, _, _, _)
+AND
+DB_GlobalFlag(CRE_BloodOfLathander_Event_PilgrimMentionedWeapon_0bebe65f-57a7-40b9-a440-e0327fe63df8, _, _, _, _)
+THEN
+QuestUpdate("CRE_BloodOfLathander", "CorpseMentionedLathander");
+
+IF
+UseFinished((CHARACTER)_Var1, S_CRE_WeaponsPuzzle_Note_4c5bbc63-61f4-43f1-b2a1-de29071fd87c, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("CRE_BloodOfLathander", "DiscoveredLathanderNote");
+
+IF
+VoiceBarkEnded(CRE_BloodOfLathander_VB_FakeBloodPickedUp_b6f1295a-3231-dcea-e3af-b51050a02471, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate("CRE_BloodOfLathander", "DiscoveredFakeLathander");
+
+IF
+VoiceBarkFailed(CRE_BloodOfLathander_VB_FakeBloodPickedUp_b6f1295a-3231-dcea-e3af-b51050a02471, _, _, _, _)
+THEN
+QuestUpdate("CRE_BloodOfLathander", "DiscoveredFakeLathander");
+
+IF
+Combined(S_CRE_LanceRooftopControlPanel_6f85585b-0c85-4247-b13f-2ce8de6ce7cc, S_CRE_DawnmasterCrest_b0b3322f-c707-4f96-a3c9-ab4265a7452a, _, _, _, (CHARACTER)_Var4, _, _, _, _)
+AND
+DB_Players(_Var4, _, _, _, _)
+THEN
+QuestUpdate("CRE_BloodOfLathander", "AvoidedLathanderTrap");
+
+IF
+DialogEnded(CRE_Lance_Escape_3ed9f536-77d6-ec62-785a-b8ee10ec814d, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate("CRE_BloodOfLathander", "EscapedLathanderTrap");
+
+IF
+FlagSet(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+AND
+DB_QuestIsOpened("CRE_BloodOfLathander", _, _, _, _)
+THEN
+QuestUpdate("CRE_BloodOfLathander", "LeftCrecheWithoutLathander");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1b"

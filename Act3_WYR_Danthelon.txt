@@ -1,0 +1,167 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_SetupForAct_Character("BGO_Main_A", S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+DB_Dialogs(S_WYR_Danthelon_3570c049-effb-4839-aaae-c628b5d01456, WYR_Axe_Danthelon_2944db0f-3292-aee9-cc2f-ddc3e43c66ca);
+DB_Dialogs(S_WYR_Axe_Guard_01_607cce5c-c108-490b-bca9-281852e6f4cc, WYR_Axe_Guard_01_252e6ace-3c57-4acc-fdce-83633d2d951f);
+DB_Dialogs(S_WYR_Axe_Guard_02_1795ac19-6fe7-4382-a05c-aa854fab3832, WYR_Axe_Guard_02_c87d157e-a061-67ac-1590-615dc294147c);
+DB_HasItemEvent(S_WYR_DoorToDoppelgangersKey_f678f361-79d5-4f12-8f49-4917b55786a1, WYR_Axe_HasKey_fad39b1f-fcac-4453-bafe-916f7e831cc7);
+DB_GiveItemToEvent(S_WYR_DoorToDoppelgangersKey_f678f361-79d5-4f12-8f49-4917b55786a1, WYR_Axe_GiveKey_f8549fbf-cf67-4670-9a8e-e20961380e93);
+TriggerRegisterForCharacter(S_WYR_DanthelonShop_MainFloor_Zone_a61c9e4f-b541-4f87-81af-ca7558cc50e1, S_WYR_Danthelon_3570c049-effb-4839-aaae-c628b5d01456);
+DB_SpotPlayers(S_WYR_Axe_Guard_02_1795ac19-6fe7-4382-a05c-aa854fab3832, "WYR_Axe_Guard", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_WYR_Axe_Guard_02_1795ac19-6fe7-4382-a05c-aa854fab3832, "WYR_Axe_Guard", S_WYR_Axe_GuardSpotZone_f753152d-064d-47c4-806b-57e3c52b0220);
+DB_GlobalFlagReactionAfterDialog(WYR_Axe_Event_TalkedToDanthelon_35490580-d4e8-44e1-a726-45ed781cb5a8, WYR_Axe_Danthelon_2944db0f-3292-aee9-cc2f-ddc3e43c66ca);
+DB_ItemOwnerShipTriggers("BGO_Main_A", S_WYR_DanthelonShop_OwnershipTrigger_316bd462-c105-4847-bf15-c8619c0bc5b9, S_WYR_Danthelon_3570c049-effb-4839-aaae-c628b5d01456);
+DB_WYR_Axe_Buttons(S_WYR_Axe_Backdoor_Door_02_4f22b49d-b77f-47bf-b7ac-1025ac387a0a, S_WYR_Axe_OpenDoorButton_02_f3d37c6f-b925-4bf6-9a97-179322499992);
+DB_WYR_Axe_Buttons(S_WYR_Axe_Backdoor_Door_01_e41570db-5b81-4536-a8ef-84cac5263802, S_WYR_Axe_OpenDoorButton_01_d52a3860-6236-4b3a-a425-488ad30d617b);
+
+KBSECTION
+IF
+FlagSet(Debug_WYR_Axe_SetupWithoutJaheira_962990a7-d06a-4379-906a-9018b073776a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SceneManager_RemoveFromScene(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "WYR_Axe_Ambush");
+TeleportTo(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_Debug_Teleport_WYR_Start_267cc194-a67a-4705-9459-3187e51487db);
+
+IF
+Teleported(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _, _, _, _, _, _)
+AND
+DB_GlobalFlag(Debug_WYR_Axe_SetupWithoutJaheira_962990a7-d06a-4379-906a-9018b073776a, _, _, _, _)
+THEN
+NOT DB_PreventPermaDefeated(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+SetTag(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6);
+
+IF
+TagSet(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6, _, _, _)
+AND
+DB_GlobalFlag(Debug_WYR_Axe_SetupWithoutJaheira_962990a7-d06a-4379-906a-9018b073776a, _, _, _, _)
+THEN
+Die(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+
+IF
+DB_Defeated(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND
+DB_GlobalFlag(Debug_WYR_Axe_SetupWithoutJaheira_962990a7-d06a-4379-906a-9018b073776a, _, _, _, _)
+THEN
+ClearFlag(Debug_WYR_Axe_SetupWithoutJaheira_962990a7-d06a-4379-906a-9018b073776a);
+PROC_GLO_SetupForAct_DebugRerun();
+
+IF
+FlagSet(ORI_State_Recruited_e78c0aab-fb48-98e9-3ed9-773a0c39988d, S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_WYR_Axe_DebugRerunJaheiraCompanon(1);
+
+IF
+EntityEvent(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "Debug_CharacterAdd_Teleported", _, _, _)
+THEN
+DB_WYR_Axe_DebugRerunJaheiraCompanon(2);
+
+IF
+DB_WYR_Axe_DebugRerunJaheiraCompanon(1, _, _, _, _)
+AND
+DB_WYR_Axe_DebugRerunJaheiraCompanon(2, _, _, _, _)
+THEN
+NOT DB_WYR_Axe_DebugRerunJaheiraCompanon(1);
+NOT DB_WYR_Axe_DebugRerunJaheiraCompanon(2);
+PROC_GLO_SetupForAct_DebugRerun();
+
+PROC
+PROC_SpotPlayers_Spotted((GUIDSTRING)_Var1, "WYR_Axe_Guard", (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_TryStartAD(WYR_Axe_AD_GuardWelcome_096218c2-b541-35d9-1477-12f1b50afc63, _Var1);
+
+PROC
+PROC_GLO_SetupForAct("BGO_Main_A", S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 0, _, _)
+THEN
+SysCompleteGoal("Act3_WYR_Danthelon_Jah");
+SysActivateGoal("Act3_WYR_Danthelon_NoJah");
+
+PROC
+PROC_GLO_SetupForAct("BGO_Main_A", S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 1, _, _)
+THEN
+SysCompleteGoal("Act3_WYR_Danthelon_NoJah");
+SysActivateGoal("Act3_WYR_Danthelon_Jah");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(WYR_Axe_Event_TalkedToDanthelon_35490580-d4e8-44e1-a726-45ed781cb5a8, WYR_Axe_Danthelon_2944db0f-3292-aee9-cc2f-ddc3e43c66ca, _, _, _)
+AND NOT
+DB_Defeated(S_WYR_Axe_Guard_02_1795ac19-6fe7-4382-a05c-aa854fab3832, _, _, _, _)
+THEN
+PROC_TryStartAD(WYR_Axe_AD_HoldTheDoor_c2e8d03a-63c0-c1d2-11ae-807c0a9df5fc, S_WYR_Danthelon_3570c049-effb-4839-aaae-c628b5d01456);
+SetFlag(WYR_Axe_GuardAtDoor_516190a2-f223-4777-9019-24438e0c5688, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("WYR_Axe_Assassins", _, _, _, _)
+THEN
+ClearFlag(WYR_Axe_GuardAtDoor_516190a2-f223-4777-9019-24438e0c5688, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DialogFlagSetup(WYR_Axe_Danthelon_2944db0f-3292-aee9-cc2f-ddc3e43c66ca, (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(WYR_Axe_PlayerInDialog_eab7d2d2-8a14-41ff-a0bc-a970d4279692, _Var2, 0);
+
+IF
+DialogActorLeft(WYR_Axe_Danthelon_2944db0f-3292-aee9-cc2f-ddc3e43c66ca, _, (GUIDSTRING)_Var2, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+ClearFlag(WYR_Axe_PlayerInDialog_eab7d2d2-8a14-41ff-a0bc-a970d4279692, _Var2, 0);
+
+IF
+UseStarted(_, (ITEM)_Var2, _, _, _)
+AND
+DB_WYR_Axe_Buttons(_Var3, _Var2, _, _, _)
+AND
+IsDestroyed(_Var3, 0, _, _, _)
+AND
+IsOpened(_Var3, 0, _, _, _)
+THEN
+PROC_ItemUnlockAndOpen(_Var3);
+DB_WYR_Axe_UnlockedByButton(_Var3);
+
+IF
+UseStarted(_, (ITEM)_Var2, _, _, _)
+AND
+DB_WYR_Axe_Buttons(_Var3, _Var2, _, _, _)
+AND
+DB_WYR_Axe_UnlockedByButton(_Var3, _, _, _, _)
+AND
+IsDestroyed(_Var3, 0, _, _, _)
+AND
+IsOpened(_Var3, 1, _, _, _)
+AND
+IsLocked(_Var3, 0, _, _, _)
+THEN
+Lock(_Var3, "WYR_Axe_BackdoorKey");
+
+IF
+UseStarted(_, (ITEM)_Var2, _, _, _)
+AND
+DB_WYR_Axe_Buttons(_Var3, _Var2, _, _, _)
+AND
+IsDestroyed(_Var3, 0, _, _, _)
+AND
+IsOpened(_Var3, 1, _, _, _)
+THEN
+Close(_Var3);
+
+IF
+Unlocked((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_WYR_Axe_UnlockedByButton(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_Axe_UnlockedByButton(_Var1);
+
+
+EXITSECTION
+NOT DB_WYR_Axe_DebugRerunJaheiraCompanon(1);
+NOT DB_WYR_Axe_DebugRerunJaheiraCompanon(2);
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

@@ -1,0 +1,321 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, LOW_Tusgront_Checkpoint_a8f567a9-7128-16ea-0b15-885b7a1f42d3);
+DB_Dialogs(S_LOW_UndercellarEntranceGuard_003_2948f3fc-b863-4405-96a3-a066519a17b5, LOW_UndercellarEntranceGuard3_3cafb100-1192-9247-b3a9-c84ebcc6c5d3);
+DB_Dialogs(S_LOW_UndercellarEntranceGuard_004_ca2012c4-8ddd-44af-aeb3-d8caaf029142, LOW_UndercellarEntranceGuard4_90c407db-dc19-f10f-3d60-7965d59af25d);
+DB_Dialogs(S_LOW_UndercellarEntranceGuard_001_09c5724d-e1ca-4355-ae24-bd506641a3b9, LOW_UndercellarEntranceGuard1_304d4b62-d325-6ec4-21fe-8805eb51d7e9);
+DB_Dialogs(S_LOW_UndercellarEntranceGuard_002_574b1329-85cb-447b-8b67-2aaa61ea08cd, LOW_UndercellarEntranceGuard2_59bcdf7b-bc59-b1e8-f97f-0a6f07de79f1);
+DB_Dialogs(S_LOW_UndercellarEntranceGuard_000_637503ac-c9ce-4dc1-bc12-bc0ee8b7c64d, LOW_UndercellarEntranceGuard0_2f96e1d8-a90f-f42f-3ecc-fd7b1af12df4);
+DB_GiveItemToEvent(S_UNI_LOW_GuildRing_7b3cbbc7-a6e7-4a47-bd49-6fb363b5018f, LOW_Tusgront_State_HasGivenRing_7a26025c-d247-4a67-b93f-56ad9b28a16b);
+DB_CheckPoint(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, S_LOW_UndercellarEntranceGuard_004_ca2012c4-8ddd-44af-aeb3-d8caaf029142, S_LOW_UndercellarEntrance_PrimarySpotTrigger_99e9cee1-ad19-40f3-bc10-35a1b29e0b0b, S_LOW_UndercellarEntrance_WarningSpotTrigger_25045710-9d18-4415-8c2d-2b1b9e36032a, S_LOW_UndercellarEntrance_TraspassTrigger_2d1c3bb4-ab98-4b5b-a3ba-e649313bed08, "S_LOW_UndercellarEntrance_AlleywayCheckpoint", LOW_Tusgront_State_AllowedInAlley_5ec37ccb-b681-4ee4-ab1f-a1adce3dfd0e, "Trespassing", S_LOW_GuildhallEntrance_TrespassKickOutTrigger_75229e7e-55df-4c61-8d34-db8ccf0d69fc);
+DB_HasItemEvent(S_UNI_LOW_GuildRing_7b3cbbc7-a6e7-4a47-bd49-6fb363b5018f, LOW_Tusgront_State_HasRing_96e0bb71-42f0-41e5-bd2a-5d452265fdd4);
+SetCanInteract(S_Door_Teleport_Guildhall_Exit_de4a18e0-4cfa-413e-bee6-978e459421a6, 0);
+DB_LOW_GuildhallEntrance_Guards(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1);
+DB_LOW_GuildhallEntrance_Guards(S_LOW_UndercellarEntranceGuard_003_2948f3fc-b863-4405-96a3-a066519a17b5);
+DB_LOW_GuildhallEntrance_Guards(S_LOW_UndercellarEntranceGuard_004_ca2012c4-8ddd-44af-aeb3-d8caaf029142);
+DB_LOW_GuildhallEntrance_Guards(S_LOW_UndercellarEntranceGuard_001_09c5724d-e1ca-4355-ae24-bd506641a3b9);
+DB_LOW_GuildhallEntrance_Guards(S_LOW_UndercellarEntranceGuard_002_574b1329-85cb-447b-8b67-2aaa61ea08cd);
+DB_LOW_GuildhallEntrance_Guards(S_LOW_UndercellarEntranceGuard_000_637503ac-c9ce-4dc1-bc12-bc0ee8b7c64d);
+DB_TrespassTrigger(S_LOW_UndercellarEntrance_HostilityTrigger_d34ca592-649f-4159-835a-8f6387008374, NULL_00000000-0000-0000-0000-000000000000, "Trespassing");
+PROC_TriggerRegisterForPlayers(S_LOW_GuildhallEntrance_AlleyEntryChecker_55e04829-cc51-4721-af2a-7bf67b5e0bb5);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_UndercityEntrance_Ownership_981acc2e-dee3-4126-b89c-69427268e098, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1);
+
+KBSECTION
+IF
+FlagSet(Debug_LOW_Tusgront_GiveGuildRing_d92210b6-1adb-4d48-9c2a-416948371031, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ToInventory(S_UNI_LOW_GuildRing_7b3cbbc7-a6e7-4a47-bd49-6fb363b5018f, _Var1, 1, 0, 1);
+
+IF
+DB_GlobalFlag(LOW_Guildhall_State_PostCoup_ZhentControlled_bd914804-54c7-4de2-b51e-988919c2e644, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_GuildhallEntrance_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "LOW_GuildhallEntrance_GuardsReadyToRun");
+
+IF
+DB_GlobalFlag(LOW_Guildhall_State_PostCoup_PlayerControlled_fd323316-a97e-4b00-8570-50552715b43b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_GuildhallEntrance_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "LOW_GuildhallEntrance_GuardsReadyToRun");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "LOW_GuildhallEntrance_GuardsReadyToRun", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "LOW_GuildhallEntrance_GuardsFleeing");
+
+IF
+DB_GlobalFlag(LOW_Guildhall_State_PlayerHasBeenToGuildhall_3a991c6a-a315-47e3-ba78-58b5d011d256, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_State_AllowedAccess_fb3bb79c-82b6-4580-93b5-18e7839bad6c);
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_State_AllowedInAlley_5ec37ccb-b681-4ee4-ab1f-a1adce3dfd0e);
+ClearOwnership(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372);
+ClearOwnership(S_LOW_GuildhallRingLock_0ac1e359-0580-44ad-bdab-ab42beb2b5ac);
+PROC_RemoveDBTrespassTrigger(S_LOW_UndercellarEntrance_HostilityTrigger_d34ca592-649f-4159-835a-8f6387008374, NULL_00000000-0000-0000-0000-000000000000);
+TriggerClearItemsOwner(S_LOW_UndercityEntrance_Ownership_981acc2e-dee3-4126-b89c-69427268e098);
+
+IF
+UsingSpellOnTarget((GUIDSTRING)_Var1, S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372, "KnockSpell", _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsOpened(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372, 0, _Var1, _Var1, _Var1)
+THEN
+Open(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372);
+
+IF
+Combined(S_LOW_GuildhallRingLock_0ac1e359-0580-44ad-bdab-ab42beb2b5ac, _, _, _, _, (CHARACTER)_Var5, _, _, _, _)
+AND
+DB_Players(_Var5, _, _, _, _)
+AND
+IsOpened(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372, 1, _, _, _)
+THEN
+Close(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372);
+
+IF
+Combined(S_LOW_GuildhallRingLock_0ac1e359-0580-44ad-bdab-ab42beb2b5ac, _, _, _, _, (CHARACTER)_Var5, _, _, _, _)
+AND
+DB_Players(_Var5, _, _, _, _)
+AND
+IsClosed(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372, 1, _, _, _)
+THEN
+Open(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372);
+
+IF
+UseFinished((CHARACTER)_Var1, S_Door_Teleport_GuildHall_Entrance_cdc9828c-8391-48ff-91d8-d2e0554ba7db, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(LOW_Tusgront_State_AllowedAccess_fb3bb79c-82b6-4580-93b5-18e7839bad6c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_State_AllowedAccess_fb3bb79c-82b6-4580-93b5-18e7839bad6c);
+
+IF
+UseFinished((CHARACTER)_Var1, S_Door_Teleport_GuildHall_Entrance_cdc9828c-8391-48ff-91d8-d2e0554ba7db, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+Open(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372);
+
+IF
+DB_GlobalFlag(LOW_Tusgront_Event_HostileGuards_c1925c1f-86aa-4785-999d-4fbb62124b70, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CheckPoint(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, S_LOW_UndercellarEntranceGuard_004_ca2012c4-8ddd-44af-aeb3-d8caaf029142, S_LOW_UndercellarEntrance_PrimarySpotTrigger_99e9cee1-ad19-40f3-bc10-35a1b29e0b0b, S_LOW_UndercellarEntrance_WarningSpotTrigger_25045710-9d18-4415-8c2d-2b1b9e36032a, S_LOW_UndercellarEntrance_TraspassTrigger_2d1c3bb4-ab98-4b5b-a3ba-e649313bed08, "S_LOW_UndercellarEntranceCheckpoint", LOW_Tusgront_State_AllowedAccess_fb3bb79c-82b6-4580-93b5-18e7839bad6c);
+PROC_SetRelationToPlayers(Act3_LOW_UndercellarEntranceThugs_d7e2ae8a-c9a0-4c14-a478-c9710232ddab, 0);
+
+IF
+DB_GlobalFlag(LOW_Tusgront_State_AllowedAccess_fb3bb79c-82b6-4580-93b5-18e7839bad6c, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_State_AllowedInAlley_5ec37ccb-b681-4ee4-ab1f-a1adce3dfd0e);
+ClearOwnership(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372);
+ClearOwnership(S_LOW_GuildhallRingLock_0ac1e359-0580-44ad-bdab-ab42beb2b5ac);
+PROC_RemoveDBTrespassTrigger(S_LOW_UndercellarEntrance_HostilityTrigger_d34ca592-649f-4159-835a-8f6387008374, NULL_00000000-0000-0000-0000-000000000000);
+PROC_LOW_GuildhallEntrance_PeacefulResolution();
+TriggerClearItemsOwner(S_LOW_UndercityEntrance_Ownership_981acc2e-dee3-4126-b89c-69427268e098);
+
+QRY
+QRY_CrimeGetCustomWarning(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "Trespassing", (DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(LOW_Tusgront_State_WarnedYou_75d61050-b8a8-4739-a3ea-5523dc397aea, _Var3, 0, _Var1, _Var1)
+AND
+CrimeGetCriminal(_Var2, 1, _Var3, _Var1, _Var1)
+AND
+DB_InRegion(_Var3, S_LOW_UndercellarEntrance_TrespassTrigger_2d1c3bb4-ab98-4b5b-a3ba-e649313bed08, _Var1, _Var1, _Var1)
+THEN
+DB_CrimeWarning_CustomDialog(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, _Var2, LOW_Tusgront_Checkpoint_a8f567a9-7128-16ea-0b15-885b7a1f42d3);
+
+QRY
+QRY_CrimeGetCustomWarning(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "Trespassing", (DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1)
+AND
+DB_LOW_GuildhallEntrance_Guards(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(LOW_Tusgront_State_WarnedYou_75d61050-b8a8-4739-a3ea-5523dc397aea, _Var4, 1, _Var1, _Var1)
+AND
+CrimeGetCriminal(_Var2, 1, _Var4, _Var1, _Var1)
+AND
+DB_InRegion(_Var4, SS_LOW_UndercellarEntrance_TrespassTrigger_2d1c3bb4-ab98-4b5b-a3ba-e649313bed08, _Var1, _Var1, _Var1)
+THEN
+DB_CrimeWarning_Block(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "Trespassing", _Var1, _Var2);
+PROC_MakeNPCHostile(_Var3, _Var4);
+
+QRY
+QRY_CrimeGetCustomWarning((CHARACTER)_Var1, "Trespassing", (DIALOGRESOURCE)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1)
+AND
+DB_LOW_GuildhallEntrance_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetCriminal(_Var3, 1, _Var4, _Var1, _Var1)
+AND
+DB_InRegion(_Var4, S_LOW_UndercellarEntrance_HostilityTrigger_d34ca592-649f-4159-835a-8f6387008374, _Var1, _Var1, _Var1)
+THEN
+DB_CrimeWarning_Block(_Var1, "Trespassing", _Var2, _Var3);
+PROC_MakeNPCHostile(_Var1, _Var4);
+
+IF
+AutomatedDialogEnded(LOW_UndercellarEntrance_AD_StoleRing_Tusgront_18aa7f17-0259-66a2-9e39-851ee2166912, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_Event_HostileGuards_c1925c1f-86aa-4785-999d-4fbb62124b70);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LOW_GuildhallEntrance_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CombatGetInvolvedPlayer(_Var2, 1, _Var3, _Var1, _Var1)
+AND
+QRY_OnlyOnce("LOW_GuildhallEntrance_RemainHostile", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_Tusgront_Event_HostileGuards_c1925c1f-86aa-4785-999d-4fbb62124b70, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_Event_HostileGuards_c1925c1f-86aa-4785-999d-4fbb62124b70);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_LOW_GuildhallEntrance_AlleyEntryChecker_55e04829-cc51-4721-af2a-7bf67b5e0bb5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(LOW_Tusgront_State_AllowedInAlley_5ec37ccb-b681-4ee4-ab1f-a1adce3dfd0e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_Tusgront_State_AllowedAccess_fb3bb79c-82b6-4580-93b5-18e7839bad6c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(S_LOW_GuildhallEntrance_LeaveTusgrontAmbush_d67ff244-620c-47d4-81f3-a1448543f796);
+PROC_TriggerUnregisterForPlayers(S_LOW_GuildhallEntrance_AlleyEntryChecker_55e04829-cc51-4721-af2a-7bf67b5e0bb5);
+DB_LOW_GuildhallEntrance_TusgrontTarget(_Var1);
+
+IF
+DB_GlobalFlag(LOW_Tusgront_State_AllowedInAlley_5ec37ccb-b681-4ee4-ab1f-a1adce3dfd0e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_Tusgront_State_AllowedAccess_fb3bb79c-82b6-4580-93b5-18e7839bad6c, _, _, _, _)
+AND
+DB_InRegion(_Var1, S_LOW_GuildhallEntrance_LeaveTusgrontAmbush_d67ff244-620c-47d4-81f3-a1448543f796, _Var1, _Var1, _Var1)
+AND
+DB_LOW_GuildhallEntrance_TusgrontTarget(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_Ambushing_e5d2f255-4e3e-4c93-a674-27c38b284de2);
+PROC_LOW_GuildhallEntrance_StartTusgrontAmbush(_Var1);
+
+PROC
+PROC_LOW_GuildhallEntrance_StartTusgrontAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialogWithAvailableSpeakerInRange(LOW_Tusgront_Checkpoint_a8f567a9-7128-16ea-0b15-885b7a1f42d3, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, _Var1, 20, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_State_StoppedSpotting_8f30d674-4347-41bc-9399-3c725db4ed87);
+
+QRY
+QRY_StartDialogFailed(LOW_Tusgront_Checkpoint_a8f567a9-7128-16ea-0b15-885b7a1f42d3, _, _, _, _, _, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_TryStartAD(LOW_UndercellarEntrance_AD_MugOnLeaving_Tusgront_9397f422-dee3-b2b5-8019-da831fbf9289, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1);
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_Event_HostileGuards_c1925c1f-86aa-4785-999d-4fbb62124b70);
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_State_StoppedSpotting_8f30d674-4347-41bc-9399-3c725db4ed87);
+
+IF
+UseStarted(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, S_LOW_GuildhallRingLock_0ac1e359-0580-44ad-bdab-ab42beb2b5ac, _, _, _)
+THEN
+PROC_LOW_UndercellarEntrance_TusgrontDoorActions();
+
+PROC
+PROC_LOW_UndercellarEntrance_TusgrontDoorActions()
+AND
+GetFlag(LOW_Tusgront_State_HasRing_96e0bb71-42f0-41e5-bd2a-5d452265fdd4, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, 1, _, _)
+AND NOT
+DB_GlobalFlag(LOW_UndercellarEntrance_State_DoorOpened_01f0035a-55fd-49d1-907e-6d7565301dec, _, _, _, _)
+THEN
+Open(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372);
+PROC_TryStartAD(LOW_UndercellarEntrance_AD_DoorOpenedSelf_Tusgront_b6132644-ec49-2bd1-6ea1-9c32171ddb1d, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1);
+ObjectTimerLaunch(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "LOW_GuildhallEntrance_TusgrontWaitTimer", 3000);
+
+PROC
+PROC_LOW_UndercellarEntrance_TusgrontDoorActions()
+AND
+DB_GlobalFlag(LOW_UndercellarEntrance_State_DoorOpened_01f0035a-55fd-49d1-907e-6d7565301dec, _, _, _, _)
+THEN
+PROC_TryStartAD(LOW_UndercellarEntrance_AD_DoorOpenedPlayer_Tusgront_b8efc8cd-e8f5-be66-c2ea-8b51b30a1a26, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1);
+ObjectTimerLaunch(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "LOW_GuildhallEntrance_TusgrontWaitTimer", 3000);
+
+PROC
+PROC_LOW_UndercellarEntrance_TusgrontDoorActions()
+AND NOT
+DB_GlobalFlag(LOW_UndercellarEntrance_State_DoorOpened_01f0035a-55fd-49d1-907e-6d7565301dec, _, _, _, _)
+AND
+GetFlag(LOW_Tusgront_State_HasRing_96e0bb71-42f0-41e5-bd2a-5d452265fdd4, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, 0, _, _)
+THEN
+PROC_TryStartAD(LOW_UndercellarEntrance_AD_StoleRing_Tusgront_18aa7f17-0259-66a2-9e39-851ee2166912, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1);
+PROC_GlobalSetFlagAndCache(LOW_Tusgront_Event_HostileGuards_c1925c1f-86aa-4785-999d-4fbb62124b70);
+ObjectTimerLaunch(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "LOW_GuildhallEntrance_TusgrontWaitTimer", 3000);
+
+IF
+ObjectTimerFinished(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "LOW_GuildhallEntrance_TusgrontWaitTimer", _, _, _)
+AND
+DB_GlobalFlag(LOW_Tusgront_Event_OpenDoor_b2214990-752c-4987-803b-e287108fa536, _, _, _, _)
+THEN
+PROC_NotifyWhenReadyToMoveOn(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "LOW_GuildhallEntrance_TusgrontHasSpoken");
+
+PROC
+PROC_ReadyToMoveOn(S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, "LOW_GuildhallEntrance_TusgrontHasSpoken", _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(LOW_Tusgront_Event_OpenDoor_b2214990-752c-4987-803b-e287108fa536);
+
+PROC
+PROC_CheckPointDialogue((CHARACTER)_Var1, S_LOW_UndercellarEntranceGuard_004_ca2012c4-8ddd-44af-aeb3-d8caaf029142, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartCheckpointWarningDialog("S_LOW_UndercellarEntrance_AlleywayCheckpoint", LOW_UndercellarEntranceGuard4_CheckpointTrigger_52918c18-fe5e-3733-683c-27c942733df9, S_LOW_UndercellarEntranceGuard_004_ca2012c4-8ddd-44af-aeb3-d8caaf029142, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CheckPointDialogue((CHARACTER)_Var1, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartCheckpointWarningDialog("S_LOW_UndercellarEntrance_AlleywayCheckpoint", LOW_Tusgront_Checkpoint_a8f567a9-7128-16ea-0b15-885b7a1f42d3, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CheckPointDialogue((CHARACTER)_Var1, S_LOW_UndercellarEntranceGuard_004_ca2012c4-8ddd-44af-aeb3-d8caaf029142, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartCheckpointWarningDialog("S_LOW_UndercellarEntrance_AlleywayCheckpoint", LOW_UndercellarEntranceGuard4_CheckpointTrigger_52918c18-fe5e-3733-683c-27c942733df9, S_LOW_UndercellarEntranceGuard_004_ca2012c4-8ddd-44af-aeb3-d8caaf029142, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Opened(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372, _, _, _, _)
+THEN
+SetFlag(LOW_UndercellarEntrance_State_DoorOpened_01f0035a-55fd-49d1-907e-6d7565301dec);
+SetCanInteract(S_Door_Teleport_Guildhall_Exit_de4a18e0-4cfa-413e-bee6-978e459421a6, 1);
+SetCanInteract(S_LOW_GuildhallRingLock_0ac1e359-0580-44ad-bdab-ab42beb2b5ac, 0);
+PROC_LOW_UndercellarEntrance_HostileDoorOpened();
+
+PROC
+PROC_LOW_UndercellarEntrance_HostileDoorOpened()
+AND NOT
+DB_GlobalFlag(LOW_Tusgront_State_AllowedAccess_fb3bb79c-82b6-4580-93b5-18e7839bad6c, _, _, _, _)
+THEN
+PROC_TryStartAD(LOW_UndercellarEntrance_AD_HostileTrespass_Tusgront_598dd6ee-609d-e21b-4944-b49e25d72da8, S_LOW_Tusgront_09c051f5-cc01-495d-a290-ab2f5e7479d1);
+
+IF
+Closed(S_LOW_UndercellarMagicWall_9b4e2a1c-454f-4b80-800a-fb21b0ce9372, _, _, _, _)
+THEN
+ClearFlag(LOW_UndercellarEntrance_State_DoorOpened_01f0035a-55fd-49d1-907e-6d7565301dec, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetCanInteract(S_Door_Teleport_Guildhall_Exit_de4a18e0-4cfa-413e-bee6-978e459421a6, 0);
+SetCanInteract(S_LOW_GuildhallRingLock_0ac1e359-0580-44ad-bdab-ab42beb2b5ac, 1);
+
+IF
+FlagSet(Debug_Teleport_LOW_UndercellarEntrance_eea8ba85-c1fe-4056-afc4-129ab27fcf5e, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+TeleportTo(_Var1, UndercellarEntrance_TeleportPositionDebug_f9d6c463-a99b-45cb-ae71-c6a2ec3d321b);
+
+PROC
+PROC_LOW_GuildhallEntrance_PeacefulResolution()
+AND
+DB_LOW_GuildhallEntrance_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PeacefulResolve(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

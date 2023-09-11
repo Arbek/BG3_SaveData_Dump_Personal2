@@ -1,0 +1,1428 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+THEN
+PROC_BG3_SaveGamePatches_GUS_297644_CheckJaheriaBackToMoonrise();
+PROC_MOO_Assault_ForceResolveFlamingSpy();
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_297644_CheckJaheriaBackToMoonrise()
+AND
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Assault_State_JaheiraPresent_7d113d3f-aae7-40fe-9672-55094729f3dd, _, _, _, _)
+AND NOT
+DB_InRegion(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_ShadowCurse_SafeZone_MoonriseTower_b0b0721f-2a4f-4530-85cf-c67c0db25f92, _, _, _)
+AND NOT
+DB_GlobalFlag(COL_PartyProgress_EnteredColony_666abe92-f197-4c38-85a8-d879a9e258b6, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+THEN
+PROC_BG3_SaveGamePatches_GUS_297644_TeleportJaheriaBackToMoonrise();
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_297644_TeleportJaheriaBackToMoonrise()
+AND NOT
+DB_GlobalFlag(MOO_Assault_State_AllyReadyPositions_f0316e51-b885-472a-a8db-b5cf64aca732, _, _, _, _)
+AND
+DB_MOO_AssaultPositions(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_MOO_Assault_PATCH_TeleportedJaheriaBackToMoonrise(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Assault_PATCH_TeleportedJaheriaBackToMoonrise(1);
+TeleportTo(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1);
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_297644_TeleportJaheriaBackToMoonrise()
+AND
+DB_GlobalFlag(MOO_Assault_State_AllyReadyPositions_f0316e51-b885-472a-a8db-b5cf64aca732, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _, _, _, _)
+AND NOT
+DB_MOO_Assault_PATCH_TeleportedJaheriaBackToMoonrise(1, _, _, _, _)
+THEN
+DB_MOO_Assault_PATCH_TeleportedJaheriaBackToMoonrise(1);
+TeleportTo(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_MOO_AssaultAllyReadyPoints_001_2eb86f25-a51b-45c3-9134-922a0d812b0d);
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_297644_TeleportJaheriaBackToMoonrise()
+AND
+DB_GlobalFlag(MOO_Assault_State_AllyReadyPositions_f0316e51-b885-472a-a8db-b5cf64aca732, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _, _, _, _)
+AND NOT
+DB_MOO_Assault_PATCH_TeleportedJaheriaBackToMoonrise(1, _, _, _, _)
+THEN
+DB_MOO_Assault_PATCH_TeleportedJaheriaBackToMoonrise(1);
+TeleportTo(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, S_MOO_JaheiraRoofRecruitPoint_fb63ebfd-99ac-4e09-a258-478cd5a2a073);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+IsPartyFollower(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 1, _, _, _)
+AND
+CharacterGetOwner(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Assault_State_JaheiraLeftParty_ba466ab9-fb7b-4821-8e31-36e57bab9d78, _Var1, 0);
+DB_BUGFIX_Marker("GUS-298010");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+IsPartyFollower(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 1, _, _, _)
+AND
+CharacterGetOwner(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Assault_State_JaheiraJoinedParty_6a6328d4-faab-4d97-9662-eba21c4dd613, _Var1, 0);
+DB_MOO_Jaheira_NeedsToAD(1);
+PROC_MOO_Assault_TryToRemoveJaheiraFromParty(_Var1);
+DB_BUGFIX_Marker("GUS-298010");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+IsPartyFollower(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 0, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(MOO_Assault_State_JaheiraJoinedParty_6a6328d4-faab-4d97-9662-eba21c4dd613, _Var1, 0);
+DB_BUGFIX_Marker("GUS-298010");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+DB_Dialogs(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, MOO_Assault_Jaheira_TopOfTowerBackup_e1a54878-2256-5be7-e0b6-16c5a2dc4d26, _, _, _)
+THEN
+NOT DB_Dialogs(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, MOO_Assault_Jaheira_TopOfTowerBackup_e1a54878-2256-5be7-e0b6-16c5a2dc4d26);
+DB_Dialogs(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, Jaheira_Recruitment_Moonrise_04443f0f-9c62-d474-a98a-3e13eec31c69);
+DB_BUGFIX_Marker("GUS-298010");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_Is_WildShaped(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND
+IsInCombat(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 0, _, _, _)
+THEN
+PROC_RemoveAllPolymorphs(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+RemoveStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "INVISIBILITY_PANTHER");
+RemoveStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "PROWL");
+DB_BUGFIX_Marker("GUS-302422");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND NOT
+DB_GlobalFlagReactionAfterDialog(HAV_EnteringHaven_State_FlamingSpyRevealed_89e1eb87-a718-8dc2-026d-f4db8321b686, HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, _, _, _)
+THEN
+DB_GlobalFlagReactionAfterDialog(HAV_EnteringHaven_State_FlamingSpyRevealed_89e1eb87-a718-8dc2-026d-f4db8321b686, HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c);
+TriggerRegisterForPlayers(S_HAV_EnteringHaven_CombatAddChecker_b053df36-f455-48c7-98fa-03d19839af21);
+DB_BUGFIX_Marker("GUS-299954");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_HAV_EnteringHaven_ClawsActive(1, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_HAV_EnteringHaven_Claws(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var4, S_HAV_EnteringHaven_CombatAddChecker_b053df36-f455-48c7-98fa-03d19839af21, _Var1, _Var1, _Var1)
+THEN
+EnterCombat(_Var4, _Var3);
+DB_BUGFIX_Marker("GUS-299954");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+THEN
+PROC_BG3_SaveGamePatches_GUS_296849_CheckSetupZrellAfterStart();
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_296849_CheckSetupZrellAfterStart()
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+AND NOT
+DB_Defeated(S_MOO_Executioner_8e75eb3b-7551-485e-8f98-2bf2e51d3e84, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Execution_Knows_Executioner_53052e40-df9b-90a0-ad65-f2c06f996666, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_MoonriseTower_State_Outcast_93565546-9052-4776-8563-2a1aca8d899e, _, _, _, _)
+AND NOT
+DB_SceneTriggerManager("MOO_Assault_ZrellGreetingScene", _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_State_AllyReadyPositions_f0316e51-b885-472a-a8db-b5cf64aca732, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _, _, _, _)
+THEN
+NOT DB_MOO_Assault_EnemyGroups("MOO_Assault_BazaarEnemies");
+DB_MOO_Assault_NeutralGroups("MOO_Assault_BazaarEnemies");
+NOT DB_OnlyOnce("MOO_Assault_BazaarSetHostile");
+PROC_BG3_SaveGamePatches_GUS_296849_ZrellSwitchBackAndSetScene();
+DB_BUGFIX_Marker("GUS-296849");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_296849_ZrellSwitchBackAndSetScene()
+AND
+DB_MOO_AssaultPositions(_Var1, _Var2, "MOO_Assault_BazaarEnemies", _Var1, _Var1)
+THEN
+PROC_MOO_Assault_SetFactions(_Var1, "MOO_Assault_BazaarEnemies");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_296849_ZrellSwitchBackAndSetScene()
+THEN
+PROC_MOO_Assault_SetUpZrellScene();
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+HasActiveStatus(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "HAV_CHANNELING", 1, _, _)
+THEN
+RemoveStatus(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "HAV_CHANNELING");
+DB_BUGFIX_Marker("GUS-258879");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND
+DB_AmbushTrigger_Ambusher(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55, _Var1, _, _Var1, _Var1)
+AND NOT
+QRY_State_IsBeforeState(_Var1, "SCL_DriderHarpers", "TakingMoonlantern", _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(ACT2_SCL_HarpersAmbush_f9940d88-f049-4522-a2ae-4b8304e4563c, 50);
+DB_BUGFIX_Marker("GUS-298205");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_SCL_Drider_HarpersGroup(_Var1, _, _, _Var1, _Var1)
+AND NOT
+QRY_State_IsBeforeState(_Var1, "SCL_DriderHarpers", "TakingMoonlantern", _Var1, _Var1)
+THEN
+PROC_CancelAmbush(S_SCL_Drider_HarpersAmbush_Trigger_74df3b45-284f-42f7-b0c4-b40359c1de55);
+DB_BUGFIX_Marker("GUS-298205");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+QRY_MOO_Jailbreak_AreProdigiesDesynced()
+THEN
+PROC_MOO_Jailbreak_FixProdigiesDesync();
+
+QRY
+QRY_MOO_Jailbreak_AreProdigiesDesynced()
+AND NOT
+DB_MOO_Jailbreak_Started(1, _, _, _, _)
+AND
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, _, _, _, _)
+AND NOT
+DB_HAV_SavingPrisoners_InHaven(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_MOO_Jailbreak_AreProdigiesDesynced()
+AND NOT
+DB_MOO_Jailbreak_Started(1, _, _, _, _)
+AND
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND NOT
+DB_HAV_SavingPrisoners_InHaven(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_MOO_Jailbreak_FixProdigiesDesync()
+THEN
+NOT DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, "Tieflings");
+NOT DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, "Tieflings");
+SetOnStage(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, 0);
+SetOnStage(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, 0);
+DB_BUGFIX_Marker("GUS-291239");
+
+PROC
+PROC_MOO_Jailbreak_FixProdigiesDesync()
+AND NOT
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND NOT
+DB_MOO_Jailbreak_Prisoner(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, _, _, _, _)
+AND
+DB_MOO_Jailbreak_Prisoner(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, _, _, _, _)
+THEN
+PROC_SetAnubisConfig(S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, "MOO_ProdigySister");
+SetFlag(MOO_Jailbreak_State_TieflingLeader_fa806828-c5a4-2691-ad46-be5e2ced9d67, S_GLO_YoungLover_01_dd9178e7-1e3f-43bc-8a38-666dfcac7d0c, 0);
+
+PROC
+PROC_MOO_Jailbreak_FixProdigiesDesync()
+AND NOT
+DB_MOO_Jailbreak_Prisoner(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _, _, _, _)
+AND
+DB_MOO_Jailbreak_Prisoner(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, _, _, _, _)
+THEN
+PROC_SetAnubisConfig(S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, "MOO_ProdigySister");
+SetFlag(MOO_Jailbreak_State_TieflingLeader_fa806828-c5a4-2691-ad46-be5e2ced9d67, S_DEN_Tiefling_010_23129d6c-8d39-4a4c-a4f6-cfc6637b597c, 0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_OnlyOnce("MOO_Roof_SendPlayersToColonyOnce", _, _, _, _)
+THEN
+PROC_MOO_Jailbreak_KillRemainingPrisoners();
+DB_BUGFIX_Marker("GUS-298417");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_MOO_Jailbreak_Prisoner(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+RequestSetSwarmGroup(_Var1, "");
+DB_BUGFIX_Marker("GUS-294874");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_OnlyOnce("HAV_SavingPrisoners_ArrivalDialog", _, _, _, _)
+AND
+DB_InRegion(_Var1, S_HAV_ArrivalArea_c7b0b988-3584-4f38-a387-66333bbefa69, _Var1, _Var1, _Var1)
+AND NOT
+DB_HAV_SavingPrisoners_CheckInspectionEnd(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_SavingPrisoners_CheckInspectionEnd(1);
+DB_BUGFIX_Marker("GUS-297609");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_HAV_SavingPrisoners_PendingReturn(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAV_SavingPrisoners_PendingReturn(_Var1, _Var2);
+DB_MOO_Jailbreak_EpilogueReturn(_Var1, _Var2);
+DB_BUGFIX_Marker("GUS-298822");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_GlobalFlag(NIGHT_Gale_LastNightAlive_3defd8a0-cd64-7e71-2ca8-2fdedd1148cd, _, _, _, _)
+AND NOT
+QRY_ORI_Gale_AnyAvatarInLastNightAlive()
+THEN
+PROC_CancelRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_LastNightAlive_3efef386-5077-3ecf-9e71-a0482695fbc1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast", _, _)
+THEN
+PROC_BG3_SaveGamePatches_GUS_297672_SendKethericToRoof();
+DB_BUGFIX_Marker("GUS-297672");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_297672_SendKethericToRoof()
+AND NOT
+DB_GlobalFlag(MOO_Execution_Event_CombatTransgression_1946f62a-afe1-4843-bdfa-590688f366d6, _, _, _, _)
+THEN
+SetFlag(MOO_Execution_Event_CombatTransgression_1946f62a-afe1-4843-bdfa-590688f366d6);
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_297672_SendKethericToRoof()
+AND NOT
+DB_GlobalFlag(MOO_Execution_Event_KethericLeaves_b8718f8f-6313-dc0e-e20d-7435db4b74c4, _, _, _, _)
+THEN
+SetFlag(MOO_Execution_Event_KethericLeaves_b8718f8f-6313-dc0e-e20d-7435db4b74c4);
+EndRepose(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+PROC_CharacterMoveTo(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, S_MOO_RoofIntermediatePoint_c9586639-f1b5-4b67-998b-a2efe790dd4f, "Walk", "MOO_Ketheric_LeaveExecutionToRoof");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 6, 0, _)
+AND
+DB_Crime_RequestedDialogWithTension("MOO_Trespass_UnaccompaniedIntruder", NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var2, _Var3, _Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Crime_RequestedDialogWithTension("MOO_Trespass_UnaccompaniedIntruder", NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var2, _Var3, _Var4, _Var5);
+CrimeConfrontationDone(_Var6, _Var1);
+DB_BUGFIX_Marker("GUS-298822a");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 6, 0, _)
+AND
+DB_MOO_UnwelcomeVisitors_VisitorCrimeRegistered(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, "MOO_UNWELCOMEVISITORS_BLOCKVISITORCRIMES", 1, _Var1, _Var1)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var2);
+DB_BUGFIX_Marker("GUS-298822b");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+THEN
+DB_GlobalFlagReactionAfterDialog(GLO_LiftingTheCurse_Event_TravelToLakeside_e06813a1-899a-498e-bd18-d22bee7d30e6, CAMP_Halsin2_c0ab0f6f-3ffc-d06d-0d6d-d1aaef70dfe4);
+DB_BUGFIX_Marker("GUS-297644");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 6, 0, _)
+AND NOT
+DB_Achievements_UnlockAfterDialogGlobalFlag("BG3_Quest48", ORI_Shadowheart_State_NightsongPoint_GaveNightOrchid_cd01256d-93df-4d80-8d94-1233fe16ddf6, ShadowHeart_InParty2_Nested_ShadowCurseChapter_058b61ef-8af6-3f48-08c3-46cbd4374446, _, _)
+THEN
+DB_Achievements_UnlockAfterDialogGlobalFlag("BG3_Quest48", ORI_Shadowheart_State_NightsongPoint_GaveNightOrchid_cd01256d-93df-4d80-8d94-1233fe16ddf6, ShadowHeart_InParty2_Nested_ShadowCurseChapter_058b61ef-8af6-3f48-08c3-46cbd4374446);
+DB_BUGFIX_Marker("GUS-299055");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_GlobalFlag(MOO_KethericShowdown_State_Started_33489af3-23b7-4340-bbf6-19033c9dae03, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Isobel_State_AtMoonrise_a95b7f8f-1454-433f-a496-71c9306683ce, _, _, _, _)
+AND NOT
+DB_Dead(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+ApplyStatus(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, "COL_ISOBEL_ENEMY_VFX", -1, 0, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_GlobalFlag(MOO_KethericShowdown_State_Started_33489af3-23b7-4340-bbf6-19033c9dae03, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Isobel_State_AtMoonrise_a95b7f8f-1454-433f-a496-71c9306683ce, _, _, _, _)
+AND
+IsTagged(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, PERMA_DEFEATED_867f3a1e-1e4b-48c2-869e-343415231727, 1, _, _)
+AND NOT
+DB_Dead(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, _, _, _, _)
+THEN
+SetTag(S_GLO_Isobel_263bfbfc-6160-46f4-a9e1-1089cdb5c211, UNDEAD_33c625aa-6982-4c27-904f-e47029a9b140);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_MOO_Alarm_ScryingEyes(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_StopFollow(_Var1);
+DB_BUGFIX_Marker("GUS-299118");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+THEN
+DB_CampNight_CancelledBy(NIGHT_Gale_LearnSpell_393b05ff-d866-4115-8ece-872232ce44cf, ORI_Gale_State_ReadyForLastNightAlive_088c7213-0615-41a0-a4ac-1ab4d1341666);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", _Var1, _Var1, _Var1)
+AND
+DB_MOO_BossFight_ValidStatesForDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_AssaultPositions(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+AND
+DB_OffStage(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(COL_PartyProgress_EnteredColony_666abe92-f197-4c38-85a8-d879a9e258b6, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 1);
+NOT DB_NightsongDeath_OffStage(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+DB_BG3_SaveGamePatches_GUS_300045_WaitingForDrider(1);
+DB_BUGFIX_Marker("GUS-300045");
+
+IF
+WentOnStage(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, 1, _, _, _)
+AND
+DB_BG3_SaveGamePatches_GUS_300045_WaitingForDrider(1, _, _, _, _)
+AND
+DB_GLO_NarrativeCombat_Participant(_Var1, _Var2, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var1)
+THEN
+NOT DB_GLO_NarrativeCombat_Participant(_Var1, _Var2, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+NOT DB_BG3_SaveGamePatches_GUS_300045_WaitingForDrider(1);
+PROC_GLO_NarrativeCombat_JoinCombat("MOO_Assault_KethericRoofFight", S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", _Var1, _Var1, _Var1)
+AND
+DB_MOO_BossFight_ValidStatesForDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_Assault_PrepareBossFightDialog(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SceneTriggerManager("MOO_Assault_BossFightIntroScene", S_MOO_BossFIghtIntroSceneTrigger_69621203-8925-440e-ba5d-b5d23ec7e3a4);
+PROC_BG3_SaveGamePatches_GUS_300045_SetupBossIntroScene();
+DB_BUGFIX_Marker("GUS-300045");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_300045_SetupBossIntroScene()
+AND
+DB_MOO_AssaultPositions(_Var1, _, "MOO_Assault_RooftopEnemies", _Var1, _Var1)
+THEN
+DB_SceneManager(_Var1, "MOO_Assault_BossFightIntroScene");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+QRY_State_IsBeforeState(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+AND NOT
+DB_SceneTriggerManager("MOO_Assault_BossFightIntroScene", _, _, _, _)
+THEN
+DB_SceneTriggerManager("MOO_Assault_BossFightIntroScene", S_MOO_BossFIghtIntroSceneTrigger_69621203-8925-440e-ba5d-b5d23ec7e3a4);
+DB_BUGFIX_Marker("GUS-300045");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+THEN
+DB_TopicalGreeting(TG_DarkUrge_SparedIsobelNight_41745fbc-49e6-44dc-9c77-51dee7f1c21c);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-299944");
+ClearTag(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, ACT2_SHADOW_CURSE_RESISTANT_DONT_PROPAGATE_87dc3ebb-0eca-47d8-971e-3c500c743dd7);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_PartyDialogSuppressionZone(S_SHA_NightsongPrison_SUB_0a302268-dd92-4462-99e5-ca7491815ec0, _, _, _, _)
+AND
+DB_GlobalFlag(SHA_NightsongPrison_State_NightsongFreed_24f27b06-6665-79ed-d7bf-e4bf356ca2fa, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-299983");
+NOT DB_PartyDialogSuppressionZone(S_SHA_NightsongPrison_SUB_0a302268-dd92-4462-99e5-ca7491815ec0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_PartyDialogSuppressionZone(S_SHA_NightsongPrison_SUB_0a302268-dd92-4462-99e5-ca7491815ec0, _, _, _, _)
+AND
+DB_GlobalFlag(SHA_NightsongPrison_Event_NightsongSentToMoonrise_685b9761-43b6-9004-8655-073096c62731, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-299983");
+NOT DB_PartyDialogSuppressionZone(S_SHA_NightsongPrison_SUB_0a302268-dd92-4462-99e5-ca7491815ec0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_PartyDialogSuppressionZone(S_SHA_NightsongPrison_SUB_0a302268-dd92-4462-99e5-ca7491815ec0, _, _, _, _)
+AND
+DB_State_Current(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_PermanentlyDead", _, _)
+THEN
+DB_BUGFIX_Marker("GUS-299983");
+NOT DB_PartyDialogSuppressionZone(S_SHA_NightsongPrison_SUB_0a302268-dd92-4462-99e5-ca7491815ec0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND NOT
+DB_GlobalFlag(SCL_ShadowCurse_State_CurseLifted_af78af4a-48b2-46a8-be6f-f25dfa579471, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-299742");
+SetCanTrade(S_HAV_AncientFist_MartCullagh_378938e2-2193-49a3-a06e-8e26cc128055, 0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_RegionPrison(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_Region_Prison_HasBeenRegionPrison(_Var1, _Var2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_RegionPrison_CustomCell(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RegionPrison(_Var7, _Var1, _Var8, _Var1, _Var1)
+THEN
+DB_Region_Prison_HasBeenRegionPrison(_Var7, _Var2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_LevelLoadedOnce("SCL_Main_A", _, _, _, _)
+THEN
+DB_Region_Prison_HasBeenRegionPrison("SCL_Main_A_HAV", S_HAV_Prison_PlayerCell_bf18c7a9-098d-4f14-b988-e9d094673c00);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND NOT
+DB_TopicalGreetingEndCondition_FlagSet(TG_GLO_LiftingTheCurse_LiftedCurse_ac891d02-3650-4c3d-b180-f83465761882, VISITEDREGION_INT_Main_A_a2e1a618-d211-484e-9389-6b37308b8da1, _, _, _)
+AND
+DB_GlobalFlag(VISITEDREGION_SCL_Main_A_f6e72539-9bc6-42e1-a20f-390f3a17ad8d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(VISITEDREGION_INT_Main_A_a2e1a618-d211-484e-9389-6b37308b8da1, _, _, _, _)
+THEN
+DB_TopicalGreetingEndCondition_FlagSet(TG_GLO_LiftingTheCurse_LiftedCurse_ac891d02-3650-4c3d-b180-f83465761882, VISITEDREGION_INT_Main_A_a2e1a618-d211-484e-9389-6b37308b8da1);
+DB_BUGFIX_Marker("GUS-299742");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_GlobalFlag(VISITEDREGION_INT_Main_A_a2e1a618-d211-484e-9389-6b37308b8da1, _, _, _, _)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(TG_GLO_LiftingTheCurse_LiftedCurse_ac891d02-3650-4c3d-b180-f83465761882, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(TG_GLO_LiftingTheCurse_LiftedCurse_ac891d02-3650-4c3d-b180-f83465761882, _Var1);
+DB_BUGFIX_Marker("GUS-300196");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_MOO_Jailbreak_PendingGuards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(S_MOO_DisableEscapeArea_130ffe26-5c2c-4f5d-95a8-5b3e5480475c, _Var1);
+DB_BUGFIX_Marker("GUS-300427");
+
+QRY
+QRY_SavegameCheck_NeedsToPatchHavenTieflings()
+AND
+DB_HAV_TieflingSurvivors(_, _Var2, _, _, _)
+AND
+DB_HAV_Siege_NPCs(_Var2, _, _, _, _)
+AND NOT
+DB_BUGFIX_Marker("GUS-300435", _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-300435");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+QRY_SavegameCheck_NeedsToPatchHavenTieflings()
+THEN
+PROC_HAV_Siege_CheckTieflings();
+
+PROC
+PROC_HAV_Siege_CheckTieflings()
+AND
+DB_HAV_SavingPrisoners_InHaven(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b
+AND NOT
+DB_HAV_Siege_NPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(Debug_HAV_Siege_Start_bb8418df-ccfb-4a99-8bd9-6640eb7080e0, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_Siege_NPCs(_Var1);
+
+PROC
+PROC_HAV_Siege_CheckTieflings()
+AND
+DB_HAV_Siege_NPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAV_TieflingSurvivors(_, _Var1, _, _, _)
+AND NOT
+DB_HAV_SavingPrisoners_InHaven(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAV_Siege_NPCs(_Var1);
+
+PROC
+PROC_HAV_Siege_CheckTieflings()
+AND
+DB_HAV_Siege_NPCs(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _, _, _, _)
+AND
+DB_HAV_SavingPrisoners_InHaven(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Prodigy_State_InHaven_fe9b4527-9d66-45db-8e04-490fd51b7be5, _, _, _, _)
+THEN
+NOT DB_HAV_Siege_NPCs(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND NOT
+DB_BUGFIX_Marker("GUS-300435", _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-300435");
+
+IF
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND
+DB_BUGFIX_Marker("GUS-300435", _, _, _, _)
+AND NOT
+DB_OnlyOnce("MOO_Jailbreak_RegisterTieflingCell", _, _, _, _)
+THEN
+DB_OnlyOnce("MOO_Jailbreak_RegisterTieflingCell");
+PROC_TriggerRegisterForPlayers(S_MOO_TieflingCell_9dcd7544-1a52-4223-a11b-798a1c320dab);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_CampNight(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, 6048);
+DB_CampNight_Camp(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, "SCLMAIN");
+DB_CampNight_Camp(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, "HAVEN");
+DB_CampNight_Camp(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, "MOONRISE");
+DB_CampNight_Camp(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, "SHARTEMPLE");
+DB_CampNight_CancelledBy(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, MOO_Audience_Event_PassTeleporter_3115b554-2e0e-cbdc-6166-5fa7586cae45);
+DB_CampNight_CancelledBy(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, SCE_Epilogue_State_HasStarted_9b4bae0b-6464-4b0e-a0e3-41201c0c3c9e);
+DB_CampNight_CancelledBy(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, NIGHT_Gale_LastNightAlive_Avatar_FollowedMystra_f45005bf-c598-4331-8cb8-fe246093f1db);
+DB_CampNight_CancelledBy(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, NIGHT_Gale_LastNightAlive_Avatar_46377049-b609-44ba-ae82-e931d2ff9953);
+DB_CampNight_Requirement(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, ORI_Gale_State_ReadyForLastNightAlive_088c7213-0615-41a0-a4ac-1ab4d1341666, ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, GALEAVATAR_e8043a21-c6e3-4d6d-802b-2a87abea044c);
+NOT DB_CampNight_Requirement(NIGHT_Gale_LastNightAlive_Avatar_46377049-b609-44ba-ae82-e931d2ff9953, ORI_Gale_State_ReadyForLastNightAlive_088c7213-0615-41a0-a4ac-1ab4d1341666, ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, GALEAVATAR_e8043a21-c6e3-4d6d-802b-2a87abea044c, GALETRESSYM_a1b3e071-836c-4b7a-af10-9d8cbb74d165);
+DB_CampNight_SoloDream(NIGHT_Gale_LastNightAlive_Avatar_Fallback_f2ec5a37-d385-4787-8b0b-9d615f07ad37, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, CAMP_Gale_SD_LastNightAlive_fdabf765-0c88-414c-60c2-2221fde2b464);
+DB_BUGFIX_Marker("GUS-300427");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_LevelLoadedOnce("SCL_Main_A", _, _, _, _)
+THEN
+DB_SavegamePatch_GUS297639(1);
+
+IF
+DB_SavegamePatch_GUS297639(1, _, _, _, _)
+AND
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+THEN
+DB_SavegamePatch_GUS297639_Mines(PUZ_GEN_Trap_Mine_A_Copper_A_000_a8a7d6c3-0656-4f32-8d9d-5d6a8cdcd460, PUZ_GEN_CONST_Trap_Mine_A_Copper_A_000_8939393e-fed3-4232-b498-75303d8b942a);
+DB_SavegamePatch_GUS297639_Mines(PUZ_GEN_Trap_Mine_A_Copper_A_001_9f956431-232f-45aa-9f1d-68dac2b4e7c5, PUZ_GEN_CONST_Trap_Mine_A_Copper_A_001_10002930-859e-4165-9fb0-f439c0911af6);
+DB_SavegamePatch_GUS297639_Mines(PUZ_GEN_Trap_Mine_A_Copper_A_002_c8dc38d6-914b-40e8-8a9c-dd5a0ef84c93, PUZ_GEN_CONST_Trap_Mine_A_Copper_A_002_57867db9-1e12-47dd-b130-222123dfea9f);
+PROC_SetOnStage(PUZ_GEN_Tripwire_C_000_86a911e3-09bf-43f7-80ba-a34d3200b853, 0);
+NOT DB_SavegamePatch_GUS297639(1);
+
+IF
+DB_SavegamePatch_GUS297639_Mines(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Destroyed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+PROC_SetOnStage(_Var2, 1);
+NOT DB_SavegamePatch_GUS297639_Mines(_Var1, _Var2);
+
+IF
+DB_SavegamePatch_GUS297639_Mines(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Destroyed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 1);
+PROC_SetOnStage(_Var2, 0);
+NOT DB_SavegamePatch_GUS297639_Mines(_Var1, _Var2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_DropMutingStatussesDialog(SHA_LastJusticiar_RatsPanicked_f5e8d130-fa60-7fbe-906e-27309b0b180d);
+DB_BUGFIX_Marker("GUS-300596");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_WillingToDie_3f22f471-60e6-11df-1c95-19f756f81994, _, _, _, _)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_LastNightAlive_3efef386-5077-3ecf-9e71-a0482695fbc1);
+DB_BUGFIX_Marker("GUS-300596");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_GlobalFlag(COL_PartyProgress_EnteredColony_666abe92-f197-4c38-85a8-d879a9e258b6, _, _, _, _)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_LastNightAlive_3efef386-5077-3ecf-9e71-a0482695fbc1);
+DB_BUGFIX_Marker("GUS-300596");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_CampNight_CancelledBy(NIGHT_Gale_LastNightAlive_3defd8a0-cd64-7e71-2ca8-2fdedd1148cd, COL_PartyProgress_EnteredColony_666abe92-f197-4c38-85a8-d879a9e258b6);
+DB_BUGFIX_Marker("GUS-300596");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND NOT
+DB_GlobalFlag(NIGHT_Wyll_MizorasCapture_3279549a-c467-4630-bd6d-a2aafeb8a2b9, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-300728");
+DB_CampNight_CRD(NIGHT_Wyll_MizorasCapture_3279549a-c467-4630-bd6d-a2aafeb8a2b9, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_MizoraInTown_b8daafd5-f52e-4c19-a5bd-76ec45a6ede6);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_BUGFIX_Marker("GUS-300732");
+DB_DropMutingStatussesDialog(SHA_Displacer_618b26dd-25a2-f1f1-be8f-79b6dcdcfab6);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Necromancer_State_AtMoonrise_f64507bf-aa53-6de9-0b59-c19d649bb0a5, _, _, _, _)
+THEN
+QuestUpdate("GLO_Moonrise", "FacedKethericMT_NoNS");
+DB_BUGFIX_Marker("GUS-300549");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _, _, _, _)
+AND
+DB_GlobalFlag(SHA_Nightsong_State_PermaDefeated_d02e8ea4-dec7-4824-8117-efc075dee4ba, _, _, _, _)
+THEN
+QuestUpdate("GLO_Moonrise", "FacedKethericMT_NoNS");
+DB_BUGFIX_Marker("GUS-300549");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_QuestIsOpened("GLO_Moonrise_SUB_MarcusCapture", _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Isobel_State_AtMoonrise_a95b7f8f-1454-433f-a496-71c9306683ce, _, _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_TakingIsobel_State_SidedWithSpy_5eb745b2-5043-2f36-4d3a-ee3f09ed7a82, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "GLO_Moonrise", "CaptureNotMet", 0, _)
+THEN
+QuestUpdate("GLO_Moonrise", "MarcusCapturedIsobel");
+DB_BUGFIX_Marker("GUS-300627");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND NOT
+QRY_Patch_SCL_LiftingTheCurse_CurseLifted()
+THEN
+SetFlag(SCL_ShadowCurse_State_Default_13a8d7f3-9942-4c8c-9428-b4af0b433994, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+
+QRY
+QRY_Patch_SCL_LiftingTheCurse_CurseLifted()
+AND
+DB_GlobalFlag(GLO_LiftingTheCurse_State_BreathHasBeenRestored_2113b54e-a140-4aa0-97ac-219fa7b7d038, _, _, _, _)
+AND
+DB_GlobalFlag(SCE_Debrief_State_Setup_0ebc6b35-0f07-4a73-b6b8-9782ecbcaccf, _, _, _, _)
+THEN
+SetFlag(SCL_ShadowCurse_State_CurseLifted_af78af4a-48b2-46a8-be6f-f25dfa579471, NULL_00000000-0000-0000-0000-000000000000, 0, 1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_ORI_DarkUrge_ButlerExpectedAtMoonrise(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_BUGFIX_Marker("GUS-295639");
+
+IF
+DB_BUGFIX_Marker("GUS-295639", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_ButlerExpectedAtMoonrise(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel("SCL_Main_A", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAV_Siege_State_NoProtection_2da0dbf1-88ca-4cab-9c8f-ee8921822958, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_ButlerExpectedAtMoonrise(_Var1);
+PROC_MOO_Assault_ButlerLeaves();
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_GlobalFlag(SHA_Shadowheart_State_SharMentionedSpear_e67bb9ed-1a0b-e4db-e0c5-cbae64ba46aa, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_Knows_NeedSpear_27a5363d-4167-4bf9-b4c0-39cf9fca5523);
+DB_BUGFIX_Marker("GUS-300526");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(VISITEDREGION_SCL_Main_A_f6e72539-9bc6-42e1-a20f-390f3a17ad8d, _, _, _, _)
+AND NOT
+DB_TopicalGreetingEndCondition_FlagSet(TG_HAV_Misc_IsInHaven_f6e3f5a0-d553-41f2-9d6e-78cea503c992, HAV_Mood_State_Unprotected_7ac5d939-2c81-4871-81a5-fd5c6a0adba1, _, _, _)
+THEN
+DB_TopicalGreetingEndCondition_FlagSet(TG_HAV_Misc_IsInHaven_f6e3f5a0-d553-41f2-9d6e-78cea503c992, HAV_Mood_State_Unprotected_7ac5d939-2c81-4871-81a5-fd5c6a0adba1);
+DB_BUGFIX_Marker("GUS-301053");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(VISITEDREGION_SCL_Main_A_f6e72539-9bc6-42e1-a20f-390f3a17ad8d, _, _, _, _)
+AND NOT
+DB_TopicalGreetingEndCondition_FlagSet(TG_HAV_Misc_IsInHaven_f6e3f5a0-d553-41f2-9d6e-78cea503c992, HAV_Mood_State_Siege_b509af8b-a331-47ac-8230-3b8c5ef9956b, _, _, _)
+THEN
+DB_TopicalGreetingEndCondition_FlagSet(TG_HAV_Misc_IsInHaven_f6e3f5a0-d553-41f2-9d6e-78cea503c992, HAV_Mood_State_Siege_b509af8b-a331-47ac-8230-3b8c5ef9956b);
+DB_BUGFIX_Marker("GUS-301053");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(VISITEDREGION_SCL_Main_A_f6e72539-9bc6-42e1-a20f-390f3a17ad8d, _, _, _, _)
+AND NOT
+DB_TopicalGreetingEndCondition_LeaveTrigger(TG_HAV_Misc_IsInHaven_f6e3f5a0-d553-41f2-9d6e-78cea503c992, S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, _, _, _)
+THEN
+DB_TopicalGreetingEndCondition_LeaveTrigger(TG_HAV_Misc_IsInHaven_f6e3f5a0-d553-41f2-9d6e-78cea503c992, S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab);
+DB_BUGFIX_Marker("GUS-301053");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(HAV_Mood_State_Siege_b509af8b-a331-47ac-8230-3b8c5ef9956b, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(TG_HAV_Misc_IsInHaven_f6e3f5a0-d553-41f2-9d6e-78cea503c992, _Var1);
+DB_BUGFIX_Marker("GUS-301053");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(HAV_Mood_State_Unprotected_7ac5d939-2c81-4871-81a5-fd5c6a0adba1, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(TG_HAV_Misc_IsInHaven_f6e3f5a0-d553-41f2-9d6e-78cea503c992, _Var1);
+DB_BUGFIX_Marker("GUS-301053");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_HAV_LiftingTheCurse_ReactivityVBs(HAV_HalsinQuest_VB_WaveSpawned0_8308d5dc-108e-4a0c-b9b7-e9c0b763ee05, 0, _, _, _)
+THEN
+NOT DB_HAV_LiftingTheCurse_ReactivityVBs(HAV_HalsinQuest_VB_WaveSpawned1_bcee5dd5-b2b3-4dfb-805d-35c973078613, 1);
+NOT DB_HAV_LiftingTheCurse_ReactivityVBs(HAV_HalsinQuest_VB_WaveSpawned2_6f411e3a-3315-74c1-8b73-d026ab864789, 2);
+NOT DB_HAV_LiftingTheCurse_ReactivityVBs(HAV_HalsinQuest_VB_WaveSpawned3_b6dd47f8-988d-00d0-25c9-f6b87fcd8687, 3);
+NOT DB_HAV_LiftingTheCurse_ReactivityVBs(HAV_HalsinQuest_VB_WaveSpawned4_d80b8045-6a27-0478-6647-2cc284733fc5, 4);
+DB_HAV_LiftingTheCurse_ReactivityVBs(HAV_HalsinQuest_VB_WaveSpawned2_6f411e3a-3315-74c1-8b73-d026ab864789, 1);
+DB_HAV_LiftingTheCurse_ReactivityVBs(HAV_HalsinQuest_VB_WaveSpawned3_b6dd47f8-988d-00d0-25c9-f6b87fcd8687, 2);
+DB_HAV_LiftingTheCurse_ReactivityVBs(HAV_HalsinQuest_VB_WaveSpawned4_d80b8045-6a27-0478-6647-2cc284733fc5, 3);
+DB_BUGFIX_Marker("GUS-301117");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(SCL_HarperScouts_State_ShadowsDefeated_bae50f7d-7347-4fb7-ae8a-9fda8f84fc9f, _, _, _, _)
+THEN
+NOT DB_CombatReact_AD_OnNextTurn(S_SCL_HarperScout_000_c6dfb2aa-809f-4b3e-8b32-968c10184ec3, SCL_HarperScouts_AD_HarperScout_000_Combat_9495459c-cf6f-1e44-ea3d-641da8ebe19b);
+NOT DB_CombatReact_AD_OnNextTurn(S_SCL_HarperScout_000_c6dfb2aa-809f-4b3e-8b32-968c10184ec3, SCL_HarperScouts_AD_HarperScout_000_Combat2_9c278c13-063e-df6a-c7fc-b843b67b3731);
+NOT DB_CombatReact_AD_OnNextTurn(S_SCL_HarperScout_000_c6dfb2aa-809f-4b3e-8b32-968c10184ec3, SCL_HarperScouts_AD_HarperScout_000_Combat3_99988a3d-1baa-73c4-f21b-31f7fa23e168);
+NOT DB_CombatReact_AD_OnNextTurn(S_SCL_HarperScout_001_25e154f6-d762-4bea-862e-98c48d7ebe3e, SCL_HarperScouts_AD_HarperScout_001_Combat_98b745d0-cfcb-8b11-2913-2a94411da5cb);
+NOT DB_CombatReact_AD_OnNextTurn(S_SCL_HarperScout_003_9bebec18-ca66-42e9-abce-8d6a5f9d2a1b, SCL_HarperScouts_AD_HarperScout_003_Combat_d51ef7d9-4449-0fb9-53b5-08946ab565ea);
+DB_BUGFIX_Marker("GUS-299293");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_QuestIsOpened("SCL_CursedFist", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "SCL_CursedFist", "FoundLute", 1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_AncientFist_State_KnowsLuteImportant_713fdc97-387d-4baa-8152-a6617d630e44);
+DB_BUGFIX_Marker("GUS-301257");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_QuestIsOpened("SCL_CursedFist", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "SCL_CursedFist", "FoundLuteBeforeArt", 1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_AncientFist_State_KnowsLuteImportant_713fdc97-387d-4baa-8152-a6617d630e44);
+DB_BUGFIX_Marker("GUS-301257");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+THEN
+NOT DB_QuestDef_ChainedState("GLO_Moonrise", "Altar_IsobelDead", "Infiltrator_RewardedKetheric");
+NOT DB_QuestDef_ChainedState("GLO_Moonrise", "Altar_IsobelKidnapped", "Infiltrator_RewardedKetheric");
+NOT DB_QuestDef_ChainedState("GLO_Moonrise", "IsobelDead", "CapturedIsobelForZrell");
+NOT DB_QuestDef_ChainedState("GLO_Moonrise", "IsobelKidnapped", "CapturedIsobelForZrell");
+NOT DB_QuestDef_ChainedState("GLO_Moonrise", "Altar_IsobelDead", "CapturedIsobelForKetheric");
+NOT DB_QuestDef_ChainedState("GLO_Moonrise", "Altar_IsobelKidnapped", "CapturedIsobelForKetheric");
+DB_GLO_Moonrise_Journal_ChainedStateIfOpen("GLO_Moonrise_SUB_MarcusCapture", "Altar_IsobelDead", "Infiltrator_RewardedKetheric");
+DB_GLO_Moonrise_Journal_ChainedStateIfOpen("GLO_Moonrise_SUB_MarcusCapture", "Altar_IsobelKidnapped", "Infiltrator_RewardedKetheric");
+DB_GLO_Moonrise_Journal_ChainedStateIfOpen("GLO_Moonrise_SUB_ZrellCapture", "IsobelDead", "CapturedIsobelForZrell");
+DB_GLO_Moonrise_Journal_ChainedStateIfOpen("GLO_Moonrise_SUB_ZrellCapture", "IsobelKidnapped", "CapturedIsobelForZrell");
+DB_GLO_Moonrise_Journal_ChainedStateIfOpen("GLO_Moonrise_SUB_ZrellCapture", "Altar_IsobelDead", "CapturedIsobelForKetheric");
+DB_GLO_Moonrise_Journal_ChainedStateIfOpen("GLO_Moonrise_SUB_ZrellCapture", "Altar_IsobelKidnapped", "CapturedIsobelForKetheric");
+DB_BUGFIX_Marker("GUS-301259");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+AND
+DB_MOO_AssaultPositions(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+THEN
+PROC_SetAnubisConfig(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, "MOO_FlamingSpy");
+DB_BUGFIX_Marker("GUS-300520");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_MOO_AssaultPositions(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND NOT
+DB_MOO_NightsongDeath_Positions(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+THEN
+DB_MOO_NightsongDeath_Positions(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, S_MOO_NSDeathPositionPoint_014_b6aa87e5-f916-4cac-86e1-f69345b51ff9);
+DB_BUGFIX_Marker("GUS-300520");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_MOO_AssaultPositions(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, _, _, _, _)
+AND
+DB_MOO_NightsongDeath_Positions(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, S_MOO_NSDeathPositionPoint_014_b6aa87e5-f916-4cac-86e1-f69345b51ff9, _, _, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_NightsongDeath", _, _)
+THEN
+PROC_MOO_NightsongDeath_SetPositions(S_HAV_FlamingSpy_acb1dd9e-952b-4281-8e30-ec6f671493a6, S_MOO_NSDeathPositionPoint_014_b6aa87e5-f916-4cac-86e1-f69345b51ff9);
+DB_BUGFIX_Marker("GUS-300520");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+AND
+DB_GlobalFlag(SCE_Epilogue_State_HasStarted_9b4bae0b-6464-4b0e-a0e3-41201c0c3c9e, _, _, _, _)
+AND NOT
+DB_SCE_RavenguardFollowUp_BlockFF(1, _, _, _, _)
+THEN
+PROC_BG3_SaveGamePatches_GUS_300063_TryRemoveRavenGuardFF();
+DB_BUGFIX_Marker("GUS-300063");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_300063_TryRemoveRavenGuardFF()
+AND NOT
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _, _)
+AND
+DB_SCE_RavenguardFollowUp_FlamingFists(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCE_Debrief_CharactersInEpilogue(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+NOT DB_SCE_Debrief_CharactersInEpilogue(_Var1);
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_300063_TryRemoveRavenGuardFF()
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_NightsongDeath", _, _)
+AND
+DB_SCE_RavenguardFollowUp_FlamingFists(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCE_Debrief_CharactersInEpilogue(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+NOT DB_SCE_Debrief_CharactersInEpilogue(_Var1);
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_300063_TryRemoveRavenGuardFF()
+AND NOT
+DB_GlobalFlag(HAV_HavenOutcasts_State_FlamingFistsInHaven_f8e5cd60-867a-4584-8c50-1ff917357acc, _, _, _, _)
+AND
+DB_SCE_RavenguardFollowUp_FlamingFists(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SCE_Debrief_CharactersInEpilogue(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+NOT DB_SCE_Debrief_CharactersInEpilogue(_Var1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "GLO_Moonrise", "Relic_StartedTrials", 1, _)
+AND
+DB_SHA_RelicJournal_GemsTaken(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SHA_RelicJournal_GemsJournaled(_Var1);
+DB_BUGFIX_Marker("GUS-300615");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+THEN
+DB_BUGFIX_Marker("GUS-301248");
+DB_GlobalFlagReactionAfterDialog(SCL_HarperScouts_Event_ShadowCreaturesAppear_8fdb80e6-59fa-4582-8cb0-f44c7f646004, SCL_HarperScouts_ShadowCreatures_f0f39648-db0f-8153-e626-185cae06033f);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+THEN
+SysCompleteGoal("Act2_MOO_NightsongDeath");
+DB_BUGFIX_Marker("GUS-296849");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND
+DB_GlobalFlag(MOO_Necromancer_State_AtMoonrise_f64507bf-aa53-6de9-0b59-c19d649bb0a5, _, _, _, _)
+THEN
+SysCompleteGoal("Act2_MOO_NightsongDeath");
+DB_BUGFIX_Marker("GUS-296849");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+AND NOT
+DB_Defeated(S_MOO_Executioner_8e75eb3b-7551-485e-8f98-2bf2e51d3e84, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Execution_Knows_Executioner_53052e40-df9b-90a0-ad65-f2c06f996666, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_MoonriseTower_State_Outcast_93565546-9052-4776-8563-2a1aca8d899e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_State_AllyReadyPositions_f0316e51-b885-472a-a8db-b5cf64aca732, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Assault_Event_KethericTeleportedAway_ba71e8cd-8922-61a4-a2ff-8c5f5ff8aac6, _, _, _, _)
+THEN
+NOT DB_MOO_Assault_EnemyGroups("MOO_Assault_BazaarEnemies");
+DB_MOO_Assault_NeutralGroups("MOO_Assault_BazaarEnemies");
+NOT DB_OnlyOnce("MOO_Assault_BazaarSetHostile");
+PROC_BG3_SaveGamePatches_GUS_296849_UndoNightsongDeathStateFactionSwitch();
+DB_BUGFIX_Marker("GUS-296849");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_296849_UndoNightsongDeathStateFactionSwitch()
+AND
+DB_MOO_AssaultPositions(_Var1, _Var2, "MOO_Assault_BazaarEnemies", _Var1, _Var1)
+THEN
+PROC_MOO_Assault_SetFactions(_Var1, "MOO_Assault_BazaarEnemies");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND NOT
+QRY_State_IsBeforeState(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", "HAV_Mood_State_Siege", _, _)
+AND
+DB_OneShot_VoiceBarkTrigger(S_HAV_EnteringHaven_MoonshieldVBTrigger_7cb5f342-96db-48c7-95e1-98a1e439d03b, HAV_EnteringHaven_VB_Moonshield_e7b5450d-0c48-c997-62ac-88f09e7b1dd2, "Global", _, _)
+THEN
+DB_BUGFIX_Marker("GUS-301051");
+PROC_RemoveOneShotVoiceBarkTrigger(S_HAV_EnteringHaven_MoonshieldVBTrigger_7cb5f342-96db-48c7-95e1-98a1e439d03b, HAV_EnteringHaven_VB_Moonshield_e7b5450d-0c48-c997-62ac-88f09e7b1dd2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 15, 0, _)
+THEN
+DB_BUGFIX_Marker("GUS-301051-1");
+DB_RelationshipDialog_WRD_TriggerInCamp(Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_LastNightAlive_3efef386-5077-3ecf-9e71-a0482695fbc1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 15, 0, _)
+AND
+DB_GlobalFlag(ORI_Gale_Event_BombDisarmed_3d014e79-5595-9365-87bb-5cbb1f87fe5c, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-301051-2");
+DB_ORI_Gale_Companion_AteMagicItemIPRDs_CancelFlag(ORI_Gale_IPRD_Act2End_05706143-82c3-616d-6850-9281f08c9b9f, ORI_Gale_State_SentToFindBook_223470bc-af59-c833-500a-ace86e5cc1df);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND NOT
+DB_CampNight_Completed(NIGHT_Wyll_MizorasCapture_3279549a-c467-4630-bd6d-a2aafeb8a2b9, _, _, _, _)
+THEN
+DB_CampNight_CRD(NIGHT_Wyll_MizorasCapture_3279549a-c467-4630-bd6d-a2aafeb8a2b9, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, Wyll_InParty_6dff0a1f-1a51-725d-6e9a-52b5742ba9e6, Wyll_InParty2_Event_DiscussedLemure_b9e7a27f-b1a3-6f3b-32e7-dddbf17d589c);
+DB_CampNight_EveryCRDGetsExclamationMark(NIGHT_Wyll_MizorasCapture_3279549a-c467-4630-bd6d-a2aafeb8a2b9);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND
+DB_SCL_Drider_PartOfEscort(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_BUGFIX_Marker("GUS-301399");
+PROC_SCL_Drider_EnableForceUpdate(_Var1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND
+DB_SCL_Drider_LeadingEscort(1, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-301399");
+PROC_SCL_Drider_EnableForceUpdate(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+AND NOT
+DB_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+AND
+DB_LevelLoadedOnce("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _, _, _, _)
+AND NOT
+DB_GlobalFlagReactionAfterDialog(SHA_NightsongPrison_Event_NecroSummonsSkellies_8649c31d-15bf-dd68-5cc0-828e6f44af0f, SHA_NightsongPrison_NecroAndNightsong_500474d5-3855-9b12-29d1-b6e7645d7385, _, _, _)
+THEN
+DB_GlobalFlagReactionAfterDialog(SHA_NightsongPrison_Event_NecroSummonsSkellies_8649c31d-15bf-dd68-5cc0-828e6f44af0f, SHA_NightsongPrison_NecroAndNightsong_500474d5-3855-9b12-29d1-b6e7645d7385);
+DB_BUGFIX_Marker("GUS-300737");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 1", _, _, _, _)
+AND
+IsTagged(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6, 0, _, _)
+AND
+GetFlag(ORI_State_Recruited_e78c0aab-fb48-98e9-3ed9-773a0c39988d, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 0, _, _)
+THEN
+SetTag(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6);
+DB_BUGFIX_Marker("GUS-302427");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 2", _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "GUS-302544Timer", 1000);
+
+IF
+ObjectTimerFinished(_, "GUS-302544Timer", _, _, _)
+AND
+DB_GLO_NarrativeCombat_ID("MOO_Assault_KethericRoofFight", _Var2, _, _, _)
+AND
+DB_GLO_NarrativeCombat_WasParticipant("MOO_Assault_KethericRoofFight", _Var2, _Var3, _, _)
+AND NOT
+DB_OffStage(_Var3, _, _, _, _)
+AND NOT
+DB_Defeated(_Var3, _, _, _, _)
+AND NOT
+DB_PartyMembers(_Var3, _, _, _, _)
+AND NOT
+DB_GLO_NarrativeCombat_GenericExceptionParticipant("MOO_Assault_KethericRoofFight", _Var3, _, _, _)
+THEN
+TriggerRegisterForCharacter(S_MOO_NarrativeCombatRoofRegion_9a1c091e-f8da-4ab6-bdf0-e0db176e4ca3, _Var3);
+PROC_GLO_NarrativeCombat_JoinCombat("MOO_Assault_KethericRoofFight", _Var3);
+DB_BUGFIX_Marker("GUS-302544");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 2", _, _, _, _)
+THEN
+PROC_BG3_SaveGamePatches_GUS_302004_RemoveUpperFloorCombatGroup();
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_302004_RemoveUpperFloorCombatGroup()
+AND
+GetCombatGroupID(S_MOO_ExecutionerOgre_234ee81c-4fea-4aa5-adb4-670a73fdc511, "MOO_ZrellBriefing_Squad", _, _, _)
+THEN
+SetCombatGroupID(S_MOO_ExecutionerOgre_234ee81c-4fea-4aa5-adb4-670a73fdc511, "");
+DB_BUGFIX_Marker("GUS-302004");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_302004_RemoveUpperFloorCombatGroup()
+AND
+GetCombatGroupID(S_MOO_Executioner_8e75eb3b-7551-485e-8f98-2bf2e51d3e84, "MOO_ZrellBriefing_Squad", _, _, _)
+THEN
+SetCombatGroupID(S_MOO_Executioner_8e75eb3b-7551-485e-8f98-2bf2e51d3e84, "");
+DB_BUGFIX_Marker("GUS-302004");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_302004_RemoveUpperFloorCombatGroup()
+AND
+GetCombatGroupID(S_MOO_UpperGuard_000_556cec90-5ea1-4054-9874-abd8ee042703, "MOO_ZrellBriefing_Squad", _, _, _)
+THEN
+SetCombatGroupID(S_MOO_UpperGuard_000_556cec90-5ea1-4054-9874-abd8ee042703, "");
+DB_BUGFIX_Marker("GUS-302004");
+
+PROC
+PROC_BG3_SaveGamePatches_GUS_302004_RemoveUpperFloorCombatGroup()
+AND
+GetCombatGroupID(S_MOO_UpperGuard_001_3b5ad058-c872-4b1c-933b-2d8767b28aed, "MOO_ZrellBriefing_Squad", _, _, _)
+THEN
+SetCombatGroupID(S_MOO_UpperGuard_001_3b5ad058-c872-4b1c-933b-2d8767b28aed, "");
+DB_BUGFIX_Marker("GUS-302004");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_SCL_Drider_CaravanMemebersAtTown(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_BUGFIX_Marker("GUS-299493");
+DB_SCL_ShadowCurse_CustomCombatGroup("SCL_Drider_Cursed", _Var1);
+SetCombatGroupID(_Var1, "SCL_Drider_Cursed");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

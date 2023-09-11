@@ -1,0 +1,665 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND NOT
+DB_DEN_DruidAttack_IdolCrimes("MoveForbiddenItem", "DEN_DruidAttack_FallbackIdolCrime", GEB_DEN_DruidAttack_AD_NoticedIdolTampered_1eff316c-1568-f1ca-48a7-2e7962830553, _, _)
+THEN
+DB_DEN_DruidAttack_IdolCrimes("MoveForbiddenItem", "DEN_DruidAttack_FallbackIdolCrime", GEB_DEN_DruidAttack_AD_NoticedIdolTampered_1eff316c-1568-f1ca-48a7-2e7962830553);
+DB_BUGFIX_Marker("GUS-298316");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+THEN
+DB_DialogMoneyTransfer(1, DEN_AdventurersQuest_LeaderAtCorpses_753a0b1e-b28d-e00a-f77f-340cca458dc0, 5000);
+DB_DialogMoneyTransfer(1, DEN_AdventurerLeader_46fea64f-e098-2df5-f4ee-825080ef9728, 5000);
+NOT DB_DialogMoneyTransfer(1, DEN_AdventurersQuest_LeaderAtCorpses_753a0b1e-b28d-e00a-f77f-340cca458dc0, 10000);
+NOT DB_DialogMoneyTransfer(1, DEN_AdventurerLeader_46fea64f-e098-2df5-f4ee-825080ef9728, 10000);
+DB_BUGFIX_Marker("GUS-298431");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND NOT
+DB_SceneManager(S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, "GOB_NerdyGoblinSage_Scene", _, _, _)
+THEN
+DB_SceneManager(S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, "GOB_NerdyGoblinSage_Scene");
+DB_BUGFIX_Marker("GUS-295245");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND NOT
+QRY_AnyPlayerInTrigger(S_GOB_SpiderNest_EventTrigger_764aa320-8fd2-40f2-b6c5-fa3b82fa79ef, _, _, _, _)
+THEN
+PROC_SetRelationMutual(ACT1_GOB_SpiderNest_Spiders_153d18a3-3fc5-9b92-0039-04f8953f68a9, ACT1_GOB_Goblins_General_633245e8-cbb8-b0c4-12ec-32d2ff9424e2, 100);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_GlobalFlag(GLO_AttackOnDen_State_RaidReady_eb361773-da88-dee4-f4c8-a22acae60948, _, _, _, _)
+AND
+DB_DEN_AttackOnDen_Raiders(_Var1, _, _, _, _Var1)
+AND
+DB_CRIME_Guards_RegionGuard(_Var5, _Var6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_RegionGuard(_Var5, _Var6, _Var1);
+DB_BUGFIX_Marker("GUS-298065");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_ORI_Gale_NeedsMagicItemIPRDFlags(_, _Var2, _, _, _)
+THEN
+DB_RelationshipDialog_WRD_TriggerInCamp(Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, _Var2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 6, 0, _)
+AND
+DB_CampNight_ExpiresAfter(NIGHT_Shadowheart_Romance1_AfterCelebration_f8193afc-a7cd-4d3c-a6d8-dd4270701d96, 5, _, _, _)
+THEN
+NOT DB_CampNight_ExpiresAfter(NIGHT_Shadowheart_Romance1_AfterCelebration_f8193afc-a7cd-4d3c-a6d8-dd4270701d96, 5);
+DB_CampNight_CancelledBy(NIGHT_Shadowheart_Romance1_AfterCelebration_f8193afc-a7cd-4d3c-a6d8-dd4270701d96, Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3);
+DB_BUGFIX_Marker("GUS-299296");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 6, 0, _)
+THEN
+DB_LevelUnreachable_TrackEntity(S_FOR_DangerousBook_Key_000_123c268d-ad0c-4df5-905b-a78dacbed80b);
+DB_LevelUnreachable_TrackEntity(S_FOR_DangerousBook_Tome_73ea8888-ed82-4ca5-b9f9-0c9119873507);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_State_Current(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "Recruitment", "BEACH", _, _)
+AND
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+AND
+DB_GLO_Shadowheart_Equipment(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+QRY_GLO_Shadowheart_HasEquipped(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+TemplateIsInInventory(_Var2, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var4, _Var1, _Var1)
+AND
+GetItemByTemplateInInventory(_Var2, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var5, _Var1, _Var1)
+THEN
+DB_BUGFIX_Marker("GUS-213685");
+Equip(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var5);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+AND
+DB_State_Current(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "Recruitment", "BEACH", _, _)
+AND
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+AND
+DB_GLO_Shadowheart_Equipment(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+QRY_GLO_Shadowheart_HasEquipped(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+TemplateIsInInventory(_Var2, S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, 0, _Var1, _Var1)
+THEN
+DB_BUGFIX_Marker("GUS-213685");
+DB_GLO_Shadowheart_ArmorQueue(_Var3);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_GlobalFlag(UND_UnfortunateGnome_Event_GoCamp_ce63b2ca-4692-551f-db78-0bff8dd0da6d, _, _, _, _)
+THEN
+NOT DB_Inclusion_Object(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, UND_GnomeForeman_UnfortunateGnome_InclusionStart_722c413e-800a-46c4-9382-bc21d63a09b3, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Inclusion_NPCDialog(UND_GnomeForeman_a59832df-8838-e23b-3106-bb65e599f7fa, S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+NOT DB_CustomDialogRange(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, 20);
+DB_BUGFIX_Marker("GUS-270768");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND NOT
+DB_PartOfTheTeam(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+THEN
+DB_CAMP_Halsin_HasMetHalsinFlags(GOB_WolfPens_State_HalsinIntroHappened_7d0751b9-1055-4a54-9ccd-f5e95e2a1f69);
+DB_CAMP_Halsin_HasMetHalsinFlags(GLO_Halsin_Event_TalkedWithDruidLeader_b337012e-aabc-3a99-1f27-225ebb185d58);
+DB_CAMP_Halsin_HasMetHalsinFlags(DEN_AttackOnDen_HasMet_Halsin_cf151bc0-9f70-bead-5dff-9341a1fdc39f);
+DB_BUGFIX_Marker("GUS-295929");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+THEN
+Transform(S_FOR_GnomeGoblin5_0e54fa5d-e2dd-4e15-acbb-82a4e0c63012, Goblins_Female_Ranger_Tier2_28eb9dbc-af0e-4272-b921-67363eeafede, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+DB_TrespassTrigger(FOR_UnfortunateGnome_Trespass_Combat_2639acb2-11c3-480b-87ae-34d99421ae32, NULL_00000000-0000-0000-0000-000000000000, "WLD_FOR_UnfortunateGnome_ApproachHighPerch");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_OffStage(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+AND
+DB_DEN_NPC(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_DEN_NPC(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1, _Var2);
+DB_BUGFIX_Marker("GUS-299762");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_DEN_AttackOnDen_TieflingDefeatCounters(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_DefeatCounter(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_NPC(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _Var1, _Var1)
+THEN
+NOT DB_GLO_DefeatCounter(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1);
+PROC_GLO_DefeatCounter_CheckFinished(_Var1);
+DB_BUGFIX_Marker("GUS-299762");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+THEN
+DB_BUGFIX_Marker("GUS-299736");
+
+IF
+DB_BUGFIX_Marker("GUS-299736", _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Astarion_Knows_PoemInfernal_256ed5ae-356b-255c-bd82-e1cf2aa35c55, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Astarion_Knows_ScarsIsCazadorPoem_Global_e0384248-60ef-4ed3-9bbe-d751461c93b8, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Astarion_Knows_ScarsIsCazadorPoem_Global_e0384248-60ef-4ed3-9bbe-d751461c93b8);
+
+IF
+DB_BUGFIX_Marker("GUS-299736", _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Astarion_Knows_ScarsIsCazadorPoem_Global_e0384248-60ef-4ed3-9bbe-d751461c93b8, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Astarion_State_PartySawScars_32bbdc0b-6c04-2db1-75ce-df811a8646e9, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Astarion_State_PartySawScars_32bbdc0b-6c04-2db1-75ce-df811a8646e9);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+THEN
+PROC_SetOnStage(S_GOB_Tripwire_A_000_54443088-de46-4382-9695-699ab07f4538, 0);
+PROC_SetOnStage(S_PLA_BanditCave_Tripwire_A_000_c054443a-8d91-4c02-8fd2-1350cd634841, 0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND NOT
+DB_Avatars(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+PROC_ORI_Shadowheart_TryWolfDreamInvite();
+DB_BUGFIX_Marker("GUS-299653");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("UND_MyconidRevenge", "Rewarded", _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-299672");
+PROC_GlobalSetFlagAndCache(UND_MyconidRevenge_State_QuestCompleted_355c9984-d0fe-8de3-8337-ae2eaceb9c57);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_ORI_Gale_Companion_AteMagicItemIPRDs(_, _Var2, _, _, _)
+THEN
+DB_RelationshipDialog_WRD_TriggerInCamp(Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, _Var2);
+DB_ORI_Gale_Companion_AteMagicItemIPRDs_CancelFlag(ORI_Gale_IPRD_Ate3Items_a8e84a1d-7cfe-574a-b92d-34c58a02ba8b, ORI_Gale_Knows_LearnedBackstory_0a9731cf-4769-249f-818d-b4c6e542083d);
+NOT DB_ORI_Gale_Companion_AteMagicItemIPRDs_CancelFlag(ORI_Gale_IPRD_Ate3Items_a8e84a1d-7cfe-574a-b92d-34c58a02ba8b, ORI_Gale_Knows_Lord_28c06aa3-59e5-65b8-91fa-493e60af810d);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND NOT
+DB_GlobalFlag(DEN_TieflingRefugees_State_LeftDen_003b304b-f058-4f8a-b9fa-a097e1b6b395, _, _, _, _)
+THEN
+DB_DEN_AttackOnDen_LeaveNPCs(S_DEN_CharmedKid_3b92c689-6024-4446-a6c9-584e9e8d77ca);
+DB_BUGFIX_Marker("GUS-300429");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_GlobalFlag(DEN_TieflingRefugees_State_LeftDen_003b304b-f058-4f8a-b9fa-a097e1b6b395, _, _, _, _)
+AND
+DB_DEN_NPC(S_DEN_CharmedKid_3b92c689-6024-4446-a6c9-584e9e8d77ca, _, _, _, _)
+THEN
+SetOnStage(S_DEN_CharmedKid_3b92c689-6024-4446-a6c9-584e9e8d77ca, 0);
+SetEntityEvent(S_DEN_CharmedKid_3b92c689-6024-4446-a6c9-584e9e8d77ca, "DEN_NPC_LeftDen", 1);
+DB_BUGFIX_Marker("GUS-300429");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND NOT
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+AND NOT
+DB_GlobalFlag(VISITEDREGION_CRE_Main_A_c22062f9-2a42-4e19-8c72-34a2d9ff9c0a, _, _, _, _)
+THEN
+SetFlag(ORI_Laezel_State_HasNotPassedCreche_946ca251-adb9-4177-9e12-64499d02cff1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c);
+DB_Dialogs(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, DEN_Bard_InParty_3c71c397-b378-340b-0da9-ef3d17d14423);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_ORI_Dating(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Shadowheart_State_StartedRomance_f725b333-9846-4e6c-8123-35330f3e7aa5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_Shadowheart_State_StartedRomance_f725b333-9846-4e6c-8123-35330f3e7aa5);
+DB_BUGFIX_Marker("GUS-300514");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_AddCharactersInTriggerToDialog(UND_DuergarCamp_Checkpoint_c40716bd-9e42-54a5-06ea-7c0cbea85a8e, S_UND_DarkLake_BoatAtCampArea_467f81f9-f1d6-4c2a-a3d5-1ac0d8897b76, 1);
+DB_BUGFIX_Marker("GUS-294963.Fix");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+AND
+DB_GlobalFlag(PLA_GithChokepoint_State_Cancelled_125f66fd-d046-4daa-ac1c-eb4fc29cfb1c, _, _, _, _)
+AND NOT
+DB_PLA_GithChokepoint_Cancelled(1, _, _, _, _)
+THEN
+DB_PLA_GithChokepoint_Cancelled(1);
+DB_BUGFIX_Marker("GUS-300364");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_ORI_Gale_Companion_AteMagicItemIPRDs_CancelFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_AteMagicItemIRPD_DelayUntilDialogEnd(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Gale_AteMagicItemIRPD_DelayUntilDialogEnd(_Var3, _Var4);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_ORI_Gale_Companion_AteMagicItemIPRDs_CancelFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Gale_AteMagicItemIRPD_DelayUntilDialogEnd(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, _Var1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_GotTwoMagicItems_c757086e-4696-441d-b19c-fdb65982776f, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var1, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1)
+AND
+ChangeApprovalRating(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, 0, 10, _)
+THEN
+DB_BUGFIX_Marker("GUS-300364 - Approval 1");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_GlobalFlag(ORI_Gale_State_GotThreeMagicItems_484d97f2-5c79-a557-0635-fbf81e8c0307, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _, _, _, _)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var1, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, _Var1, _Var1)
+AND
+ChangeApprovalRating(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, _Var1, 0, 10, _)
+THEN
+DB_BUGFIX_Marker("GUS-300364 - Approval 2");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+AND
+DB_MovingTo(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, S_GOB_Checkpoint_CapturedGoblinWaitingPosition_0691f7e0-da49-4390-9c10-bcccd715d230, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-300926");
+PROC_CRIME_DisableDangerousShapeshiftReactions(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+AND
+GetFlag(GOB_Checkpoint_State_WaitingForPlayer_1da9e319-6f34-48f8-875a-48bb863c81d1, S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, 1, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-300926");
+PROC_CRIME_DisableDangerousShapeshiftReactions(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+AND NOT
+DB_CampNight_Completed(NIGHT_WyllConfrontation_NotRecruited_b35ff12a-ceae-4bf8-94e2-5050576e4d6e, _, _, _, _)
+THEN
+DB_CampNight_CRD(NIGHT_WyllConfrontation_NotRecruited_b35ff12a-ceae-4bf8-94e2-5050576e4d6e, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, Wyll_InParty_6dff0a1f-1a51-725d-6e9a-52b5742ba9e6, Wyll_InParty2_Event_PostConfrontation_eb938f58-a165-503d-660e-6498218d18c0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+AND NOT
+DB_CampNight_Completed(NIGHT_WyllConfrontation_2576ba4e-90a9-4da0-bb40-6f012ed4a888, _, _, _, _)
+THEN
+DB_CampNight_CRD(NIGHT_WyllConfrontation_2576ba4e-90a9-4da0-bb40-6f012ed4a888, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, Wyll_InParty_6dff0a1f-1a51-725d-6e9a-52b5742ba9e6, Wyll_InParty2_Event_PostConfrontation_eb938f58-a165-503d-660e-6498218d18c0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+AND NOT
+DB_CampNight_Completed(NIGHT_Wyll_MizorasJudgement_ad448187-17b4-45a1-9acc-eb8b016e1dd2, _, _, _, _)
+THEN
+DB_CampNight_CRD(NIGHT_Wyll_MizorasJudgement_ad448187-17b4-45a1-9acc-eb8b016e1dd2, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, Wyll_InParty_6dff0a1f-1a51-725d-6e9a-52b5742ba9e6, Wyll_InParty_Event_PostJudgementReflection_6d93654c-15c2-cf9f-a48c-868602ec76d4);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND NOT
+DB_Defeated(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, _, _, _, _)
+AND NOT
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+AND
+CanJoinCombat(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, 0, _, _, _)
+THEN
+SetCanFight(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, 0);
+SetCanJoinCombat(S_UND_SharFort_Minotaur_Bait_b63c0d26-7c5f-4dc5-a3d1-2cc99367c809, 1);
+DB_BUGFIX_Marker("GUS-301116");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND NOT
+DB_GlobalFlag(PLA_KarlachRecruitmentTollhouse_Knows_RefugeesAreCultists_8b18c014-7558-4bab-aa35-37d135fc8630, _, _, _, _)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(PLA_KarlachRecruitment_Quest_ToldZarielFollowers_b3724866-2e00-14e2-7c7b-55b27f310a6e, _Var1, 1, _Var1, _Var1)
+THEN
+DB_BUGFIX_Marker("GUS-300428");
+SetFlag(PLA_KarlachRecruitmentTollhouse_Knows_RefugeesAreCultists_8b18c014-7558-4bab-aa35-37d135fc8630, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND
+DB_GlobalFlag(NIGHT_PaladinsOfTyr_Forced_3a1be30d-8a75-4bee-b717-0b2e4d7bd1e9, _, _, _, _)
+AND
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND NOT
+DB_QuestIsAccepted("ORI_COM_Karlach_SUB_ForgingOfTheHeart", _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-301398");
+SetFlag(ORI_Karlach_State_InSearchOfMechanic_9943b467-dff2-4a15-abbc-e380e0b8f794, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+AND
+DB_QuestDef_State(UND_HiddenGnome_HasVial_c21860d0-c8af-430e-aa42-de81ff020568, "UND_CaveIn", "PhilomeenGaveVial", _, _)
+THEN
+NOT DB_QuestDef_State(UND_HiddenGnome_HasVial_c21860d0-c8af-430e-aa42-de81ff020568, "UND_CaveIn", "PhilomeenGaveVial");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+AND
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_DarkUrge_Event_HideAlfiraCorpse_c5e208f3-862b-bf96-1814-552b983149a1, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_QueuedMorningIVB(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_Backup_f28df493-b622-b1a2-6c91-feeb040e2db8, _Var1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(PLA_StuckHalfElf_State_HasDowry_464445ee-74e3-4838-98dc-435074439303, _Var1, 1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "PLA_StuckHalfElf", "KnowDowry", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "PLA_StuckHalfElf", "DowryGold");
+DB_BUGFIX_Marker("GUS-302048");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+AND
+DB_DEN_AttackOnDen_EmptyLair(1, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_AttackOnDen_Event_Start_c641da6a-b3f5-4873-bd34-c53768d30d6f, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_AttackOnDen_State_DruidsAreDefeated_3c6d8a2c-dd85-48d1-b48d-f0c6d37959e4, _, _, _, _)
+THEN
+SetFlag(DEN_AttackOnDen_State_DruidsAreDefeated_3c6d8a2c-dd85-48d1-b48d-f0c6d37959e4, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_GlobalFlag(NIGHT_Gale_TressymJoin_7ca98d47-e9fa-4f87-8728-8e56c4ee652d, _, _, _, _)
+AND
+DB_ORI_Gale_BlockWorsenBomb(1, _, _, _, _)
+AND NOT
+DB_Camp_NightMode(1, _, _, _, _)
+THEN
+NOT DB_ORI_Gale_BlockWorsenBomb(1);
+DB_BUGFIX_Marker("GUS-302913");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 2", _, _, _, _)
+THEN
+PROC_ApplySavegamePatches_GUS_302682_ApplyFix();
+DB_BUGFIX_Marker("GUS-302682");
+
+PROC
+PROC_ApplySavegamePatches_GUS_302682_ApplyFix()
+AND
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+AND
+IsOnStage(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, 0, _, _, _)
+AND
+IsOnStage(S_GLO_GithDragon_9e21fba4-5a6d-4ca0-9738-2add3c967b3f, 1, _, _, _)
+THEN
+PROC_PLA_GithChokepoint_DragonEvent_FinishDragonLeaving();
+
+PROC
+PROC_ApplySavegamePatches_GUS_302682_ApplyFix()
+AND NOT
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+AND
+DB_PLA_GithChokepoint_Outcome(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CustomDialogRange(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 20);
+NOT DB_CustomDialogRange(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, 20);
+NOT DB_PLA_GithChokepoint_Outcome(_Var1);
+ClearFlag(PLA_GithChokepoint_State_ConfrontationIsOngoing_9c3fc7db-3ac3-4b6d-b895-106601db5d4a, NULL_00000000-0000-0000-0000-000000000000);
+PROC_PLA_GithChokepoint_MakeKnightAndDragonMortals();
+SetCanJoinCombat(S_GLO_GithDragon_9e21fba4-5a6d-4ca0-9738-2add3c967b3f, 1);
+SetDetached(S_GLO_GithDragon_9e21fba4-5a6d-4ca0-9738-2add3c967b3f, 0);
+PROC_PLA_GithChokepoint_CleanUp();
+DB_ApplySavegamePatches_GUS_302682_CleanUpChokepoint(1);
+
+IF
+DB_ApplySavegamePatches_GUS_302682_CleanUpChokepoint(1, _, _, _, _)
+AND
+DB_CurrentLevel("WLD_Main_A", _, _, _, _)
+THEN
+NOT DB_ApplySavegamePatches_GUS_302682_CleanUpChokepoint(1);
+PROC_SetOnStage(S_GLO_GithDragon_9e21fba4-5a6d-4ca0-9738-2add3c967b3f, 0);
+PROC_SetOnStage(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, 0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_GlobalFlag(DEN_GruntingKid_State_NoticedDoor_5e0abedc-87d2-230d-2b3b-748a8d1e9399, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_GruntingKid_State_HatchOpened_0ff8129d-c04b-4b7d-bf9b-60b55b40fbcc, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(DEN_GruntingKid_State_HatchOpened_0ff8129d-c04b-4b7d-bf9b-60b55b40fbcc);
+DB_BUGFIX_Marker("GUS-302863");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-302903");
+DB_BUGFIX_GUS302903_FixOwnership(DLC_DD_Painting_Portrait_Lohse_000_c474a3fe-0e04-41cc-94e2-8978c15033da, S_DEN_Apprentice_7cabf226-e34b-4556-8903-a45d0fe26caf);
+DB_BUGFIX_GUS302903_FixOwnership(DLC_DD_Painting_Portrait_Sebille_000_5b2b57cc-1c10-49f9-990f-6347060e11bb, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+
+IF
+DB_ActiveLevel("WLD_Main_A", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_BUGFIX_GUS302903_FixOwnership(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ClearOwnership(_Var1);
+DB_ItemOwnerShipClearItem("WLD_Main_A", _Var1);
+NOT DB_BUGFIX_GUS302903_FixOwnership(_Var1, _Var2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+THEN
+PROC_GOB_FestivSleepers_CompleteGoal();
+PROC_GOB_Festivities_CompleteGoal();
+DB_BUGFIX_Marker("GUS-302317");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND NOT
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_GoblinHeretic_RaidersDead_4e7261b8-9510-45ae-bb94-3d2e3b191e40, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-203631");
+DB_GOB_GoblinHeretic_RaidersGone(1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND NOT
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GOB_GoblinHeretic_RaidersDead_4e7261b8-9510-45ae-bb94-3d2e3b191e40, _, _, _, _)
+AND NOT
+QRY_GOB_GoblinHeretic_AnyRaiderInArea()
+THEN
+DB_GOB_GoblinHeretic_RaidersGone(1);
+DB_BUGFIX_Marker("GUS-203631");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

@@ -1,0 +1,69 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_PaladinOathbreaker_SubclassOathBrokenFlags(GLO_PaladinOathbreaker_Event_VengeanceBrokeOath_1510bcc9-e974-4789-b1fa-4612f92f30a1, PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23);
+DB_GLO_PaladinOathbreaker_SubclassTags(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, OATHBREAKER_VENGEANCE_732db1ed-740c-4af3-8a08-7f135d3f703c);
+DB_GLO_PaladinOathbreaker_EvilTags(KOBOLD_f68151f2-58ee-42e6-98ad-7d858c4a0f13);
+
+KBSECTION
+IF
+DB_GLO_PaladinOathbreaker_GenericCrimes(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_PaladinOathbreaker_CrimesToReact(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, _Var1, CIVILIAN_71120d5d-3853-46e4-9762-33f59aa6b4ae);
+DB_GLO_PaladinOathbreaker_CrimesToReact(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, _Var1, CROWDSYS_NPC_1274ffab-2fa2-4d6f-801e-751664ceb771);
+DB_GLO_PaladinOathbreaker_CrimesToReact(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, _Var1, KID_ee978587-6c68-4186-9bfc-3b3cc719a835);
+DB_GLO_PaladinOathbreaker_CrimesToReact(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, _Var1, GUARD_0b52f35e-fb1f-4865-bcd2-5d21ef7343cd);
+
+IF
+DB_GlobalFlag(UND_BroodingSovereign_State_AskedCircle_1d4839de-a9f1-72e2-2ae4-45579ad49309, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_BroodingSovereign_State_RefusedCircle_d0237569-b266-24c9-60f8-06eda3131892, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_Dead_da7ae2b1-fa67-0889-6003-48d6aef7271d, _, _, _, _)
+THEN
+DB_GLO_PaladinOathbreaker_ProtectedNPCs(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265);
+
+IF
+DB_GlobalFlag(UND_MyconidCircle_Event_BetraySpaw_2d4dfc5d-fcd1-281d-c397-002c57a975db, _, _, _, _)
+THEN
+DB_GLO_PaladinOathbreaker_ProtectedNPCs(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265);
+
+IF
+DB_GlobalFlag(UND_BroodingSovereign_State_RefusedCircle_d0237569-b266-24c9-60f8-06eda3131892, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_Event_BetraySpaw_2d4dfc5d-fcd1-281d-c397-002c57a975db, _, _, _, _)
+THEN
+NOT DB_GLO_PaladinOathbreaker_ProtectedNPCs(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265);
+
+IF
+DB_GlobalFlag(UND_MyconidCircle_BroodingSovereign_State_Dead_da7ae2b1-fa67-0889-6003-48d6aef7271d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_MyconidCircle_Event_BetraySpaw_2d4dfc5d-fcd1-281d-c397-002c57a975db, _, _, _, _)
+THEN
+NOT DB_GLO_PaladinOathbreaker_ProtectedNPCs(PALADIN_VENGEANCE_a1aa47b2-4d0a-4c97-931b-2c53353d5b23, S_UND_MyconidSovereign_ea0f222f-eaad-4d83-bbcd-cbae51ccf265);
+
+IF
+DestroyedBy(S_DEN_GoblinCageDoor_208e7554-1199-4737-b107-b3c1ccddd588, (CHARACTER)_Var1, _, _, (CHARACTER)_Var1)
+THEN
+PROC_DEN_CapturedGoblin_TryBreakOath(_Var1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_DEN_GoblinCageDoor_208e7554-1199-4737-b107-b3c1ccddd588, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsLocked(S_DEN_GoblinCageDoor_208e7554-1199-4737-b107-b3c1ccddd588, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_CapturedGoblin_TryBreakOath(_Var1);
+
+PROC
+PROC_DEN_CapturedGoblin_TryBreakOath((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_PaladinOathbreaker_Event_VengeanceBrokeOath_1510bcc9-e974-4789-b1fa-4612f92f30a1, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

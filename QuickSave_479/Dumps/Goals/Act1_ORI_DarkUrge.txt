@@ -1,0 +1,743 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_OneShot_VoiceBarkTrigger(S_GOB_RoastingDwarf_VB_DarkUrge_d6ce0c27-7b3b-4fd0-8b73-0baaebbfec72, GOB_RoastingDwarf_VB_DarkUrge_2637843d-3f3b-9e04-1261-f767bf58d537);
+DB_ORI_DarkUrge_AlfiraPos("WLDDUNABB", S_ORI_DarkUrge_AlfiraPosition_b0b77ea7-4819-88fe-42ec-e4c89477f4cf);
+DB_ORI_DarkUrge_AlfiraPos("WLDBAS", S_ORI_DarkUrge_AlfiraPosition_459b0e71-a919-87c4-5968-a7d9be3b4ba0);
+DB_ORI_DarkUrge_AlfiraPos("WLDMAIN", S_ORI_DarkUrge_AlfiraPosition_482e207c-9df8-873c-2ef5-f3408ca1ac73);
+DB_ORI_DarkUrge_AlfiraPos("WLDCAVGRN", S_ORI_DarkUrge_AlfiraPosition_677bf4e9-d50e-858e-49b6-49d050465fe2);
+DB_ORI_DarkUrge_AlfiraPos("WLDDUNSHA", S_ORI_DarkUrge_AlfiraPosition_b2736df9-d0e4-8540-49ec-e7d7c59c7a1c);
+DB_ORI_DarkUrge_AlfiraPos("WLDCAVSND", S_ORI_DarkUrge_AlfiraPosition_d7df3fd4-1ee9-8780-3aa6-00f60eaeb87b);
+DB_ORI_DarkUrge_AlfiraPos("WLDUND", S_ORI_DarkUrge_AlfiraPosition_f2756925-84c7-8f35-27fa-859db2c52d6d);
+DB_ORI_DarkUrge_AlfiraPos("SCLMAIN", S_ORI_DarkUrge_AlfiraPosition_513d3ead-58c1-8dd4-48f8-56f12362711f);
+DB_ORI_DarkUrge_AlfiraPos("SHARTEMPLE", S_ORI_DarkUrge_AlfiraPosition_0bb2266f-439a-483a-a35c-77d6dcc36597);
+DB_ORI_DarkUrge_AlfiraPos("HAVEN", S_ORI_DarkUrge_AlfiraPosition_1d1104f7-3518-8281-550f-dcea1112edf7);
+DB_ORI_DarkUrge_AlfiraPos("MOONRISE", S_ORI_DarkUrge_AlfiraPosition_1646bdb0-1211-8db1-4270-ad0084e403a9);
+DB_TopicalGreeting(TG_DarkUrge_AlfiraMurder_1a1b66f8-68f7-403b-8939-2feae6819e95);
+DB_TopicalGreetingEndCondition_LongRest(TG_DarkUrge_AlfiraMurder_1a1b66f8-68f7-403b-8939-2feae6819e95);
+DB_GiveItemToEventWithClear(S_ORI_DarkUrge_CloakReward_88ddc51d-2f1c-4871-9c5b-550ff0437cfc, ORI_DarkUrge_Event_GiveReward_d6b19afd-c589-4946-842f-aab99d905333);
+DB_ORI_GoblincampSubregion(S_GOB_Festivities_SUB_217424e5-f9b7-4441-ab09-715076696a12);
+DB_ORI_GoblincampSubregion(S_GOB_ThroneRoom_SUB_bb81678b-641c-43fc-bd41-53295d59be03);
+DB_ORI_GoblincampSubregion(S_GOB_PriestDungeon_SUB_d693268c-84c9-44c2-ac7d-11ebc5524764);
+DB_ORI_GoblincampSubregion(S_GOB_WolfPens_SUB_a9a4a7c2-87c6-4031-9859-7eddb0528ff6);
+DB_ORI_GoblincampSubregion(S_GOB_PainPenance_SUB_3189cec7-0f63-468c-a147-6a5fe426f518);
+DB_Dialogs(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31, DEN_BardBackup_c7ee92dc-6826-ef71-9367-b0934ac771f3);
+DB_ORI_DarkUrge_AlfiraIVBs(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_bfabc085-fb40-4147-e0e3-ef13229f5382, S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c);
+DB_ORI_DarkUrge_AlfiraIVBs(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_Backup_f28df493-b622-b1a2-6c91-feeb040e2db8, S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31);
+
+KBSECTION
+IF
+DB_ORI_DarkUrge_AlfiraPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_OriginCampData(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _Var1, _Var2);
+DB_ORI_OriginCampData(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31, _Var1, _Var2);
+
+IF
+CharacterLootedCharacter((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8, 1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("CRA_DarkUrge_WakeUp", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(ORI_DarkUrge_LootCorpse_1c7baa93-4189-bfef-5e45-5d6d05698820, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("CRA_DarkUrge_WakeUp");
+
+IF
+DB_DialogSpeakers(_Var1, S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var3, _, _Var1, _Var1)
+AND NOT
+DB_DialogName(CAMP_DarkUrge_MurderOfAlfira_CFM_AlfiraArrives_dcb97457-a697-83a3-91e8-abd0eccfbc1d, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Bard_HasMet_User_981dfdf9-82f6-bca6-881c-4548793becd5, _Var3, _Var1);
+
+PROC
+PROC_DialogFlagSetup(DEN_BardBackup_c7ee92dc-6826-ef71-9367-b0934ac771f3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(DEN_Bard_Backup_State_Arrived_c1e8b434-ffde-d0ab-5dd4-7ffb54eff3dd, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_CampNight_PreSelection_Hook()
+AND NOT
+DB_GlobalFlag(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_KilledIsobel_Requirement_b19523f2-d4bf-42f7-9834-2d19e04b2119, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_SparedIsobel_Requirement_7b24b6bb-f9ef-414e-92e8-a662ce41fced, _, _, _, _)
+THEN
+PROC_ORI_DarkUrge_SetupMurderOfAlfira();
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND NOT
+QRY_ORI_DarkUrge_ReplaceAlfira()
+THEN
+NOT DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31);
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+QRY_ORI_DarkUrge_ReplaceAlfira()
+THEN
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31);
+NOT DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND NOT
+QRY_ORI_DarkUrge_ReturnPositionInGoblinCamp()
+THEN
+ClearFlag(ORI_DarkUrge_MurderOfAlfira_State_InGoblinCamp_e402fcb5-ad72-4c1e-eae2-5c8ac20914c0, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+QRY
+QRY_ORI_DarkUrge_ReturnPositionInGoblinCamp()
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LeaveCamp_ReturnPos(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_ORI_GoblincampSubregion(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+PositionIsInTrigger(_Var2, _Var3, _Var4, _Var5, 1)
+THEN
+SetFlag(ORI_DarkUrge_MurderOfAlfira_State_InGoblinCamp_e402fcb5-ad72-4c1e-eae2-5c8ac20914c0, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_ORI_DarkUrge_MurderOfAlfiraRandom(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_MurderOfAlfiraRandom(_Var1);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_MurderOfAlfiraRandom(_Var1);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+QRY_GetRandom("DB_ORI_DarkUrge_MurderOfAlfiraRandom", 1, "DB_ORI_DarkUrge_MurderOfAlfiraRandom_Chosen", _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_CampNight_CFM(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CampfireMoment_FixedSpeakers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CampfireMoment_FixedSpeakers(_Var1, _Var2);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_CampNight_CFM(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CampfireMoment_OptionalSpeakers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CampfireMoment_OptionalSpeakers(_Var1, _Var2);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_CampNight_CFM(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CampNight_CFM(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+THEN
+DB_CampNight_CFM(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, CAMP_DarkUrge_MurderOfAlfira_CFM_AlfiraArrives_dcb97457-a697-83a3-91e8-abd0eccfbc1d);
+DB_CampfireMoment_FixedSpeakers(CAMP_DarkUrge_MurderOfAlfira_CFM_AlfiraArrives_dcb97457-a697-83a3-91e8-abd0eccfbc1d, S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31, _, _, _, _)
+THEN
+DB_CampNight_CFM(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, CAMP_DarkUrge_MurderOfAlfira_CFM_BardBackupArrives_ad8f4355-b46b-136b-4e55-7ee1d256b001);
+DB_CampfireMoment_FixedSpeakers(CAMP_DarkUrge_MurderOfAlfira_CFM_BardBackupArrives_ad8f4355-b46b-136b-4e55-7ee1d256b001, S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND
+DB_ORI_DarkUrge_MurderOfAlfiraRandom_Chosen(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CampfireMoment_OptionalSpeakers(CAMP_DarkUrge_MurderOfAlfira_CFM_AlfiraArrives_dcb97457-a697-83a3-91e8-abd0eccfbc1d, _Var1);
+NOT DB_ORI_DarkUrge_MurderOfAlfiraRandom_Chosen(_Var1);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_CampNight_MorningIVB(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_CampNight_MorningIVB(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var2);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_AlfiraIVBs(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CampNight_MorningIVB(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var2, _Var3);
+
+PROC
+PROC_ORI_DarkUrge_SetupMurderOfAlfira()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31, _, _, _, _)
+AND
+DB_ORI_DarkUrge_MurderOfAlfiraRandom_Chosen(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CampfireMoment_OptionalSpeakers(CAMP_DarkUrge_MurderOfAlfira_CFM_BardBackupArrives_ad8f4355-b46b-136b-4e55-7ee1d256b001, _Var1);
+NOT DB_ORI_DarkUrge_MurderOfAlfiraRandom_Chosen(_Var1);
+
+QRY
+QRY_ORI_DarkUrge_ReplaceAlfira()
+AND
+DB_CantTalk(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ORI_DarkUrge_ReplaceAlfira()
+AND
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_General_State_Entered_26b2dc6a-e5eb-4d99-a4bd-3ecaa3b86a9e, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_PartyMembers_MakeNPCHook(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c);
+DB_Dialogs(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, DEN_Bard_InParty_3c71c397-b378-340b-0da9-ef3d17d14423);
+
+IF
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c);
+DB_Dialogs(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, DEN_Bard_InParty_3c71c397-b378-340b-0da9-ef3d17d14423);
+
+IF
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _, _, _, _)
+THEN
+PROC_ORI_DarkUrge_TeleportAlfiraVictim();
+
+PROC
+PROC_CampNight_StartMorningMoments()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CorpseCleanup_Ignore(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CorpseCleanup_Ignore(_Var1);
+DB_CorpseCleanup_ReadyToBeRemoved(_Var1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(CAMP_DarkUrge_MurderOfAlfira_SD_BloodOnHands_06b3f254-a0ba-d0fb-d8f4-6e2541cb5a2c, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_AlfiraPos(_Var4, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_StayInCampAfterLongRest(1);
+TeleportTo(_Var2, _Var5, "", 0, 0, 0, 0, 1);
+SetOnStage(_Var2, 0);
+PROC_ClearStoryMove(_Var2);
+DB_DialogDeath(_Var2);
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+PROC_GlobalSetFlagAndCache(ORI_DarkUrge_State_MurderedAlfiraOrAlternativeInSleep_1b2a9aa5-7cc1-42d3-98d1-a254d612c37a);
+PROC_ORI_DarkUrge_DarkUrgeKilled(_Var3, _Var2);
+
+IF
+DialogStarted(CAMP_SleepCutscene_69f925cf-1afd-4680-9532-8e80221aa93a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_Event_HideAlfiraCorpse_c5e208f3-862b-bf96-1814-552b983149a1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var2, 1);
+
+IF
+DialogEnded(CAMP_SleepCutscene_69f925cf-1afd-4680-9532-8e80221aa93a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_DarkUrge_Event_HideAlfiraCorpse_c5e208f3-862b-bf96-1814-552b983149a1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+CreateSurfaceAtPosition(_Var3, _Var4, _Var5, "SurfaceNone", 2, -1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogStarted(CAMP_SleepCutscene_69f925cf-1afd-4680-9532-8e80221aa93a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDead(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DialogDeath(_Var2);
+Die(_Var2, 0, _Var3, 1, 1, 0);
+PROC_ORI_DarkUrge_DeathRitualCircle(_Var2);
+
+IF
+DialogEnded(CAMP_DarkUrge_MurderOfAlfira_SD_BloodOnHands_06b3f254-a0ba-d0fb-d8f4-6e2541cb5a2c, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var2, _, _, _, _)
+THEN
+PROC_Origins_CompanionLeavePermanently(_Var2, "CompanionMurdered");
+
+PROC
+PROC_ORI_DarkUrge_DeathRitualCircle((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_LoopEffectAtPositionAndRotation(VFX_Script_Bhaals_Blood_Droplets_Root_01_437788a3-d32b-1b63-26d7-0ae76c67daa2, _Var1, "ORI_DarkUrge_MurderedSign", "WLD_Main_A", 0.6);
+
+IF
+FlagSet(ORI_DarkUrge_Event_HideAlfiraCorpse_c5e208f3-862b-bf96-1814-552b983149a1, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+NOT DB_Camp_QueuedMorningIVB(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_bfabc085-fb40-4147-e0e3-ef13229f5382, _Var3);
+NOT DB_Camp_QueuedMorningIVB(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_Backup_f28df493-b622-b1a2-6c91-feeb040e2db8, _Var3);
+
+IF
+KilledBy((CHARACTER)_Var1, (CHARACTER)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_DarkUrge_State_MurderedAlfiraOrAlternative_6bb5bfcc-e762-40d4-a05b-9bdf860ba099, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+QRY
+QRY_Camp_StartSoloDream_CustomDialogStart(CAMP_DarkUrge_MurderOfAlfira_SD_BloodOnHands_06b3f254-a0ba-d0fb-d8f4-6e2541cb5a2c, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var2, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+AND
+DB_CantTalk_IgnoreStatusesCombat(_Var3, _, _, _, _)
+AND NOT
+DB_Dead(_Var2, _, _, _, _)
+THEN
+NOT DB_Camp_StayInCampAfterLongRest(1);
+SetFlag(ORI_DarkUrge_State_ButlerMurderedAlfiraOrAlternative_0e8eb8c5-c5ce-4878-9cf9-4567ba37902a, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_Camp_QueuedMorningIVB(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_bfabc085-fb40-4147-e0e3-ef13229f5382, _Var3);
+Die(_Var2, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 0);
+PROC_ORI_DarkUrge_DeathRitualCircle(_Var2);
+PROC_Origins_CompanionLeavePermanently(_Var2, "CompanionMurdered");
+
+QRY
+QRY_Camp_StartSoloDream_CustomDialogStart(CAMP_DarkUrge_MurderOfAlfira_SD_BloodOnHands_06b3f254-a0ba-d0fb-d8f4-6e2541cb5a2c, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var2, _, _, _, _)
+AND
+DB_Dead(_Var2, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+NOT DB_Camp_StayInCampAfterLongRest(1);
+NOT DB_Camp_QueuedMorningIVB(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_bfabc085-fb40-4147-e0e3-ef13229f5382, _Var3);
+PROC_Origins_CompanionLeavePermanently(_Var2, "CompanionMurdered");
+
+IF
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_AlfiraMurderVictimWaitingFor(_Var2);
+
+IF
+DB_ORI_DarkUrge_AlfiraMurderVictimWaitingFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_AlfiraMurderVictimWaitingFor(_Var1);
+PROC_ORI_DarkUrge_AlfiraMurderVictimWaitingFor_Retry();
+
+IF
+DB_ORI_DarkUrge_AlfiraMurderVictimWaitingFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_AlfiraMurderVictimWaitingFor(_Var1);
+PROC_ORI_DarkUrge_AlfiraMurderVictimWaitingFor_Retry();
+
+PROC
+PROC_ORI_DarkUrge_AlfiraMurderVictimWaitingFor_Retry()
+AND NOT
+DB_ORI_DarkUrge_AlfiraMurderVictimWaitingFor(_, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var2, _, _, _, _)
+THEN
+CreateSurface(_Var2, "SurfaceNone", 2, -1, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CorpseCleanup_CreateLootbag(_Var2);
+SetOnStage(_Var2, 0);
+
+IF
+WentOnStage((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictimWaitingFor(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_AlfiraMurderVictimWaitingFor(_Var2);
+
+PROC
+PROC_ORI_DarkUrge_BringBardCorpseNear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 > 6
+THEN
+TeleportTo(_Var1, _Var2, "", 0, 0, 0, 0, 1);
+
+IF
+EnteredTrigger(_, S_FOR_AreaTrigger_1bdea0df-2dcc-4190-bfa0-b812ad96dbf1, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+SetFlag(ORI_DarkUrge_MurderOfAlfira_Requirement_8cccf7a0-5d65-4bbd-b568-9cbb9e69bb27, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_ORI_DarkUrge_TeleportAlfiraVictim()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OriginCampFlags(_Var1, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ORI_DarkUrge_TeleportAlfiraVictim()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_DarkUrge_MurderOfAlfira_Alternative_1904d9ba-7d71-4f02-8c3c-cd57d7e0606d);
+
+PROC
+PROC_ORI_DarkUrge_TeleportAlfiraVictim()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var2, _, _, _Var5, _Var1)
+THEN
+DB_CorpseCleanup_Ignore(_Var1);
+TeleportTo(_Var1, _Var5);
+PROC_Foop(_Var1, VFX_Script_Stub_Poof_01_NoSound_de020641-4dbd-855e-9b2f-f008a32d6737);
+
+PROC
+PROC_ORI_DarkUrge_TeleportAlfiraVictim()
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+THEN
+DB_OriginInPartyDialog(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, DEN_Bard_InParty_3c71c397-b378-340b-0da9-ef3d17d14423);
+DB_OriginNPCAlignment(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, ACT1_DEN_TieflingBard_082ce2e1-e636-4a56-817c-af798bdc59d8);
+DB_OriginPartOfTheTeamFlag(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, ORI_Alfira_ControlledByUser_e7f05e38-3c03-4e6d-9649-936d7fdfd8e9);
+DB_OriginKickFromPartyFlags(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, ORI_Alfira_Event_KickCompanion_23496e30-47fd-47a2-aa6d-8f2e71820e84, ORI_Alfira_State_CanBeKicked_a6499b8c-0908-463e-a9b7-ca0350820f1c);
+PROC_GLO_PartyMembers_MakeNPC(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c);
+
+IF
+DialogEnded(CAMP_DarkUrge_MurderOfAlfira_SD_BloodOnHands_06b3f254-a0ba-d0fb-d8f4-6e2541cb5a2c, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_DarkUrge_Event_HideAlfiraCorpse_c5e208f3-862b-bf96-1814-552b983149a1, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_DarkUrge_MurderOfAlfira_Alternative_1904d9ba-7d71-4f02-8c3c-cd57d7e0606d, _, _, _, _)
+THEN
+SetOnStage(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31, 0);
+IterateInventory(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31, "ORI_DarkUrge_AlfiraMurder_InventoryCheck", "");
+
+IF
+DialogEnded(CAMP_DarkUrge_MurderOfAlfira_SD_BloodOnHands_06b3f254-a0ba-d0fb-d8f4-6e2541cb5a2c, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_DarkUrge_Event_HideAlfiraCorpse_c5e208f3-862b-bf96-1814-552b983149a1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_MurderOfAlfira_Alternative_1904d9ba-7d71-4f02-8c3c-cd57d7e0606d, _, _, _, _)
+THEN
+SetOnStage(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, 0);
+IterateInventory(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, "ORI_DarkUrge_AlfiraMurder_InventoryCheck", "");
+
+IF
+EntityEvent((ITEM)_Var1, "ORI_DarkUrge_AlfiraMurder_InventoryCheck", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsStoryItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(_Var1, _Var2, -1, 1, 1);
+
+IF
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10
+AND
+_Var1 != S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c
+AND
+_Var1 != S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31
+AND NOT
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_PotentialMurderJudger(_Var1, 1);
+
+IF
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10
+AND
+_Var1 != S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c
+AND
+_Var1 != S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31
+AND NOT
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_PotentialMurderJudger(_Var1, 1);
+
+IF
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10
+AND
+_Var1 != S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c
+AND
+_Var1 != S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31
+AND NOT
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_PotentialMurderJudger(_Var1, 0);
+
+IF
+DB_ORI_DarkUrge_PotentialMurderJudger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_PotentialMurderJudger(_Var1, _Var2);
+PROC_ORI_DarkUrge_CheckMultipleMurderJudgers();
+
+IF
+DB_ORI_DarkUrge_PotentialMurderJudger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_QueuedNight(NIGHT_DarkUrge_MurderOfAlfira_b0e97b06-b2f8-4376-829f-23d4b4bcf78d, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_PotentialMurderJudger(_Var1, _Var2);
+PROC_ORI_DarkUrge_CheckMultipleMurderJudgers();
+
+IF
+DB_ORI_DarkUrge_PotentialMurderJudger(_, 1, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_State_PartyToJudgeAlfiraMurder_b78df83d-fc9f-4e64-bef5-521eb0ccfa5c, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_DarkUrge_State_PartyToJudgeAlfiraMurder_b78df83d-fc9f-4e64-bef5-521eb0ccfa5c);
+
+IF
+DB_GlobalFlag(ORI_DarkUrge_State_PartyToJudgeAlfiraMurder_b78df83d-fc9f-4e64-bef5-521eb0ccfa5c, _, _, _, _)
+AND NOT
+DB_ORI_DarkUrge_PotentialMurderJudger(_, 1, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(ORI_DarkUrge_State_PartyToJudgeAlfiraMurder_b78df83d-fc9f-4e64-bef5-521eb0ccfa5c);
+
+IF
+DB_ORI_DarkUrge_PotentialMurderJudger(_, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_State_CamperToJudgeAlfiraMurder_c6f0cac8-0c35-48d1-81f2-30058ed0e647, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_DarkUrge_State_CamperToJudgeAlfiraMurder_c6f0cac8-0c35-48d1-81f2-30058ed0e647);
+
+IF
+DB_GlobalFlag(ORI_DarkUrge_State_CamperToJudgeAlfiraMurder_c6f0cac8-0c35-48d1-81f2-30058ed0e647, _, _, _, _)
+AND NOT
+DB_ORI_DarkUrge_PotentialMurderJudger(_, _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(ORI_DarkUrge_State_CamperToJudgeAlfiraMurder_c6f0cac8-0c35-48d1-81f2-30058ed0e647);
+
+IF
+DB_ORI_DarkUrge_PotentialMurderJudger(_, _, _, _, _)
+THEN
+PROC_ORI_DarkUrge_CheckMultipleMurderJudgers();
+
+PROC
+PROC_ORI_DarkUrge_CheckMultipleMurderJudgers()
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_State_CamperToJudgeAlfiraMurder_Solo_58202a18-9a83-49c7-8781-2d868a2812f1, _, _, _, _)
+AND
+SysCount("DB_ORI_DarkUrge_PotentialMurderJudger", 2, 1, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(ORI_DarkUrge_State_OnlyOneToJudgeAlfiraMurder_58202a18-9a83-49c7-8781-2d868a2812f1);
+
+PROC
+PROC_ORI_DarkUrge_CheckMultipleMurderJudgers()
+AND
+DB_GlobalFlag(ORI_DarkUrge_State_CamperToJudgeAlfiraMurder_Solo_58202a18-9a83-49c7-8781-2d868a2812f1, _, _, _, _)
+AND NOT
+SysCount("DB_ORI_DarkUrge_PotentialMurderJudger", 2, 1, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(ORI_DarkUrge_State_OnlyOneToJudgeAlfiraMurder_58202a18-9a83-49c7-8781-2d868a2812f1);
+
+IF
+DB_Camp_LeaveAfterIVB(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge_AlfiraIVBs(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Camp_LeaveAfterIVB(_Var1);
+
+IF
+ItemLeftTrigger((ITEM)_Var1, S_GOB_RoastingDwarf_StealingTrigger_4ea00991-09e9-4605-b6e8-4b5c895fd154, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GOB_RoastingDwarf_Pieces(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveOneShotVoiceBarkTrigger(S_GOB_RoastingDwarf_VB_DarkUrge_d6ce0c27-7b3b-4fd0-8b73-0baaebbfec72, GOB_RoastingDwarf_VB_DarkUrge_2637843d-3f3b-9e04-1261-f767bf58d537);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_NPC(_Var3, "Hideout", _, _Var1, _Var1)
+AND
+DB_Dead(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var3, S_DEN_HideoutArea_c4f9e65f-fc63-42b6-bd2e-eba70b24a700, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("DEN_Hideout_AD_DarkUrgeSeesDeadChild", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DEN_Hideout_AD_DarkUrgeSeesDeadChild_bdc04437-0c86-f034-17a5-2d0e7361bc35, _Var1);
+
+IF
+VoiceBarkFailed(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_bfabc085-fb40-4147-e0e3-ef13229f5382, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(TG_DarkUrge_AlfiraMurder_1a1b66f8-68f7-403b-8939-2feae6819e95, _Var1, 0);
+
+IF
+VoiceBarkEnded(CAMP_DarkUrge_MurderOfAlfira_GD_IVB_MorningAfter_bfabc085-fb40-4147-e0e3-ef13229f5382, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_DarkUrge_State_SuspectedAlfiraMurder_7ef11fbd-70d6-74d7-2679-8d062cd9c3e8, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var2, _, _, _, _)
+THEN
+SetFlag(TG_DarkUrge_AlfiraMurder_1a1b66f8-68f7-403b-8939-2feae6819e95, _Var2, 0);
+
+IF
+FlagSet(ORI_DarkUrge_State_HackedGale_a18d0203-6c1e-b758-242a-c01c60b243a6, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+TemplateAddTo(UNI_LOOT_Darkurge_Gale_Severed_Hand_c8fa7c2f-d34a-4b42-a4fa-c2476fab6c92, _Var3, 1, 1);
+
+IF
+TemplateAddedTo(UNI_LOOT_Darkurge_Gale_Severed_Hand_c8fa7c2f-d34a-4b42-a4fa-c2476fab6c92, (ITEM)_Var1, _, _, (ITEM)_Var1)
+THEN
+DB_ORI_DarkUrge_GaleHand(_Var1);
+
+IF
+FlagSet(ORI_DarkUrge_State_MurderedAlfiraOrAlternative_6bb5bfcc-e762-40d4-a05b-9bdf860ba099, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "ORI_Avatar_DarkUrge", "KilledAlfira");
+
+IF
+FlagSet(ORI_DarkUrge_State_MurderedAlfiraOrAlternative_6bb5bfcc-e762-40d4-a05b-9bdf860ba099, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_Backup_8ef4c8ea-317d-4539-aa5b-c5e899cf0f31, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "ORI_Avatar_DarkUrge", "KilledBardBackup");
+
+IF
+FlagSet(ORI_DarkUrge_State_ButlerMurderedAlfiraOrAlternative_0e8eb8c5-c5ce-4878-9cf9-4567ba37902a, _, _, _, _)
+AND
+DB_ORI_DarkUrge_AlfiraMurderVictim(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "ORI_Avatar_DarkUrge", "FailedKillAlfira");
+
+IF
+DialogEnded(CAMP_FirstNight_AvD_PostEA_69e79939-6148-1b93-d654-e54374ef9353, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "ORI_Avatar_DarkUrge", "FirstNight");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

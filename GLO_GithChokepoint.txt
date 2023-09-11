@@ -1,0 +1,257 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_GithMap(S_GLO_GithCrecheMap_480f350e-79ae-46f6-aee7-e7ab63d2a011);
+DB_GiveItemToEventWithClear(S_GLO_GithCrecheMap_480f350e-79ae-46f6-aee7-e7ab63d2a011, PLA_GithChokepoint_Event_TakeMap_a30d444a-d792-4dce-8900-56e2b2f0b893);
+DB_DialogBlockAttackButton(PLA_GithChokepoint_ReadingMap_ede7afb2-7947-b6bf-1018-eff5ce02e027);
+DB_DropMutingStatussesDialog(PLA_GithChokepoint_ReadingMap_ede7afb2-7947-b6bf-1018-eff5ce02e027);
+DB_HasItemEvent(S_GLO_GithCrecheMap_480f350e-79ae-46f6-aee7-e7ab63d2a011, GLO_GithChokePoint_State_HasGithCrecheMap_438cfd15-013a-480e-9410-1780c93d3f2b);
+
+KBSECTION
+IF
+TextEvent("resetgithmap", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Drop(S_GLO_GithCrecheMap_480f350e-79ae-46f6-aee7-e7ab63d2a011);
+TeleportTo(S_GLO_GithCrecheMap_480f350e-79ae-46f6-aee7-e7ab63d2a011, _Var1);
+NOT DB_OnlyOnce("GLO_GithMap_AutoReadingOnPickUp");
+NOT DB_OnlyOnce("GLO_GithMap_LaezelReadIt");
+ClearFlag(GLO_GithChokepoint_Knows_DecipheredMap_604768b9-c983-414d-8c3b-ba1dee3da387, NULL_00000000-0000-0000-0000-000000000000);
+PROC_GLO_GithMap_ClearReader();
+
+IF
+TextEvent("resetgithmap", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(PLA_GithChokepoint_State_FailedReadingMap_b4843920-547e-81e1-67b2-421e8ed2001f, _Var1);
+ClearFlag(PLA_GithChokepoint_Event_LostMapToLaezel_ed13e2a1-501c-fdbf-bee4-63c5dc04e32e, _Var1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_GithMap(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_GithMap_CantUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+PROC_PlayCantUseItemAD(_Var1);
+
+QRY
+QRY_GLO_GithMap_CantUse((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_GithMap_Reader(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_GithMap_CantUse((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_GithMap_CantUse((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, S_PLA_GithChokepoint_OngoingSceneArea_6f67dee0-2720-4617-a263-68a58da5681c, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(PLA_GithChokepoint_State_SceneDone_2fa4006f-12e5-4666-931b-e31dee737f2f, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+AddedTo((ITEM)_Var1, (CHARACTER)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_GithMap(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_GithMap_TryAutostartFirstTime", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_GithMap_CantUse(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_GithMap_PickUp(_Var1, _Var2);
+PROC_GLO_GithMap_ProcessInteraction(_Var2);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_GithMap(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_GithMap_CantUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_GithMap_PickUp(_Var2, _Var1);
+PROC_GLO_GithMap_ProcessInteraction(_Var1);
+
+PROC
+PROC_GLO_GithMap_PickUp((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+QRY_OnlyOnce("GLO_GithMap_AutoReadingOnPickUp", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_PLA_ChokepointControlSphere_ca3e6cb3-bd1e-456f-8e12-4b75be7f3fdb, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_GithMap_TryLaezelAvatarVB(1);
+
+PROC
+PROC_GLO_GithMap_PickUp((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsInInventoryOf(_Var1, _Var2, 0, _Var1, _Var1)
+THEN
+ToInventory(_Var1, _Var2, 1, 1, 1);
+
+PROC
+PROC_GLO_GithMap_ProcessInteraction((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_GLO_GithMap_Reader(_Var1);
+
+PROC
+PROC_GLO_GithMap_ProcessInteraction(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_OnlyOnce("GLO_GithMap_LaezelReadIt", _, _, _, _)
+AND NOT
+QRY_GLO_GithMap_LaezelStartsDialog(NULL_00000000-0000-0000-0000-000000000000, _, _, _, _)
+THEN
+PROC_GLO_GithMap_ClearReader();
+
+PROC
+PROC_GLO_GithMap_ProcessInteraction(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND
+DB_OnlyOnce("GLO_GithMap_LaezelReadIt", _, _, _, _)
+AND
+QRY_StartDialog_Fixed(PLA_GithChokepoint_ReadingMap_ede7afb2-7947-b6bf-1018-eff5ce02e027, NULL_00000000-0000-0000-0000-000000000000, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _)
+THEN
+PROC_GLO_GithMap_ClearReader();
+
+PROC
+PROC_GLO_GithMap_ProcessInteraction((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12
+AND NOT
+QRY_GLO_GithMap_LaezelTakesOver(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog_Fixed(PLA_GithChokepoint_ReadingMap_ede7afb2-7947-b6bf-1018-eff5ce02e027, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_GithMap_ClearReader();
+
+QRY
+QRY_GLO_GithMap_LaezelTakesOver((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("GLO_GithMap_LaezelReadIt", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_GithChokepoint_Knows_DecipheredMap_604768b9-c983-414d-8c3b-ba1dee3da387, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_GithCreche_State_EverEnteredBefore_3ebdfeaa-4e83-4878-90db-01adb9fdf629, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_GithMap_LaezelStartsDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_GithMap_ClearReader();
+
+QRY
+QRY_GLO_GithMap_LaezelStartsDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetFlag(PLA_GithChokepoint_Event_LostMapToLaezel_ed13e2a1-501c-fdbf-bee4-63c5dc04e32e, _Var1);
+
+QRY
+QRY_GLO_GithMap_LaezelStartsDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog(PLA_GithChokepoint_ReadingMap_ede7afb2-7947-b6bf-1018-eff5ce02e027, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("GLO_GithMap_LaezelReadIt");
+
+PROC
+PROC_GLO_GithMap_ClearReader()
+AND
+DB_GLO_GithMap_Reader(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_GithMap_Reader(_Var1);
+
+IF
+DialogEnded(PLA_GithChokepoint_ReadingMap_ede7afb2-7947-b6bf-1018-eff5ce02e027, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GLO_GithMap_ClearReader();
+
+IF
+DialogEnded(PLA_GithChokepoint_ReadingMap_ede7afb2-7947-b6bf-1018-eff5ce02e027, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+_Var2 != S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12
+AND NOT
+DB_GlobalFlag(GLO_GithChokepoint_Knows_DecipheredMap_604768b9-c983-414d-8c3b-ba1dee3da387, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(PLA_GithChokepoint_Event_LostMapToLaezel_ed13e2a1-501c-fdbf-bee4-63c5dc04e32e, _Var2);
+
+IF
+DialogEnded(PLA_GithChokepoint_ReadingMap_ede7afb2-7947-b6bf-1018-eff5ce02e027, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_GithMap_TryLaezelAvatarVB(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_GithMap_TryLaezelAvatarVB(1);
+PROC_GLO_GithMap_TryStartLaezelAvatarVB(_Var1);
+
+PROC
+PROC_GLO_GithMap_TryStartLaezelAvatarVB((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _Var1, _Var1)
+AND
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_PLA_ChokepointControlSphere_ca3e6cb3-bd1e-456f-8e12-4b75be7f3fdb, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_GithCreche_State_EverEnteredBefore_3ebdfeaa-4e83-4878-90db-01adb9fdf629, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CheckOtherPlayersInTrigger(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, S_PLA_ChokepointControlSphere_ca3e6cb3-bd1e-456f-8e12-4b75be7f3fdb, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(PLA_GithChokepoint_VB_LaezelReadMap_1835e2e8-76de-0611-08b1-76671c106f27, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+IF
+FlagSet(GLO_GithChokepoint_Knows_DecipheredMap_604768b9-c983-414d-8c3b-ba1dee3da387, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+SetFlag(GLO_GithCreche_Knows_Location_ff285172-c1a0-698d-981f-1b0530e72464);
+
+IF
+FlagSet(GLO_GithChokepoint_Knows_DecipheredMap_604768b9-c983-414d-8c3b-ba1dee3da387, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_GLO_GithMap(S_GLO_GithCrecheMap_480f350e-79ae-46f6-aee7-e7ab63d2a011, _, _, _, _)
+THEN
+SetStoryDisplayName(S_GLO_GithCrecheMap_480f350e-79ae-46f6-aee7-e7ab63d2a011, "PLA_GithCrecheMap");
+
+IF
+FlagSet(GLO_GithChokepoint_Knows_DecipheredMap_604768b9-c983-414d-8c3b-ba1dee3da387, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+PROC_ShowMarker(_Var3, "SCL_PathToCreche");
+PROC_ShowMarker(_Var3, "WLD_PathToCreche");
+
+IF
+DB_GlobalFlag(ORI_Laezel_Knows_CrecheLocation_696c423d-e6da-428e-a7fe-c083fffccad2, _, _, _, _)
+AND
+DB_CurrentLevel("CRE_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_GithChokepoint_State_SceneDone_2fa4006f-12e5-4666-931b-e31dee737f2f, _, _, _, _)
+THEN
+SetFlag(PLA_GithChokepoint_State_Cancelled_125f66fd-d046-4daa-ac1c-eb4fc29cfb1c);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

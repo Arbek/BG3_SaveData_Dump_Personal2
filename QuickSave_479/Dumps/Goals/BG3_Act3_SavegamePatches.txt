@@ -1,0 +1,467 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+THEN
+DB_WYR_South_AccessGrantedPatched(1);
+DB_BUGFIX_Marker("GUS-298241");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_LearnedCultLocation", 0, _)
+AND
+DB_GlobalFlag(LOW_HouseOfGrief_Knows_IsSharCult_6aa0816f-5827-4669-b3d3-b6dd71a6b95e, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_SharPath_bf9ae334-ff6a-458d-b898-3074bca0bdfb, _, _, _, _)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "SharPath_LearnedCultLocation");
+DB_BUGFIX_Marker("GUS-298427");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+QuestUpdateIsUnlocked(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_LearnedCultLocation", 0, _)
+AND
+DB_GlobalFlag(LOW_HouseOfGrief_Knows_IsSharCult_6aa0816f-5827-4669-b3d3-b6dd71a6b95e, _, _, _, _)
+AND
+DB_DialogName(WYR_RefugeeCamp_OM_Shadowheart_COM_64277eb5-3c13-6da6-9184-0cfe7805c5c3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Shadowheart_State_EnemyOfSharPath_055bbe0f-05f5-444b-a7e2-0f66edd2178c, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, "ORI_COM_ShadowHeart", "EnemyOfShar_LearnedCultLocation");
+DB_BUGFIX_Marker("GUS-298427");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LoopEffect(_Var1, _, "RelationshipMarker", _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+DB_BUGFIX_Marker("GUS-299778");
+PROC_StopLoopEffect(_Var1, "RelationshipMarker");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 4, 0, _)
+AND
+DB_GlobalFlag(CAMP_Yenna_State_PostAbductionCampChat_d30c5b6a-eada-4c8c-927d-a50de178ec29, _, _, _, _)
+AND
+DB_InCamp(S_GLO_Yenna_d496d903-d3d6-4314-a324-18542de77b0f, _, _, _, _)
+THEN
+PROC_SetCustomTradeTreasure(S_GLO_Yenna_d496d903-d3d6-4314-a324-18542de77b0f, "LOW_Yenna_SoupTrader");
+DB_BUGFIX_Marker("GUS-298227");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+THEN
+DB_BUGFIX_Marker("GUS-298824");
+DB_GLO_ExclusiveFlag("WYR_WyrmRock_SouthBridgeState", WYR_WyrmRock_SouthBridge_State_BridgeLowered_b2ef324c-0a5b-447d-be7e-9d6a84550f68);
+DB_GLO_ExclusiveFlag("WYR_WyrmRock_SouthBridgeState", WYR_WyrmRock_SouthBridge_State_BridgeRaised_0a37f68f-2983-4e22-8d0b-33f209fb8c7b);
+PROC_GLO_Bugfix_298824_InitBridgeState();
+
+PROC
+PROC_GLO_Bugfix_298824_InitBridgeState()
+AND
+DB_GlobalFlag(VISITEDREGION_BGO_Main_A_40f06537-814f-4796-b012-5ffaa648a8d9, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_WyrmRock_SouthBridge_State_BridgeRaised_0a37f68f-2983-4e22-8d0b-33f209fb8c7b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_WyrmRock_SouthBridge_State_BridgeLowered_b2ef324c-0a5b-447d-be7e-9d6a84550f68, _, _, _, _)
+THEN
+SetFlag(WYR_WyrmRock_SouthBridge_State_BridgeRaised_0a37f68f-2983-4e22-8d0b-33f209fb8c7b);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_GlobalFlag(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769, _, _, _, _)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_AcceptedGortashAlliance_361e5553-4dc9-4f0f-2e2f-0b3ef8f50385);
+PROC_CancelRelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_RejectedGortashAlliance_e990a351-329f-4723-bdcc-62ca2217ed22);
+DB_BUGFIX_Marker("GUS-298853");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND NOT
+DB_LOW_OskarsBeloved_GUS_298378_ClosingSteps(_, _, _, _, _)
+THEN
+DB_LOW_OskarsBeloved_GUS_298378_ClosingSteps("PossessedOskarCombat_LeftCombat");
+DB_LOW_OskarsBeloved_GUS_298378_ClosingSteps("PossessedOskarCombat_KilledOskar");
+DB_LOW_OskarsBeloved_GUS_298378_ClosingSteps("LetKerriKillOskar");
+DB_LOW_OskarsBeloved_GUS_298378_ClosingSteps("ConvincedKerri_OskarGivesSketchbook");
+DB_LOW_OskarsBeloved_GUS_298378_ClosingSteps("KilledKerri_OskarGivesSketchbook");
+DB_LOW_OskarsBeloved_GUS_298378_ClosingSteps("OskarMadePortrait");
+DB_BUGFIX_Marker("GUS-298378");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_QuestIsOpened("GLO_DoubtingArtist", _, _, _, _)
+AND
+DB_LOW_OskarsBeloved_GUS_298378_ClosingSteps(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_QuestUpdateIsUnlockedForAny("GLO_DoubtingArtist", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestClose("GLO_DoubtingArtist");
+DB_BUGFIX_Marker("GUS-298378");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+GetFlag(ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 1, _, _)
+AND NOT
+DB_HandlingRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, _, _, _, _, _, _, _, _)
+THEN
+ClearFlag(ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, 0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+THEN
+DB_BUGFIX_Marker("GUS-297024");
+DB_WYR_WyrmRock_UseOldImplementationOfBridges(1);
+
+IF
+DB_BUGFIX_Marker("GUS-297024", _, _, _, _)
+AND
+DB_GlobalFlag(CURRENTREGION_BGO_Main_A_11239767-48ad-4879-8312-b9164b6e4978, _, _, _, _)
+THEN
+SetCanInteract(S_WYR_WyrmRock_SouthBridge_9e8dab1b-b39e-4c73-8621-9bbeee61baab, 0);
+SetCanInteract(S_WYR_WyrmRock_NorthBridge_4f437ef7-6c97-4ad5-bb46-3e7ebbd872ac, 0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_GlobalFlag(CAMP_VlaakithVisit_Event_VlaakithCameToCamp_82dcf5f6-1bc0-ee82-d0cb-fd90de88a077, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_Knows_MetVlaakith_c93015c2-6ae4-4013-b439-433b588f881c, _, _, _, _)
+THEN
+SetFlag(ORI_Laezel_Knows_MetVlaakith_c93015c2-6ae4-4013-b439-433b588f881c);
+DB_BUGFIX_Marker("GUS-295872");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_Destroyed_91795368-af06-4b56-9ac1-b78995aa9ea9, _, _, _, _)
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_Visited_5b3fb5a7-61e8-44a9-a0a1-b6b45b59a23c, _, _, _, _)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, _, _, _, _)
+THEN
+PROC_IRN_KillRavengard();
+DB_BUGFIX_Marker("GUS-300772");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_GLO_Bugfix_300177_RestoreDialogs(1);
+
+IF
+DB_GLO_Bugfix_300177_RestoreDialogs(1, _, _, _, _)
+AND
+DB_GlobalFlag(CURRENTREGION_BGO_Main_A_11239767-48ad-4879-8312-b9164b6e4978, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_VampireSpawns_State_MovedToCazador_a03cf538-552c-a672-db83-10e9ceaf99e2, _, _, _, _)
+AND NOT
+DB_Dialogs(S_WYR_VampireSpawns_Dalyria_204a74d2-e6ad-4e9b-a275-f03cb5f3d975, WYR_VampireSpawns_Dalyria_6b2df18f-a498-146e-13c3-c2a5d3c02287, _, _, _)
+THEN
+DB_Dialogs(S_WYR_VampireSpawns_Dalyria_204a74d2-e6ad-4e9b-a275-f03cb5f3d975, WYR_VampireSpawns_Dalyria_6b2df18f-a498-146e-13c3-c2a5d3c02287);
+DB_BUGFIX_Marker("GUS-300177");
+
+IF
+DB_GLO_Bugfix_300177_RestoreDialogs(1, _, _, _, _)
+AND
+DB_GlobalFlag(CURRENTREGION_BGO_Main_A_11239767-48ad-4879-8312-b9164b6e4978, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_VampireSpawns_State_MovedToCazador_a03cf538-552c-a672-db83-10e9ceaf99e2, _, _, _, _)
+AND NOT
+DB_Dialogs(S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b, WYR_VampireSpawns_Petra_4270d451-e31a-9da8-e0bb-d9ee8aa5a5e4, _, _, _)
+THEN
+DB_Dialogs(S_WYR_VampireSpawns_Petra_6fb6e85e-ccd0-42ef-a37d-1e256a433f3b, WYR_VampireSpawns_Petra_4270d451-e31a-9da8-e0bb-d9ee8aa5a5e4);
+DB_BUGFIX_Marker("GUS-300177");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_QuestDef_State_ConditionalFlag(GLO_Ravengard_State_Defeated_7bb624ef-09cb-4e55-b035-832c05427a61, "PLA_GrandDukeRescue", "Dead", 1, IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496);
+DB_BUGFIX_Marker("GUS-300411");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 11, 0, _)
+THEN
+DB_BUGFIX_Marker("GUS-301055");
+
+IF
+DB_BUGFIX_Marker("GUS-301055", _, _, _, _)
+AND
+DB_GlobalFlag(CURRENTREGION_BGO_Main_A_11239767-48ad-4879-8312-b9164b6e4978, _, _, _, _)
+AND
+DB_WYR_WyrmRock_UseOldImplementationOfBridges(1, _, _, _, _)
+THEN
+PROC_GLO_Bugfix_301055_CheckUpdateSavegame();
+
+PROC
+PROC_GLO_Bugfix_301055_CheckUpdateSavegame()
+AND
+IsOpened(S_WYR_WyrmRock_SouthBridge_9e8dab1b-b39e-4c73-8621-9bbeee61baab, 1, _, _, _)
+THEN
+NOT DB_WYR_WyrmRock_UseOldImplementationOfBridges(1);
+
+PROC
+PROC_GLO_Bugfix_301055_CheckUpdateSavegame()
+AND
+IsClosed(S_WYR_WyrmRock_SouthBridge_9e8dab1b-b39e-4c73-8621-9bbeee61baab, 1, _, _, _)
+THEN
+NOT DB_WYR_WyrmRock_UseOldImplementationOfBridges(1);
+
+PROC
+PROC_GLO_Bugfix_301055_CheckUpdateSavegame()
+AND
+DB_GlobalFlag(WYR_WyrmRock_SouthBridge_State_GainedAccess_4002c43d-55f3-4d1c-b170-f0ffa1f6b5fd, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_WyrmRock_State_AlertState_3d238a15-bb39-411a-8023-23385c98f2b8, _, _, _, _)
+AND
+IsClosed(S_WYR_WyrmRock_SouthBridge_9e8dab1b-b39e-4c73-8621-9bbeee61baab, 1, _, _, _)
+THEN
+PROC_WYR_WyrmRock_LowerBridge(S_WYR_WyrmRock_SouthBridge_9e8dab1b-b39e-4c73-8621-9bbeee61baab);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND NOT
+DB_CampNight_Completed(NIGHT_Wyll_MizorasPact_c9b8d342-34b8-4d2e-a254-fe8bcae71df3, _, _, _, _)
+THEN
+DB_CampNight_CRD(NIGHT_Wyll_MizorasPact_c9b8d342-34b8-4d2e-a254-fe8bcae71df3, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, Wyll_InParty_6dff0a1f-1a51-725d-6e9a-52b5742ba9e6, Wyll_InParty2_Event_AfterPact_a64af098-7121-0913-30e8-5aba415c737c);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+THEN
+DB_CampNight_Requirement(NIGHT_Laezel_VlaakithVisit_254a4c0b-9fd2-4b41-97e9-5f60e338e062, LAEZELCOMPANION_9c5bc0ce-cb2e-4685-b597-89a290837535, WYR_RaphaelTango_Event_BeganSoloScene_1048973a-9ed0-89e5-ce68-11e03fafc22c);
+DB_CampNight_Requirement(NIGHT_Laezel_VlaakithVisit_254a4c0b-9fd2-4b41-97e9-5f60e338e062, LAEZELCAMP_3a157c66-db4a-48ad-95e5-9659c42c4aa0, WYR_RaphaelTango_Event_BeganSoloScene_1048973a-9ed0-89e5-ce68-11e03fafc22c);
+DB_CampNight_Requirement(NIGHT_Laezel_VlaakithVisit_254a4c0b-9fd2-4b41-97e9-5f60e338e062, LAEZELCOMPANION_9c5bc0ce-cb2e-4685-b597-89a290837535, GLO_Orpheus_Knows_OrphicHammerIsTheKey_980541fb-1483-ea1a-3387-64405eace9a2);
+DB_CampNight_Requirement(NIGHT_Laezel_VlaakithVisit_254a4c0b-9fd2-4b41-97e9-5f60e338e062, LAEZELCAMP_3a157c66-db4a-48ad-95e5-9659c42c4aa0, GLO_Orpheus_Knows_OrphicHammerIsTheKey_980541fb-1483-ea1a-3387-64405eace9a2);
+DB_CampNight_Requirement(NIGHT_Laezel_VlaakithVisit_254a4c0b-9fd2-4b41-97e9-5f60e338e062, LAEZELCOMPANION_9c5bc0ce-cb2e-4685-b597-89a290837535, ORI_Laezel_State_GotHammerFromHoH_8a8dd999-aa9e-42b2-9c84-e63b5eb6bc5e);
+DB_CampNight_Requirement(NIGHT_Laezel_VlaakithVisit_254a4c0b-9fd2-4b41-97e9-5f60e338e062, LAEZELCAMP_3a157c66-db4a-48ad-95e5-9659c42c4aa0, ORI_Laezel_State_GotHammerFromHoH_8a8dd999-aa9e-42b2-9c84-e63b5eb6bc5e);
+DB_BUGFIX_Marker("GUS-300825");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND NOT
+DB_GlobalFlag(DEN_TieflingRefugees_State_LeftDen_003b304b-f058-4f8a-b9fa-a097e1b6b395, _, _, _, _)
+AND
+DB_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+AND
+DB_WYR_RefugeeCamp_TieflingRefugees(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+DB_BUGFIX_Marker("GUS-301388");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 13, 0, _)
+AND
+DB_GlobalFlag(LOW_BhaalTemple_State_WasAbductedYenna_ff8e1e49-dcb0-4671-a747-dce5c704207b, _, _, _, _)
+THEN
+DB_BUGFIX_Marker("GUS-301568");
+NOT DB_YennaDismissedFromCamp(1);
+PROC_GLO_Bugfix_301568_RestoreYennaToTemple();
+
+PROC
+PROC_GLO_Bugfix_301568_RestoreYennaToTemple()
+AND
+DB_InCamp(S_GLO_Yenna_d496d903-d3d6-4314-a324-18542de77b0f, _, _, _, _)
+THEN
+TeleportTo(S_GLO_Yenna_d496d903-d3d6-4314-a324-18542de77b0f, S_GLO_BhaalTemple_AbductionSacrifice_TriggerPos_891c74a5-0ba0-4e09-83d5-f4f4fba200c2, "", 0, 0, 0, 0, 0);
+PROC_GEN_OrinsAbduction_CompanionLeaves();
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 13, 0, _)
+AND
+DB_QuestDef_State(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769, "WYR_GetGortashGem", "GortashDefeated", _, _)
+THEN
+NOT DB_QuestDef_State(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769, "WYR_GetGortashGem", "GortashDefeated");
+NOT DB_QuestDef_State_ConditionalFlag(WYR_KillDirectorGortash_State_HasNetherstone_27dbf056-29ee-4d43-9ad9-4831fa2c8739, "WYR_GetGortashGem", "ElderBrain", 1, END_MorphicPool_Event_GortashHeadPop_a596f4f1-fcce-416c-bf0e-31037a1f4fb0);
+DB_QuestDef_ChainedState("GLO_DealWithTheBrain", "GortashDead", "WYR_GetGortashGem", "ElderBrain");
+DB_QuestDef_State_ConditionalFlag(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769, "WYR_GetGortashGem", "GortashDefeated", 0, END_MorphicPool_Event_GortashHeadPop_a596f4f1-fcce-416c-bf0e-31037a1f4fb0);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+THEN
+SetFaction(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, ACT3_WYR_GalesTressym_88983ca6-c2ed-4c17-9db5-825db4275091);
+SetDetached(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, 0);
+PROC_SetInvulnerable(S_GLO_Gale_Tressym_ada7ee81-829d-48c7-ba73-9c9ec191d236, 0);
+DB_BUGFIX_Marker("GUS-301879");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 15, 0, _)
+THEN
+DB_RelationshipDialog_WRD_TriggerInCamp(Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da);
+DB_BUGFIX_Marker("GUS-302277");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 15, 0, _)
+AND
+DB_RelationshipDialog_Queue(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da, "WORLD", _Var1, _Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_RelationshipDialog_Queue(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da, "WORLD", _Var1, _Var2);
+DB_RelationshipDialog_Queue(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da, "WORLDORCAMP", _Var1, _Var2);
+DB_BUGFIX_Marker("GUS-302277-1");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 15, 0, _)
+AND
+DB_HandlingRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da, "WORLD", _Var1, _Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HandlingRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da, "WORLD", _Var1, _Var2);
+DB_HandlingRelationshipDialog(S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604, Gale_InParty2_6beb1b10-845f-49fa-6d6d-f425eaa42574, ORI_Gale_IPRD_HasKarsusNotes_9e7fb0cb-1ea5-23fa-9850-31422f42f0da, "WORLDORCAMP", _Var1, _Var2);
+DB_BUGFIX_Marker("GUS-302277-2");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_WasInRegion(_Var1, S_WYR_Flophouse_KillersLair_0791081e-aaae-46ee-ba27-50a6562fdef8, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(WYR_OpenHand_State_PickedUpBloodiedKey_c3e0ca6c-32e9-47f6-8a54-b362ad43079a, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("WYR_OpenHandMurder", "FollowTheKeyBecauseAlradyEnterLair");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_WasInRegion(_Var1, S_WYR_Flophouse_FlowerTrigger_c93fb7b7-9807-4b72-b9a7-71ca9f79e524, _Var1, _Var1, _Var1)
+AND
+QRY_QuestUpdateIsUnlockedForAny("WYR_OpenHandMurder", "FindKeyOrigin", _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("WYR_OpenHandMurder", "FollowTheKeyBecauseFlophouse");
+PROC_TriggerUnregisterForPlayers(S_WYR_Flophouse_FlowerTrigger_c93fb7b7-9807-4b72-b9a7-71ca9f79e524);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+TemplateIsInPartyInventory(PUZ_GEN_Key_Flower_A_837fd379-2765-4436-a1d7-f0535a69effe, _Var1, _, 0, _Var1)
+AND
+DB_GlobalFlag(WYR_OpenHand_State_PickedUpBloodiedKey_c3e0ca6c-32e9-47f6-8a54-b362ad43079a, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_QuestUpdateIsUnlockedForAny("WYR_OpenHandMurder", "FindKeyOrigin", _Var1, _Var1, _Var1)
+THEN
+QuestUpdate("WYR_OpenHandMurder", "FollowTheKeyBecauseKey");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+THEN
+DB_QuestDef_State_ConditionalFlag(ORI_Astarion_State_BecameVampireLord_c446ce94-efd8-45d5-b407-284177b6b57e, "WYR_CazadorPalace", "Ascended_NoGur", 0, WYR_GurCamp_State_GaveQuestToKillCazador_109ed582-3803-4e0d-9e4a-7440e4fe02d0);
+DB_QuestDef_State_ConditionalFlag(ORI_Astarion_State_BecameVampireLord_c446ce94-efd8-45d5-b407-284177b6b57e, "WYR_CazadorPalace", "Ascended_GurQuest", 1, WYR_GurCamp_State_GaveQuestToKillCazador_109ed582-3803-4e0d-9e4a-7440e4fe02d0);
+DB_BUGFIX_Marker("GUS-302407");
+PROC_GLO_Bugfix_302407();
+
+PROC
+PROC_GLO_Bugfix_302407()
+AND
+DB_OriginDialog(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, LOW_CazadorsPalace_RitualRoom_PreCombat_OM_Astarion_AOM_COM_OOM_6f574f0c-848b-522f-b104-1e1488b2e212, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_CazadorsPalace_RitualRoom_State_FoundCazador_7021887c-c303-49dc-bb29-71bf88d7157d, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(LOW_CazadorsPalace_RitualRoom_State_FoundCazador_7021887c-c303-49dc-bb29-71bf88d7157d);
+QuestUpdate("WYR_CazadorPalace", "FoundCazador");
+
+PROC
+PROC_GLO_Bugfix_302407()
+AND
+DB_QuestIsOpened("WYR_CazadorPalace", _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Astarion_State_BecameVampireLord_c446ce94-efd8-45d5-b407-284177b6b57e, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_GurCamp_State_GaveQuestToKillCazador_109ed582-3803-4e0d-9e4a-7440e4fe02d0, _, _, _, _)
+THEN
+QuestUpdate("WYR_CazadorPalace", "Ascended_GurQuest");
+
+PROC
+PROC_GLO_Bugfix_302407()
+AND
+DB_QuestIsOpened("WYR_CazadorPalace", _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Astarion_State_BecameVampireLord_c446ce94-efd8-45d5-b407-284177b6b57e, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_GurCamp_State_GaveQuestToKillCazador_109ed582-3803-4e0d-9e4a-7440e4fe02d0, _, _, _, _)
+THEN
+QuestUpdate("WYR_CazadorPalace", "Ascended_NoGur");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+THEN
+NOT DB_CampNight_Requirement(Night_Wyll_HelmetOfBalduran_d5b13963-4f14-4a43-a423-7934a63d4745, WYLLAVATAR_b0d1be97-c501-4a9d-8718-e473210a4694, WYR_SkeletalDragon_State_Defeated_bafbffed-bb3f-43b0-a006-7bac257a633c);
+DB_CampNight_Requirement(Night_Wyll_HelmetOfBalduran_d5b13963-4f14-4a43-a423-7934a63d4745, WYLLAVATAR_b0d1be97-c501-4a9d-8718-e473210a4694, WYR_SkeletalDragon_State_Defeated_bafbffed-bb3f-43b0-a006-7bac257a633c, GLO_Ravengard_State_Defeated_7bb624ef-09cb-4e55-b035-832c05427a61);
+DB_CampNight_CancelledBy(Night_Wyll_HelmetOfBalduran_d5b13963-4f14-4a43-a423-7934a63d4745, CAMP_Ravengard_Event_TurnedInQuest_d7e46c3c-e6a1-b962-d7c8-04fa3eaa2242);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

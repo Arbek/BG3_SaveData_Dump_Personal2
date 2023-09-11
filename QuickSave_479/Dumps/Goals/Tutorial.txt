@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckLevelStart("TUT_Avernus_C");
+DB_RegionSafeSpot("TUT_Avernus_C", S_TUT_StartPoint_001_45c9c4f9-0f81-ee38-9d45-bdefc07761d9);
+
+KBSECTION
+IF
+LevelLoaded("TUT_Avernus_C", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("TUT_Avernus_C", _, _, _, _)
+AND
+DB_CurrentLevel("TUT_Avernus_C", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

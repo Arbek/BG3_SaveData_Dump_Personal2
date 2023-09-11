@@ -1,0 +1,802 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Spells_WildMagic_MephitTemplate(MEPHIT_Mud_WildMagic_3844ba99-4e84-4ae0-8cf6-33b981b8bbfa);
+DB_GLO_Spells_WildMagic_MephitTemplate(MEPHIT_Magma_WildMagic_9cf75e67-e219-4787-a410-7b2df9fbe255);
+DB_GLO_Spells_WildMagic_MephitTemplate(Cambion_Male_WildMagic_d9889d28-ca01-41f2-973e-275bbc8e2fe1);
+DB_GLO_StatusGroupCrime("SG_Polymorph", "Polymorphed", "Polymorphed_SelfReactOnEnd");
+DB_GLO_StatusGroupCrime("SG_Charmed", "Charmed", "Charmed_SelfReactOnEnd");
+DB_GLO_StatusGroupCrime("SG_Paralyzed", "Paralyzed", "Paralyzed_SelfReactOnEnd");
+DB_GLO_StatusGroupCrime("SG_Dominated", "Dominated", "");
+DB_GLO_StatusGroupCrime_CharmedStart(0, "");
+DB_GLO_StatusGroupCrime_CharmedStart(1, "Charmed");
+DB_GLO_StatusGroupCrime_CharmedEnd(0, "");
+DB_GLO_StatusGroupCrime_CharmedEnd(1, "Charmed_SelfReactOnEnd");
+DB_Spell_StatusNeedsAssaultBlock("CROWN_OF_MADNESS");
+NOT DB_GLO_Spells_DoNotTurnDominatedCharacterEvil(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_Spells_TurnCharactersEvilStatuses("");
+DB_LinkedCrimes("Dominated", "Dominated_SelfReactOnEnd");
+DB_CrimeAttitudeChange("Dominated", -30);
+DB_CrimeAttitudeChange("Dominated_SelfReactOnEnd", -30);
+DB_GLO_Spells_RangersCompanion_LevelChange(4);
+DB_GLO_Spells_RangersCompanion_LevelChange(5);
+DB_GLO_Spells_RangersCompanion_LevelChange(6);
+DB_GLO_Spells_RangersCompanion_LevelChange(7);
+DB_GLO_Spells_RangersCompanion_LevelChange(8);
+DB_GLO_Spells_RangersCompanion_LevelChange(9);
+DB_GLO_Spells_RangersCompanion_LevelChange(10);
+DB_GLO_Spells_RangersCompanion_LevelChange(11);
+DB_GLO_Spells_RangersCompanion_LevelChange(12);
+DB_GLO_Spells_RangersCompanion_Spell("RANGERS_COMPANION_BEAR", "Target_RangersCompanion_Bear");
+DB_GLO_Spells_RangersCompanion_Spell("RANGERS_COMPANION_BOAR", "Target_RangersCompanion_Boar");
+DB_GLO_Spells_RangersCompanion_Spell("RANGERS_COMPANION_GIANTSPIDER", "Target_RangersCompanion_GiantSpider");
+DB_GLO_Spells_RangersCompanion_Spell("RANGERS_COMPANION_RAVEN", "Target_RangersCompanion_Raven");
+DB_GLO_Spells_RangersCompanion_Spell("RANGERS_COMPANION_WOLF", "Target_RangersCompanion_Wolf");
+DB_GLO_SeemingStatuses("SEEMING_TIEFLING_MALE");
+DB_GLO_SeemingStatuses("SEEMING_TIEFLING_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_DROW_MALE");
+DB_GLO_SeemingStatuses("SEEMING_DROW_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_HUMAN_MALE");
+DB_GLO_SeemingStatuses("SEEMING_HUMAN_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_GITHYANKI_MALE");
+DB_GLO_SeemingStatuses("SEEMING_GITHYANKI_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_DWARF_MALE");
+DB_GLO_SeemingStatuses("SEEMING_DWARF_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_ELF_MALE");
+DB_GLO_SeemingStatuses("SEEMING_ELF_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_HALFELF_MALE");
+DB_GLO_SeemingStatuses("SEEMING_HALFELF_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_HALFLING_MALE");
+DB_GLO_SeemingStatuses("SEEMING_HALFLING_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_GNOME_MALE");
+DB_GLO_SeemingStatuses("SEEMING_GNOME_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_DRAGONBORN_MALE");
+DB_GLO_SeemingStatuses("SEEMING_DRAGONBORN_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_HALFORC_MALE");
+DB_GLO_SeemingStatuses("SEEMING_HALFORC_FEMALE");
+DB_GLO_SeemingStatuses("SEEMING_HUMAN_STRONG_MALE");
+DB_GLO_SeemingStatuses("SEEMING_HUMAN_STRONG_FEMALE");
+NOT DB_GLO_RandomDisguise("");
+
+KBSECTION
+PROC
+PROC_WildMagic_Supress((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetTag(_Var1, SORCERER_WILD_MAGIC_SUPRESSED_a3b7a422-4d28-413d-adc4-e7d2001e37f5);
+
+PROC
+PROC_WildMagic_Supress((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, SORCERER_WILD_MAGIC_GUARANTEED_4bac801e-9471-4f41-88bc-caa39e358c52, 1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, SORCERER_WILD_MAGIC_GUARANTEED_4bac801e-9471-4f41-88bc-caa39e358c52);
+
+PROC
+PROC_WildMagic_Guarantee((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetTag(_Var1, SORCERER_WILD_MAGIC_GUARANTEED_4bac801e-9471-4f41-88bc-caa39e358c52);
+
+PROC
+PROC_WildMagic_Guarantee((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, SORCERER_WILD_MAGIC_SUPRESSED_a3b7a422-4d28-413d-adc4-e7d2001e37f5, 1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, SORCERER_WILD_MAGIC_SUPRESSED_a3b7a422-4d28-413d-adc4-e7d2001e37f5);
+
+IF
+RandomCastProcessed((GUIDSTRING)_Var1, _, _, _, _)
+AND
+IsTagged(_Var1, SORCERER_WILD_MAGIC_GUARANTEED_4bac801e-9471-4f41-88bc-caa39e358c52, 1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, SORCERER_WILD_MAGIC_GUARANTEED_4bac801e-9471-4f41-88bc-caa39e358c52);
+
+PROC
+PROC_WildMagic_Normal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, SORCERER_WILD_MAGIC_SUPRESSED_a3b7a422-4d28-413d-adc4-e7d2001e37f5, 1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, SORCERER_WILD_MAGIC_SUPRESSED_a3b7a422-4d28-413d-adc4-e7d2001e37f5);
+
+PROC
+PROC_WildMagic_Normal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, SORCERER_WILD_MAGIC_GUARANTEED_4bac801e-9471-4f41-88bc-caa39e358c52, 1, _Var1, _Var1)
+THEN
+ClearTag(_Var1, SORCERER_WILD_MAGIC_GUARANTEED_4bac801e-9471-4f41-88bc-caa39e358c52);
+
+IF
+TagSet((CHARACTER)_Var1, MEPHIT_b875ad18-12ea-4f09-a19b-67988e2eeb73, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_WildMagic_MephitTemplate(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Spells_WildMagic_Mephit(_Var1);
+
+IF
+TagSet((CHARACTER)_Var1, FIEND_44be2f5b-f27e-4665-86f1-49c5bfac54ab, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_WildMagic_MephitTemplate(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Spells_WildMagic_Mephit(_Var1);
+
+IF
+Saw((CHARACTER)_Var1, (CHARACTER)_Var2, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_WildMagic_Mephit(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(GLO_Spells_WildMagic_Mephit_bba2487a-4c9d-4d51-96c5-c04c565b482b, _Var4, 0);
+
+IF
+BaseFactionChanged((CHARACTER)_Var1, _, (FACTION)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_WildMagic_Mephit(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(GLO_Spells_WildMagic_Mephit_bba2487a-4c9d-4d51-96c5-c04c565b482b, _Var3, 0);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_WildMagic_Mephit(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Spells_WildMagic_Mephit(_Var1);
+
+QRY
+QRY_Spells_GetStatusCrime((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_Spells_GetStatusCrime(_Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Spells_GetStatusCrime(_Var4, _Var5, _Var6, _Var7, _Var8, _Var9);
+
+QRY
+QRY_Spells_GetStatusCrime((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_StatusGroupCrime(_Var4, _Var5, _Var6, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_Spells_GetStatusCrime(_, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var3, _Var4, 1, _Var1, _Var1)
+AND NOT
+QRY_Spells_GetCustomStatusGroupCrime(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_QRYRTN_Spells_GetStatusCrime(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+QRY
+QRY_Spells_GetCustomStatusGroupCrime((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, "SG_Charmed", (GUIDSTRING)_Var1)
+AND
+IsStatusFromGroup(_Var3, "SG_Charmed_Subtle", _Var4, _Var1, _Var1)
+AND
+CheckRulesetModifierBool(HARD_MODE_0bf382a5-e32a-4310-807c-6de89de471b2, 1, _Var5, _Var1, _Var1)
+AND
+DB_Negate(_Var4, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_LogicOr(_Var6, _Var5, _Var7, _Var1, _Var1)
+AND
+DB_GLO_StatusGroupCrime_CharmedStart(_Var6, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_GLO_StatusGroupCrime_CharmedEnd(_Var7, _Var9, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Spells_GetStatusCrime(_Var1, _Var2, _Var3, "SG_Charmed", _Var8, _Var9);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Spells_GetStatusCrime(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+DB_QRYRTN_Spells_GetStatusCrime(_Var1, _Var3, _Var2, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Spells_CrimeReactTo_Status(_Var1, _Var3, _Var2, _Var5, _Var6, _Var7, _Var4);
+
+PROC
+PROC_Spells_CrimeReactTo_Status((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var6 != ""
+THEN
+DB_Spells_CrimeReactTo_OnEnd(_Var1, _Var2, _Var3, _Var6, _Var7);
+
+PROC
+PROC_Spells_CrimeReactTo_Status((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var5 != ""
+AND
+CrimeGetNewID(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var2, _Var5, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var8);
+
+PROC
+PROC_Spells_CrimeReactTo_Status((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5, (STRING)_Var6, (INTEGER)_Var7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Spell_StatusNeedsAssaultBlock(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_IgnoreAssault(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_IgnoreAssault(_Var1);
+DB_Spell_AddedIgnoreAssault(_Var1, _Var2, _Var3);
+
+IF
+AttackedBy((CHARACTER)_Var1, _, (CHARACTER)_Var3, _, _, "StatusEnter", _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("Spell_StatusEnterAssault", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Spell_AddedIgnoreAssault(_Var1, _Var3, _Var7, _Var1, _Var1)
+AND
+QRY_OnlyOnce("Spell_StatusEnterAssault", _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Spell_AddedIgnoreAssault(_Var1, _Var3, _Var7);
+PROC_Spell_ClearIgnoreAssaultIfNoStatusesLeft(_Var1);
+
+PROC
+PROC_Spell_ClearIgnoreAssaultIfNoStatusesLeft((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Spell_AddedIgnoreAssault(_Var1, _, _, _Var1, _Var1)
+THEN
+NOT DB_IgnoreAssault(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_Spells_CrimeReactTo_OnEnd(_Var1, _Var5, _Var2, _Var6, _Var4)
+AND
+IsPartyMember(_Var1, 1, 0, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var8, _Var9, _Var10, _Var1)
+THEN
+NOT DB_Spells_CrimeReactTo_OnEnd(_Var1, _Var5, _Var2, _Var6, _Var4);
+PROC_CharacterRegisterCrimeWithPosition(_Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, _Var8, _Var9, _Var10, _Var1, _Var7);
+
+IF
+CharacterJoinedParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Spells_CrimeReactTo_OnEnd(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+NOT DB_Spells_CrimeReactTo_OnEnd(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+StatusApplied((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var3, _, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Charmed", 1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Spells_IgnoreFriendlyFire(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Spell_CharmedBy_FriendlyFire(_Var1, _Var3, _Var2);
+
+QRY
+QRY_GLO_Spells_IgnoreFriendlyFire((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+0 == 1
+THEN
+DB_NOOP(1);
+
+IF
+StatusRemoved((CHARACTER)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_Spell_CharmedBy_FriendlyFire(_Var1, _Var5, _Var2, _Var1, _Var1)
+THEN
+NOT DB_Spell_CharmedBy_FriendlyFire(_Var1, _Var5, _Var2);
+PROC_ORI_FriendlyFire_React(_Var5, _Var1);
+
+IF
+StatusRemoved((CHARACTER)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var1)
+AND
+DB_Spell_AddedIgnoreAssault(_Var1, _Var5, _Var2, _Var1, _Var1)
+THEN
+NOT DB_IgnoreAssault(_Var1);
+NOT DB_Spell_AddedIgnoreAssault(_Var1, _Var5, _Var2);
+
+IF
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Dominated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Dominated(_Var1);
+ApplyStatus(_Var1, "DOMINATED_TECHNICAL", -1, 1);
+
+IF
+DB_Dominated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+THEN
+NOT DB_Dominated(_Var1);
+RemoveStatus(_Var1, "DOMINATED_TECHNICAL");
+
+IF
+StatusApplied((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var3, _, (CHARACTER)_Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Dominated", 1, _Var1, _Var1)
+AND
+DB_GLO_Spells_DominatedCharacter(_Var5, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var1 != _Var5
+THEN
+RemoveStatus(_Var5, _Var2, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_DominatedCharacter(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, _Var3, _Var1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Dominated", 1, _Var1, _Var1)
+THEN
+PROC_GLO_Spells_DominatedCharacter(_Var1, _Var2, _Var3);
+
+PROC
+PROC_GLO_Spells_DominatedCharacter((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Spells_DominatedCharacter(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_GLO_Spells_DominatedCharacter(_Var1, _Var2, _Var3);
+BlockNewCrimeReactions(_Var1, 1);
+PROC_GLO_Spells_TryApplyDominatedOwnerEffect(_Var3, _Var2);
+PROC_GLO_Spells_DominateEnableForceUpdate(_Var1);
+
+PROC
+PROC_GLO_Spells_DominatedCharacter((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OverrideAnubisConfig(_Var1, "GLO_DominatedCharacter", _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_AnubisConfigOverrideIndex(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Spells_DominatedCharacterConfigOverride(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_GLO_Spells_DominateEnableForceUpdate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Spells_DominateForceUpdated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Spells_DominateForceUpdated(_Var1);
+SetForceUpdate(_Var1, 1);
+
+PROC
+PROC_GLO_Spells_DominateDisableForceUpdate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Spells_DominateForceUpdated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+THEN
+NOT DB_GLO_Spells_DominateForceUpdated(_Var1);
+SetForceUpdate(_Var1, 0);
+
+PROC
+PROC_GLO_Spells_DominateDisableForceUpdate((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_DominateForceUpdated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Spells_DominateForceUpdated(_Var1);
+SetForceUpdate(_Var1, 0);
+
+PROC
+PROC_GLO_Spells_TryApplyDominatedOwnerEffect((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedOwnerStatus(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, _Var3, 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, _Var3, -1);
+
+PROC
+PROC_GLO_Spells_DominatedCharacter((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _, _, _, _Var1)
+AND
+GetPosition(_Var1, _Var7, _Var8, _Var9, _Var1)
+THEN
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var7, _Var8, _Var9);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacter(_Var1, _Var2, _Var5, _Var1, _Var1)
+THEN
+NOT DB_GLO_Spells_DominatedCharacter(_Var1, _Var2, _Var5);
+PROC_GLO_PaladinSpells_TryRemoveDominatedStatusOwnerEffect(_Var5, _Var2);
+PROC_GLO_Spells_LostDominatedControl(_Var1, _Var2, _Var5);
+PROC_GLO_Spells_CheckIsStillDominated(_Var1, _Var5);
+
+PROC
+PROC_GLO_Spells_CheckIsStillDominated((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_GLO_Spells_DominateDisableForceUpdate(_Var1);
+BlockNewCrimeReactions(_Var1, 0);
+DB_GLO_Spells_DominatedBy(_Var1, _Var2);
+RealtimeObjectTimerLaunch(_Var1, "GLO_Dominated_ReactToCrime", 100);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_Dominated_ReactToCrime", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Spells_DominatedBy(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var4, _Var5, _Var6, _Var1)
+THEN
+NOT DB_GLO_Spells_DominatedBy(_Var1, _Var2);
+PROC_CharacterRegisterCrimeWithPosition(_Var2, "Dominated_SelfReactOnEnd", NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var5, _Var6, _Var1, _Var3);
+
+PROC
+PROC_GLO_PaladinSpells_TryRemoveDominatedStatusOwnerEffect((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Spells_DominatedCharacter(_, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_DominatedOwnerStatus(_Var2, _Var4, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, _Var4);
+
+IF
+DB_GLO_Spells_DominatedCharacter(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_GLO_Spells_TurnCharactersEvilStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Spells_DoNotTurnDominatedCharacterEvil(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Spells_BecomesEvilAfterStatus(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_PermanentlyEvil(_Var1);
+
+PROC
+PROC_GLO_Spells_LostDominatedControl((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFaction(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Spells_BecomesEvilAfterStatus(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Spells_WillBecomeEvil(_Var1);
+
+IF
+DB_GLO_Spells_WillBecomeEvil(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetIndividualRelation(_Var1, Hero_a1542c81-6895-929e-4522-10ce218bb360, 0, "GLO_Dominated", 1);
+
+IF
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _Var3, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearIndividualRelation(_Var1, Hero_a1542c81-6895-929e-4522-10ce218bb360, "GLO_Dominated");
+
+PROC
+PROC_GLO_Spells_LostDominatedControl((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Spells_WillBecomeEvil(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_DominatedCharacterConfigOverride(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_GLO_Spells_DominatedCharacterConfigOverride(_Var1, _Var2, _Var3, _Var4);
+PROC_RemoveAnubisConfigOverride(_Var1, _Var4);
+
+QRY
+QRY_GLO_Spells_BecomesEvilAfterStatus((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_TurnCharactersEvilStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Spells_DoNotTurnDominatedCharacterEvil(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_FactionHostilityBlacklisted(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_Spells_LostDominatedControl((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+AND
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _, _, _, _Var1)
+AND NOT
+DB_GLO_Spells_WillBecomeEvil(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "GLO_Spells_DominatedCharacterReadyToReturn");
+
+PROC
+PROC_ReadyToMoveOn_Failed((GUIDSTRING)_Var1, "GLO_Spells_DominatedCharacterReadyToReturn", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Spells_DominateDisableForceUpdate(_Var1);
+
+IF
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, "GLO_Spells_DominateAfterCombatUpdate");
+RealtimeObjectTimerLaunch(_Var1, "GLO_Spells_DominateAfterCombatUpdate", 500);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_Spells_DominateAfterCombatUpdate", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsActive(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Spells_DominateEnableForceUpdate(_Var1);
+
+IF
+Activated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+AND NOT
+DB_GLO_Spells_DominateForceUpdated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Spells_DominateEnableForceUpdate(_Var1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GLO_Spells_DominatedCharacter(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, _Var2, _Var3);
+
+PROC
+PROC_ReadyToMoveOn((GUIDSTRING)_Var1, "GLO_Spells_DominatedCharacterReadyToReturn", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+GetDistanceToPosition(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+_Var5 < 50
+THEN
+PROC_CharacterMoveToPosition(_Var1, _Var2, _Var3, _Var4, "Run", "GLO_Spells_DominatedCharacterReturns");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "GLO_Spells_DominatedCharacterReadyToReturn", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+GetDistanceToPosition(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+_Var5 >= 50
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "GLO_Spells_DominatedCharacterDisappears");
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_Spells_DominatedCharacterDisappears", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+AppearOutOfSightToPosition(_Var1, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, 0, NULL_00000000-0000-0000-0000-000000000000, "GLO_Spells_DominatedCharacterAppears");
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_Spells_DominatedCharacterAppears", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_CharacterMoveToPosition(_Var1, _Var2, _Var3, _Var4, "Run", "GLO_Spells_DominatedCharacterReturns");
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_Spells_DominatedCharacterReturns", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_GLO_Spells_DominatedCharacterReturnTo(_Var1, _Var2, _Var3, _Var4);
+
+QRY
+QRY_SelectCustomDialog((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _, _Var1, _Var1)
+THEN
+SysClear("DB_SelectedDialog", 2);
+SysClear("DB_SelectedDialog", 3);
+SysClear("DB_SelectedDialog", 4);
+SysClear("DB_SelectedDialog", 5);
+SysClear("DB_SelectedDialog", 6);
+DB_SelectedDialog(CMB_AD_CombatFallback_300686d9-9f7e-c18d-9d64-3f176c78b98b, _Var1);
+
+PROC
+PROC_WaypointTeleported((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_DominatedCharacter(_Var3, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp(_, _, _, _Var2, _Var1)
+THEN
+TeleportTo(_Var3, _Var1);
+
+IF
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _Var3, _Var1, _Var1)
+AND
+DB_GLO_Spells_PreviouslyDominatedPAD(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var4
+THEN
+NOT DB_GLO_Spells_PreviouslyDominatedPAD(_Var4, _Var3);
+
+IF
+DB_GLO_Spells_DominatedCharacter(_Var1, _, _Var3, _Var1, _Var1)
+AND NOT
+DB_GLO_Spells_PreviouslyDominatedPAD(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Spells_PreviouslyDominatedPAD(_Var1, _Var3);
+
+PROC
+PROC_LongRest()
+AND
+DB_GLO_Spells_PreviouslyDominatedPAD_Active(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Spells_PreviouslyDominatedPAD_Active(_Var1, _Var2);
+
+PROC
+PROC_LongRest()
+AND
+DB_GLO_Spells_PreviouslyDominatedPAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Spells_PreviouslyDominatedPAD_Active(_Var1, _Var2);
+NOT DB_GLO_Spells_PreviouslyDominatedPAD(_Var1, _Var2);
+
+PROC
+PROC_LongRest()
+THEN
+TimerCancel("GLO_Spells_DominatedPADWindow");
+TimerLaunch("GLO_Spells_DominatedPADWindow", 300000);
+
+IF
+TimerFinished("GLO_Spells_DominatedPADWindow", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Spells_PreviouslyDominatedPAD_Active(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Spells_PreviouslyDominatedPAD_Active(_Var1, _Var2);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_PreviouslyDominatedPAD_Active(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemy(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Spells_PreviouslyDominatedPAD_Active(_Var2, _Var1);
+PROC_TryStartAD(GLO_Spells_PAD_DominatedCharacterCombat_9f53b503-8a9f-6d5b-b746-736510f781c9, _Var1);
+
+IF
+LeveledUp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, RANGER_37a733c1-a862-4157-b92a-9cff46232c6a, 1, _Var1, _Var1)
+AND
+GetLevel(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_RangersCompanion_LevelChange(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PlayerSummons(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Spells_RangersCompanion_Spell(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var3, _Var4, 1, _Var1, _Var1)
+AND
+GetPosition(_Var3, _Var6, _Var7, _Var8, _Var1)
+AND
+GetDistanceToPosition(_Var1, _Var6, _Var7, _Var8, _Var9)
+AND
+HasLineOfSight(_Var1, _Var3, _Var10, _Var1, _Var1)
+THEN
+PROC_GLO_Spells_Resummon(_Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10);
+
+PROC
+PROC_GLO_Spells_Resummon((CHARACTER)_Var1, (STRING)_Var2, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var6 <= 18
+THEN
+DB_GLO_Spells_Resummoned(1);
+UseSpellAtPosition(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_GLO_Spells_Resummon((CHARACTER)_Var1, (STRING)_Var2, _, _, _, (REAL)_Var6, (INTEGER)_Var7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GLO_Spells_Resummoned(1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var8, _Var9, _Var10, _Var1)
+THEN
+UseSpellAtPosition(_Var1, _Var2, _Var8, _Var9, _Var10);
+
+PROC
+PROC_GLO_Spells_Resummon((CHARACTER)_Var1, (STRING)_Var2, _, _, _, (REAL)_Var6, (INTEGER)_Var7, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Spells_Resummoned(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Spells_Resummoned(1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "SEEMING", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+QRY_GetRandom("DB_GLO_SeemingStatuses", 1, "DB_GLO_RandomDisguise", _Var1, _Var1)
+AND
+DB_GLO_RandomDisguise(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, _Var4, -1, 0, _Var2);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, "Shout_PactOfTheBlade_Bind", _, _, _)
+AND
+GetItemByTagInInventory("PACT_OF_THE_BLADE_be460271-537a-4443-a9b5-6c6c6a005ab3", _Var1, _Var5, _Var1, _Var1)
+THEN
+RequestDelete(_Var5);
+
+IF
+TemplatesCombined((ITEMROOT)_Var1, (ITEMROOT)_Var2, _, _, _, (CHARACTER)_Var6, (ITEM)_Var7, (ITEMROOT)_Var1, (ITEMROOT)_Var1, (ITEMROOT)_Var1)
+AND
+IsTagged(_Var6, DOUBLE_ALCHEMY_648a06ce-8eb0-4905-b4b8-6724df91a5f5, 1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ALCH_EXTRACT_85b58b89-c881-43c2-bbbe-7c8a0b3bf981, 1, _Var1, _Var1)
+AND
+IsTagged(_Var2, ALCH_EXTRACT_85b58b89-c881-43c2-bbbe-7c8a0b3bf981, 1, _Var1, _Var1)
+AND
+GetTemplate(_Var7, _Var8, _Var1, _Var1, _Var1)
+THEN
+PROC_TrySkillCheck(_Var6, _Var8, "Medicine", DC_Legacy_15_bddbb9b8-a242-4c3e-a2eb-3fd274c0c539, "GLO_AlchemyCheck");
+
+PROC
+PROC_RollResult("GLO_AlchemyCheck", (CHARACTER)_Var1, (GUIDSTRING)_Var2, 1, (CHARACTER)_Var1)
+AND
+GetPosition(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+CreateAt(_Var2, _Var3, _Var4, _Var5, 0, 0, "", _Var6, _Var1, _Var1)
+THEN
+ToInventory(_Var6, _Var1, 1, 1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+

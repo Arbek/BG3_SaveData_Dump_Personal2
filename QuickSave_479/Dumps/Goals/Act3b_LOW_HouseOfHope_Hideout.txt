@@ -1,0 +1,77 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetCanInteract(S_LOW_HouseOfHope_ClosetDoor_b38ebbed-e087-474b-9647-09688c60b57b, 0);
+
+KBSECTION
+IF
+RollResult("LOW_HouseOfHope_SecretDoorKeyhole", (CHARACTER)_Var1, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, 0, 1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+CreateExplosion(_Var1, "Projectile_SHA_EntrancePuzzle_RingPushBack", -1, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595);
+PROC_TryStartAD(LOW_HouseOfHope_AD_InfernalGem_651f91a7-4dc7-d7ac-7a2a-19009141196c, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595);
+
+IF
+UseFinished((CHARACTER)_Var1, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OnlyOnce("LOW_HouseOfHope_SecretDoorKeyhole_Transformation", _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestActiveRoll(_Var1, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, "Arcana", Act3_Hard_6298329e-255c-4826-9209-e911873b64e7, "LOW_HouseOfHope_SecretDoorKeyhole");
+
+IF
+RollResult("LOW_HouseOfHope_SecretDoorKeyhole", (CHARACTER)_Var1, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, 1, 1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OnlyOnce("LOW_HouseOfHope_SecretDoorKeyhole_Transformation", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("LOW_HouseOfHope_SecretDoorKeyhole_Unlock", _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, "OPEN");
+PlayEffect(S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, VFX_Script_Illusion_Perception_Check_Overlay_01_b8fe40e4-b49b-f7b1-25ba-f5b97341a16d, "", 1);
+SetCanInteract(S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, 0);
+TimerLaunch("LOW_HouseOfHope_SecretDoorKeyhole_UnlockTimer", 800);
+PROC_CameraShakeAroundObject(S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, 250, 5);
+
+IF
+TimerFinished("LOW_HouseOfHope_SecretDoorKeyhole_UnlockTimer", _, _, _, _)
+THEN
+PROC_ItemUnlockAndOpen(S_LOW_HouseOfHope_ClosetDoor_b38ebbed-e087-474b-9647-09688c60b57b);
+SetCanInteract(S_LOW_HouseOfHope_ClosetDoor_b38ebbed-e087-474b-9647-09688c60b57b, 1);
+SetOnStage(S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, 0);
+
+IF
+TimerFinished("LOW_HouseOfHope_SecretDoorKeyhole_UnlockTimer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HideMarker(_Var1, "LOW_HouseOfHope_SecretStash");
+
+IF
+UseFinished((CHARACTER)_Var1, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("LOW_HouseOfHope_SecretDoorKeyhole_Transformation", _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestActiveRoll(_Var1, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, "Wisdom", Act3_Easy_5028066b-6ea0-4a6a-9e3e-53bee62559a7, "LOW_HouseOfHope_SecretDoorKeyhole");
+
+IF
+RollResult("LOW_HouseOfHope_SecretDoorKeyhole", (CHARACTER)_Var1, S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, 1, 1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("LOW_HouseOfHope_SecretDoorKeyhole_Transformation", _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, "TRANSFORM");
+Transform(S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, QUEST_LOW_HoH_InfernalDiamond_Socket_Glow_e692fe33-f719-459a-90cf-497ccd22e48d, Physical_4acc6277-6dcd-4110-9450-b9379beaedac);
+PlayEffect(S_LOW_HouseOfHope_SecretStashKeyhole_4fa176d6-ca4b-42bc-b4a5-772e130f8595, VFX_Script_Illusion_Perception_Check_Overlay_01_b8fe40e4-b49b-f7b1-25ba-f5b97341a16d, "", 1);
+
+IF
+GameBookInterfaceClosed(S_LOW_HouseOfHope_Book_ArchivingTreasures_fadeaa2a-71b3-895a-5a05-3097fa0fce50, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("LOW_HouseOfHope_SecretDoorKeyhole_Unlock", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("LOW_HouseOfHope_SecretStash_MapMarker", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowMarker(_Var1, "LOW_HouseOfHope_SecretStash");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

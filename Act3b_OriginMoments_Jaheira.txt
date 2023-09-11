@@ -1,0 +1,47 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_DefineSingleOriginMoment(LOW_Guildhall_NineFingers_ef2cc5d5-b568-918e-a1d9-f95ef3b485eb, REALLY_JAHEIRA_8457eb5f-036c-4143-b6cf-447a9f555c7a, LOW_Guildhall_NineFingers_ef2cc5d5-b568-918e-a1d9-f95ef3b485eb, 10);
+DB_TopicalGreeting(TG_ORI_Jaheira_BurnedScroll_fc072676-3f00-48bc-9a52-42355a0e81c3);
+DB_TopicalGreeting(TG_ORI_Jaheira_KeptScroll_f9e2fdf2-a014-45d0-9e72-e3feab895301);
+DB_TopicalGreeting(TG_ORI_Jaheira_VisitedFamily_f9e7b57a-eb0d-45b4-b7d6-8ebf1f2bb327);
+DB_TopicalGreetingEndCondition_FlagSet(TG_ORI_Jaheira_KeptScroll_f9e2fdf2-a014-45d0-9e72-e3feab895301, TG_ORI_Jaheira_BurnedScroll_fc072676-3f00-48bc-9a52-42355a0e81c3);
+
+KBSECTION
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_Guildhall_NineFingers_ef2cc5d5-b568-918e-a1d9-f95ef3b485eb, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_State_Changed(_, "LOW_Guildhall_State", "LOW_Guildhall_State_PostHeist", (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_ClearOriginMoment(LOW_Guildhall_NineFingers_ef2cc5d5-b568-918e-a1d9-f95ef3b485eb);
+
+IF
+FlagSet(Jaheira_InParty_ScrollDiscussedAndBurned_1d39818b-cd91-45e7-91de-a3779c413014, _, _, _, _)
+AND
+QRY_OnlyOnce("TG_LOW_JaheiraBurnedScroll_Set", _, _, _, _)
+THEN
+PROC_TopicalGreeting_UnlockTopic(TG_ORI_Jaheira_BurnedScroll_fc072676-3f00-48bc-9a52-42355a0e81c3);
+
+IF
+FlagSet(Jaheira_InParty_ScrollDiscussedAndKept_67af75d4-7077-4fd5-81b4-2a622edb0094, _, _, _, _)
+AND
+QRY_OnlyOnce("TG_LOW_JaheiraKeptScroll_Set", _, _, _, _)
+THEN
+PROC_TopicalGreeting_UnlockTopic(TG_ORI_Jaheira_KeptScroll_f9e2fdf2-a014-45d0-9e72-e3feab895301);
+
+IF
+FlagSet(LOW_JaheirasHouse_State_JaheiraMetFamily_9486cabf-8113-47f8-a03f-4a9aba46d140, _, _, _, _)
+AND
+QRY_OnlyOnce("TG_LOW_JaheiraMetFamily", _, _, _, _)
+THEN
+PROC_TopicalGreeting_UnlockTopic(TG_ORI_Jaheira_VisitedFamily_f9e7b57a-eb0d-45b4-b7d6-8ebf1f2bb327);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

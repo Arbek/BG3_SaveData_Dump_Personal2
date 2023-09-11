@@ -1,0 +1,139 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Cinematic_PositionedDialog(Dialog_00000000-0000-0000-0000-000000000000, "GLO_ID");
+DB_GLO_Cinematic_PositionFlags("GLO_ID", Trigger_00000000-0000-0000-0000-000000000000, GlobalEventFlag_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_Cinematic_PositionedDialog(Dialog_00000000-0000-0000-0000-000000000000, "GLO_ID");
+NOT DB_GLO_Cinematic_PositionFlags("GLO_ID", Trigger_00000000-0000-0000-0000-000000000000, GlobalEventFlag_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_Cinematic_PositionedDialog(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Cinematic_SetPositionFlag(_Var1, _Var3, _Var2);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Cinematic_PositionedDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Cinematic_FindPlayerPosition(_Var1, _Var4, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_Cinematic_PositionedDialog(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Cinematic_FindPlayerPosition(_Var1, _Var5, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5)
+AND
+DB_GLO_Cinematic_PositionedDialog(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Cinematic_FindPlayerPosition(_Var1, _Var6, _Var2, _Var3, _Var4, _Var5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Cinematic_PositionedDialog(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Cinematic_FindPlayerPosition(_Var1, _Var7, _Var2, _Var3, _Var4, _Var5, _Var6, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DialogFlagSetup((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var5, (CHARACTER)_Var6, (CHARACTER)_Var7, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_Cinematic_PositionedDialog(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Cinematic_FindPlayerPosition(_Var1, _Var8, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Cinematic_FindPlayerPosition((DIALOGRESOURCE)_Var1, (STRING)_Var2, (CHARACTER)_Var3, _, _, _, _, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Cinematic_SetPositionFlag(_Var1, _Var2, _Var3);
+
+QRY
+QRY_GLO_Cinematic_FindPlayerPosition((GUIDSTRING)_Var1, (STRING)_Var2, _, (GUIDSTRING)_Var4, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Cinematic_SetPositionFlag(_Var1, _Var2, _Var4);
+
+QRY
+QRY_GLO_Cinematic_FindPlayerPosition((DIALOGRESOURCE)_Var1, (STRING)_Var2, _, _, (CHARACTER)_Var5, _, _, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Cinematic_SetPositionFlag(_Var1, _Var2, _Var5);
+
+QRY
+QRY_GLO_Cinematic_FindPlayerPosition((GUIDSTRING)_Var1, (STRING)_Var2, _, _, _, (GUIDSTRING)_Var6, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Cinematic_SetPositionFlag(_Var1, _Var2, _Var6);
+
+QRY
+QRY_GLO_Cinematic_FindPlayerPosition((GUIDSTRING)_Var1, (STRING)_Var2, _, _, _, _, (GUIDSTRING)_Var7, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Cinematic_SetPositionFlag(_Var1, _Var2, _Var7);
+
+QRY
+QRY_GLO_Cinematic_FindPlayerPosition((DIALOGRESOURCE)_Var1, (STRING)_Var2, _, _, _, _, _, (CHARACTER)_Var8, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Players(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Cinematic_SetPositionFlag(_Var1, _Var2, _Var8);
+
+PROC
+PROC_GLO_Cinematic_SetPositionFlag((DIALOGRESOURCE)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_Cinematic_PositionFlags(_Var2, _Var4, _Var5, _Var1, _Var1)
+AND NOT
+DB_GLO_Cinematic_PositionedDialogHandled(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var3, _Var4, 1, _Var1, _Var1)
+THEN
+DB_GLO_Cinematic_PositionedDialogHandled(_Var1, _Var2);
+PROC_GlobalSetFlagAndCache(_Var5);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_Cinematic_PositionedDialogHandled(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Cinematic_PositionedDialogHandled(_Var1, _Var3);
+PROC_GLO_Cinematic_ClearPositionFlags(_Var3);
+
+PROC
+PROC_GLO_Cinematic_ClearPositionFlags((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Cinematic_PositionFlags(_Var1, _, _Var3, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(_Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+

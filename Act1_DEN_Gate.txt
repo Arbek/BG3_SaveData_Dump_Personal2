@@ -1,0 +1,573 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_DEN_GateOpenArea_de98af21-31c2-4560-a3bf-4956d8ca0618);
+PROC_TriggerRegisterForPlayers(S_DEN_GateOpenControlArea_ce97bfdb-ac89-4cd0-ae20-0fbc85fc7e3c);
+PROC_TriggerRegisterForPlayers(S_DEN_GateCloseControlArea_d86fff07-bc96-4320-b1e6-e73a1712b494);
+PROC_SetHasDialogIfChar(S_DEN_Gatekeeper_847717b3-82eb-45a7-b875-78665c12ce9a, 0);
+SetCanJoinCombat(S_DEN_Gatekeeper_847717b3-82eb-45a7-b875-78665c12ce9a, 0);
+PROC_DEN_GateRegisterForCharacter(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c);
+PROC_DEN_GateRegisterForCharacter(S_DEN_RobbedAdventurer_534bceaf-678c-40a0-8ca9-e1134f95ba0d);
+PROC_DEN_GateRegisterForCharacter(S_DEN_RaidAdventurer_4faf77a0-b883-4f7b-acbf-4500973f446d);
+PROC_DEN_GateRegisterForCharacter(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+DB_DEN_GateInUse(S_DEN_Gate_567055bf-ffeb-4236-8a61-e53877397fde);
+SetOnStage(S_DEN_RepairedGate_de5708cf-758e-47d2-aef7-b7d7162ba69e, 0);
+SetForceUpdate(S_DEN_Gate_567055bf-ffeb-4236-8a61-e53877397fde, 1);
+DB_DialogBlockTradeButton(DEN_RaidingParty_OpenGate_0310abff-a694-177e-1aa0-a431556a3f3c);
+DB_DialogBlockAttackButton(DEN_RaidingParty_OpenGate_0310abff-a694-177e-1aa0-a431556a3f3c);
+SetFlag(DEN_RaidingParty_State_AllEntered_6fd21011-7a8e-48b9-9bd7-711356f3b44b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+KBSECTION
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_DEN_GateCloseControlArea_d86fff07-bc96-4320-b1e6-e73a1712b494, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_CurrentGatekeeper(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_RaidingParty_Event_GateIsOpened_735e0e81-bd67-eb67-87ac-40da4c3e6c49, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_, S_DEN_GateCloseControlArea_d86fff07-bc96-4320-b1e6-e73a1712b494, _Var1, _Var1, _Var1)
+AND
+DB_DEN_GateInUse(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOpened(_Var4, 1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_Gate_IsOpeningOrClosing()
+THEN
+SetEntityEvent(_Var2, "DEN_CloseGate");
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_DEN_GateOpenControlArea_ce97bfdb-ac89-4cd0-ae20-0fbc85fc7e3c, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_CurrentGatekeeper(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(DEN_RaidingParty_Event_GateIsOpened_735e0e81-bd67-eb67-87ac-40da4c3e6c49, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_GateInUse(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOpened(_Var3, 0, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_Gate_IsOpeningOrClosing()
+AND
+DB_DEN_CurrentGatekeeper(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var2, "DEN_OpenGate");
+
+IF
+UseStarted((GUIDSTRING)_Var1, S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_GateInUse(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOpened(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetCanInteract(S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, 0);
+PROC_DEN_Gate_OpenOrCloseGate(_Var3);
+
+PROC
+PROC_DEN_Gate_OpenOrCloseGate(0, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_GateInUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StopAnimation(S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, 0);
+PlayAnimation(S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, OBJ_Open_Unused_01_1c8ad609-f780-418e-9fdf-c52f6d749c9f, "");
+Open(_Var1);
+
+PROC
+PROC_DEN_Gate_OpenOrCloseGate(1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_GateInUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StopAnimation(S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, 0);
+PlayAnimation(S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, OBJ_Close_Unused_01_a7078367-8eed-4ba7-a436-196774f68a60, "");
+ClearFlag(DEN_General_State_GateOpened_4b82bf78-2b07-02b4-9f0b-7d179896be2a, NULL_00000000-0000-0000-0000-000000000000, 0);
+Close(_Var1);
+
+IF
+Opened((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_GateInUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_General_State_GateOpened_4b82bf78-2b07-02b4-9f0b-7d179896be2a, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_DEN_OpenedGate(1);
+TimerLaunch("DEN_Gate_Opened", 500);
+
+IF
+Closed((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_GateInUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_OpenedGate(1);
+TimerLaunch("DEN_Gate_Closed", 500);
+
+IF
+TimerFinished("DEN_Gate_Opened", _, _, _, _)
+THEN
+SetCanInteract(S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, 1);
+PROC_DEN_Gate_CheckOpenOrClose(1);
+
+IF
+TimerFinished("DEN_Gate_Closed", _, _, _, _)
+THEN
+SetCanInteract(S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, 1);
+PROC_DEN_Gate_CheckOpenOrClose(0);
+
+PROC
+PROC_DEN_Gate_CheckOpenOrClose(1, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_DEN_GateCloseControlArea_d86fff07-bc96-4320-b1e6-e73a1712b494, _, _, _)
+AND
+DB_DEN_CurrentGatekeeper(_Var2, _, _, _, _)
+THEN
+SetEntityEvent(_Var2, "DEN_CloseGate");
+
+PROC
+PROC_DEN_Gate_CheckOpenOrClose(0, _, _, _, _)
+AND
+DB_InRegion(_, S_DEN_GateCloseControlArea_d86fff07-bc96-4320-b1e6-e73a1712b494, _, _, _)
+AND
+DB_DEN_CurrentGatekeeper(_Var2, _, _, _, _)
+THEN
+SetEntityEvent(_Var2, "DEN_OpenGate");
+
+PROC
+PROC_DEN_GateRegisterForCharacter((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_DEN_GateSensitiveCharacter(_Var1);
+
+IF
+DB_DEN_GateSensitiveCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(S_DEN_GateCloseControlArea_d86fff07-bc96-4320-b1e6-e73a1712b494, _Var1);
+TriggerRegisterForCharacter(S_DEN_GateOpenControlArea_ce97bfdb-ac89-4cd0-ae20-0fbc85fc7e3c, _Var1);
+
+PROC
+PROC_DEN_GateUnregisterForCharacter((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_DEN_GateSensitiveCharacter(_Var1);
+TriggerUnregisterForCharacter(S_DEN_GateCloseControlArea_d86fff07-bc96-4320-b1e6-e73a1712b494, _Var1);
+TriggerUnregisterForCharacter(S_DEN_GateOpenControlArea_ce97bfdb-ac89-4cd0-ae20-0fbc85fc7e3c, _Var1);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_GateSensitiveCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_GateUnregisterForCharacter(_Var1);
+
+IF
+DestroyedBy(S_DEN_Gate_567055bf-ffeb-4236-8a61-e53877397fde, _, _, _, (CHARACTER)_)
+THEN
+SetFlag(DEN_General_State_GateOpened_4b82bf78-2b07-02b4-9f0b-7d179896be2a, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_DEN_OpenedGate(1);
+NOT DB_DEN_GateInUse(S_DEN_Gate_567055bf-ffeb-4236-8a61-e53877397fde);
+
+QRY
+QRY_DEN_Gate_IsOpeningOrClosing()
+AND
+DB_DEN_GateInUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOpening(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DEN_Gate_IsOpeningOrClosing()
+AND
+DB_DEN_GateInUse(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsClosing(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_GateInUse(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+
+IF
+DB_DEN_Gate_PendingReturnCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Gate_BlockGateOperation(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Gate_BlockGateOperation(1);
+ClearFlag(DEN_RaidingParty_State_AllEntered_6fd21011-7a8e-48b9-9bd7-711356f3b44b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_DEN_Gate_BlockGateOperation(1, _, _, _, _)
+AND NOT
+DB_DEN_Gate_PendingReturnCharacter(_, _, _, _, _)
+THEN
+SetFlag(DEN_RaidingParty_State_AllEntered_6fd21011-7a8e-48b9-9bd7-711356f3b44b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DEN_RaidingParty_StartPleaAtGate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_RaidingParty_Adventurers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Gate_PendingReturnCharacter(_Var2);
+TriggerRegisterForCharacter(S_DEN_InitialEntranceArea_18d5c6b1-18f9-495b-bf07-5cec38ac0b57, _Var2);
+
+PROC
+PROC_DEN_RaidingParty_StartPleaAtGate((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_NPC(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _Var1, _Var1)
+THEN
+DB_DEN_Gate_PendingReturnCharacter(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+TriggerRegisterForCharacter(S_DEN_InitialEntranceArea_18d5c6b1-18f9-495b-bf07-5cec38ac0b57, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Gate_PendingReturnCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Gate_PendingReturnCharacter(_Var1);
+TriggerUnregisterForCharacter(S_DEN_InitialEntranceArea_18d5c6b1-18f9-495b-bf07-5cec38ac0b57, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_DEN_InitialEntranceArea_18d5c6b1-18f9-495b-bf07-5cec38ac0b57, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_Gate_PendingReturnCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Gate_PendingReturnCharacter(_Var1);
+TriggerUnregisterForCharacter(S_DEN_InitialEntranceArea_18d5c6b1-18f9-495b-bf07-5cec38ac0b57, _Var1);
+
+IF
+DB_DEN_OpenedGate(1, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_RaidingParty_Quest_GoblinRaidOver_98712d90-c46b-20c4-c4df-02c0117e85a5, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_RaidingParty_Event_GateIsOpened_735e0e81-bd67-eb67-87ac-40da4c3e6c49, _, _, _, _)
+THEN
+SetFlag(DEN_RaidingParty_Event_GateIsOpened_735e0e81-bd67-eb67-87ac-40da4c3e6c49, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_TriggerUnregisterForPlayers(TRIGGERGUID_S_DEN_GateOpenArea_de98af21-31c2-4560-a3bf-4956d8ca0618);
+
+IF
+FlagSet(DEN_RaidingParty_Event_GateIsOpened_735e0e81-bd67-eb67-87ac-40da4c3e6c49, _, _, _, _)
+AND
+DB_DEN_RaidingParty_Leaders(_Var3, _, _, _, _)
+AND
+DB_Defeated(_Var3, _, _, _, _)
+AND
+QRY_OnlyOnce("DEN_RaidingParty_CheckLeaderDeath", _, _, _, _)
+THEN
+PROC_DEN_RaidingParty_ConfrontationCompleted();
+
+IF
+FlagSet(DEN_RaidingParty_Quest_GoblinRaidOver_98712d90-c46b-20c4-c4df-02c0117e85a5, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_RaidingParty_OpenGate();
+
+PROC
+PROC_DEN_RaidingParty_OpenGate()
+AND NOT
+DB_OnlyOnce("DEN_RaidingParty_OpenGate", _, _, _, _)
+AND
+DB_Defeated(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, _, _, _)
+THEN
+PROC_DEN_RaidingParty_OpenGate_JournalHook();
+SetFlag(DEN_RaidingParty_Event_OpenDenGate_1018a5ed-3543-a4c2-9dd7-138517d55e5e, NULL_00000000-0000-0000-0000-000000000000, 0);
+DB_OnlyOnce("RaidingParty_OpenGate");
+
+IF
+FlagSet(DEN_RaidingParty_Event_OpenDenGate_1018a5ed-3543-a4c2-9dd7-138517d55e5e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_DEN_CurrentGatekeeper(S_DEN_Gatekeeper_847717b3-82eb-45a7-b875-78665c12ce9a);
+PROC_DEN_Gate_OpenOrCloseGate(0);
+
+PROC
+PROC_DEN_RaidingParty_OpenGate()
+AND NOT
+DB_OnlyOnce("DEN_RaidingParty_OpenGate", _, _, _, _)
+AND NOT
+DB_Defeated(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, _, _, _)
+AND
+DB_InRegion(_Var1, S_DEN_GateOpenArea_de98af21-31c2-4560-a3bf-4956d8ca0618, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, 0, 1, _Var1, _Var1)
+AND
+QRY_StartDialog(DEN_RaidingParty_OpenGate_0310abff-a694-177e-1aa0-a431556a3f3c, S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("RaidingParty_OpenGate");
+
+IF
+DialogStarted(DEN_RaidingParty_OpenGate_0310abff-a694-177e-1aa0-a431556a3f3c, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DEN_RaidingParty_AddCharactersToOpenGateDialog(_Var1);
+
+IF
+DialogEnded(DEN_RaidingParty_OpenGate_0310abff-a694-177e-1aa0-a431556a3f3c, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_UnlockWaypoint("WAYP_DEN_Camp", _Var2);
+
+PROC
+PROC_DEN_RaidingParty_AddCharactersToOpenGateDialog((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_DEN_GateOpenArea_de98af21-31c2-4560-a3bf-4956d8ca0618, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var2, 0, 1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var1, _Var2);
+
+PROC
+PROC_DEN_RaidingParty_OpenGate()
+AND NOT
+DB_OnlyOnce("RaidingParty_OpenGate", _, _, _, _)
+AND NOT
+DB_Defeated(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, _, _, _)
+THEN
+PROC_TryStartAD(DEN_RaidingParty_AD_TieflingLeaderWantsGateOpened_8ec34419-eee3-5d5e-cff7-276ac65b187e, S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+PROC_DEN_RaidingParty_OpenGate_JournalHook();
+
+PROC
+PROC_DEN_RaidingParty_OpenGate_JournalHook()
+THEN
+DB_NOOP(1);
+
+IF
+AutomatedDialogStarted(DEN_RaidingParty_AD_TieflingLeaderWantsGateOpened_8ec34419-eee3-5d5e-cff7-276ac65b187e, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_OnlyOnce("RaidingParty_OpenGate");
+
+IF
+FlagSet(DEN_RaidingParty_Event_GateIsOpened_735e0e81-bd67-eb67-87ac-40da4c3e6c49, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SetHasDialogIfChar(S_DEN_Gatekeeper_847717b3-82eb-45a7-b875-78665c12ce9a, 1);
+SetCanJoinCombat(S_DEN_Gatekeeper_847717b3-82eb-45a7-b875-78665c12ce9a, 1);
+
+IF
+DialogEnded(DEN_AttackOnDen_EntranceMeeting_278c9ec1-02f0-c9ae-01d8-cd4507ce40cc, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_DEN_Gate_OpenOrCloseGate(0);
+
+PROC
+PROC_DEN_LeaveDen((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_DEN_CanLeaveDen()
+THEN
+PROC_DEN_LeaveDen(_Var1, "Run");
+
+PROC
+PROC_DEN_LeaveDen((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+TriggerGetRandomPosition(S_DEN_LeaveArea_a85d8d3f-3ea6-4e2c-8571-eb998ecfa80f, _Var3, _Var4, _Var5, _Var1)
+THEN
+DB_DEN_Leaving(_Var1);
+PROC_DEN_GateRegisterForCharacter(_Var1);
+PROC_RemoveDialog(_Var1);
+SetFlag(DEN_Gate_State_Leaving_2428f301-b27b-4f75-99b9-45a71f3dba23, _Var1);
+PROC_CharacterMoveToPosition(_Var1, _Var3, _Var4, _Var5, _Var2, "DEN_ReadyToleave");
+
+QRY
+QRY_DEN_CanLeaveDen()
+AND NOT
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_AttackOnDen", _, _)
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "DEN_ReadyToLeave", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_DEN_WaitingAtGate(_Var1);
+PROC_DEN_GateRegisterForCharacter(_Var1);
+ObjectTimerLaunch(_Var1, "DEN_Gate_BackupOpenGateTimer", 8000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "DEN_Gate_BackupOpenGateTimer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_BackupGatekeeper(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_BackupGatekeeper(_Var1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "DEN_Gate_BackupOpenGateTimer", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_BackupGatekeeper(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "DEN_Gate_BackupOpenGateTimer", 8000);
+
+IF
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_OpenedGate(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TriggerEvents_AnyPlayerInTrigger(S_DEN_EntranceArea_27796261-6c41-4fa2-8afe-6616d7d3e176, _Var1, _Var1, _Var1, _Var1)
+THEN
+PurgeOsirisQueue(_Var1);
+
+IF
+QueuePurged((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+TriggerGetRandomPosition(S_DEN_OutsideLeaveArea_bc528607-56ed-4f1b-9ae1-76c391b96d57, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_DEN_WaitingAtGate(_Var1);
+PROC_CharacterMoveToPosition(_Var1, _Var2, _Var3, _Var4, "Run", "DEN_NPC_OutsideDen");
+
+IF
+EntityEvent((CHARACTER)_Var1, "DEN_NPC_OutsideDen", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Leaving(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Leaving(_Var1);
+ClearFlag(DEN_Gate_State_Leaving_2428f301-b27b-4f75-99b9-45a71f3dba23, _Var1);
+PROC_DisappearOutOfSightTo(_Var1, S_DEN_LeaveDirection_ea27b551-614e-4a2b-be30-eec246744860, "Run", 1, "DEN_NPC_LeftDen");
+
+IF
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_TriggerEvents_AnyPlayerInTrigger(S_DEN_EntranceArea_27796261-6c41-4fa2-8afe-6616d7d3e176, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_WaitingAtGate(_Var1);
+SetOnStage(_Var1, 0);
+SetEntityEvent(_Var1, "DEN_NPC_LeftDen");
+
+IF
+DB_DEN_BackupGatekeeper(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_OpenedGate(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, "Run", "");
+Use(_Var1, S_DEN_GateMechanism_5564d21c-9033-4958-8cc8-cd3f497bb51b, "");
+
+IF
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_CurrentGatekeeper(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_BackupGatekeeper(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_BackupGatekeeper(_Var1);
+
+IF
+WentOnStage((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_CurrentGatekeeper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_CurrentGatekeeper(_Var1);
+
+IF
+WentOnStage((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_BackupGatekeeper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_BackupGatekeeper(_Var1);
+PROC_DEN_Gate_TryGetNewBackupGatekeeper();
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_BackupGatekeeper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_BackupGatekeeper(_Var1);
+PROC_DEN_Gate_TryGetNewBackupGatekeeper();
+
+PROC
+PROC_DEN_Gate_TryGetNewBackupGatekeeper()
+AND
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_BackupGatekeeper(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_BackupGatekeeper(_Var1);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DEN_OnlyDruidStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_CurrentGatekeeper(S_DEN_Gatekeeper_847717b3-82eb-45a7-b875-78665c12ce9a);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DEN_OnlyDruidStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(S_DEN_DruidGuard_001_d1de6b4d-02d1-47f9-8e9e-55a593e3dc71, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_NPC(S_DEN_DruidGuard_001_d1de6b4d-02d1-47f9-8e9e-55a593e3dc71, _, _, _Var1, _Var1)
+THEN
+DB_DEN_CurrentGatekeeper(S_DEN_DruidGuard_001_d1de6b4d-02d1-47f9-8e9e-55a593e3dc71);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DEN_OnlyDruidStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_CurrentGatekeeper(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_GateInUse(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOpened(_Var3, 0, _Var1, _Var1, _Var1)
+THEN
+Open(_Var3);
+
+PROC
+PROC_DEN_AllPlayersLeftDen()
+AND
+DB_DEN_Leaving(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Leaving(_Var1);
+NOT DB_DEN_WaitingAtGate(_Var1);
+SetOnStage(_Var1, 0);
+SetEntityEvent(_Var1, "DEN_NPC_LeftDen");
+ClearFlag(DEN_Gate_State_Leaving_2428f301-b27b-4f75-99b9-45a71f3dba23, _Var1);
+
+IF
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_, S_DEN_EntranceArea_27796261-6c41-4fa2-8afe-6616d7d3e176, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Leaving(_Var1);
+NOT DB_DEN_WaitingAtGate(_Var1);
+SetOnStage(_Var1, 0);
+SetEntityEvent(_Var1, "DEN_NPC_LeftDen");
+ClearFlag(DEN_Gate_State_Leaving_2428f301-b27b-4f75-99b9-45a71f3dba23, _Var1);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_WaitingAtGate(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_WaitingAtGate(_Var1);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Leaving(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Leaving(_Var1);
+
+PROC
+PROC_StateSet_Defeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_CurrentGatekeeper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_DefeatedGatekeeper(_Var1);
+NOT DB_DEN_CurrentGatekeeper(_Var1);
+
+PROC
+PROC_StateCleared_Defeated(S_DEN_Gatekeeper_847717b3-82eb-45a7-b875-78665c12ce9a, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_DefeatedGatekeeper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_CurrentGatekeeper(_Var1);
+NOT DB_DEN_DefeatedGatekeeper(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

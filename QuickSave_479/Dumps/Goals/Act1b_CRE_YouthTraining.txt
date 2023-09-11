@@ -1,0 +1,387 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_CRE_YouthTraining_SceneSetup();
+DB_CRE_YouthTraining_Students(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33);
+DB_CRE_YouthTraining_Students(S_CRE_Student02_0d17add0-9e8d-4e6f-82e0-cd14645707d5);
+DB_CRE_YouthTraining_Students(S_CRE_Student03_91223ba2-41d5-4cde-85b2-6b076e462e3b);
+DB_CRE_YouthTraining_Students(S_CRE_Student04_d3eb2b9a-ac8e-40dc-8596-70b05d08496b);
+DB_CRE_YouthTraining_Characters(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33);
+DB_CRE_YouthTraining_Characters(S_CRE_Student02_0d17add0-9e8d-4e6f-82e0-cd14645707d5);
+DB_CRE_YouthTraining_Characters(S_CRE_Student03_91223ba2-41d5-4cde-85b2-6b076e462e3b);
+DB_CRE_YouthTraining_Characters(S_CRE_Student04_d3eb2b9a-ac8e-40dc-8596-70b05d08496b);
+DB_CRE_YouthTraining_Characters(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf);
+DB_CRE_YouthTraining_Characters(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+DB_CRE_YouthTraining_Characters(S_CRE_CrecheKid01_81845208-9721-4c58-8546-84f958a85d57);
+DB_CRE_YouthTraining_Characters(S_CRE_CrecheKid02_5d33ac06-faa7-48c3-8794-6cff79515ce5);
+DB_CRE_YouthTraining_Characters(S_CRE_CrecheKid03_ba10db62-da84-4c7e-8867-0a98be775aa9);
+DB_CRE_YouthTraining_Characters(S_CRE_CrecheKid04_139392d5-d068-4445-b5a4-42ef9340b1b7);
+DB_CRE_YouthTraining_Characters(S_CRE_IntelligenceOfficer02_a17c356a-6e0c-4d2f-bcf6-58195d6c9edf);
+DB_SceneManager(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, "CRE_TrainingRoom");
+DB_SceneManager(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, "CRE_TrainingRoom");
+DB_SceneAllowAllDisturbances("CRE_TrainingRoom");
+DB_SceneTriggerManager("CRE_TrainingRoom", S_CRE_TrainingSpottingArea_5f20a9d0-5d9f-4248-8711-2a784770c6aa);
+DB_GLO_DefeatCounter(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, "CRE_YouthTraining");
+DB_Dialogs(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, S_CRE_Student02_0d17add0-9e8d-4e6f-82e0-cd14645707d5, CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c);
+DB_Dialogs(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33, CRE_YouthTraining_Student01_d91bf1f9-858a-0283-751c-345ec885ef87);
+DB_Dialogs(S_CRE_Student02_0d17add0-9e8d-4e6f-82e0-cd14645707d5, CRE_YouthTraining_Student02_79ab47df-c3fc-3c14-82d8-fe70908603a2);
+DB_Dialogs(S_CRE_Student03_91223ba2-41d5-4cde-85b2-6b076e462e3b, CRE_YouthTraining_Student03_28d59fda-1144-756e-54b4-6b7bdeecd3f5);
+DB_Dialogs(S_CRE_Student04_d3eb2b9a-ac8e-40dc-8596-70b05d08496b, CRE_YouthTraining_Student04_098d8069-0397-82df-2204-3d1a2c85e189);
+DB_GLO_CharacterCorpseDialog(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, CRE_YouthTraining_GithBoy_Dead_d2a7b1b8-249a-e409-396b-60421c1fd4b0);
+DB_GlobalFlagReactionAfterDialog(CRE_YouthTraining_Event_StudentPicksUpBoy_71670609-309b-4011-b480-e882f0bfd343, CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c);
+DB_GlobalFlagReactionAfterDialog(CRE_YouthTraining_State_BoySpared_4396d45f-8ef0-4be1-87b4-798ef58f2cbb, CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c);
+DB_GlobalFlagReactionAfterDialog(CRE_YouthTraining_State_BoyDead_8170ef3e-f42c-488d-b619-128083e0832c, CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c);
+DB_GlobalFlagReactionAfterDialog(CRE_YouthTraining_State_BoyNonFatal_bf54e5b4-91bd-4f0e-9323-f4d32cdd76ef, CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c);
+DB_TriggerEvents_AllPartyMembersLeft(S_CRE_YouthTrainingLeaveArea_b492a439-4c9e-4cdc-8f8b-b89876e74eb6, "CRE_YouthTraining_LeaveArea");
+SetHitpoints(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, 3);
+PROC_SelfHealing_Disable(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+DB_PreventKnockedOutPermaDefeated(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+DB_DeadEvent(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, CRE_YouthTraining_State_BoyDead_8170ef3e-f42c-488d-b619-128083e0832c);
+DB_QuestDef_State(CRE_YouthTraining_State_BoySpared_4396d45f-8ef0-4be1-87b4-798ef58f2cbb, "HIDDEN_CRE_Boosters", "CRE_YouthTraining_BoySpared");
+DB_CombatReact_AD_OnTurn(S_CRE_Student03_91223ba2-41d5-4cde-85b2-6b076e462e3b, CRE_YouthTraining_AD_Student03Combat_159a5573-a2c8-b8a1-be33-465f1cdfa046, 1);
+DB_CRE_YouthTraining_OneHandedStudents(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33);
+DB_CRE_YouthTraining_OneHandedStudents(S_CRE_Student02_0d17add0-9e8d-4e6f-82e0-cd14645707d5);
+PROC_CRE_YouthTraining_UnequipOffHandSword();
+
+KBSECTION
+IF
+TextEvent("cre_gototeacher", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, S_CRE_DebugPos_TrainingRoom_ff0f5aa8-1ef8-49c0-b6c7-52b5526cd0f4, "", 1, 1, 1, 1, 1);
+
+IF
+DB_CRE_YouthTraining_Students(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var1, "CRE_YouthTraining");
+DB_GLO_DefeatCounter(_Var1, "CRE_YouthTraining_Students");
+
+PROC
+PROC_CRE_YouthTraining_SceneSetup()
+THEN
+DB_DoNotFaceDialog(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, CRE_YouthTraining_AD_TeacherBeatingBoy_54a13362-dfe9-17c8-c393-cfa5fa844011);
+SetFlag(CRE_YouthTraining_State_TeacherBeatingBoy_ccaa2ee8-654b-491f-9623-c8a9376d3c61);
+
+IF
+EntityEvent(_, "CRE_YouthTraining_LeaveArea", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(CRE_YouthTraining_State_LeftAfterSeeingScene_ad6cb8c1-ad05-4fc0-8117-a0e209a54e0c);
+
+IF
+LevelLoaded("CRE_Main_A", _, _, _, _)
+AND
+QRY_OnlyOnce("CRE_YouthTrainingDoorOpened", _, _, _, _)
+THEN
+Open(S_CRE_ClassRoomDoor_e3da8dbc-3fc7-4506-ae14-b37e92855f63);
+
+IF
+FlagSet(CRE_YouthTraining_Event_DestroyedChapter2_fc37c481-0f81-4433-8352-210bc8aeec13, NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DialogGetInvolvedPlayer(_Var1, 1, _Var2, _Var1, _Var1)
+THEN
+MagicPocketsDrop(_Var2, S_CRE_OprheusStoryChapter2_4dbaf850-49ff-4e41-adc2-7054e416c960);
+
+IF
+DialogStarted(CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(CRE_YouthTraining_State_TeacherBeatingBoy_ccaa2ee8-654b-491f-9623-c8a9376d3c61);
+
+PROC
+PROC_SceneInterrupted(_, (CHARACTER)_Var2, "CRE_TrainingRoom", (STRING)_Var3, _)
+AND
+DB_GLO_GenericSceneManager_ViolenceReason(_Var3, _, _, _, _)
+THEN
+PROC_ForceStopDialog(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf);
+PROC_ForceStopDialog(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+
+PROC
+PROC_SceneInterrupted((CHARACTER)_Var1, (CHARACTER)_Var2, "CRE_TrainingRoom", "LeftTrigger", (CHARACTER)_Var1)
+AND
+DB_SceneManager(_Var1, "CRE_TrainingRoom", _Var1, _Var1, _Var1)
+THEN
+PROC_CRE_YouthTraining_TeacherKillsBoy_Gameplay();
+PROC_SceneOver("CRE_TrainingRoom");
+
+IF
+DialogEnded(CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(CRE_YouthTraining_State_BoySpared_4396d45f-8ef0-4be1-87b4-798ef58f2cbb, _, _, _, _)
+AND NOT
+DB_GlobalFlag(CRE_YouthTraining_State_BoyDead_8170ef3e-f42c-488d-b619-128083e0832c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(CRE_YouthTraining_State_BoyNonFatal_bf54e5b4-91bd-4f0e-9323-f4d32cdd76ef, _, _, _, _)
+THEN
+PROC_CRE_YouthTraining_TeacherKillsBoy_Gameplay();
+
+PROC
+PROC_CRE_YouthTraining_TeacherKillsBoy_Gameplay()
+THEN
+NOT DB_PreventKnockedOutPermaDefeated(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+Attack(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, 1);
+ClearFlag(CRE_YouthTraining_State_TeacherBeatingBoy_ccaa2ee8-654b-491f-9623-c8a9376d3c61);
+DB_CRE_YouthTraining_TeacherKillingBoy(1);
+
+IF
+AttackedBy(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, _, S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, _, _, _, _, _, _, _)
+AND
+DB_CRE_YouthTraining_TeacherKillingBoy(1, _, _, _, _)
+AND NOT
+DB_Dead(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, _, _, _, _)
+THEN
+Attack(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, 1);
+
+IF
+KilledBy(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, _, _, (GUIDSTRING)_)
+THEN
+SetFlag(CRE_YouthTraining_State_BoyKilledByTeacher_0fc4fcd2-4d2a-4bf9-aed2-67970912a87c);
+PROC_CharacterMoveTo(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33, S_CRE_StudentBringToCornerPos_8b05634f-8de6-4ade-b36b-3a1c94fd4a3c, "Run", "CRE_YouthTraining_StudentReachBoy");
+
+IF
+DialogEnded(CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SceneOver("CRE_TrainingRoom");
+
+PROC
+PROC_SceneOver("CRE_TrainingRoom", _, _, _, _)
+THEN
+PROC_RemoveDialog(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf);
+PROC_RemoveDialog(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+DB_Dialogs(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, CRE_YouthTraining_TeacherAfterBoyScene_eea69a84-2b01-2883-9765-7173be26ce69);
+DB_Dialogs(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, CRE_YouthTraining_GithBoy_d626f26f-b534-6c8f-b87a-3e8d600e8dd0);
+NOT DB_TriggerEvents_AllPartyMembersLeft(S_CRE_YouthTrainingLeaveArea_b492a439-4c9e-4cdc-8f8b-b89876e74eb6, "CRE_YouthTraining_LeaveArea");
+SetFlag(CRE_YouthTraining_State_BackToClass_dad66da6-c0e9-41a9-93ee-5f106d69f92d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("CRE_YouthTraining", _, _, _, _)
+THEN
+PROC_CRE_YouthTraining_BoyGoesToCorner();
+
+PROC
+PROC_GLO_DefeatCounter_AllDefeated("CRE_YouthTraining", _, _, _, _)
+THEN
+PROC_CRE_YouthTraining_BoyGoesToCorner();
+
+PROC
+PROC_CRE_YouthTraining_BoyGoesToCorner()
+AND NOT
+DB_CantMove(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, _, _, _, _)
+AND
+QRY_OnlyOnce("CRE_YouthTrainingFight", _, _, _, _)
+THEN
+DB_Dialogs(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, CRE_YouthTraining_GithBoy_d626f26f-b534-6c8f-b87a-3e8d600e8dd0);
+PROC_CharacterMoveTo(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, S_CRE_GithBoyTrainingRoomPos_68418a7e-3de4-42af-a7d8-f32935be36bd, "Walk", "");
+SetFlag(CRE_YouthTraining_State_BackToClass_dad66da6-c0e9-41a9-93ee-5f106d69f92d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRE_YouthTraining_Characters(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(CRE_YouthTraining_Event_AttackedTeacher_41d9d554-9761-47ce-b2d2-d1085f5f3345, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CRE_YouthTraining_Event_AttackedTeacher_41d9d554-9761-47ce-b2d2-d1085f5f3345);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CRE_YouthTraining_State_BoySpared_4396d45f-8ef0-4be1-87b4-798ef58f2cbb, _, _, _, _)
+THEN
+PROC_CharacterMoveTo(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, S_CRE_GithBoyTrainingRoomPos_68418a7e-3de4-42af-a7d8-f32935be36bd, "Walk", "CRE_YouthTraining_GithBoyTrainingRoomPosReached");
+
+IF
+EntityEvent((CHARACTER)_Var1, "CRE_YouthTraining_GithBoyTrainingRoomPosReached", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+LookFromTrigger(_Var1, S_CRE_GithBoyTrainingRoomPos_68418a7e-3de4-42af-a7d8-f32935be36bd, 0);
+
+IF
+FlagSet(CRE_YouthTraining_State_BoyKilledIntentionallyByPlayer_1e390a10-560b-40c6-b87a-1b3e4de2f9f6, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SpeakWithDead_SetCustomKiller(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, _Var1);
+
+IF
+FlagSet(CRE_YouthTraining_State_BoyKilledAccidentallyByPlayer_364f94cb-5b43-42c5-9e88-1922310f9ea3, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SpeakWithDead_SetCustomKiller(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, _Var1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CRE_YouthTraining_State_BoyDead_8170ef3e-f42c-488d-b619-128083e0832c, _, _, _, _)
+THEN
+Die(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1, 0);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CRE_YouthTraining_State_BoyNonFatal_bf54e5b4-91bd-4f0e-9323-f4d32cdd76ef, _, _, _, _)
+THEN
+SetHitpoints(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, 1);
+ApplyStatus(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, "KNOCKED_OUT", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+PROC_SelfHealing_Disable(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(CRE_YouthTraining_Event_StudentPicksUpBoy_71670609-309b-4011-b480-e882f0bfd343, _, _, _, _)
+THEN
+SetFlag(CRE_YouthTraining_State_BoyNonFatal_bf54e5b4-91bd-4f0e-9323-f4d32cdd76ef);
+PROC_CharacterMoveTo(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33, S_CRE_StudentBringToCornerPos_8b05634f-8de6-4ade-b36b-3a1c94fd4a3c, "Run", "CRE_YouthTraining_StudentReachBoy");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CRE_YouthTraining_StudentReachBoy", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+RealSum(_Var3, 1.3, _Var5, _Var1, _Var1)
+AND
+RealSum(_Var2, 0.5, _Var6, _Var1, _Var1)
+AND
+RealSum(_Var4, 0.2, _Var7, _Var1, _Var1)
+THEN
+PlatformMoveOnSpline(PLT_CRE_FloatingBed_000_dd5d3c7a-e624-4701-8fb7-afbffd716b87, S_CRE_FloatingBed_PathToBoy_4770cc3d-c35b-49a1-b9a3-3268dab0e4df, 0, 5, 3, "CRE_YouthtTaining_FloatingBed_ArrivedNearBoy", 0);
+PlayLoopingAnimation(_Var1, CUST_PsionicControl_01_Start_99f99e89-e2fa-4bba-a451-a1ccf180a34b, CUST_PsionicControl_01_Loop_ba806fef-e4ec-42a5-9367-c9b09d1b8410, CUST_PsionicControl_01_End_dc0adcc8-44f6-4175-9858-f036cf5e726d, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+PROC_LoopEffectAtPosition(VFX_Script_CRE_FloatingBed_Cast_01_694e12dc-50ed-790b-debf-ad0107d94f54, _Var1, "CRE_FloatingBed_StudentPart", _Var6, _Var5, _Var7, "CRE_Main_A");
+PROC_LoopEffect(VFX_Script_CRE_FloatingBed_01_46c9231f-e203-04b9-8c86-520e3e0c1e67, DEC_GEN_Stretcher_Bed_A_000_bdf2c4c9-deb9-410c-b2c5-1c9f6d146600, "CRE_FloatingBed_BedPart", "CRE_Main_A", "");
+DB_SceneManager(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33, "CRE_BedMovingScene");
+DB_SceneAllowAllDisturbances("CRE_BedMovingScene");
+
+PROC
+PROC_SceneInterrupted(_, _, "CRE_BedMovingScene", _, (GUIDSTRING)_)
+THEN
+StopAnimation(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33, 0);
+PROC_StopLoopEffect(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33, "CRE_FloatingBed_StudentPart");
+
+IF
+PlatformMovementFinished(PLT_CRE_FloatingBed_dd5d3c7a-e624-4701-8fb7-afbffd716b87, "CRE_YouthtTaining_FloatingBed_ArrivedNearBoy", _, _, _)
+THEN
+DB_CRE_FloatingBedIsNearBoy(1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CRE_YouthTraining_StudentReachBoy", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CRE_StudentIsNearBoy(1);
+
+IF
+DB_CRE_FloatingBedIsNearBoy(1, _, _, _, _)
+AND
+DB_CRE_StudentIsNearBoy(1, _, _, _, _)
+THEN
+TeleportTo(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, S_CRE_TeleportOnBedPoint_8e2cd52b-dde1-8b34-0edb-90c82e629c2a, "", 0, 0, 0, 0, 1);
+PROC_CRE_FloatingBed_ReturnToStartingPos();
+
+PROC
+PROC_CRE_FloatingBed_ReturnToStartingPos()
+AND
+QRY_OnlyOnce("CRE_FloatingBed_ReturnToStartingPos", _, _, _, _)
+THEN
+PlatformMoveOnSpline(PLT_CRE_FloatingBed_000_dd5d3c7a-e624-4701-8fb7-afbffd716b87, S_CRE_FloatingBed_PathToBoy_4770cc3d-c35b-49a1-b9a3-3268dab0e4df, 5, 0, 3, "CRE_YouthtTaining_FloatingBed_ArrivedBackWithBoy", 0);
+
+IF
+PlatformMovementFinished(PLT_CRE_FloatingBed_dd5d3c7a-e624-4701-8fb7-afbffd716b87, "CRE_YouthtTaining_FloatingBed_ArrivedBackWithBoy", _, _, _)
+THEN
+SetFlag(CRE_YouthTraining_State_BoySatInInfirmary_fcf04858-9cc6-440f-bffe-55b7b6b4fdf1, NULL_00000000-0000-0000-0000-000000000000);
+StopAnimation(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33, 0);
+PROC_StopLoopEffect(S_CRE_Student01_82f7512c-3b1d-4af7-92cc-3fbe4e4d9c33, "CRE_FloatingBed_StudentPart");
+PROC_StopLoopEffect(DEC_GEN_Stretcher_Bed_A_000_bdf2c4c9-deb9-410c-b2c5-1c9f6d146600, "CRE_FloatingBed_BedPart");
+
+IF
+HitpointsChanged(GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+GetFlag(CRE_YouthTraining_State_BoySatInInfirmary_fcf04858-9cc6-440f-bffe-55b7b6b4fdf1, NULL_00000000-0000-0000-0000-000000000000, 1, _Var1, _Var1)
+AND
+_Var1 > 1
+THEN
+PROC_SelfHealing_Enable(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+SetFlag(CRE_YouthTraining_State_PlayerHealedBoy_3da2c5a5-5837-41eb-a83b-4404978d544a);
+SetFlag(CRE_YouthTraining_State_BoySpared_4396d45f-8ef0-4be1-87b4-798ef58f2cbb);
+ClearFlag(CRE_YouthTraining_State_BoySatInInfirmary_fcf04858-9cc6-440f-bffe-55b7b6b4fdf1);
+RemoveStatus(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, "KNOCKED_OUT", NULL_00000000-0000-0000-0000-000000000000);
+DB_Dialogs(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, CRE_YouthTraining_GithBoy_d626f26f-b534-6c8f-b87a-3e8d600e8dd0);
+
+IF
+StatusRemoved(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, "KNOCKED_OUT", NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_)
+THEN
+NOT DB_PreventKnockedOutPermaDefeated(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187);
+
+IF
+StatusApplied(S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, (STRING)_Var1, (CHARACTER)_Var2, _, (STRING)_Var1)
+AND
+QRY_IsHealingStatus(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(CRE_YouthTraining_State_TeacherBeatingBoy_ccaa2ee8-654b-491f-9623-c8a9376d3c61, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRE_YouthTraining_HealedBoyDuringGameplay", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(CRE_YouthTraining_Event_BoyHealedDuringBeating_7c151265-5513-490a-aaf6-06a702f92dd6, _Var2);
+
+IF
+FlagSet(CRE_YouthTraining_Event_BoyHealedDuringBeating_7c151265-5513-490a-aaf6-06a702f92dd6, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CRE_StartTeacherDialog(_Var1);
+
+PROC
+PROC_CRE_StartTeacherDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog(CRE_YouthTraining_Teacher_2c57553c-9473-fd1e-8614-6a49b71dcf1c, S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, S_CRE_Student02_0d17add0-9e8d-4e6f-82e0-cd14645707d5, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, (INTEGER)_Var4)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var2, "Assault", _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "CRE_GithKid_Assault", _Var3, S_CRE_GithBoy_3e97baba-812b-4589-a7aa-454543aa3187, 0);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRE_YouthTraining_Students(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRE_YouthTraining_StudentDefeatedCombatReact", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_AD_OnNextTurn(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, CRE_YouthTraining_AD_TeacherCombat_YouthDies_32eff058-9c35-1853-43d7-dd62226e74fe);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("CRE_YouthTraining_Students", _, _, _, _)
+AND NOT
+DB_Defeated(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, _, _, _, _)
+THEN
+DB_CombatReact_AD_OnNextTurn(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, CRE_YouthTraining_AD_TeacherCombat_AllYouthDead_c4b1b49a-abe7-6485-2632-eb81be20e270);
+
+IF
+CastedSpell(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, "Target_CRE_Savarsh_CombatInstruction", _, _, _)
+AND
+DB_Is_InCombat(S_CRE_Teacher_60933e69-c642-46e0-92ee-0e4353fc2adf, _Var4, _, _, _)
+AND
+DB_Is_InCombat(_Var5, _Var4, _, _, _)
+AND
+DB_Players(_Var5, _, _, _, _)
+AND
+QRY_OnlyOnce("CRE_YouthTraining_TeacherAbilityCombatReact", _, _, _, _)
+THEN
+DB_CombatReact_AD_OnNextTurn(_Var5, CRE_YouthTraining_PAD_Combat_TeacherAbilityReaction_c8bf8ad2-e545-3148-b01e-c2a48b030e9b);
+
+PROC
+PROC_CRE_YouthTraining_UnequipOffHandSword()
+AND
+DB_CRE_YouthTraining_OneHandedStudents(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEquippedItem(_Var1, "Melee Offhand Weapon", _Var2, _Var1, _Var1)
+THEN
+DB_CRE_YouthTraining_OneHandedStudents_OffhandWeapon(_Var1, _Var2);
+Unequip(_Var1, _Var2);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRE_YouthTraining_OneHandedStudents_OffhandWeapon(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+Equip(_Var1, _Var3, 1, 0, 0);
+NOT DB_CRE_YouthTraining_OneHandedStudents_OffhandWeapon(_Var1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1b"

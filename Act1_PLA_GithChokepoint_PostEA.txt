@@ -1,0 +1,61 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DropMutingStatussesDialog(PLA_GithChokepoint_WRD_LaezelAfterVossAtChokepoint_05b0a5cc-5ea2-1c67-acff-a048b3eeb679);
+
+KBSECTION
+IF
+FlagSet(PLA_GithChokepoint_State_SceneDone_2fa4006f-12e5-4666-931b-e31dee737f2f, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_QuestIsAccepted("ORI_AVATAR_Laezel", _, _, _, _)
+THEN
+SetFlag(PLA_GithChokepoint_State_MonitorIntroRequirementMet_4d226b35-cc1b-4750-a06b-30f231b0633c, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_PLA_GithChokepoint_CheckStartWRD()
+AND
+DB_Players(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Avatars(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+AND NOT
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _, _, _, _)
+THEN
+ObjectTimerLaunch(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "PLA_GithChokepoint_WRDTimer", 4000);
+
+IF
+ObjectTimerFinished(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, "PLA_GithChokepoint_WRDTimer", _, _, _)
+AND NOT
+QRY_PLA_GithChokepoint_LaezelWRD_TryPlayAutomatically()
+THEN
+PROC_RelationshipDialog(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, PLA_GithChokepoint_WRD_LaezelAfterVossAtChokepoint_05b0a5cc-5ea2-1c67-acff-a048b3eeb679, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12);
+
+QRY
+QRY_PLA_GithChokepoint_LaezelWRD_TryPlayAutomatically()
+AND
+QRY_GetBestAvatarForCompanion(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, 1, 1, _, _)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PLA_GithChokepoint_CloseToGith(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PLA_GithChokepoint_StartConfrontationWRD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_PLA_GithChokepoint_StartConfrontationWRD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(PLA_GithChokepoint_WRD_LaezelAfterVossAtChokepoint_05b0a5cc-5ea2-1c67-acff-a048b3eeb679, S_Player_Laezel_58a69333-40bf-8358-1d17-fff240d7fb12, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

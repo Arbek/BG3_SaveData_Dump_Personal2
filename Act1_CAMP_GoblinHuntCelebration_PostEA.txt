@@ -1,0 +1,108 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CampNight_SetPosition(NIGHT_GoblinHunt_TieflingCelebration_1ad8c357-2695-4d5c-b5f9-8b8c07803121, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, "WLDMAIN", S_CAMP_Wyll_GoblinHuntCelebration_Pos_fb463a2e-e586-47c9-a20d-14f49b3d5892);
+
+KBSECTION
+IF
+DialogEnded(CAMP_GoblinHuntCelebration_CFM_Raiders_37471826-8011-115d-6724-c12874619d95, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CAMP_GoblinHuntCelebration_KorrillaSetup();
+
+PROC
+PROC_CampNight_StartSelected()
+AND
+DB_Camp_QueuedNight(NIGHT_GoblinHunt_TieflingCelebration_1ad8c357-2695-4d5c-b5f9-8b8c07803121, _, _, _, _)
+THEN
+PROC_CAMP_GoblinHuntCelebration_KorrillaSetup();
+
+PROC
+PROC_CAMP_GoblinHuntCelebration_KorrillaSetup()
+THEN
+TimerLaunch("CAMP_GoblinHuntCelebration_Korrilla_AppearTimer", 30000);
+
+IF
+TimerFinished("CAMP_GoblinHuntCelebration_Korrilla_AppearTimer", _, _, _, _)
+THEN
+PROC_CAMP_GoblinHuntCelebration_TeleportKorrillaAndWatch();
+
+IF
+EntityEvent(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "CAMP_GoblinHuntCelebration_KorrillaArrived", _, _, _)
+THEN
+ObjectTimerLaunch(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "CAMP_GoblinHuntCelebration_Korrilla_WaitTimer", 15000, 1);
+
+IF
+ObjectTimerFinished(_, "CAMP_GoblinHuntCelebration_Korrilla_WaitTimer", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+
+PROC
+PROC_CAMP_GoblinHuntCelebration_TeleportKorrillaAndWatch()
+AND
+QRY_State_IsBeforeState(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Act1", _, _)
+THEN
+PROC_State_Progress(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Act1");
+SetVisible(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 1);
+TeleportTo(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, S_CAMP_Korrilla_AppearSpot_3311cc3c-8af8-46bf-ac06-a4d974ce605f, "", 0, 0, 0, 0, 1);
+CharacterDisableAllCrimes(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+PROC_GLO_Monitor_EntityFoop(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+PROC_RemoveDialog(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297);
+DB_Dialogs(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, CAMP_KorrillaTheSpy_Korrilla_faea3992-f6a4-e66f-27ec-384f42231194);
+SetHitpointsPercentage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 100);
+PROC_GLO_Warlock_ApplyAllStatuses();
+
+IF
+StatusApplied((CHARACTER)_Var1, "TWN_KORRILLATHESPY_ISNEAR", _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var1);
+
+IF
+DB_Sees(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "TWN_KORRILLATHESPY_ISNEAR", 1, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var1);
+
+IF
+DialogEnded(CAMP_KorrillaTheSpy_Korrilla_faea3992-f6a4-e66f-27ec-384f42231194, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+PROC_TryStartAD(GLO_KorrillaTheSpy_PAD_KorrillaVanishesReaction_d67b6532-f773-6e07-3a4f-615aa3b949dc, _Var2);
+
+PROC
+PROC_LongRest()
+AND
+DB_State_Current(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, "GLO_Warlock", "GLO_Warlock_Act1", _, _)
+AND
+IsOnStage(S_GOB_Warlock_d432aafd-f728-4d9d-9707-732e1cdd8297, 1, _, _, _)
+THEN
+PROC_GLO_Warlock_TeleportOut();
+
+PROC
+PROC_CampNight_StartSelected()
+AND
+DB_Camp_QueuedNight(NIGHT_GoblinHunt_RaiderCelebration_86fee25f-1069-4f17-89fa-4c5b69f82e0b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GOB_WolfPens_State_HalsinIntroHappened_7d0751b9-1055-4a54-9ccd-f5e95e2a1f69, _, _, _, _)
+THEN
+Die(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0);
+TeleportTo(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, S_DEN_GatePlayerMoveToPoint_002_e0ee6b1c-8b40-4a09-815b-1e032855978a, "Halsin_Dead_Offscreen_Teleport", 0, 0, 0, 0, 1);
+PROC_CampNight_ClearCampNight(NIGHT_HalsinsReturn_a6ed2a44-776c-41d7-abfc-b8240209f886);
+PROC_CampNight_ClearCampNight(NIGHT_HalsinsRevenge_55e86575-6b8c-45ab-b582-e5ed048e6a83);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1_NOT_EA"

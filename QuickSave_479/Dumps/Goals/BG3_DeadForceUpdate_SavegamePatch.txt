@@ -1,0 +1,74 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 1", _, _, _, _)
+AND
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_BUGFIX_Marker("GUS-298878_FixForceUpdating", _Var1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 1", _, _, _, _)
+AND
+DB_LevelLoadedOnce(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_LevelUnreachable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_BugFix_GUS298878_LevelToFix(_Var1);
+
+IF
+LevelGameplayStarted((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_BugFix_GUS298878_LevelToFix(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_BUGFIX_Marker("GUS-298878_FixForceUpdating", _Var3, _Var1, _Var1, _Var1)
+AND
+Exists(_Var3, 1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var3, "GUS-298878-ReturnToIdlePosForceUpdateDeadCheck", 1);
+NOT DB_BUGFIX_Marker("GUS-298878_FixForceUpdating", _Var3);
+DB_BUGFIX_Marker("GUS-298878_FixForceUpdating-Done", _Var3);
+
+IF
+LevelGameplayStarted((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_BugFix_GUS298878_LevelToFix(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_BugFix_GUS298878_LevelToFix(_Var1);
+
+PROC
+PROC_LevelBecameUnreachable((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_BugFix_GUS298878_LevelToFix(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_BugFix_GUS298878_LevelToFix(_Var1);
+
+PROC
+PROC_ApplySavegamePatches()
+AND NOT
+DB_BugFix_GUS298878_LevelToFix(_, _, _, _, _)
+AND
+DB_BUGFIX_Marker("GUS-298878_FixForceUpdating", _Var2, _, _, _)
+THEN
+NOT DB_BUGFIX_Marker("GUS-298878_FixForceUpdating", _Var2);
+
+PROC
+PROC_ApplySavegamePatches()
+AND NOT
+DB_BugFix_GUS298878_LevelToFix(_, _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

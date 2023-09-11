@@ -1,0 +1,684 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_GLO_KarlachHead_931f6df2-b546-422c-beff-fe91682bdf49, 0);
+DB_KilledEvent(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, PLA_KarlachRecruitment_State_KilledKarlach_ee2f4a40-6290-4a2b-ba3a-54da7dc3f69f);
+DB_HasItemEvent(S_GLO_KarlachHead_931f6df2-b546-422c-beff-fe91682bdf49, GLO_Karlach_State_HasHead_611d2fd1-91df-43c2-9af0-f7db11e7460d);
+DB_GiveItemToEvent(S_GLO_KarlachHead_931f6df2-b546-422c-beff-fe91682bdf49, PLA_KarlachRecruitmentTollhouse_Event_GiveHead_d4e8a331-084c-42b7-a2b3-99e587f8679e);
+DB_HasItemEvent(S_PLA_TollhouseMagicalWeapon_5e3bb83a-1d07-4598-80bb-850bb1bbd23b, PLA_KarlachRecruitmentTollhouse_State_HasWeapon_ed70a103-6223-47c4-98de-f4d221154554);
+DB_GiveItemToEvent(S_PLA_TollhouseMagicalWeapon_5e3bb83a-1d07-4598-80bb-850bb1bbd23b, PLA_KarlachRecruitmentTollhouse_Event_GiveWeapon_22ae1f42-07bc-4f15-8ea0-26e71487b85a);
+DB_FlagReactionAfterDialog(PLA_KarlachRecruitmentTollhouse_State_CrimeSpotted_5bd6baa7-91ca-430b-9ba7-c887d6626c09, PLA_Refugee_SpokeWithDeadCrime_6e6bfe2a-3e85-3aa6-3cb1-fed280670565);
+DB_FlagReactionAfterDialog(PLA_KarlachRecruitment_Event_TakeHead_8690f0aa-eb70-4676-8069-32c049a504b5, PLA_KarlachRecruitment_HeadLoot_25793061-8650-7d0e-9b79-d98ecaee9ca7);
+PROC_TriggerRegisterForPlayers(S_PLA_SlaughterSite_c358ea55-a404-4745-baae-8bbe50ec8e33);
+PROC_TriggerRegisterForPlayers(S_PLA_SpotCorpseTrigger_99a01991-5f05-47ac-ae24-a87f2f304306);
+PROC_TriggerRegisterForParty(S_PLA_TollhouseBounds_9b185c3f-f82f-4315-8c5d-aaead5ae362c);
+PROC_TriggerRegisterForPlayers(S_PLA_EavesdropBounds_da95acfe-61c3-4832-b6f2-80b3af95a1bb);
+PROC_TriggerRegisterForPlayers(S_PLA_TollhouseInterior_59a65f0c-6a16-4710-a058-509834036439);
+TriggerRegisterForCharacter(S_PLA_KarlachRecruitmentTollhouse_CorpseMoveBounds_3763ead9-4340-42ce-9df8-42b1c30dd36b, S_PLA_Refugee_006_eecfdb49-f726-4d23-9081-dca9b2481e7a);
+TriggerRegisterForItems(S_PLA_BucketBounds_5470338f-4ace-4381-9cf9-86ee271359e7);
+DB_SpotPlayers(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "PLA_Karlach_SpotAtRecruitment", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_Continuous(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "PLA_Karlach_SpotAtRecruitment");
+DB_SpotPlayers_SpotTrigger(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "PLA_Karlach_SpotAtRecruitment", S_PLA_KarlachRiverSpotRange_806bd95f-0207-4361-a1c9-3d9ba7de642d);
+DB_AddCharactersInTriggerToDialog(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, S_PLA_KarlachRiverSpot_IncludePlayers_22fcba99-9315-46f5-9fcf-95b88f3e6b6f, 1, 0);
+SetCanInteract(S_PLA_BasementSecretDoor_409fd560-d60a-4783-8422-d718f9b285cb, 0);
+DB_PLA_KarlachRecruitment_BloodTrail(S_PLA_KarlachBloodTrail_000_91d6b00a-a8eb-4d54-9901-e621eaca5c12, 0.9);
+DB_PLA_KarlachRecruitment_BloodTrail(S_PLA_KarlachBloodTrail_001_455e584d-6b4a-46ce-b0d3-551e4d493bd5, 0.9);
+DB_PLA_KarlachRecruitment_BloodTrail(S_PLA_KarlachBloodTrail_002_e5c2ed1e-d7b2-4a8a-8b1f-6f804671a7d4, 0.9);
+DB_PLA_KarlachRecruitment_BloodTrail(S_PLA_KarlachBloodTrail_003_0555c901-d337-4d7b-aab9-37cdcd54e11a, 0.9);
+DB_PLA_KarlachRecruitment_BloodTrail(S_PLA_KarlachBloodTrail_004_115fc9ac-b161-4f3c-8e28-5d932a79c028, 0.9);
+DB_GLO_CharacterCorpseDialog(S_PLA_TollCollector_001_43421d3b-74b7-4107-b0a3-c765ee282700, PLA_TollCollector001_Dead_745d880a-de52-9b3e-d049-80c975c9be50);
+DB_GLO_CharacterCorpseDialog(S_PLA_TollCollector_002_d11a407d-9d16-40f1-a4de-fce659462383, PLA_TollCollector002_Dead_37a3862d-0b09-f084-40d3-08dcf8024848);
+DB_Dialogs(S_PLA_Refugee_001_a43d1d6c-d397-4d2d-adb4-ead3b10cb189, PLA_Refugee_001_PostEA_16dd4720-bb82-70a6-4567-215546346b0d);
+DB_Dialogs(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, PLA_Refugee_002_PostEA_c0d179f4-42cb-4ee4-8448-0cdcb926ad3c);
+DB_Dialogs(S_PLA_Refugee_003_bf6a657e-091c-43e5-b18a-a2ca7ca7e511, PLA_Refugee_003_PostEA_7f2cdc2c-465d-6c6f-a77a-761c7f20bd33);
+DB_PLA_KarlachRecruitmentTollhouse_Gnoll(S_PLA_TollhouseGnoll_005_540a1de2-0b7b-4146-b3eb-369f636e6ca9);
+DB_PLA_KarlachRecruitmentTollhouse_Gnoll(S_PLA_TollhouseGnoll_006_4a0b46d1-6e90-4449-b750-c4dda67ff4a1);
+DB_PLA_KarlachRecruitmentTollhouse_Gnoll(S_PLA_TollhouseGnoll_007_fd8fe54e-020b-416b-9866-db64e59b96e3);
+DB_PLA_KarlachRecruitmentTollhouse_Refugee(S_PLA_Refugee_001_a43d1d6c-d397-4d2d-adb4-ead3b10cb189);
+DB_PLA_KarlachRecruitmentTollhouse_Refugee(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a);
+DB_PLA_KarlachRecruitmentTollhouse_Refugee(S_PLA_Refugee_003_bf6a657e-091c-43e5-b18a-a2ca7ca7e511);
+DB_PLA_KarlachRecruitmentTollhouse_TalkingRefugee(S_PLA_Refugee_001_a43d1d6c-d397-4d2d-adb4-ead3b10cb189);
+DB_PLA_KarlachRecruitmentTollhouse_TalkingRefugee(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a);
+DB_PLA_KarlachRecruitmentTollhouse_PressurePlates(S_PLA_WallPressurePlate_001_bf566bf6-78c9-49a4-9dc9-49d8ef210e98);
+DB_PLA_KarlachRecruitmentTollhouse_PressurePlates(S_PLA_WallPressurePlate_002_0e497cd8-6b56-4989-823d-ba594207534a);
+DB_GLO_DefeatCounter_IgnoreWaitForCombatEnd("PLA_KarlachRecruitmentTollhouse_Cultists");
+DB_GLO_DefeatCounter(S_PLA_Refugee_001_a43d1d6c-d397-4d2d-adb4-ead3b10cb189, "PLA_KarlachRecruitmentTollhouse_Cultists");
+DB_GLO_DefeatCounter(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, "PLA_KarlachRecruitmentTollhouse_Cultists");
+DB_GLO_DefeatCounter(S_PLA_Refugee_003_bf6a657e-091c-43e5-b18a-a2ca7ca7e511, "PLA_KarlachRecruitmentTollhouse_Cultists");
+DB_GLO_DefeatCounter_AllPermaDefeatedGlobalFlag("PLA_KarlachRecruitmentTollhouse_Cultists", PLA_KarlachRecruitmentTollhouse_State_PaladinsPermaDefeated_d78dbc95-8d8e-4b3a-b618-ccfb48c31375);
+DB_Inclusion_Object(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, PLA_KarlachRecruitment_Refugee002_StartInclusion_1aebb3e9-60c5-4dac-80f3-f9503be20ef3, PLA_KarlachRecruitment_Refugee002_EndInclusion_98f25e61-0e56-4a62-96a0-8d0180db8602);
+DB_Inclusion_NPCDialog(PLA_Refugee_001_PostEA_16dd4720-bb82-70a6-4567-215546346b0d, S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a);
+SetHasDialog(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, 0);
+Equip(S_PLA_Refugee_001_a43d1d6c-d397-4d2d-adb4-ead3b10cb189, S_PLA_TollhouseMagicalWeapon_5e3bb83a-1d07-4598-80bb-850bb1bbd23b);
+DB_GLO_FireBowls(S_PLA_Firebowl_Bowl_001_4f1c542a-4a61-4d5b-ad8a-720cb93b669e, S_PLA_Firebowl_Hinge_000_45b71538-954d-421e-9ca9-8144341479ce);
+DB_QuestDef_ChainedState("PLA_TollhouseHunters", "AcceptedBoth", "AcceptedAnders_AlsoKarlach");
+DB_QuestDef_ChainedState("PLA_TollhouseHunters", "AcceptedBoth", "AcceptedKarlach_AlsoAnders");
+DB_QuestDef_LevelLoaded("SCL_Main_A", "PLA_TollhouseHunters", "LeftRegion");
+
+KBSECTION
+IF
+TextEvent("Tollhouse_KnowsCultist", _, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_Knows_RefugeesAreCultists_8b18c014-7558-4bab-aa35-37d135fc8630, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("WLD_Main_A", _, _, _, _)
+THEN
+PROC_PLA_KarlachRecruitment_KarlachStateCheck();
+
+PROC
+PROC_PLA_KarlachRecruitment_KarlachStateCheck()
+AND
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitment_State_KarlachAbsent_2ce4fc18-5ba4-4c18-aefd-42a499713f29, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetOnStage(S_PLA_KarlachBackpack_e6b331da-d5e2-481f-8db6-8c36ddb9562d, 0);
+
+PROC
+PROC_PLA_KarlachRecruitment_KarlachStateCheck()
+AND NOT
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitment_State_KarlachWounded_4cd908ef-0bc9-41fa-84f1-18bc7c64ed2d, NULL_00000000-0000-0000-0000-000000000000);
+PROC_RemoveDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+DB_Dialogs(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61);
+DB_ReportKiller(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, PLA_KarlachRecruitment_Event_KarlachDied_f90c799d-a643-7d25-04d4-79f5c6e9d96b);
+
+PROC
+PROC_PLA_KarlachRecruitment_KarlachStateCheck()
+AND NOT
+DB_Avatars(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND
+DB_PLA_KarlachRecruitment_BloodTrail(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+CreateSurface(_Var1, "SurfaceBlood", _Var2, -1);
+
+IF
+FlagCleared(PLA_KarlachRecruitment_State_KarlachWounded_4cd908ef-0bc9-41fa-84f1-18bc7c64ed2d, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SelfHealing_Enable(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+PROC
+PROC_SpotPlayers_Spotted(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "PLA_Karlach_SpotAtRecruitment", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("PLA_KarlachRecruitment_InitialConfrontation", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PLA_KarlachRecruitment_CheckCharacter(_Var1);
+
+PROC
+PROC_PLA_KarlachRecruitment_CheckCharacter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_PLA_KarlachRecruitment_RemoveBlockers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PLA_KarlachRecruitment_StartConfrontation(_Var1);
+
+PROC
+PROC_PLA_KarlachRecruitment_CheckCharacter((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PLA_KarlachRecruitment_FindAlternative();
+
+PROC
+PROC_PLA_KarlachRecruitment_FindAlternative()
+AND
+QRY_PLA_KarlachRecruitment_CheckParty()
+AND
+DB_PLA_KarlachRecruitment_PlayerSelected(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PLA_KarlachRecruitment_PlayerSelected(_Var1);
+PROC_PLA_KarlachRecruitment_CheckCharacter(_Var1);
+
+PROC
+PROC_PLA_KarlachRecruitment_FindAlternative()
+AND NOT
+QRY_PLA_KarlachRecruitment_CheckParty()
+AND
+DB_InRegion(_Var1, S_PLA_KarlachRiverSpotRange_806bd95f-0207-4361-a1c9-3d9ba7de642d, _Var1, _Var1, _Var1)
+AND
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetFaction(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationMutual(_Var2, _Var3, 0);
+
+QRY
+QRY_PLA_KarlachRecruitment_CheckParty()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 < 18
+AND NOT
+DB_PLA_KarlachRecruitment_PlayerSelected(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_KarlachRecruitment_PlayerSelected(_Var1);
+
+QRY
+QRY_PLA_KarlachRecruitment_RemoveBlockers((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+HasActiveStatus(_Var1, "SILENCED", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "SILENCED");
+
+QRY
+QRY_PLA_KarlachRecruitment_RemoveBlockers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_PLA_KarlachRecruitment_CheckCharacter((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetClosestAlivePlayer(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 18
+THEN
+PROC_PLA_KarlachRecruitment_CheckCharacter(_Var2);
+
+PROC
+PROC_PLA_KarlachRecruitment_StartConfrontation((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_OnlyOnce("PLA_KarlachRecruitment_InitialConfrontation", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitment_InitialConfrontation", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "PLA_Karlach_SpotAtRecruitment");
+
+IF
+DialogEnded(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AddCharactersInTriggerToDialog(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, S_PLA_KarlachRiverSpot_IncludePlayers_22fcba99-9315-46f5-9fcf-95b88f3e6b6f, 1, 0, _Var1)
+THEN
+PROC_AddCharactersInTriggerToDialog_Clear(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, S_PLA_KarlachRiverSpot_IncludePlayers_22fcba99-9315-46f5-9fcf-95b88f3e6b6f);
+
+IF
+FlagSet(PLA_KarlachRecruitment_Event_TakeHealingPotion_909cad91-a267-40bd-adb5-e65e44a369e6, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+MagicPocketsMoveToByTag(_Var1, "HEALING_POTION_1879a93d-2edf-4f54-85dd-81a3724d677f", 1, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0, 1);
+
+IF
+StatusApplied(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, (STRING)_Var1, (CHARACTER)_Var2, _, (STRING)_Var1)
+AND NOT
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsHealingStatus(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(PLA_KarlachRecruitment_State_KarlachWounded_4cd908ef-0bc9-41fa-84f1-18bc7c64ed2d, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(PLA_KarlachRecruitment_Event_HealedKarlach_54f22394-ff39-407f-9b2c-ab2e38c9c128, _Var2);
+ClearFlag(PLA_KarlachRecruitment_State_KarlachWounded_4cd908ef-0bc9-41fa-84f1-18bc7c64ed2d, NULL_00000000-0000-0000-0000-000000000000);
+PROC_PLA_KarlachRecruitment_HealedAD(_Var2);
+
+IF
+DialogEnded(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, _, _, _, _)
+AND NOT
+DB_OnlyOnce("PLA_KarlachRecruitment_KarlachHealAD", _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+GetFlag(PLA_KarlachRecruitment_Event_HealedKarlach_54f22394-ff39-407f-9b2c-ab2e38c9c128, _Var2, 1, _, _)
+THEN
+ObjectTimerLaunch(_Var2, "PLA_KarlachRecruitment_HealADDelay", 500);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "PLA_KarlachRecruitment_HealADDelay", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_PLA_KarlachRecruitment_HealedAD(_Var1);
+
+PROC
+PROC_PLA_KarlachRecruitment_HealedAD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitment_KarlachHealAD", _Var1, _Var1, _Var1, _Var1)
+THEN
+LookAtEntity(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1);
+PROC_TryStartAD(PLA_KarlachRecruitment_AD_KarlachHealed_cd758a00-bc77-22a7-077d-f72472f78376, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+IF
+AddedTo((ITEM)_Var1, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, (ITEM)_Var1, (ITEM)_Var1)
+AND NOT
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, HEALING_POTION_1879a93d-2edf-4f54-85dd-81a3724d677f, 1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(PLA_KarlachRecruitment_Event_HealedKarlach_54f22394-ff39-407f-9b2c-ab2e38c9c128, _Var3, 1, _Var1, _Var1)
+THEN
+Use(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, 1, 0, "PLA_KarlachRecruitment_UsePotion");
+
+IF
+DB_GlobalFlag(PLA_KarlachRecruitmentTollhouse_Quest_AcceptedSearch_3b379a18-9b46-4f66-9baf-0e7ce938c1d0, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+DB_GLO_HeadRemoval(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, UNI_PLA_Karlach_Headless_3c3bedb4-917a-4663-9a8a-d18611aaac95, S_GLO_KarlachHead_931f6df2-b546-422c-beff-fe91682bdf49);
+DB_GLO_HeadRemoval_Dialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, PLA_KarlachRecruitment_HeadLoot_25793061-8650-7d0e-9b79-d98ecaee9ca7);
+
+IF
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+NOT DB_GLO_HeadRemoval(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, UNI_PLA_Karlach_Headless_3c3bedb4-917a-4663-9a8a-d18611aaac95, S_GLO_KarlachHead_931f6df2-b546-422c-beff-fe91682bdf49);
+NOT DB_GLO_HeadRemoval_Dialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, PLA_KarlachRecruitment_HeadLoot_25793061-8650-7d0e-9b79-d98ecaee9ca7);
+
+QRY
+QRY_GLO_HeadRemoval_Block(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+AND
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_HeadRemoval_OnHeadPicked(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, (CHARACTERROOT)_, (CHARACTERROOT)_, (CHARACTERROOT)_)
+THEN
+SetTag(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6);
+SetFlag(GLO_Karlach_State_Dead_26f3c3b0-a9c8-40d6-8950-67c9b8e134e2, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_GLO_HeadRemoval_HeadInaccessible(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_State_HeadNotAvailable_5f22237d-806b-4111-bfd6-fca3c62c283b, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_Refugee(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ForceRemoveKnockedOutCharacterOnLongRest(_Var1);
+
+IF
+FlagSet(PLA_KarlachRecruitment_State_HelpingKarlach_b7cd48bc-b9e3-419e-8ad0-c4837bc0cec0, _, _, _, _)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_Refugee(_Var3, _, _, _, _)
+THEN
+DB_ForceRemoveKnockedOutCharacterOnLongRest(_Var3);
+
+PROC
+PROC_Origins_CompanionLeavePermanently(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_Refugee(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ForceRemoveKnockedOutCharacterOnLongRest(_Var1);
+
+IF
+FlagSet(PLA_KarlachRecruitmentTollhouse_State_PaladinsPermaDefeated_d78dbc95-8d8e-4b3a-b618-ccfb48c31375, _, _, _, _)
+AND
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+SetFlag(PLA_PaladinsOfTyr_State_KarlachInPartyWhenPermadefeated_96991d97-9ce8-4c88-8bff-01f4abd99fc8, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_PLA_SlaughterSite_c358ea55-a404-4745-baae-8bbe50ec8e33, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_Gnoll(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_SeenDeadGnolls", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_Knows_GnollsDead_9dab2061-e12d-435e-99f0-d9dbe075813d, NULL_00000000-0000-0000-0000-000000000000, 0);
+StartVoiceBark(PLA_KarlachRecruitmentTollhouse_VB_GnollsDead_9ce72981-0f18-f7ac-d69b-7c4769984666, _Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_PLA_SpotCorpseTrigger_99a01991-5f05-47ac-ae24-a87f2f304306, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_SeenCollector", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(PLA_KarlachRecruitmentTollhouse_VB_CorpseSmell_5b046757-6cd8-8cb4-7293-06650a4af753, _Var1);
+
+IF
+UseFinished((GUIDSTRING)_Var1, S_PLA_TollDoor_8fc6c3fc-61b8-4dce-a91d-8bffb81ae65e, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsLocked(S_PLA_TollDoor_8fc6c3fc-61b8-4dce-a91d-8bffb81ae65e, 1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_DoorInteraction", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_Knows_VaultDoor_db455146-8d4a-4819-a9a2-698f918de90a, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+AddedTo(S_PLA_TollhouseKey_d2f08a74-8e8a-413a-b17e-da0bbfb4492f, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_LootedKey", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(PLA_KarlachRecruitmentTollhouse_VB_FoundKey_bfd58349-b4d3-60ab-5efa-7d4756a48907, _Var1);
+PROC_HideMarker(_Var1, "PLA_Tollhouse_Key");
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, S_PLA_TrapPressurePlate_2ddb5629-23ab-4e2a-8b9c-8c02ff141037, "PLA_Tollhouse_TrapActivate", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_ActivatedTrap", _Var1, _Var1, _Var1, _Var1)
+THEN
+Close(S_PLA_BetweenDoor_b0711df8-ba29-48f1-a4ad-78ff9be2e597);
+
+IF
+DB_PLA_KarlachRecruitmentTollhouse_PlatePressed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("PLA_KarlachRecruitment_PlatePressed", _Var1, _Var1, _Var1, _Var1)
+AND
+GetClosestAlivePlayer(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 8
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitment_PlatePressed", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(PLA_KarlachRecruitment_VB_DiscoveredPressurePlate_88c02da6-ecd8-4255-7c5f-0597c3dfcf55, _Var2);
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, (ITEM)_Var2, "PLA_Tollhouse_WallOpen", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_PressurePlates(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PLA_KarlachRecruitmentTollhouse_PlatePressed(_Var2);
+PROC_PLA_KarlachRecruitmentTollhouse_CheckWall();
+
+IF
+DualEntityEvent((GUIDSTRING)_Var1, (ITEM)_Var2, "PLA_Tollhouse_WallClose", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_PressurePlates(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PLA_KarlachRecruitmentTollhouse_PlatePressed(_Var2);
+PROC_PLA_KarlachRecruitmentTollhouse_CheckWall();
+
+PROC
+PROC_PLA_KarlachRecruitmentTollhouse_CheckWall()
+AND NOT
+QRY_PLA_KarlachRecruitmentTollhouse_CheckPlates()
+AND
+IsClosed(S_PLA_BasementSecretDoor_409fd560-d60a-4783-8422-d718f9b285cb, 0, _, _, _)
+THEN
+Close(S_PLA_BasementSecretDoor_409fd560-d60a-4783-8422-d718f9b285cb);
+
+QRY
+QRY_PLA_KarlachRecruitmentTollhouse_CheckPlates()
+AND
+DB_PLA_KarlachRecruitmentTollhouse_PlatePressed(S_PLA_WallPressurePlate_001_bf566bf6-78c9-49a4-9dc9-49d8ef210e98, _, _, _, _)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_PlatePressed(S_PLA_WallPressurePlate_002_0e497cd8-6b56-4989-823d-ba594207534a, _, _, _, _)
+AND
+IsClosed(S_PLA_BasementSecretDoor_409fd560-d60a-4783-8422-d718f9b285cb, 1, _, _, _)
+THEN
+Open(S_PLA_BasementSecretDoor_409fd560-d60a-4783-8422-d718f9b285cb);
+
+IF
+LeftTrigger(S_PLA_Refugee_006_eecfdb49-f726-4d23-9081-dca9b2481e7a, S_PLA_KarlachRecruitmentTollhouse_CorpseMoveBounds_3763ead9-4340-42ce-9df8-42b1c30dd36b, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_State_CorpseLeftBounds_4741a054-8532-42f1-bff4-a25b746e8714, NULL_00000000-0000-0000-0000-000000000000, 0);
+TriggerUnregisterForCharacter(S_PLA_KarlachRecruitmentTollhouse_CorpseMoveBounds_3763ead9-4340-42ce-9df8-42b1c30dd36b, S_PLA_Refugee_006_eecfdb49-f726-4d23-9081-dca9b2481e7a);
+
+IF
+ItemLeftTrigger(S_PLA_WaterBucket_2e142774-8664-4fe2-9954-b74a78770038, S_PLA_BucketBounds_5470338f-4ace-4381-9cf9-86ee271359e7, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_State_BucketOutOfBounds_2ef1c013-9069-4dba-b201-21c72b2bb8d1, NULL_00000000-0000-0000-0000-000000000000, 0);
+TriggerUnregisterForItems(S_PLA_BucketBounds_5470338f-4ace-4381-9cf9-86ee271359e7);
+
+IF
+LeftTrigger(_, S_PLA_TollhouseBounds_9b185c3f-f82f-4315-8c5d-aaead5ae362c, _, _, _)
+AND NOT
+DB_InRegion(_, S_PLA_TollhouseBounds_9b185c3f-f82f-4315-8c5d-aaead5ae362c, _, _, _)
+AND
+GetFlag(PLA_KarlachRecruitmentTollhouse_Event_GiveHead_d4e8a331-084c-42b7-a2b3-99e587f8679e, S_PLA_Refugee_001_a43d1d6c-d397-4d2d-adb4-ead3b10cb189, 1, _, _)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_RefugeesLeft", _, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_State_RefugeesLeft_04c9162c-0ade-45d8-87a7-40f88796219a, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_PLA_KarlachRecruitmentTollhouse_DealWithDead();
+PROC_PLA_KarlachRecruitmentTollhouse_RefugeeLeaveFromTollhouse();
+
+IF
+LeftTrigger(_, S_PLA_TollhouseBounds_9b185c3f-f82f-4315-8c5d-aaead5ae362c, _, _, _)
+AND NOT
+DB_InRegion(_, S_PLA_TollhouseBounds_9b185c3f-f82f-4315-8c5d-aaead5ae362c, _, _, _)
+AND
+DB_QuestIsClosed("PLA_PaladinsOfTyr", _, _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("ORI_Avatar_Karlach", "HeadNotAvailable", _, _, _)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_RefugeesLeft", _, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_State_RefugeesLeft_04c9162c-0ade-45d8-87a7-40f88796219a, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_PLA_KarlachRecruitmentTollhouse_DealWithDead();
+PROC_PLA_KarlachRecruitmentTollhouse_RefugeeLeaveFromTollhouse();
+
+PROC
+PROC_PLA_KarlachRecruitmentTollhouse_RefugeeLeaveFromTollhouse()
+AND
+DB_PLA_KarlachRecruitmentTollhouse_Refugee(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "PLA_KarlachRecruitmentTollhouse_LeaveArea");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "PLA_KarlachRecruitmentTollhouse_LeaveArea", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 0, "");
+
+PROC
+PROC_PLA_KarlachRecruitmentTollhouse_RefugeeLeaveFromTollhouse()
+THEN
+PROC_TriggerUnregisterForParty(S_PLA_TollhouseBounds_9b185c3f-f82f-4315-8c5d-aaead5ae362c);
+
+PROC
+PROC_PLA_KarlachRecruitmentTollhouse_DealWithDead()
+AND
+IsInTrigger(S_PLA_Refugee_006_eecfdb49-f726-4d23-9081-dca9b2481e7a, S_PLA_TollhouseBounds_9b185c3f-f82f-4315-8c5d-aaead5ae362c, 1, _, _)
+AND
+CreateAtObject(PUZ_GEN_Dirt_Pile_Gravel_A_ea591a45-ed05-4881-b4dc-4204ee9cf064, S_PLA_BurialMound_10c8f134-a0b4-458b-b16c-a0319c3a6f4c, 0, 0, "", 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_PLA_Refugee_006_eecfdb49-f726-4d23-9081-dca9b2481e7a, 0);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_PLA_EavesdropBounds_da95acfe-61c3-4832-b6f2-80b3af95a1bb, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_DiscussionStarted", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(PLA_KarlachRecruitmentTollhouse_AD_Refugees_0641c6ca-45b0-3ec8-bb7d-01f3f2bf6a96, S_PLA_Refugee_001_a43d1d6c-d397-4d2d-adb4-ead3b10cb189, S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_TalkingRefugee(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitment_Seen", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PLA_KarlachRecruitmentTollhouse_TalkingRefugee(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InteractiveDialogSpeaker(_, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_State_SpottedPlayer_51dcca7b-61dc-41de-b515-29d8970b56bb, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_ForceStopDialog(_Var1);
+
+IF
+AutomatedDialogEnded(PLA_KarlachRecruitmentTollhouse_AD_Refugees_0641c6ca-45b0-3ec8-bb7d-01f3f2bf6a96, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_KarlachRecruitmentTollhouse_State_SpottedPlayer_51dcca7b-61dc-41de-b515-29d8970b56bb, _, _, _, _)
+THEN
+PROC_TryStartAD(PLA_KarlachRecruitmentTollhouse_AD_RefugeeGreeting_eaf2c800-c561-150c-67b6-2e7b487734f3, S_PLA_Refugee_001_a43d1d6c-d397-4d2d-adb4-ead3b10cb189);
+
+IF
+AutomatedDialogEnded(PLA_KarlachRecruitmentTollhouse_AD_RefugeeGreeting_eaf2c800-c561-150c-67b6-2e7b487734f3, _, _, _, _)
+AND
+DB_GlobalFlag(PLA_KarlachRecruitmentTollhouse_State_SpottedPlayer_51dcca7b-61dc-41de-b515-29d8970b56bb, _, _, _, _)
+AND NOT
+DB_Is_InCombat(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, _, _, _, _)
+THEN
+ClearFlag(PLA_KarlachRecruitmentTollhouse_State_SpottedPlayer_51dcca7b-61dc-41de-b515-29d8970b56bb, NULL_00000000-0000-0000-0000-000000000000, 0);
+SetFlag(PLA_KarlachRecruitmentTollhouse_State_FinishedDiscussion_8c460213-e3b8-4304-95e6-6d9fe6cb85a2, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_CharacterMoveTo(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, S_PLA_HatchPoint_f9a1051c-5e80-4cab-8464-b1cada13e6c7, "Walk", "PLA_KarlachRecruitment_TrynnMoved");
+
+IF
+AutomatedDialogEnded(PLA_KarlachRecruitmentTollhouse_AD_Refugees_0641c6ca-45b0-3ec8-bb7d-01f3f2bf6a96, _, _, _, _)
+AND NOT
+DB_GlobalFlag(PLA_KarlachRecruitmentTollhouse_State_SpottedPlayer_51dcca7b-61dc-41de-b515-29d8970b56bb, _, _, _, _)
+AND NOT
+DB_Is_InCombat(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, _, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitmentTollhouse_State_FinishedDiscussion_8c460213-e3b8-4304-95e6-6d9fe6cb85a2, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_CharacterMoveTo(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, S_PLA_HatchPoint_f9a1051c-5e80-4cab-8464-b1cada13e6c7, "Walk", "PLA_KarlachRecruitment_TrynnMoved");
+
+IF
+EntityEvent(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, "PLA_KarlachRecruitment_TrynnMoved", _, _, _)
+THEN
+SetHasDialog(S_PLA_Refugee_002_97ae38c5-550d-4585-9f9e-a0494ecb863a, 1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_PLA_TollhouseInterior_59a65f0c-6a16-4710-a058-509834036439, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(PLA_KarlachRecruitmentTollhouse_Knows_RefugeesAreCultists_8b18c014-7558-4bab-aa35-37d135fc8630, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(PLA_KarlachRecruitmentTollhouse_State_HostilitiesBegan_23df3000-4672-b146-14a5-14d24107d05e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_ReflectionDefined", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(PLA_Tollhouse_VB_RefugeesAreCultists_78a50ff3-3e5e-8cdf-7d6d-d8e904fa1f5e, _Var1);
+
+IF
+FlagSet(PLA_KarlachRecruitmentTollhouse_Quest_LearnedKeyFell_0c5297df-cab5-4786-af06-7026aca78e5d, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitmentTollhouse_LootedKey", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PLA_KarlachRecruitment_FoundKeyLocation", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowMarker(_Var1, "PLA_Tollhouse_Key");
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "PLA_Tollhouse_SpokeWithDead", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _)
+AND
+DB_GlobalFlag(PLA_KarlachRecruitment_State_CultistsKnown_eae24292-5c76-4b96-86da-08694f238203, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(PLA_KarlachRecruitment_State_CultistsKnown_eae24292-5c76-4b96-86da-08694f238203, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+CharacterStopCrime(_Var3, "PLA_Tollhouse_SpokeWithDead", NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, PLA_KarlachRecruitmentTollhouse_State_CrimeSpotted_5bd6baa7-91ca-430b-9ba7-c887d6626c09, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog(PLA_KarlachRecruitmentTollhouse_AD_RefugeeAlarm_71e5040c-e050-d879-00d5-853f920d2349, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(PLA_KarlachRecruitmentTollhouse_State_PaladinsPermaDefeated_d78dbc95-8d8e-4b3a-b618-ccfb48c31375, _, _, _, _)
+THEN
+PROC_RegisterWorldGossipTrigger(S_PartyBanterTrigger_PLA_TollhouseCleared_683e29e2-5840-41d1-8fd2-626f92852f53);
+
+PROC
+PROC_LongRest()
+AND
+DB_PermaDefeated(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+PROC_RegisterWorldGossipTrigger(S_PartyBanterTrigger_PLA_KarlachResolved_9784be16-5816-488c-bc33-a3783bed67bf);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(PLA_KarlachRecruitment_Quest_ToldKarlach_0f7ebbd3-2774-4b63-a292-c93212c32d1c, _, _, _, _)
+THEN
+PROC_RegisterWorldGossipTrigger(S_PartyBanterTrigger_PLA_KarlachResolved_9784be16-5816-488c-bc33-a3783bed67bf);
+
+IF
+Died(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitment_Event_KarlachDied_f90c799d-a643-7d25-04d4-79f5c6e9d96b, NULL_00000000-0000-0000-0000-000000000000, 0);
+ClearFlag(PLA_KarlachRecruitment_State_KarlachKnockedOut_6f218edf-4ddd-418a-82ba-d2937f08961d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_WitnessedKiller(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, (CHARACTER)_Var1, _, _, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c)
+THEN
+SetFlag(PLA_KarlachRecruitment_State_KarlachKiller_fc644931-c7a3-4b6c-8b01-1438e44118c4, _Var1, 0);
+
+IF
+StatusApplied(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "KNOCKED_OUT", (CHARACTER)_Var1, _, (CHARACTER)_Var1)
+AND
+QRY_CharacterGetOwnerOrSelf(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(PLA_KarlachRecruitment_State_KarlachKnockout_213fbc58-e34c-4205-a50e-04bc2c38d30d, _Var3, 0);
+
+IF
+StatusApplied(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, "KNOCKED_OUT", _, _, _)
+AND
+DB_Is_InCombat(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var3, _, _, _)
+AND
+DB_Players(_Var4, _, _, _, _)
+AND
+DB_Is_InCombat(_Var4, _Var3, _, _, _)
+AND
+DB_Sees(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var4, _, _, _)
+AND
+QRY_ReportKiller_WasEnemy(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var4, _Var3, _, _)
+THEN
+SetFlag(PLA_KarlachRecruitment_State_KarlachKnockout_213fbc58-e34c-4205-a50e-04bc2c38d30d, _Var4, 0);
+
+PROC
+PROC_KnockedOut(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(PLA_KarlachRecruitment_State_KarlachKnockedOut_6f218edf-4ddd-418a-82ba-d2937f08961d, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogEnded(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(PLA_KarlachRecruitment_Karlach_PostEA_0f598b1a-b8b9-10cf-4d0d-0cd958586f61, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PurgeLevelPartyFlag(PLA_KarlachRecruitment_State_KarlachKiller_fc644931-c7a3-4b6c-8b01-1438e44118c4);
+PROC_PurgeLevelPartyFlag(PLA_KarlachRecruitment_State_KarlachKnockout_213fbc58-e34c-4205-a50e-04bc2c38d30d);
+ClearFlag(PLA_KarlachRecruitment_State_KarlachKnockedOut_6f218edf-4ddd-418a-82ba-d2937f08961d, NULL_00000000-0000-0000-0000-000000000000);
+ClearFlag(PLA_KarlachRecruitment_Event_KarlachDied_f90c799d-a643-7d25-04d4-79f5c6e9d96b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

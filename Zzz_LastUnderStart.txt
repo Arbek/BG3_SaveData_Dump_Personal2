@@ -1,0 +1,33 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_GLO_SetupForAct_CheckCurrentLevel();
+
+KBSECTION
+PROC
+PROC_GLO_SetupForAct_CheckCurrentLevel()
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SetupForAct_CurrentLevel(_Var1);
+
+IF
+DB_GLO_SetupForAct_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_SetupForAct_CurrentLevel(_Var1);
+
+PROC
+PROC_LevelLoadedOnce((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_SetupForAct_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SetupForAct_CurrentLevel(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

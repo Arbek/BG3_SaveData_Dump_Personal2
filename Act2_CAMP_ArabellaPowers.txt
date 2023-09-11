@@ -1,0 +1,160 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+LongRestStarted()
+AND
+DB_InCamp(S_GLO_JergalAvatar_0133f2ad-e121-4590-b5f0-a79413919805, _, _, _, _)
+AND
+DB_GlobalFlag(TWN_ArabellaPowers_State_MovedToCamp_b5f880bc-272e-e8a3-8ca1-b3dca3bce191, _, _, _, _)
+AND
+DB_GlobalFlag(TWN_ArabellasPowers_State_ToldParentsDead_cc1a3765-9334-cb88-602f-49ca052de39c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(CAMP_ArabellaAtCamp_State_JergalSceneDone_28bd7736-306f-49a8-9e4b-3473673aa1e6, _, _, _, _)
+AND NOT
+DB_LevelUnreachable("SCL_Main_A", _, _, _, _)
+THEN
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(1);
+
+PROC
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Setting up Arabella-Jergal threeway dialog");
+
+PROC
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Clearing Arabella-Jergal threeway dialog");
+
+PROC
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(1, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_JergalAvatar_0133f2ad-e121-4590-b5f0-a79413919805);
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+DB_Dialogs(S_GLO_JergalAvatar_0133f2ad-e121-4590-b5f0-a79413919805, S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, CAMP_ArabellaPowers_ThreeWay_ArabellaJergal_8f7f8543-cbb3-e460-28ff-298dc4bbaac9);
+
+PROC
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(0, _, _, _, _)
+AND
+DB_GlobalFlag(TWN_ArabellaPowers_State_MovedToCamp_b5f880bc-272e-e8a3-8ca1-b3dca3bce191, _, _, _, _)
+THEN
+PROC_GLO_Jergal_SetDialog(CAMP_Jergal_7f4acd9b-15c0-81fe-9409-623634ec3ed3);
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+DB_Dialogs(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, CAMP_ArabellaPowers_Arabella_d116229d-e77e-782b-1937-5271efa4e67e);
+
+PROC
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(0, _, _, _, _)
+AND NOT
+DB_GlobalFlag(TWN_ArabellaPowers_State_MovedToCamp_b5f880bc-272e-e8a3-8ca1-b3dca3bce191, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_ArabellaPowers_State_StayedAtTown_58722b05-d7d2-5199-6ae1-937ae5b91b2b);
+
+IF
+DialogEnded(CAMP_ArabellaPowers_ThreeWay_ArabellaJergal_8f7f8543-cbb3-e460-28ff-298dc4bbaac9, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GlobalSetFlagAndCache(CAMP_ArabellaAtCamp_State_JergalSceneDone_28bd7736-306f-49a8-9e4b-3473673aa1e6);
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(0);
+
+IF
+DB_Dialogs(S_GLO_JergalAvatar_0133f2ad-e121-4590-b5f0-a79413919805, S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, CAMP_ArabellaPowers_ThreeWay_ArabellaJergal_8f7f8543-cbb3-e460-28ff-298dc4bbaac9, _Var1, _Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Arabella-Jergal three way dialog was set up");
+
+IF
+FlagSet(TWN_ArabellasPowers_State_TaughtSpell_29e06419-9ec5-e003-d8d7-570aa476170a, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("TWN_ArabellasPowers_ArabellaTaughtSpell", _Var1, _Var1, _Var1, _Var1)
+THEN
+AddSpell(_Var1, "Target_TWN_ArabellaPowers_ShadowEnsnare", 1, 0);
+PROC_GlobalSetFlagAndCache(TWN_ArabellasPowers_State_HasTaughtSpell_197eac6a-55b4-448b-aa6e-da7598333776);
+
+PROC
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(1, _, _, _, _)
+THEN
+DB_SceneManager(S_GLO_JergalAvatar_0133f2ad-e121-4590-b5f0-a79413919805, "CAMP_JergalArabellaThreeWay");
+DB_SceneManager(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "CAMP_JergalArabellaThreeWay");
+
+PROC
+PROC_SCE_StartSetupDebrief()
+AND
+DB_SceneManager(S_GLO_JergalAvatar_0133f2ad-e121-4590-b5f0-a79413919805, "CAMP_JergalArabellaThreeWay", _, _, _)
+THEN
+PROC_SceneOver("CAMP_JergalArabellaThreeWay");
+
+PROC
+PROC_CAMP_LeftCamp(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _, _, _, _)
+AND
+DB_SceneManager(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "CAMP_JergalArabellaThreeWay", _, _, _)
+THEN
+PROC_SceneOver("CAMP_JergalArabellaThreeWay");
+
+IF
+DB_LevelUnreachable("SCL_Main_A", _, _, _, _)
+THEN
+PROC_SceneOver("CAMP_JergalArabellaThreeWay");
+DB_Dialogs(S_GLO_JergalAvatar_0133f2ad-e121-4590-b5f0-a79413919805, CAMP_Jergal_7f4acd9b-15c0-81fe-9409-623634ec3ed3);
+
+PROC
+PROC_SceneInterrupted(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _, "CAMP_JergalArabellaThreeWay", "EnteredCombat", (CHARACTER)_)
+THEN
+PROC_SceneOver("CAMP_JergalArabellaThreeWay");
+
+IF
+DB_GlobalFlag(CAMP_ArabellaAtCamp_State_JergalSceneDone_28bd7736-306f-49a8-9e4b-3473673aa1e6, _, _, _, _)
+THEN
+PROC_SceneOver("CAMP_JergalArabellaThreeWay");
+
+PROC
+PROC_SceneOver("CAMP_JergalArabellaThreeWay", _, _, _, _)
+AND
+QRY_OnlyOnce("CAMP_JergalArabellaThreeWay_SceneOver", _, _, _, _)
+THEN
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(0);
+
+PROC
+PROC_SceneOver("CAMP_JergalArabellaThreeWay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "CAMP_JergalArabellaThreeWay sce is over");
+
+IF
+LevelGameplayStarted("SCL_Main_A", 1, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Jergal_State_JergalVisibleAtCamp_617fe345-b808-4e68-b970-14039e21bdcd, _, _, _, _)
+THEN
+PROC_GLO_Jergal_MoveToCamp();
+PROC_GLO_Jergal_Appear();
+
+IF
+TextEvent("Arabella_ThreeWay_Over", _, _, _, _)
+THEN
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(0);
+
+IF
+TextEvent("Arabella_ThreeWay_Reset", _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Jergal_State_JergalVisibleAtCamp_617fe345-b808-4e68-b970-14039e21bdcd, _, _, _, _)
+THEN
+PROC_GLO_Jergal_MoveToCamp();
+PROC_GLO_Jergal_Appear();
+
+IF
+TextEvent("Arabella_ThreeWay_Reset", _, _, _, _)
+THEN
+PROC_CAMP_ArabellaPowers_JergalDialog_SetUp(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

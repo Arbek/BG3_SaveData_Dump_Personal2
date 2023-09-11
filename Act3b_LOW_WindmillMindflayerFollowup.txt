@@ -1,0 +1,116 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LOW_WindmillMindflayerFollowup_Family(S_LOW_WindmillMindflayerFollowup_Father_9eb473a4-6fd9-4cc2-87df-537c434ee32e);
+DB_LOW_WindmillMindflayerFollowup_Family(S_LOW_WindmillMindflayerFollowup_Mother_323eb737-2422-4026-b403-785473c738ee);
+DB_LOW_WindmillMindflayerFollowup_Family(S_LOW_WindmillMindflayerFollowup_Child_36c1ce47-4d87-4520-9094-e4dc8008cffd);
+DB_Dialogs(S_LOW_WindmillMindflayerFollowup_Father_9eb473a4-6fd9-4cc2-87df-537c434ee32e, LOW_WindmillMindflayerFollowup_Father_83973615-2a60-9cb7-bed4-e69dc1a6ca31);
+DB_Dialogs(S_LOW_WindmillMindflayerFollowup_Mother_323eb737-2422-4026-b403-785473c738ee, LOW_WindmillMindflayerFollowup_Mother_c570f03a-5f92-2ed7-547c-1fc9e7ad7fc1);
+DB_Dialogs(S_LOW_WindmillMindflayerFollowup_Child_36c1ce47-4d87-4520-9094-e4dc8008cffd, LOW_WindmillMindflayerFollowup_Child_e6df6aef-0fbc-6bee-51db-cde3644e3b4d);
+DB_LOW_WindmillMindflayer_StatusesToRemove("WYR_WINDMILL_MINDFLAYER_WEAK");
+DB_Children(S_LOW_WindmillMindflayerFollowup_Child_36c1ce47-4d87-4520-9094-e4dc8008cffd);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_WindmillMindflayerFollowup_OwnershipTrigger_01_db4e5316-a8e9-4909-b011-e0f5db933f2c, S_LOW_WindmillMindflayerFollowup_Father_9eb473a4-6fd9-4cc2-87df-537c434ee32e);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_WindmillMindflayerFollowup_OwnershipTrigger_02_3bd6edaf-5063-4755-9d19-8f2e6a735736, S_LOW_WindmillMindflayerFollowup_Father_9eb473a4-6fd9-4cc2-87df-537c434ee32e);
+DB_ItemOwnerShipClearItem("CTY_Main_A", S_Door_FillerHouseC_AmbrustDownstairs_848264a8-c8f7-4dc3-b1cd-c1c6c5ccdd6b);
+DB_ItemOwnerShipClearItem("CTY_Main_A", S_DOOR_FillerhouseC_AmbrustUpstairs_0af028e4-a254-485e-8154-0d80b247b90f);
+
+KBSECTION
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+AND
+DB_GlobalFlag(WYR_Windmill_State_BodyGiven_500f48b2-6888-7f02-b3de-7c17f051dd8d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_WindmillMindflayerFollowup_State_FamilyScaredAway_32926fbe-cde7-47ee-b798-e58fad71062f, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _, _, _, _)
+AND NOT
+DB_LOW_WindmillMindflayerFollowup_Setup(1, _, _, _, _)
+THEN
+DB_LOW_WindmillMindflayerFollowup_Setup(1);
+PROC_LOW_WindmillMindflayerFollowup_Setup();
+
+PROC
+PROC_LOW_WindmillMindflayerFollowup_Setup()
+THEN
+Transform(S_LOW_WindmillMindflayerFollowup_Mother_323eb737-2422-4026-b403-785473c738ee, UNI_LOW_WindmillMindflayerFollowup_Mother_Headless_397ee59a-051b-4fc7-a1c3-fe62ba9fd98c, DisguiseKeepName_c7c3381e-b901-416e-a0c4-bc745e1ff54a);
+Transform(S_LOW_WindmillMindflayerFollowup_Father_9eb473a4-6fd9-4cc2-87df-537c434ee32e, UNI_LOW_WindmillMindflayerFollowup_Father_Headless_9a98a88e-9a50-4f58-be8c-791caee4c37f, DisguiseKeepName_c7c3381e-b901-416e-a0c4-bc745e1ff54a);
+TriggerClearItemsOwner(S_LOW_WindmillMindflayerFollowup_OwnershipTrigger_01_db4e5316-a8e9-4909-b011-e0f5db933f2c);
+TriggerClearItemsOwner(S_LOW_WindmillMindflayerFollowup_OwnershipTrigger_02_3bd6edaf-5063-4755-9d19-8f2e6a735736);
+PROC_GlobalSetFlagAndCache(LOW_WindmillMindflayerFollowup_State_MindflayerInBG_834b84d1-8917-437f-8b7f-105d91085758);
+PROC_Children_RemoveNPC(S_LOW_WindmillMindflayerFollowup_Child_36c1ce47-4d87-4520-9094-e4dc8008cffd);
+DB_CombatReact_AD_OnEntered(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, WYR_Windmill_AD_Mindflayer_Combat_02_52f4d950-62cf-82df-3e36-ca19df805fbe);
+
+PROC
+PROC_LOW_WindmillMindflayerFollowup_Setup()
+AND
+DB_LOW_WindmillMindflayerFollowup_Family(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 0);
+
+PROC
+PROC_LOW_WindmillMindflayerFollowup_Setup()
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17);
+PROC_CharacterFullRestore(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17);
+TeleportTo(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, S_LOW_WindmillMindflayerFollowup_MF_Spot_91ea4881-9165-4efb-bdee-1c21c95544d6, "LOW_WindmillMindflayer_Teleported");
+DB_Dialogs(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, LOW_WindmillMindflayerFollowup_Mindflayer_7aedb297-8c40-e77e-8808-a3956b924dee);
+
+IF
+EntityEvent(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "LOW_WindmillMindflayer_Teleported", _, _, _)
+THEN
+SetOnStage(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, 1);
+RealtimeObjectTimerLaunch(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "LOW_WindmillMindflayer_RemoveStatuses_Timer", 1000);
+
+IF
+ObjectTimerFinished(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, "LOW_WindmillMindflayer_RemoveStatuses_Timer", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LOW_WindmillMindflayer_StatusesToRemove(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1, 1, _Var1, _Var1)
+THEN
+RemoveStatus(S_WYR_Windmill_MF_2084666f-59fb-470f-bb68-4523cf881d17, _Var1);
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LOW_WindmillMindflayerFollowup_Family(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_WindmillMindflayerFollowup_State_MindflayerInBG_834b84d1-8917-437f-8b7f-105d91085758, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_WindmillMindflayerFollowupFamilyRunsAway();
+
+PROC
+PROC_LOW_WindmillMindflayerFollowupFamilyRunsAway()
+THEN
+PROC_GlobalSetFlagAndCache(LOW_WindmillMindflayerFollowup_State_FamilyScaredAway_32926fbe-cde7-47ee-b798-e58fad71062f);
+
+PROC
+PROC_LOW_WindmillMindflayerFollowupFamilyRunsAway()
+AND
+DB_LOW_WindmillMindflayerFollowup_Family(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "LOW_WindmillMindflayerFollowupFamily_Notify");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "LOW_WindmillMindflayerFollowupFamily_Notify", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 0, "");
+
+IF
+DB_GlobalFlag(LOW_WindmillMindflayerFollowup_Debug_Setup_05a96eb5-d82c-4a7b-a5a8-4994f65ff5d3, _, _, _, _)
+THEN
+ClearFlag(LOW_WindmillMindflayerFollowup_Debug_Setup_05a96eb5-d82c-4a7b-a5a8-4994f65ff5d3);
+DB_LOW_WindmillMindflayer_StatusesToRemove("SLEEPING");
+DB_LOW_WindmillMindflayerFollowup_Setup(1);
+PROC_LOW_WindmillMindflayerFollowup_Setup();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

@@ -1,0 +1,173 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_CAMP_ArabellaPowers_SetUp();
+TriggerRegisterForItems(S_CAMP_ArabellaPowers_LetterBox_c58b5935-cc34-449b-9cfa-f1a1c97f0207);
+
+KBSECTION
+PROC
+PROC_CAMP_ArabellaPowers_SetUp()
+AND
+DB_CAMP_ArabellaPowers_Letter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CAMP_ArabellaPowers_Letter(_Var1);
+
+PROC
+PROC_CAMP_ArabellaPowers_SetUp()
+THEN
+SetOnStage(S_CAMP_ArabellaPowers_LeaveLetter_NoQuest_cc63cd80-c6bd-472a-a51d-fdc2c11f4b82, 0);
+SetOnStage(S_CAMP_ArabellaPowers_LeaveLetter_FinishedQuest_ff17d96a-350f-4bff-a906-d5558b4bfb39, 0);
+NOT DB_CAMP_ArabellaPowers_Letter(S_CAMP_ArabellaPowers_LeaveLetter_FinishedQuest_ff17d96a-350f-4bff-a906-d5558b4bfb39);
+NOT DB_CAMP_ArabellaPowers_Letter(S_CAMP_ArabellaPowers_LeaveLetter_NoQuest_cc63cd80-c6bd-472a-a51d-fdc2c11f4b82);
+PROC_GlobalSetFlagAndCache(CAMP_ArabellaPowers_State_LetterNear_6eb3194b-f410-4175-b64b-e4568624fc14);
+
+PROC
+PROC_CAMP_ArabellaPowers_SetUp()
+AND
+DB_GlobalFlag(TWN_ArabellaPowers_State_MovedToCamp_b5f880bc-272e-e8a3-8ca1-b3dca3bce191, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(CAMP_ArabellaPowers_State_Left_f94c38bf-a76d-4236-8b66-bc1e3501ea0a);
+TriggerRegisterForPlayers(S_CAMP_ArabellaPowers_LetterBox_c58b5935-cc34-449b-9cfa-f1a1c97f0207);
+
+IF
+DB_GlobalFlag(CAMP_ArabellaPowers_State_Left_f94c38bf-a76d-4236-8b66-bc1e3501ea0a, _, _, _, _)
+AND
+DB_GlobalFlag(TWN_ArabellasPowers_State_ToldParentsDead_cc1a3765-9334-cb88-602f-49ca052de39c, _, _, _, _)
+THEN
+SetOnStage(S_CAMP_ArabellaPowers_LeaveLetter_FinishedQuest_ff17d96a-350f-4bff-a906-d5558b4bfb39, 1);
+DB_CAMP_ArabellaPowers_Letter(S_CAMP_ArabellaPowers_LeaveLetter_FinishedQuest_ff17d96a-350f-4bff-a906-d5558b4bfb39);
+
+IF
+DB_GlobalFlag(CAMP_ArabellaPowers_State_Left_f94c38bf-a76d-4236-8b66-bc1e3501ea0a, _, _, _, _)
+AND NOT
+DB_GlobalFlag(TWN_ArabellasPowers_State_ToldParentsDead_cc1a3765-9334-cb88-602f-49ca052de39c, _, _, _, _)
+THEN
+SetOnStage(S_CAMP_ArabellaPowers_LeaveLetter_NoQuest_cc63cd80-c6bd-472a-a51d-fdc2c11f4b82, 1);
+DB_CAMP_ArabellaPowers_Letter(S_CAMP_ArabellaPowers_LeaveLetter_NoQuest_cc63cd80-c6bd-472a-a51d-fdc2c11f4b82);
+QuestUpdate("TWN_FindArabellasParents", "NeverBotheredToHelp");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_CAMP_ArabellaPowers_LetterBox_c58b5935-cc34-449b-9cfa-f1a1c97f0207, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CAMP_ArabellaPowers_Letter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CAMP_Arabella_LetterRevealed", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayPerceptionRevealEffect(_Var2, "CAMP_Arabella_LetterRevealed");
+
+IF
+GameBookInterfaceClosed((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CAMP_ArabellaPowers_Letter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CAMP_Arabella_LetterRevealedComment", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(CAMP_ArabellasPowers_VB_ArabellaLeftLetter_16244318-c7ca-b622-8713-07b860cf3589, _Var2);
+
+IF
+TextEvent("WYR_ArabellaPowers_Reset", _, _, _, _)
+THEN
+ClearFlag(CAMP_ArabellaPowers_State_Left_f94c38bf-a76d-4236-8b66-bc1e3501ea0a, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_CAMP_ArabellaPowers_SetUp();
+
+IF
+TextEvent("WYR_ArabellaPowers_Reset", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CAMP_ArabellaPowers_Letter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CAMP_ArabellaPowers_LetterBox_c58b5935-cc34-449b-9cfa-f1a1c97f0207, 0, _Var1, _Var1)
+THEN
+TeleportTo(S_CAMP_ArabellaPowers_LeaveLetter_NoQuest_cc63cd80-c6bd-472a-a51d-fdc2c11f4b82, S_CAMP_ArabellaPowers_LetterPoint_073c2329-efcd-4caf-b633-b9b6f41a0a00);
+TeleportTo(S_CAMP_ArabellaPowers_LeaveLetter_FinishedQuest_ff17d96a-350f-4bff-a906-d5558b4bfb39, S_CAMP_ArabellaPowers_LetterPoint_073c2329-efcd-4caf-b633-b9b6f41a0a00);
+
+IF
+TextEvent("WYR_ArabellaPowers_Reset_NoQuest", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_ArabellaPowers_State_MovedToCamp_b5f880bc-272e-e8a3-8ca1-b3dca3bce191);
+ClearFlag(CAMP_ArabellaPowers_State_Left_f94c38bf-a76d-4236-8b66-bc1e3501ea0a, NULL_00000000-0000-0000-0000-000000000000, 0);
+ClearFlag(CAMP_ArabellaPowers_State_JergalToldToLeave_3d22614e-8762-8aec-4537-9d50abb97b23, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_CAMP_ArabellaPowers_SetUp();
+
+IF
+TextEvent("WYR_ArabellaPowers_Reset_NoQuest", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CAMP_ArabellaPowers_Letter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CAMP_ArabellaPowers_LetterBox_c58b5935-cc34-449b-9cfa-f1a1c97f0207, 0, _Var1, _Var1)
+THEN
+TeleportTo(S_CAMP_ArabellaPowers_LeaveLetter_NoQuest_cc63cd80-c6bd-472a-a51d-fdc2c11f4b82, S_CAMP_ArabellaPowers_LetterPoint_073c2329-efcd-4caf-b633-b9b6f41a0a00);
+TeleportTo(S_CAMP_ArabellaPowers_LeaveLetter_FinishedQuest_ff17d96a-350f-4bff-a906-d5558b4bfb39, S_CAMP_ArabellaPowers_LetterPoint_073c2329-efcd-4caf-b633-b9b6f41a0a00);
+
+IF
+TextEvent("WYR_ArabellaPowers_Reset_FinishedQuest", _, _, _, _)
+THEN
+ClearFlag(CAMP_ArabellaPowers_State_Left_f94c38bf-a76d-4236-8b66-bc1e3501ea0a, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_GlobalSetFlagAndCache(CAMP_ArabellaPowers_State_JergalToldToLeave_3d22614e-8762-8aec-4537-9d50abb97b23);
+PROC_GlobalSetFlagAndCache(TWN_ArabellaPowers_State_MovedToCamp_b5f880bc-272e-e8a3-8ca1-b3dca3bce191);
+PROC_CAMP_ArabellaPowers_SetUp();
+
+IF
+TextEvent("WYR_ArabellaPowers_Reset_FinishedQuest", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_CAMP_ArabellaPowers_Letter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_CAMP_ArabellaPowers_LetterBox_c58b5935-cc34-449b-9cfa-f1a1c97f0207, 0, _Var1, _Var1)
+THEN
+TeleportTo(S_CAMP_ArabellaPowers_LeaveLetter_NoQuest_cc63cd80-c6bd-472a-a51d-fdc2c11f4b82, S_CAMP_ArabellaPowers_LetterPoint_073c2329-efcd-4caf-b633-b9b6f41a0a00);
+TeleportTo(S_CAMP_ArabellaPowers_LeaveLetter_FinishedQuest_ff17d96a-350f-4bff-a906-d5558b4bfb39, S_CAMP_ArabellaPowers_LetterPoint_073c2329-efcd-4caf-b633-b9b6f41a0a00);
+
+PROC
+PROC_CAMP_ArabellaPowers_SetUp()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(CAMP_Jergal_Event_AskedArabella_0d9ad81b-4209-6275-e2fa-1d430c456491, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(CAMP_Jergal_Event_AskedArabella_0d9ad81b-4209-6275-e2fa-1d430c456491, _Var1, 0);
+
+IF
+FlagSet(LOW_ArabellasPowers_Act3_DebugSetup_58ce4b16-5e93-44b0-ab9d-60436d75b19c, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CAMP_ArabellaPowers_SetUp();
+PROC_GlobalClearFlagAndCache(LOW_ArabellasPowers_Act3_DebugSetup_58ce4b16-5e93-44b0-ab9d-60436d75b19c);
+
+IF
+FlagSet(CAMP_ArabellaPowers_Event_CheckLetter_e1f9904f-6703-46fc-b61c-3efdea312bcb, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(CAMP_ArabellaPowers_Event_CheckLetter_e1f9904f-6703-46fc-b61c-3efdea312bcb, NULL_00000000-0000-0000-0000-000000000000, 0);
+ClearFlag(CAMP_ArabellaPowers_State_LetterNear_6eb3194b-f410-4175-b64b-e4568624fc14, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(CAMP_ArabellaPowers_Event_CheckLetter_e1f9904f-6703-46fc-b61c-3efdea312bcb, _, _, _, _)
+AND
+DB_CAMP_ArabellaPowers_Letter(_Var3, _, _, _, _)
+AND
+IsInTrigger(_Var3, S_CAMP_ArabellaPowers_LetterBox_c58b5935-cc34-449b-9cfa-f1a1c97f0207, 1, _, _)
+THEN
+DebugText(_Var3, "In box");
+SetFlag(CAMP_ArabellaPowers_State_LetterNear_6eb3194b-f410-4175-b64b-e4568624fc14, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+TextEvent("CAMP_ArabellaPowers_CheckLetter", _, _, _, _)
+THEN
+SetFlag(CAMP_ArabellaPowers_Event_CheckLetter_e1f9904f-6703-46fc-b61c-3efdea312bcb, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(CAMP_ArabellaPowers_Event_GiveLetter_196c08cf-a89c-5a62-de9b-c9fd25cf0e19, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CAMP_ArabellaPowers_Letter(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(_Var3, _Var1, 1, 1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

@@ -1,0 +1,194 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SpotPlayers(S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, "MOO_Entrance", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers(S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, "MOO_Entrance", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_IncludeWildshapedPlayers(S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, "MOO_Entrance");
+DB_SpotPlayers_IncludeWildshapedPlayers(S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, "MOO_Entrance");
+DB_SpotPlayers_SpotTrigger(S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, "MOO_Entrance", S_MOO_EntranceSpotBox_c61282a8-def0-4a81-8085-84f366db0a76);
+DB_SpotPlayers_SpotTrigger(S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, "MOO_Entrance", S_MOO_EntranceSpotBox_c61282a8-def0-4a81-8085-84f366db0a76);
+DB_SpotPlayers_Continuous(S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, "MOO_Entrance");
+DB_SpotPlayers_Continuous(S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, "MOO_Entrance");
+DB_Dialogs(S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, MOO_EntranceCheckpoint_Guard1_45c4d71d-1295-cfbb-78ca-adeb629dcc55);
+DB_Dialogs(S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, MOO_EntranceCheckpoint_Guard2_d195b758-5218-6879-6914-db29b3f42bc6);
+DB_DropMutingStatussesDialog(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd);
+DB_DropMutingStatussesDialog(MOO_EntranceCheckpoint_1093e6c8-71d0-fdd2-3729-71325e273403);
+DB_Inclusion_NPCDialog(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd, S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d);
+DB_AutoSaveTrigger(S_MOO_EntranceSaveBox_ce559ee2-920f-4605-8f39-3442951e02be);
+DB_MOO_EntranceGuard(S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e);
+DB_MOO_EntranceGuard(S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048);
+DB_MOO_EntranceCheckpoint_TowerTriggers(S_MOO_MainFloorInterior_SUB_429a55cc-58d2-4469-9577-852131e1fff3);
+DB_MOO_EntranceCheckpoint_TowerTriggers(S_MOO_UpperFloorInterior_SUB_93c522d3-04c4-4f71-a1dc-043478c51301);
+DB_Dialog_AddAllNearbyPlayersAtStart(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd);
+DB_Dialog_AddAllNearbyPlayersAtStart(MOO_EntranceCheckpoint_1093e6c8-71d0-fdd2-3729-71325e273403);
+PROC_TriggerRegisterForPlayers(S_MOO_DaisyArrivalPoly_894c7ec5-0688-4727-a176-32c12ed49ada);
+
+KBSECTION
+IF
+TextEvent("mooentrance_drider", _, _, _, _)
+THEN
+PROC_AppearOutOfSightTo(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_SCL_Drider_StandAtTower_4ea41e07-5b9a-4b18-9ed9-82c9a6d4281f, S_SCL_Drider_StandAtTower_4ea41e07-5b9a-4b18-9ed9-82c9a6d4281f, "SCL_Drider_ArrivedToTower");
+TeleportTo(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_DriderCaravan_GoblinMelee_000_AtTower_9c1ac86f-e6af-4801-aa11-53477c02e95f);
+SetFlag(SCL_Drider_Event_ArrivedToTower_e8d310c2-0b05-4e42-912b-e7199759de2a, NULL_00000000-0000-0000-0000-000000000000);
+PROC_State_Progress(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "ReachedMoonriseTower");
+
+IF
+TextEvent("mooentrance_sided_drider", _, _, _, _)
+THEN
+SetFlag(SCL_Drider_State_FoughtInAmbushWithHarpers_229f69f4-3e03-4631-9052-32ec13fb740d);
+SetFlag(SCL_Drider_State_SidedWithCaravan_57a698da-0149-48d1-91fa-9a84a5dcc293);
+
+IF
+TextEvent("mooentrance_sided_harper", _, _, _, _)
+THEN
+SetFlag(SCL_Drider_State_FoughtInAmbushWithHarpers_229f69f4-3e03-4631-9052-32ec13fb740d);
+SetFlag(SCL_Drider_State_SidedWithHarpers_a130dde9-c086-4486-9cd8-298a67fb6aee);
+
+IF
+TextEvent("mooentrance_drider_noambush", _, _, _, _)
+THEN
+SetFlag(SCL_Drider_Event_StartCaravanEscort_26062990-9018-4845-a520-d737837fa207);
+SetFlag(SCL_Drider_State_HarpersPermaDefeated_be4a239e-0127-4916-a350-8704a86daea9);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_MOO_EntranceCheckpoint_TowerTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_EntranceCheckpoint_State_HasEnteredInterior_13ffee84-f71d-4356-b257-8716f28c990a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(MOO_EntranceCheckpoint_State_HasEnteredInterior_13ffee84-f71d-4356-b257-8716f28c990a);
+NOT DB_Dialog_AddAllNearbyPlayersAtStart(MOO_EntranceCheckpoint_1093e6c8-71d0-fdd2-3729-71325e273403);
+
+IF
+DialogStarted(MOO_EntranceCheckpoint_1093e6c8-71d0-fdd2-3729-71325e273403, _, _, _, _)
+AND
+DB_MOO_EntranceGuard(_Var2, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var2, "MOO_Entrance");
+
+IF
+DialogStarted(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd, _, _, _, _)
+AND
+DB_MOO_EntranceGuard(_Var2, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var2, "MOO_Entrance");
+
+IF
+DialogStarted(MOO_Docks_Checkpoint_2783e81e-4167-1eaa-ca61-5131f11aa70e, _, _, _, _)
+AND
+DB_MOO_EntranceGuard(_Var2, _, _, _, _)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var2, "MOO_Dock_Entrance");
+
+IF
+DB_SpotPlayers_Spotted(_Var1, "MOO_Entrance", _Var2, _Var1, _Var1)
+AND
+DB_State_Current(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, "SCL_TheDrider", "ReachedMoonriseTower", _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, _Var2)
+THEN
+DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", "Main Prison", S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e);
+DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", "Main Prison", S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048);
+NOT DB_Dialog_AddAllNearbyPlayersAtStart(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, "MOO_Entrance", _Var2, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_EntranceCheckpoint_State_HasEnteredInterior_13ffee84-f71d-4356-b257-8716f28c990a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(MOO_EntranceCheckpoint_1093e6c8-71d0-fdd2-3729-71325e273403, S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e, S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048, _Var2, _Var1)
+THEN
+DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", "Main Prison", S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e);
+DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", "Main Prison", S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048);
+NOT DB_Dialog_AddAllNearbyPlayersAtStart(MOO_EntranceCheckpoint_1093e6c8-71d0-fdd2-3729-71325e273403);
+
+IF
+FlagSet(MOO_EntranceCheckpoint_State_HasEnteredInterior_13ffee84-f71d-4356-b257-8716f28c990a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", "Main Prison", S_MOO_EntranceGuard_001_b302d246-59ff-48ee-8247-0e3bcfd4b38e);
+DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", "Main Prison", S_MOO_EntranceGuard_002_2ab30cea-d3f1-4aa4-8c83-b8b700ef0048);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CheckPointGuard(_Var2, _, "MOO_EntranceCheckpoint", _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(MOO_EntranceCheckpoint_Drider_6ff49f36-ce1d-872e-51cc-aa8632d601dd, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d, S_SCL_Drider_aa59ce01-3d2e-42e8-a539-c07e0ea292ab, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_SCL_DriderCaravan_GoblinMelee_000_c176d94a-eaa6-4869-a344-88e44b31e17d);
+
+IF
+DB_MOO_EntranceGuard(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetWeaponUnsheathed(_Var1, 1, 1);
+
+IF
+UseStarted((CHARACTER)_Var1, DOOR_Double_Big_Dungeon_Abbey_A_012_a8ea87de-3906-439f-bba3-9a375fbba4ef, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_AutoSaveTrigger(S_MOO_EntranceSaveBox_ce559ee2-920f-4605-8f39-3442951e02be, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AutoSaveTrigger(S_MOO_EntranceSaveBox_ce559ee2-920f-4605-8f39-3442951e02be);
+PROC_TriggerUnregisterForPlayers(S_MOO_EntranceSaveBox_ce559ee2-920f-4605-8f39-3442951e02be);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_MOO_DaisyArrivalPoly_894c7ec5-0688-4727-a176-32c12ed49ada, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DaisyAD_Played(_Var1, MOO_EntranceCheckpoint_DaisyAD_Approach_684fb598-4a6e-4491-5d3d-5c6d7bf29341, _Var1, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var1, MOO_EntranceCheckpoint_DaisyAD_Approach_684fb598-4a6e-4491-5d3d-5c6d7bf29341);
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", _, _, _)
+AND NOT
+QRY_State_IsBeforeState(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+THEN
+PROC_MOO_EntranceCheckpoint_CloseGoalCleanup();
+
+PROC
+PROC_MOO_EntranceCheckpoint_CloseGoalCleanup()
+AND
+DB_MOO_EntranceGuard(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var1, "MOO_Entrance");
+
+PROC
+PROC_MOO_EntranceCheckpoint_CloseGoalCleanup()
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

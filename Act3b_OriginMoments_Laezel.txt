@@ -1,0 +1,173 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_SetOnStage(S_LOW_VossDragonborn_7952187b-7636-418f-884c-adfdd33fda8b, 0);
+DB_GLO_SetupForAct_Character("CTY_Main_A", S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+DB_GlobalFlagReactionAfterDialog(ORI_Laezel_State_ShowedVossTheHammer_5588f6a2-bb8c-4f91-a152-168492b9c09f, LOW_VossSewers_6a70d80c-2c97-445b-4850-e6ac62c3b4bc);
+DB_Act3_ORI_Laezel(1);
+
+KBSECTION
+PROC
+PROC_GLO_SetupForAct("CTY_Main_A", S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, 1, _, _)
+AND
+DB_GlobalFlag(ORI_Laezel_State_VossWaitingForHammerInSewers_47b30289-c885-46a9-ab6e-82b5460c161d, _, _, _, _)
+THEN
+PROC_GLO_SetupForAct_Place(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, S_LOW_VossSewersPos_fdc43cdd-7442-4f89-bea9-6a1c8b820670, NULL_00000000-0000-0000-0000-000000000000, LOW_VossSewers_6a70d80c-2c97-445b-4850-e6ac62c3b4bc);
+PROC_SetOnStage(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, 1);
+SetFaction(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, ACT3_LOW_VossSewers_030be19c-5505-4491-b0e4-4ed28357426d);
+PROC_TriggerRegisterForPlayers(S_LOW_SewersVossSpottingArea_a0a2c9b2-a7f1-4c1b-91f4-d26680c9f7de);
+DB_SpotPlayers_SpotTrigger(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "LOW_VossSewers_BeforeGettingHammer", S_LOW_SewersVossSpottingArea_a0a2c9b2-a7f1-4c1b-91f4-d26680c9f7de);
+DB_SpotPlayers(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "LOW_VossSewers_BeforeGettingHammer", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_Is_InCombat(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(ORI_Laezel_State_VossWaitingForHammerInSewers_47b30289-c885-46a9-ab6e-82b5460c161d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsEnemy(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, _Var2, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("LOW_VossSewers_TurnedHostile", _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(ORI_Laezel_State_VossWaitingForHammerInSewers_47b30289-c885-46a9-ab6e-82b5460c161d);
+PROC_SetRelationToPlayers(ACT3_LOW_VossSewers_030be19c-5505-4491-b0e4-4ed28357426d, 0);
+PROC_ORI_Laezel_CheckVossAttackedApprovalDrop();
+PROC_TryStartAD(LOW_Laezel_AD_VossSewersAttackedByPlayer_c53e5242-8129-c723-3bcf-1180c71b0b32, S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_Var1);
+
+IF
+AutomatedDialogStarted(LOW_Laezel_AD_VossSewersAttackedByPlayer_c53e5242-8129-c723-3bcf-1180c71b0b32, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_ORI_Laezel_VossSewers_ADOngoing(1);
+
+IF
+AutomatedDialogRequestFailed(LOW_Laezel_AD_VossSewersAttackedByPlayer_c53e5242-8129-c723-3bcf-1180c71b0b32, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_ORI_Laezel_VossSewers_ADOngoing(1);
+
+IF
+AutomatedDialogEnded(LOW_Laezel_AD_VossSewersAttackedByPlayer_c53e5242-8129-c723-3bcf-1180c71b0b32, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_ORI_Laezel_VossSewers_ADOngoing(1);
+
+IF
+TurnStarted(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, _, _, _, _)
+AND
+DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_, _, _, _, _)
+AND
+DB_ORI_Laezel_VossSewers_ADOngoing(1, _, _, _, _)
+THEN
+SetEntityEventReal(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "GLO_CombatWait", 10);
+
+IF
+TurnStarted(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, _, _, _, _)
+AND
+DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_, _, _, _, _)
+THEN
+DB_ORI_Laezel_VossSewers_TurnStarted(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+
+IF
+TurnStarted(S_LOW_VossDragonborn_7952187b-7636-418f-884c-adfdd33fda8b, _, _, _, _)
+AND
+DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_, _, _, _, _)
+AND
+DB_ORI_Laezel_VossSewers_ADOngoing(1, _, _, _, _)
+THEN
+SetEntityEventReal(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "GLO_CombatWait", 10);
+
+IF
+TurnStarted(S_LOW_VossDragonborn_7952187b-7636-418f-884c-adfdd33fda8b, _, _, _, _)
+AND
+DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_, _, _, _, _)
+THEN
+DB_ORI_Laezel_VossSewers_TurnStarted(S_LOW_VossDragonborn_7952187b-7636-418f-884c-adfdd33fda8b);
+
+IF
+DB_ORI_Laezel_VossSewers_TurnStarted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Laezel_VossSewers_ADOngoing(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEventReal(_Var1, "GLO_CombatWait", 0);
+UseSpell(_Var1, "Shout_GLO_Voss_TeleportOut", _Var1);
+PROC_GLO_VossSewers_VossTeleportedOutAfterAttacked_Hook();
+NOT DB_ORI_Laezel_VossSewers_TurnStarted(_Var1);
+
+IF
+SwitchedCombat(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_Var1);
+DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_Var2);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Laezel_VossSewers_CombatWithPlayerStarted(_Var1);
+
+PROC
+PROC_GLO_VossSewers_VossTeleportedOutAfterAttacked_Hook()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "LOW_VossSewers_BeforeGettingHammer", _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TryStartAD(LOW_Laezel_AD_VossSewersBeforeHammer_9d0a5c9b-ee84-7084-1d6d-0bb6a24d9fba, _Var1);
+
+IF
+DB_GlobalFlag(ORI_Laezel_State_GotHammerFromHoH_8a8dd999-aa9e-42b2-9c84-e63b5eb6bc5e, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Laezel_State_VossWaitingForHammerInSewers_47b30289-c885-46a9-ab6e-82b5460c161d, _, _, _, _)
+THEN
+PROC_Foop(S_LOW_VossDragonborn_7952187b-7636-418f-884c-adfdd33fda8b);
+SetFlag(ORI_Laezel_State_VossDragonbornPresent_59486e01-0ecd-4c80-96c7-bd1d529f0017);
+DB_Dialogs(S_LOW_VossDragonborn_7952187b-7636-418f-884c-adfdd33fda8b, LOW_VossDragonborn_b4f33b74-5939-eebd-bc57-61ac866e9b14);
+PROC_SpotPlayers_StopSpotting("LOW_VossSewers_BeforeGettingHammer");
+DB_SpotPlayers_SpotTrigger(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "LOW_VossSewers_AfterGettingHammer", S_LOW_SewersVossSpottingArea_a0a2c9b2-a7f1-4c1b-91f4-d26680c9f7de);
+DB_SpotPlayers(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, "LOW_VossSewers_AfterGettingHammer", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "LOW_VossSewers_AfterGettingHammer", _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TryStartAD(LOW_Laezel_AD_VossSewersAfterGettingHammer_4ae653eb-6bd2-12c7-a455-bbe26a5d70e0, _Var1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(ORI_Laezel_State_ShowedVossTheHammer_5588f6a2-bb8c-4f91-a152-168492b9c09f, LOW_VossSewers_6a70d80c-2c97-445b-4850-e6ac62c3b4bc, _, _, _)
+AND NOT
+QRY_StartDialog(LOW_Laezel_AD_VossSewersLeavesForEndgame_b3896ef4-684e-c78c-4ef4-eb80ce552baf, S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea, _, _, _)
+THEN
+PROC_LOW_VossSewers_LeavesForEndgame();
+
+IF
+AutomatedDialogEnded(LOW_Laezel_AD_VossSewersLeavesForEndgame_b3896ef4-684e-c78c-4ef4-eb80ce552baf, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_LOW_VossSewers_LeavesForEndgame();
+
+PROC
+PROC_LOW_VossSewers_LeavesForEndgame()
+THEN
+ClearFlag(ORI_Laezel_State_VossWaitingForHammerInSewers_47b30289-c885-46a9-ab6e-82b5460c161d);
+PROC_Poof(S_GLO_GithKnight_2adce2df-0799-49dc-b867-ba7ca21e9aea);
+PROC_Poof(S_LOW_VossDragonborn_7952187b-7636-418f-884c-adfdd33fda8b);
+
+IF
+FlagSet(GLO_Monitor_State_HasOrphicHammer_29842214-5482-dc25-fc89-02e474d7d96b, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(ORI_Laezel_State_GotHammerFromHoH_8a8dd999-aa9e-42b2-9c84-e63b5eb6bc5e, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Laezel_State_GotHammerFromHoH_8a8dd999-aa9e-42b2-9c84-e63b5eb6bc5e);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

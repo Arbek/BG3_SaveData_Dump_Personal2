@@ -1,0 +1,26 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+LevelLoaded(_, _, _, _, _)
+AND
+DB_ChosenOriginWaitingForTeleport(_Var2, _, _, _, _)
+THEN
+NOT DB_ChosenOriginWaitingForTeleport(_Var2);
+PurgeOsirisQueue(_Var2);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+IsGameLevel(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Z_Shared_Campaign_At_End"

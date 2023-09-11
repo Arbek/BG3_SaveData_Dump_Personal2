@@ -1,0 +1,30 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+EntityEvent(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Siege_JaheiraLeftHaven", _, _, _)
+AND NOT
+DB_GlobalFlag(HAV_Siege_State_RefusedJaheira_0fb99170-7c6e-4089-897c-185f02ef645a, _, _, _, _)
+THEN
+SetHasDialog(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 1);
+PROC_ORI_SetupCamp(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+SetOnStage(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 1);
+PROC_RemoveDialog(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+DB_Dialogs(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, CAMP_Jaheira_7d7010b2-7421-225b-e38b-791132676ae7);
+PROC_State_Progress(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_AtCamp");
+
+IF
+EntityEvent(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Siege_JaheiraLeftHaven", _, _, _)
+AND
+DB_GlobalFlag(HAV_Siege_State_RefusedJaheira_0fb99170-7c6e-4089-897c-185f02ef645a, _, _, _, _)
+THEN
+PROC_State_Progress(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "HAV_Jaheira", "HAV_State_Jaheira_Vanished");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

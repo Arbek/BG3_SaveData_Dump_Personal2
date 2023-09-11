@@ -1,0 +1,395 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_LOW_InitializeBloodMerchant();
+DB_HasItemEvent(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, LOW_BloodMerchant_HasItem_ExplosivePotion_0b172550-1bb3-42ec-8943-8322b239d18d);
+DB_GiveItemToEventWithClear(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, LOW_BloodMerchant_Event_GiveItemExplosivePotion_6c8ba01f-14ae-2878-cad1-fa9b39669cc1);
+DB_LOW_BloodMerchant_DamageWithBlood("Slashing");
+DB_LOW_BloodMerchant_DamageWithBlood("Piercing");
+DB_LOW_BloodMerchant_DamageWithBlood("Bludgeoning");
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_BloodMerchant_Ownership_0839c4aa-7122-4062-89f3-e4f26615382d, S_LOW_SWS_Patrols_002_FF_000_4bda014f-b1f7-4191-a3f6-93d981ff7e0d);
+
+KBSECTION
+PROC
+PROC_LOW_InitializeBloodMerchant()
+AND NOT
+DB_PermaDefeated(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _, _, _, _)
+AND
+QRY_LOW_SearchClonedCharacter()
+THEN
+DB_Subregion(S_LOW_BloodMerchant_SUB_4977b65c-2b3b-463f-8b40-fdcbf07f2b92, "LOW_BloodMerchant_SUB", 0, 1);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_001_819f337f-ed8d-42e6-93bc-3ffde03f3ee1);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_002_167ee07d-cac4-497a-98f6-8d88e9bdef6a);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_003_c9a36cb2-911b-41f8-9f72-b2e07e562c7b);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_004_c87c31f5-ce93-4920-9dff-60e9c706063f);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_005_0223413a-c232-4edd-9022-db06a5c39151);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_006_8c7c928c-e21d-407b-b2b0-e2551912fde7);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_007_167faae5-4698-447d-a84c-84c89047d16b);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_008_e3c564f3-c553-4d07-9f0c-4ff8f0811908);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_009_ffb91e8b-045d-4161-a996-a7ab98bc383a);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_010_e1582b3b-e3c5-4cfd-86d1-db45cf7402fc);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_011_15357cf8-f408-4e75-89bd-04ad9f59da13);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_012_5d655d9e-c2b3-48aa-a3a1-e6301d175fb0);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_013_08a08630-5528-4dfe-8738-72b2797ff065);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_014_08eddaa6-9f7c-40e3-b37c-3532ebc12498);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_015_2c78a517-badf-4caf-9228-7a4a7f79948b);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_016_1806f9d4-d69e-458c-b002-b002aaa7354f);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_017_6ebf4dce-9e3f-4459-9fb2-9b07e3b6fbda);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_018_addd247b-c287-46f1-9e89-98f71129ffc6);
+DB_LOW_BloodMerchant_ExplosionsPoints(S_LOW_BloodMerchant_ExplosionPoint_019_25445d63-6405-43da-9fa7-fedeeefb4347);
+TeleportTo(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, S_LOW_BloodMerchant_Araj_OriginPoint_387206b3-0938-48c8-b4d7-92272ee7856a);
+PROC_SetOnStage(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, 1);
+SetFaction(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, Act3_LOW_ArajBloodMerchant_4f198d21-e639-4a07-a184-74e8e84954e4);
+PROC_RemoveDialog(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+ToInventory(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, 1, 0, 1);
+SetFlag(LOW_BloodMerchant_Event_ArajHouseInFlames_1214c82e-a4ff-315a-2f93-ff5ac7e53cf1);
+SetOnStage(S_LOW_BloodMerchant_Blackboard_000_4a542c37-0bca-447f-ac19-6843ac7f0101, 0);
+SetOnStage(S_LOW_BloodMerchant_Blackboard_001_0859dcf8-4148-44cc-9360-a7352c6202c4, 0);
+SetOnStage(S_LOW_BloodMerchant_Barricade_000_f211d987-614c-4511-b88b-9a70e88741cd, 0);
+SetOnStage(S_LOW_BloodMerchant_Barricade_001_0b35a759-2c9d-4540-a0df-2c10790bfb2b, 0);
+DB_LOW_BloodMerchant_TriggeringExplosions(S_LOW_BloodMerchant_Explosion_001_50804325-a182-48fc-9139-054f5f38d6d4, S_LOW_BloodMerchant_ArajEndPoint_a2fca2f0-ecb6-4ef1-8f3d-45b77cf17938);
+DB_LOW_BloodMerchant_TriggeringExplosions(S_LOW_BloodMerchant_Explosion_002_4d6e6f88-7d07-4024-a36e-c8f011e75902, S_LOW_BloodMerchant_ArajEndPoint_000_8e736fd1-e248-457b-be38-bbb4138388f3);
+DB_LOW_BloodMerchant_TriggeringExplosions(S_LOW_BloodMerchant_Explosion_000_61895b14-0e4f-4dd9-93cf-25296a09b04f, S_LOW_BloodMerchant_ArajEndPoint_000_8e736fd1-e248-457b-be38-bbb4138388f3);
+SetOwner(S_DOOR_GEN_Hatch_Wood_A_000_b85e31bc-b93e-42df-8d87-3ad1f2644130, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+DB_ItemOwnershipTriggers("CTY_Main_A", S_LOW_BloodMerchant_Lab_SUB_2bae1f5b-beca-4944-b555-8d5c0b1cabaf, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+SetOnStage(S_LOW_BloodMerchant_ChosensBlood_000_610c1f00-47d7-4173-99a0-dbae0d58e3a5, 0);
+SetOnStage(S_LOW_BloodMerchant_Breakthrough_000_d6e48692-b7bc-4843-b88d-3120fe6f4973, 1);
+PROC_LOW_BloodMerchant_CheckBite();
+
+PROC
+PROC_LOW_BloodMerchant_CheckBite()
+AND
+DB_GlobalFlag(MOO_BloodMerchant_State_GotBittenByAstarion_e0a3b0ec-b124-4870-a733-4e1468b3dc11, _, _, _, _)
+THEN
+TemplateAddTo(BOOK_LOW_BloodMerchant_Bitten_8574825d-fe6f-4f21-9f98-48bb072a9f1a, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, 1, 0);
+
+PROC
+PROC_LOW_InitializeBloodMerchant()
+AND
+DB_PermaDefeated(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _, _, _, _)
+THEN
+PROC_LOW_BloodMerchant_NoArajSituation();
+
+PROC
+PROC_LOW_InitializeBloodMerchant()
+AND NOT
+QRY_LOW_SearchClonedCharacter()
+THEN
+PROC_LOW_BloodMerchant_NoArajSituation();
+
+PROC
+PROC_LOW_BloodMerchant_NoArajSituation()
+AND
+QRY_OnlyOnce("LOW_BloodMerchant_CannotInitialize", _, _, _, _)
+THEN
+SetOnStage(S_LOW_BloodMerchant_Breakthrough_000_d6e48692-b7bc-4843-b88d-3120fe6f4973, 0);
+DB_ItemDialog_NarratorAD(LOW_BloodMerchant_Blackboard_000_4a542c37-0bca-447f-ac19-6843ac7f0101, LOW_BloodMerchant_AD_EvictedHouse_a326c71c-763e-c29d-25d7-c3a970420013);
+DB_ItemDialog_NarratorAD(LOW_BloodMerchant_Blackboard_001_0859dcf8-4148-44cc-9360-a7352c6202c4, LOW_BloodMerchant_AD_EvictedHouse_a326c71c-763e-c29d-25d7-c3a970420013);
+PROC_LOW_BloodMerchant_CleanGeneralDatabases();
+
+IF
+DB_LOW_BloodMerchant_TriggeringExplosions(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForParty(_Var1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_BloodMerchant_TriggeringExplosions(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_LOW_BloodMerchant_ExplosionsPoints(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+CreateExplosion(_Var4, "Projectile_LOW_BloodMerchant_ExplosionsWithAsh", 4);
+TriggerSetCrowdBehaviour(CrowdCharacterTrigger_037_30d4146b-8fd3-44d1-b834-9e631659f5a8, 0);
+TriggerSetCrowdBehaviour(CrowdCharacterTrigger_036_583ece28-9c95-4e32-8da6-cec21881938e, 0);
+TriggerSetCrowdBehaviour(CrowdCharacterTrigger_039_6f06d829-4739-4a54-b3d9-faad46c7c0b4, 0);
+TriggerSetCrowdBehaviour(CrowdCharacterTrigger_038_693dadba-1413-486f-8982-b69f6e8095d0, 0);
+NOT DB_LOW_BloodMerchant_ExplosionsPoints(_Var4);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_BloodMerchant_TriggeringExplosions(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("LOW_BloodMerchant_TriggeringExplosion", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_BloodMerchant_DestinationTrigger(_Var3);
+TimerLaunch("LOW_BloodMerchant_ExplosionTimer", 1800);
+TimerLaunch("LOW_BloodMerchant_FlamingTimer", 18000);
+PROC_LOW_BloodMerchant_CleanTriggers();
+
+PROC
+PROC_LOW_BloodMerchant_CleanTriggers()
+AND
+DB_LOW_BloodMerchant_TriggeringExplosions(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForParty(_Var1);
+NOT DB_LOW_BloodMerchant_TriggeringExplosions(_Var1, _Var2);
+
+IF
+TimerFinished("LOW_BloodMerchant_ExplosionTimer", (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_LOW_BloodMerchant_DestinationTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_BloodMerchant_DestinationTrigger(_Var1);
+PROC_CharacterMoveTo(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, "Run", "LOW_BloodMerchant_GoOutHouse");
+
+IF
+TimerFinished("LOW_BloodMerchant_FlamingTimer", _, _, _, _)
+THEN
+ClearFlag(LOW_BloodMerchant_Event_ArajHouseInFlames_1214c82e-a4ff-315a-2f93-ff5ac7e53cf1);
+
+IF
+EntityEvent(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, "LOW_BloodMerchant_GoOutHouse", _, _, _)
+THEN
+PROC_TryStartAD(LOW_BloodMerchant_AD_ExplosionAraj_3889f510-fa28-d67f-2270-f064b0993847, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+DB_Dialogs(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, LOW_BloodMerchant_Araj_MainDialog_4ac05c22-197c-dcbd-6269-285af525387d);
+
+IF
+DialogEnded(LOW_BloodMerchant_Araj_MainDialog_4ac05c22-197c-dcbd-6269-285af525387d, _, _, _, _)
+AND
+DB_GlobalFlag(LOW_BloodMerchant_State_ArajInsideHouse_ff35cf83-fc61-4708-44f4-39f188121e60, _, _, _, _)
+THEN
+PROC_CharacterMoveTo(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, S_LOW_BloodMerchant_ArajTP_f66140a4-7e05-4e70-a064-42846889e6ab, "Walk", "LOW_BloodMerchant_GoInHouse");
+
+IF
+FlagSet(LOW_BloodMerchant_Event_GiveItemExplosivePotion_6c8ba01f-14ae-2878-cad1-fa9b39669cc1, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(S_LOW_BloodMerchant_InHouse_43d460c0-8277-43cf-8041-7f29fcb2f9dd);
+PROC_TriggerRegisterForPlayers(S_LOW_BloodMerchant_StartDialogue_0f4ca0ce-5695-434b-9dbb-3e3b911c6bea);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_LOW_BloodMerchant_InHouse_43d460c0-8277-43cf-8041-7f29fcb2f9dd, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_LOW_BloodMerchant_WasInsideHouse(_Var1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_LOW_BloodMerchant_InHouse_43d460c0-8277-43cf-8041-7f29fcb2f9dd, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(LOW_BloodMerchant_HasItem_ExplosivePotion_0b172550-1bb3-42ec-8943-8322b239d18d, _Var1, 1, _Var1, _Var1)
+AND
+DB_LOW_BloodMerchant_WasInsideHouse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_BloodMerchant_AD_PlayersTryExitHouse_7c420744-bf92-fb51-6ba9-04edf9f114f3, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_LOW_BloodMerchant_StartDialogue_0f4ca0ce-5695-434b-9dbb-3e3b911c6bea, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(LOW_BloodMerchant_HasItem_ExplosivePotion_0b172550-1bb3-42ec-8943-8322b239d18d, _Var1, 1, _Var1, _Var1)
+AND
+DB_LOW_BloodMerchant_WasInsideHouse(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("LOW_BloodMerchant_TryToGoAwayDialog", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(LOW_BloodMerchant_Araj_TryToGoAway_06a507ce-edbd-d815-59ff-dafdf8a768c4, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_BloodMerchant_AD_BackupWarning_3239a5ad-36cd-4259-38ee-b0821bc362b4, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+
+IF
+DB_PermaDefeated(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_BloodMerchant_WasInsideHouse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_BloodMerchant_WasInsideHouse(_Var1);
+
+IF
+DB_GlobalFlag(LOW_BloodMerchant_State_ArajAsTrader_74fec4cc-4c35-a05b-1c47-af36980adca1, _, _, _, _)
+THEN
+PROC_TriggerUnregisterForPlayers(S_LOW_BloodMerchant_InHouse_43d460c0-8277-43cf-8041-7f29fcb2f9dd);
+PROC_TriggerUnregisterForPlayers(S_LOW_BloodMerchant_StartDialogue_0f4ca0ce-5695-434b-9dbb-3e3b911c6bea);
+
+IF
+DB_GlobalFlag(LOW_BloodMerchant_State_ArajAsTrader_74fec4cc-4c35-a05b-1c47-af36980adca1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_BloodMerchant_WasInsideHouse(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_BloodMerchant_WasInsideHouse(_Var1);
+
+IF
+DroppedBy(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Sees(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_BloodMerchant_AD_PlayersDropPotionGround_c9dd841d-5cc7-1157-a3bd-8b30063460db, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+
+IF
+DestroyedBy(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, _, _, _, (CHARACTER)_)
+THEN
+SetFlag(LOW_BloodMerchant_State_PotionDestroyed_4f4b93c1-91d0-46b3-bec9-957a26371c29);
+
+IF
+DestroyedBy(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, (CHARACTER)_Var1, (CHARACTER)_Var2, _, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Sees(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetHostileAndEnterCombat(Act3_LOW_ArajBloodMerchant_4f198d21-e639-4a07-a184-74e8e84954e4, Hero_a1542c81-6895-929e-4522-10ce218bb360, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "LOW_BLOODMERCHANT_EXPLOSIVEPOTION", _, _, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+SetFlag(LOW_BloodMerchant_State_CharacterDrinkPotion_e803eb7d-1455-42f0-8a10-bae18790a24c, _Var1);
+ClearFlag(LOW_BloodMerchant_State_WaitingForProcedure_ecfad6e5-016a-4212-a64e-cad0ed9fe049);
+ClearFlag(LOW_BloodMerchant_State_ProcedureAcceded_4b350316-2340-cfdf-5857-f201c2aad3f4);
+PROC_TryStartAD(LOW_BloodMerchant_PAD_ExplosiveBlood_ed155395-9b1f-30ec-2e87-beff98284e45, _Var1);
+DB_LOW_BloodMerchant_ExplosiveBloodCharacter(_Var1);
+AddPassive(_Var1, "LOW_BloodMerchant_ExplosiveBlood");
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "LOW_BLOODMERCHANT_EXPLOSIVEPOTION", _, _, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+THEN
+SetFlag(LOW_BloodMerchant_State_PotionDestroyed_4f4b93c1-91d0-46b3-bec9-957a26371c29);
+ApplyStatus(_Var1, "POISONED", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+AttackedBy((GUIDSTRING)_Var1, _, _, (STRING)_Var4, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_LOW_BloodMerchant_ExplosiveBloodCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_BloodMerchant_DamageWithBlood(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+CreateSurface(_Var1, "SurfaceBloodExploding", 2, -1);
+
+IF
+FlagSet(LOW_BloodMerchant_Event_ArajGetBloodFromCharacter_00b0a0f7-98ee-86ac-3b8f-d7cce5b98ce0, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyDamage(_Var1, 5, "Piercing", NULL_00000000-0000-0000-0000-000000000000);
+TemplateAddTo(WPN_Grenade_BloodSurface_7821978d-c720-4651-9693-936960145636, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, 2, 0);
+ClearFlag(LOW_BloodMerchant_Event_ArajGetBloodFromCharacter_00b0a0f7-98ee-86ac-3b8f-d7cce5b98ce0, _Var1);
+SetFlag(LOW_BloodMerchant_State_NewGrenadesToday_8e75d13b-88f7-462c-92f9-55d41fea02e7);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(LOW_BloodMerchant_State_NewGrenadesToday_8e75d13b-88f7-462c-92f9-55d41fea02e7, _, _, _, _)
+THEN
+ClearFlag(LOW_BloodMerchant_State_NewGrenadesToday_8e75d13b-88f7-462c-92f9-55d41fea02e7);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+AND
+DB_Sees(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_BloodMerchant_State_ArajSeesTryMessPotion_4c34d76d-69e5-4c26-8678-10139002dd9a, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, 0);
+SetFlag(LOW_BloodMerchant_State_ArajSeesTryMessPotion_4c34d76d-69e5-4c26-8678-10139002dd9a);
+PROC_TryStartAD(LOW_BloodMerchant_AD_PlayersDropPotionGround_c9dd841d-5cc7-1157-a3bd-8b30063460db, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 0, _Var1, _Var1)
+AND
+DB_Sees(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(LOW_BloodMerchant_State_ArajSeesTryMessPotion_4c34d76d-69e5-4c26-8678-10139002dd9a, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, 1);
+SetHostileAndEnterCombat(Act3_LOW_ArajBloodMerchant_4f198d21-e639-4a07-a184-74e8e84954e4, _Var2, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a, _Var1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableAllCrimes(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+TimerLaunch("LOW_BloodMerchant_ArajNoCrimes", 2000);
+DB_CustomUseItemResponse(_Var1, S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, 1);
+
+IF
+TimerFinished("LOW_BloodMerchant_ArajNoCrimes", _, _, _, _)
+THEN
+PROC_CharacterEnableAllCrimes(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+
+QRY
+QRY_LOW_SearchClonedCharacter()
+AND
+DB_MOO_InfernalVendor_CharacterSellBlood(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LOW_BloodMerchant_CleanGeneralDatabases()
+THEN
+NOT DB_HasItemEvent(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, LOW_BloodMerchant_HasItem_ExplosivePotion_0b172550-1bb3-42ec-8943-8322b239d18d);
+NOT DB_GiveItemToEventWithClear(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, LOW_BloodMerchant_Event_GiveItemExplosivePotion_6c8ba01f-14ae-2878-cad1-fa9b39669cc1);
+NOT DB_LOW_BloodMerchant_DamageWithBlood("Slashing");
+NOT DB_LOW_BloodMerchant_DamageWithBlood("Piercing");
+NOT DB_LOW_BloodMerchant_DamageWithBlood("Bludgeoning");
+
+IF
+TextEvent("LOW_BloodMerchant_Initialize", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_InfernalVendor_State_SoldBlood_ae50cf43-a0ef-4ce6-bdb1-0ccf628b9a63, _Var1);
+SetFlag(Debug_Act3_Event_BloodMerchantSetup_e5dcbf3a-3025-95d6-645b-c58d791311b4);
+
+IF
+DB_GlobalFlag(Debug_Act3_Event_BloodMerchantSetup_e5dcbf3a-3025-95d6-645b-c58d791311b4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_InfernalVendor_CharacterSellBlood(_Var1);
+DB_HasItemEvent(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, LOW_BloodMerchant_HasItem_ExplosivePotion_0b172550-1bb3-42ec-8943-8322b239d18d);
+DB_GiveItemToEventWithClear(S_LOW_BloodMerchant_ExplosivePotion_45df7099-5087-479e-ab0c-526e16ef5372, LOW_BloodMerchant_Event_GiveItemExplosivePotion_6c8ba01f-14ae-2878-cad1-fa9b39669cc1);
+DB_LOW_BloodMerchant_DamageWithBlood("Slashing");
+DB_LOW_BloodMerchant_DamageWithBlood("Piercing");
+DB_LOW_BloodMerchant_DamageWithBlood("Bludgeoning");
+PROC_LOW_InitializeBloodMerchant();
+
+IF
+TextEvent("LOW_BloodMerchant_AllCompanionsBlood", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_InfernalVendor_CharacterSellBlood(_Var1);
+SetFlag(MOO_InfernalVendor_State_SoldBlood_ae50cf43-a0ef-4ce6-bdb1-0ccf628b9a63, _Var1);
+
+IF
+TextEvent("LOW_BloodMerchant_FindClone", _, _, _, _)
+THEN
+PROC_LOW_InitializeBloodMerchant();
+
+IF
+TextEvent("LOW_BloodMerchant_AddPotion", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "This potion is a hacky one. Can be drinked by non-tadpoled charactes! Be wary");
+TemplateAddTo(UNI_CONS_Drink_ExplosiveBloodPotion_666ac219-e011-4c2b-bcc7-c2f0c6a9f7b4, _Var1, 1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

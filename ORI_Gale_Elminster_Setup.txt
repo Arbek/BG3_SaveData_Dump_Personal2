@@ -1,0 +1,53 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetOnStage(S_GLO_Elminster_75bb6396-1132-4064-bafe-205a3f156b9b, 0);
+DB_CampNight(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, 5180, S_Player_Gale_ad9af97d-75da-406a-ae13-7071c563f604);
+DB_CampNight_Camp(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, "SCLMAIN");
+DB_CampNight_Camp(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, "CREMAIN");
+DB_CampNight_Camp(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, "CREINSIDE");
+DB_CampNight_Camp(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, "SHARTEMPLE");
+DB_CampNight_Camp(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, "HAVEN");
+DB_CampNight_Camp(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, "MOONRISE");
+DB_CampNight_Requirement(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, ORI_Gale_State_ElminsterAvailable_9b974420-f8b0-433d-accb-3361b80d1ce4, ORI_Gale_State_GotOneMagicItem_6fec5439-a66e-4aff-b62b-69f88648c34d, GALE_78f7a542-24c9-4a82-bc95-6d7d09f2e927, CURRENTREGION_SCL_Main_A_f76b85b5-b557-4409-98fd-cc7b22f8292b);
+DB_CampNight_Requirement(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, ORI_Gale_State_ElminsterAvailable_9b974420-f8b0-433d-accb-3361b80d1ce4, ORI_Gale_State_GotOneMagicItem_6fec5439-a66e-4aff-b62b-69f88648c34d, GALE_78f7a542-24c9-4a82-bc95-6d7d09f2e927, CURRENTREGION_CRE_Main_A_bbc31a08-cfb0-4501-9401-4b12a78efa35);
+
+KBSECTION
+IF
+FlagSet(ORI_Gale_State_GotOneMagicItem_6fec5439-a66e-4aff-b62b-69f88648c34d, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+
+IF
+TextEvent("ORI_Gale_SetupElminster", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+FlagSet(Debug_ORI_Gale_Event_ForceElminsterOnstage_6f56d9dc-741b-6c83-8392-11c68c6cb093, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+GoalCompleted;
+PROC_ORI_Gale_ElminsterSetupDebugOption();
+
+PROC
+PROC_Camp_DebugQNight_ForceRequirements(NIGHT_ORI_Gale_ElminsterVisit_a58e9b3e-b458-48be-b32a-a88a2c65bed5, _, _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_COL_TeleportPartiesToColony(_, (INTEGER)_, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_ORI_Gale_ColonyWithoutElminster(1);
+GoalCompleted;
+
+IF
+DB_ORI_Gale_AvatarCritical(1, _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

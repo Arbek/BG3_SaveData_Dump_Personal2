@@ -1,0 +1,46 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Level_InaccessibleAfterLoading("TUT_Avernus_C", "WLD_Main_A");
+DB_Level_InaccessibleAfterLoading("SCL_Main_A", "INT_Main_A");
+DB_Level_InaccessibleAfterLoading("INT_Main_A", "BGO_Main_A");
+DB_Level_InaccessibleAfterLoading("BGO_Main_A", "END_Main");
+DB_Level_InaccessibleAfterLoading("CTY_Main_A", "END_Main");
+DB_Level_InaccessibleAfterLoading("IRN_Submersible_A ", "END_Main");
+DB_Level_InaccessibleAfterFlagSet("WLD_Main_A", Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3);
+DB_Level_InaccessibleAfterFlagSet("CRE_Main_A", Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3);
+DB_Level_InaccessibleAfterLoading("WLD_Main_A", "INT_Main_A");
+DB_Level_InaccessibleAfterLoading("CRE_Main_A", "INT_Main_A");
+
+KBSECTION
+PROC
+PROC_LevelLoadedOnce((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Level_InaccessibleAfterLoading(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_LevelCache_BlockDelete(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DeleteLevelCache(_Var2);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Level_InaccessibleAfterFlagSet(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_LevelCache_BlockDelete(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DeleteLevelCache(_Var4);
+
+QRY
+QRY_LevelCache_BlockDelete((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

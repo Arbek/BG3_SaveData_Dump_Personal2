@@ -1,0 +1,160 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_IRP_Internal_IndexCount(0);
+
+KBSECTION
+PROC
+PROC_Puzzle_RegisterRotatingItem((FLAG)_Var1, (ITEM)_Var2, (INTEGER)_Var3, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_IRP_Internal_IndexCount(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IRP_IncreaseInternalCount();
+DB_IRP_Internal_Items(_Var4, _Var2, 0);
+DB_IRP_Internal_Solutions(_Var4, _Var3);
+DB_IRP_Internal_Puzzles(_Var1, _Var4, 0);
+PROC_IRP_Internal_IncreasePuzzleItemcount(_Var1);
+
+PROC
+PROC_IRP_IncreaseInternalCount()
+AND
+DB_IRP_Internal_IndexCount(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var1, 1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_IRP_Internal_IndexCount(_Var1);
+DB_IRP_Internal_IndexCount(_Var2);
+
+PROC
+PROC_ItemRotatePuzzle_AddItemToHandle((ITEM)_Var1, (ITEM)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_IRP_Internal_Items(_Var3, _Var2, _, _Var1, _Var1)
+THEN
+DB_IRP_Internal_Handles(_Var1, _Var3);
+
+PROC
+PROC_IRP_Internal_IncreasePuzzleItemcount((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND NOT
+DB_IRP_Internal_PuzzlesTotalItemCount(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_IRP_Internal_PuzzlesTotalItemCount(_Var1, 0);
+DB_IRP_Internal_PuzzlesItemsSolved(_Var1, 0);
+
+PROC
+PROC_IRP_Internal_IncreasePuzzleItemcount((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_IRP_Internal_PuzzlesTotalItemCount(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_IRP_Internal_PuzzlesTotalItemCount(_Var1, _Var2);
+DB_IRP_Internal_PuzzlesTotalItemCount(_Var1, _Var3);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_IRP_Internal_Handles(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_IRP_Internal_Items(_Var3, _Var4, _, _Var1, _Var1)
+THEN
+PROC_IRP_RotateItem(_Var4);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_IRP_Internal_Items(_Var3, _Var2, _, _Var1, _Var1)
+THEN
+PROC_IRP_RotateItem(_Var2);
+
+PROC
+PROC_IRP_RotateItem((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_IRP_Internal_Items(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+DB_IRP_Internal_Puzzles(_Var4, _Var2, _, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var6, _Var1, _Var1)
+THEN
+NOT DB_IRP_Internal_Items(_Var2, _Var1, _Var3);
+DB_IRP_Internal_Items(_Var2, _Var1, _Var6);
+ItemRotateY(_Var1, 90, 135);
+PROC_IRP_CheckItemState(_Var1);
+PROC_IRP_CheckPuzzleState(_Var4);
+
+IF
+DB_IRP_Internal_Items(_Var1, _Var2, 4, _Var1, _Var1)
+THEN
+NOT DB_IRP_Internal_Items(_Var1, _Var2, 4);
+DB_IRP_Internal_Items(_Var1, _Var2, 0);
+
+PROC
+PROC_IRP_CheckItemState((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_IRP_Internal_Items(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+DB_IRP_Internal_Puzzles(_Var4, _Var2, 0, _Var1, _Var1)
+AND
+DB_IRP_Internal_Solutions(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var3 == _Var5
+THEN
+NOT DB_IRP_Internal_Puzzles(_Var4, _Var2, 0);
+DB_IRP_Internal_Puzzles(_Var4, _Var2, 1);
+
+PROC
+PROC_IRP_CheckItemState((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_IRP_Internal_Items(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+DB_IRP_Internal_Puzzles(_Var4, _Var2, 1, _Var1, _Var1)
+AND
+DB_IRP_Internal_Solutions(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var5
+THEN
+NOT DB_IRP_Internal_Puzzles(_Var4, _Var2, 1);
+DB_IRP_Internal_Puzzles(_Var4, _Var2, 0);
+
+PROC
+PROC_IRP_CheckPuzzleState((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_IRP_Internal_Puzzles(_Var1, _, 1, _Var1, _Var1)
+AND
+DB_IRP_Internal_PuzzlesItemsSolved(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var4, _Var1, _Var1)
+THEN
+NOT DB_IRP_Internal_PuzzlesItemsSolved(_Var1, _Var3);
+DB_IRP_Internal_PuzzlesItemsSolved(_Var1, _Var4);
+
+PROC
+PROC_IRP_CheckPuzzleState((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_IRP_Internal_PuzzlesItemsSolved(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_IRP_Internal_PuzzlesTotalItemCount(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_IRP_Internal_PuzzlesItemsSolved(_Var1, _Var2);
+DB_IRP_Internal_PuzzlesItemsSolved(_Var1, 0);
+ClearFlag(_Var1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_IRP_CheckPuzzleState((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_IRP_Internal_PuzzlesItemsSolved(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_IRP_Internal_PuzzlesTotalItemCount(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_IRP_Internal_PuzzlesItemsSolved(_Var1, _Var2);
+DB_IRP_Internal_PuzzlesItemsSolved(_Var1, 0);
+SetFlag(_Var1, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+

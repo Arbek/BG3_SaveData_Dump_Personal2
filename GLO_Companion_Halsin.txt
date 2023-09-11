@@ -1,0 +1,206 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_OriginNPCAlignment(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, GLO_Halsin_01ebccd1-8a58-4ca6-9726-c4bb484b85f2);
+DB_OriginInPartyGlobal(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, ORI_Halsin_State_IsInParty_9a3ea4cd-3a44-40f7-9d63-2b29bdb28725);
+DB_OriginPartOfTheTeamFlag(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, GLO_Origin_PartOfTheTeam_Halsin_77382f4f-8302-4642-b6ba-6f0bc8acf5c3, GLO_Origin_Avatar_Halsin_d467bdb2-ea09-495b-8a8b-8a0c0a4d6c91, ORI_Halsin_ControlledByUser_3796b3b5-a09e-4319-8ef4-398bdb8ec92e);
+DB_OriginKickFromPartyFlags(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, ORI_Halsin_Event_KickCompanion_8afa8f77-617f-45c2-b437-1bc622400d90, ORI_Halsin_State_CanBeKicked_035430ff-cc7f-46ad-829c-fbe3084803cb);
+DB_CompanionOnlyFaction(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Companion10_fd96559f-010a-6e27-8689-eb29795ff2af);
+DB_OriginInPartyDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71);
+DB_OriginWarning1Dialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_Warning1_5a6a42b5-dcaa-ee2b-7945-dba9bc4e4391);
+DB_OriginWarning2Dialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_Warning2_b5443985-c6c4-3458-513c-b2ecade53b1a);
+DB_OriginLeavingDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_Leaving_2d76a999-2606-8877-f2b9-3ebbd692223d);
+DB_Inclusion_Object(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, GLO_Inclusion_Halsin_cb187bc3-5018-4cfb-9945-37b0049ccb38, GLO_Inclusion_End_Halsin_850913aa-be71-417d-9ffb-d7d68d5a6f9d);
+DB_Debug_CharacterAddFlags(Debug_AddHalsin_b9bdd9da-d2c8-4b36-aa74-c26461945691, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Debug_HalsinIsPlayer_81cc366c-d171-4651-9195-8c22e54b6c26);
+DB_Debug_CharacterRemoveHideFlags(Debug_RemoveHideHalsin_39cd2247-d138-4afb-ab2c-9d67bf5d951a, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_CompanionCanPartner(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, NULL_00000000-0000-0000-0000-000000000000, ORI_State_PartneredWithHalsin_7b53fe60-bb16-48a9-ae5c-9bce1dfac1a9, ORI_State_WasPartneredWithHalsin_ee6b727d-243e-4189-b572-1d782ea78df8, ORI_State_HandledBreakupWithHalsin_1268efe2-38d9-44e8-b83c-e78435344400, NULL_00000000-0000-0000-0000-000000000000, "datehalsin");
+DB_GLO_Halsin_RomanceFlags(CAMP_Halsin2_Event_FlirtedWitHalsinInSCL_1521059b-2dfb-12da-7b9a-bd1cd968670c);
+DB_GLO_Halsin_RomanceFlags(CAMP_Halsin2_Event_FlirtedWithHalsinInWLDMainA_a0373d03-25c1-bb02-a71f-f0844193153e);
+DB_GLO_Halsin_RomanceFlags(SCE_Halsin_Event_FlirtHint_1bcf3ae2-f377-4b37-7e97-a21e53c6e165);
+DB_GLO_Halsin_GotToKnowFlags(Halsin_InParty_Event_AskedForSurpriseInfo_4b4a7d6b-5904-cdb3-c64e-fe9fc624cff6);
+DB_GLO_Halsin_GotToKnowFlags(Halsin_InParty_Event_AskedAboutHeight_4a720fef-c45f-47d4-aa42-519ecbaafd04);
+DB_GLO_Halsin_GotToKnowFlags(ORI_Halsin_Event_AskedAboutBecomingDruid_e0daf50b-bf8c-49cc-9b62-22c39887ac22);
+
+KBSECTION
+PROC
+PROC_GLO_PartyMembers_AddHook(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("RecruitedFirstTime_Halsin", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_LiftingTheCurse_State_HalsinRecruitable_2c8b6be0-558d-485c-b4f2-93ec1926a2fa);
+PROC_ORI_SetupCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 0);
+SetFaction(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Companion10_fd96559f-010a-6e27-8689-eb29795ff2af);
+SetFlag(Companion_Halsin_HasMet_5612976e-dab8-4001-9734-ab309e657093, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DialogEnded(CAMP_GoblinHuntCelebration_SCO_HalsinMorningAfter_3c5a0a46-7927-6692-d353-fc8270b47631, _, _, _, _)
+AND
+QRY_OnlyOnce("HalsinJoinsCamp", _, _, _, _)
+THEN
+PROC_ORI_SetupCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+
+IF
+DialogEnded(CAMP_HalsinsReturn_CFM_720f387b-ca6e-b3be-4176-bceb7512d172, _, _, _, _)
+AND
+QRY_OnlyOnce("HalsinJoinsCamp", _, _, _, _)
+THEN
+PROC_ORI_SetupCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+
+IF
+TextEvent("halsin2camp", _, _, _, _)
+THEN
+PROC_ORI_SetupCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+
+IF
+EntityEvent(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, "DebugTeleportedToCamp", _, _, _)
+THEN
+PROC_ORI_SetupCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+
+IF
+DB_Dialogs(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_LiftingTheCurse_State_HalsinRecruitable_2c8b6be0-558d-485c-b4f2-93ec1926a2fa, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_Dialogs(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, CAMP_Halsin2_c0ab0f6f-3ffc-d06d-0d6d-d1aaef70dfe4);
+
+PROC
+PROC_GLO_PartyMembers_AddHook(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFaction(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Companion10_fd96559f-010a-6e27-8689-eb29795ff2af);
+
+IF
+FlagSet(ORI_State_PartneredWithHalsinSecondary_6af0be74-d032-4a20-876a-11bab5f86db2, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_ORI_Partnered_Secondary(_Var1, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+
+IF
+FlagCleared(ORI_State_PartneredWithHalsinSecondary_6af0be74-d032-4a20-876a-11bab5f86db2, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_ORI_Partnered_Secondary(_Var1, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+
+QRY
+QRY_CampNight_MeetsRequirements_Partner((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CampNight_Requirement_Partner(_Var1, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered_Secondary(_Var2, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PreventMPDialogue(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CampNight_QueueSleepMoment((FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1, (FLAG)_Var1)
+AND NOT
+DB_Camp_QueuedSCO(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_QueuedAvatarDream(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_QueuedSoloDream(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Camp_QueuedRomanceNight(_, _, _, _Var1, _Var1)
+AND
+DB_CampNight_RomanceNight(_Var1, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var9, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+AND
+DB_ORI_Partnered_Secondary(_Var10, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1, _Var1, _Var1)
+THEN
+DB_Camp_QueuedRomanceNight(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var9, _Var10);
+
+QRY
+QRY_Debugbook_GetPartnerString(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Partnered_Secondary(_Var1, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1, _Var1, _Var1)
+AND
+GetDisplayName(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+ResolveTranslatedString(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Debugbook_GetPartnerString(_Var3);
+
+PROC
+PROC_DebugBook_Event("StopRelationship", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered_Secondary(_Var2, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Partnered_Secondary(_Var2, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Halsin_RomanceFlags(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Halsin_State_FlirtedWithPlayer_7ddc1485-8f29-4116-878b-a875649c5eaf);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Halsin_GotToKnowFlags(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(Halsin_InParty_Event_CommentedOnDeadFamily_747a5458-3893-4462-8f64-db9e225f882c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Halsin_HasAllHalsinFlags(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Halsin_Event_GotToKnowHalsinProperly_a55ebe8b-065a-40c0-bcdf-63265cf74f7c, _Var2, 0);
+
+QRY
+QRY_GLO_Halsin_HasAllHalsinFlags((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Halsin_GotToKnowFlags(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(_Var2, _Var1, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GLO_LiftingTheCurse_State_BreathHasBeenRestored_2113b54e-a140-4aa0-97ac-219fa7b7d038, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCl_LiftingTheCurse_State_HalsinToldUsToCheckThaniel_59599ff4-7e95-441e-ad20-52c47d29f425, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCl_LiftingTheCurse_State_HalsinToldUsToCheckThaniel_59599ff4-7e95-441e-ad20-52c47d29f425);
+
+QRY
+QRY_SelectCustomDialog(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveLevel("SCL_Main_A", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(Debug_Act2Setup_State_BarcusRecruited_b7a697e4-265c-00b2-f6d1-818d0bdd5074, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HalsinDebugDialogAct2Camp", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(CAMP_Halsin2_c0ab0f6f-3ffc-d06d-0d6d-d1aaef70dfe4, S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _Var1);
+
+IF
+DialogEnded(CAMP_Halsin2_c0ab0f6f-3ffc-d06d-0d6d-d1aaef70dfe4, _, _, _, _)
+AND
+DB_GlobalFlag(Debug_Act2Setup_State_BarcusRecruited_b7a697e4-265c-00b2-f6d1-818d0bdd5074, _, _, _, _)
+AND
+DB_OnlyOnce("HalsinDebugDialogAct2Camp", _, _, _, _)
+AND
+QRY_OnlyOnce("HalsinDebugSetCamp2Dialog", _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_Dialogs(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, CAMP_Halsin2_c0ab0f6f-3ffc-d06d-0d6d-d1aaef70dfe4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

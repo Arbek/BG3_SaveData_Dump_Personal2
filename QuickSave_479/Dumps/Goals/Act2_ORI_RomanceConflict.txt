@@ -1,0 +1,113 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CompanionCanPartner(_Var4, _Var5, _Var1, _, _, _, _, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Dating(_Var2, _Var10, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var2, _Var10, _Var1, _Var1, _Var1)
+AND
+_Var10 != _Var4
+AND
+DB_OriginInPartyDialog(_Var10, _Var11, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(_Var10, _Var11, GLO_IPRD_RomanceConflict_55fcfaed-dfaa-cc31-39bc-c7b163a53c4a, _Var10, 1);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CompanionCanPartner(_Var4, _Var5, _Var1, _, _, _, _, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Dating(_Var2, _Var10, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var2, _Var10, _Var1, _Var1, _Var1)
+AND
+_Var10 != _Var4
+AND
+DB_OriginInPartyDialog(_Var10, _Var11, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var10, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var10, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(_Var10, _Var11, GLO_IPRD_RomanceConflict_55fcfaed-dfaa-cc31-39bc-c7b163a53c4a, _Var10, 1);
+
+IF
+CharacterReservedUserIDChanged((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_ORI_Dating_ConflictIPRD(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginInPartyDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var4, GLO_IPRD_RomanceConflict_55fcfaed-dfaa-cc31-39bc-c7b163a53c4a);
+
+QRY
+QRY_ORI_Dating_ConflictIPRD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Dating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND
+DB_OriginInPartyDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(_Var1, _Var4, GLO_IPRD_RomanceConflict_55fcfaed-dfaa-cc31-39bc-c7b163a53c4a, _Var1, 1);
+
+QRY
+QRY_ORI_Dating_ConflictIPRD((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Dating(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND
+DB_OriginInPartyDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_CurrentLevel("BGO_Main_A", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginInPartyDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var2, GLO_IPRD_RomanceConflict_55fcfaed-dfaa-cc31-39bc-c7b163a53c4a);
+
+IF
+FlagCleared(ORI_State_Dating_a3346d5b-c54b-4c73-bf18-0a2bf90c35da, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OriginInPartyDialog(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CancelRelationshipDialog(_Var1, _Var3, GLO_IPRD_RomanceConflict_55fcfaed-dfaa-cc31-39bc-c7b163a53c4a);
+
+IF
+DB_CurrentLevel("BGO_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

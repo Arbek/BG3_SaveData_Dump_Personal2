@@ -1,0 +1,30 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+LevelGameplayStarted("TUT_Avernus_C", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_TUT_Start_IsEditor(_Var1);
+
+PROC
+PROC_GLO_Origins_SetupRecruitment("TUT_Avernus_C", _, _, _, _)
+THEN
+DB_TUT_PlayerCharactersKnown(1);
+
+IF
+DB_TUT_Start_IsEditor(_, _, _, _, _)
+AND
+DB_TUT_PlayerCharactersKnown(1, _, _, _, _)
+THEN
+NOT DB_TUT_PlayerCharactersKnown(1);
+PROC_Tutorial_Start();
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Tutorial"

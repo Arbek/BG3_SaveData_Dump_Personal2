@@ -1,0 +1,220 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForParty(S_Tutorials_CameraRotationControlsTrigger_929cc41b-1914-4190-b2cd-bdae280a2230);
+PROC_TriggerRegisterForParty(S_Tutorials_CameraMovementControlsTrigger_a4a5f576-0f6e-4754-b29d-a590f686bf49);
+
+KBSECTION
+IF
+DialogEnded(_, _, _, _, _)
+AND
+DB_InRegion(_Var3, _Var4, _, _, _)
+AND
+DB_TUT_StartPointAreas(_Var4, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+PROC_GLO_Tutorials_TrackedTimerStart(_Var3, "GLO_Tutorials_BasicMovementDelay", 15000);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished((GUIDSTRING)_Var1, "GLO_Tutorials_BasicMovementDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Basic_Movement_cf87d64f-f75b-49df-aab5-d54477f7ab99);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TUT_StartPointAreas(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, "GLO_Tutorials_BasicMovementDelay");
+HideTutorial(_Var1, Basic_Movement_cf87d64f-f75b-49df-aab5-d54477f7ab99);
+SetTutorialShown(_Var1, Basic_Movement_cf87d64f-f75b-49df-aab5-d54477f7ab99);
+
+IF
+DB_GlobalFlag(TUT_LowerDeck_State_ImpsDead_c505f03a-c6d4-4ac5-a0a1-ea805fc1a589, _, _, _, _)
+THEN
+TimerLaunch("GLO_Tutorials_AfterImpFightDelay", 5000);
+
+IF
+TimerFinished("GLO_Tutorials_AfterImpFightDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Companions_d9652ca7-56a7-4f42-a6b8-96c73984e34d);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInCombat(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_ActiveCombatTurn_PartyMembers(_Var1);
+
+IF
+TurnEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_ActiveCombatTurn_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tutorials_ActiveCombatTurn_PartyMembers(_Var1);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Tutorials_ActiveCombatTurn_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tutorials_ActiveCombatTurn_PartyMembers(_Var1);
+
+IF
+UserDisconnected((INTEGER)_Var1, _, _, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_PartyMembers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Tutorials_ActiveCombatTurn_PartyMembers(_Var4);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Combat_Start_5c7409cf-b71f-4186-a6b0-9bde451b76f0);
+
+IF
+TutorialClosed((INTEGER)_Var1, Combat_Start_5c7409cf-b71f-4186-a6b0-9bde451b76f0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetUserProfileID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Tutorials_DismissedCombatStartTutorial(_Var2);
+
+IF
+TutorialClosed((INTEGER)_Var1, Combat_Start_5c7409cf-b71f-4186-a6b0-9bde451b76f0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GLO_Tutorials_ActiveCombatTurn_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetUserProfileID(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var2, Your_Turn_bc1a4fcf-af3c-4741-b47e-ad818803e902);
+DB_GLO_Tutorials_DismissedCombatStartTutorial(_Var3);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetUserProfileID(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_DismissedCombatStartTutorial(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Your_Turn_bc1a4fcf-af3c-4741-b47e-ad818803e902);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, Action_Depleted_82a77570-4865-4eda-b767-7d32bcab4928, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+HideTutorial(_Var1, Your_Turn_bc1a4fcf-af3c-4741-b47e-ad818803e902);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, Bonus_Depleted_eae49012-92e7-44e0-9774-ad7a320e2817, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+HideTutorial(_Var1, Your_Turn_bc1a4fcf-af3c-4741-b47e-ad818803e902);
+
+IF
+TutorialEvent((CHARACTER)_Var1, ActionRadials_Opened_f651618e-d396-4d4a-ba5a-8f50c3697708, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+HideTutorial(_Var1, Your_Turn_bc1a4fcf-af3c-4741-b47e-ad818803e902);
+
+IF
+TurnEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+HideTutorial(_Var1, Your_Turn_bc1a4fcf-af3c-4741-b47e-ad818803e902);
+
+IF
+CombatEnded(_, _, _, _, _)
+AND
+DB_GLO_Tutorials_DismissedCombatStartTutorial(_Var2, _, _, _, _)
+THEN
+NOT DB_GLO_Tutorials_DismissedCombatStartTutorial(_Var2);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, Action_Depleted_82a77570-4865-4eda-b767-7d32bcab4928, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Ending_your_Turn_d5ab128a-fd43-45bd-87d9-95c496ad904f);
+
+IF
+TurnEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+HideTutorial(_Var1, Ending_your_Turn_d5ab128a-fd43-45bd-87d9-95c496ad904f);
+
+IF
+DB_InRegion(_Var1, S_Tutorials_CameraRotationControlsTrigger_929cc41b-1914-4190-b2cd-bdae280a2230, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Camera_Rotation_27b3873b-0353-4284-b901-32edbcfa9fe1);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, UserAction_CameraRotate_af1cba9d-9bfe-440f-971d-d6e0213c428d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+HideTutorial(_Var1, Camera_Rotation_27b3873b-0353-4284-b901-32edbcfa9fe1);
+
+IF
+DB_InRegion(_Var1, S_Tutorials_CameraMovementControlsTrigger_a4a5f576-0f6e-4754-b29d-a590f686bf49, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Camera_Movement_211b326e-4f31-4622-bfdb-07d6d5491ce7);
+
+IF
+TutorialEvent((GUIDSTRING)_Var1, UserAction_CameraMove_33b6c863-0575-470b-b7aa-d91cc82132f8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+HideTutorial(_Var1, Camera_Movement_211b326e-4f31-4622-bfdb-07d6d5491ce7);
+
+IF
+HitpointsChanged((CHARACTER)_Var1, (REAL)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+_Var2 <= 70
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Restoration_Pods_76ee8943-42f3-4b1f-ada2-a5c0965f6587);
+
+PROC
+PROC_LevelUnloading("TUT_Avernus_C", _, _, _, _)
+THEN
+SysClear("DB_GLO_Tutorials_ActiveCombatTurn_PartyMembers", 1);
+SysClear("DB_GLO_Tutorials_DismissedCombatStartTutorial", 1);
+
+PROC
+PROC_LevelUnloading("TUT_Avernus_C", (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_GLO_Tutorials_AdvancedMovement_StartStopTriggerPairs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForParty(_Var1);
+PROC_TriggerUnregisterForParty(_Var2);
+
+PROC
+PROC_LevelUnloading("TUT_Avernus_C", _, _, _, _)
+THEN
+PROC_TriggerUnregisterForParty(S_Tutorials_CameraRotationControlsTrigger_929cc41b-1914-4190-b2cd-bdae280a2230);
+PROC_TriggerUnregisterForParty(S_Tutorials_CameraMovementControlsTrigger_a4a5f576-0f6e-4754-b29d-a590f686bf49);
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Tutorial"

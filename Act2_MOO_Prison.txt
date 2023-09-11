@@ -1,0 +1,186 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_MOO_WarehouseGuard_001_30de3349-7bcb-4a6e-be2e-3ae7a4c89e6a, MOO_Warehouse_Guard01_85cc9eb0-4fcf-2c2d-ba1a-8990c91e47f8);
+DB_Dialogs(S_MOO_WarehouseGuard_002_8360ec17-f888-4745-8b22-351feadb86d1, MOO_Warehouse_Guard02_8aa42fe9-9799-e8b5-6e96-23f0b50ad011);
+DB_MOO_Prison_CellDoors(S_MOO_CellGate_001_48e0988d-8a06-4177-8b6b-5a85a967e73e, S_MOO_CellLever_001_9524471e-424e-45ba-a205-dac970de9229);
+DB_MOO_Prison_CellDoors(S_MOO_CellGate_002_35fbdc57-b803-4edb-879f-f678bad6c446, S_MOO_CellLever_002_440d8188-fa15-417c-934e-e32f2ea88de2);
+DB_MOO_Prison_CellDoors(S_MOO_CellGate_003_505c4cbf-0f81-4774-aaff-aecd32a7ef32, S_MOO_CellLever_003_4127498d-19b7-4ca6-a0e3-72e2cf39f8c6);
+DB_MOO_Prison_CellDoors(S_MOO_CellGate_004_9758a245-c314-4099-94a5-506267cf2a1d, S_MOO_CellLever_004_9161bdf9-82d8-455e-b4fc-aa831fe29c4d);
+DB_MOO_Prison_CellDoors(S_MOO_CellGate_005_cb613218-5f13-46e0-be63-2ad97922c1d9, S_MOO_CellLever_005_5defb798-beff-472b-aca2-4d1317f10718);
+DB_ItemOwnerShipTriggers("SCL_Main_A", S_MOO_PrisonCentralOwnership_3c3a6378-84f5-4389-982b-2223726b4a50, S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+SetOwner(S_MOO_PrisonCentralLadder_50874391-2ee9-41a0-b8be-4b753dc9a7f0, S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+DB_OneShotPlayerTrigger(S_MOO_EnteredWardenOfficeSphere_dd538592-769a-43d2-9020-7b35d71246e3);
+DB_DialogMoneyTransfer(1, MOO_Jailbreak_Warden_4eb7970b-14df-5faa-f25c-8e9360fd280b, 10);
+DB_DialogMoneyTransfer(2, MOO_Jailbreak_Warden_4eb7970b-14df-5faa-f25c-8e9360fd280b, 30);
+DB_ItemDialog_NarratorAD(S_MOO_Prison_CellPlaque1_3bf0e090-45eb-4806-94f2-0bfa51b1d722, MOO_Prison_AD_CellPlaque1_f0c35571-f767-d87e-ded5-ea083516d369);
+DB_ItemDialog_NarratorAD(S_MOO_Prison_CellPlaque2_30486393-e3cf-4751-a208-4fa72d02ef55, MOO_Prison_AD_CellPlaque2_e622113c-e79a-5499-b928-03a38b995025);
+DB_ItemDialog_NarratorAD(S_MOO_Prison_CellPlaque3_6f528e4c-78f4-4813-a8c3-dd158ca6635f, MOO_Prison_AD_CellPlaque3_b0c4ffa3-ecce-18b5-e491-14b85cbcdc90);
+DB_ItemDialog_NarratorAD(S_MOO_Prison_CellPlaque4_bdaaf8c5-afaa-4d54-8a8a-6eb81453425a, MOO_Prison_AD_CellPlaque4_224185c9-f272-f6d8-5225-39a9ad79d1aa);
+DB_ItemDialog_NarratorAD(S_MOO_Prison_CellPlaque5_693d6ef8-203d-4f82-bd26-1502d2c26ca4, MOO_Prison_AD_CellPlaque5_e9717237-39ec-68bf-1628-d87fcd0511d2);
+
+KBSECTION
+IF
+DB_MOO_Jailbreak_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Alarm_ScryingEyes(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ItemOwnerShipTriggersFallback(S_MOO_PrisonCentralOwnership_3c3a6378-84f5-4389-982b-2223726b4a50, _Var1);
+
+IF
+TextEvent("testjail", _, _, _, _)
+THEN
+Open(S_MOO_CellGate_002_35fbdc57-b803-4edb-879f-f678bad6c446);
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+THEN
+NOT DB_CRIME_Guards_RegionInfo("SCL_Main_A_MOO", "Main Prison", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CRIME_Guards_RegionReinforcements("SCL_Main_A_MOO", 2);
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", _Var1, _Var2, _Var1, _Var1)
+THEN
+NOT DB_CRIME_Guards_RegionGuard("SCL_Main_A_MOO", _Var1, _Var2);
+
+IF
+DB_MOO_Prison_CellDoors(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetOwner(_Var2, S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+
+IF
+UseStarted(_, (ITEM)_Var2, _, _, _)
+AND
+DB_MOO_Prison_CellDoors(_Var3, _Var2, _, _, _)
+AND
+IsOpened(_Var3, _Var4, _, _, _)
+THEN
+SetCanInteract(_Var2, 0);
+DB_MOO_Prison_DisabledLever(_Var2);
+ObjectTimerLaunch(_Var2, "MOO_Prison_RestoreLeverUse", 6000, 0);
+PROC_MOO_Prison_OpenOrCloseCell(_Var4, _Var3, _Var2);
+
+PROC
+PROC_MOO_Prison_OpenOrCloseCell(0, (ITEM)_Var1, (ITEM)_Var2, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+PlayAnimation(_Var2, OBJ_Open_Unused_01_1c8ad609-f780-418e-9fdf-c52f6d749c9f, "");
+Open(_Var1);
+
+PROC
+PROC_MOO_Prison_OpenOrCloseCell(1, (ITEM)_Var1, (ITEM)_Var2, (ITEM)_Var1, (ITEM)_Var1)
+THEN
+PlayAnimation(_Var2, OBJ_Close_Unused_01_a7078367-8eed-4ba7-a436-196774f68a60, "");
+Close(_Var1);
+
+IF
+ObjectTimerFinished((ITEM)_Var1, "MOO_Prison_RestoreLeverUse", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_MOO_Prison_DisabledLever(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCanInteract(_Var1, 1);
+NOT DB_MOO_Prison_DisabledLever(_Var1);
+
+IF
+Opened((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_Prison_CellDoors(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Prison_OpenCell(_Var1);
+
+IF
+Closed((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_MOO_Prison_OpenCell(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Prison_OpenCell(_Var1);
+
+IF
+EntityEvent(_, "MOO_Jailbreak_EmergencyOpenCell", _, _, _)
+AND
+DB_MOO_Prison_CellDoors(_Var2, _Var3, _, _, _)
+AND
+IsOpened(_Var2, 0, _, _, _)
+AND
+IsOpening(_Var2, 0, _, _, _)
+THEN
+PlayAnimation(_Var3, OBJ_Open_Unused_01_1c8ad609-f780-418e-9fdf-c52f6d749c9f, "");
+Open(_Var2);
+
+IF
+EntityEvent(_, "MOO_Jailbreak_EmergencyOpenCell", _, _, _)
+AND
+DB_MOO_Prison_CellDoors(_Var2, _Var3, _, _, _)
+THEN
+SetCanInteract(_Var3, 0);
+DB_MOO_Prison_DisabledLever(_Var3);
+
+IF
+EntityEvent(_, "MOO_Jailbreak_EmergencyOpenCell", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_MOO_Prison_DisabledLever(S_MOO_EmergencyLever_976d70e4-edec-4a03-a004-a8e1a6ac86c1);
+PROC_MOO_Jailbreak_EmergencyLeverUsed();
+
+PROC
+PROC_OneShotTriggerEntered((GUIDSTRING)_Var1, S_MOO_EnteredWardenOfficeSphere_dd538592-769a-43d2-9020-7b35d71246e3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(MOO_Jailbreak_State_WardenCanPatrol_592bb57e-c77a-4743-99df-684210ecb7b8);
+
+IF
+FlagSet(IsInPrison_c9b75b21-6eba-065e-7680-fc9a0c5838e4, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_MOO_PlayerCell_7b277f0f-3812-42e7-a4f3-e3c94b08e6a7, 1, _Var1, _Var1)
+THEN
+DB_MOO_Prison_EmprisonedPlayer(_Var1);
+
+IF
+FlagCleared(IsInPrison_c9b75b21-6eba-065e-7680-fc9a0c5838e4, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Prison_EmprisonedPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Prison_EmprisonedPlayer(_Var1);
+
+IF
+DB_MOO_Prison_EmprisonedPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Prison_EmprisonedVisiblePlayer(_Var1);
+
+IF
+DB_MOO_Prison_EmprisonedVisiblePlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(MOO_Prison_State_PlayerInPrisonCell_eb83fd97-3ae9-4bc0-a832-802c9a4e5a73, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Prison_State_PlayerInPrisonCell_eb83fd97-3ae9-4bc0-a832-802c9a4e5a73, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_GlobalFlag(MOO_Prison_State_PlayerInPrisonCell_eb83fd97-3ae9-4bc0-a832-802c9a4e5a73, _, _, _, _)
+AND NOT
+DB_MOO_Prison_EmprisonedVisiblePlayer(_, _, _, _, _)
+THEN
+ClearFlag(MOO_Prison_State_PlayerInPrisonCell_eb83fd97-3ae9-4bc0-a832-802c9a4e5a73, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+DB_MOO_Prison_EmprisonedVisiblePlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Prison_EmprisonedVisiblePlayer(_Var1);
+
+IF
+DB_MOO_Prison_EmprisonedVisiblePlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_Prison_EmprisonedPlayer(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_Prison_EmprisonedVisiblePlayer(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

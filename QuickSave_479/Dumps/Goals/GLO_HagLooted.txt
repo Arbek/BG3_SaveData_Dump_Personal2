@@ -1,0 +1,75 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DB_CurrentLevel("SCL_Main_A", _, _, _, _)
+AND
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+AND
+IsInInventory(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 1, _, _, _)
+AND
+QRY_OnlyOnce("GLO_SetupInventoriedHagDisappearance_OnlyOnce", _, _, _, _)
+THEN
+DB_GLO_InventoriedHagDisappearsOnLongRest(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GLO_InventoriedHagDisappearsOnLongRest(1, _, _, _, _)
+AND
+GetDirectInventoryOwner(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_InventoriedHagDisappearsOnLongRest(1);
+DB_GLO_HagInventoryOwner(_Var1);
+
+IF
+DB_GLO_HagInventoryOwner(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDirectInventoryOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_HagInventoryOwner(_Var1);
+DB_GLO_HagInventoryOwner(_Var2);
+
+IF
+DB_GLO_HagInventoryOwner(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+GetDirectInventoryOwner(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_HagInventoryOwner(_Var1);
+TemplateAddTo(CONS_Hag_MysteriousGift_27d74bd9-b852-43fd-98ac-999f33e05aa9, _Var1, 1, 1);
+TeleportTo(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, S_LOW_BlushingMermaid_QuenoraTeleportSpot_2244ed9b-e942-49f2-85aa-465f6defaef2, "GLO_HagTeleportedOutOfInventory", 0, 0, 0);
+
+IF
+EntityEvent(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "GLO_HagTeleportedOutOfInventory", _, _, _)
+THEN
+PROC_SetOnStage(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 0);
+
+PROC
+PROC_LongRest()
+AND
+DB_GLO_InventoriedHagDisappearsOnLongRest(1, _, _, _, _)
+AND NOT
+GetDirectInventoryOwner(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _, _, _, _)
+AND
+CreateAtObject(CONS_Hag_MysteriousGift_27d74bd9-b852-43fd-98ac-999f33e05aa9, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 0, 0, "", 0, _Var2, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GLO_InventoriedHagDisappearsOnLongRest(1, _, _, _, _)
+AND NOT
+GetDirectInventoryOwner(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _, _, _, _)
+THEN
+NOT DB_GLO_InventoriedHagDisappearsOnLongRest(1);
+PROC_SetOnStage(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_Hag"

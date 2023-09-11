@@ -1,0 +1,488 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ItemOwnerShipTriggers("SCL_Main_A", S_MOO_BugbearOwnership_a77e8d94-0367-4e81-aedb-eb9cbac7e799, S_MOO_BugBearVendor_8cb1cace-ef98-4387-8b76-2e8efc5cfe89);
+DB_ItemOwnerShipTriggers("SCL_Main_A", S_MOO_InfernalOwnership_377724ee-fde7-48ba-9184-1b43eccc904d, S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+DB_ItemOwnerShipTriggers("SCL_Main_A", S_MOO_KitchenOwnership_11acb37a-4cfd-47f1-b5f2-846bbd575399, S_MOO_Kitchen_GnollMaster_627dfc1c-56e1-4e56-9920-56e381e72c53);
+DB_ItemOwnerShipTriggers("SCL_Main_A", S_MOO_ZRell_Ownership_2bed540d-8220-4cf3-af18-380a71a11c4c, S_MOO_AccessCultist_7f0f8d11-9d1e-4210-bbcb-41aa05666d58);
+DB_ItemOwnerShipTriggers("SCL_Main_A", S_MOO_AudienceAccess_Ownership_1219f21f-61d3-42fc-b4c9-1a17cd3fa0ba, S_MOO_AccessCultist_7f0f8d11-9d1e-4210-bbcb-41aa05666d58);
+ApplyStatus(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, "MOO_KETHERIC_INVULNERABLE", -1);
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Default");
+DB_State_Priority(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Default", 1000);
+DB_State_Priority(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_PostExecution", 2000);
+DB_State_Priority(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Audience", 3000);
+DB_State_Priority(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast", 4000);
+DB_State_Priority(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_HostileAudience", 5000);
+DB_State_Priority(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", 6000);
+DB_State_Priority(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_NightsongDeath", 7000);
+DB_MOO_RoofAccessStates("MOO_State_Audience");
+DB_MOO_RoofAccessStates("MOO_State_HostileAudience");
+DB_MOO_RoofAccessStates("MOO_State_Assault");
+DB_MOO_RoofAccessStates("MOO_State_NightsongDeath");
+DB_GLO_CompoundFlag(MOO_Necromancer_State_AtMoonrise_f64507bf-aa53-6de9-0b59-c19d649bb0a5, MOO_MutuallyExclusive_State_BalthazarReturn_80602ce2-4c4b-4566-8270-db9054567486);
+DB_GLO_CompoundFlag(MOO_Isobel_State_AtMoonrise_a95b7f8f-1454-433f-a496-71c9306683ce, MOO_MutuallyExclusive_State_IsobelKidnapped_6f510e43-cf41-4273-b929-38404f19efe1);
+DB_GLO_CompoundFlag(HAV_SavingPrisoners_State_ReturnReady_9b2d498d-5aad-40fa-a0df-d2a76a3b0979, MOO_MutuallyExclusive_State_JailbreakSuccess_c9f7fd19-bafc-4a9d-80b9-59778129fdbf);
+DB_GLO_CompoundFlag(MOO_Jailbreak_State_AllPrisonersDied_78722161-91a2-e044-ba3a-a79492d6ed18, MOO_MutuallyExclusive_State_JailbreakFailed_0e20859a-a30f-44e7-89bf-8d0b91babdb1);
+DB_GLO_ExclusiveFlag("MOO_MutuallyExclusive_States", MOO_MutuallyExclusive_State_BalthazarReturn_80602ce2-4c4b-4566-8270-db9054567486);
+DB_GLO_ExclusiveFlag("MOO_MutuallyExclusive_States", MOO_MutuallyExclusive_State_IsobelKidnapped_6f510e43-cf41-4273-b929-38404f19efe1);
+DB_GLO_ExclusiveFlag("MOO_MutuallyExclusive_States", MOO_MutuallyExclusive_State_JailbreakFailed_0e20859a-a30f-44e7-89bf-8d0b91babdb1);
+DB_GLO_ExclusiveFlag("MOO_MutuallyExclusive_States", MOO_MutuallyExclusive_State_JailbreakSuccess_c9f7fd19-bafc-4a9d-80b9-59778129fdbf);
+DB_GLO_CompoundFlag(MOO_Execution_Event_Attack_37a6c9f5-f3c6-9dec-e8e7-45dc87b5fd77, GLO_Ketheric_State_PlayerAttacked_2f4e2c6d-b461-4492-b2f0-dd06febb215b);
+DB_GLO_CompoundFlag(MOO_Audience_Event_AttackedKetheric_e38a647a-6cea-44a4-86a9-0bf38f5bbc5f, GLO_Ketheric_State_PlayerAttacked_2f4e2c6d-b461-4492-b2f0-dd06febb215b);
+DB_MOO_Denizens(S_MOO_PrisonWarden_66b3e4c0-2f82-4c0a-9333-73a5194f88c7);
+DB_MOO_Denizens(S_MOO_MindTorturer_001_480b89b1-ae6c-46e7-ad79-1b3babe3655e);
+DB_MOO_Denizens(S_MOO_PrisonGuard_002_0cf357ec-268c-4779-92ad-8d6c7de437d1);
+DB_MOO_Denizens(S_MOO_MindTorturer_002_5c744998-b3cb-4edb-8a32-4df06593e849);
+DB_MOO_Denizens(S_MOO_PrisonGuard_004_107c72ca-2a4f-477d-a315-deeea3eea49e);
+DB_MOO_Denizens(S_MOO_WarehouseGuard_000_d161fc7f-801c-463c-bdbd-f638c8499361);
+DB_MOO_Denizens(S_MOO_WarehouseGuard_001_30de3349-7bcb-4a6e-be2e-3ae7a4c89e6a);
+DB_MOO_Denizens(S_MOO_WarehouseGuard_002_8360ec17-f888-4745-8b22-351feadb86d1);
+DB_MOO_Denizens(S_MOO_BazaarStander_000_04580ceb-8caf-4a53-999b-743fc9590ef0);
+DB_MOO_Denizens(S_MOO_BazaarStander_001_b23b8e57-880f-4763-af53-7009f2d959d1);
+DB_MOO_Denizens(S_MOO_BazaarStander_002_5aa31a93-79fa-4a82-9e72-cbec77da3a0e);
+DB_MOO_Denizens(S_MOO_BazaarStander_003_efcf317a-dc82-4776-80ef-0f463b09fefe);
+DB_MOO_Denizens(S_MOO_BazaarStander_004_a6211285-d412-42c5-8c1c-ffe7feca2e09);
+DB_MOO_Denizens(S_MOO_BazaarStander_005_c31c6739-c991-490e-9857-2a3367042727);
+DB_MOO_Denizens(S_MOO_BazaarStander_006_5e4c22f4-1122-4822-bc16-ba49d3cb701e);
+DB_MOO_Denizens(S_MOO_BazaarStander_007_f152d3c1-fe32-403f-9d7f-2f1049912e0f);
+DB_MOO_Denizens(S_MOO_KitchenGnoll_000_2da0be81-dff2-41a6-a15e-ce340c968ea2);
+DB_MOO_Denizens(S_MOO_KitchenGnoll_001_21db721c-616c-4385-970c-f18bb7477034);
+DB_MOO_Denizens(S_MOO_KitchenGnoll_002_44b05e1f-1e1f-4b81-bfab-ee120bc2f38c);
+DB_MOO_Denizens(S_MOO_Kitchen_GnollMaster_627dfc1c-56e1-4e56-9920-56e381e72c53);
+DB_MOO_Denizens(S_MOO_BugBearVendor_8cb1cace-ef98-4387-8b76-2e8efc5cfe89);
+DB_MOO_Denizens(S_MOO_InfernalVendor_511c9413-25fe-449c-a81d-4b09bc20745a);
+DB_MOO_Denizens(S_GOB_ZhentarimGuard_Ranger_01_4b9818fa-cca6-4bad-b382-4c01334ef22a);
+DB_MOO_Denizens(S_GOB_ZhentarimGuard_Ranger_02_afc5350d-dc9f-4808-b6ce-d7b1bb7c8229);
+DB_MOO_Denizens(S_GOB_Quartermaster_646936f3-8d8d-484e-9361-cd1ed484c615);
+DB_MOO_Denizens(S_MOO_BazaarGuard_000_1d5cdba7-f2e4-4568-9bb8-94abcf9081d6);
+DB_MOO_Denizens(S_MOO_BazaarGuard_001_8843e9dc-b0dc-4c64-991f-7f512dd12dc0);
+DB_MOO_Denizens(S_MOO_BazEntranceGuard_001_8fdd2eba-9e1e-48b6-a201-787616541dd9);
+DB_MOO_Denizens(S_MOO_BazEntranceGuard_002_1a7719bc-9f42-4405-a07d-5d54af11ef0b);
+DB_MOO_Denizens(S_MOO_WallTentacle_Ogress_c3b872b8-1937-4255-9d0c-29e490afd033);
+DB_MOO_Denizens(S_MOO_GuardRoom_001_3f94bfd0-5a3b-4ce3-8f12-61241b9a6a40);
+DB_MOO_Denizens(S_MOO_GuardRoom_002_ba3c32e1-ebc2-441a-b121-d7977452c160);
+DB_MOO_Denizens(S_MOO_UpperGuard_000_556cec90-5ea1-4054-9874-abd8ee042703);
+DB_MOO_Denizens(S_MOO_ExecutionGuard_001_274886f8-8881-4e6e-97b6-fc038a26abe0);
+DB_MOO_Denizens(S_MOO_ExecutionGuard_002_9500dd35-4b5b-4634-bdfd-c6cdd91bd6b5);
+DB_MOO_Denizens(S_MOO_ExecutionGuard_003_a4752cef-326a-49d7-91dd-a9de10d6539b);
+DB_MOO_Denizens(S_MOO_ExecutionGuard_004_d99bec80-06ca-4d81-95cd-348efd9092fc);
+DB_MOO_Denizens(S_MOO_ExecutionGuard_005_9dd4a1bf-79d6-4876-9788-9dcec2e0a06e);
+DB_MOO_Denizens(S_MOO_ExecutionGuard_006_2b900b58-298d-4e31-80c8-8a3a44a6d13f);
+DB_MOO_Denizens(S_MOO_ExecutionGoblin_001_40954403-0a66-4bee-8c62-53a810cedadf);
+DB_MOO_Denizens(S_MOO_ExecutionGoblin_003_2c0816da-ad54-4813-94ce-92440223b49c);
+DB_MOO_Denizens(S_MOO_ExecutionGoblin_004_a27c7eb5-ffd0-4da0-b888-af0809d75823);
+DB_MOO_Denizens(S_MOO_Executioner_8e75eb3b-7551-485e-8f98-2bf2e51d3e84);
+DB_MOO_Denizens(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+DB_MOO_Denizens(S_MOO_AudienceGuard_001_f986110c-7451-417a-89e2-b2628e200c4d);
+DB_MOO_Denizens(S_MOO_AudienceGuard_002_50eed113-2a6a-469d-ba8e-a9fd44be681b);
+DB_MOO_Denizens(S_MOO_AudienceGuard_003_c9c185bb-ca0d-46b7-b0da-bf6364a96e15);
+DB_MOO_Denizens(S_MOO_UpperGuard_001_3b5ad058-c872-4b1c-933b-2d8767b28aed);
+DB_MOO_Denizens(S_MOO_UpperGuard_002_638fe74f-aa4f-400c-85f9-69112a288300);
+DB_MOO_Denizens(S_MOO_AccessCultist_7f0f8d11-9d1e-4210-bbcb-41aa05666d58);
+DB_MOO_Denizens(S_MOO_ExecutionerOgre_234ee81c-4fea-4aa5-adb4-670a73fdc511);
+DB_MOO_Denizens(S_MOO_UpperEye_B_6bbcbc71-91b2-499e-b42d-381eb729bad1);
+DB_MOO_Denizens(S_MOO_UpperEye_C_881081c0-8e1a-4033-9cb3-37532cd7f4ef);
+DB_MOO_Denizens(S_MOO_GroundEye_A_bb378616-79a0-4b0c-b967-e650e3707b24);
+DB_MOO_Denizens(S_MOO_GroundEye_B_e50cabc8-afb0-4e5b-a73c-166828488510);
+DB_MOO_Denizens(S_MOO_PrisonEye_A_fe9333ab-2bbe-4624-978e-56ca9b4c58da);
+DB_MOO_Denizens(S_MOO_PrisonEye_B_9bea6db5-8e9a-4277-9813-823b45248022);
+DB_MOO_Denizens(S_MOO_PrisonEye_C_89e223c3-52e8-4bbf-9a75-47cbb0b6b65e);
+DB_MOO_InMOOTriggers(S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b);
+DB_MOO_InMOOTriggers(S_MOO_Docks_SUB_1d9e93f1-ece8-4e02-8b22-a3c1452ec320);
+DB_MOO_InMOOTriggers(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6);
+DB_MOO_InsideMoonriseTowerTriggers(S_MOO_MainFloorInterior_SUB_429a55cc-58d2-4469-9577-852131e1fff3);
+DB_MOO_InsideMoonriseTowerTriggers(S_MOO_Prison_SUB_b262cbea-f40c-47da-9f34-ba8ce5bf782b);
+DB_MOO_InsideMoonriseTowerTriggers(S_MOO_UpperFloorInterior_SUB_93c522d3-04c4-4f71-a1dc-043478c51301);
+TriggerRegisterForCharacter(S_MOO_SulAvailableBox_79a4179d-74e7-4f8e-86ac-37f4f7564b0b, S_MOO_BazaarStander_003_efcf317a-dc82-4776-80ef-0f463b09fefe);
+DB_ItemDialog_NarratorAD(S_MOO_Prison_TortureBed_120d3aff-97db-4e52-97f9-9d0cbcc19999, MOO_Prison_AD_TortureBed_e3a4f36f-87f6-f61d-5004-152d9a26bf2e);
+DB_ItemDialog_NarratorAD(S_MOO_IsobelsRoom_MotherPlaque_4859fb1e-b392-44b0-b1a9-eea32bdd88b6, MOO_IsobelRoom_AD_MelodiaThorm_29d28ef3-38f7-b300-14f6-e0c9758790ae);
+DB_GLO_FireBowls(S_MOO_Bowl_01_575f4306-5146-4c32-9528-28033d1deacc, S_MOO_Hinge_01_7225dd44-3bc6-4bb4-a26a-87be9a919990);
+DB_GLO_FireBowls(S_MOO_Bowl_02_3e563a39-ddc4-4524-99c5-114a83c0ea08, S_MOO_Hinge_02_8ebdbf85-98a6-436b-9e71-0d1fbe5608f6);
+DB_GLO_FireBowls(S_MOO_Bowl_03_bd450326-4ee9-4896-b5a5-ef40e4678a96, S_MOO_Hinge_03_e304aa39-e794-4d14-a573-5e7e46f2bc44);
+DB_GLO_FireBowls(S_MOO_Bowl_04_87586af5-6a53-40c9-ad46-e26810495238, S_MOO_Hinge_04_21e9f738-615b-4469-b48d-1dfce2a9d9c1);
+DB_GLO_FireBowls(S_MOO_Bowl_05_5de9ca72-819d-4205-a7ba-bbfbe43593a7, S_MOO_Hinge_05_437a4915-41b2-4ed6-ae01-9dbb6b24d2c7);
+DB_GLO_FireBowls(S_MOO_Bowl_06_4ffc58e1-1376-45c5-9fb8-b05bd98b81b1, S_MOO_Hinge_06_81559776-c953-4194-95e8-12976b009cde);
+DB_GLO_FireBowls(S_MOO_Bowl_07_9ee0dc03-a3f8-436c-81da-29167733cf93, S_MOO_Hinge_07_d131b035-352c-4f62-9461-edc9c5ce4db0);
+DB_GLO_FireBowls(S_MOO_Bowl_08_1fe4a7c7-c3a4-4603-9cee-40c666800a70, S_MOO_Hinge_08_727e850f-b951-4842-b405-184e85041d53);
+DB_GLO_FireBowls(S_MOO_Bowl_09_dc8e33e2-4053-4845-876b-72fa81571bbb, S_MOO_Hinge_09_3475c146-6904-4e4e-9239-a49afb341aff);
+DB_GLO_FireBowls(S_MOO_Bowl_10_3a6b1c04-3e58-4666-a48c-16372133441c, S_MOO_Hinge_10_ce9ff321-f472-4841-a02b-64a986d20915);
+DB_GLO_FireBowls(S_MOO_Bowl_11_3f27153c-0c0b-4464-8d46-d1c0ab08fa46, S_MOO_Hinge_11_3bb1028e-6506-465d-a564-13c1c51b3c4d);
+DB_GLO_FireBowls(S_MOO_Bowl_12_544adfab-8af4-48d8-be10-39ac147d4359, S_MOO_Hinge_12_a01dcf23-e822-432a-bb2b-caba067e4747);
+DB_GLO_FireBowls(S_MOO_Bowl_13_c11b18ef-4258-4e17-9597-c9ad3aeb2093, S_MOO_Hinge_13_6bb93661-1a31-4eff-b515-6cf5251323c8);
+DB_GLO_FireBowls(S_MOO_Bowl_14_23a2d2fa-cc44-4017-8bb5-c8a55c37fae9, S_MOO_Hinge_14_b1c7b1c8-5bbf-4e17-81ff-4ab134756d08);
+
+KBSECTION
+IF
+TextEvent("mootoroof", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_Teleport_MOO_Roof_1e88aa9a-c17b-48aa-b98d-0ca26afdd13a, _Var1);
+
+IF
+TextEvent("mootokitchen", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_Teleport_MOO_Kitchen_5232db34-b5a2-4d2f-b848-d45bc371cfcf, _Var1);
+
+IF
+TextEvent("mootoprison", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_Teleport_MOO_Prison_b8d2c7ac-e50e-4d0d-80d8-b3ce8267df7b, _Var1);
+
+IF
+TextEvent("mootoisobelroom", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_Teleport_MOO_IsobelRoom_896ea504-0f00-4d17-87a0-ffe74ea804de, _Var1);
+
+IF
+TextEvent("mootobalthroom", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_Teleport_MOO_BalthazarRoom_ca8a8595-aa2e-4427-893f-ee31376716c1, _Var1);
+
+IF
+TextEvent("mootodocks", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(Debug_Teleport_MOO_Docks_6ec11b6e-a7fe-4712-b80c-cd76f81c0354, _Var1);
+
+IF
+TextEvent("moo_daisyaudience", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(MOO_Daisy_Event_MentionedAbsoluteAudience_3b9d9d5f-3274-4315-99de-e6435085bd72, _Var1);
+
+IF
+DB_InRegion(_Var1, S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_MoonriseTower_EverEnteredBefore_26aeabb0-7644-4897-9bbd-7a95e3e8930f, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_MoonriseTower_EverEnteredBefore_26aeabb0-7644-4897-9bbd-7a95e3e8930f);
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_MOO_InMOOTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PartyDialogSuppressionZone(_Var1);
+DB_PartyDialogSuppression_CustomDialogForParty(_Var1, GLO_AD_CompanionCantTalk_5b47f078-c7c2-3f21-d96f-93c0652aa2f2);
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_MOO_InsideMoonriseTowerTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PartyDialogSuppressionZone(_Var1);
+DB_PartyDialogSuppression_CustomDialogForParty(_Var1, GLO_AD_CompanionCantTalk_5b47f078-c7c2-3f21-d96f-93c0652aa2f2);
+
+IF
+FlagSet(COL_State_InColony_NoOubliette_24d7035e-8698-4b83-9152-b09cb5ea5ded, _, _, _, _)
+AND
+DB_PartyDialogSuppressionZone(_Var3, _, _, _, _)
+AND
+DB_PartyDialogSuppression_CustomDialogForParty(_Var3, _Var4, _, _, _)
+THEN
+NOT DB_PartyDialogSuppressionZone(_Var3);
+NOT DB_PartyDialogSuppression_CustomDialogForParty(_Var3, _Var4);
+
+IF
+FlagSet(MOO_GroundFloor_State_ExecutionOver_1560c0ae-5fec-4e7c-a6e7-35e9c33bbbeb, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_PostExecution");
+
+IF
+FlagSet(MOO_MoonriseTower_State_Outcast_93565546-9052-4776-8563-2a1aca8d899e, _, (INTEGER)_Var2, _, _)
+AND
+_Var2 != 0
+AND
+QRY_OnlyOnce("MOO_State_PrepareOutcast", _, _, _, _)
+THEN
+DB_MOO_Misc_PrepareOutcastState(_Var2);
+
+IF
+FlagSet(MOO_MoonriseTower_State_Outcast_93565546-9052-4776-8563-2a1aca8d899e, _, 0, _, _)
+AND
+QRY_OnlyOnce("MOO_State_PrepareOutcast", _, _, _, _)
+THEN
+PROC_State_Progress(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast");
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_MOO_Misc_PrepareOutcastState(_Var2, _, _, _, _)
+THEN
+NOT DB_MOO_Misc_PrepareOutcastState(_Var2);
+PROC_State_Progress(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast");
+
+PROC
+PROC_State_Changed(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, "SHA_Nightsong", "SHA_State_Nightsong_AtMoo", _, _)
+THEN
+SetFlag(MOO_Audience_State_Ready_b53bc2df-d3b9-73a7-c1d2-b47b0ecdc722);
+
+IF
+FlagSet(MOO_Audience_State_Ready_b53bc2df-d3b9-73a7-c1d2-b47b0ecdc722, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Audience");
+
+IF
+FlagSet(SHA_NightsongPrison_State_NightsongFreed_24f27b06-6665-79ed-d7bf-e4bf356ca2fa, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_State_Progress(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault");
+RemoveStatus(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, "MOO_KETHERIC_INVULNERABLE", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_PermaDefeated(S_GLO_Nightsong_6c55edb0-901b-4ba4-b9e8-3475a8392d9b, _, _, _, _)
+THEN
+PROC_State_Progress(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_NightsongDeath");
+RemoveStatus(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, "MOO_KETHERIC_INVULNERABLE", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EntityEvent((CHARACTER)_Var1, "MOO_DriderCaravan_Event_Arrived", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFaction(_Var1, ACT2_MOO_GroundFloor_948faabe-f0e5-40e7-afcf-22e1d5119b88);
+DB_MOO_Denizens(_Var1);
+
+IF
+DB_MOO_InMOOTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+QRY
+QRY_MOO_IsInMOO((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_MOO_IsInMOO(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_MOO_IsInMOO((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_MOO_IsInMOO(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_MOO_IsInMOO((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_MOO_IsInMOO(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_MOO_IsInMOO((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_InMOOTriggers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var2
+AND
+DB_InRegion(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_MOO_IsInMOO((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_InMOOTriggers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != _Var2
+AND
+IsInTrigger(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_MOO_IsInMOO((CHARACTER)_Var1, 1, (TRIGGER)_Var2, (TRIGGER)_Var3, (CHARACTER)_Var1)
+AND
+DB_MOO_InMOOTriggers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 != _Var2
+AND
+_Var4 != _Var3
+AND
+DB_InRegion(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_MOO_IsInMOO((CHARACTER)_Var1, 0, (TRIGGER)_Var2, (TRIGGER)_Var3, (CHARACTER)_Var1)
+AND
+DB_MOO_InMOOTriggers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 != _Var2
+AND
+_Var4 != _Var3
+AND
+IsInTrigger(_Var1, _Var4, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_MOO_AnyPlayerInMOO()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_MOO_IsInMOO(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_InMOOTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsPlayer(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_PlayerInMOO(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_PlayerInMOO(_Var1);
+PROC_MOO_PlayerEnteredMOO(_Var1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_InMOOTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_PlayerInMOO(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsPlayer(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_MOO_IsInMOO(_Var1, 0, _Var2, _Var1, _Var1)
+THEN
+NOT DB_MOO_PlayerInMOO(_Var1);
+PROC_MOO_PlayerLeftMOO(_Var1);
+
+IF
+CharacterJoinedParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_MOO_IsInMOO(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_MOO_PlayerInMOO(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_PlayerInMOO(_Var1);
+PROC_MOO_PlayerEnteredMOO(_Var1);
+
+IF
+CharacterLeftParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_MOO_IsInMOO(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_PlayerInMOO(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_PlayerInMOO(_Var1);
+PROC_MOO_PlayerLeftMOO(_Var1);
+
+PROC
+PROC_MOO_PlayerLeftMOO((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_MOO_PlayerInMOO(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MOO_AllPlayersLeftMOO();
+
+PROC
+PROC_MOO_AllPlayersLeftMOO()
+THEN
+DB_NOOP(1);
+
+IF
+DB_MOO_PlayerInMOO(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_MOO_PlayerInMOO(_Var1);
+
+IF
+AttackedBy(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, (GUIDSTRING)_Var1, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(GLO_Ketheric_State_PlayerAttacked_2f4e2c6d-b461-4492-b2f0-dd06febb215b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Ketheric_State_PlayerAttacked_2f4e2c6d-b461-4492-b2f0-dd06febb215b);
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast", _, _)
+THEN
+PROC_SetRelationToPlayers(ACT2_MOO_Absolute_6b0751e2-fbd4-45e1-92ac-d5edb31649d8, 0);
+
+PROC
+PROC_State_Changed(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_MOO_Denizens(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _, _, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+
+IF
+TurnStarted(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _, _, _, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast", _, _)
+AND
+QRY_OnlyOnce("MOO_Outcast_KethericCombatAD", _, _, _, _)
+THEN
+PROC_TryStartAD(MOO_Outcast_AD_KethericCombat_4852d97f-feed-0251-226e-176cb70f1bfc, S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f);
+
+IF
+TurnStarted(S_MOO_Executioner_8e75eb3b-7551-485e-8f98-2bf2e51d3e84, _, _, _, _)
+AND
+DB_State_Current(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Outcast", _, _)
+AND
+QRY_OnlyOnce("MOO_Outcast_ZrellCombatAD", _, _, _, _)
+THEN
+PROC_TryStartAD(MOO_Outcast_AD_ZrellCombat_4fe29f95-ada9-250c-f128-c9d90c50886f, S_MOO_Executioner_8e75eb3b-7551-485e-8f98-2bf2e51d3e84);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_MOO_InsideMoonriseTowerTriggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_State_IsBeforeState(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Audience", _Var1, _Var1)
+THEN
+SetFlag(MOO_Daisy_Event_MentionedAbsoluteAudience_3b9d9d5f-3274-4315-99de-e6435085bd72, _Var1);
+
+IF
+FlagSet(MOO_Daisy_Event_MentionedAbsoluteAudience_3b9d9d5f-3274-4315-99de-e6435085bd72, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_MOO_Daisy_MentionAbsoluteAudience(_Var1);
+
+IF
+DB_MOO_Daisy_MentionAbsoluteAudience(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DaisyAD_Played(_Var1, MOO_Misc_DaisyAD_Audience_b461b657-a83c-fb87-7a38-6173ef08b6f9, _Var1, _Var1, _Var1)
+THEN
+PROC_DaisyAD(_Var1, MOO_Misc_DaisyAD_Audience_b461b657-a83c-fb87-7a38-6173ef08b6f9);
+
+IF
+DB_Defeated(S_MOO_BazaarStander_003_efcf317a-dc82-4776-80ef-0f463b09fefe, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_Audience_State_SulAvailable_5d070fc1-5ec6-4fbe-8694-fe37d3295002, _, _, _, _)
+THEN
+ClearFlag(MOO_Audience_State_SulAvailable_5d070fc1-5ec6-4fbe-8694-fe37d3295002);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

@@ -1,0 +1,1604 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_CAMPDEBUG_SetFlagAfterNightStarted(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_DialogStarted(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogName(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+AND
+DB_DialogSpeakers(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+DialogRequestStopForDialog(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, _Var3);
+
+PROC
+PROC_DialogStarted(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_DebugBook_Level(1);
+SysClear("DB_DebugBook_Branch", 2);
+PROC_DebugBook_Populate();
+
+IF
+DialogEnded(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DebugBook_Level(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBook_Level(_Var2);
+PROC_DebugBook_ResetStrings();
+
+PROC
+PROC_DebugBook_AddConditionalEntries((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_DebugBook_Level(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Level(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_DebugBook_Level(_Var2);
+
+PROC
+PROC_DebugBook_Populate()
+THEN
+PROC_DebugBook_DeleteConditionalEntries();
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Element(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBook_Element(_Var1, _Var2);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DialogName(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_DebugBook_AddConditionalEntries(_Var2);
+
+PROC
+PROC_DebugBook_Populate()
+THEN
+DB_DebugBook_TitleString("");
+
+IF
+DB_DebugBook_TitleString(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_TitleString(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+THEN
+NOT DB_DebugBook_TitleString(_Var2);
+
+PROC
+PROC_DebugBook_Populate()
+AND NOT
+DB_DebugBook_Branch(_, _, _, _, _)
+THEN
+DB_DebugBook_TitleString("Top Level");
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Branch(_, _Var2, _, _, _)
+AND
+DB_DebugBook_TitleString(_Var3, _, _, _, _)
+AND
+Concatenate(_Var3, " > ", _Var4, _, _)
+AND
+Concatenate(_Var4, _Var2, _Var5, _, _)
+THEN
+DB_DebugBook_TitleString(_Var5);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_TitleString(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogSetVariableString(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, "CampTitleText_08d933a5-1e27-6557-3c72-b3a7a5eb356c", _Var1);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, "", "", "", "", "", "", "", "", "", _Var2, _Var3);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, "", "", "", "", "", "", "", "", "", _Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var1 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, "", "", "", "", "", "", "", "", "", _Var2, _Var3);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, "", "", "", "", "", "", "", "", "", _Var2, _Var3);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3);
+NOT DB_DebugBookEntry_Padded(_Var1, "", "", "", "", "", "", "", "", "", _Var2, _Var3);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, "", "", "", "", "", "", "", "", _Var3, _Var4);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, "", "", "", "", "", "", "", "", _Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var2 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, "", "", "", "", "", "", "", "", _Var3, _Var4);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, "", "", "", "", "", "", "", "", _Var3, _Var4);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, "", "", "", "", "", "", "", "", _Var3, _Var4);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, "", "", "", "", "", "", "", _Var4, _Var5);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, "", "", "", "", "", "", "", _Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var3 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, "", "", "", "", "", "", "", _Var4, _Var5);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, "", "", "", "", "", "", "", _Var4, _Var5);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, "", "", "", "", "", "", "", _Var4, _Var5);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, "", "", "", "", "", "", _Var5, _Var6);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, "", "", "", "", "", "", _Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+_Var4 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, "", "", "", "", "", "", _Var5, _Var6);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, "", "", "", "", "", "", _Var5, _Var6);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, "", "", "", "", "", "", _Var5, _Var6);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, "", "", "", "", "", _Var6, _Var7);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, "", "", "", "", "", _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+_Var5 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, "", "", "", "", "", _Var6, _Var7);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, "", "", "", "", "", _Var6, _Var7);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, "", "", "", "", "", _Var6, _Var7);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, "", "", "", "", _Var7, _Var8);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, "", "", "", "", _Var7, _Var8, _Var1, _Var1, _Var1)
+AND
+_Var6 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, "", "", "", "", _Var7, _Var8);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, "", "", "", "", _Var7, _Var8);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, "", "", "", "", _Var7, _Var8);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "", "", "", _Var8, _Var9);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "", "", "", _Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+_Var7 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "", "", "", _Var8, _Var9);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "", "", "", _Var8, _Var9);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "", "", "", _Var8, _Var9);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, "", "", _Var9, _Var10);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, "", "", _Var9, _Var10, _Var1, _Var1, _Var1)
+AND
+_Var8 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, "", "", _Var9, _Var10);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, "", "", _Var9, _Var10);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, "", "", _Var9, _Var10);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, "", _Var10, _Var11);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, "", _Var10, _Var11, _Var1, _Var1, _Var1)
+AND
+_Var9 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, "", _Var10, _Var11);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, "", _Var10, _Var11);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, "", _Var10, _Var11);
+
+IF
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+
+IF
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+_Var10 != ""
+AND NOT
+DB_DebugBookEntry(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND NOT
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+
+IF
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+
+PROC
+PROC_DebugBook_DeleteConditionalEntries()
+AND
+DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBookEntry_Temp(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+NOT DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(1, _, _, _, _)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _, _, _, _, _, _, _, _, _, _, _Var1, _Var1, _Var1)
+AND
+_Var1 != ""
+THEN
+PROC_DebugBook_AddElement(_Var1, _Var2);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(2, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _, _, _, _, _, _, _, _, _, _Var1, _Var1, _Var1)
+AND
+_Var2 != ""
+THEN
+PROC_DebugBook_AddElement(_Var2, _Var3);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(3, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _, _, _, _, _, _, _, _, _Var1, _Var1, _Var1)
+AND
+_Var3 != ""
+THEN
+PROC_DebugBook_AddElement(_Var3, _Var4);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(4, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _, _, _, _, _, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+_Var4 != ""
+THEN
+PROC_DebugBook_AddElement(_Var4, _Var5);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(5, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _, _, _, _, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+_Var5 != ""
+THEN
+PROC_DebugBook_AddElement(_Var5, _Var6);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(6, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _, _, _, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+_Var6 != ""
+THEN
+PROC_DebugBook_AddElement(_Var6, _Var7);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(7, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(6, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _, _, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+_Var7 != ""
+THEN
+PROC_DebugBook_AddElement(_Var7, _Var8);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(8, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(6, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(7, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+_Var8 != ""
+THEN
+PROC_DebugBook_AddElement(_Var8, _Var9);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(9, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(6, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(7, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(8, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+_Var9 != ""
+THEN
+PROC_DebugBook_AddElement(_Var9, _Var10);
+
+PROC
+PROC_DebugBook_Populate()
+AND
+DB_DebugBook_Level(10, _, _, _, _)
+AND
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(6, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(7, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(8, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(9, _Var9, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var11, _Var12, _Var1, _Var1, _Var1)
+AND
+_Var10 != ""
+THEN
+PROC_DebugBook_AddElement(_Var10, "");
+
+IF
+FlagSet((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var2, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_DebugBook_FlagStringCouple(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_DebugBook_GetEventIfLeaf(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var6, 1, _Var1, _Var1)
+THEN
+PROC_DebugBook_Event(_Var4, _Var6);
+DB_DebugBook_DelayedPopulated(_Var5);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_DebugBook_GetEventIfLeaf_Reset()
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf_Reset()
+AND
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var1, _Var2);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var1, "", _, _, _, _, _, _, _, _, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var1, "", _, _, _, _, _, _, _, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var3, _Var1, "", _, _, _, _, _, _, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var3, _Var4, _Var1, "", _, _, _, _, _, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var3, _Var4, _Var5, _Var1, "", _, _, _, _, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var3, _Var4, _Var5, _Var6, _Var1, "", _, _, _, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, "", _, _, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(7, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, "", _, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(9, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(7, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(8, _Var9, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1, "", _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var10, _Var11);
+
+QRY
+QRY_DebugBook_GetEventIfLeaf((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Level(10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(5, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(6, _Var7, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(7, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(8, _Var9, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Branch(9, _Var10, _Var1, _Var1, _Var1)
+AND
+DB_DebugBookEntry_Padded(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var10, _Var1, _Var11, _Var12, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetEventIfLeaf(_Var11, _Var12);
+
+IF
+TextEvent((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBookEntry_Padded(_, _, _, _, _, _, _, _, _, _, _Var1, _, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var13, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DebugBook_Event(_Var1, _Var13);
+
+PROC
+PROC_DebugBook_Event((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(Debug_CAMP_GoUp1Level_a74f804b-1ab0-04f7-1825-ea048c637cb2, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_DebugBook_Level(_Var2, _, _, _, _)
+AND
+IntegerSubtract(_Var2, 1, _Var3, _, _)
+AND
+DB_DebugBook_Branch(_Var3, _Var4, _, _, _)
+THEN
+NOT DB_DebugBook_Branch(_Var3, _Var4);
+DB_DebugBook_Level(_Var3);
+PROC_DebugBook_Populate();
+
+IF
+FlagSet((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_DebugBook_FlagStringCouple(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DebugBook_GetEventIfLeaf(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_Level(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+DB_DebugBook_Branch(_Var4, _Var3);
+DB_DebugBook_Level(_Var5);
+PROC_DebugBook_Populate();
+
+IF
+FlagSet(_, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_DebugBook_DelayedPopulated(0, _, _, _, _)
+THEN
+NOT DB_DebugBook_DelayedPopulated(0);
+PROC_DebugBook_Populate();
+
+IF
+FlagSet(_, NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var2, _, _)
+AND
+DB_DebugBook_DelayedPopulated(1, _, _, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _, _)
+THEN
+NOT DB_DebugBook_DelayedPopulated(1);
+PROC_TryStopDialogFor(_Var3);
+
+PROC
+PROC_DebugBook_Populate()
+THEN
+PROC_DebugBook_ResetStrings();
+DB_DebugBook_FirstObjectReached(1);
+PROC_DebugBook_LoadMoreStrings("");
+PROC_DebugBook_SetStringFlags();
+
+PROC
+PROC_DebugBook_AddElement((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var2 != ""
+THEN
+DB_DebugBook_Element(_Var1, 0);
+
+PROC
+PROC_DebugBook_AddElement((STRING)_Var1, "", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_DebugBook_Element(_Var1, 1);
+
+PROC
+PROC_DebugBook_LoadMoreStrings(_, _, _, _, _)
+AND
+DB_DebugBook_FlagStringCouple(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_DebugBook_FlagStringCouple(_Var2, _Var3);
+
+PROC
+PROC_DebugBook_LoadMoreStrings((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_Element(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_DebugBook_FirstObjectReached(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DebugBook_GetFreeDialogString(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DebugBook_GetFreeDialogString(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_DebugBook_FormatEntry(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_DebugBook_FormatEntry(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogSetVariableString(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, _Var4, _Var6);
+DB_DebugBook_FlagStringCouple(_Var5, _Var2);
+
+QRY
+QRY_DebugBook_FormatEntry((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_DebugBook_FormatEntry(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_DebugBook_FormatEntry(_Var3);
+
+QRY
+QRY_DebugBook_FormatEntry((STRING)_Var1, 1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+Concatenate("* ", _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_FormatEntry(_Var2);
+
+QRY
+QRY_DebugBook_FormatEntry((STRING)_Var1, 0, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+Concatenate("> ", _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_FormatEntry(_Var2);
+
+QRY
+QRY_DebugBook_FirstObjectReached((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_DebugBook_FirstObjectReached(1);
+
+QRY
+QRY_DebugBook_FirstObjectReached((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_FirstObjectReached(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DebugBook_GetFreeDialogString((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_DebugBook_GetFreeDialogString(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_DebugBook_GetFreeDialogString(_Var2, _Var3);
+
+QRY
+QRY_DebugBook_GetFreeDialogString((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CAMPDEBUGBOOK_StringVariableFlag(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_DebugBook_FlagStringCouple(_Var3, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_DebugBook_GetFreeDialogString(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DebugBook_GetFreeDialogString(_Var2, _Var3);
+
+QRY
+QRY_DebugBook_GetFreeDialogString((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_DebugBook_GetFreeDialogString(_, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DebugBook_LoadMoreStringTracker(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBook_LoadMoreStringTracker(_Var1);
+
+IF
+DB_DebugBook_FlagStringCouple(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalClearFlagAndCache(_Var1);
+
+PROC
+PROC_DebugBook_ResetStrings()
+AND
+DB_DebugBook_LoadMoreStringTracker(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBook_LoadMoreStringTracker(_Var1);
+
+PROC
+PROC_DebugBook_ResetStrings()
+AND
+DB_DebugBook_FlagStringCouple(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DebugBook_FlagStringCouple(_Var1, _Var2);
+
+PROC
+PROC_DebugBook_SetStringFlags()
+AND
+DB_CAMPDEBUGBOOK_StringVariableFlag(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DebugBook_FlagStringCouple(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DebugBook_SetStringFlags()
+AND
+DB_DebugBook_LoadMoreStringTracker(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 1, _Var1, _Var1)
+THEN
+ClearFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DebugBook_SetStringFlags()
+AND NOT
+DB_DebugBook_LoadMoreStringTracker(_, _, _, _, _)
+AND
+GetFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+SetFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DebugBook_SetStringFlags()
+AND NOT
+DB_DebugBook_Level(1, _, _, _, _)
+AND
+GetFlag(Debug_CAMP_GoUp1Level_a74f804b-1ab0-04f7-1825-ea048c637cb2, NULL_00000000-0000-0000-0000-000000000000, 1, _, _)
+THEN
+ClearFlag(Debug_CAMP_GoUp1Level_a74f804b-1ab0-04f7-1825-ea048c637cb2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DebugBook_SetStringFlags()
+AND
+DB_DebugBook_Level(1, _, _, _, _)
+AND
+GetFlag(Debug_CAMP_GoUp1Level_a74f804b-1ab0-04f7-1825-ea048c637cb2, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+SetFlag(Debug_CAMP_GoUp1Level_a74f804b-1ab0-04f7-1825-ea048c637cb2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, _, _, _, _)
+AND
+DB_DebugBook_Level(_Var3, _, _, _, _)
+AND
+DB_DebugBook_LoadMoreStringTracker(_Var4, _, _, _, _)
+THEN
+ClearFlag(Debug_CAMP_CampStringMore_15e4ec02-5e2a-77c2-9aa2-661af4048605, NULL_00000000-0000-0000-0000-000000000000, 0);
+NOT DB_DebugBook_LoadMoreStringTracker(_Var4);
+NOT DB_DebugBook_FirstObjectReached(1);
+PROC_DebugBook_LoadMoreStrings(_Var4);
+PROC_DebugBook_SetStringFlags();
+
+IF
+DialogEnded(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_ORI_DebugBook_CampOnBookClose(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DebugBook_CampOnBookClose(1);
+ObjectTimerLaunch(_Var2, "ORI_DebugBook_GoToCamp", 1000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "ORI_DebugBook_GoToCamp", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Camp_NightMode(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Camp_TryEnterNightMode(_Var1);
+
+QRY
+QRY_DebugBook_CheckAct3LevelWithCamp()
+AND
+DB_ActiveLevel("BGO_Main_A", _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DebugBook_CheckAct3LevelWithCamp()
+AND
+DB_ActiveLevel("CTY_Main_A", _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DebugBook_LevelSwapIfNecessary((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ActiveLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DebugBook_LevelSwapIfNecessary((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_ActiveLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DebugBook_TeleportAndRelaunch(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_DebugBook_TeleportAndRelaunch((STRING)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_Debug_ORI_ResendEventOnLevelLoad(_Var2, _Var1, _Var3);
+PROC_Debug_ORI_GoToLevel(_Var1);
+
+PROC
+PROC_Debug_ORI_GoToLevel((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ORI_DebugBookTeleportTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TeleportPartiesTo(_Var2, "");
+
+IF
+DB_Debug_ORI_ResendEventOnLevelLoad(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_ActiveLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Debug_ORI_ResendEventOnLevelLoad(_Var1, _Var2, _Var3);
+PROC_DebugBook_Event(_Var1, _Var3);
+PROC_DebugBook_CampAfterLevelSwap(_Var3);
+
+PROC
+PROC_DebugBook_CampAfterLevelSwap((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DebugBook_CampOnBookClose(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DebugBook_CampOnBookClose(1);
+ObjectTimerLaunch(_Var1, "ORI_DebugBook_GoToCamp", 1000);
+
+IF
+DB_Debug_ORI_CampNight(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlagName(_Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry(_Var1, _Var3, _Var4, _Var5, _Var7, 1);
+
+PROC
+PROC_DebugBook_Event((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBookEntry(_Var3, _Var4, _Var5, _Var6, _Var1, 1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Debug_ORI_CampNight(_Var3, _Var7, _Var4, _Var5, _Var6, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveLevel(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CAMPDEBUG_QueueNight(_Var8, 1);
+PROC_ORI_DebugBook_SetCampOnBookClose(_Var2);
+
+PROC
+PROC_DebugBook_Event((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBookEntry(_Var3, _Var4, _Var5, _Var6, _Var1, 1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Debug_ORI_CampNight(_Var3, _Var7, _Var4, _Var5, _Var6, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ActiveLevel(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Debug_ORI_GoToLevel(_Var7);
+DB_Debug_ORI_ResendEventOnLevelLoad(_Var1, _Var7, _Var2);
+
+PROC
+PROC_ORI_DebugBook_SetCampOnBookClose((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DialogName(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, _, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DebugBook_CampOnBookClose(1);
+
+PROC
+PROC_ORI_DebugBook_SetCampOnBookClose((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_DialogName(DebugBook_Origin_a5cc9735-cc49-a01d-b06d-803a514bda50, _, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "ORI_DebugBook_GoToCamp", 1000);
+
+PROC
+PROC_CampNight_StartSelected()
+AND
+DB_CAMPDEBUG_SetFlagAfterNightStarted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Camp_QueuedNight(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var2, _Var3, 0);
+NOT DB_CAMPDEBUG_SetFlagAfterNightStarted(_Var1, _Var2, _Var3);
+
+PROC
+PROC_DebugBook_SetupPartyMemberEntries((CHARACTER)_Var1, (STRING)_Var2, (INTEGER)_Var3, 1, (CHARACTER)_Var1)
+AND
+Concatenate(_Var2, "RecruitAvatar", _Var4, _Var1, _Var1)
+THEN
+DB_DebugBookEntry(_Var2, "Recruit", "As Avatar", _Var4, 0);
+DB_DebugBook_PartyMember_AvatarEvent(_Var1, _Var4);
+
+PROC
+PROC_DebugBook_SetupPartyMemberEntries((CHARACTER)_Var1, (STRING)_Var2, 1, (INTEGER)_Var3, (CHARACTER)_Var1)
+AND
+Concatenate(_Var2, "RecruitCompanion", _Var4, _Var1, _Var1)
+AND
+Concatenate(_Var2, "RecruitCamp", _Var5, _Var1, _Var1)
+THEN
+DB_DebugBookEntry(_Var2, "Recruit", "As Companion", _Var4, 0);
+DB_DebugBookEntry(_Var2, "Recruit", "Send To Camp", _Var5, 0);
+DB_DebugBook_PartyMember_CompanionEvents(_Var1, _Var2, _Var4, _Var5);
+
+PROC
+PROC_DebugBook_Event((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_PartyMember_AvatarEvent(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DebugBook_RecruitAvatar(_Var3, _Var2);
+
+PROC
+PROC_DebugBook_Event((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_PartyMember_CompanionEvents(_Var3, _Var4, _Var1, _Var5, _Var1)
+THEN
+PROC_DebugBook_RecruitCompanion(_Var3, _Var2);
+
+PROC
+PROC_DebugBook_Event((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DebugBook_PartyMember_CompanionEvents(_Var3, _Var4, _Var5, _Var1, _Var1)
+THEN
+PROC_DebugBook_RecruitCamp(_Var3, _Var2);
+
+PROC
+PROC_DebugBook_RecruitAvatar((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_ClearPartnersIfCompanion(_Var1);
+DB_GLO_PartyMembers_DefaultFaction(_Var1, _Var3);
+ClearFlag(ORI_State_Recruited_e78c0aab-fb48-98e9-3ed9-773a0c39988d, _Var1);
+PROC_RemoveDialog(_Var1);
+SetTag(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+
+PROC
+PROC_DebugBook_RecruitAvatar((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("TEMP_FactionAssigned", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_AvatarFactions(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AvatarFactions(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Temp_AvatarFactionTaken(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TEMP_FactionAssigned", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var1, _Var4);
+
+QRY
+QRY_Temp_AvatarFactionTaken((FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1, (FACTION)_Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DebugBook_RecruitAvatar((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GEN_MaxPlayerCountReached_823b5064-8aa4-c0b7-1b8c-657b46987ccd, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var2, "Party Full");
+
+PROC
+PROC_DebugBook_RecruitAvatar((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GEN_MaxPlayerCountReached_823b5064-8aa4-c0b7-1b8c-657b46987ccd, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+TeleportTo(_Var1, _Var2);
+PROC_GLO_PartyMembers_Add(_Var1, _Var2);
+DB_Players(_Var1);
+PROC_DebugBook_RecruitAvatar(_Var1, _Var2);
+
+PROC
+PROC_DebugBook_RecruitCompanion((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginNPCAlignment(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_ORI_ClearPartnersIfAvatar(_Var1);
+DB_GLO_PartyMembers_DefaultFaction(_Var1, _Var3);
+ClearTag(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+PROC_GLO_PartyMembers_Add(_Var1, _Var2);
+
+PROC
+PROC_DebugBook_RecruitCompanion((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GEN_MaxPlayerCountReached_823b5064-8aa4-c0b7-1b8c-657b46987ccd, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var2, "Party Full");
+
+PROC
+PROC_DebugBook_RecruitCompanion((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GEN_MaxPlayerCountReached_823b5064-8aa4-c0b7-1b8c-657b46987ccd, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+TeleportTo(_Var1, _Var2);
+PROC_GLO_PartyMembers_Add(_Var1, _Var2);
+SetFlag(SetPreset_Default_7eabc516-c15c-46ff-a99d-60d4a9f7037e, _Var1, 0);
+
+PROC
+PROC_DebugBook_RecruitCamp((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DebugBook_RecruitCompanion(_Var1, _Var2);
+
+PROC
+PROC_DebugBook_RecruitCamp((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "DebugTeleportedToCamp");
+
+PROC
+PROC_DebugBook_RecruitCamp((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_PartyMembers_Remove(_Var1, _Var2, 0);
+
+PROC
+PROC_ORI_ClearPartnersIfCompanion((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Partnered(_Var2, _Var1);
+PROC_ORI_Partnered_Clear_PartneredFlag(_Var2);
+ClearFlag(ORI_State_Partnered_6c1a31e8-1d3d-42a5-af4f-72ef7a798f74, _Var1);
+
+PROC
+PROC_ORI_ClearPartnersIfAvatar((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Partnered(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Partnered(_Var1, _Var2);
+ClearFlag(ORI_State_Partnered_6c1a31e8-1d3d-42a5-af4f-72ef7a798f74, _Var1);
+ClearFlag(ORI_State_Partnered_6c1a31e8-1d3d-42a5-af4f-72ef7a798f74, _Var2);
+
+IF
+DB_DebugBook_Branch(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_PartyMember_CompanionEvents(_Var2, _Var1, _, _, _Var1)
+THEN
+DB_DebugBook_LastSelectedCompanion(_Var2);
+
+IF
+DB_DebugBook_LastSelectedCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_DebugBook_LastSelectedCompanion(_Var2);
+
+PROC
+PROC_DebugBook_AddConditionalEntries((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_PartyMember_CompanionEvents(_Var2, _Var3, _, _, _Var1)
+THEN
+DB_DebugBookEntry_Temp(_Var3, "Approval", "Open the debug book with an avatar to change approval.", "BLANK", 0);
+DB_DebugBookEntry_Temp(_Var3, "Relationship", "Open the debug book with an avatar to change approval.", "BLANK", 0);
+
+PROC
+PROC_DebugBook_AddConditionalEntries((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_PartyMember_CompanionEvents(_Var2, _Var3, _, _, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _Var6, _Var1, _Var1)
+AND
+ConcatenateInteger("Current approval: ", _Var6, _Var7, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Temp(_Var3, "Approval", _Var7, "BLANK", 0);
+DB_DebugBookEntry_Temp(_Var3, "Approval", "Increase 10", "ApprovalUp10", 0);
+DB_DebugBookEntry_Temp(_Var3, "Approval", "Decrease 10", "ApprovalDown10", 0);
+DB_DebugBookEntry_Temp(_Var3, "Approval", "Set to -50", "Approval-50", 0);
+DB_DebugBookEntry_Temp(_Var3, "Approval", "Set to 0", "Approval0", 0);
+DB_DebugBookEntry_Temp(_Var3, "Approval", "Set to 100", "Approval100", 0);
+
+PROC
+PROC_DebugBook_Event("ApprovalUp10", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 10, _Var4, _Var1, _Var1)
+AND
+IntegerMin(_Var4, 100, _Var5, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var2, _Var1, 0, 10, _)
+THEN
+PROC_ApprovalRatingChanged(_Var2, _Var1, 10, _Var5);
+
+PROC
+PROC_DebugBook_Event("ApprovalDown10", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+IntegerSubtract(_Var3, 10, _Var4, _Var1, _Var1)
+AND
+IntegerMax(_Var4, -50, _Var5, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var2, _Var1, 0, -10, _)
+THEN
+PROC_ApprovalRatingChanged(_Var2, _Var1, -10, _Var5);
+
+PROC
+PROC_DebugBook_Event("Approval-50", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+IntegerSubtract(-50, _Var3, _Var4, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var2, _Var1, 0, _Var4, _)
+THEN
+PROC_ApprovalRatingChanged(_Var2, _Var1, -50, -50);
+
+PROC
+PROC_DebugBook_Event("Approval0", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+IntegerSubtract(0, _Var3, _Var4, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var2, _Var1, 0, _Var4, _)
+THEN
+PROC_ApprovalRatingChanged(_Var2, _Var1, _Var4, 0);
+
+PROC
+PROC_DebugBook_Event("Approval100", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+IntegerSubtract(100, _Var3, _Var4, _Var1, _Var1)
+AND
+ChangeApprovalRating(_Var2, _Var1, 0, _Var4, _)
+THEN
+PROC_ApprovalRatingChanged(_Var2, _Var1, 100, 100);
+
+PROC
+PROC_DebugBook_AddConditionalEntries((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_PartyMember_CompanionEvents(_Var2, _Var3, _, _, _Var1)
+AND
+QRY_DebugBook_GetPartnerString_ClearOldReturnValues()
+AND
+QRY_Debugbook_GetPartnerString(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_Debugbook_GetPartnerString(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+Concatenate("Current Partner: ", _Var6, _Var7, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Temp(_Var3, "Relationship", _Var7, "BLANK", 0);
+DB_DebugBookEntry_Temp(_Var3, "Relationship", "Break off relationship", "StopRelationship", 0);
+
+QRY
+QRY_Debugbook_GetPartnerString((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Partnered(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDisplayName(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+ResolveTranslatedString(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Debugbook_GetPartnerString(_Var4);
+
+QRY
+QRY_DebugBook_GetPartnerString_ClearOldReturnValues()
+THEN
+SysClear("DB_QRYRTN_Debugbook_GetPartnerString", 1);
+
+PROC
+PROC_DebugBook_AddConditionalEntries((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DebugBook_PartyMember_CompanionEvents(_Var2, _Var3, _, _, _Var1)
+AND NOT
+QRY_Debugbook_GetPartnerString(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DebugBookEntry_Temp(_Var3, "Relationship", "Current Partner: None", "BLANK", 0);
+DB_DebugBookEntry_Temp(_Var3, "Relationship", "Start pre-relationship", "StartPreRelationship", 0);
+DB_DebugBookEntry_Temp(_Var3, "Relationship", "Start relationship", "StartRelationship", 0);
+
+QRY
+QRY_Debugbook_GetPartnerString((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+0 == 1
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DebugBook_Event("StopRelationship", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Partnered(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_Var2, _, _Var5, _Var6, _, _, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Partnered(_Var3, _Var2);
+PROC_ORI_Partnered_Clear_PartneredFlag(_Var3);
+SetFlag(_Var6, _Var3);
+ClearFlag(ORI_State_Partnered_6c1a31e8-1d3d-42a5-af4f-72ef7a798f74, _Var2);
+
+PROC
+PROC_DebugBook_Event("StartPreRelationship", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Dating(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_Var2, _Var4, _, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var4, _Var3);
+
+PROC
+PROC_DebugBook_Event("StartPreRelationship", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_Var2, _Var3, _, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var3, _Var1);
+
+PROC
+PROC_DebugBook_Event("StartRelationship", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Partnered(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_Var2, _, _Var4, _Var5, _, _, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_Partnered(_Var1, _Var2);
+SetFlag(_Var5, _Var1);
+ClearFlag(ORI_State_Partnered_6c1a31e8-1d3d-42a5-af4f-72ef7a798f74, _Var2);
+
+PROC
+PROC_DebugBook_Event("StartRelationship", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DebugBook_LastSelectedCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_Partnered(_, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CompanionCanPartner(_Var2, _, _Var6, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_Partnered(_Var1, _Var2);
+SetFlag(ORI_State_Partnered_6c1a31e8-1d3d-42a5-af4f-72ef7a798f74, _Var1);
+SetFlag(_Var6, _Var1);
+SetFlag(ORI_State_Partnered_6c1a31e8-1d3d-42a5-af4f-72ef7a798f74, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,131 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_GLO_Sussur_RootTemplates(NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_Sussur_RootTemplates(UND_SussurTreeFlower_8706eab3-e05b-478d-833e-308379972dad);
+DB_GLO_Sussur_RootTemplates(UND_SussurTreeFlower_B_bf2e05d1-5a39-4d92-afbe-afe63022a6c2);
+DB_GLO_Sussur_RootTemplates(UND_SussurTreeFlower_C_44aaa3df-e08c-4554-8d4d-fb11e97622b4);
+NOT DB_GLO_Sussur_UnderdarkRegion(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_Sussur_Flowers(NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DestroyedBy((ITEM)_Var1, _, _, _, (ITEM)_Var1)
+AND
+DB_GLO_Sussur_Flowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Sussur_Flowers(_Var1);
+
+IF
+DB_GLO_Sussur_Flowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "UND_ANCIENTSUSSURTREEANTIMAGIC_AURA", -1, 1);
+
+IF
+StatusApplied((ITEM)_Var1, "BURNING", _, _, (ITEM)_Var1)
+AND
+DB_GLO_Sussur_Flowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "UND_ANCIENTSUSSURTREEANTIMAGIC_AURA", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "UND_ANCIENTSUSSURTREEANTIMAGIC_AURA");
+
+IF
+StatusRemoved((ITEM)_Var1, "BURNING", _, _, (ITEM)_Var1)
+AND
+DB_GLO_Sussur_Flowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsDestroyed(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "UND_ANCIENTSUSSURTREEANTIMAGIC_AURA", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "UND_ANCIENTSUSSURTREEANTIMAGIC_AURA", -1, 1);
+
+IF
+DB_GLO_Sussur_UnderdarkRegion(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+AddedTo((ITEM)_Var1, (GUIDSTRING)_Var2, _, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_GLO_Sussur_Flowers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Sussur_InUnderdark(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Sussur_Wither(_Var1);
+
+QRY
+QRY_GLO_Sussur_InUnderdark((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Sussur_UnderdarkRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Sussur_UnderdarkRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, "Timer_GLO_Sussur_Wither");
+RealtimeObjectTimerLaunch(_Var1, "Timer_GLO_Sussur_Wither", 1000);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Sussur_UnderdarkRegion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+RealtimeObjectTimerCancel(_Var1, "Timer_GLO_Sussur_Wither");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "Timer_GLO_Sussur_Wither", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Sussur_RootTemplates(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+IterateInventoryByTemplate(_Var1, _Var2, "GLO_Sussur_Wither", "");
+
+IF
+EntityEvent((ITEM)_Var1, "GLO_Sussur_Wither", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Sussur_Wither(_Var1);
+
+PROC
+PROC_GLO_Sussur_Wither((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+CreateAtObject(UNI_UND_WitheredSussurPetals_a05c2c63-23b4-4700-8a51-655053d832b5, _Var1, 0, 0, "", 0, _Var5, _Var1, _Var1, _Var1)
+AND
+CreateAtObject(UNI_UND_WitheredSussurPetals_a05c2c63-23b4-4700-8a51-655053d832b5, _Var1, 0, 0, "", 0, _Var6, _Var1, _Var1, _Var1)
+THEN
+ScatterAt(_Var5, _Var2, _Var3, _Var4);
+ScatterAt(_Var6, _Var2, _Var3, _Var4);
+
+PROC
+PROC_GLO_Sussur_Wither((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsInInventory(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1);
+
+PROC
+PROC_GLO_Sussur_Wither((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsInInventory(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+Transform(_Var1, UNI_UND_WitheredSussurPetals_a05c2c63-23b4-4700-8a51-655053d832b5, POLYMORPH_a0ddddc8-255f-4014-9f63-d7608eb1c2a0);
+RemoveStatus(_Var1, "UND_ANCIENTSUSSURTREEANTIMAGIC_AURA");
+NOT DB_GLO_Sussur_Flowers(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

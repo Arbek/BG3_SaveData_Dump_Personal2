@@ -1,0 +1,98 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_LOW_SWS_NearMermaid_Civ_000_15b939ce-bb0d-494d-a746-061dba6972d0, LOW_SWS_NearMermaid_Civilian_000_268f1a60-6494-ddc8-5962-d9a1c6c25b74);
+DB_Dialogs(S_LOW_SWS_NearMermaid_Civ_001_b118e5e2-8738-41a0-bc3d-5910d5fe606f, LOW_SWS_NearMermaid_Civilian_001_7d96e17c-db4b-c9b2-8326-5f3dc4ffbcc5);
+DB_Dialogs(S_LOW_SWS_NearMermaid_Civ_002_25a4d5ce-f074-45bb-bf56-4edd076368a5, LOW_SWS_NearMermaid_Civilian_002_7f92fb51-d1b6-068a-23e4-498bd29248a3);
+DB_Dialogs(S_LOW_SWS_NearMermaid_FF_000_f306cae3-65b2-4312-b52c-2bc53aa79fde, LOW_SWS_NearMermaid_FF_00_e541159d-8ebf-0cb2-f908-a5749ea4bb77);
+DB_Dialogs(S_LOW_SWS_NearMermaid_FF_001_4814a45c-e4ae-4b41-b20e-6477b7a84fb0, LOW_SWS_NearMermaid_FF_01_ac9bd891-349b-2b5d-7a8b-71de69bf2eb1);
+DB_Dialogs(S_LOW_SWS_NearMermaid_Trader_000_2359a8f4-2b8a-4996-a852-e99b925046f8, LOW_SWS_NearMermaid_Trader_000_74d59e02-d750-065a-69d8-94a7245f0535);
+DB_Dialogs(S_LOW_SWS_NearMermaid_Trader_001_1bb4cba8-b53c-44ee-b77f-1b9fa35afd9e, LOW_SWS_NearMermaid_Trader_001_01306fa4-73cd-da75-ba46-533851c2df65);
+DB_LOW_SWS_NearMermaid_Guards(S_LOW_SWS_NearMermaid_FF_000_f306cae3-65b2-4312-b52c-2bc53aa79fde);
+DB_LOW_SWS_NearMermaid_Guards(S_LOW_SWS_NearMermaid_FF_001_4814a45c-e4ae-4b41-b20e-6477b7a84fb0);
+DB_LOW_SWS_NearMermaid_Traders(S_LOW_SWS_NearMermaid_Trader_000_2359a8f4-2b8a-4996-a852-e99b925046f8);
+DB_LOW_SWS_NearMermaid_Traders(S_LOW_SWS_NearMermaid_Trader_001_1bb4cba8-b53c-44ee-b77f-1b9fa35afd9e);
+DB_LOW_SWS_NearMermaid_CivPos(S_LOW_SWS_NearMermaid_Civ_000_15b939ce-bb0d-494d-a746-061dba6972d0, S_LOW_SWS_NearMermaid_Pos_Civ_000_29e24c3c-4a48-4960-91d7-a6a4a0e6318e);
+DB_LOW_SWS_NearMermaid_CivPos(S_LOW_SWS_NearMermaid_Civ_001_b118e5e2-8738-41a0-bc3d-5910d5fe606f, S_LOW_SWS_NearMermaid_Pos_Civ_001_21abf565-e29d-49a7-a668-5b25df848e0f);
+DB_LOW_SWS_NearMermaid_CivPos(S_LOW_SWS_NearMermaid_Civ_002_25a4d5ce-f074-45bb-bf56-4edd076368a5, S_LOW_SWS_NearMermaid_Pos_Civ_002_3e2ffb79-b597-4622-b1c2-9042b8857120);
+DB_GLO_DefeatCounter(S_LOW_SWS_NearMermaid_FF_000_f306cae3-65b2-4312-b52c-2bc53aa79fde, "LOW_SWS_NearMermaid");
+DB_GLO_DefeatCounter(S_LOW_SWS_NearMermaid_FF_001_4814a45c-e4ae-4b41-b20e-6477b7a84fb0, "LOW_SWS_NearMermaid");
+DB_LOW_SWS_Alcohol(CONT_Barrel_Alcohol_A_008_7e83cac6-d0fa-4544-853f-135e9dd2d94f);
+DB_LOW_SWS_Alcohol(CONS_Drink_Wine_A_000_de8197e7-e31a-416c-9188-e581a908ffb7);
+DB_LOW_SWS_Alcohol(CONS_Drink_Wine_A_001_cf2517d6-af58-4fcf-bdc5-a038ae874355);
+DB_LOW_SWS_Alcohol(CONS_BaalorAle_Bottle_A_000_d59f7783-1297-4b6f-8b7a-b7bc0da0ba45);
+DB_LOW_SWS_Alcohol(CONS_Drink_Wine_A_002_2db3cc3b-fc55-4945-a5b3-74876c7b27d1);
+DB_LOW_SWS_Alcohol(CONS_BaalorAle_Bottle_A_001_8cba1581-190f-49a5-ac72-7b8449d76f5f);
+DB_LOW_SWS_Alcohol(CONS_Marsember_Ice_Wine_000_eeb67149-6582-4c6f-8ae2-3421c202a182);
+DB_LOW_SWS_Alcohol(CONS_Marsember_Ice_Wine_001_78a34f77-e70c-4408-8bcf-61463fdd0b87);
+DB_LOW_SWS_Alcohol(CONS_Drink_Wine_A_003_01e25384-3f63-43dd-943f-b61885816d20);
+
+KBSECTION
+IF
+DB_LOW_SWS_NearMermaid_CivPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+DB_LOW_SWS_NearMermaid_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReaction");
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReactionFallback");
+
+PROC
+PROC_LOW_SWS_Transition()
+AND
+IsInTrigger(S_LOW_SWS_NearMermaid_SW_aec78889-27ec-4174-bc11-1a45f8244717, S_LOW_SWS_NearMermaid_Zone_SW_3cd87800-bc59-4155-82a1-64911248dc9e, 1, _, _)
+AND
+DB_LOW_SWS_NearMermaid_CivPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_AppearOutOfSightTo(_Var1, _Var2, _Var1, "LOW_SWS_NearMermaid_Appeared");
+
+IF
+EntityEvent((CHARACTER)_Var1, "LOW_SWS_NearMermaid_Appeared", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_NearMermaid_CivPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Walk", "");
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("LOW_SWS_NearMermaid", _, _, _, _)
+THEN
+SetFlag(LOW_SWS_NearMermaid_State_FFsDead_8f0613ee-1b92-4b05-9154-e2902a6acdaf, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+Deactivated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_NearMermaid_Traders(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GLO_Foundry_State_ControlCentreDestroyed_456906c5-40a6-429e-8e1c-7120a2ef631b, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_SWS_NearMermaid_ClearTraders();
+
+PROC
+PROC_LOW_SWS_NearMermaid_ClearTraders()
+AND
+DB_LOW_SWS_NearMermaid_Traders(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+PROC
+PROC_LOW_SWS_NearMermaid_ClearTraders()
+AND
+DB_LOW_SWS_Alcohol(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_LOW_SWS_NearMermaid_AlcoholBox_86f965df-ff16-41ef-a168-62c1ef18d32f, 1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+PROC
+PROC_LOW_SWS_NearMermaid_ClearTraders()
+THEN
+UnloadLevelTemplate(LT_CTY_AlcoholTradersCart_000_2ad87c99-eea7-4fc4-988e-6e64d70d79b9);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b_LOW_SteelWatchStreets"

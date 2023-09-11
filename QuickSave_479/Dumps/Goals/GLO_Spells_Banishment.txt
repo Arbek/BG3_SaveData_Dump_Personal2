@@ -1,0 +1,31 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LinkedCrimes("Assault", "Assault_Banishment");
+
+KBSECTION
+IF
+StatusApplied((CHARACTER)_Var1, "BANISHED", (CHARACTER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Banishment_Applied(_Var1, _Var2);
+PROC_CRIME_TryRegisterAssaultLikeCrime(_Var2, _Var1, _Var3, "_Banishment");
+
+IF
+StatusRemoved((CHARACTER)_Var1, "BANISHED", _, _, (CHARACTER)_Var1)
+AND
+DB_Banishment_Applied(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var5, _Var6, _Var7, _Var1)
+THEN
+NOT DB_Banishment_Applied(_Var1, _Var4);
+PROC_CharacterRegisterCrimeWithPosition(_Var4, "Banishment_SelfReactOnEnd", NULL_00000000-0000-0000-0000-000000000000, _Var5, _Var6, _Var7, _Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+

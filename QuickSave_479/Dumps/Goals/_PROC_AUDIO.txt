@@ -1,0 +1,171 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_Audio_CurrentMusicState("");
+
+KBSECTION
+IF
+LevelLoaded(_, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+DB_Audio_TrackedSoundEntity(_Var3, _Var4, _, _, _)
+AND
+DB_InRegion(_Var2, _Var3, _, _, _)
+AND
+IsDead(_Var4, 0, _, _, _)
+AND NOT
+DB_AddToTrackedSoundEntity_OncePerCharacter(_Var3, _Var4, _, _, _)
+THEN
+PROC_AddToTrackedSoundEntity(_Var4, _Var3);
+DB_AddToTrackedSoundEntity_OncePerCharacter(_Var3, _Var4);
+
+IF
+LevelLoaded(_, _, _, _, _)
+AND
+DB_AddToTrackedSoundEntity_OncePerCharacter(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_AddToTrackedSoundEntity_OncePerCharacter(_Var2, _Var3);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Audio_TrackedSoundEntity(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CheckOtherPlayersInTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsDead(_Var3, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_AddToTrackedSoundEntity(_Var3, _Var2);
+
+IF
+LeftTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Audio_TrackedSoundEntity(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CheckOtherPlayersInTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveFromTrackedSoundEntity(_Var3);
+
+IF
+Died((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Audio_TrackedSoundEntity(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveFromTrackedSoundEntity(_Var1);
+
+IF
+WentOnStage((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Audio_TrackedSoundEntity(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetForceUpdate(_Var1, 0);
+RemoveTrackedSoundEntity(_Var1);
+
+PROC
+PROC_AddToTrackedSoundEntity((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_Audio_TrackedSoundEntity(_Var2, _Var1);
+SetForceUpdate(_Var1, 1);
+AddTrackedSoundEntity(_Var1, "");
+
+PROC
+PROC_AddToTrackedSoundEntity((CHARACTER)_Var1, (TRIGGER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_Audio_TrackedSoundEntity(_Var2, _Var1);
+SetForceUpdate(_Var1, 1);
+AddTrackedSoundEntity(_Var1, _Var3);
+
+PROC
+PROC_RemoveFromTrackedSoundEntity((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetForceUpdate(_Var1, 0);
+RemoveTrackedSoundEntity(_Var1);
+
+PROC
+PROC_RemoveFromTrackedSoundEntity((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Audio_TrackedSoundEntity(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Audio_TrackedSoundEntity(_Var2, _Var1);
+
+PROC
+PROC_TryStartSpellVocalAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DialogIsAutomated(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_TryStartAD_CheckAutomated(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 == 1
+AND
+StartDialog_Internal(_Var1, 1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, _Var4, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_TryStartSpellVocalAD((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DialogIsAutomated(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_TryStartAD_CheckAutomated(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var4 == 1
+AND
+StartDialog_Internal(_Var1, 1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, _Var5, 1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+UsingSpellOnTarget((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, "Target_ViciousMockery", _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_IsOrWasInParty(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartSpellVocalAD(GLO_SpellVocalComponent_ViciousMockery_Cast_6dafdccd-091d-c0f4-4543-1199bdcb46d6, _Var1, _Var2);
+
+IF
+StartedPreviewingSpell((GUIDSTRING)_Var1, "Target_ViciousMockery", _, _, (GUIDSTRING)_Var1)
+AND
+DB_IsOrWasInParty(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartSpellVocalAD(GLO_SpellVocalComponent_ViciousMockery_Prepare_b523412d-1ea5-f3b0-ee9d-fa80cf72100a, _Var1);
+
+IF
+ReactionInterruptUsed((CHARACTER)_Var1, "Interrupt_CuttingWords", _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_IsOrWasInParty(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartSpellVocalAD(GLO_SpellVocalComponent_ViciousMockery_Cast_6dafdccd-091d-c0f4-4543-1199bdcb46d6, _Var1);
+
+PROC
+PROC_MusicPlayGeneral((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_Audio_CurrentMusicState(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MusicPlayGeneral_Clear();
+DB_Audio_CurrentMusicState(_Var1);
+MusicPlayGeneral(_Var1);
+
+PROC
+PROC_MusicPlayGeneral_Clear()
+AND
+DB_Audio_CurrentMusicState(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Audio_CurrentMusicState(_Var1);
+
+IF
+SavegameLoaded()
+AND
+DB_Audio_CurrentMusicState(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+MusicPlayGeneral(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

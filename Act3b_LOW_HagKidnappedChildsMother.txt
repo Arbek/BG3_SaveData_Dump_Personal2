@@ -1,0 +1,249 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HasItemEvent(S_LOW_MissingKidsMotherReward_1f0b2318-ddd4-4a29-859c-026294bf1d1b, LOW_BlushingMermaid_State_HasItem_MissingKidsMotherReward_3f2a43b6-4b40-4f9f-9440-699cf4726557);
+DB_DeadEvent(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, LOW_BlushingMermaid_State_MissingKidsMother_Dead_357a9292-30cb-4625-aefd-7f27d89c9511);
+DB_PermaDefeatedEvent(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, LOW_BlushingMermaid_State_MissingKidsMother_PermaDefeated_b77d4de2-9c85-447c-94d3-776bac904880);
+DB_Inclusion_Object(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, LOW_BasiliskGate_Vanra_StartInclusion_1fac60c6-5d62-41cd-8e51-4d8d53219c8d, NULL_00000000-0000-0000-0000-000000000000);
+DB_Inclusion_NPCDialog(LOW_BlushingMermaid_MissingKidsMother_AtHome_608ad6a4-3e74-2877-7f10-61e35886540a, S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+DB_Inclusion_NPCDialog(LOW_BlushingMermaid_AD_MotherSeesSavedChild_f0a6caec-7502-cfe1-5037-ed84d6f63415, S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+DB_LOW_MissingKidsMother(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8);
+DB_GlobalFlagReactionAfterDialog(LOW_BasiliskGate_Event_MotherDisappearOutOfSight_0fde6381-aae8-42f5-b56d-685721d9da57, LOW_BasiliskGate_MissingKidsMother_Commader_335d54fc-74d5-6054-d101-9a7ad86bc609);
+DB_GlobalFlagReactionAfterDialog(LOW_BasiliskGate_Event_MotherDisappearOutOfSight_0fde6381-aae8-42f5-b56d-685721d9da57, LOW_BlushingMermaid_MissingKidsMother_AtHome_608ad6a4-3e74-2877-7f10-61e35886540a);
+DB_GlobalFlagReactionAfterDialog(LOW_BasiliskGate_State_MissingKidsMother_WentHome_afe097ca-04a3-43f5-82d5-80ac5de0ea4a, LOW_BasiliskGate_MissingKidsMother_Commader_335d54fc-74d5-6054-d101-9a7ad86bc609);
+TriggerRegisterForCharacter(S_LOW_BlushingMermaid_MissingKidsHome_Trigger_4213d003-df74-4c89-b835-0bfa8d324ed4, S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+DB_CombatReact_AD_OnNextTurn(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, LOW_BasiliskGate_AD_Combat_Commander_000_51f50db3-635a-d087-1f18-8385ea41f281);
+DB_CombatReact_AD_OnNextTurn(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, LOW_BasiliskGate_AD_Combat_Commander_001_38c6e3e1-c073-4b7a-db14-676f9ffc83f4);
+DB_CombatReact_AD_OnNextTurn(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, LOW_BasiliskGate_AD_Combat_Commander_002_c5807559-3119-20b3-09fb-20087852e0de);
+
+KBSECTION
+IF
+DB_LOW_MissingKidsMother(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, S_LOW_MissingKidAndMother_Home_PointTrigger_4ac1e935-0f9f-4b89-bcba-973760d39658, "LOW_MissingKidsMother_TeleportedToHome");
+TeleportTo(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, S_LOW_BlushingMermaid_VanraAtHome_PointTrigger_b505d617-e82c-457c-a265-0759bdb3c4b2, "LOW_Vanra_TeleportedToHome");
+DB_Dialogs(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, LOW_BlushingMermaid_MissingKidsMother_AtHome_608ad6a4-3e74-2877-7f10-61e35886540a);
+DB_Dialogs(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, LOW_BlushingMermaid_Vanra_81cdfc4a-53e6-0a14-a3a2-5c2d647c9dc7);
+DB_Dialogs(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, LOW_BasiliskGate_Commander_8aa3f06a-8f3d-da91-1974-7bed5346767a);
+DB_Children(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+PROC_LOW_SetupLoraVanraHomeScene();
+
+IF
+DB_LOW_MissingKidsMother(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_DebugRemoveDialogs_MissingKidsMotherNPCs();
+PROC_Children_RemoveNPC(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+TeleportTo(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, S_LOW_BasiliskGate_MissingKidsMother_Spot_8858da1b-e3aa-4ce4-b3cc-2c943464ec64);
+TeleportTo(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, S_LOW_BlushingMermaid_MissingKid_Spot_a0c4ce02-fd08-482f-af14-0c4fb0283553);
+DB_Dialogs(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, LOW_BasiliskGate_MissingKidsMother_Commader_335d54fc-74d5-6054-d101-9a7ad86bc609);
+
+PROC
+PROC_LOW_SetupLoraVanraHomeScene()
+THEN
+DB_SceneManager(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, "LOW_LoraVanraHome_Scene");
+DB_SceneManager(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, "LOW_LoraVanraHome_Scene");
+DB_SceneAllowAllDisturbances("LOW_LoraVanraHome_Scene");
+
+PROC
+PROC_SceneInterrupted(_, (CHARACTER)_Var2, "LOW_LoraVanraHome_Scene", "Attacked", _)
+AND
+DB_PartyMembers(_Var2, _, _, _, _)
+THEN
+PROC_LOW_MissingKidsMotherTurnsPermaHostile();
+PROC_SceneOver("LOW_LoraVanraHome_Scene");
+
+PROC
+PROC_StateSet_PermaDefeated(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, _, _, _, _)
+AND
+QRY_LOW_ShouldVanraRunAwayOnLoraPermaDefeated()
+THEN
+PROC_TryStartAD(LOW_BlushingMermaid_AD_VanraSaved_79153be5-ce8d-00b7-791e-cb76eee21741, S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+PROC_DisappearOutOfSight(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, "Run", 0, "");
+
+QRY
+QRY_LOW_ShouldVanraRunAwayOnLoraPermaDefeated()
+AND NOT
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_LOW_ShouldVanraRunAwayOnLoraPermaDefeated()
+AND
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_State_MotherSawSavedChild_cb5678e1-298c-4c25-b5af-9ee34463d048, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(LOW_BasiliskGate_State_MissingKidsMother_WentHome_afe097ca-04a3-43f5-82d5-80ac5de0ea4a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SpeakerIsAvailableAndInDialogRange(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(LOW_BasiliskGate_Commander_8aa3f06a-8f3d-da91-1974-7bed5346767a, S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, _Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_BasiliskGate_State_MissingKidsMother_WentHome_afe097ca-04a3-43f5-82d5-80ac5de0ea4a, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SpeakerIsAvailableAndInDialogRange(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(LOW_BasiliskGate_MissingKidsMother_CommanderUnavailable_8a531cf0-888e-176b-9362-aef79ffa663a, S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, _Var1);
+
+PROC
+PROC_StateSet_PermaDefeated(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, _, _, _, _)
+AND
+DB_GlobalFlag(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_BasiliskGate_State_MissingKidsMother_WentHome_afe097ca-04a3-43f5-82d5-80ac5de0ea4a, _, _, _, _)
+THEN
+PROC_LOW_MissingKidsMotherTurnsPermaHostile();
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(LOW_BasiliskGate_Event_MotherDisappearOutOfSight_0fde6381-aae8-42f5-b56d-685721d9da57, _, _, _, _)
+THEN
+DB_Dialogs(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, LOW_BasiliskGate_Commander_8aa3f06a-8f3d-da91-1974-7bed5346767a);
+PROC_DisappearOutOfSight(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, "Run", 0, "LOW_MissingKidsMotherRunsAway");
+PROC_TryStartAD(LOW_BlushingMermaid_AD_MissingKidsMother_RunsAway_6cd7a26f-cc66-ee26-a9bd-e7993ff81cab, S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(LOW_BasiliskGate_State_MissingKidsMother_WentHome_afe097ca-04a3-43f5-82d5-80ac5de0ea4a, _, _, _, _)
+THEN
+DB_Dialogs(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29, LOW_BasiliskGate_Commander_8aa3f06a-8f3d-da91-1974-7bed5346767a);
+PROC_DisappearOutOfSight(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, "Walk", 0, "LOW_MissingKidsMother_WentHome");
+
+IF
+EntityEvent(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, "LOW_MissingKidsMother_WentHome", _, _, _)
+THEN
+PROC_AppearOutOfSightTo(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, S_LOW_MissingKidAndMother_Home_PointTrigger_4ac1e935-0f9f-4b89-bcba-973760d39658, S_LOW_BlushingMermaid_MotherAppearOutOfSight_PointTrigger_c7762f62-1394-435e-a1e8-366ce4f682a5, "LOW_MissingKidsMother_AppearOutOfSight");
+
+IF
+EntityEvent(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, "LOW_MissingKidsMother_AppearOutOfSight", _, _, _)
+THEN
+PROC_CharacterMoveTo(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, S_LOW_MissingKidAndMother_Home_PointTrigger_4ac1e935-0f9f-4b89-bcba-973760d39658, "Run", "");
+PROC_RemoveAllDialogEntriesForSpeaker(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8);
+DB_Dialogs(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, LOW_BlushingMermaid_MissingKidsMother_AtHome_608ad6a4-3e74-2877-7f10-61e35886540a);
+
+IF
+FlagSet(LOW_BlushingMermaid_Event_VanraWentToMom_895cda4f-6348-45c0-ba2e-bac1a7a1a0b2, _, _, _, _)
+AND NOT
+DB_GlobalFlag(LOW_BasiliskGate_State_MissingKidsMother_WentHome_afe097ca-04a3-43f5-82d5-80ac5de0ea4a, _, _, _, _)
+THEN
+SetFlag(LOW_BasiliskGate_State_MissingKidsMother_WentHome_afe097ca-04a3-43f5-82d5-80ac5de0ea4a);
+PROC_DisappearOutOfSight(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, "Run", 0, "LOW_MissingKidsMother_WentHome");
+
+IF
+EntityEvent(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, "LOW_BlushingMermaid_VanraRunsAway", _, _, _)
+AND NOT
+DB_Defeated(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, _, _, _, _)
+THEN
+PROC_AppearOutOfSightTo(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, S_LOW_BlushingMermaid_MissingKid_AppearOutOfSightSpot_576870f0-6bdc-44bb-a4ef-239fe9b103e9, "LOW_BasiliskGate_MissingKid_AppearOutOfSight");
+
+IF
+EntityEvent(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, "LOW_BasiliskGate_MissingKid_AppearOutOfSight", _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+PROC_CharacterMoveTo(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, S_LOW_BlushingMermaid_VanraAtHome_PointTrigger_b505d617-e82c-457c-a265-0759bdb3c4b2, "Run", "");
+DB_Dialogs(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, LOW_BlushingMermaid_Vanra_81cdfc4a-53e6-0a14-a3a2-5c2d647c9dc7);
+
+IF
+DB_Sees(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, _, _, _)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_Event_VanraWentToMom_895cda4f-6348-45c0-ba2e-bac1a7a1a0b2, _, _, _, _)
+AND
+QRY_OnlyOnce("LOW_MotherSawHagKidnappedChild", _, _, _, _)
+THEN
+PROC_TryStartAD(LOW_BlushingMermaid_AD_MotherSeesSavedChild_f0a6caec-7502-cfe1-5037-ed84d6f63415, S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8);
+
+IF
+EnteredTrigger(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, S_LOW_BlushingMermaid_MissingKidsHome_Trigger_4213d003-df74-4c89-b835-0bfa8d324ed4, _, _, _)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_Event_VanraWentToMom_895cda4f-6348-45c0-ba2e-bac1a7a1a0b2, _, _, _, _)
+THEN
+TriggerUnregisterForCharacter(S_LOW_BlushingMermaid_MissingKidsHome_Trigger_4213d003-df74-4c89-b835-0bfa8d324ed4, S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+PROC_GlobalSetFlagAndCache(LOW_BlushingMermaid_State_MotherSawSavedChild_cb5678e1-298c-4c25-b5af-9ee34463d048);
+PROC_LOW_SetupLoraVanraHomeScene();
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_Event_VanraWentToMom_895cda4f-6348-45c0-ba2e-bac1a7a1a0b2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_BasiliskGate_State_VisitedMotherAndMissingKid_25f12c0d-9dee-416c-9e41-11965295468a, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(LOW_BlushingMermaid_MissingKidsMother_AtHome_608ad6a4-3e74-2877-7f10-61e35886540a, S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, _Var1, S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+
+IF
+EntityEvent(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, "LOW_BlushingMermaid_VanraRunsAway", _, _, _)
+AND
+DB_GlobalFlag(LOW_BlushingMermaid_State_MissingKidsMother_Dead_357a9292-30cb-4625-aefd-7f27d89c9511, _, _, _, _)
+THEN
+SetFlag(LOW_BasiliskGate_State_OrphanedVanra_5cd5fb31-3c59-49ac-8102-97d43f880bcb);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(LOW_BasiliskGate_State_OrphanedVanra_5cd5fb31-3c59-49ac-8102-97d43f880bcb, _, _, _, _)
+AND
+QRY_OnlyOnce("LOW_OrphanedVanraSetup", _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+TeleportTo(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, S_LOW_BlushingMermaid_VanraAtHome_PointTrigger_b505d617-e82c-457c-a265-0759bdb3c4b2);
+SetOnStage(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, 1);
+
+IF
+DB_Is_InCombat(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_BlushingMermaid_State_MissingKidsMother_PermaHostile_8b29049d-1cc3-4d94-a147-b4cb1068237f, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_MissingKidsMotherTurnsPermaHostile();
+
+PROC
+PROC_LOW_MissingKidsMotherTurnsPermaHostile()
+THEN
+PROC_GlobalSetFlagAndCache(LOW_BlushingMermaid_State_MissingKidsMother_PermaHostile_8b29049d-1cc3-4d94-a147-b4cb1068237f);
+PROC_SetRelationToPlayers(ACT3_LOW_BlushingMermaid_MissingKidsMother_0ab10e33-545c-4f09-8a6b-db71d33893a8, 0);
+
+IF
+WentOnStage(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, 0, _, _, _)
+AND
+DB_KnockedOut(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8, _, _, _, _)
+THEN
+SetFlag(LOW_BasiliskGate_State_KnockedOutLoraDisappeared_eade1142-3a15-4bb0-a940-0317c7d24aa6);
+
+PROC
+PROC_LOW_DebugRemoveDialogs_MissingKidsMotherNPCs()
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_LOW_BlushingMermaid_MissingKidsMother_58ece4ba-e097-4b3b-ac71-7abe8706d3a8);
+PROC_RemoveAllDialogEntriesForSpeaker(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c);
+PROC_RemoveAllDialogEntriesForSpeaker(S_LOW_BasiliskGate_Commander_915d074c-8f6f-4f5a-ae18-fb333ce6dc29);
+
+IF
+FlagSet(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+AND
+DB_SceneManager(S_LOW_BlushingMermaid_Vanra_bfeac6a6-678e-46da-b873-cf7e4c7a1e4c, "LOW_LoraVanraHome_Scene", _, _, _)
+THEN
+PROC_SceneOver("LOW_LoraVanraHome_Scene");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

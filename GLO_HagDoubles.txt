@@ -1,0 +1,406 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_HAG_SpawnDoubles_Phase1", 2, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "Phase1", "", "EASY");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_HAG_SpawnDoubles_Phase2", 3, HAG_HagLair_AD_SpawnDoublesPhase2_caf23836-4c04-d4d9-b69a-c9564ec56d6d, "Phase2", "", "EASY");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase1", 3, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "EASY");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase2", 3, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "EASY");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase3", 4, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "EASY");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase4", 4, HAG_HagLair_AD_SpawnDoublesPhase2_caf23836-4c04-d4d9-b69a-c9564ec56d6d, "", "ClearDoublesOnCast", "EASY");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_HAG_SpawnDoubles_Phase1", 3, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "Phase1", "", "MEDIUM");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_HAG_SpawnDoubles_Phase2", 4, HAG_HagLair_AD_SpawnDoublesPhase2_caf23836-4c04-d4d9-b69a-c9564ec56d6d, "Phase2", "", "MEDIUM");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase1", 3, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "MEDIUM");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase2", 4, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "MEDIUM");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase3", 4, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "MEDIUM");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase4", 5, HAG_HagLair_AD_SpawnDoublesPhase2_caf23836-4c04-d4d9-b69a-c9564ec56d6d, "", "ClearDoublesOnCast", "MEDIUM");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_HAG_SpawnDoubles_Phase1", 5, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "Phase1", "", "HARD");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_HAG_SpawnDoubles_Phase2", 6, HAG_HagLair_AD_SpawnDoublesPhase2_caf23836-4c04-d4d9-b69a-c9564ec56d6d, "Phase2", "", "HARD");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase1", 3, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "HARD");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase2", 4, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "HARD");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase3", 5, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, "", "ClearDoublesOnCast", "HARD");
+DB_GLO_HagSpawnDoubleSpellSetup("Shout_LOW_Hag_SpawnDoubles_Phase4", 6, HAG_HagLair_AD_SpawnDoublesPhase2_caf23836-4c04-d4d9-b69a-c9564ec56d6d, "", "ClearDoublesOnCast", "HARD");
+
+KBSECTION
+IF
+UsingSpell(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, (STRING)_Var1, _, _, _)
+AND
+DB_GLO_HagSpawnDoubleSpellSetup(_Var1, _, HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var9, _Var10, _Var11, _Var1)
+AND
+RealSum(_Var10, 1.5, _Var12, _Var1, _Var1)
+AND
+CreateAt(QUEST_HAG_AdHelper_35f37f05-6942-42dd-98a9-d5c6ebf624eb, _Var9, _Var12, _Var11, 0, 0, "", _Var13, _Var1, _Var1)
+THEN
+PROC_TryStartAD(HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, _Var13);
+DB_HAG_SpawnDoubles_Phase1_DialogHelper(_Var13);
+
+IF
+UsingSpell(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, (STRING)_Var1, _, _, _)
+AND
+DB_GLO_HagSpawnDoubleSpellSetup(_Var1, _, HAG_HagLair_AD_SpawnDoublesPhase2_caf23836-4c04-d4d9-b69a-c9564ec56d6d, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(HAG_HagLair_AD_SpawnDoublesPhase2_caf23836-4c04-d4d9-b69a-c9564ec56d6d, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+
+IF
+CastedSpell(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, (STRING)_Var1, _, _, _)
+AND
+DB_GLO_HagSpawnDoubleSpellSetup(_Var1, _, _, _Var7, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var7 != ""
+THEN
+TriggerSetSoundState(Amb_SV_Hag_Lair_FZ_513adaab-3e65-4fee-ab08-762b78fd3df3, "CombatPhase_Hag", _Var7, 1);
+TriggerSetSoundState(Amb_SV_Hag_Lair_Laboratory_FZ_0fc035a5-4cc8-464e-956c-95f92d2a715d, "CombatPhase_Hag", _Var7, 1);
+
+IF
+CastSpell(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, (STRING)_Var1, _, _, _)
+AND
+GetRulesetModifierString(cac2d8bd-c197-4a84-9df1-f86f54ad4521, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_GLO_HagSpawnDoubleSpellSetup(_Var1, _Var6, _, _, _, _Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAG_SpawnDoubles_GetAvailableSpawnPoints(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+PROC_HAG_SpawnDoubles(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var6);
+SetEntityEventReal(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "GLO_CombatWait", 2.6);
+
+IF
+CastSpell(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, (STRING)_Var1, _, _, _)
+AND
+GetRulesetModifierString(cac2d8bd-c197-4a84-9df1-f86f54ad4521, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_HagSpawnDoubleSpellSetup(_Var1, _, _, _, _, _Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NoDifficultyDefinedHagDoublesSpawn(_Var1);
+
+PROC
+PROC_GLO_NoDifficultyDefinedHagDoublesSpawn((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_HagSpawnDoubleSpellSetup(_Var1, _Var2, _, _, _, "MEDIUM", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HAG_SpawnDoubles_GetAvailableSpawnPoints(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d);
+PROC_HAG_SpawnDoubles(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var2);
+SetEntityEventReal(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, "GLO_CombatWait", 2.6);
+
+IF
+AutomatedDialogEnded(HAG_HagLair_AD_SpawnDoublesPhase1_f4ddf18c-82c1-87ab-b763-c8510cc2b2b5, _, _, _, _)
+AND
+DB_HAG_SpawnDoubles_Phase1_DialogHelper(_Var2, _, _, _, _)
+THEN
+NOT DB_HAG_SpawnDoubles_Phase1_DialogHelper(_Var2);
+Die(_Var2);
+SetOnStage(_Var2, 0);
+
+PROC
+PROC_HAG_SpawnDoubles_GetAvailableSpawnPoints((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnPoints(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 > 6
+AND
+_Var3 < 22
+AND NOT
+QRY_IsInDangerousSurfaceFor(_Var2, _Var1, 2, _Var1, _Var1)
+AND
+QRY_HAG_HagLair_SpawnDoubles_NoNearbyPlayers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagLair_SpawnDoubles_NoPlayersNearby(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SysClear("DB_HAG_HagLair_SpawnDoubles_NoPlayersNearby", 1);
+DB_HAG_HagLair_DoublesSpawnPoints_Available(_Var2);
+
+QRY
+QRY_HAG_HagLair_SpawnDoubles_NoNearbyPlayers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+_Var3 < 4
+THEN
+DB_HAG_HagLair_SpawnDoubles_PlayerNearSpawn(1);
+
+QRY
+QRY_HAG_HagLair_SpawnDoubles_NoNearbyPlayers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+SysCount("DB_HAG_HagLair_SpawnDoubles_PlayerNearSpawn", 1, _Var2, _Var1, _Var1)
+AND
+_Var2 == 0
+THEN
+DB_HAG_HagLair_SpawnDoubles_NoPlayersNearby(1);
+
+QRY
+QRY_HAG_HagLair_SpawnDoubles_NoNearbyPlayers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_SpawnDoubles_PlayerNearSpawn(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAG_HagLair_SpawnDoubles_PlayerNearSpawn(1);
+
+PROC
+PROC_HAG_SpawnDoubles((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IntegerProduct(_Var2, 3, _Var3, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 5, _Var4, _Var1, _Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnPoints_Available(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var5, _Var1, _Var6, _Var1, _Var1)
+AND
+_Var6 > _Var4
+AND
+QRY_HAG_HagLair_DoublesSpawnPoint_GetClosest(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HAG_HagLair_DoublesSpawnPoint_GetClosest((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster(_, _, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var5, _Var1, _Var1)
+THEN
+DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster(_Var2, _Var5);
+
+QRY
+QRY_HAG_HagLair_DoublesSpawnPoint_GetClosest((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var4
+AND
+_Var3 <= _Var5
+THEN
+DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster(_Var2, _Var3);
+NOT DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster(_Var4, _Var5);
+
+PROC
+PROC_HAG_SpawnDoubles((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != 0
+AND
+DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnPoints_Available(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_HAG_SpawnDoubles_FindValidPosition(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_HAG_SpawnDoubles_FindValidPosition(_Var1, _Var5, _Var6, _Var7, _Var1)
+AND
+CreateAt(Hag_Green_Act1Hag_Double_8c85932d-12dd-4046-a694-6534071470a2, _Var5, _Var6, _Var7, 1, 1, "", _Var8, _Var1, _Var1)
+AND
+GetHitpoints(_Var1, _Var9, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnFxHelper(_Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAG_HagLair_DoublesSpawnPoints_Available(_Var3);
+NOT DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster(_Var3, _Var4);
+NOT DB_HAG_SpawnDoubles_FindValidPosition(_Var1, _Var5, _Var6, _Var7);
+DB_HAG_HagLair_Doubles(_Var8);
+SetImmortal(_Var8, 1);
+SetHitpoints(_Var8, _Var9);
+PROC_CharacterDisableAllCrimes(_Var8, 1);
+SetCombatGroupID(_Var8, "HAG_Hag_State_HagInLair");
+PlayEffectAtPosition(VFX_Script_Hag_SpawnDoubles_Reappear_01_5259b176-0aaf-e1a0-663e-85fdebbaa681, _Var5, _Var6, _Var7);
+PlayEffect(_Var8, VFX_Script_Hag_SpawnDoubles_Reappear_Overlay_01_3a1bf6ef-f124-b468-348b-516ae935e813, "Dummy_BodyFX");
+PROC_HAG_ApplyDoublesStatus(_Var8, -1);
+PROC_HAG_SetDoublesAttitudeToPlayers(_Var8);
+PROC_GLO_HagDoublePostSpawnSetup(_Var8);
+
+PROC
+PROC_GLO_HagDoublePostSpawnSetup((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CurrentLevel("WLD_Main_A", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetCombatGroupID(_Var1, "HAG_Hag_State_HagInLair");
+SetTag(_Var1, AI_USESPELL_A_33aa698c-aea0-43e2-bd16-582aa718fd3e);
+
+QRY
+QRY_HAG_SpawnDoubles_FindValidPosition((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetPosition(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+FindValidPosition(_Var3, _Var4, _Var5, 10, _Var1, 1, _Var6, _Var7, _Var8, _Var1)
+THEN
+DB_HAG_SpawnDoubles_FindValidPosition(_Var1, _Var6, _Var7, _Var8);
+
+QRY
+QRY_HAG_SpawnDoubles_FindValidPosition((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_HAG_SpawnDoubles_FindValidPosition(_Var1, _, _, _, _Var1)
+AND
+GetPosition(_Var2, _Var6, _Var7, _Var8, _Var1)
+THEN
+DB_HAG_SpawnDoubles_FindValidPosition(_Var1, _Var6, _Var7, _Var8);
+
+PROC
+PROC_HAG_SpawnDoubles((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 == 0
+AND
+DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnFxHelper(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_HAG_SpawnDoubles_FindValidPosition(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_HAG_SpawnDoubles_FindValidPosition(_Var1, _Var6, _Var7, _Var8, _Var1)
+THEN
+TeleportToPosition(_Var1, _Var6, _Var7, _Var8, "", 0, 0, 0);
+NOT DB_HAG_SpawnDoubles_FindValidPosition(_Var1, _Var6, _Var7, _Var8);
+PROC_HAG_ApplyDoublesStatus(_Var1, -1);
+TimerLaunch("HAG_HagLair_HagSpawnFx", 100);
+PlayEffectAtPosition(VFX_Script_Hag_SpawnDoubles_Reappear_01_5259b176-0aaf-e1a0-663e-85fdebbaa681, _Var6, _Var7, _Var8);
+PlayEffect(_Var1, VFX_Script_Hag_SpawnDoubles_Reappear_Overlay_01_3a1bf6ef-f124-b468-348b-516ae935e813, "Dummy_BodyFX");
+PROC_HAG_HagLair_DoublesSpawnPoints_CleanUp();
+
+PROC
+PROC_HAG_HagLair_DoublesSpawnPoints_CleanUp()
+THEN
+SysClear("DB_HAG_HagLair_DoublesSpawnPoints_Available", 1);
+SysClear("DB_HAG_HagLair_DoublesSpawnPoints_DistToCaster", 2);
+SysClear("DB_HAG_SpawnDoubles_FindValidPosition", 4);
+
+PROC
+PROC_HAG_ApplyDoublesStatus((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "HAG_DOUBLES", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "HAG_DOUBLES", _Var2, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_HAG_SpawnDoubles((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IntegerSubtract(_Var2, 1, _Var3, _Var1, _Var1)
+AND
+QRY_HAG_SpawnDoubles_Reset(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_HAG_SpawnDoubles_Reset((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 >= 0
+THEN
+PROC_HAG_SpawnDoubles(_Var1, _Var2);
+
+PROC
+PROC_HAG_SpawnDoubles_GetAvailableSpawnPoints((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+CreateAtObject(Helper_Invisible_Walkthrough_c13a872b-7d9b-4c1d-8c65-f672333b0c11, _Var1, 0, 0, "", 0, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_HAG_HagLair_DoublesSpawnFxHelper(_Var2);
+RealtimeObjectTimerLaunch(_Var2, "HAG_HagLair_DoublesSpawnFx", 3000);
+
+IF
+TimerFinished("HAG_HagLair_HagSpawnFx", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnFxHelper(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagLair_Doubles(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PlayBeamEffect(_Var1, _Var2, VFX_Script_Hag_SpawnDoubles_Beam_01_1b57f75e-e1ed-c838-3421-0b21422b2a0e, "", "");
+
+IF
+TimerFinished("HAG_HagLair_HagSpawnFx", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnFxHelper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PlayBeamEffect(_Var1, S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, VFX_Script_Hag_SpawnDoubles_Beam_01_1b57f75e-e1ed-c838-3421-0b21422b2a0e, "", "");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "HAG_HagLair_DoublesSpawnFx", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_DoublesSpawnFxHelper(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1);
+SetOnStage(_Var1, 0);
+NOT DB_HAG_HagLair_DoublesSpawnFxHelper(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "HAG_DOUBLES", _, _, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_Doubles(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(HAG_HagLair_AD_DoubleDied_9ee97b03-a862-60c3-1e5e-79de7911f0cd, _Var1);
+SetEntityEvent(_Var1, "HAG_RemoveDouble");
+
+IF
+EnteredChasm((GUIDSTRING)_Var1, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_Doubles(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(HAG_HagLair_AD_DoubleDied_9ee97b03-a862-60c3-1e5e-79de7911f0cd, _Var1);
+SetEntityEvent(_Var1, "HAG_RemoveDouble");
+
+IF
+FlagSet(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, _, _)
+AND
+DB_HAG_HagLair_Doubles(_Var3, _, _, _, _)
+THEN
+SetEntityEvent(_Var3, "HAG_RemoveDouble");
+
+PROC
+PROC_LeftCombat(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _, _, _, _)
+AND
+DB_HAG_HagLair_Doubles(_Var2, _, _, _, _)
+THEN
+SetEntityEvent(_Var2, "HAG_RemoveDouble");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "HAG_RemoveDouble", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_HAG_HagLair_DoubleRemoving(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAG_HagLair_DoubleRemoving(_Var1);
+SetEntityEventReal(_Var1, "GLO_CombatWait", 5);
+PROC_GLO_BreakConcentration(_Var1, _Var1);
+PlayEffect(_Var1, VFX_Script_Hag_IllusionHit_01_85f79ea8-36ea-8a43-e21b-48ea94bdf4db, "Dummy_BodyFX");
+RealtimeObjectTimerLaunch(_Var1, "HAG_RemoveDouble_Timer", 1000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "HAG_RemoveDouble_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Poof(_Var1, VFX_Script_Hag_Poof_01_a5ac4b11-0c02-a7a6-5c41-a95cf56c847f);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_DoubleRemoving(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAG_HagLair_DoubleRemoving(_Var1);
+PROC_HAG_HagLair_Doubles_Removed(_Var1);
+
+PROC
+PROC_HAG_HagLair_Doubles_Removed((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "HAG_RemoveDouble_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_Doubles(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HAG_HagLair_Doubles(_Var1);
+PROC_HAG_HagLair_Doubles_CountRemaining();
+
+PROC
+PROC_HAG_SetDoublesAttitudeToPlayers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SetAttitude(_Var1, _Var2, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_Hag"

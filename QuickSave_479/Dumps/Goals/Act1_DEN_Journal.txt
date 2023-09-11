@@ -1,0 +1,932 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Unknown_KillLeaders", "HalsinGaveQuest");
+DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Known_KillLeaders", "HalsinGaveQuest");
+DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Unknown_AoD", "HalsinGaveQuest");
+DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Known_AoD", "HalsinGaveQuest");
+DB_QuestDef_ChainedState("DEN_Conflict", "ZevGaveQuest", "DEN_LearntGoblinLeaderZevlor");
+DB_QuestDef_ConditionalState("DEN_Conflict", "LearnedHalsinMissing", "DEN_Conflict", "RathGaveQuest_BeforeZev", "ZevGaveQuest", 0);
+DB_QuestDef_ConditionalState("DEN_Conflict", "LearnedHalsinMissing", "RathGaveQuest_AfterZev", "ZevGaveQuest", 1);
+DB_QuestDef_ConditionalState("DEN_Conflict", "LearnedHalsinMissing", "RathGaveQuest_AfterZev", "RathGaveQuest_BeforeZev", 0);
+DB_QuestDef_State(DEN_AttackOnDen_Event_HalsinSpotted_40e35270-1762-2c46-ca80-c449802b755f, "DEN_Conflict", "HalsinReturned_Known");
+DB_QuestDef_ChainedState("GLO_Tadpole", "LearnedLostHalsin", "DEN_Conflict", "LearnedLostHalsin");
+DB_QuestDef_ChainedState("GLO_Tadpole", "LearnedBear", "DEN_Conflict", "LearnedBear");
+DB_QuestDef_ChainedState("GLO_Tadpole", "LearnedEscaped", "DEN_Conflict", "LearnedEscaped");
+DB_QuestDef_ChainedState("GLO_Tadpole", "LearnedPit", "DEN_Conflict", "LearnedPit");
+DB_QuestDef_ChainedState("GLO_Tadpole", "LearnedHalsinPosition", "DEN_Conflict", "LearnedHalsinPosition");
+DB_QuestDef_ChainedState("GLO_Tadpole", "LearnedKilledOrCaptured", "DEN_Conflict", "LearnedHalsinPosition");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_Unknown_KillLeaders", "DEN_Conflict", "FoundHalsin_Unknown_KillLeaders");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_Known_KillLeaders", "DEN_Conflict", "FoundHalsin_Known_KillLeaders");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_Unknown_LeadershipDead", "DEN_Conflict", "FoundHalsin_Unknown_LeadershipDead");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_Known_LeadershipDead", "DEN_Conflict", "FoundHalsin_Known_LeadershipDead");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_KingDead", "DEN_Conflict", "FoundHalsin_KingDead");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_DrowDead", "DEN_Conflict", "FoundHalsin_DrowDead");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_PriestessDead", "DEN_Conflict", "FoundHalsin_PriestessDead");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_Unknown_AoD", "DEN_Conflict", "FoundHalsin_Unknown_AoD");
+DB_QuestDef_ChainedState("GLO_Tadpole", "FoundHalsin_Known_AoD", "DEN_Conflict", "FoundHalsin_Known_AoD");
+DB_QuestDef_ChainedState("GLO_Tadpole", "HalsinLeft_KilledLeaders", "DEN_Conflict", "HalsinLeft_KilledLeaders");
+DB_QuestDef_ChainedState("GLO_Tadpole", "HalsinLeft_AoDStarted", "DEN_Conflict", "HalsinLeft_AoDStarted");
+DB_QuestDef_ChainedState("GLO_Tadpole", "DruidLeaderDied_Research", "DEN_Conflict", "DruidLeaderDied");
+DB_QuestDef_ChainedState("GLO_Tadpole", "DruidLeaderDied_NoResearch", "DEN_Conflict", "DruidLeaderDied");
+DB_QuestDef_ChainedState("GLO_Tadpole", "HalsinLeft_AoDStarted", "DEN_Conflict", "HalsinLeft_AoDStarted");
+DB_QuestDef_ChainedState("GLO_Tadpole", "HalsinLeft_EndedAoD", "DEN_Conflict", "HalsinLeft_EndedAoD");
+DB_QuestDef_ChainedState("GLO_Tadpole", "HalsinReturned_Known", "DEN_Conflict", "HalsinReturned_Known");
+DB_QuestDef_ChainedState("GLO_Tadpole", "ReportHalsin_LeadersDefeated", "DEN_Conflict", "ReportHalsin_LeadersDefeated");
+DB_QuestDef_ChainedState("GLO_Tadpole", "ReportHalsin_AoDStarted", "DEN_Conflict", "ReportHalsin_AoDStarted");
+DB_DEN_Conflict_RitualKnowsAboutKagha("MetZevlor");
+DB_DEN_Conflict_RitualKnowsAboutKagha("AllowedInUnknown");
+DB_DEN_Conflict_RitualKnowsAboutKagha("MetKagha");
+DB_DEN_Conflict_RitualKaghaBooks(S_DEN_ShadowMeetingNote_fbe59587-8dec-440c-94d2-2748727c4cf5);
+DB_DEN_Conflict_RitualKaghaBooks(S_DEN_ShadowDruidsLetter_b0da8ce3-139f-425b-bbce-ae67663b8a2c);
+DB_DEN_Conflict_RitualLetterFound(1, "FoundLetterAfterNote");
+DB_DEN_Conflict_RitualLetterFound(0, "FoundLetterFirst");
+DB_DEN_Conflict_RitualMainUpdate("FoundNote", 0, 0, "MetKagha_FoundNote");
+DB_DEN_Conflict_RitualMainUpdate("FoundNote", 1, 0, "FoundKaghaDoc_AfterZev");
+DB_DEN_Conflict_RitualMainUpdate("FoundLetterFirst", 1, 0, "FoundKaghaDoc_AfterZev");
+DB_DEN_Conflict_RitualDenouncingCombat(1, "FightGood");
+DB_DEN_Conflict_RitualDenouncingCombat(0, "FightBad");
+DB_DEN_Conflict_RitualCombatEnded(1, "FightEndedBad");
+DB_DEN_Conflict_RitualCombatEnded(0, "FightEndedGood");
+DB_QuestDef_State(GOB_DrowCommander_Event_RaidersSortie_26816b01-2d64-b50c-3bf6-bffd7dc5f0b9, "DEN_Conflict", "AoD_Started");
+DB_DEN_Conflict_AoDLeader(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, "VictoryZevlor");
+DB_DEN_Conflict_AoDLeader(S_DEN_Trainer_02025646-347a-4235-aef7-e46b7c94b435, "VictoryAsharak");
+DB_DEN_Conflict_AoDLeader(S_DEN_BackupLeader_b304e07d-019c-4ec6-b5ea-c4ccb29ed892, "VictoryBackup");
+DB_QuestDef_ChainedState("DEN_Conflict", "CelebrationGoblins", "Betrayal");
+DB_QuestDef_ChainedState("DEN_Conflict", "MintharaDiedLate", "Betrayal");
+DB_QuestDef_State(DEN_TieflingLeader_State_PermaDefeated_b8eac5ee-2c63-9924-91c2-668d5bffa74c, "DEN_Conflict", "ZevlorDied");
+DB_QuestDef_ChainedState("DEN_Conflict", "Betrayal_DruidDead_Halsin", "GLO_Tadpole", "Betrayal_DruidDead_Halsin");
+DB_QuestDef_ChainedState("DEN_Conflict", "Lockdown", "DEN_SnakeCourt", "GroveChanged");
+DB_QuestDef_ChainedState("DEN_Conflict", "Lockdown", "DEN_HarpyMeal", "GroveChanged");
+DB_DEN_Conflict_DiedEarlyConditions("ZevlorDiedEarly", S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, "MetKagha");
+DB_DEN_Conflict_DiedEarlyConditions("ZevlorDiedEarly", S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, "MetZevlor");
+DB_DEN_Conflict_DiedEarlyConditions("ZevlorDiedEarly", S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, "DADruidsDead_NoMet");
+DB_DEN_Conflict_DiedEarlyConditions("KaghaDiedEarly", S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, "MetKagha");
+DB_DEN_Conflict_DiedEarlyConditions("KaghaDiedEarly", S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, "MetZevlor");
+DB_DEN_Conflict_DiedEarlyConditions("KaghaDiedEarly", S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, "AllowedInUnknown");
+DB_QuestDef_ChainedState("DEN_Conflict", "VictoryZevlor", "VictoryGrove_ParentUpdate");
+DB_QuestDef_ChainedState("DEN_Conflict", "VictoryAsharak", "VictoryGrove_ParentUpdate_Asharak");
+DB_QuestDef_ChainedState("DEN_Conflict", "VictoryBackup", "VictoryGrove_ParentUpdate_Cerys");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledPriest", "VictoryGrove_ParentUpdate");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledKing", "VictoryGrove_ParentUpdate");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledDrow", "VictoryGrove_ParentUpdate");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledPriest_Asharak", "VictoryGrove_ParentUpdate_Asharak");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledKing_Asharak", "VictoryGrove_ParentUpdate_Asharak");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledDrow_Asharak", "VictoryGrove_ParentUpdate_Asharak");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledPriest_Cerys", "VictoryGrove_ParentUpdate_Cerys");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledKing_Cerys", "VictoryGrove_ParentUpdate_Cerys");
+DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledDrow_Cerys", "VictoryGrove_ParentUpdate_Cerys");
+DB_QuestDef_ChainedState("DEN_Conflict", "SidedGoblins", "SidedGoblins_ParentUpdate");
+DB_GlobalFlagReactionAfterDialog(DEN_HalsinReturns_Event_SeekRath_07039747-ebb1-9a3f-fb7a-052b6848826f, DEN_AttackOnDen_HalsinReturns_d9c2a89e-13fa-57f7-0fcf-4dfada32d693);
+DB_GlobalFlagReactionAfterDialog(DEN_HalsinReturns_Event_SeekRath_07039747-ebb1-9a3f-fb7a-052b6848826f, DEN_AttackOnDen_HalsinAndDruidLeader_790030b5-e20e-ff34-30e4-740e904fa6c7);
+DB_QuestDef_LevelUnloading("WLD_Main_A", "DEN_Conflict", "LeftRegion");
+DB_DEN_SnakeCourt_KidFate_JournalUpdate("KidFreed", "KidFreedFirst", 0);
+DB_DEN_SnakeCourt_KidFate_JournalUpdate("KidFreed", "KidFreed", 1);
+DB_DEN_SnakeCourt_KidFate_JournalUpdate("SnakeBite", "KidDied", 1);
+DB_DEN_SnakeCourt_AutoResolve_JournalUpdate(0, "ParentMovedOn");
+DB_DEN_SnakeCourt_AutoResolve_JournalUpdate(1, "ParentAutoReunited");
+
+KBSECTION
+IF
+TextEvent("getkaghabooks", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ToInventory(S_DEN_ShadowMeetingNote_fbe59587-8dec-440c-94d2-2748727c4cf5, _Var1, 1, 1, 1);
+ToInventory(S_DEN_ShadowDruidsLetter_b0da8ce3-139f-425b-bbce-ae67663b8a2c, _Var1, 1, 1, 1);
+
+IF
+FlagSet(DEN_GroveConflict_Knows_KaghaRequestedPlayers_28c1365b-4c37-f810-8104-1bc50f261c30, NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_GroveConflict_Knows_ZevlorSentToSagha_6062ca3d-4bd1-feaa-3b1f-b89d80f59206, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "DEN_Conflict", "AllowedInUnknown");
+
+PROC
+PROC_CAMP_GoblinHuntCelebration_Tiefling_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "SidedTieflings_Celebrate");
+
+IF
+QuestUpdateUnlocked(_, "DEN_Conflict", (STRING)_Var2, _, _)
+AND
+DB_DEN_Conflict_DiedEarlyConditions(_Var3, _Var4, _Var2, _, _)
+THEN
+DB_QuestDef_SawDeadState("DEN_Conflict", _Var3, _Var4);
+PROC_DEN_Conflict_ClearDiedEarlyConditions(_Var3);
+
+PROC
+PROC_DEN_Conflict_ClearDiedEarlyConditions((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_DEN_Conflict_DiedEarlyConditions(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_DEN_Conflict_DiedEarlyConditions(_Var1, _Var2, _Var3);
+
+IF
+QuestUpdateUnlocked(_, "DEN_Conflict", "RathGaveQuest_BeforeZev", (CHARACTER)_, (CHARACTER)_)
+THEN
+DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Unknown_KillLeaders", "FoundHalsin_ParentUpdate");
+DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Known_KillLeaders", "FoundHalsin_ParentUpdate");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Unknown_KillLeaders", "HalsinGaveQuest");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Known_KillLeaders", "HalsinGaveQuest");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Unknown_AoD", "HalsinGaveQuest");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "FoundHalsin_Known_AoD", "HalsinGaveQuest");
+
+PROC
+PROC_DEN_DruidAttack_Init_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "Ritual_DAStarted");
+
+PROC
+PROC_DEN_DruidAttack_PostAttack_JournalHook()
+AND NOT
+QRY_DEN_Conflict_GiveDADruidsDeadAlt()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "DADruidsDead");
+
+QRY
+QRY_DEN_Conflict_GiveDADruidsDeadAlt()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "MetZevlor", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "MetKagha", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "MetKagha_ZevlorDead", 0, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "DADruidsDead_NoMet");
+
+PROC
+PROC_DEN_DruidAttack_PostAttack_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "Murder_DADruidsDead");
+
+PROC
+PROC_DEN_TieflingRefugees_GobHuntVictory_JournalHook()
+THEN
+PROC_DEN_Conflict_ClearDiedEarlyConditions("ZevlorDiedEarly");
+PROC_DEN_Conflict_ClearDiedEarlyConditions("KaghaDiedEarly");
+NOT DB_QuestDef_SawDeadState("DEN_Conflict", "ZevlorDiedEarly", S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+NOT DB_QuestDef_SawDeadState("DEN_Conflict", "KaghaDiedEarly", S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156);
+
+PROC
+PROC_DEN_TieflingRefugees_GobHuntVictory_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "KilledLeaders");
+QuestUpdate(_Var1, "DEN_Conflict", "Murder_GobHuntDone");
+QuestUpdate(_Var1, "DEN_Conflict", "Ritual_GobHuntDone");
+
+IF
+QuestAccepted(_, "DEN_Conflict_SUB_AoD", (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+DB_QuestDef_SawDeadState("DEN_Conflict", "MintharaDied", S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+PROC
+PROC_DEN_AttackOnDen_Start_JournalHook()
+THEN
+NOT DB_QuestDef_SawDeadState("DEN_Conflict", "MintharaDied", S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+PROC_DEN_Conflict_ClearDiedEarlyConditions("ZevlorDiedEarly");
+PROC_DEN_Conflict_ClearDiedEarlyConditions("KaghaDiedEarly");
+NOT DB_QuestDef_SawDeadState("DEN_Conflict", "ZevlorDiedEarly", S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a);
+NOT DB_QuestDef_SawDeadState("DEN_Conflict", "KaghaDiedEarly", S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156);
+
+PROC
+PROC_DEN_AttackOnDen_Start_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "AoD_Ready");
+QuestUpdate(_Var1, "DEN_Conflict", "AoD_Started_ParentUpdate");
+QuestUpdate(_Var1, "DEN_Conflict", "Murder_StartedAoD");
+QuestUpdate(_Var1, "DEN_Conflict", "Goblin_StartedAoD");
+QuestUpdate(_Var1, "DEN_Conflict", "Ritual_StartedAoD");
+
+PROC
+PROC_DEN_AttackONDen_HornBlown_JournalHook()
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "DEN_Conflict", "HalsinGaveQuest", 1, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "HalsinLeft_AoDStarted");
+
+IF
+QuestUpdateUnlocked((CHARACTER)_Var1, "DEN_Conflict", "HeardAboutAoD", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PermaDefeated(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_AttackOnDen_Event_Start_c641da6a-b3f5-4873-bd34-c53768d30d6f, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "MintharaDiedEarly");
+
+IF
+QuestUpdateUnlocked(_, "DEN_Conflict", "HeardAboutAoD", _, _)
+AND NOT
+DB_GlobalFlag(DEN_AttackOnDen_Event_Start_c641da6a-b3f5-4873-bd34-c53768d30d6f, _, _, _, _)
+THEN
+DB_QuestDef_SawDeadState("DEN_Conflict", "MintharaDiedEarly", S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+IF
+FlagSet(DEN_AttackOnDen_Event_Start_c641da6a-b3f5-4873-bd34-c53768d30d6f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_QuestDef_SawDeadState("DEN_Conflict", "MintharaDiedEarly", S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+IF
+FlagSet(DEN_AttackOnDen_State_HostileTieflings_c5641caa-4409-4739-a1fe-8263b8271f4e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_QuestDef_SawDeadState("DEN_Conflict", "MintharaDiedLate", S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+IF
+FlagSet(DEN_AttackOnDen_State_RaiderVictory_abe1bce8-c234-4afe-a490-76210d98a078, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_Conflict", "Betrayal_DruidDead_Halsin");
+
+IF
+FlagSet(GLO_Halsin_State_Returned_5af86099-47f9-ba69-199a-fe91292a41bd, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_AttackOnDen_State_RaidReady_eb361773-da88-dee4-f4c8-a22acae60948, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "DEN_Conflict", "HalsinGaveQuest", 1, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_Conflict", "HalsinLeft_EndedAoD");
+
+PROC
+PROC_DEN_Victory_LeftSafe_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "LeftSafe");
+
+PROC
+PROC_DEN_Lockdown_JournalHook()
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "DEN_Conflict", "SidedGoblins", 0, _)
+AND
+DB_GlobalFlag(DEN_GroveConflict_State_TooLowTieflings_ed9fe6c4-5037-4f74-968c-a166aeb29d9c, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "Murder_Lockdown");
+QuestUpdate(_Var1, "DEN_Conflict", "Ritual_Lockdown");
+QuestUpdate(_Var1, "DEN_Conflict", "Goblin_Lockdown");
+QuestUpdate(_Var1, "DEN_Conflict", "Lockdown");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_LockdownComplete", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "Halsin_Lockdown");
+
+PROC
+PROC_DEN_Misc_NoTieflings_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "Goblin_NoTieflings");
+QuestUpdate(_Var1, "DEN_Conflict", "Halsin_NoTieflings");
+QuestUpdate(_Var1, "DEN_Conflict", "NoTieflings");
+
+IF
+QuestUpdateUnlocked(_, _, "VictoryGrove_ParentUpdate", (CHARACTER)_, (CHARACTER)_)
+THEN
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "SidedGoblins", "SidedGoblins_ParentUpdate");
+
+IF
+QuestUpdateUnlocked(_, _, "SidedGoblins_ParentUpdate", (CHARACTER)_, (CHARACTER)_)
+THEN
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "VictoryZevlor", "VictoryGrove_ParentUpdate");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "VictoryAsharak", "VictoryGrove_ParentUpdate");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "VictoryBackup", "VictoryGrove_ParentUpdate");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledPriest", "VictoryGrove_ParentUpdate");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledKing", "VictoryGrove_ParentUpdate");
+NOT DB_QuestDef_ChainedState("DEN_Conflict", "GOB_Last_KilledDrow", "VictoryGrove_ParentUpdate");
+
+IF
+AttackedBy(S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, (CHARACTER)_Var1, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_CheckPeaceState()
+THEN
+DB_DEN_Conflict_Murder_AttackedKagha(1);
+
+PROC
+PROC_OnDialogAttack_GoingHostile(S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_DEN_Conflict_Murder_AttackedKagha(1);
+
+PROC
+PROC_DEN_DruidAttack_Init_JournalHook()
+AND
+DB_DEN_Conflict_Murder_AttackedKagha(1, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "Murder_DAStarted");
+
+PROC
+PROC_DEN_ShadowDruid_KaghaTurnedGood_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "KaghaTurnedGood");
+
+IF
+FlagSet(DEN_ShadowDruid_State_PlayerKilledKagha_361be740-5c39-49c1-9d3a-ec6a46e3e134, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_DEN_ShadowDruid_SetKaghaKilled(1, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "DEN_Conflict", "Murder_BadKaghaDead");
+
+IF
+FlagSet(DEN_GroveConflict_Quest_SentToMinthara_a9e37be5-e592-7a6d-9f71-bab72363c4be, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _, _)
+THEN
+QuestUpdate("DEN_Conflict", "King_SentToMinthara");
+
+PROC
+PROC_DEN_AttackOnDen_LockdownStart_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "AoD_Lockdown");
+
+PROC
+PROC_DEN_AttackOnDen_LockdownCombat_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "AoD_LockdownEnd");
+
+PROC
+PROC_DEN_AttackOnDen_SideWithTieflings_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "SidedTieflings");
+
+PROC
+PROC_DEN_AttackOnDen_TieflingBetrayal_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "SidedGoblins");
+
+PROC
+PROC_DEN_AttackOnDen_AoD_NoTieflings_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "AoD_NoTieflings");
+
+IF
+DB_GlobalFlag(DEN_AttackOnDen_State_RaiderVictory_abe1bce8-c234-4afe-a490-76210d98a078, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_AttackOnDen_Event_RaidersWinByDefault_e0f44496-90a3-46d1-a1c9-1fbe19ca7632, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "VictoryMinthara");
+
+PROC
+PROC_DEN_AttackOnDen_Victory()
+THEN
+DB_DEN_Conflict_AoDVictoryEntry(1);
+
+IF
+DB_DEN_Conflict_AoDVictoryEntry(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_CurrentDefenderLeader(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Conflict_AoDLeader(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var3, "DEN_Conflict", _Var2);
+
+PROC
+PROC_DEN_AttackOnDen_Celebration_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "CelebrationTieflings");
+
+PROC
+PROC_DEN_AttackOnDen_RaiderCelebration_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "CelebrationGoblins");
+
+IF
+DB_OnlyOnce("DEN_AttackOnDen_BetrayTieflingsAfterVictory", _, _, _, _)
+THEN
+QuestUpdate("DEN_Conflict", "BetrayalAfterVictory");
+
+IF
+QuestUpdateUnlocked((CHARACTER)_Var1, "DEN_Conflict", (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Conflict_RitualKnowsAboutKagha(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Conflict_RitualNoteLetterEntryEnabled(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Conflict_RitualNoteLetterEntryEnabled(1);
+PROC_DEN_Conflict_Ritual_CheckGiveNoteLetterEntry(_Var1);
+
+IF
+GameBookInterfaceClosed((ITEM)_Var1, (CHARACTER)_Var2, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_Conflict_RitualKaghaBooks(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_Conflict_RitualKaghaBooks_Read(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Conflict_RitualKaghaBooks_Read(_Var1);
+PROC_DEN_Conflict_Ritual_CheckGiveNoteLetterEntry(_Var2);
+
+PROC
+PROC_DEN_Conflict_Ritual_CheckGiveNoteLetterEntry((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Conflict_RitualNoteLetterEntryEnabled(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Conflict_RitualKaghaBooks_Read(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Conflict_Ritual_GiveNoteLetterEntry(_Var1);
+
+PROC
+PROC_DEN_Conflict_Ritual_GiveNoteLetterEntry((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Conflict_RitualKaghaBooks_Read(S_DEN_ShadowDruidsLetter_b0da8ce3-139f-425b-bbce-ae67663b8a2c, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "FoundNote", _Var2, _Var1)
+AND
+DB_DEN_Conflict_RitualLetterFound(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", _Var3);
+NOT DB_DEN_Conflict_RitualNoteLetterEntryEnabled(1);
+PROC_DEN_Conflict_Ritual_NoteLetterCleanUp();
+PROC_DEN_Conflict_Ritual_NoteLetterUpdateMain(_Var1, _Var3);
+
+PROC
+PROC_DEN_Conflict_Ritual_GiveNoteLetterEntry((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Conflict_RitualKaghaBooks_Read(S_DEN_ShadowMeetingNote_fbe59587-8dec-440c-94d2-2748727c4cf5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Conflict_RitualNoteLetterEntryEnabled(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "FoundNote");
+PROC_DEN_Conflict_Ritual_NoteLetterUpdateMain(_Var1, "FoundNote");
+
+PROC
+PROC_DEN_Conflict_Ritual_NoteLetterUpdateMain((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_Conflict_RitualMainUpdate(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "ZevGaveQuest", _Var3, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "MetKagha_FoundNote", _Var4, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", _Var5);
+
+PROC
+PROC_StateSet_PermaDefeated(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, _, _, _)
+THEN
+NOT DB_DEN_Conflict_RitualMainUpdate("FoundNote", 0, 0, "MetKagha_FoundNote");
+
+PROC
+PROC_DEN_Conflict_Ritual_NoteLetterCleanUp()
+AND
+DB_DEN_Conflict_RitualKnowsAboutKagha(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Conflict_RitualKnowsAboutKagha(_Var1);
+
+PROC
+PROC_DEN_Conflict_Ritual_NoteLetterCleanUp()
+AND
+DB_DEN_Conflict_RitualKaghaBooks(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Conflict_RitualKaghaBooks(_Var1);
+NOT DB_DEN_Conflict_RitualKaghaBooks_Read(_Var1);
+
+PROC
+PROC_DEN_GroveConflict_SDCombat_JournalHook((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DEN_Conflict_RitualDenouncingCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var3, "DEN_Conflict", _Var2);
+
+PROC
+PROC_DEN_ShadowDruid_FightEnded_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "DADruidsDead");
+
+PROC
+PROC_DEN_ShadowDruid_FightEnded_JournalHook()
+THEN
+DB_DEN_Conflict_NeedToCloseSUB_Druid(1);
+PROC_DEN_Conflict_SUB_Ritual_FightEnded();
+
+PROC
+PROC_DEN_Conflict_SUB_Ritual_FightEnded()
+AND
+GetClosestPlayer(S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, _Var1, _, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "MetZevlor", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "MetKagha", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_Conflict", "MetKagha_ZevlorDead", 0, _Var1)
+THEN
+PROC_DEN_Conflict_SUB_Ritual_CloseFightEnded();
+NOT DB_DEN_Conflict_NeedToCloseSUB_Druid(1);
+
+PROC
+PROC_DEN_Conflict_SUB_Ritual_FightEnded()
+AND
+DB_DEN_Conflict_NeedToCloseSUB_Druid(1, _, _, _, _)
+AND
+DB_Defeated(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, _, _, _)
+THEN
+PROC_DEN_Conflict_SUB_Ritual_CloseFightEnded();
+NOT DB_DEN_Conflict_NeedToCloseSUB_Druid(1);
+
+PROC
+PROC_DEN_Conflict_SUB_Ritual_FightEnded()
+AND
+DB_DEN_Conflict_NeedToCloseSUB_Druid(1, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Conflict_NeedToCloseSUB_Druid(1);
+DB_DEN_Conflict_NeedToCloseSUB_Druid(2);
+QuestUpdate(_Var1, "DEN_Conflict", "RitualStopped");
+
+IF
+FlagSet(DEN_TieflingLeader_HasMet_DruidsPacified_e74df993-01ca-1ab1-cd24-fa7e7780da08, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_DEN_Conflict_NeedToCloseSUB_Druid(2, _, _, _, _)
+THEN
+NOT DB_DEN_Conflict_NeedToCloseSUB_Druid(2);
+PROC_DEN_Conflict_SUB_Ritual_CloseFightEnded();
+
+PROC
+PROC_StateSet_Defeated(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, _, _, _, _)
+AND
+DB_DEN_Conflict_NeedToCloseSUB_Druid(2, _, _, _, _)
+THEN
+NOT DB_DEN_Conflict_NeedToCloseSUB_Druid(2);
+PROC_DEN_Conflict_SUB_Ritual_CloseFightEnded();
+
+PROC
+PROC_DEN_Conflict_SUB_Ritual_CloseFightEnded()
+AND
+IsDead(S_DEN_DruidLeader_95eb2b0b-a522-4ea5-8167-c5f4d1418156, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_Conflict_RitualCombatEnded(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var3, "DEN_Conflict", _Var2);
+
+IF
+DialogStarted(CAMP_GoblinHuntCelebration_Halsin_13f1ee23-9785-aa5a-1c90-69d462b65090, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_GLO_Halsin_MetAtCelebration(1);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_TieflingsGone", _, _)
+AND
+DB_GLO_Halsin_MetAtCelebration(1, _, _, _, _)
+AND NOT
+DB_GLO_Halsin_MetAtDen(1, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "Celebration_MetHalsin");
+
+IF
+DialogStarted(DEN_AttackOnDen_HalsinReturns_d9c2a89e-13fa-57f7-0fcf-4dfada32d693, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_GLO_Halsin_MetAtDen(1);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_TieflingsGone", _, _)
+AND NOT
+DB_GLO_Halsin_MetAtCelebration(1, _, _, _, _)
+AND NOT
+DB_GLO_Halsin_MetAtDen(1, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "LeftSafe_NotMetHalsin");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_TieflingsGone", _, _)
+AND
+DB_GlobalFlag(DEN_HalsinReturns_Event_SeekRath_07039747-ebb1-9a3f-fb7a-052b6848826f, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "LeftSafe_MetHalsin");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(DEN_HalsinReturns_Event_SeekRath_07039747-ebb1-9a3f-fb7a-052b6848826f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "HalsinSentToRath");
+
+PROC
+PROC_StateSet_PermaDefeated(S_DEN_DruidOpposed_322cf8d2-32ee-453f-987e-f12b32652b5d, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_HalsinReturns_Event_SeekRath_07039747-ebb1-9a3f-fb7a-052b6848826f, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_Conflict", "RathDied");
+
+IF
+DialogEnded(DEN_AttackOnDen_HalsinReturns_d9c2a89e-13fa-57f7-0fcf-4dfada32d693, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_HalsinReturns_Event_SeekRath_07039747-ebb1-9a3f-fb7a-052b6848826f, _, _, _, _)
+AND
+QRY_OnlyOnce("DEN_HalsinReturns_NoRathJournalUpdate", _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "DEN_Conflict", "HalsinSentToRathAlt");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, S_DEN_SnakesCourtProxSphere_8456dca4-15a1-44b6-93e6-63a7a8a75f06, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_SnakeCourt", "KidFreedFirst", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_SnakeCourt", "KidDiedFirst", 0, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_SnakeCourt", "EnteredLair");
+
+PROC
+PROC_State_Changed(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "DEN_SnakeCourt", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_Peace", _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestIsAccepted(_Var2, "DEN_SnakeCourt", _Var3, _Var1, _Var1)
+AND
+DB_DEN_SnakeCourt_KidFate_JournalUpdate(_Var1, _Var4, _Var3, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "DEN_SnakeCourt", _Var4);
+SysClear("DB_DEN_SnakeCourt_KidFate_JournalUpdate", 3);
+
+IF
+DB_Sees(_Var1, S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _Var1, _Var1, _Var1)
+AND
+DB_Dead(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestIsAccepted(_Var1, "DEN_SnakeCourt", 0, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_SnakeCourt", "KidDiedFirst");
+SysClear("DB_DEN_SnakeCourt_KidFate_JournalUpdate", 3);
+
+PROC
+PROC_DEN_GuardedEntrance_ParentsSeeCorpse()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_SnakeCourt", "ParentDevastated");
+
+PROC
+PROC_DEN_GuardedEntrance_MovedOn_JournalHook((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_SnakeCourt_AutoResolve_JournalUpdate(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_SnakeCourt", _Var3);
+
+PROC
+PROC_DEN_GuardedEntrance_ParentsGone_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_SnakeCourt", "ParentGone");
+
+IF
+FlagSet(DEN_Thieflings_Event_AgreedStealIdol_9d027b80-7b47-5115-2f12-a3b2c9957350, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+AND
+GetFlag(DEN_Thieflings_State_HasIdol_9b6a429f-3e24-4569-ba30-de7bf2b12ace, _Var3, 0, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_IdolTheft", "TheftRequest");
+
+IF
+FlagSet(DEN_Thieflings_Event_AgreedStealIdol_9d027b80-7b47-5115-2f12-a3b2c9957350, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+AND
+GetFlag(DEN_Thieflings_State_HasIdol_9b6a429f-3e24-4569-ba30-de7bf2b12ace, _Var3, 1, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_IdolTheft", "TheftRequest_AlreadyHad");
+
+IF
+CrimeIsRegistered((CHARACTER)_Var1, "DEN_DruidAttack_StoleIdol", _, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(DEN_GroveConflict_State_DruidsPacified_0f747b55-d68d-436f-ac33-9fecaf30387d, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_IdolTheft", "AttackTriggered", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_IdolTheft", "TheftRequest", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_IdolTheft", "NoAttackTheft");
+
+IF
+CrimeIsRegistered((CHARACTER)_Var1, "DEN_DruidAttack_StoleIdol", _, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_GroveConflict_State_DruidsPacified_0f747b55-d68d-436f-ac33-9fecaf30387d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_DruidAttack_State_PrepAfterDeathOfDruids_b4754af7-07ec-433c-87d2-e78ef4c79e6e, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_IdolTheft", "TheftRequest", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_IdolTheft", "AttackTriggered");
+
+IF
+CrimeIsRegistered((CHARACTER)_Var1, "DEN_DruidAttack_StoleIdol", _, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(DEN_DruidAttack_State_PrepAfterDeathOfDruids_b4754af7-07ec-433c-87d2-e78ef4c79e6e, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_IdolTheft", "TheftRequest", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_IdolTheft", "AttackFinished");
+
+IF
+FlagSet(DEN_DruidAttack_State_PrepAfterDeathOfDruids_b4754af7-07ec-433c-87d2-e78ef4c79e6e, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var3, "DEN_IdolTheft", "AttackTriggered", 1, _)
+THEN
+QuestUpdate(_Var3, "DEN_IdolTheft", "AttackFinished");
+
+IF
+CrimeIsRegistered((CHARACTER)_Var1, "DEN_DruidAttack_StoleIdol", _, _, _, _, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "DEN_IdolTheft", "AttackTriggered", 0, _Var1)
+AND
+DB_OnlyOnce("DEN_TieflingRefugees_Leave", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_IdolTheft", "TieflingsLeftBefore");
+
+IF
+FlagSet(DEN_DruidAttack_State_PrepAfterDeathOfDruids_b4754af7-07ec-433c-87d2-e78ef4c79e6e, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(_Var3, "DEN_IdolTheft", "AttackTriggered", 1, _)
+AND
+DB_OnlyOnce("DEN_TieflingRefugees_Leave", _, _, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_IdolTheft", "TieflingsLeftBefore");
+
+PROC
+PROC_DEN_TieflingRefugees_Leave()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(DEN_Thieflings_State_HasIdol_9b6a429f-3e24-4569-ba30-de7bf2b12ace, _Var1, 1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_IdolTheft", "TieflingsLeftBefore");
+
+IF
+FlagSet(DEN_Thieflings_Event_GaveMolIdol_ff9f8a2e-4986-ca1e-4599-68b8d549cbeb, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_IdolTheft", "GaveIdol");
+
+IF
+FlagSet(DEN_Hideout_Event_TurnedKidsHostile_17cfabeb-f1d7-9432-0e29-5aecfcef1a18, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_IdolTheft_UpdateIfActive("KidsHostile");
+
+IF
+FlagSet(DEN_Thieflings_Event_RefusedGiveIdol_b4a0d6dd-c214-8f38-5e5f-b55704177ef5, _, (INTEGER)_Var2, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_IdolTheft", "KeptIdol");
+
+IF
+FlagSet(DEN_DruidAttack_State_PrepAfterDeathOfTieflings_79826e3c-1dd7-4a8b-a5ca-cf4dfde51d12, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_IdolTheft_UpdateIfActive("LostAttack");
+
+PROC
+PROC_LevelUnloading("WLD_Main_A", _, _, _, _)
+THEN
+PROC_DEN_IdolTheft_UpdateIfActive("NoIdolTheft");
+
+PROC
+PROC_DEN_IdolTheft_UpdateIfActive((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QuestIsAccepted(_Var2, "DEN_IdolTheft", 1, _Var1, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "DEN_IdolTheft", "GaveIdol", 0, _Var1)
+AND
+QuestUpdateIsUnlocked(_Var2, "DEN_IdolTheft", "TieflingsLeftBefore", 0, _Var1)
+THEN
+QuestUpdate(_Var2, "DEN_IdolTheft", _Var1);
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", _, _, _)
+AND NOT
+QRY_DEN_CheckBeforeState("DEN_State_GoblinHuntVictory", _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+QuestUpdate(_Var2, "DEN_IdolTheft", "GroveChanged");
+
+PROC
+PROC_DEN_AttackOnDen_FoundDoni_JournalHook()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_FindingDoni", "FoundDoni");
+
+IF
+FlagSet(DEN_AttackOnDen_Event_HornBlown_92dd6f14-e011-4c21-9738-5d49c720a24e, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_FindingDoni", "AoDStarted");
+
+PROC
+PROC_StateSet_PermaDefeated(S_DEN_Tiefling_001_82f8662d-76da-4352-b37e-01ba433b5d43, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "DEN_FindingDoni", "RikkaDied");
+
+IF
+FlagSet(DEN_AttackOnDen_Event_TieflingsGoHostile_1de63f35-f895-ee70-93b3-55aec390a976, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "DEN_FindingDoni", "BetrayedTieflings");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_DEN_DefaultStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "DEN_Thieflings", "GroveChanged");
+
+PROC
+PROC_State_Changed(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_DEN_DefaultStates(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "DEN_RobbedAdventurer", "GroveChanged");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

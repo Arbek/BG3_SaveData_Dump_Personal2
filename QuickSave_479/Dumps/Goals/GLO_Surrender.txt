@@ -1,0 +1,488 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_SurrenderManually(NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+AttackedBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SurrenderManually(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SurrenderCachedCause(_Var1, _Var2);
+
+IF
+DB_SurrenderCachedCause(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SurrenderCachedCause(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+NOT DB_SurrenderCachedCause(_Var1, _Var3);
+
+IF
+DB_SurrenderOnKnockedOutDialog(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_Intern_HasCustomKnockedOutDialog(_Var1);
+ApplyStatus(_Var1, "PREVENT_KNOCKED_OUT", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_Intern_HasCustomKnockedOutDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SurrenderOnKnockedOutDialog(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Intern_HasCustomKnockedOutDialog(_Var1);
+RemoveStatus(_Var1, "PREVENT_KNOCKED_OUT");
+
+IF
+StatusAttempt((CHARACTER)_Var1, "KNOCKED_OUT", (GUIDSTRING)_Var2, _, (CHARACTER)_Var1)
+AND
+DB_SurrenderOnKnockedOutDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "PREVENT_KNOCKED_OUT", 1, _Var1, _Var1)
+THEN
+BlockNewCrimeReactions(_Var1, 1);
+DB_Surrender_BlockedCrimeReactions(_Var1);
+PROC_Surrender(_Var1, _Var2, _Var4);
+
+IF
+StatusApplied((CHARACTER)_Var1, "SURRENDERED", _, _, (CHARACTER)_Var1)
+AND
+DB_Surrender_BlockedCrimeReactions(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Surrender_BlockedCrimeReactions(_Var1);
+BlockNewCrimeReactions(_Var1, 0);
+
+PROC
+PROC_Surrender_MaybeSetSurrenderCause((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_Surrender_GetSurrenderCause(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Surrender_GetSurrenderCause(_Var2);
+DB_QRYRTN_Surrender_GetSurrenderCause(_Var1);
+
+PROC
+PROC_Surrender_MaybeSetSurrenderCause((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_Surrender_GetSurrenderCause(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Surrender_GetSurrenderCause(_Var1);
+
+QRY
+QRY_Surrender_GetSurrenderCause((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_Surrender_GetSurrenderCause(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Surrender_GetSurrenderCause(_Var2);
+
+QRY
+QRY_Surrender_GetSurrenderCause((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SurrenderCachedCause(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Surrender_GetSurrenderCause(_Var2);
+
+QRY
+QRY_Surrender_GetSurrenderCause((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Surrender_MaybeSetSurrenderCause(_Var3);
+
+QRY
+QRY_Surrender_GetSurrenderCause((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Was_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_IsOrWasInCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_Surrender_MaybeSetSurrenderCause(_Var3);
+
+QRY
+QRY_Surrender_GetSurrenderCause((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_Surrender_GetSurrenderCause(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_Surrender_GetSurrenderCause(NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_Surrender((CHARACTER)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_Surrender(_Var1, _Var2);
+
+PROC
+PROC_Surrender((CHARACTER)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+
+PROC
+PROC_Surrender((CHARACTER)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_SurrenderOnKnockedOutDialog(_Var1, _Var3);
+
+PROC
+PROC_Surrender((CHARACTER)_Var1, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_Surrender_StartDialogAfterCombat(_Var4, _Var1, _Var3);
+
+PROC
+PROC_UnSurrender((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_StartDialogAfterCombat(_Var3, _Var1, _Var4, _Var1, _Var1)
+THEN
+NOT DB_Surrender_StartDialogAfterCombat(_Var3, _Var1, _Var4);
+
+PROC
+PROC_UnSurrender((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+SetHasDialog(_Var1, 0);
+
+PROC
+PROC_UnSurrender((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_Dialogs(_Var1, _Var2);
+
+PROC
+PROC_UnSurrender((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, "SURRENDERED", 0, _Var1, _Var1)
+THEN
+PROC_Surrendered_Removed(_Var1);
+
+PROC
+PROC_UnSurrender((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasAppliedStatus(_Var1, "SURRENDERED", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "SURRENDERED");
+
+IF
+StatusRemoved((CHARACTER)_Var1, "SURRENDERED", _, _, (CHARACTER)_Var1)
+AND
+DB_SurrenderCachedCause(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SurrenderCachedCause(_Var1, _Var4);
+
+IF
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SurrenderOnKnockedOutDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+DB_Dialogs(_Var1, _Var2);
+
+PROC
+PROC_Surrender((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var4
+AND NOT
+DB_Defeated(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetCombatGroupID(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+GetCombatGroupID(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 != ""
+AND
+IsCharacter(_Var4, 1, _Var1, _Var1, _Var1)
+AND
+IsPartyMember(_Var4, 1, 0, _Var1, _Var1)
+AND NOT
+QRY_CustomSurrenderReaction(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetSurrendered(_Var4, _Var2);
+
+PROC
+PROC_Surrender((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Surrender_PreSurrenderFaction(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_Surrender_PreSurrenderFaction(_Var1, _Var4);
+
+PROC
+PROC_Surrender((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SetSurrendered(_Var1, _Var2);
+
+PROC
+PROC_Surrender((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_Surrender_SurrenderAfterCombat(_Var3, _Var1);
+
+PROC
+PROC_SetSurrendered((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_CRIME_IsEnabled(_Var1, "IncapacitatedAssault", _Var1, _Var1, _Var1)
+THEN
+DB_Surrender_DisabledIncapacitatedAssault(_Var1);
+PROC_CharacterDisableCrime(_Var1, "IncapacitatedAssault");
+
+PROC
+PROC_SetSurrendered((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_Surrender_SelfHealBlocked(0);
+
+PROC
+PROC_SetSurrendered((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_SelfHealing_IsEnabled(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Surrender_SelfHealBlocked(0);
+DB_Surrender_SelfHealBlocked(1);
+
+PROC
+PROC_SetSurrendered((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+ApplyStatus(_Var1, "SURRENDERED", -1, 1, _Var2);
+
+PROC
+PROC_SetSurrendered((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 == NULL_00000000-0000-0000-0000-000000000000
+AND
+GetHostCharacter(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SURRENDERED", -1, 1, _Var3);
+
+PROC
+PROC_SetSurrendered((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+CanFight(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+CanJoinCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Surrender_SelfHealBlocked(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetCanFight(_Var1, 0);
+SetCanJoinCombat(_Var1, 0);
+SetHasDialog(_Var1, 0);
+PROC_SelfHealing_Disable(_Var1);
+DB_NoLowAttitudeDialog(_Var1);
+DB_Surrender_FightStats(_Var1, _Var5, _Var3, _Var4);
+
+PROC
+PROC_SetSurrendered((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_NoLowAttitudeDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NoLowAttitudeDialog(_Var1);
+DB_Surrender_NoLowAttitudeDialog(_Var1);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "KNOCKED_OUT", _, _, (CHARACTER)_Var1)
+AND
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SURRENDERED", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CustomSurrenderReaction((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Surrender_Restore((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_FightStats(_Var1, 0, _Var2, _Var3, _Var1)
+THEN
+PROC_SelfHealing_Enable(_Var1);
+
+PROC
+PROC_Surrender_Restore((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_FightStats(_Var1, _Var2, 1, _Var3, _Var1)
+THEN
+PROC_SetCanFight(_Var1, 1);
+
+PROC
+PROC_Surrender_Restore((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_FightStats(_Var1, _Var2, _Var3, 1, _Var1)
+THEN
+SetCanJoinCombat(_Var1, 1);
+
+PROC
+PROC_Surrender_Restore((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_NoLowAttitudeDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Surrender_NoLowAttitudeDialog(_Var2);
+NOT DB_NoLowAttitudeDialog(_Var2);
+
+PROC
+PROC_Surrender_Restore((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_PreSurrenderFaction(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetFaction(_Var1, _Var2);
+NOT DB_Surrender_PreSurrenderFaction(_Var1, _Var2);
+
+PROC
+PROC_Surrender_Restore((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_FightStats(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_Surrender_FightStats(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_Surrender_Restore((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_DisabledIncapacitatedAssault(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Surrender_DisabledIncapacitatedAssault(_Var1);
+PROC_CharacterEnableCrime(_Var1, "IncapacitatedAssault");
+
+PROC
+PROC_Surrender_Restore((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_Surrender_Restored(_Var1);
+
+PROC
+PROC_Surrender_Restored((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Surrender_SurrenderAfterCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var3, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 < 20
+THEN
+PROC_Surrender_FoundSurrenderTarget(_Var3, _Var2, _Var1);
+
+PROC
+PROC_Surrender_FoundSurrenderTarget((CHARACTER)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_Surrender_StartCustomDialogAfterCombat(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Surrender_StartDialogAfterCombat(_Var3, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+AND
+QRY_StartDialog(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Surrender_FoundSurrenderTarget((CHARACTER)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Surrender_StartDialogAfterCombat(_Var3, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var4 == NULL_00000000-0000-0000-0000-000000000000
+AND
+QRY_SelectAndStartDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Surrender_StartCustomDialogAfterCombat((CHARACTER)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 2
+THEN
+DB_NOOP(1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Surrender_SurrenderAfterCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Surrender_SurrenderAfterCombat(_Var1, _Var2);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Surrender_StartDialogAfterCombat(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_Surrender_StartDialogAfterCombat(_Var1, _Var2, _Var3);
+
+PROC
+PROC_LongRest()
+AND
+DB_Surrendered(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Surrendered_NPC_NoDisappear(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ScatterStoryItems(_Var1);
+PROC_Surrender_Restore(_Var1);
+PurgeOsirisQueue(_Var1);
+SetOnStage(_Var1, 0);
+PROC_Surrender_Fled(_Var1);
+
+PROC
+PROC_Surrender_Fled(NULL_00000000-0000-0000-0000-000000000000, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(OpenLoot_9b6bf8e7-d173-2d92-9dc2-53d05d0e78d6, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+DB_OpenLootAfterDialog(_Var2, _Var3, _Var1);
+ClearFlag(OpenLoot_9b6bf8e7-d173-2d92-9dc2-53d05d0e78d6, _Var1, _Var2);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_OpenLootAfterDialog(_Var2, _Var3, _Var4, _, _)
+AND
+OpenCharacterLootUI(_Var3, _Var4, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_OpenLootAfterDialog(_Var2, _Var3, _Var4, _, _)
+THEN
+NOT DB_OpenLootAfterDialog(_Var2, _Var3, _Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+

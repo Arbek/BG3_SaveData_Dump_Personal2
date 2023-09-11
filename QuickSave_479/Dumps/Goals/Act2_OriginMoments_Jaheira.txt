@@ -1,0 +1,47 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+LeftCombat(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND
+DB_Is_WildShaped(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND
+IsPartyFollower(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 0, _, _, _)
+AND
+HasActiveStatusWithGroup(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "SG_Polymorph_BeastShape", 1, _, _)
+THEN
+RemoveStatusesWithGroup(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "SG_Polymorph_BeastShape");
+RemoveStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "INVISIBILITY_PANTHER");
+RemoveStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "PROWL");
+
+IF
+LeftCombat(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND NOT
+DB_PartOfTheTeam(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND
+IsPartyFollower(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 0, _, _, _)
+THEN
+RemoveStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "INVISIBILITY_PANTHER");
+RemoveStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "PROWL");
+
+IF
+CharacterLeftParty(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND
+DB_Is_WildShaped(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, _, _, _, _)
+AND
+IsInCombat(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, 0, _, _, _)
+THEN
+PROC_RemoveAllPolymorphs(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a);
+RemoveStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "INVISIBILITY_PANTHER");
+RemoveStatus(S_Player_Jaheira_91b6b200-7d00-4d62-8dc9-99e8339dfa1a, "PROWL");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

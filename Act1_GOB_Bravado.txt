@@ -1,0 +1,35 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_GOB_Bravado_Goblin_001_0ee08ad4-329e-40c1-a40b-a74e74c39055, GOB_Bravado_Goblin_001_6c73e43a-e10a-4a5e-a4bd-82ba49b8ad09);
+DB_Dialogs(S_GOB_Bravado_Goblin_002_02291a93-e5d6-40f2-8cd0-f5edad8f4b6d, GOB_Bravado_Goblin_002_5b97297e-bd88-1575-d90a-3171ae89704c);
+DB_Dialogs(S_GOB_Bravado_Goblin_003_6ca1d4f0-59fd-4c7f-9d07-bb158eef2246, GOB_Bravado_Goblin_003_6bd7f2f8-088b-58ba-9978-598680620551);
+DB_Inclusion_Object(S_GOB_Bravado_Goblin_002_02291a93-e5d6-40f2-8cd0-f5edad8f4b6d, GOB_Bravado_Goblin002_StartInclusion_dba8b353-de8c-4447-a106-0d3ffba4dcb7, GOB_Bravado_Goblin002_EndInclusion_a1e1e216-f96e-47d8-a378-84bc3c90b8fa);
+DB_Inclusion_Object(S_GOB_Bravado_Goblin_003_6ca1d4f0-59fd-4c7f-9d07-bb158eef2246, GOB_Bravado_Goblin003_StartInclusion_b5435143-535a-4437-b53e-5015294606cc, GOB_Bravado_Goblin003_EndInclusion_63d653d4-dfd2-4a08-88a0-01cbf22bbe76);
+
+KBSECTION
+QRY
+QRY_SelectCustomDialog(S_GOB_Bravado_Goblin_002_02291a93-e5d6-40f2-8cd0-f5edad8f4b6d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GOB_Bravado_IntroHappened(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GOB_Bravado_Goblin_001_6c73e43a-e10a-4a5e-a4bd-82ba49b8ad09, S_GOB_Bravado_Goblin_001_0ee08ad4-329e-40c1-a40b-a74e74c39055, NULL_00000000-0000-0000-0000-000000000000, _Var1);
+
+QRY
+QRY_SelectCustomDialog(S_GOB_Bravado_Goblin_003_02291a93-e5d6-40f2-8cd0-f5edad8f4b6d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GOB_Bravado_IntroHappened(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GOB_Bravado_Goblin_001_6c73e43a-e10a-4a5e-a4bd-82ba49b8ad09, S_GOB_Bravado_Goblin_001_0ee08ad4-329e-40c1-a40b-a74e74c39055, NULL_00000000-0000-0000-0000-000000000000, _Var1);
+
+IF
+DialogEnded(GOB_Bravado_Goblin_001_6c73e43a-e10a-4a5e-a4bd-82ba49b8ad09, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_GOB_Bravado_IntroHappened(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

@@ -1,0 +1,323 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_State_Priority(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_Necromancer", "SHA_Necromancer_State_AtTemple", 0);
+DB_State_Priority(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_Necromancer", "SHA_Necromancer_State_AtPrison", 1000);
+DB_State_Priority(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_Necromancer", "SHA_Necromancer_State_AtMoonrise", 2000);
+DB_State_Current(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_Necromancer", "SHA_Necromancer_State_AtTemple");
+DB_State_Flags(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_Necromancer", "SHA_Necromancer_State_AtPrison", SHA_Necromancer_State_AtNightsongPrison_20f5cb4f-5145-4c98-943f-7b902b58190f);
+DB_State_Flags(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_Necromancer", "SHA_Necromancer_State_AtMoonrise", MOO_Necromancer_State_AtMoonrise_f64507bf-aa53-6de9-0b59-c19d649bb0a5);
+DB_PermaDefeatedEvent(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_State_PermaDefeated_c8fc43c5-f6bb-4c15-9869-8ceefc288ef2);
+DB_CombatReact_AD_OnHPPercentage(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_LowHP_61c73f5e-d04f-294b-0fa9-f16e0488a94b, 30);
+DB_CombatReact_AD_OnDeath(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_Death_505b3097-a88a-d9f4-d384-04c09cffe735);
+DB_CombatReact_AD_OnDeathOther(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, SHA_Necromancer_AD_GolemDead_4df33ad7-b58f-f6d6-c75f-5bfa4b060543);
+DB_CombatReact_AD_OnCast(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_DominateGolem_2984b261-5ca1-bd59-beaa-21a96793316c, "Target_SHA_Necromancer_DarkDominance");
+DB_CombatReact_AD_OnCastOther(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, SHA_Necromancer_AD_GolemGoesBerserk_28d38449-c90a-ff8c-c470-fbb840fe8c91, "Shout_Berserk_FleshGolem");
+DB_CombatReact_AD_OnTurn(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_StartTurn_0461405a-32c5-b848-f991-9c8067b8e748, 1);
+DB_CombatReact_AD_OnTurn(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_StartTurn_0461405a-32c5-b848-f991-9c8067b8e748, 2);
+DB_CombatReact_AD_OnTurn(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_StartTurn_0461405a-32c5-b848-f991-9c8067b8e748, 3);
+DB_CombatReact_AD_OnTurn(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_StartTurn_0461405a-32c5-b848-f991-9c8067b8e748, 4);
+
+KBSECTION
+IF
+DialogStarted(SHA_Necromancer_Chosen_a420e40c-ac8e-ec47-49f0-2c4f82eaef96, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SHA_Necromancer_State_TalkedToNecromancer_8f64e0d6-7144-43f4-b685-c1307bf5bc3e, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SHA_Necromancer_State_TalkedToNecromancer_8f64e0d6-7144-43f4-b685-c1307bf5bc3e);
+
+IF
+DB_GlobalFlag(MOO_Necromancer_State_AtMoonrise_f64507bf-aa53-6de9-0b59-c19d649bb0a5, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, _, _, _)
+THEN
+PROC_Poof(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f);
+TeleportTo(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, S_COL_GolemPoint_cec816ea-3560-4bca-96a9-a41a1f2674f5, "SHA_Necromancer_ToMoonrise");
+
+IF
+EntityEvent(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_Necromancer_AtNightsongPrison", _, _, _)
+THEN
+PROC_Foop(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+
+PROC
+PROC_State_Changed(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_Necromancer", "SHA_Necromancer_State_AtPrison", _, _)
+AND
+QRY_OnlyOnce("SHA_Necromancer_MoveToPrison", _, _, _, _)
+THEN
+PROC_SHA_Necromancer_MoveToPrison();
+
+PROC
+PROC_SHA_Necromancer_MoveToPrison()
+AND
+DB_SceneManager(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver(_Var1);
+
+PROC
+PROC_SHA_Necromancer_MoveToPrison()
+AND NOT
+DB_PermaDefeated(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _, _, _, _)
+THEN
+TeleportTo(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, S_SHA_NightsongPrison_EntranceTeleportTrigger_49b61a34-31ba-47cb-b075-f4baf6e6f122, "SHA_Necromancer_AtNightsongPrison", 0, 0, 1);
+RemoveHarmfulStatuses(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+PROC_RemoveDialog(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Shout_SHA_GolemBell_Summon", _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SHA_Necromancer_CanSummonFleshGolem(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_SHA_Necromancer_SummonGolemToCombat(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SHA_Necromancer_FleshGolemSummoned(_Var1, _Var5);
+SetCanJoinCombat(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, 1);
+DB_SHA_Necromancer_GolemTeleports(1);
+SetCombatGroupID(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "");
+PlayEffect(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, VFX_Combat_Death_SummonNecrotic_Lifetime_BodyFX_01_8b68ad6d-5e1a-5a14-e08e-4a75ad8d6939);
+TeleportTo(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _Var1, "SHA_GolemSummoned");
+AddSpell(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "Projectile_Jump", 0, 0);
+
+IF
+EntityEvent(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "SHA_GolemSummoned", _, _, _)
+THEN
+PlayEffect(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, VFX_Combat_Death_SummonNecrotic_Lifetime_BodyFX_01_8b68ad6d-5e1a-5a14-e08e-4a75ad8d6939);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Shout_SHA_GolemBell_Summon", _, _, _)
+AND NOT
+DB_QRYRTN_SHA_Necromancer_SummonGolemToCombat(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Failed to summon golem.");
+
+IF
+CastSpellFailed((CHARACTER)_Var1, "Shout_SHA_GolemBell_Summon", _, _, _)
+THEN
+DebugText(_Var1, "Failed to summon golem.");
+
+QRY
+QRY_SHA_Necromancer_CanSummonFleshGolem((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_SHA_Necromancer_SummonGolemToCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_SHA_Necromancer_SummonGolemToCombat(_Var2);
+
+QRY
+QRY_SHA_Necromancer_CanSummonFleshGolem((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, S_SHA_Temple_SUB_348b76ee-33d8-471b-a95d-7ded0d6cdfd5, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, S_SHA_Temple_SUB_348b76ee-33d8-471b-a95d-7ded0d6cdfd5, 1, _Var1, _Var1)
+AND NOT
+DB_CantMove(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_SHA_Necromancer_SummonGolemToCombat(_Var2);
+
+IF
+EntityEvent(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "SHA_GolemSummoned", _, _, _)
+THEN
+SetFlag(SHA_Necromancer_State_GolemSummoned_9b9ceaed-5981-4fc8-8cfe-49688c5733c8, NULL_00000000-0000-0000-0000-000000000000);
+ObjectTimerLaunch(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "SHA_GolemSummoned_FailedToJoinCombat", 6000);
+
+IF
+EnteredCombat(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ObjectTimerCancel(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "SHA_GolemSummoned_FailedToJoinCombat");
+
+IF
+ObjectTimerFinished(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "SHA_GolemSummoned_FailedToJoinCombat", _, _, _)
+THEN
+PROC_SHA_Necromancer_FleshGolemLeaves();
+
+IF
+EntityEvent(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "SHA_GolemSummoned", _, _, _)
+AND
+QRY_OnlyOnce_Reset("SHA_GolemTurnsAgainstPlayer", _, _, _, _)
+AND
+DB_SHA_Necromancer_FleshGolemSummoned(_, _Var2, _, _, _)
+AND
+DB_Is_InCombat(_Var3, _Var2, _, _, _)
+AND NOT
+DB_SHA_Necromancer_BlockFleshGolemHelp(1, _, _, _, _)
+AND NOT
+DB_Players(_Var3, _, _, _, _)
+AND
+QRY_IsEnemyToAnyPlayerInCombat(_Var3, _Var2, _, _, _)
+AND
+IsAlly(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _Var3, 1, _, _)
+AND
+QRY_OnlyOnce("SHA_GolemTurnsAgainstPlayer", _, _, _, _)
+THEN
+PROC_TryStartAD(SHA_FleshGolem_AD_TurnsAgainstPlayer_e51d780a-4f85-7d41-cbb2-53164ea5ce03, S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f);
+DB_SHA_Necromancer_BlockFleshGolemHelp(1);
+
+IF
+AutomatedDialogEnded(SHA_FleshGolem_AD_TurnsAgainstPlayer_e51d780a-4f85-7d41-cbb2-53164ea5ce03, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+QRY_SpeakerIsInDialogRange(_Var2, S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, _, _)
+AND
+QRY_OnlyOnce("SHA_GolemTurnsAgainstPlayerResponse", _, _, _, _)
+THEN
+PROC_TryStartAD(SHA_FleshGolem_AD_TurnsAgainstPlayerResponse_77341835-43df-af90-6f90-f2e1b8e2454f, _Var2);
+
+IF
+EntityEvent(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "SHA_GolemSummoned", _, _, _)
+AND NOT
+DB_SHA_Necromancer_BlockFleshGolemHelp(1, _, _, _, _)
+AND
+DB_SHA_Necromancer_FleshGolemSummoned(_, _Var2, _, _, _)
+AND
+DB_Is_InCombat(_Var3, _Var2, _, _, _)
+AND NOT
+DB_Players(_Var3, _, _, _, _)
+AND
+QRY_IsEnemyToAnyPlayerInCombat(_Var3, _Var2, _, _, _)
+THEN
+PROC_SetRelationTemporaryHostile(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _Var3);
+EnterCombat(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _Var3);
+
+IF
+LeftCombat(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, _, _, _)
+AND
+DB_SHA_Necromancer_FleshGolemSummoned(_, _Var3, _, _, _)
+THEN
+PROC_SHA_Necromancer_FleshGolemLeaves();
+
+PROC
+PROC_SHA_Necromancer_FleshGolemLeaves()
+AND
+DB_SHA_Necromancer_FleshGolemSummoned(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Necromancer_FleshGolemSummoned(_Var1, _Var2);
+
+PROC
+PROC_SHA_Necromancer_FleshGolemLeaves()
+THEN
+ClearFlag(SHA_Necromancer_State_GolemSummoned_9b9ceaed-5981-4fc8-8cfe-49688c5733c8, NULL_00000000-0000-0000-0000-000000000000);
+RemoveSpell(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "Projectile_Jump", 0);
+
+PROC
+PROC_SHA_Necromancer_FleshGolemLeaves()
+AND NOT
+DB_Defeated(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, _, _, _)
+AND
+IsInTrigger(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, S_SHA_Temple_SUB_348b76ee-33d8-471b-a95d-7ded0d6cdfd5, 1, _, _)
+AND
+GetCombatGroupID(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Poof(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, VFX_Combat_Death_SummonNecrotic_Lifetime_BodyFX_01_8b68ad6d-5e1a-5a14-e08e-4a75ad8d6939);
+TeleportTo(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, "SHA_FleshGolemLeaves", 0, 0, 0, 1, 1);
+SetCombatGroupID(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _Var1);
+
+PROC
+PROC_SHA_Necromancer_FleshGolemLeaves()
+AND NOT
+DB_Defeated(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, _, _, _)
+AND
+IsInTrigger(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, S_SHA_Temple_SUB_348b76ee-33d8-471b-a95d-7ded0d6cdfd5, 0, _, _)
+THEN
+PROC_Poof(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, VFX_Combat_Death_SummonNecrotic_Lifetime_BodyFX_01_8b68ad6d-5e1a-5a14-e08e-4a75ad8d6939);
+TeleportTo(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, S_SHA_NightsongPrison_GolemWaitPos_dd1b38e9-6863-45f6-8105-7a7850d1af65, "SHA_FleshGolemLeaves", 0, 0, 0, 1, 1);
+
+IF
+EntityEvent(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, "SHA_FleshGolemLeaves", _, _, _)
+THEN
+PROC_Foop(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, VFX_Combat_Death_SummonNecrotic_Lifetime_BodyFX_01_8b68ad6d-5e1a-5a14-e08e-4a75ad8d6939);
+
+IF
+Teleported(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, _, _, _, _, _, _, _, _)
+AND NOT
+DB_SHA_Necromancer_GolemTeleports(1, _, _, _, _)
+AND
+DB_SHA_Necromancer_FleshGolemSummoned(_Var9, _Var10, _, _, _)
+THEN
+NOT DB_SHA_Necromancer_FleshGolemSummoned(_Var9, _Var10);
+ClearFlag(SHA_Necromancer_State_GolemSummoned_9b9ceaed-5981-4fc8-8cfe-49688c5733c8, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+Teleported(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, _, _, _, _, _, _, _, _)
+AND
+DB_SHA_Necromancer_GolemTeleports(1, _, _, _, _)
+THEN
+NOT DB_SHA_Necromancer_GolemTeleports(1);
+
+IF
+DB_Is_InCombat(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SHA_Necromancer_CurrentCombat(_Var1);
+
+IF
+DB_Is_InCombat(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_000_b8584c3f-2ed8-44ff-9831-7d6fb2115516, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_001_1ffb5583-7595-42d1-a985-903b2717be6a, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_002_bad9126a-1674-4969-9fb5-7df8c69e76e4, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+DB_CombatReact_AD_AppliedStatusToPlayer(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "HOLD_PERSON");
+
+IF
+DB_PermaDefeated(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, _, _, _, _)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_000_b8584c3f-2ed8-44ff-9831-7d6fb2115516, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_001_1ffb5583-7595-42d1-a985-903b2717be6a, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_002_bad9126a-1674-4969-9fb5-7df8c69e76e4, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayer(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "HOLD_PERSON");
+
+IF
+SwitchedCombat(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Necromancer_CurrentCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Necromancer_CurrentCombat(_Var1);
+DB_SHA_Necromancer_CurrentCombat(_Var2);
+
+IF
+LeftCombat(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Necromancer_CurrentCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Necromancer_CurrentCombat(_Var1);
+
+IF
+LeftCombat(S_SHA_Necromancer_FleshGolem_5d25116f-4e25-4f9f-bb7a-1d1fdfa8fd4f, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_000_b8584c3f-2ed8-44ff-9831-7d6fb2115516, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_001_1ffb5583-7595-42d1-a985-903b2717be6a, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_002_bad9126a-1674-4969-9fb5-7df8c69e76e4, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayer(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "HOLD_PERSON");
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Necromancer_CurrentCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SHA_Necromancer_State_Dead_f83edb0d-f11f-4a3e-a866-58af8fc6c96d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SHA_Necromancer_PlayerReactedToNecroDeath", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(SHA_Necromancer_VB_DefeatedNecro_d2ed5c93-2ca5-41dd-a984-b2e149a42b80, _Var2);
+
+IF
+AutomatedDialogStarted(SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_000_b8584c3f-2ed8-44ff-9831-7d6fb2115516, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_001_1ffb5583-7595-42d1-a985-903b2717be6a, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayerByOthers(S_SHA_Necromancer_Ghoul_002_bad9126a-1674-4969-9fb5-7df8c69e76e4, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "PARALYZED", S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d);
+NOT DB_CombatReact_AD_AppliedStatusToPlayer(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, SHA_Necromancer_AD_EnemyVulnerable_48d80c19-d7f5-c809-681e-ac3c3b53c08d, "HOLD_PERSON");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

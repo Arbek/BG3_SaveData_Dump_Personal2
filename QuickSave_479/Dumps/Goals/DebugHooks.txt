@@ -1,0 +1,53 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_Debug_StartRecurrent((STRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+Concatenate("Debug_LaunchWithInterval_", _Var1, _Var4, _Var1, _Var1)
+THEN
+DB_Debug_LaunchingWithInterval(_Var4, _Var1, _Var3, _Var2, 1);
+TimerLaunch(_Var4, _Var3);
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_LaunchingWithInterval(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+_Var5 <= _Var4
+THEN
+PROC_Debug_DoRecurrent(_Var2, _Var5);
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_LaunchingWithInterval(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+_Var4 == _Var5
+THEN
+NOT DB_Debug_LaunchingWithInterval(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+TimerFinished((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Debug_LaunchingWithInterval(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+IntegerSum(_Var5, 1, _Var6, _Var1, _Var1)
+THEN
+NOT DB_Debug_LaunchingWithInterval(_Var1, _Var2, _Var3, _Var4, _Var5);
+DB_Debug_LaunchingWithInterval(_Var1, _Var2, _Var3, _Var4, _Var6);
+TimerLaunch(_Var1, _Var3);
+
+PROC
+PROC_Debug_DoRecurrent((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

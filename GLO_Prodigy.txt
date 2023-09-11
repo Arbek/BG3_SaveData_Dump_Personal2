@@ -1,0 +1,92 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Prodigy_NPCs(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b);
+DB_GLO_Prodigy_NPCs(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d);
+DB_GLO_Prodigy_NPCs(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b);
+DB_GLO_CharacterCorpseDialog(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, DEN_Prodigy_Dead_4a8e971b-f523-1481-bbd1-fc44985d06d0);
+DB_DefeatedEvent(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, GLO_Prodigy_State_Defeated_54df9b47-fe34-3cbc-1a52-e539924c6613);
+DB_DefeatedEvent(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, GLO_Prodigy_State_SisterDefeated_85a3e024-8a95-4ef3-9ff8-248c90ab92ad);
+DB_DefeatedEvent(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, GLO_Prodigy_State_BrotherDefeated_31b02379-0648-484d-8f75-936e0903d2df);
+
+KBSECTION
+PROC
+PROC_StartDialog_AddExtraSpeakers(DEN_Prodigy_AD_0e3b4f43-4360-84cb-573d-f8563083487a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(DEN_Prodigy_AD_0e3b4f43-4360-84cb-573d-f8563083487a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_Prodigy_State_ArgumentDone_9a1847e7-2249-0145-9294-0e6c87034e14, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_State_Current(_, "DEN", "DEN_State_Peace", _Var1, _Var1)
+AND
+DB_GLO_Prodigy_NPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(DEN_Prodigy_Group_aa01a85b-9513-f01d-2861-032f2aa2f531, S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, _Var2);
+
+IF
+DialogEnded(DEN_Prodigy_Group_aa01a85b-9513-f01d-2861-032f2aa2f531, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_Prodigy_State_Staying_479db0b1-cc1b-78bf-3e7b-9840747fbd4f, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d);
+DB_Dialogs(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, DEN_Prodigy_Sister_Stay_7beb5f79-ed6c-3e46-0599-2ab5dd1d4235);
+
+IF
+FlagSet(DEN_Prodigy_State_Staying_479db0b1-cc1b-78bf-3e7b-9840747fbd4f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_DEN_AddOrUpdateDenNPC(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, "Cave", DEN_AttackOnDen_Prodigy_bcfa548a-8e86-fac7-9f88-53cdc613f243);
+PROC_DEN_AddOrUpdateDenNPC(S_GLO_ProdigyBrother_d0187724-c0e2-4019-a01d-a03ee8153f1b, "Cave", DEN_AttackOnDen_ProdigyBrother_da7b18e6-01bb-af9a-4e5e-754f5f61f894);
+PROC_DEN_AddOrUpdateDenNPC(S_GLO_ProdigySister_44d09b0b-0568-456c-b18d-559a0a3f981d, "Cave", DEN_AttackOnDen_ProdigySister_9db12dd3-c30d-2d4f-7768-790c4f973c25);
+
+IF
+DB_GlobalFlag(DEN_Prodigy_State_Leaving_5f02e553-2798-7837-0a7c-6996c6352bbc, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Prodigy_NPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantMove(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInTrigger(_Var1, S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, 1, _Var1, _Var1)
+THEN
+PROC_DEN_LeaveDen(_Var1, "Walk");
+PROC_DEN_AddOrUpdateDenNPC(_Var1, "", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagSet(DEN_Prodigy_Event_Cast_52c74345-5064-4f04-898b-671686abdd64, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(DEN_Prodigy_Event_Cast_52c74345-5064-4f04-898b-671686abdd64, NULL_00000000-0000-0000-0000-000000000000);
+UseSpell(S_GLO_Prodigy_b6a3a9e9-b6eb-4c19-ab3f-4c431178fe1b, "Zone_DEN_Prodigy_Thunderwave", S_DEN_ProdigySpellPos_4f47b8de-bb26-4d92-97bf-61248c305e96);
+
+IF
+DB_GLO_Prodigy_NPCs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Prodigy_State_Leaving_5f02e553-2798-7837-0a7c-6996c6352bbc, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(DEN_Prodigy_State_Staying_479db0b1-cc1b-78bf-3e7b-9840747fbd4f, NULL_00000000-0000-0000-0000-000000000000);
+SetFlag(DEN_Prodigy_State_Leaving_5f02e553-2798-7837-0a7c-6996c6352bbc, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

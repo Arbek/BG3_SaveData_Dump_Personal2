@@ -1,0 +1,251 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetFlag(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, NULL_00000000-0000-0000-0000-000000000000);
+DB_GlobalFlagReactionAfterDialog(GLO_Pixie_Event_Released_8b8a6c7b-fc40-94a5-0139-1c6c43762651, SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf);
+DB_DialogBlockAttackButton(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf);
+DB_GiveItemToEvent(S_GLO_PixieBell_8c99b6c7-51b1-4784-9412-d927c4d77fdc, SCL_Pixie_Event_GiveBell_e15438e1-54a5-48ae-833d-8c88e18ba2b8);
+DB_GlobalFlagReactionAfterDialog(GLO_Pixie_Event_GivesImmunity_4c29ab8b-9b56-49a8-838c-c83a257976e5, SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf);
+DB_GlobalFlagReactionAfterDialog(GLO_Pixie_Event_GivesImmunity_4c29ab8b-9b56-49a8-838c-c83a257976e5, SCL_PixieBell_2ac58194-4037-1f53-cf11-2de7e8a914bf);
+DB_GLO_PixieBell_Polymorph(GLO_PixieBell_Event_TransformsIntoFrog_f5db4756-fb67-9646-b789-9f35933ec316, "SCL_PIXIEBELL_FROG");
+DB_GLO_PixieBell_Polymorph(GLO_PixieBell_Event_TransformsIntoBoar_959b8a77-a9e7-6f66-a1f5-24ed5d0de003, "SCL_PIXIEBELL_BOAR");
+DB_GLO_PixieBell_Polymorph(GLO_PixieBell_Event_TransformsIntoDeepRothe_c0fc0e31-7200-c7c9-0c06-f825885f4ba6, "SCL_PIXIEBELL_DEEPROTHE");
+DB_GLO_PixieBell_AsylumPos("WLD_Main_A", S_GLO_PixieAsylumPos_Act1_1973406c-188b-4a34-b591-86bdb1ffffe7);
+DB_GLO_PixieBell_AsylumPos("CRE_Main_A", S_GLO_PixieAsylumPos_Act1b_c3c9ee19-4014-4147-b2e1-cc799539b797);
+DB_GLO_PixieBell_AsylumPos("SCL_Main_A", S_GLO_PixieAsylumPos_Act2_b47a15ea-a5c6-40e4-8de1-f1e53a8affc4);
+DB_GLO_PixieBell_AsylumPos("INT_Main_A", S_GLO_PixieAsylumPos_Act2b_53971922-a8ad-410f-9e02-24eee1a5611b);
+DB_GLO_PixieBell_AsylumPos("BGO_Main_A", S_GLO_PixieAsylumPos_Act3a_54c3b2c0-ce1d-4870-b939-5fa3923accd0);
+DB_GLO_PixieBell_AsylumPos("CTY_Main_A", S_GLO_PixieAsylumPos_Act3b_72cad6e5-e6de-4637-8169-c894e0a04d91);
+DB_GLO_PixieBell_AsylumPos("END_Main", S_GLO_PixieAsylumPos_Act3c_9f22d897-b3df-49cb-82e9-3db74617dd26);
+DB_GLO_PixieBell_AsylumPos("IRN_Main_A", S_GLO_PixieAsylumPos_Act3i_e4710777-1183-43c6-aa1c-081ac8236869);
+
+KBSECTION
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_PixieBell_AsylumPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_GLO_Pixie_250b9342-fd7d-4a1d-a320-aa5e0dfbf2d5, _Var2);
+
+IF
+UseFinished((GUIDSTRING)_Var1, S_GLO_PixieBell_8c99b6c7-51b1-4784-9412-d927c4d77fdc, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog_Fixed(SCL_PixieBell_2ac58194-4037-1f53-cf11-2de7e8a914bf, S_GLO_PixieBell_8c99b6c7-51b1-4784-9412-d927c4d77fdc, S_GLO_Pixie_250b9342-fd7d-4a1d-a320-aa5e0dfbf2d5, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Shout_GLO_Pixie_InspectMoonlantern", _, _, _)
+THEN
+PROC_GLO_Drider_PixieDialog(_Var1);
+
+PROC
+PROC_GLO_Drider_PixieDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_Pixie_CouldNotStartLanternDialog", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_Pixie_TryStartDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_Pixie_CouldNotStartLanternDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_Drider_PixieDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_OnlyOnce("GLO_Pixie_CouldNotStartLanternDialog", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+QRY
+QRY_GLO_Pixie_TryStartDialog((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_DialogName(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf, _, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf, S_GLO_Pixie_250b9342-fd7d-4a1d-a320-aa5e0dfbf2d5, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Pixie_State_StartedDialog_e9b86886-353a-43aa-8077-c905955b38e5, _Var1);
+DB_GLO_Pixie_StartedDialogWith(_Var1);
+
+QRY
+QRY_GLO_Pixie_BlockPixieDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GLO_Pixie_State_StartedDialog_e9b86886-353a-43aa-8077-c905955b38e5, _Var1, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Pixie_BlockPixieDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Pixie_BlockPixieDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(GLO_Pixie_Event_Released_8b8a6c7b-fc40-94a5-0139-1c6c43762651, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+ClearFlag(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, NULL_00000000-0000-0000-0000-000000000000);
+PROC_GLO_Pixie_BreakMoonlantern();
+
+IF
+Equipped(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Drider_MoonlanternEquippedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Drider_MoonlanternEquippedBy(_Var1);
+
+IF
+Unequipped(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Drider_MoonlanternEquippedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Drider_MoonlanternEquippedBy(_Var1);
+
+PROC
+PROC_GLO_Pixie_BreakMoonlantern()
+AND
+DB_GLO_Drider_MoonlanternEquippedBy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Unequip(_Var1, S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4);
+
+PROC
+PROC_GLO_Pixie_BreakMoonlantern()
+THEN
+Transform(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, UNI_GLO_Moonlantern_Broken_2c99f1f1-776b-45dd-a9d7-06e6a8e14b3f, Polymorph_a0ddddc8-255f-4014-9f63-d7608eb1c2a0);
+DEV_EnableAnubis(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "");
+RemoveStatus(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "SCL_MOONSHIELD_AURA");
+
+IF
+DialogEnded(SCL_Pixie_InsideLantern_bc5adc36-86bf-b782-6e7f-6cc5d12a4abf, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GLO_Pixie_State_Escaped_c7d6f8c9-8052-4725-abba-446fcbc722e9, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Pixie_ReactionVB", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(SCL_Pixie_VB_ReactionToPixie_ebdb6ecf-1c9a-f15a-1b35-246f850cdbfc, _Var2);
+
+IF
+DroppedBy(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Pixie_RestartLanternDialog();
+
+IF
+OnThrown(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, _, (CHARACTER)_Var2, _, _, _, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+PROC_GLO_Pixie_RestartLanternDialog();
+
+PROC
+PROC_GLO_Pixie_RestartLanternDialog()
+AND
+DB_GLO_Pixie_StartedDialogWith(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_Pixie_State_StartedDialog_e9b86886-353a-43aa-8077-c905955b38e5, _Var1);
+NOT DB_GLO_Pixie_StartedDialogWith(_Var1);
+
+IF
+LevelGameplayStarted("INT_Main_A", _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_Pixie_State_Dead_379ba580-46dc-db81-dae1-581117e54e03, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, _, _, _, _)
+THEN
+SetFlag(GLO_Pixie_State_Escaped_c7d6f8c9-8052-4725-abba-446fcbc722e9, NULL_00000000-0000-0000-0000-000000000000);
+ClearFlag(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagCleared(GLO_Pixie_State_InsideLantern_5b43c283-e984-421b-972f-e046e79749ec, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DEV_EnableAnubis(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "");
+RemoveStatus(S_GLO_DriderMoonlantern_4591d212-8f1b-4b85-880c-dc94f76702f4, "SCL_MOONSHIELD_AURA");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(GLO_Pixie_Event_GivesImmunity_4c29ab8b-9b56-49a8-838c-c83a257976e5, _, _, _, _)
+THEN
+SetFlag(GLO_Pixie_State_ShieldActive_1225b030-2183-4033-8bcd-819be1bb9e61, NULL_00000000-0000-0000-0000-000000000000);
+ClearFlag(GLO_Pixie_Event_GivesImmunity_4c29ab8b-9b56-49a8-838c-c83a257976e5, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(GLO_Pixie_Event_GivesImmunity_4c29ab8b-9b56-49a8-838c-c83a257976e5, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_DialogName(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, 1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var3, "GLO_PIXIESHIELD", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_GlobalFlag(GLO_Pixie_State_ShieldActive_1225b030-2183-4033-8bcd-819be1bb9e61, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_PixieBell_HasShield(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "GLO_PIXIESHIELD", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_GLO_PixieBell_HasShield(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "GLO_PIXIESHIELD");
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "GLO_PIXIESHIELD", _, _, (GUIDSTRING)_Var1)
+THEN
+SetFlag(GLO_Pixie_State_CharacterHasShieldActive_61e67a20-f40c-4e47-8c27-b8b903254c3c, _Var1);
+DB_GLO_PixieBell_HasShield(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "GLO_PIXIESHIELD", _, _, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(GLO_Pixie_State_CharacterHasShieldActive_61e67a20-f40c-4e47-8c27-b8b903254c3c, _Var1);
+NOT DB_GLO_PixieBell_HasShield(_Var1);
+
+PROC
+PROC_LevelUnloading("SCL_Main_A", _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(GLO_Pixie_State_ShieldActive_1225b030-2183-4033-8bcd-819be1bb9e61);
+
+PROC
+PROC_LevelUnloading("SCL_Main_A", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_PixieBell_HasShield(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "GLO_PIXIESHIELD");
+
+IF
+DB_GLO_PixieBell_Polymorph(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_FlagReactionAfterDialog(_Var1, SCL_PixieBell_2ac58194-4037-1f53-cf11-2de7e8a914bf);
+
+PROC
+PROC_FlagReactionAfterDialog((GUIDSTRING)_Var1, (FLAG)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_PixieBell_Polymorph(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var2, _Var1);
+ApplyStatus(_Var1, _Var3, 6, -1, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

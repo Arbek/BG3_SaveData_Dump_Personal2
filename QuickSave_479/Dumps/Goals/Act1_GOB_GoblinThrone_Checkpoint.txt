@@ -1,0 +1,114 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckPoint(S_GOB_GuardUpset_87e77c4f-1776-4fd9-a70f-3a237388715c, S_GOB_GuardTense_97409af2-6e52-4e9d-83df-bd4827ca7992, S_GOB_GoblinThroneCheckpoint_WarningTrigger01_63bbb9c1-bdbc-4006-bbea-69a22ba6daad, S_GOB_GoblinThroneCheckpoint_WarningTrigger02_749112eb-4f99-4e6c-a06d-8cd4ceed1d1f, S_GOB_GoblinThroneCheckpoint_TresspassTrigger_fb77a147-2cbe-4a73-80de-ca5270af7cb9, "GOB_GoblinThrone_Checkpoint", GOB_GoblinThroneCheckpoint_Pass_a848a6f2-43d6-4e6e-8e17-55d82c1f180b, "Trespassing", S_GOB_GoblinThroneCheckpoint_OutTrigger_f0985649-dee9-4757-8c73-b66e4d0690d9);
+DB_CheckPointPassTrigger("GOB_GoblinThrone_Checkpoint", "GOB_GoblinThrone_Checkpoint_Bypass", S_GOB_GoblinThroneCheckpoint_BypassTrigger_b2e88807-60a1-42bf-a4aa-07a713f1ba3f);
+SetWeaponUnsheathed(S_GOB_GuardUpset_87e77c4f-1776-4fd9-a70f-3a237388715c, 1, 1);
+SetWeaponUnsheathed(S_GOB_GuardTense_97409af2-6e52-4e9d-83df-bd4827ca7992, 1, 1);
+DB_GOB_Innercheckpoint_PeacefulResolution(S_GOB_InnerCheckpoint_Backup_02_82bd8b76-bb3a-4312-b67a-f4848c2d1f2b);
+DB_GOB_Innercheckpoint_PeacefulResolution(S_GOB_InnerCheckpoint_Backup_01_901d33bf-f9bc-4417-a8fb-9765fa992940);
+DB_GOB_Innercheckpoint_PeacefulResolution(S_GOB_GuardUpset_87e77c4f-1776-4fd9-a70f-3a237388715c);
+DB_GOB_Innercheckpoint_PeacefulResolution(S_GOB_InnerCheckpoint_Backup_04_acf83de4-e91e-4d60-b959-17123886feba);
+DB_GOB_Innercheckpoint_PeacefulResolution(S_GOB_InnerCheckpoint_Backup_03_919f607e-6595-4b00-a140-a4b5b6dfeda4);
+DB_GOB_Innercheckpoint_PeacefulResolution(S_GOB_GuardTense_97409af2-6e52-4e9d-83df-bd4827ca7992);
+DB_GlobalFlagReactionAfterDialog(GOB_GoblinThroneCheckpoint_Pass_a848a6f2-43d6-4e6e-8e17-55d82c1f180b, GOB_GuardTense_c06c6054-8f04-fdab-e527-e34afbc4ac54);
+DB_GlobalFlagReactionAfterDialog(GOB_GoblinThroneCheckpoint_Pass_a848a6f2-43d6-4e6e-8e17-55d82c1f180b, GOB_GuardUpset_23efd46a-1e2d-3e51-80d9-86987b92372f);
+
+KBSECTION
+IF
+EnteredTrigger((CHARACTER)_Var1, S_GOB_GoblinThroneCheckpoint_BypassTrigger_b2e88807-60a1-42bf-a4aa-07a713f1ba3f, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GOB_GoblinThroneCheckpoint_Bypassed_519b1f4b-29cc-4ece-8087-20bbb252d9cb, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GOB_GoblinThroneCheckpoint_Bypassed_519b1f4b-29cc-4ece-8087-20bbb252d9cb);
+
+PROC
+PROC_CheckPointDialogue((CHARACTER)_Var1, S_GOB_GuardTense_97409af2-6e52-4e9d-83df-bd4827ca7992, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GOB_GoblinThrone_Checkpoint_CapturedGoblinNear()
+THEN
+PROC_GOB_GoblinThrone_Checkpoint_CapturedGoblinTalk(_Var1);
+
+PROC
+PROC_CheckPointDialogue((GUIDSTRING)_Var1, S_GOB_GuardUpset_87e77c4f-1776-4fd9-a70f-3a237388715c, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_GOB_GoblinThrone_Checkpoint_CapturedGoblinNear()
+AND
+QRY_StartDialog(GOB_GuardUpset_23efd46a-1e2d-3e51-80d9-86987b92372f, S_GOB_GuardUpset_87e77c4f-1776-4fd9-a70f-3a237388715c, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CheckPointDialogue((CHARACTER)_Var1, S_GOB_GuardTense_97409af2-6e52-4e9d-83df-bd4827ca7992, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog(GOB_GuardTense_c06c6054-8f04-fdab-e527-e34afbc4ac54, S_GOB_GuardTense_97409af2-6e52-4e9d-83df-bd4827ca7992, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(GOB_GoblinThroneCheckpoint_Pass_a848a6f2-43d6-4e6e-8e17-55d82c1f180b, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GOB_Innercheckpoint_PeacefulResolution(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GOB_Innercheckpoint_PeacefulResolution(_Var1);
+PROC_PeacefulResolve(_Var1);
+
+QRY
+QRY_SelectCustomDialog_AfterGenerics(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(GOB_GoblinThroneCheckpoint_State_SazzaWaitsAccess_8671f643-37ff-4634-81bb-7cbc809d524d, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SelectedDialog(GOB_InnerCheckpoint_3way_UpsetAndCapturedGoblins_a044ea29-b17f-8dc0-9584-9510563f6681, S_GOB_GuardUpset_87e77c4f-1776-4fd9-a70f-3a237388715c, S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, _Var1);
+
+QRY
+QRY_GOB_GoblinThrone_Checkpoint_CapturedGoblinNear()
+AND
+DB_GlobalFlag(GOB_GoblinThroneCheckpoint_State_SazzaWaitsAccess_8671f643-37ff-4634-81bb-7cbc809d524d, _, _, _, _)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GOB_GuardUpset_87e77c4f-1776-4fd9-a70f-3a237388715c, S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GOB_GoblinThrone_Checkpoint_CapturedGoblinTalk((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog(GOB_InnerCheckpoint_3way_UpsetAndCapturedGoblins_a044ea29-b17f-8dc0-9584-9510563f6681, S_GOB_GuardUpset_87e77c4f-1776-4fd9-a70f-3a237388715c, S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(GOB_InnerCheckpoint_3way_UpsetAndCapturedGoblins_a044ea29-b17f-8dc0-9584-9510563f6681, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(GOB_GoblinThroneCheckpoint_Pass_a848a6f2-43d6-4e6e-8e17-55d82c1f180b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GOB_GoblinThroneCheckpoint_State_SazzaWaitsAccess_8671f643-37ff-4634-81bb-7cbc809d524d, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(GOB_GoblinThroneCheckpoint_State_SazzaWaitsAccess_8671f643-37ff-4634-81bb-7cbc809d524d, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CharacterMoveTo(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, S_GOB_CapturedGoblin_PositionAtDrow_6ec111da-a53a-447a-a29e-8ab4963c0d16, "Run", "GOB_CapturedGoblin_Event_ArrivedToDrow");
+
+IF
+EntityEvent(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, "GOB_CapturedGoblin_Event_ArrivedToDrow", _, _, _)
+THEN
+SetHasDialog(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, 1);
+SetFlag(GOB_CapturedGoblin_State_AtDrow_0ed79536-5635-2538-8a2e-240a4778b1d6, NULL_00000000-0000-0000-0000-000000000000);
+LookFromTrigger(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, S_GOB_CaptureGoblin_PositionInSecondHalf_246b4bdf-3c83-4854-9b32-4020f98d9d22, 0);
+PROC_CRIME_EnableDangerousShapeshiftReactions(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb);
+
+IF
+DB_GlobalFlag(GOB_GoblinThroneCheckpoint_Pass_a848a6f2-43d6-4e6e-8e17-55d82c1f180b, _, _, _, _)
+AND
+DB_GlobalFlag(GOB_GoblinThroneCheckpoint_State_SazzaWaitsAccess_8671f643-37ff-4634-81bb-7cbc809d524d, _, _, _, _)
+AND NOT
+DB_DialogNPCs(_, S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, _, _, _)
+THEN
+ClearFlag(GOB_GoblinThroneCheckpoint_State_SazzaWaitsAccess_8671f643-37ff-4634-81bb-7cbc809d524d, NULL_00000000-0000-0000-0000-000000000000);
+PROC_CharacterMoveTo(S_DEN_CapturedGoblin_783d7572-a846-455f-b686-247a95263ebb, S_GOB_CapturedGoblin_PositionAtDrow_6ec111da-a53a-447a-a29e-8ab4963c0d16, "Run", "GOB_CapturedGoblin_Event_ArrivedToDrow");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

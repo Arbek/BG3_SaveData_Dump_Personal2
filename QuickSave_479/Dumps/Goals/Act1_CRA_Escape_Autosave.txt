@@ -1,0 +1,56 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_CRA_PerformAutosave()
+AND NOT
+QRY_CRA_PlayerInDialog()
+AND
+QRY_OnlyOnce("CRA_PerformAutosave", _, _, _, _)
+THEN
+TimerLaunch("CRA_PerformAutosave", 1000);
+
+IF
+TimerFinished("CRA_PerformAutosave", _, _, _, _)
+THEN
+AutoSave();
+PROC_GLO_ActivitiesPS5_Act1Start();
+GoalCompleted;
+
+QRY
+QRY_CRA_PlayerInDialog()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+VoiceBarkEnded(CRA_Escape_VB_WakeUp_9c1481c2-6fdf-2a2f-8067-b25377f09efb, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CRA_PerformAutosave();
+
+IF
+VoiceBarkFailed(CRA_Escape_VB_WakeUp_9c1481c2-6fdf-2a2f-8067-b25377f09efb, _, _, _, _)
+THEN
+PROC_CRA_PerformAutosave();
+
+IF
+DialogEnded(CRA_LaezelWakingUp_1994eda9-c2bb-cc14-554a-72883d7331eb, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CRA_PerformAutosave();
+
+IF
+DialogEnded(CRA_AvatarWakesUp_c67aba56-f03c-06a3-2f3c-a6a0a8625680, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CRA_PerformAutosave();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

@@ -1,0 +1,255 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_000_b6f883f9-829b-4ac7-89ab-f15db46dd1f3, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_001_30f9a9b5-37ec-444b-8179-7e84386301a7, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_002_9eb00556-40e1-4a8d-b85e-9f3afe0a9179, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_003_86c3063e-e33a-4f33-a167-c3861d238d32, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_004_5206e67c-c743-4482-ad27-8b491e593c19, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_005_c0f4cc11-c47a-41a8-b93f-a436b20831d9, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_006_10e763c6-01ee-4ca5-a17f-86e89bf8c24d, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_007_ee1d6907-3d15-4532-9f9e-3ca18ff67b40, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_008_105105b1-1352-490b-b01c-512de939a262, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_RivingtonEventTrigger_009_3a43a74a-aadb-4b1a-9192-802a66842ab4, 0);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_BridgeEventTrigger_001_661118a6-2274-45f0-969a-a236e7456076, 1);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_BridgeEventTrigger_000_39c175d2-ba9d-49f0-bfd5-c78c793325ac, 1);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_BridgeEventTrigger_002_ae54bde2-4105-4f03-9ec4-d382df7ec4a8, 1);
+DB_WYR_Brainquakes_ChainedEventTriggers(S_WYR_Brainquakes_NorthEventTrigger_000_b34bf990-5860-4854-aff4-800047fbbe00, 2);
+DB_WYR_Brainquakes_ChainedEvents(0, "WYR_Brainquakes_Event_0", "Free");
+DB_WYR_Brainquakes_ChainedEvents(1, "WYR_Brainquakes_Event_1", "Free");
+DB_WYR_Brainquakes_ChainedEvents(2, "WYR_Brainquakes_Event_2", "Free");
+DB_GLO_Brainquakes_EventsData("WYR_Brainquakes_Event_0", WYR_Brainquakes_VB_Event1_4f8c838a-899a-ff2a-75aa-995082c92df2, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_Brainquakes_EventsData("WYR_Brainquakes_Event_1", WYR_Brainquakes_VB_Event2_3226568a-d63d-f630-64ce-436a0873eb19, WYR_Brainquakes_DaisyAD_Event2_e88157d8-7e29-b3fd-95cd-b24ee702665f);
+DB_GLO_Brainquakes_EventsData("WYR_Brainquakes_Event_2", WYR_Brainquakes_VB_Event3_6fb2e013-691a-e1d5-b918-c9157cb3e492, WYR_Brainquakes_DaisyAD_Event3_010a2bc6-be07-355b-d66a-cfe2001fc29f);
+
+KBSECTION
+IF
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Brainquakes_BlockedEventTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Brainquakes_RunningEvent_Current(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Brainquakes_RunningEvent_Trigger(_, _, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_Brainquakes_ProcessEnterTrigger(_Var1, _Var2);
+
+PROC
+PROC_WYR_Brainquakes_ProcessEnterTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GLO_Brainquakes_SelectAvailablePlayersNearby(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_WYR_Brainquakes_SelectChainedEvent(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_WYR_Brainquakes_SelectedChainedEvent(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_ChainedEvents(_Var3, _Var4, _, _Var1, _Var1)
+AND
+QRY_GLO_Brainquakes_FilterUsersForEvent(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_Brainquakes_RunningEvent_Trigger(_Var4, _Var2);
+PROC_GLO_Brainquakes_StartEvent_Internal(_Var4);
+
+PROC
+PROC_WYR_Brainquakes_ProcessEnterTrigger(_, (GUIDSTRING)_Var2, _, _, _)
+AND NOT
+DB_GLO_Brainquakes_RunningEvent_Current(_, _, _, _, _)
+THEN
+PROC_WYR_Brainquakes_BlockChainedEventTrigger(_Var2);
+
+QRY
+QRY_WYR_Brainquakes_SelectChainedEvent(_, _, _, _, _)
+AND
+DB_QRYRTN_WYR_Brainquakes_SelectedChainedEvent(_Var2, _, _, _, _)
+THEN
+NOT DB_QRYRTN_WYR_Brainquakes_SelectedChainedEvent(_Var2);
+
+QRY
+QRY_WYR_Brainquakes_SelectChainedEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Brainquakes_AvailablePlayersNearby(_, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Brainquakes_User_LastPlayedChainedEvent(_Var3, _, _, _Var1, _Var1)
+AND
+QRY_WYR_Brainquakes_IsChainedEventCanBePlayed(_Var3, _Var1, 0, _Var1, _Var1)
+THEN
+DB_QRYRTN_WYR_Brainquakes_SelectedChainedEvent(0);
+
+QRY
+QRY_WYR_Brainquakes_SelectChainedEvent((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Brainquakes_AvailablePlayersNearby(_, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_User_LastPlayedChainedEvent(_Var3, _Var4, _Var5, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var6, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_ChainedEvents(_Var6, _, _, _Var1, _Var1)
+AND
+QRY_WYR_Brainquakes_IsChainedEventCanBePlayed(_Var3, _Var1, _Var6, _Var1, _Var1)
+THEN
+DB_QRYRTN_WYR_Brainquakes_SelectedChainedEvent(_Var6);
+
+IF
+DB_QRYRTN_WYR_Brainquakes_SelectedChainedEvent(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_WYR_Brainquakes_SelectedChainedEvent(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 < _Var1
+THEN
+NOT DB_QRYRTN_WYR_Brainquakes_SelectedChainedEvent(_Var1);
+
+QRY
+QRY_WYR_Brainquakes_IsChainedEventCanBePlayed((STRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WYR_Brainquakes_ChainedEvents(_Var3, _, "Free", _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 >= _Var3
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WYR_Brainquakes_IsChainedEventCanBePlayed((STRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WYR_Brainquakes_ChainedEvents(_Var3, _, "Free", _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var3, _Var5, 1, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_User_LastPlayedChainedEvent(_Var1, _, _Var7, _Var1, _Var1)
+AND
+GetDistanceTo(_Var2, _Var7, _Var8, _Var1, _Var1)
+AND
+_Var8 > 130
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_WYR_Brainquakes_IsChainedEventCanBePlayed((STRING)_Var1, (TRIGGER)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WYR_Brainquakes_ChainedEvents(_Var3, _, "Fixed", _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 == _Var3
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_WYR_Brainquakes_BlockChainedEventTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_Brainquakes_BlockedEventTrigger(_Var1);
+
+IF
+DB_WYR_Brainquakes_BlockedEventTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_BlockedEventTrigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_WYR_Brainquakes_BlockedEventTrigger(_Var2);
+
+PROC
+PROC_WYR_Brainquakes_BlockChainedEventTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WYR_Brainquakes_RunningEvent_Trigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WYR_Brainquakes_RunningEvent_Trigger(_Var2, _Var1);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_CompleteForUser((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WYR_Brainquakes_ChainedEvents(_, _Var2, _, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_User_LastPlayedChainedEvent(_Var1, _Var5, _Var6, _Var1, _Var1)
+THEN
+NOT DB_WYR_Brainquakes_User_LastPlayedChainedEvent(_Var1, _Var5, _Var6);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_CompleteForUser((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WYR_Brainquakes_ChainedEvents(_Var3, _Var2, _, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_Current(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_RunningEvent_Trigger(_Var2, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_WYR_Brainquakes_User_LastPlayedChainedEvent(_Var1, _Var3, _Var5);
+
+IF
+DB_GLO_Brainquakes_User_DoneEvent(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_WYR_Brainquakes_User_DoneAllChainedEvents(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_ChainedEvents(_Var3, _Var2, _, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var5, _Var1, _Var1)
+AND NOT
+DB_WYR_Brainquakes_ChainedEvents(_Var3, _, _, _Var1, _Var1)
+THEN
+DB_WYR_Brainquakes_User_DoneAllChainedEvents(_Var1);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_Stop((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_WYR_Brainquakes_RunningEvent_Trigger(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_WYR_Brainquakes_BlockChainedEventTrigger(_Var3);
+
+PROC
+PROC_WYR_Brainquakes_UnregisterAllEventTriggers()
+AND
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+IF
+TextEvent("WYR_Brainquakes_Disable", _, _, _, _)
+THEN
+PROC_WYR_Brainquakes_UnregisterAllEventTriggers();
+
+IF
+TextEvent("WYR_Brainquakes_Enable", (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+TextEvent("WYR_Brainquakes_TestEvent", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+GetTextEventParamInteger(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("WYR_Brainquakes_TestEvent_OnlyOnce", _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WYR_Brainquakes_ChainedEventTriggers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("WYR_Brainquakes_TestEvent_OnlyOnce", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Helper_SafeTeleportTo(_Var2, _Var3);
+
+
+EXITSECTION
+PROC_WYR_Brainquakes_UnregisterAllEventTriggers();
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

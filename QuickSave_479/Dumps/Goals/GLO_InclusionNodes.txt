@@ -1,0 +1,476 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_ORI_InclusionFlags(ORI_Inclusion_Random_5c169560-2732-c515-9e73-06ba1fd768f0, 1);
+DB_ORI_InclusionFlags(ORI_Inclusion_2Random_c30251ab-eab9-4ed8-bdf9-e1e816b7f12c, 2);
+DB_ORI_IncludedFlags(ORI_Inclusion_PickedAtRandom_46a601fb-8cb7-46ed-9856-3d4e38c53a02, 1);
+DB_ORI_IncludedFlags(ORI_Inclusion_PickedAtRandom2_32f45064-c5f2-465f-ac2d-5ad0c1ce9f59, 2);
+NOT DB_GLO_Inclusion_DisableForDialog(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_Inclusion_DisableForDialogInCamp(NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_StartDialog_AddInclusionSpeakers((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_Var1, _Var2, _Var3, 1, _Var1)
+AND
+DB_PlayerInCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OriginInPartyDialog(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ObjectInclusion(_, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Inclusion_BlockCompanionInclusion(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var5, 0, _Var1, _Var1, _Var1)
+AND
+QRY_Inclusion_SpeakerIsAvailableForInclusion(_Var1, _Var2, _Var5, _Var3, _Var1)
+THEN
+DB_Inclusion_SpeakerCandidate(_Var2, _Var5);
+
+PROC
+PROC_StartDialog_AddInclusionSpeakers((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_Var1, _Var2, _Var3, 1, _Var1)
+AND NOT
+DB_PlayerInCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ObjectInclusion(_, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Inclusion_BlockCompanionInclusion(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Inclusion_SpeakerIsAvailableForInclusion(_Var1, _Var2, _Var4, _Var3, _Var1)
+THEN
+DB_Inclusion_SpeakerCandidate(_Var2, _Var4);
+
+IF
+DB_Inclusion_SpeakerCandidate(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Inclusion_SpeakerCandidate_Player(_Var1, _Var2);
+NOT DB_Inclusion_SpeakerCandidate(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddInclusionSpeakers((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Inclusion_AddRandomSpeaker_Recursive_PlayersOnly();
+PROC_Inclusion_AddRandomSpeaker_Recursive();
+
+PROC
+PROC_Inclusion_AddRandomSpeaker_Recursive_PlayersOnly()
+AND
+QRY_GetRandom("DB_Inclusion_SpeakerCandidate_Player", 2, "DB_Inclusion_RandomAddActor", _, _)
+AND
+DB_Inclusion_RandomAddActor(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Inclusion_RandomAddActor(_Var1, _Var2);
+NOT DB_Inclusion_SpeakerCandidate_Player(_Var1, _Var2);
+PROC_TryAddInclusionActor(_Var1, _Var2, 0);
+PROC_Inclusion_AddRandomSpeaker_Recursive_PlayersOnly();
+
+PROC
+PROC_Inclusion_AddRandomSpeaker_Recursive()
+AND
+QRY_GetRandom("DB_Inclusion_SpeakerCandidate", 2, "DB_Inclusion_RandomAddActor", _, _)
+AND
+DB_Inclusion_RandomAddActor(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Inclusion_RandomAddActor(_Var1, _Var2);
+NOT DB_Inclusion_SpeakerCandidate(_Var1, _Var2);
+PROC_TryAddInclusionActor(_Var1, _Var2, 0);
+PROC_Inclusion_AddRandomSpeaker_Recursive();
+
+PROC
+PROC_TryAddInclusionActor((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_DialogAddInclusionActor(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_ObjectInclusion(_Var1, _Var2);
+DB_ObjectIsDialogSoftLocked(_Var1, _Var2);
+
+IF
+DialogActorJoinFailed(_, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_ObjectInclusion(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_ObjectInclusion(_Var2, _Var3);
+
+PROC
+PROC_StartDialog_AddInclusionSpeakers((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Speakers(_Var1, _Var2, _Var3, 1, _Var1)
+AND
+DB_Inclusion_NPCDialog(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_ObjectInclusion(_, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_Inclusion_SpeakerIsAvailableForInclusion(_Var1, _Var2, _Var4, _Var3, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var2, _Var4);
+DB_ObjectInclusion(_Var2, _Var4);
+DB_ObjectIsDialogSoftLocked(_Var2, _Var4);
+
+QRY
+QRY_Inclusion_SpeakerIsAvailableForInclusion((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+DB_Inclusion_CombatInclusionDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogRequestCache_SpeakerList_Speakers(_, _Var2, _Var3, _, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Inclusion_MultiplayerProblem(_Var3, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_SpeakerIsAvailableForInclusion((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_Inclusion_CombatInclusionDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogRequestCache_SpeakerList_Speakers(_, _Var2, _Var3, _, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var3, 1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Inclusion_MultiplayerProblem(_Var3, _Var1, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_MultiplayerProblem((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_MultiplayerProblem((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Inclusion_MultiplayerProblem_AlreadyHasSpeakerWithUserID(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_MultiplayerProblem_AlreadyHasSpeakerWithUserID((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_Var1, _Var2, _Var4, _, _Var1)
+AND
+GetReservedUserID(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Inclusion_Object(_Var4, _Var1, _, _Var1, _Var1)
+THEN
+NOT DB_ObjectIsDialogSoftLocked(_Var3, _Var4);
+ClearFlag(_Var1, _Var2);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Inclusion_Object(_Var4, _, _Var1, _Var1, _Var1)
+AND
+DB_ObjectInclusion(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_ObjectIsDialogSoftLocked(_Var3, _Var4);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Inclusion_Object(_Var4, _, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, _Var2);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_ObjectInclusion(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_ObjectInclusion(_Var2, _Var3);
+
+IF
+AutomatedDialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_ObjectInclusion(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_ObjectInclusion(_Var2, _Var3);
+
+IF
+DialogActorLeft(_, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, _)
+AND
+DB_ObjectInclusion(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_ObjectInclusion(_Var2, _Var3);
+
+IF
+DB_ObjectIsDialogSoftLocked(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_ObjectInclusion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ObjectIsDialogSoftLocked(_Var1, _Var2);
+
+QRY
+QRY_Inclusion_BlockCompanionInclusion((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Inclusion_CompanionInclusion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_CompanionInclusion((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_Polymorphed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogRequestCache_SpeakerList_Players(_Var2, _, _Var4, _, _Var1)
+AND
+GetReservedUserID(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var4, _Var6, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_InclusionFlags(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, _Var2, 0);
+
+IF
+FlagSet((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_InclusionFlags(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_Inclusion_GetRandomOrigins(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_QRYRTN_Inclusion_GetRandomOrigin(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_ORI_IncludedFlags(_Var7, _Var6, _Var1, _Var1, _Var1)
+THEN
+PROC_RandomInclusion_StoreSoftLock(_Var3, _Var5);
+SetFlag(_Var7, _Var5, 0);
+DB_ORI_Inclusion_Random(_Var3, _Var5, _Var6);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_ORI_Inclusion_Random(_Var2, _Var3, _Var4, _, _)
+AND
+DB_ORI_IncludedFlags(_Var5, _Var4, _, _, _)
+THEN
+ClearFlag(_Var5, _Var3, 0);
+NOT DB_ORI_Inclusion_Random(_Var2, _Var3, _Var4);
+
+IF
+AutomatedDialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_ORI_Inclusion_Random(_Var2, _Var3, _Var4, _, _)
+AND
+DB_ORI_IncludedFlags(_Var5, _Var4, _, _, _)
+THEN
+ClearFlag(_Var5, _Var3, 0);
+NOT DB_ORI_Inclusion_Random(_Var2, _Var3, _Var4);
+
+IF
+FlagSet(ORI_Inclusion_End_Random_b5261e06-a89e-0ec8-bab9-2329ff72b6d1, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_Inclusion_Random(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_ORI_IncludedFlags(_Var5, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_RandomInclusion_RestoreSoftLock(_Var2, _Var3);
+ClearFlag(_Var5, _Var3, 0);
+NOT DB_ORI_Inclusion_Random(_Var2, _Var3, _Var4);
+
+IF
+FlagSet(ORI_Inclusion_End_Random_b5261e06-a89e-0ec8-bab9-2329ff72b6d1, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(ORI_Inclusion_End_Random_b5261e06-a89e-0ec8-bab9-2329ff72b6d1, _Var1, 0);
+
+PROC
+PROC_RandomInclusion_StoreSoftLock((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_RandomInclusion_WasSoftlocked(_Var1, _Var2);
+NOT DB_ObjectIsDialogSoftLocked(_Var1, _Var2);
+
+PROC
+PROC_RandomInclusion_RestoreSoftLock((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_RandomInclusion_WasSoftlocked(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_RandomInclusion_WasSoftlocked(_Var1, _Var2);
+DB_ObjectIsDialogSoftLocked(_Var1, _Var2);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_RandomInclusion_WasSoftlocked(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_RandomInclusion_WasSoftlocked(_Var2, _Var3);
+
+IF
+AutomatedDialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_RandomInclusion_WasSoftlocked(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_RandomInclusion_WasSoftlocked(_Var2, _Var3);
+
+QRY
+QRY_Inclusion_GetRandomOrigins((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRYRTN_Inclusion_GetRandomOrigin(_Var4, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_Inclusion_GetRandomOrigin(_Var4, _Var5);
+
+QRY
+QRY_Inclusion_GetRandomOrigins((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogName(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var5, _, _Var1, _Var1)
+AND
+_Var1 != _Var5
+AND
+DB_Origins(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Inclusion_PartOfOriginMoment(_Var5, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Inclusion_PartOfRelationshipDialog(_Var5, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Inclusion_RandomCandidate(_Var5);
+
+QRY
+QRY_Inclusion_GetRandomOrigins((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_DoNTimes(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_DoNTimes(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_AddRandomIncludedOrigin();
+
+PROC
+PROC_AddRandomIncludedOrigin()
+THEN
+PROC_GetRandom("DB_Inclusion_RandomCandidate", 1, "DB_Inclusion_IndividualRandomOrigin");
+
+PROC
+PROC_AddRandomIncludedOrigin()
+AND
+DB_Inclusion_IndividualRandomOrigin(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+SysCount("DB_QRYRTN_Inclusion_GetRandomOrigin", 2, _Var2, _Var1, _Var1)
+AND
+IntegerSum(_Var2, 1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_Inclusion_RandomCandidate(_Var1);
+DB_QRYRTN_Inclusion_GetRandomOrigin(_Var1, _Var3);
+NOT DB_Inclusion_IndividualRandomOrigin(_Var1);
+
+QRY
+QRY_Inclusion_GetRandomOrigins((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SysClear("DB_Inclusion_RandomCandidate", 1);
+
+QRY
+QRY_Inclusion_GetRandomOrigins((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+SysCount("DB_QRYRTN_Inclusion_GetRandomOrigin", 2, _Var4, _Var1, _Var1)
+AND
+_Var4 < _Var3
+THEN
+SysClear("DB_QRYRTN_Inclusion_GetRandomOrigin", 2);
+
+QRY
+QRY_Inclusion_PartOfOriginMoment((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_OriginMoment_QueuedMoment(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_PartOfRelationshipDialog((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogName(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_HandlingRelationshipDialog(_Var1, _Var3, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Inclusion_RemoveOrigin((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ObjectIsDialogSoftLocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DialogRemoveActorFromDialog(_Var2, _Var1, _, _Var1, _Var1)
+THEN
+NOT DB_ObjectIsDialogSoftLocked(_Var2, _Var1);
+
+IF
+OnStoryOverride((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var1);
+
+IF
+CharacterReservedUserIDChanged((GUIDSTRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 != -65536
+THEN
+PROC_Inclusion_RemoveOrigin(_Var1);
+
+IF
+GainedControl((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_Inclusion_RemoveOrigin(_Var1);
+
+QRY
+QRY_Inclusion_BlockCompanionInclusion(_, (DIALOGRESOURCE)_Var2, _, _, _)
+AND
+DB_GLO_Inclusion_DisableForDialog(_Var2, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Inclusion_BlockCompanionInclusion((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Inclusion_DisableForDialogInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

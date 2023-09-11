@@ -1,0 +1,203 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SelfHealing_ImportantResources("SpellSlot", 1);
+DB_SelfHealing_ImportantResources("SpellSlot", 2);
+DB_SelfHealing_ImportantResources("SpellSlot", 3);
+DB_SelfHealing_ImportantResources("SpellSlot", 4);
+DB_SelfHealing_ImportantResources("SpellSlot", 5);
+DB_SelfHealing_ImportantResources("SpellSlot", 6);
+DB_SelfHealing_ImportantResources("SpellSlot", 7);
+DB_SelfHealing_ImportantResources("SpellSlot", 8);
+DB_SelfHealing_ImportantResources("SpellSlot", 9);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 1);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 2);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 3);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 4);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 5);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 6);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 7);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 8);
+DB_SelfHealing_ImportantResources("WarlockSpellSlot", 9);
+DB_SelfHealing_ImportantResources("WildShape", 0);
+DB_SelfHealing_ImportantResources("ChannelDivinity", 0);
+DB_SelfHealing_ImportantResources("SuperiorityDie", 0);
+DB_SelfHealing_ImportantResources("KiPoint", 0);
+DB_SelfHealing_ImportantResources("SuperiorityDie", 0);
+DB_SelfHealing_ImportantResources("WeaponActionPoint", 0);
+DB_SelfHealing_ImportantResources("ChannelOath", 0);
+DB_SelfHealing_ImportantResources("Rage", 0);
+DB_SelfHealing_ImportantResources("BardicInspiration", 0);
+DB_SelfHealing_ImportantResources("SorceryPoint", 0);
+DB_SelfHealing_ImportantResources("WarPriestActionPoint", 0);
+DB_SelfHealing_ImportantResources("LayOnHandsCharge", 0);
+
+KBSECTION
+PROC
+PROC_SetHitpointsPercentage_BlockSelfHealing((CHARACTER)_Var1, (REAL)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetHitpointsPercentage(_Var1, _Var2);
+PROC_SelfHealing_Disable(_Var1);
+
+PROC
+PROC_SetHitpoints_BlockSelfHealing((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetHitpoints(_Var1, _Var2);
+PROC_SelfHealing_Disable(_Var1);
+
+PROC
+PROC_SelfHealing_Disable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, "SelfHealing");
+
+PROC
+PROC_SelfHealing_Enable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_CharacterEnableCrime(_Var1, "SelfHealing");
+PROC_SelfHealing_Check(_Var1);
+
+QRY
+QRY_SelfHealing_IsEnabled((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_CRIME_IsEnabled(_Var1, "SelfHealing", _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsEnabled(_Var1, "SelfHealing", _Var1, _Var1, _Var1)
+AND
+IsPartyMember(_Var1, 1, 0, _Var1, _Var1)
+AND
+DB_SelfHealing_ImportantResources(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+GetActionResourceValuePersonal(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND
+_Var5 > 0.001
+THEN
+DB_SelfHealing_ImportantResources_OriginalValues(_Var1, _Var3, _Var4, _Var5);
+
+IF
+LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsEnabled(_Var1, "SelfHealing", _Var1, _Var1, _Var1)
+AND
+IsPartyMember(_Var1, 1, 0, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SelfHealing_Check(_Var1);
+
+IF
+LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SelfHealing_ImportantResources_OriginalValues(_Var1, _Var3, _Var4, _Var5, _Var1)
+THEN
+NOT DB_SelfHealing_ImportantResources_OriginalValues(_Var1, _Var3, _Var4, _Var5);
+
+IF
+HitpointsChanged((GUIDSTRING)_Var1, (REAL)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_SelfHealing_Check(_Var1);
+
+PROC
+PROC_SelfHealing_Check((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsEnabled(_Var1, "SelfHealing", _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, CROWDSYS_NPC_1274ffab-2fa2-4d6f-801e-751664ceb771, 0, _Var1, _Var1)
+AND
+QRY_SelfHealing_ShouldSelfHeal(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Disturbance_PerformWhenAvailable(_Var1, "SelfHealing", NULL_00000000-0000-0000-0000-000000000000, _Var1, 1);
+
+QRY
+QRY_SelfHealing_ShouldSelfHeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetHitpointsPercentage(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+_Var2 > 0
+AND
+_Var2 < 100
+THEN
+DB_QRY_RTN_ShouldSelfHeal(_Var1);
+
+QRY
+QRY_SelfHealing_ShouldSelfHeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SelfHealing_ImportantResources_OriginalValues(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_QRY_RTN_ShouldSelfHeal(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetActionResourceValuePersonal(_Var1, _Var2, _Var3, _Var5, _Var1)
+AND
+_Var5 < _Var4
+THEN
+DB_QRY_RTN_ShouldSelfHeal(_Var1);
+
+QRY
+QRY_SelfHealing_ShouldSelfHeal((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRY_RTN_ShouldSelfHeal(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_ShouldSelfHeal(_Var1);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, "Shout_RegainHP_Peace_NPC", _, _, _)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_SelfHealing_Casted(_Var1);
+
+PROC
+PROC_SelfHealing_Casted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetHitpointsPercentage(_Var1, 100);
+
+PROC
+PROC_SelfHealing_Casted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SelfHealing_Finished(_Var1, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "REGAINHP_PEACE_NPC", _, _, (GUIDSTRING)_Var1)
+THEN
+PROC_SelfHealing_Casted(_Var1);
+
+QRY
+QRY_Disturbance_PerformWhenAvailable_Retry((GUIDSTRING)_Var1, "SelfHealing", (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (INTEGER)_Var4)
+AND NOT
+DB_SelfHealing_Finished(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SelfHealing_Finished(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SelfHealing_Finished(_Var2, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

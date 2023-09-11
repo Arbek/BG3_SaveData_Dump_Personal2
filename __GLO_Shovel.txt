@@ -1,0 +1,228 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_TaggedItemTracker("SHOVEL_e2db698a-0705-43f4-9674-06fff1fd1e67", GLO_Shovel_State_HasShovel_5df98788-6881-4c28-9b91-ac77d5451bc2);
+DB_Shovel_ChestMoundType(0, 1, MOUND_GRAVEL_c3613de9-f008-49c0-bf69-af42030743fa, BHVR_WRLD_Dig_Visible_Gravel_Chest_8ffccc7a-5aa3-af02-aafb-77ad45e95c72);
+DB_Shovel_ChestMoundType(0, 1, MOUND_MUD_7e6a4698-c855-4fce-a53f-c2e575edd9ee, BHVR_WRLD_Dig_Visible_Mud_Chest_9ecf2b0e-e4b8-addc-76fa-846c9717a621);
+DB_Shovel_ChestMoundType(0, 1, MOUND_SAND_ceed37ff-d663-4694-b231-ceb2a1df10fc, BHVR_WRLD_Dig_Visible_Sand_Chest_b4a4954a-d9c9-4861-25f2-f4a0d3c41906);
+DB_Shovel_ChestMoundType(1, 1, MOUND_GRAVEL_c3613de9-f008-49c0-bf69-af42030743fa, BHVR_WRLD_Dig_Invisible_Gravel_Chest_6ab2d7c7-9261-a8ac-b071-36cea3b3b86e);
+DB_Shovel_ChestMoundType(1, 1, MOUND_MUD_7e6a4698-c855-4fce-a53f-c2e575edd9ee, BHVR_WRLD_Dig_Invisible_Mud_Chest_d086d360-19bc-7dcc-bcc1-523b99e9623d);
+DB_Shovel_ChestMoundType(1, 1, MOUND_SAND_ceed37ff-d663-4694-b231-ceb2a1df10fc, BHVR_WRLD_Dig_Invisible_Sand_Chest_c7797a47-b9b9-1064-4d8b-f855009f9057);
+DB_Shovel_ChestMoundType(0, 0, MOUND_GRAVEL_c3613de9-f008-49c0-bf69-af42030743fa, BHVR_WRLD_Dig_Visible_Gravel_33231007-a314-51c0-05c1-79a5e1de90bc);
+DB_Shovel_ChestMoundType(0, 0, MOUND_MUD_7e6a4698-c855-4fce-a53f-c2e575edd9ee, BHVR_WRLD_Dig_Visible_Mud_cb080539-feed-cf26-6fd5-54b708be9fc1);
+DB_Shovel_ChestMoundType(0, 0, MOUND_SAND_ceed37ff-d663-4694-b231-ceb2a1df10fc, BHVR_WRLD_Dig_Visible_Sand_a1c2125b-237f-3ff2-dfeb-85280bcae185);
+DB_Shovel_ChestMoundType(1, 0, MOUND_GRAVEL_c3613de9-f008-49c0-bf69-af42030743fa, BHVR_WRLD_Dig_Invisible_Gravel_bf387b8a-a8fe-6019-ec5f-99b7444b8abb);
+DB_Shovel_ChestMoundType(1, 0, MOUND_MUD_7e6a4698-c855-4fce-a53f-c2e575edd9ee, BHVR_WRLD_Dig_Invisible_Mud_0675b8c3-1352-e6a8-efd1-2fca00e1717e);
+DB_Shovel_ChestMoundType(1, 0, MOUND_SAND_ceed37ff-d663-4694-b231-ceb2a1df10fc, BHVR_WRLD_Dig_Invisible_Sand_b364e06e-c1c9-4f08-9807-47a223c91009);
+
+KBSECTION
+IF
+DB_ShovelArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var2, 0);
+
+IF
+FlagSet(GLO_Shovel_State_HasShovel_5df98788-6881-4c28-9b91-ac77d5451bc2, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyStatus(_Var1, "HAS_SHOVEL", -1);
+
+IF
+FlagCleared(GLO_Shovel_State_HasShovel_5df98788-6881-4c28-9b91-ac77d5451bc2, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveStatus(_Var1, "HAS_SHOVEL");
+
+IF
+UsingSpell((GUIDSTRING)_Var1, "Target_Dig", _, _, _)
+AND
+HasActiveStatus(_Var1, "DIG", 1, _Var1, _Var1)
+AND
+DB_ShovelArea(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND NOT
+DB_Shovelling_Mound(_, _, _Var5, _, _Var1)
+AND
+GetInnerDistanceTo(_Var1, _Var5, _Var10, _Var1, _Var1)
+AND
+_Var10 <= 2.5
+THEN
+PROC_Shovel_CheckDialog(_Var1, _Var5, _Var6);
+
+PROC
+PROC_Shovel_CheckDialog((GUIDSTRING)_Var1, (ITEM)_Var2, (ITEM)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsInvisible(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_Shovel_ChestMoundType(0, 1, _Var4, _Var5, _Var1)
+AND
+IsTagged(_Var2, _Var4, 1, _Var1, _Var1)
+THEN
+DB_Shovelling_Mound(_Var5, _Var1, _Var2, _Var3);
+
+PROC
+PROC_Shovel_CheckDialog((CHARACTER)_Var1, (ITEM)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInvisible(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_Shovel_ChestMoundType(1, 1, _Var4, _Var5, _Var1)
+AND
+IsTagged(_Var2, _Var4, 1, _Var1, _Var1)
+THEN
+DB_Shovelling_Mound(_Var5, _Var1, _Var2, _Var3);
+
+PROC
+PROC_Shovel_CheckDialog((CHARACTER)_Var1, (ITEM)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInvisible(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+_Var3 == NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_Shovel_ChestMoundType(0, 0, _Var4, _Var5, _Var1)
+AND
+IsTagged(_Var2, _Var4, 1, _Var1, _Var1)
+THEN
+DB_Shovelling_Mound(_Var5, _Var1, _Var2, _Var3);
+
+PROC
+PROC_Shovel_CheckDialog((CHARACTER)_Var1, (ITEM)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInvisible(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+_Var3 == NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_Shovel_ChestMoundType(1, 0, _Var4, _Var5, _Var1)
+AND
+IsTagged(_Var2, _Var4, 1, _Var1, _Var1)
+THEN
+DB_Shovelling_Mound(_Var5, _Var1, _Var2, _Var3);
+
+IF
+DB_Shovelling_Mound(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_Shovel_StartBehaviourDialog(_Var1, _Var3, _Var4, _Var2);
+
+PROC
+PROC_Shovel_StartBehaviourDialog((DIALOGRESOURCE)_Var1, (ITEM)_Var2, (ITEM)_Var3, (GUIDSTRING)_Var4, (DIALOGRESOURCE)_Var1)
+THEN
+DialogRequestStopTimelineDialogs(_Var4);
+
+PROC
+PROC_Shovel_StartBehaviourDialog((DIALOGRESOURCE)_Var1, (ITEM)_Var2, (ITEM)_Var3, (GUIDSTRING)_Var4, (DIALOGRESOURCE)_Var1)
+AND
+StartBehaviorDialog_Internal(_Var1, 0, _Var2, _Var3, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var5, _, _Var1, _Var1)
+THEN
+PROC_Shovel_HandleDialogSuccess(_Var4, _Var5);
+
+PROC
+PROC_Shovel_HandleDialogSuccess((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyStatus(_Var1, "DIGGING", 6);
+
+PROC
+PROC_Shovel_HandleDialogSuccess((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Shovelling_Mound(_Var2, _Var1, _Var3, _, _Var1)
+THEN
+PROC_Shovel_CleanupMoundFallback(_Var3);
+PROC_Shovel_CleanupMound(_Var3);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ShovelArea(_Var2, _, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "HAS_SHOVEL", 0, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_AD_ShovelRequired_eb1e1401-a7c0-b3d2-caee-ebd450c3db11, _Var1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ShovelArea(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Shovelling_Mound(_, _, _Var2, _, _Var1)
+AND
+HasActiveStatus(_Var1, "HAS_SHOVEL", 1, _Var1, _Var1)
+AND
+IsTagged(_Var1, WILDSHAPE_04ae77c4-f708-4ffa-8b8c-763b062a2e6e, 0, _Var1, _Var1)
+THEN
+UseSpell(_Var1, "Target_Dig", _Var2);
+
+IF
+CastedSpell((CHARACTER)_Var1, "Target_Dig", _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "DIG", 0, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_AD_ShovelFailed_03fffbbd-fb9d-a0c3-338c-151e9b4c8642, _Var1);
+
+IF
+AutomatedDialogRequestFailed((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_DialogNPCs(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_Shovelling_Mound(_Var1, _, _Var3, _, _Var1)
+THEN
+PROC_Shovel_CleanupMoundFallback(_Var3);
+PROC_Shovel_CleanupMound(_Var3);
+
+IF
+AutomatedDialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogNPCs(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_Shovelling_Mound(_Var1, _, _Var3, _, _Var1)
+THEN
+PROC_Shovel_CleanupMound(_Var3);
+
+PROC
+PROC_Shovel_CleanupMoundFallback((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_Shovelling_Mound(_, _Var3, _Var1, _Var4, _Var1)
+THEN
+DebugText(_Var3, "Dialog failed, fallback triggered");
+Die(_Var1);
+SetOnStage(_Var4, 1);
+
+PROC
+PROC_Shovel_CleanupMound((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Shovelling_Mound(_, _Var3, _Var1, _, _Var1)
+THEN
+PROC_Achievements_Quest12_GivenShovelRewardsHook(_Var3);
+
+PROC
+PROC_Achievements_Quest12_GivenShovelRewardsHook((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Shovel_CleanupMound((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Shovelling_Mound(_, _, _Var1, _, _Var1)
+THEN
+SetVisible(_Var1, 1);
+
+PROC
+PROC_Shovel_CleanupMound((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Shovelling_Mound(_Var2, _Var3, _Var1, _Var4, _Var1)
+THEN
+NOT DB_Shovelling_Mound(_Var2, _Var3, _Var1, _Var4);
+
+PROC
+PROC_Shovel_CleanupMound((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ShovelArea(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ShovelArea(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

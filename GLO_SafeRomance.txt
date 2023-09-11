@@ -1,0 +1,149 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_SafeRomance_UpdateState((INTEGER)_Var1, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SafeRomance_State(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SafeRomance_State(_Var1, _Var3);
+
+PROC
+PROC_SafeRomance_UpdateState((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+DB_SafeRomance_State(_Var1, _Var2);
+
+IF
+TextEvent("safe_romance", _, _, _, _)
+AND
+GetTextEventParamString(1, "on", _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SafeRomance_UpdateState(_Var2, 1);
+PROC_SafeRomance_DebugPrintState(_Var1, 1);
+
+IF
+TextEvent("safe_romance", _, _, _, _)
+AND
+GetTextEventParamString(1, "off", _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SafeRomance_UpdateState(_Var2, 0);
+PROC_SafeRomance_DebugPrintState(_Var1, 0);
+
+IF
+TextEvent("safe_romance", _, _, _, _)
+AND NOT
+GetTextEventParamString(1, _, _, _, _)
+AND
+GetHostCharacter(_Var2, _, _, _, _)
+AND
+GetReservedUserID(_Var2, _Var3, _, _, _)
+AND
+DB_SafeRomance_State(_Var3, _Var4, _, _, _)
+THEN
+PROC_SafeRomance_DebugPrintState(_Var2, _Var4);
+
+PROC
+PROC_SafeRomance_DebugPrintState((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DebugText(_Var1, "Safe romance is on.");
+
+PROC
+PROC_SafeRomance_DebugPrintState((CHARACTER)_Var1, 0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DebugText(_Var1, "Safe romance is off.");
+
+IF
+SafeRomanceOptionChanged((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_SafeRomance_UpdateState(_Var1, _Var2);
+
+IF
+UserDisconnected((INTEGER)_Var1, _, _, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SafeRomance_State(_Var4, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SafeRomance_State(_Var4, _Var5);
+
+IF
+UserConnected((INTEGER)_Var1, _, _, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+UserGetSafeRomanceOption(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_SafeRomance_UpdateState(_Var1, _Var4);
+
+IF
+SavegameLoaded()
+THEN
+SysClear("DB_SafeRomance_State", 2);
+IterateUsers("GLO_SafeRomance_Check", "");
+
+IF
+UserEvent((INTEGER)_Var1, "GLO_SafeRomance_Check", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+UserGetSafeRomanceOption(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SafeRomance_UpdateState(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_SaveControlledPlayer(_, (GUIDSTRING)_Var2, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_, (DIALOGRESOURCE)_)
+THEN
+PROC_SafeRomance_SetFlagForSpeaker(_Var2);
+
+IF
+DialogActorJoined((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DialogIsAutomated(_Var1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_SafeRomance_SetFlagForSpeaker(_Var3);
+
+IF
+DialogActorLeft((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_AutomatedDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SafeRomance_SetFlag(_Var3, 0);
+
+PROC
+PROC_GLO_PartyMembers_MakeNPCHook((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_SafeRomance_SetFlag(_Var1, 0);
+
+PROC
+PROC_SafeRomance_SetFlagForSpeaker((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SafeRomance_State(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SafeRomance_SetFlag(_Var1, _Var3);
+
+PROC
+PROC_SafeRomance_SetFlag((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(GLO_SafeRomance_Enabled_f46a2601-92d1-4b86-98b5-0dae4a290ff6, _Var1);
+
+PROC
+PROC_SafeRomance_SetFlag((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ClearFlag(GLO_SafeRomance_Enabled_f46a2601-92d1-4b86-98b5-0dae4a290ff6, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

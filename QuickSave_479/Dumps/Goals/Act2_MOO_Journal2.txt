@@ -1,0 +1,487 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_QuestDef_State(MOO_MintharaFate_State_Pacified_bddd4113-9486-84fe-a88b-70ad9d87d00c, "MOO_MintharaFate", "MintharaPacified");
+DB_QuestDef_State(MOO_Jailbreak_Knows_ToolsNeeded_c72f6921-97df-2ab3-6090-d20b1bd4e828, "MOO_GnomeRescue", "GetBludgeoningWeapon");
+DB_QuestDef_State(HAV_WrootRequest_Event_WulbrenReward_b313886a-456f-d0bc-8900-0b9ce242717e, "MOO_GnomeRescue", "WulbrenRewardHav");
+DB_QuestDef_State(HAV_WrootRequest_Event_BarcusGoesToWulbren_01da3925-f97b-c096-e15b-615fc03f2934, "MOO_GnomeRescue", "BarcusReunion");
+DB_QuestDef_State(HAV_WrootRequest_Event_GoToBarcus_ce0db4a9-f314-ff8d-2b13-a5a336b92fd7, "MOO_GnomeRescue", "WulbrenToBarcus");
+DB_MOO_GnomeRescue_KnowBarcusInHav(0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("BoatEscapeHavWulbren", "Boat", 1, 0, 0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("BoatEscapeHavWulbren", "Road", 1, 0, 0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("BoatEscapeHavBarcus", "Boat", 1, 1, 0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("BoatEscapeHavBarcus", "Road", 1, 1, 0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("BoatEscapeNoHav", "Boat", 0, 0, 0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("BoatEscapeNoHav", "Road", 0, 0, 0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("BoatEscapeNoHav", "Boat", 0, 1, 0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("BoatEscapeNoHav", "Road", 0, 1, 0);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenRoadEscapeHavDestroyed", "Road", 0, 0, 1);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenBoatEscapeHavDestroyed", "Boat", 0, 0, 1);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenRoadEscapeHavDestroyed", "Road", 0, 0, 1);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenBoatEscapeHavDestroyed", "Boat", 0, 1, 1);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenRoadEscapeHavDestroyed", "Road", 0, 1, 1);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenBoatEscapeHavDestroyed", "Boat", 1, 0, 1);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenRoadEscapeHavDestroyed", "Road", 1, 0, 1);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenBoatEscapeHavDestroyed", "Boat", 1, 1, 1);
+DB_MOO_GnomeRescue_WulbrenEscapedEntries("WulbrenRoadEscapeHavDestroyed", "Road", 1, 1, 1);
+DB_MOO_GnomeRescue_BarcusHavUpdates("BarcusReunion");
+DB_MOO_GnomeRescue_BarcusHavUpdates("CheckInBarcus");
+DB_MOO_GnomeRescue_BarcusHavUpdates("WulbrenPermaDefeated");
+DB_MOO_GnomeRescue_BarcusHavUpdates("WulbrenToBarcus");
+
+KBSECTION
+PROC
+PROC_MOO_Assault_KethericLeaves()
+THEN
+QuestUpdate("MOO_EndKetheric", "FacedKethericMT");
+
+PROC
+PROC_COL_TeleportPartiesToColony(0, _, _, _, _)
+THEN
+QuestUpdate("MOO_EndKetheric", "EnteredCOL");
+
+PROC
+PROC_COL_TeleportPartiesToColony(1, _, _, _, _)
+THEN
+QuestUpdate("MOO_EndKetheric", "EnteredLab");
+DB_MOO_EndKetheric_EscapeLab("EnteredCages");
+
+IF
+DB_COL_NecromancerLab_PartyMemberInCage(_, _, _, _, _)
+AND
+DB_MOO_EndKetheric_EscapeLab("EnteredCages", _, _, _, _)
+THEN
+DB_MOO_EndKetheric_EscapeLab("AwaitingEscape");
+NOT DB_MOO_EndKetheric_EscapeLab("EnteredCages");
+
+IF
+DB_MOO_EndKetheric_EscapeLab("AwaitingEscape", _, _, _, _)
+AND NOT
+DB_Is_InCombat(S_SHA_Necromancer_53651a9f-7ea8-444f-ba2d-224390b72f7d, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_COL_NecroLab_SUB_d4ed37da-ab88-415d-8131-917f954e4926, _, _, _)
+THEN
+QuestUpdate("MOO_EndKetheric", "EscapedLab");
+
+IF
+QuestUpdateUnlocked(_, "MOO_EndKetheric", "EscapedLab", _, _)
+AND
+DB_MOO_EndKetheric_EscapeLab(_Var2, _, _, _, _)
+THEN
+NOT DB_MOO_EndKetheric_EscapeLab(_Var2);
+
+IF
+DialogEnded(COL_KethericShowdown_ChosenThree_94ef9fa6-729b-d34a-623a-74a8c3ba187f, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+QuestUpdate("MOO_EndKetheric", "FightKetheric");
+
+PROC
+PROC_StateSet_PermaDefeated(S_MOO_Ketheric_e9918f3e-5b87-40a3-a9bd-61545151573f, _, _, _, _)
+THEN
+QuestUpdate("MOO_EndKetheric", "DefeatedKetheric");
+
+PROC
+PROC_SCE_StartSetupDebrief()
+THEN
+QuestUpdate("MOO_EndKetheric", "FoundKethericNetherstone");
+
+IF
+FlagSet(MOO_Execution_Event_MintharaLeave_201dc61b-ed68-766b-cacf-6b5f60e9afaa, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_MOO_MintharaFate_IntroUpdate();
+
+PROC
+PROC_MOO_MintharaFate_IntroUpdate()
+AND NOT
+DB_GLO_Minthara_MetBeforeExecution(1, _, _, _, _)
+THEN
+QuestUpdate("MOO_MintharaFate", "UnknownMintharaCondemned");
+
+PROC
+PROC_MOO_MintharaFate_IntroUpdate()
+AND
+DB_GLO_Minthara_MetBeforeExecution(1, _, _, _, _)
+THEN
+QuestUpdate("MOO_MintharaFate", "KnownMintharaCondemned");
+
+PROC
+PROC_MOO_MintharaFate_TalkToMintharaUpdate()
+THEN
+QuestUpdate("MOO_MintharaFate", "TalkToMinthara");
+
+IF
+DialogEnded(MOO_MintharaFate_Drow_deaff457-a97a-fd8f-9c46-517d1488a42a, _, _, _, _)
+AND
+DB_State_Current(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, "MOO_MintharaFate", "MOO_MintharaFate_State_Freed", _, _)
+AND NOT
+DB_OnlyOnce("MOO_MintharaFate_EscapeUpdate", _, _, _, _)
+THEN
+DB_OnlyOnce("MOO_MintharaFate_EscapeUpdate");
+QuestUpdate("MOO_MintharaFate", "EscapeMoonrise");
+
+IF
+DialogEnded(MOO_MintharaFate_Torture_3cfe059b-af60-8e99-52cf-0c81ee75f33b, _, _, _, _)
+AND
+DB_State_Current(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, "MOO_MintharaFate", "MOO_MintharaFate_State_Freed", _, _)
+AND NOT
+DB_GlobalFlag(MOO_MintharaFate_Event_FightTorturers_9533b62a-0146-a079-76ca-789288c2d6b6, _, _, _, _)
+AND NOT
+DB_OnlyOnce("MOO_MintharaFate_EscapeUpdate", _, _, _, _)
+THEN
+DB_OnlyOnce("MOO_MintharaFate_EscapeUpdate");
+QuestUpdate("MOO_MintharaFate", "EscapeMoonrise");
+
+IF
+DialogEnded(MOO_MintharaFate_Torture_3cfe059b-af60-8e99-52cf-0c81ee75f33b, _, _, _, _)
+AND
+DB_GlobalFlag(MOO_MintharaFate_Event_FightTorturers_9533b62a-0146-a079-76ca-789288c2d6b6, _, _, _, _)
+THEN
+QuestUpdate("MOO_MintharaFate", "DefeatTorturers");
+
+PROC
+PROC_StateSet_PermaDefeated(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _, _)
+AND
+DB_QuestIsOpened("MOO_MintharaFate", _, _, _, _)
+THEN
+QuestUpdate("MOO_MintharaFate", "MintharaPermaDefeated");
+
+PROC
+PROC_MOO_Roof_SendPlayersToColony()
+THEN
+PROC_MOO_MintharaFate_ForceCloseUpdate();
+
+PROC
+PROC_MOO_MintharaFate_ForceCloseUpdate()
+AND
+QRY_State_IsBeforeState(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, "MOO_MintharaFate", "MOO_MintharaFate_State_Freed", _, _)
+THEN
+QuestUpdate("MOO_MintharaFate", "MintharaLeftBehind");
+
+PROC
+PROC_MOO_MintharaFate_ForceCloseUpdate()
+AND NOT
+QRY_State_IsBeforeState(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, "MOO_MintharaFate", "MOO_MintharaFate_State_Freed", _, _)
+THEN
+QuestUpdate("MOO_MintharaFate", "MintharaIgnored");
+
+IF
+DialogEnded(MOO_MintharaFate_Escaped_2cc01717-c2c6-e827-2c14-82d53370556a, _, _, _, _)
+AND
+DB_GlobalFlag(HAV_MintharaFate_Event_LeavesForCamp_e4c67b18-4d1b-ed53-174b-ff8d7accd24d, _, _, _, _)
+THEN
+QuestUpdate("MOO_MintharaFate", "MintharaEscapedToCamp");
+
+IF
+WentOnStage(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 0, _, _, _)
+AND
+DB_QuestIsOpened("MOO_MintharaFate", _, _, _, _)
+THEN
+QuestUpdate("MOO_MintharaFate", "MintharaEscapedDisappear");
+
+IF
+FlagSet(HAV_SavingPrisoners_Knows_BrilliantRetort_172d7a0d-7368-de16-b387-e99388e307c5, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_MOO_GnomeRescue_HavBarcusUpdate();
+NOT DB_MOO_GnomeRescue_KnowBarcusInHav(0);
+DB_MOO_GnomeRescue_KnowBarcusInHav(1);
+
+PROC
+PROC_MOO_GnomeRescue_HavBarcusUpdate()
+AND
+DB_QuestIsOpened("MOO_GnomeRescue", _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "HavFollowup");
+
+PROC
+PROC_MOO_GnomeRescue_HavBarcusUpdate()
+AND NOT
+DB_QuestIsOpened("MOO_GnomeRescue", _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "IntroHav");
+
+IF
+DialogStarted(MOO_Jailbreak_Wulbren_70298fcd-3a9f-7bdb-b740-0fa46ea09902, _, _, _, _)
+AND NOT
+DB_MOO_GnomeRescue_PrisonerFoundUpdate(1, _, _, _, _)
+THEN
+DB_MOO_GnomeRescue_PrisonerFoundUpdate(1);
+PROC_MOO_GnomeRescue_PrisonerFoundUpdate();
+
+PROC
+PROC_MOO_GnomeRescue_PrisonerFoundUpdate()
+AND
+DB_QuestIsOpened("MOO_GnomeRescue", _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "FoundGnomePrisoners");
+
+PROC
+PROC_MOO_GnomeRescue_PrisonerFoundUpdate()
+AND NOT
+DB_QuestIsOpened("MOO_GnomeRescue", _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "FoundGnomePrisonersIntro");
+
+PROC
+PROC_MOO_Jailbreak_GnomesToTieflingsUpdate()
+AND
+DB_QuestIsAccepted("MOO_GnomeRescue", _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "GnomesToTieflings");
+
+PROC
+PROC_MOO_Jailbreak_GnomesToTieflingsUpdate()
+AND NOT
+DB_MOO_GnomeRescue_PrisonerFoundUpdate(1, _, _, _, _)
+THEN
+PROC_MOO_Jailbreak_BrokeOutFoundUpdate();
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+AND NOT
+DB_MOO_GnomeRescue_PrisonerFoundUpdate(1, _, _, _, _)
+THEN
+DB_MOO_GnomeRescue_PrisonerFoundUpdate(1);
+PROC_MOO_Jailbreak_BrokeOutFoundUpdate();
+
+PROC
+PROC_MOO_Jailbreak_BrokeOutFoundUpdate()
+AND
+DB_QuestIsAccepted("MOO_GnomeRescue", _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "BrokeOutFound");
+
+PROC
+PROC_MOO_Jailbreak_BrokeOutFoundUpdate()
+AND NOT
+DB_QuestIsAccepted("MOO_GnomeRescue", _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "BrokeOutFoundIntro");
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_BoatEscape_d55f6999-9f49-b742-95d9-12b6526ae5ee, _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenToBoat", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenToBoat");
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_PrisonEscape_3cc56692-47ac-453a-8748-9c140dbee06f, _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenToDocks", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenToDocks");
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenToBoat", _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenToDocks", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenToDocks");
+
+PROC
+PROC_MOO_Jailbreak_SetEscapeRoute(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, MOO_Jailbreak_State_BackupEscape_c2f1053d-c56e-d34d-c200-82d7c8267e7f, _, _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenToBoat", _, _, _)
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenChangeToDocks", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenChangeToDocks");
+
+PROC
+PROC_State_Progress(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Area", "HAV_Area_State_BarrierIsOff", _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "CheckInBarcus", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "HavenDestroyed");
+
+PROC
+PROC_State_Progress(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Area", "HAV_Area_State_BarrierIsOff", _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "CheckInWulbren", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "HavenDestroyed");
+
+PROC
+PROC_State_Progress(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Area", "HAV_Area_State_BarrierIsOff", _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "CheckInWulbrenFoundHaven", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "HavenDestroyed");
+
+PROC
+PROC_MOO_Jailbreak_ClearPrisoner(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, (STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_HAV_SavingPrisoners_JournalEpilogueReturn(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_MOO_GnomeRescue_KnowBarcusInHav(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var1, _Var1)
+AND
+DB_MOO_GnomeRescue_WulbrenEscapedEntries(_Var5, _Var1, _Var6, _Var3, _Var2)
+THEN
+QuestUpdate("MOO_GnomeRescue", _Var5);
+
+PROC
+PROC_HAV_SavingPrisoners_CheckInUpdate()
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND
+DB_MOO_GnomeRescue_KnowBarcusInHav(0, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "CheckInWulbren");
+
+PROC
+PROC_HAV_SavingPrisoners_CheckInUpdate()
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND
+DB_MOO_GnomeRescue_KnowBarcusInHav(1, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "CheckInBarcus");
+
+PROC
+PROC_HAV_SavingPrisoners_CheckInUpdate()
+AND NOT
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+THEN
+DB_MOO_GnomeRescue_CheckInUpdateDelay(1);
+
+IF
+DB_GlobalFlag(HAV_EnteringHaven_State_GainedAccess_07c776da-353a-9050-e9be-c42d51a99412, _, _, _, _)
+AND
+DB_MOO_GnomeRescue_CheckInUpdateDelay(1, _, _, _, _)
+THEN
+NOT DB_MOO_GnomeRescue_CheckInUpdateDelay(1);
+QuestUpdate("MOO_GnomeRescue", "CheckInWulbrenFoundHaven");
+
+IF
+QuestUpdateUnlocked(_, "MOO_GnomeRescue", (STRING)_Var2, _, _)
+AND
+DB_MOO_GnomeRescue_BarcusHavUpdates(_Var2, _, _, _, _)
+THEN
+DB_MOO_GnomeRescue_BarcusHavUnlocked(1);
+
+PROC
+PROC_SCE_SendCharacterToDebrief(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+AND
+DB_MOO_GnomeRescue_BarcusHavUnlocked(1, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "CheckInSCE");
+
+PROC
+PROC_SCE_SendCharacterToDebrief(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+AND NOT
+DB_MOO_GnomeRescue_BarcusHavUnlocked(1, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenHavToSCE");
+
+IF
+DialogEnded(SCE_Wulbren_4faea1b8-5b42-702c-8e42-40b0a6e9b770, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_MOO_GnomeRescue_SCEReward();
+
+PROC
+PROC_MOO_GnomeRescue_SCEReward()
+AND
+DB_GlobalFlag(HAV_WrootRequest_Event_TalkedToWulbrenInHaven_35ba93fb-a81f-344e-03bb-738b70ffe6ff, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenRewardSCE");
+
+PROC
+PROC_MOO_GnomeRescue_SCEReward()
+AND NOT
+DB_GlobalFlag(HAV_WrootRequest_Event_TalkedToWulbrenInHaven_35ba93fb-a81f-344e-03bb-738b70ffe6ff, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenRewardSCENoHav");
+
+PROC
+PROC_State_Progress(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6, "MOO", "MOO_State_Assault", _, _)
+AND
+DB_QuestIsOpened("HAV_SaveTieflingPrisoners", _, _, _, _)
+THEN
+PROC_MOO_GnomeRescue_ForceClose();
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+AND
+DB_QuestIsOpened("MOO_GnomeRescue", _, _, _, _)
+THEN
+PROC_MOO_GnomeRescue_ForceClose();
+
+PROC
+PROC_MOO_GnomeRescue_ForceClose()
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_Over_ce186cbb-3c45-8cb1-cc4a-b64196290ec3, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "RewardIgnored");
+
+PROC
+PROC_MOO_GnomeRescue_ForceClose()
+AND
+DB_GlobalFlag(MOO_Jailbreak_State_Over_ce186cbb-3c45-8cb1-cc4a-b64196290ec3, _, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+AND
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenPermaDefeated", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "SadRewardIgnored");
+
+PROC
+PROC_MOO_GnomeRescue_ForceClose()
+AND NOT
+DB_MOO_GnomeRescue_PrisonerFoundUpdate(1, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "NeverFound");
+
+PROC
+PROC_MOO_GnomeRescue_ForceClose()
+AND
+DB_MOO_GnomeRescue_PrisonerFoundUpdate(1, _, _, _, _)
+AND NOT
+DB_GlobalFlag(MOO_Jailbreak_State_Over_ce186cbb-3c45-8cb1-cc4a-b64196290ec3, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "PrisonersIgnored");
+
+PROC
+PROC_StateSet_PermaDefeated(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+AND
+DB_MOO_GnomeRescue_KnowBarcusInHav(1, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenPermaDefeated");
+
+PROC
+PROC_StateSet_PermaDefeated(S_GLO_Wulbren_2d70edbf-1a70-4047-8099-48f3e75d93bf, _, _, _, _)
+AND
+DB_MOO_GnomeRescue_KnowBarcusInHav(0, _, _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "WulbrenPermaDefeatedNoBarcus");
+
+IF
+FlagSet(HAV_WrootRequest_Event_GaveGift_7b1df8d9-36e9-2de8-3a77-1f1a8c6ff32e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_MOO_GnomeRescue_BarcusRewardUpdate();
+
+PROC
+PROC_MOO_GnomeRescue_BarcusRewardUpdate()
+AND
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenPermaDefeated", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "BarcusRewardSad");
+
+PROC
+PROC_MOO_GnomeRescue_BarcusRewardUpdate()
+AND NOT
+QRY_QuestUpdateIsUnlockedForAny("MOO_GnomeRescue", "WulbrenPermaDefeated", _, _, _)
+THEN
+QuestUpdate("MOO_GnomeRescue", "BarcusReward");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

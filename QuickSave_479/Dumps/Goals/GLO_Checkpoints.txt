@@ -1,0 +1,525 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_Checkpoint_AllowTrespassPermaAccess("");
+
+KBSECTION
+IF
+DB_CheckPoint(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_CheckPoint(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, "Trespassing");
+
+IF
+DB_CheckPoint(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+DB_CheckPoint(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_CheckPoint(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1)
+THEN
+DB_CheckPointGuard(_Var1, _Var3, _Var6);
+DB_CheckPointGuard(_Var2, _Var4, _Var6);
+
+IF
+DB_CheckPointGuard(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var3, _, _, _, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_SpotPlayers(_Var1, _Var3, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger_ManualRegistering(_Var2);
+DB_SpotPlayers_SpotTrigger(_Var1, _Var3, _Var2);
+DB_SpotPlayers_Continuous(_Var1, _Var3);
+PROC_TriggerRegisterForPlayers(_Var2);
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, _Var3);
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, _Var3);
+
+IF
+DB_CheckPoint(_, _, _, _, _Var5, _, _, _Var8, _Var9, _)
+AND
+_Var5 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_TrespassTrigger(_Var5, _Var9, _Var8);
+
+IF
+DB_CheckPoint(_, _, _, _, _Var5, _Var6, _, _, _, _)
+AND NOT
+DB_Checkpoint_AllowTrespassPermaAccess(_Var6, _, _, _, _)
+THEN
+DB_CRIME_TrespassNoPermanentAccess(_Var5);
+
+IF
+DB_CRIME_TrespassNoPermanentAccess(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckPoint(_, _, _, _, _Var1, _Var6, _, _, _, _Var1)
+AND
+DB_Checkpoint_AllowTrespassPermaAccess(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_TrespassNoPermanentAccess(_Var1);
+
+IF
+FlagSet((FLAG)_Var1, _, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var9, _Var1, _, _, _Var1)
+AND
+DB_CheckPointGuard(_Var12, _, _Var9, _Var1, _Var1)
+AND
+GetFaction(_Var12, _Var14, _Var1, _Var1, _Var1)
+AND
+DB_HostileToPlayerGroup(_Var14, _Var15, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HostileToPlayerGroup(_Var14, _Var15);
+PROC_HostileToPlayerGroupCancelFlag_TryCancel(_Var15, _Var14);
+
+IF
+DB_CheckPointGuard(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_CP_WarningSomeone_038aa41c-c4e4-4892-99de-84b7f20ff045, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(GLO_CP_WarningSomeone_038aa41c-c4e4-4892-99de-84b7f20ff045, _Var1, 0);
+
+IF
+LeftCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CheckPointGuard(_Var1, _, _Var4, _Var1, _Var1)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var4, _Var10, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(_Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_RestartSpotting(_Var1, _Var4);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CheckPointGuard(_, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_AliveInCheckpointTrigger(_Var1, _Var2);
+
+IF
+DB_AliveInCheckpointTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AliveInCheckpointTrigger(_Var1, _Var2);
+
+IF
+DB_AliveInCheckpointTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AliveInCheckpointTrigger(_Var1, _Var2);
+
+IF
+DB_CheckPointGuard(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_AliveInCheckpointTrigger(_, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var3, _Var10, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(_Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_RestartSpotting(_Var1, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Is_InconspicuousPartyMember(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckPoint(_, _Var1, _, _Var6, _, _Var2, _, _, _, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var1, _Var2);
+SetFlag(GLO_CP_WarningSomeone_038aa41c-c4e4-4892-99de-84b7f20ff045, _Var1, 0);
+PROC_CheckPointDialogue(_Var3, _Var1);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Is_InconspicuousPartyMember(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckPoint(_Var1, _, _Var5, _, _, _Var2, _, _, _, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_CP_WarningSomeone_038aa41c-c4e4-4892-99de-84b7f20ff045, _Var1, 0, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var1, _Var2);
+SetFlag(GLO_CP_WarningSomeone_038aa41c-c4e4-4892-99de-84b7f20ff045, _Var1, 0);
+PROC_CheckPointDialogue(_Var3, _Var1);
+
+IF
+FlagSet((GUIDSTRING)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CheckPoint(_, _, _, _, _Var7, _Var8, _Var1, _, _Var10, _Var1)
+AND
+DB_CheckPointGuard(_Var11, _, _Var8, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var11, _Var8);
+PROC_RemoveDBTrespassTrigger(_Var7, _Var10);
+
+PROC
+PROC_CheckPointDialogue(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartCheckpointWarningDialog((STRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var1)
+AND NOT
+QRY_CheckpointWarningDialogFailed(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_CheckpointWarningDialog(1);
+
+QRY
+QRY_CheckpointWarningDialogFailed((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+QRY_TemporarilyMuted(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CheckpointWarningDialogFailed((DIALOGRESOURCE)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND NOT
+QRY_TemporarilyMuted(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_StartDialog_FailReason(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_StartCheckpointWarningDialog((STRING)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var3, _, (STRING)_Var1)
+AND
+DB_CheckPointGuard(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var6, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_CheckpointWarningDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CheckpointWarningDialogFailed(_Var2, _Var3, _Var6, _Var1, _Var1)
+THEN
+DB_CheckpointWarningDialog(1);
+
+QRY
+QRY_StartCheckpointWarningDialog((STRING)_Var1, (DIALOGRESOURCE)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var1)
+AND NOT
+DB_CheckpointWarningDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckPoint(_Var5, _, _, _, _, _Var1, _, _, _, _Var1)
+AND
+QRY_StartDialog(GEB_GetOutOfHere1_01d8d9e1-bde1-0792-688b-a11f04c440dd, _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_CheckpointWarningDialog(1);
+
+QRY
+QRY_StartCheckpointWarningDialog((STRING)_Var1, (DIALOGRESOURCE)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var1)
+AND NOT
+DB_CheckpointWarningDialog(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckPoint(_, _Var6, _, _, _, _Var1, _, _, _, _Var1)
+AND
+QRY_StartDialog(GEB_GetOutOfHere2_b239f9f3-d00e-9c9d-3df3-68bdf48f846f, _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_CheckpointWarningDialog(1);
+
+QRY
+QRY_StartCheckpointWarningDialog((STRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var1)
+AND
+DB_CheckpointWarningDialog(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CheckpointWarningDialog(1);
+
+QRY
+QRY_SpeakerIsAvailableForDialogSlot((GUIDSTRING)_Var1, GEB_GetOutOfHere1_01d8d9e1-bde1-0792-688b-a11f04c440dd, 2, _, (GUIDSTRING)_Var3)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_SpeakerIsAvailableForDialogSlot((GUIDSTRING)_Var1, GEB_GetOutOfHere2_b239f9f3-d00e-9c9d-3df3-68bdf48f846f, 2, _, (GUIDSTRING)_Var3)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_CheckPointPassTrigger(_Var1, _Var1, _, _Var1, _Var1)
+AND
+Concatenate("There is a checkpoint trigger using the same identifier both for its regular spotting and its pass trigger. This will lead to bugs. ID: ", _Var1, _Var3, _Var1, _Var1)
+THEN
+DebugBreak(_Var3);
+
+IF
+DB_CheckPointPassTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CheckPoint(_Var4, _Var5, _, _, _, _Var1, _, _, _, _Var1)
+THEN
+DB_SpotPlayers(_Var4, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(_Var4, _Var2, _Var3);
+DB_SpotPlayers_Continuous(_Var4, _Var2);
+DB_SpotPlayers(_Var5, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(_Var5, _Var2, _Var3);
+DB_SpotPlayers_Continuous(_Var5, _Var2);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Is_InconspicuousPartyMember(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckPointPassTrigger(_Var4, _Var2, _Var5, _Var1, _Var1)
+AND
+DB_InRegion(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_CheckPoint(_Var6, _Var7, _, _, _, _Var4, _Var11, _, _, _Var1)
+AND NOT
+QRY_Checkpoint_Hostile(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var11, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CheckPoint(_Var4, _Var5, _, _, _, _Var9, _Var1, _, _, _Var1)
+AND
+DB_CheckPointPassTrigger(_Var9, _Var12, _Var13, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var4, _Var12);
+PROC_SpotPlayers_StopSpotting(_Var5, _Var12);
+
+IF
+Teleported((CHARACTER)_Var1, _, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (REAL)_Var7, (REAL)_Var8, (STRING)_Var9, (CHARACTER)_Var1)
+AND
+_Var9 != "RegionSwap"
+AND
+IsPartyMember(_Var1, 1, 1, _Var1, _Var1)
+AND NOT
+QRY_CharacterIsHidden(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckpointTeleporter(_Var10, _Var11, _Var12, _Var13, _Var14)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var14, _Var20, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(_Var20, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+PositionIsInTrigger(_Var3, _Var4, _Var5, _Var12, 1)
+AND
+PositionIsInTrigger(_Var6, _Var7, _Var8, _Var13, 1)
+AND
+QRY_RegisterGuardedTeleporterUse(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var11, _Var23, _Var1, _Var1, _Var1)
+THEN
+PROC_Checkpoint_IllegalTeleport(_Var11, _Var1, _Var10);
+DB_HostileToPlayerGroup(_Var23, _Var1);
+
+QRY
+QRY_RegisterGuardedTeleporterUse((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_RegisterGuardedTeleporterUse((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+CanSee(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Checkpoint_IllegalTeleport((CHARACTER)_Var1, (CHARACTER)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GLO_TeleporterGuard_State_Investigating_be11f0db-6727-481d-aadd-20dbbcd59209, _Var1, 0, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var3, "GLO_TeleportGuard_InvestigateTeleporter");
+
+PROC
+PROC_Checkpoint_IllegalTeleport((CHARACTER)_Var1, (CHARACTER)_Var2, (ITEM)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CheckpointTeleporter_Investigating(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DialogRequestStop(_Var1);
+SetHasDialog(_Var1, 0);
+SetForceUpdate(_Var1, 1);
+DB_CheckpointTeleporter_Investigating(_Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_TeleportGuard_DoneInvestigating", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetForceUpdate(_Var1, 0);
+
+IF
+EntityEvent((CHARACTER)_Var1, "GLO_TeleportGuard_DoneInvestigating", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CheckpointTeleporter_Investigating(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 1);
+SetForceUpdate(_Var1, 0);
+NOT DB_CheckpointTeleporter_Investigating(_Var1);
+
+IF
+FlagSet((FLAG)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var8, _Var1, _, _, _Var1)
+AND
+DB_CheckpointTeleporter(_Var11, _Var12, _Var13, _Var14, _Var8)
+THEN
+ClearOwnership(_Var11);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var9, _Var1, _, _, _Var1)
+THEN
+PROC_CheckpointTeleporter_CancelHostility(_Var9);
+
+PROC
+PROC_CheckpointTeleporter_CancelHostility((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+NOT DB_OnlyOnce("GLO_CheckpointTeleporter_Cancel");
+
+PROC
+PROC_CheckpointTeleporter_CancelHostility((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CheckpointTeleporter(_, _Var3, _, _, _Var1)
+AND NOT
+DB_OnlyOnce("GLO_CheckpointTeleporter_Cancel", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckpointTeleporter_Investigating(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(GEB_Checkpoints_AD_CancelFollow_dc278a9a-8333-7cd8-5f0d-9555ac73fffb, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_OnlyOnce("GLO_CheckpointTeleporter_Cancel");
+
+PROC
+PROC_CheckpointTeleporter_CancelHostility((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CheckpointTeleporter(_, _Var3, _, _, _Var1)
+AND
+DB_CheckpointTeleporter_Investigating(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var3, "GLO_TeleporterGuard_CancelHostility");
+
+IF
+Teleported((CHARACTER)_Var1, _, (REAL)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (REAL)_Var7, (REAL)_Var8, (STRING)_Var9, (CHARACTER)_Var1)
+AND
+_Var9 != "RegionSwap"
+AND
+IsPartyMember(_Var1, 1, 1, _Var1, _Var1)
+AND NOT
+QRY_CharacterIsHidden(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CheckpointTeleporter(_Var10, _Var11, _Var12, _Var13, _Var14)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var14, _Var20, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(_Var20, _Var1, _Var1, _Var1, _Var1)
+AND
+PositionIsInTrigger(_Var3, _Var4, _Var5, _Var13, 1)
+AND
+PositionIsInTrigger(_Var6, _Var7, _Var8, _Var12, 1)
+AND NOT
+QRY_Checkpoint_Hostile(_Var14, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var20);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, (STRING)_Var2, (TRIGGER)_Var3, _, _)
+AND
+DB_CheckPoint(_, _, _, _, _Var3, _Var10, _Var11, _Var2, _, _Var1)
+AND
+DB_GlobalFlag(_Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(0);
+
+QRY
+QRY_Checkpoint_Hostile((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CheckPointGuard(_Var3, _, _Var1, _Var1, _Var1)
+AND
+IsEnemy(_Var3, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CancelCheckpoint((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CheckPoint(_, _, _Var4, _, _Var6, _Var1, _, _, _Var9, _Var1)
+AND
+DB_CheckPointGuard(_Var10, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var10, _Var1);
+PROC_RemoveDBTrespassTrigger(_Var6, _Var9);
+
+PROC
+PROC_CancelCheckpoint((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CheckPoint(_Var2, _Var3, _Var4, _, _, _Var1, _, _, _, _Var1)
+AND
+DB_CheckPointPassTrigger(_Var1, _Var10, _Var11, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var2, _Var10);
+PROC_SpotPlayers_StopSpotting(_Var3, _Var10);
+
+PROC
+PROC_CancelCheckpoint((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CheckPoint(_, _, _, _, _, _Var1, _, _, _, _Var1)
+AND
+DB_CheckPointGuard(_Var10, _, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var10, _Var12, _Var1, _Var1, _Var1)
+AND
+DB_HostileToPlayerGroup(_Var12, _Var13, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HostileToPlayerGroup(_Var12, _Var13);
+PROC_HostileToPlayerGroupCancelFlag_TryCancel(_Var13, _Var12);
+
+PROC
+PROC_CancelCheckpoint((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CheckPoint(_Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var7, _Var8, _Var9, _Var1)
+THEN
+NOT DB_CheckPoint(_Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var7, _Var8, _Var9);
+
+PROC
+PROC_CancelCheckpoint((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Checkpoint_AllowTrespassPermaAccess(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Checkpoint_AllowTrespassPermaAccess(_Var1);
+
+PROC
+PROC_CRIME_CleanUpTrespass((INTEGER)_Var1, (TRIGGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CheckPoint(_Var3, _Var4, _Var5, _Var6, _Var2, _Var7, _Var8, _Var9, _Var10, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var8);
+PROC_CancelCheckpoint(_Var7);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

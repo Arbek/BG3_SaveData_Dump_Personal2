@@ -1,0 +1,427 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Brainquakes_EndCodes(0, "Completed");
+DB_GLO_Brainquakes_EndCodes(1, "CantStartBusy");
+DB_GLO_Brainquakes_EndCodes(2, "Failed");
+NOT DB_GLO_Brainquakes_EventsData("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_RapidAD_ActiveRapidMindMeldStartTime(5000);
+
+KBSECTION
+PROC
+PROC_GLO_Brainquakes_StartForcedEvent((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Brainquakes_RunningEvent_Current(_, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Brainquakes_SelectAvailablePlayersNearby(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Brainquakes_FilterUsersForEvent(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_StartEvent_Internal(_Var2);
+
+PROC
+PROC_GLO_Brainquakes_StartForcedEvent((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_Brainquakes_RunningEvent_Current(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_RunningEvent_Stop(_Var2, 1);
+
+PROC
+PROC_GLO_Brainquakes_StartEvent_Internal((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_OnlyOnce_Reset("GLO_Brainquakes_StartEvent_InternalOnlyOnce", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_Users(_Var2, _, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_AvailablePlayersNearby(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GLO_Brainquakes_StartEvent_InternalOnlyOnce", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Brainquakes_RunningEvent_Current(_Var1);
+PROC_GLO_Brainquakes_RunningEvent_TryShakeGround(_Var4, _Var1);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_TryShakeGround((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "GLO_Brainquakes_RunningEvent_QuakeDelay_Timer", 300);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_Brainquakes_RunningEvent_QuakeDelay_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_Brainquakes_ShakeGroundAroundCharacter(_Var1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_Brainquakes_RunningEvent_QuakeDelay_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "GLO_Brainquakes_RunningEvent_VBDelay_Timer", 2000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_Brainquakes_RunningEvent_VBDelay_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_Current(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_RunningEvent_TryPlayVB(_Var1, _Var2);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_TryPlayVB((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_Brainquakes_EventsData(_Var2, NULL_00000000-0000-0000-0000-000000000000, _, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_RunningEvent_TryPlayDaisyAD(_Var2);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_TryPlayVB((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Brainquakes_EventsData(_Var2, _Var3, _, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_GLO_Brainquakes_RunningEvent_AwaitingVBCompletion(_Var2, _Var3);
+StartVoiceBark(_Var3, _Var1);
+
+IF
+VoiceBarkFailed((VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_AwaitingVBCompletion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Brainquakes_RunningEvent_AwaitingVBCompletion(_Var2, _Var1);
+PROC_GLO_Brainquakes_RunningEvent_TryPlayDaisyAD(_Var2);
+
+IF
+VoiceBarkEnded((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_AwaitingVBCompletion(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Brainquakes_RunningEvent_AwaitingVBCompletion(_Var3, _Var1);
+PROC_GLO_Brainquakes_RunningEvent_TryPlayDaisyAD(_Var3);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_TryPlayDaisyAD((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_EventsData(_Var1, _, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_RunningEvent_Complete(_Var1);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_TryPlayDaisyAD((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_EventsData(_Var1, _, _Var3, _Var1, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_GLO_Brainquakes_RunningEvent_Users(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_Brainquakes_PlayEmperorAD(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_RunningEvent_Complete(_Var1);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_TryPlayDaisyAD((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_Current(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_RunningEvent_Stop(_Var1, 2);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_Complete((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_Users(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Brainquakes_User_DoneEvent(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_RunningEvent_CompleteForUser(_Var2, _Var1);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_Complete((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_Current(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_RunningEvent_Stop(_Var1, 0);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_CompleteForUser((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_GLO_Brainquakes_User_DoneEvent(_Var1, _Var2);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_Stop((STRING)_Var1, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_RunningEvent_Current(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Brainquakes_RunningEvent_Current(_Var1);
+
+PROC
+PROC_GLO_Brainquakes_RunningEvent_Stop((STRING)_Var1, (INTEGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_EndCodes(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_OnEventEnded(_Var1, _Var3);
+
+PROC
+PROC_GLO_Brainquakes_OnEventEnded((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_Brainquakes_SelectAvailablePlayersNearby(_, _, _, _, _)
+AND
+DB_GLO_Brainquakes_AvailablePlayersNearby(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_GLO_Brainquakes_AvailablePlayersNearby(_Var2, _Var3);
+
+QRY
+QRY_GLO_Brainquakes_SelectAvailablePlayersNearby((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantAct(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 15
+AND
+GetReservedUserID(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+GetUserProfileID(_Var4, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Brainquakes_AvailablePlayersNearby(_Var2, _Var5);
+
+QRY
+QRY_GLO_Brainquakes_FilterUsersForEvent(_, _, _, _, _)
+AND
+DB_GLO_Brainquakes_RunningEvent_Users(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_GLO_Brainquakes_RunningEvent_Users(_Var2, _Var3);
+
+QRY
+QRY_GLO_Brainquakes_FilterUsersForEvent((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_AvailablePlayersNearby(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Brainquakes_User_DoneEvent(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Brainquakes_RunningEvent_Users(_Var3, _Var1);
+
+PROC
+PROC_GLO_Brainquakes_ShakeGroundAroundCharacter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_ShakeCameraForTime(_Var1, 5000, VFX_Script_Brainquake_01_07202ba2-fe9c-fc79-46e3-cc421fafc0e8, 1);
+PROC_GLO_Brainquakes_ApplyExperiencedFlag(_Var1);
+
+PROC
+PROC_GLO_Brainquakes_ShakeGroundAroundCharacter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CrimeGetNewID(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, "GLO_BrainquakeEvents_Reaction", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var2);
+
+PROC
+PROC_GLO_Brainquakes_ShakeGroundAroundCharacter((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 20
+AND
+Random(2000, _Var4, _Var1, _Var1, _Var1)
+AND
+IntegerSum(1000, _Var4, _Var5, _Var1, _Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var2, "GLO_Brainquakes_CowerParty_Timer", _Var5);
+PROC_GLO_Brainquakes_ApplyExperiencedFlag(_Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_Brainquakes_CowerParty_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyStatus(_Var1, "ANIM_COWER", 3, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_GLO_Brainquakes_PlayEmperorAD((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+GetUserProfileID(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_EmperorAD(_Var3, _Var1);
+
+PROC
+PROC_GLO_Brainquakes_ApplyExperiencedFlag((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(GLO_Brainquakes_State_ExperiencedBrainquake_26d4362f-d301-41e6-8202-b79fca52d410, _Var1, 0, _Var1, _Var1)
+THEN
+SetFlag(GLO_Brainquakes_State_ExperiencedBrainquake_26d4362f-d301-41e6-8202-b79fca52d410, _Var1);
+
+IF
+DB_GLO_Brainquakes_Directional_Difficult(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+Concatenate(_Var3, "_Timer_Stun", _Var4, _Var1, _Var1)
+THEN
+DB_GLO_Brainquakes_Directional_Difficult_Internal(_Var1, _Var2, _Var4);
+
+IF
+DB_GLO_Brainquakes_Directional_Triggers(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_Directional_Triggers(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_Directional_StunTime(_Var6, _Var8, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Brainquakes_Directional_Triggers(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+NOT DB_GLO_Brainquakes_Directional_StunTime(_Var6, _Var8);
+DB_GLO_Brainquakes_Directional_StunTime(_Var6, _Var5);
+PROC_GLO_DirectionalBrainquake_StartBrainquakeShakeAndVFX(_Var1, _Var3, 5000, _Var6, _Var7);
+PROC_GLO_DirectionalBrainquake_ReadyBrainquakeSlowAndStun(_Var4, _Var6);
+
+PROC
+PROC_GLO_DirectionalBrainquake_StartBrainquakeShakeAndVFX((GUIDSTRING)_Var1, (TRIGGER)_Var2, (INTEGER)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND
+Concatenate(_Var4, "_BrainquakeTimer", _Var6, _Var1, _Var1)
+THEN
+PROC_LoopEffect(VFX_Script_Brainquake_01_07202ba2-fe9c-fc79-46e3-cc421fafc0e8, _Var2, _Var6, _Var5, "", 1.5);
+PROC_ShakeCameraForTime(_Var1, _Var3, VFX_Script_Brainquake_01_07202ba2-fe9c-fc79-46e3-cc421fafc0e8, 1);
+RealtimeObjectTimerLaunch(_Var2, _Var6, _Var3);
+DB_GLO_Brainquakes_Directional_Timer(_Var6);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Brainquakes_Directional_Timer(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Brainquakes_Directional_Timer(_Var2);
+PROC_StopLoopEffect(_Var1, _Var2);
+PROC_GLO_Brainquake_Directional_RemoveNetherbrainSlow();
+
+PROC
+PROC_GLO_DirectionalBrainquake_ReadyBrainquakeSlowAndStun((INTEGER)_Var1, (STRING)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var3, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+THEN
+PROC_GLO_DirectionalBrainquake_ReadyBrainquakeSlowAndStun(_Var3, _Var1, _Var2, 1, 1);
+
+PROC
+PROC_GLO_DirectionalBrainquake_ReadyBrainquakeSlowAndStun((GUIDSTRING)_Var1, (INTEGER)_Var2, (STRING)_Var3, (REAL)_Var4, (REAL)_Var5)
+AND
+Random(_Var2, _Var6, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var2, _Var7, _Var1, _Var1, _Var1)
+AND
+RealProduct(_Var7, 1.5, _Var8, _Var1, _Var1)
+AND
+RealToInteger(_Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var6, _Var9, _Var10, _Var1, _Var1)
+AND
+Concatenate(_Var3, "_Timer_Slow", _Var11, _Var1, _Var1)
+AND
+Concatenate(_Var3, "_Timer_Stun", _Var12, _Var1, _Var1)
+THEN
+DB_GLO_Brainquakes_Directional_TimerSlow(_Var1, _Var11);
+DB_GLO_Brainquakes_Directional_TimerStun(_Var1, _Var12);
+DB_GLO_Brainquakes_Directional_StunTime(_Var12, _Var4);
+DB_GLO_Brainquakes_Directional_SlowTime(_Var11, _Var5);
+RealtimeObjectTimerLaunch(_Var1, _Var11, _Var6);
+RealtimeObjectTimerLaunch(_Var1, _Var12, _Var10);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Brainquakes_Directional_TimerSlow(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_Directional_SlowTime(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "END_NETHERBRAIN_SLOW", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "END_NETHERBRAIN_SLOW", _Var3, 1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Brainquakes_Directional_TimerStun(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_Directional_Difficult_Internal(_Var3, _Var4, _Var2, _Var1, _Var1)
+THEN
+NOT DB_GLO_Brainquakes_Directional_TimerStun(_Var1, _Var2);
+RequestPassiveRoll(_Var1, S_GLO_Netherbrain_3858e896-d7dd-4699-b37d-d3919ff15ba7, "SavingThrow", _Var3, _Var4, 0, _Var2);
+
+IF
+RollResult((STRING)_Var1, (GUIDSTRING)_Var2, _, 0, _, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Brainquakes_Directional_StunTime(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "STUNNED", _Var6, 1);
+
+PROC
+PROC_GLO_Brainquake_Directional_RemoveNetherbrainSlow()
+THEN
+DB_NOOP(1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_SlowZone(_Var3, _Var2, _Var4, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var3, "_SlowZone", _Var5, _Var1, _Var1)
+AND
+QRY_OnlyOnce(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(_Var4, _Var1);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_SlowZone(_Var3, _Var2, _Var4, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "END_NETHERBRAIN_SLOW", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "END_NETHERBRAIN_SLOW", -1, 1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, ILLITHID_1eec74e8-3673-4500-abec-57b7ed8469ed, 1, _Var1, _Var1)
+AND
+DB_GLO_Brainquakes_SlowZone(_Var3, _Var2, _Var4, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "END_NETHERBRAIN_SLOW", NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_StateSet_Defeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "END_NETHERBRAIN_SLOW", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "END_NETHERBRAIN_SLOW", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+TextEvent("GLO_Brainquakes_TestQuake", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_Brainquakes_ShakeGroundAroundCharacter(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

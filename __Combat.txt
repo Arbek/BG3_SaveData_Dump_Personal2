@@ -1,0 +1,686 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CombatFlee_BlockedInLevel("TUT_Avernus_C");
+DB_CombatFlee_BlockedInLevel("END_Main");
+DB_CombatFlee_LastResortTrigger("WLD_Main_A", DOS2_StartPoint_000__000__000_b41c4f85-a580-cf6e-a4b9-9084e084452c);
+DB_CombatFlee_LastResortTrigger("SCL_Main_A", StartPoint_000_f968a8d3-b06d-4fc2-acf1-1e650e35e52d);
+DB_CombatFlee_MinimumDistanceToFlee(30);
+NOT DB_CMB_StatusOnInit(NULL_00000000-0000-0000-0000-000000000000, "");
+NOT DB_CMB_StatusOnInit(NULL_00000000-0000-0000-0000-000000000000, "", 0);
+NOT DB_CMB_StatusOnInit(NULL_00000000-0000-0000-0000-000000000000, "", 0, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+CombatStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CombatStarted(_Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_CombatStarted(_Var1);
+
+PROC
+PROC_ClearPreviousCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Was_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Was_InCombat(_Var1, _Var2);
+
+PROC
+PROC_LevelUnloading(_, _, _, _, _)
+AND
+DB_Was_InCombat(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_Was_InCombat(_Var2, _Var3);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_ShouldTrackCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ClearPreviousCombat(_Var1);
+DB_Is_InCombat(_Var1, _Var2);
+
+IF
+SwitchedCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Is_InCombat(_Var1, _Var2);
+DB_Is_InCombat(_Var1, _Var3);
+
+PROC
+PROC_LeftCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ShouldTrackCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CanFight(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ShouldTrackCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+LeftCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Was_InCombat(_Var1, _Var2);
+NOT DB_Is_InCombat(_Var1, _Var2);
+PROC_LeftCombat(_Var1, _Var2);
+
+PROC
+PROC_SetCanFight((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetCanFight(_Var1, _Var2);
+
+PROC
+PROC_SetCanFight((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Is_InCombat(_Var1, _Var2);
+
+PROC
+PROC_SetCanFight((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+CombatGetGuidFor(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_Is_InCombat(_Var1, _Var2);
+
+QRY
+QRY_GLO_IsOrWasInCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_IsOrWasInCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Was_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_BreakConcentration((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_BreakConcentration(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_GLO_BreakConcentration((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyStatus(_Var1, "AI_HELPER_BREAKCONCENTRATION", 0.1, 1, _Var2);
+
+IF
+TemporaryHostileRelationRemoved((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var5 > -45
+THEN
+PROC_SetAttitude(_Var1, _Var4, -45);
+
+IF
+DB_Was_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+Exists(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+IsEnemy(_Var3, _Var1, 1, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+_Var4 > -45
+THEN
+PROC_SetAttitude(_Var1, _Var3, -45);
+
+IF
+CombatRoundStarted((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CMB_RoundCounter(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_CMB_RoundCounter(_Var1, _Var2);
+
+IF
+CombatRoundStarted((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CMB_RoundCounter(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+NOT DB_CMB_RoundCounter(_Var1, _Var3);
+DB_CMB_RoundCounter(_Var1, _Var2);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CMB_RoundCounter(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CMB_RoundCounter(_Var1, _Var2);
+
+QRY
+QRY_CurrentCombatRoundIs((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CMB_RoundCounter(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 == _Var3
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CurrentCombatRoundIsGreaterThan((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CMB_RoundCounter(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 < _Var3
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CurrentCombatRoundIsLessThan((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CMB_RoundCounter(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 > _Var3
+THEN
+DB_NOOP(1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Downed(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "REMOVE_DOWNED", 0.1);
+
+IF
+DB_CMB_StatusOnInit(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CMB_StatusOnInit(_Var1, _Var2);
+ApplyStatus(_Var1, _Var2, -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_CMB_StatusOnInit(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, _Var2, -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_CMB_StatusOnInit(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+ApplyStatus(_Var1, _Var2, -1, 1, _Var4);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_CMB_StatusOnInit(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, _Var2, -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_CMB_StatusOnInit(_Var1, _Var2, 1, _Var5, _Var1)
+THEN
+ApplyStatus(_Var1, _Var2, -1, 1, _Var5);
+
+IF
+DB_CombatFlee_BlockedInLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+BlockFlee(_Var2);
+DB_CombatFlee_BlockedFor(_Var2);
+
+IF
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatFlee_BlockedFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+BlockFlee(_Var1);
+DB_CombatFlee_BlockedFor(_Var1);
+
+IF
+DB_InDangerZone(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatFlee_BlockedFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+BlockFlee(_Var1);
+DB_CombatFlee_BlockedFor(_Var1);
+
+IF
+DB_CombatFlee_BlockedFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InDangerZone(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatFlee_BlockedInLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+UnblockFlee(_Var1);
+NOT DB_CombatFlee_BlockedFor(_Var1);
+
+IF
+DB_CombatFlee_BlockedFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+UnblockFlee(_Var1);
+NOT DB_CombatFlee_BlockedFor(_Var1);
+
+IF
+FleeFromCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CombatFlee_WaitForCombatLeave(_Var1, _Var2);
+
+IF
+DB_CombatFlee_WaitForCombatLeave(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_CombatFlee_TryFleeCheckFailed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugBreak("No Flee target found. Check DB_CombatFlee_LastResortTrigger defined for this level");
+DebugText(_Var1, "No Flee target found. Check log");
+
+IF
+DB_CombatFlee_WaitForCombatLeave(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatFlee_WaitForCombatLeave(_Var1, _Var2);
+PROC_CombatFlee_CheckReenterCombatAfterFlee(_Var1, _Var2);
+
+QRY
+QRY_CombatFlee_TryFleeCheckFailed((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_CombatFlee_TryFleeToCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CombatFlee_TryFleeToWaypoint(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_CombatFlee_TryFleeToLevelStart(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CombatFlee_TryFleeToCamp((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_Camp_IsPlayerBlockedFromTeleportToCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_Camp_SwapCampIfNecessary(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var2, _, _, _Var5, _Var1)
+THEN
+TeleportTo(_Var1, _Var5, "CMB_Fled", 0, 0, 0, 1, 1);
+
+QRY
+QRY_CombatFlee_TryFleeToWaypoint((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_WaypointTeleport_PlayerBlocked(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CombatFlee_FindFleeWaypoint(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CombatFlee_FoundFleeWaypoint(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CombatFlee_FoundFleeWaypoint(_Var1, _Var2, _Var3);
+TeleportTo(_Var1, _Var2, "CMB_Fled", 0, 0, 0, 1, 1);
+
+QRY
+QRY_CombatFlee_FindFleeWaypoint((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WaypointUnlocked(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WaypointInfo(_Var3, _Var2, _Var4, _Var5, _Var1)
+AND
+GetDistanceTo(_Var1, _Var5, _Var6, _Var1, _Var1)
+AND NOT
+QRY_CombatFlee_FindFleeWaypoint_TooCloseToCombat(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CombatFlee_FoundFleeWaypoint(_Var1, _Var5, _Var6);
+
+IF
+DB_QRYRTN_CombatFlee_FoundFleeWaypoint(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_QRYRTN_CombatFlee_FoundFleeWaypoint(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND
+_Var2 != _Var4
+AND
+_Var3 <= _Var5
+THEN
+NOT DB_QRYRTN_CombatFlee_FoundFleeWaypoint(_Var1, _Var4, _Var5);
+
+QRY
+QRY_CombatFlee_FindFleeWaypoint_TooCloseToCombat((TRIGGER)_Var1, (CHARACTER)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_CombatFlee_MinimumDistanceToFlee(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var4, _Var1, _Var6, _Var1, _Var1)
+AND
+_Var6 <= _Var3
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CombatFlee_TryFleeToLevelStart((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CombatFlee_LastResortTrigger(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, _Var3, "CMB_Fled", 0, 0, 0, 1, 1);
+
+PROC
+PROC_CombatFlee_CheckReenterCombatAfterFlee((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_CombatFlee_MinimumDistanceToFlee(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 <= _Var5
+AND
+IsEnemy(_Var3, _Var1, 1, _Var1, _Var1)
+THEN
+EnterCombat(_Var1, _Var3);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "CMB_Fled", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_BreakConcentration(_Var1);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CombatGroups_CheckedDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GetCombatGroupID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 != ""
+AND NOT
+DB_CombatGroups_Iterator(_Var3, _Var2, _, _, _Var1)
+AND
+Concatenate("CombatGroupDialogCheck_", _Var3, _Var6, _Var1, _Var1)
+AND
+Concatenate("CombatGroupDialogCheckFinished_", _Var3, _Var7, _Var1, _Var1)
+THEN
+DB_CombatGroups_Iterator(_Var3, _Var2, _Var6, _Var7);
+IterateActiveObjectsInSameCombatGroup(_Var1, _Var6, _Var7);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatGroups_Iterator(_Var3, _Var4, _Var2, _Var5, _Var1)
+AND
+DB_DialogNPCs(_Var6, _Var1, _, _Var1, _Var1)
+AND
+GetCombatGroupID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var8, _Var6, _Var1, _Var1, _Var1)
+AND
+DialogIsAllowingJoinCombat(_Var8, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_ForceStopDialog(_Var1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatGroups_Iterator(_Var3, _Var4, _Var2, _Var5, _Var1)
+THEN
+DB_CombatGroups_CheckedDialog(_Var1, _Var4);
+
+IF
+EntityEvent(_, (STRING)_Var2, _, _, _)
+AND
+DB_CombatGroups_Iterator(_Var3, _Var4, _Var5, _Var2, _)
+THEN
+NOT DB_CombatGroups_Iterator(_Var3, _Var4, _Var5, _Var2);
+
+IF
+SwitchedCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatGroups_CheckedDialog(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatGroups_CheckedDialog(_Var1, _Var2);
+DB_CombatGroups_CheckedDialog(_Var1, _Var3);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CombatGroups_CheckedDialog(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CombatGroups_CheckedDialog(_Var2, _Var1);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetEnterCombatRange(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 != _Var1
+AND
+IsAlly(_Var4, _Var1, 1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var4, _Var1, _Var5, _Var1, _Var1)
+AND
+_Var5 <= _Var3
+AND NOT
+QRY_IsInAllowJoinCombatDialog(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TEMP_RequestStopDialog(_Var4);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var4, _Var3, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var6, _Var4, _Var1, _Var1, _Var1)
+AND
+DialogIsAutomated(_Var6, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var4, _Var1, 1, 1);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var5, _Var3, _Var1, _Var1, _Var1)
+AND
+DialogIsAutomated(_Var5, 0, _Var1, _Var1, _Var1)
+THEN
+PauseCombat(_Var2);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var5, _Var1, _Var1, _Var1)
+THEN
+ResumeCombat(_Var5);
+
+IF
+TurnStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_CombatFirstTurnStarted(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_CombatFirstTurnStarted(_Var2);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_CombatFirstTurnStarted(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_CombatFirstTurnStarted(_Var1);
+
+IF
+DB_GLO_CombatFirstTurnStarted(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "TEMPORARILY_HOSTILE", -1, 0, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ClearIndividualRelation((GUIDSTRING)_Var1, (FACTION)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GLO_CombatFirstTurnStarted(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "TEMPORARILY_HOSTILE", -1, 0, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "TEMPORARILY_HOSTILE", _, _, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_Combat_TemporaryHostile(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "TEMPORARILY_HOSTILE", _, _, (GUIDSTRING)_Var1)
+THEN
+NOT DB_GLO_Combat_TemporaryHostile(_Var1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "PERMANENTLY_HOSTILE", _, _, (GUIDSTRING)_Var1)
+THEN
+DB_GLO_Combat_PermanentlyHostile(_Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "PERMANENTLY_HOSTILE", _, _, (GUIDSTRING)_Var1)
+THEN
+NOT DB_GLO_Combat_PermanentlyHostile(_Var1);
+
+IF
+RelationChanged(_, _, 0, 1, _)
+AND
+DB_GLO_Combat_TemporaryHostile(_Var3, _, _, _, _)
+THEN
+ApplyStatus(_Var3, "HOSTILE_REFRESH", 0.1, 0, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+RelationChanged(_, _, _, 1, _)
+AND
+DB_GLO_Combat_PermanentlyHostile(_Var4, _, _, _, _)
+THEN
+ApplyStatus(_Var4, "HOSTILE_REFRESH", 0.1, 0, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_EnterCombatByID((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_EnterCombatByIDWithParticipant(_Var1, _Var3);
+
+PROC
+PROC_EnterCombatByIDWithParticipant((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Combat_TemporaryHostile(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationTemporaryHostile(_Var2, _Var1);
+
+PROC
+PROC_EnterCombatByIDWithParticipant((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_Combat_TemporaryHostile(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EnterCombat(_Var1, _Var2);
+
+PROC
+PROC_EnterCombatByIDWithParticipant((CHARACTER)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_EnterCombat(_Var1, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "TEMPORARILY_HOSTILE", _, _, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, ALWAYS_PERMANENTLY_HOSTILE_TO_ALL_PLAYERS_6115eeaa-0a4c-46b1-8a6d-2a83fbd65e07, 1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+QRY_FactionHostilityBlacklisted(_Var4, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(_Var4, 0);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+RemoveSummons(_Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,27 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_KnowledgeCheckTrigger_AD("SHA_Entrance_RecogniseTemple", S_SHA_Upper_Entrance_OnEnterVB_Area_d771121b-3fa8-49ff-9169-2edeb2ee8432, "Religion", Act2_Challenging_c44bfd7d-84de-4568-9c57-a059b8df5435, SHA_Entrance_PAD_RecognisedSharTemple_577ac963-343d-baef-b42d-1b73ac3f79d3, SHA_Entrance_State_ReligionSuccess_1e639f5e-f326-1770-4f81-00a61ce219a4);
+PROC_TriggerRegisterForPlayers(S_SHA_Upper_Entrance_OnEnterVB_Area_d771121b-3fa8-49ff-9169-2edeb2ee8432);
+
+KBSECTION
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage((GUIDSTRING)_Var1, S_SHA_Upper_Entrance_OnEnterVB_Area_d771121b-3fa8-49ff-9169-2edeb2ee8432, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, SELUNE_4533d292-5b1f-43c7-ad44-6bc7db1000ca, 1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(2);
+
+QRY
+QRY_GLO_SkillCheck_CheckAdvantage((GUIDSTRING)_Var1, S_SHA_Upper_Entrance_OnEnterVB_Area_d771121b-3fa8-49ff-9169-2edeb2ee8432, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, SHAR_486e4a27-e6f9-40a5-9dd1-108a1d0f60eb, 1, _Var1, _Var1)
+THEN
+DB_QRYRTN_GLO_Skillcheck_CheckAdvantage(2);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

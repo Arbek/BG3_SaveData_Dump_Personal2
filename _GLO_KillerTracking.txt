@@ -1,0 +1,288 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_KilledByPartyEvent(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_KilledByPartyEvent(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ReportKiller(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+IsEnemy(_Var4, _Var1, 1, _Var1, _Var1)
+THEN
+DB_ReportKiller_HostileToTarget(_Var4, _Var1, _Var2);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ReportKiller(_Var3, _, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+IsEnemy(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+DB_ReportKiller_HostileToTarget(_Var1, _Var3, _Var2);
+
+IF
+SwitchedCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ReportKiller_HostileToTarget(_Var4, _Var1, _Var2, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ReportKiller_HostileToTarget(_Var4, _Var1, _Var2);
+DB_ReportKiller_HostileToTarget(_Var4, _Var1, _Var3);
+
+IF
+SwitchedCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ReportKiller_HostileToTarget(_Var1, _Var4, _Var2, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ReportKiller_HostileToTarget(_Var1, _Var4, _Var2);
+DB_ReportKiller_HostileToTarget(_Var1, _Var4, _Var3);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ReportKiller_HostileToTarget(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ReportKiller_HostileToTarget(_Var2, _Var3, _Var1);
+
+IF
+KilledBy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ReportKiller(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_GetCharacterOwnerIfItemSummon(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetCharacterOwnerIfItemSummon(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ReportKiller(_Var6, _Var2, _Var1, _Var5);
+
+IF
+Dying((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ReportKiller(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_ReportKiller_WasEnemy(_Var1, _Var4, _Var3, _Var1, _Var1)
+THEN
+PROC_ReportKiller(_Var4, _Var4, _Var1, _Var2);
+
+QRY
+QRY_ReportKiller_WasEnemy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ReportKiller_HostileToTarget(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ReportKiller_WasEnemy((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsEnemy(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_KilledEvent(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_ReportKiller(_Var1, _Var2);
+
+IF
+DB_KilledByPartyEvent(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_ReportKiller(_Var1, _Var2);
+
+PROC
+PROC_ReportKiller((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (FLAG)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_KilledEvent(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var4, _Var2, 0);
+
+PROC
+PROC_ReportKiller((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var3, (FLAG)_Var4, (CHARACTER)_Var1)
+AND
+DB_KilledByPartyEvent(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetFlag(_Var4, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_WitnessKiller(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ReportKiller(_Var2, _Var1);
+
+IF
+DB_WitnessKiller_SawAsShape(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_WitnessKiller(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WitnessKiller_SawAsShape(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+DB_WitnessKiller_ReportWhenBodyFound(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND NOT
+DB_WitnessKiller(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WitnessKiller_ReportWhenBodyFound(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+DB_ReportKiller_HostileToTarget(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_WitnessKiller(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetRace(_Var1, 1, _Var5, _Var1, _Var1)
+AND
+GetGender(_Var1, 1, _Var6, _Var1, _Var1)
+THEN
+DB_WitnessKiller_SawAsShape(_Var4, _Var1, _Var5, _Var6, _Var2, _Var3);
+
+IF
+ShapeshiftChanged((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (CHARACTER)_Var1)
+AND
+_Var4 != ""
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ReportKiller_HostileToTarget(_Var1, _Var5, _Var6, _Var1, _Var1)
+AND
+DB_WitnessKiller(_Var7, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_WitnessKiller_SawAsShape(_Var7, _Var1, _Var2, _Var3, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WitnessKiller_SawAsShape(_Var7, _Var1, _Var2, _Var3, _Var5, _Var6);
+
+IF
+ShapeshiftChanged((CHARACTER)_Var1, _, _, "", (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ReportKiller_HostileToTarget(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND
+DB_WitnessKiller(_Var6, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WitnessKiller_SawAsShape(_Var6, _Var1, "", "", _Var4, _Var5);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_WitnessKiller_SawAsShape(_Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WitnessKiller_SawAsShape(_Var2, _Var3, _Var4, _Var5, _Var6, _Var1);
+
+PROC
+PROC_ReportKiller((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_WitnessKiller(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Sees(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+GetRace(_Var2, 1, _Var5, _Var1, _Var1)
+AND
+GetGender(_Var2, 1, _Var6, _Var1, _Var1)
+AND NOT
+DB_WitnessKiller_SawAsShape(_Var4, _Var2, _Var5, _Var6, _Var3, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WitnessedKiller(_Var4, _Var2, _Var5, _Var6, _Var3);
+
+PROC
+PROC_ReportKiller((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var3, (CHARACTER)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var4 == _Var3
+AND
+DB_WitnessKiller(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_WitnessKiller_SawAsShape(_Var3, _Var5, _Var6, _Var7, _Var3, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_WitnessedKiller(_Var3, _Var5, _Var6, _Var7, _Var3);
+
+PROC
+PROC_ReportKiller((CHARACTER)_Var1, _, (CHARACTER)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var1)
+AND
+_Var3 != _Var4
+AND
+DB_WitnessKiller(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_WitnessKiller_SawAsShape(_Var4, _Var5, _Var6, _Var7, _Var3, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_WitnessKiller_ReportWhenBodyFound(_Var4, _Var5, _Var6, _Var7, _Var3);
+
+PROC
+PROC_ReportKiller((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_WitnessKiller(_Var4, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_WitnessKiller_ReportWhenBodyFound(_Var4, _, _, _, _Var3)
+THEN
+NOT DB_WitnessKiller(_Var4, _Var3);
+NOT DB_ReportKiller(_Var3, _Var4);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WitnessKiller_ReportWhenBodyFound(_Var1, _Var3, _Var4, _Var5, _Var2)
+THEN
+PROC_WitnessedKiller(_Var1, _Var3, _Var4, _Var5, _Var2);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_WitnessKiller_ReportWhenBodyFound(_Var1, _Var3, _Var4, _Var5, _Var2)
+AND
+DB_WitnessKiller(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_WitnessKiller(_Var1, _Var2);
+NOT DB_ReportKiller(_Var2, _Var1);
+
+IF
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_WitnessKiller_ReportWhenBodyFound(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+PROC_WitnessedKiller_CleanUpAfterTheFact(_Var1);
+
+PROC
+PROC_WitnessedKiller_CleanUpAfterTheFact((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_WitnessKiller_ReportWhenBodyFound(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+NOT DB_WitnessKiller_ReportWhenBodyFound(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+PROC
+PROC_WitnessedKiller((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var5)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

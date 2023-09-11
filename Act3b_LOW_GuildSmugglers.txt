@@ -1,0 +1,78 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_SpotPlayers(S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, "LOW_GuildSMugglers_Spotting_StartConvo", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers(S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, "LOW_GuildSMugglers_Spotting_Attack", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, "LOW_GuildSMugglers_Spotting_Attack", S_LOW_GuildSmugglers_Trigger_Attack_a4a58ecc-09e8-462a-bba7-c6d8402dfe1d);
+DB_SpotPlayers(S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, "LOW_GuildSMugglers_Spotting_Attack", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_LOW_GuildSmugglers_Guard_001_b86be437-01de-4eb0-be7a-dd2894878ec9, "LOW_GuildSMugglers_Spotting_Attack", S_LOW_GuildSmugglers_Trigger_Attack_a4a58ecc-09e8-462a-bba7-c6d8402dfe1d);
+DB_SpotPlayers(S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, "LOW_GuildSMugglers_Spotting_Attack", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_LOW_GuildSmugglers_Guard_002_8be5ed10-a4e2-41e9-839f-cdaa6c4d340c, "LOW_GuildSMugglers_Spotting_Attack", S_LOW_GuildSmugglers_Trigger_Attack_a4a58ecc-09e8-462a-bba7-c6d8402dfe1d);
+DB_SpotPlayers(S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, "LOW_GuildSMugglers_Spotting_Attack", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_LOW_GuildSmugglers_Guard_003_a7b70658-5f85-43db-b978-5076b1a56de1, "LOW_GuildSMugglers_Spotting_Attack", S_LOW_GuildSmugglers_Trigger_Attack_a4a58ecc-09e8-462a-bba7-c6d8402dfe1d);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_GuildSmugglers_Trigger_Ownership_7f269032-0a76-42e1-9a98-885ac4b73f16, S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e);
+DB_DialogMoneyTransfer(1, LOW_GuildSmugglers_Smuggler_d659c5e6-ed89-7baf-42c5-ae550414b6dc, 1000, 2);
+DB_DialogMoneyTransfer(2, LOW_GuildSmugglers_Smuggler_d659c5e6-ed89-7baf-42c5-ae550414b6dc, 500, 1);
+DB_Dialogs(S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, LOW_GuildSmugglers_Smuggler_d659c5e6-ed89-7baf-42c5-ae550414b6dc);
+DB_Dialogs(S_LOW_GuildSmugglers_Guard_001_b86be437-01de-4eb0-be7a-dd2894878ec9, LOW_GuildSmugglers_Guard_001_7922e259-026e-2867-00fa-fbd6ed71dcb9);
+DB_Dialogs(S_LOW_GuildSmugglers_Guard_002_8be5ed10-a4e2-41e9-839f-cdaa6c4d340c, LOW_GuildSmugglers_Guard_002_8600cf98-10b0-94bf-e116-4286c83fecd0);
+DB_Dialogs(S_LOW_GuildSmugglers_Guard_003_a7b70658-5f85-43db-b978-5076b1a56de1, LOW_GuildSmugglers_Guard_003_a5947c9e-5a80-1b01-2e5e-b53853b9980b);
+
+KBSECTION
+PROC
+PROC_SpotPlayers_Spotted(S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, "LOW_GuildSMugglers_Spotting_StartConvo", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_LOW_GuildSmugglers_PlayerNotTooClose(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(LOW_GuildSmugglers_Smuggler_d659c5e6-ed89-7baf-42c5-ae550414b6dc, S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, _Var1, _Var1, _Var1)
+THEN
+SetHostileAndEnterCombat(ACT3_LOW_Guildhall_Smugglers_4bce359e-7eb9-4ce7-9609-021d2acec14d, Hero_a1542c81-6895-929e-4522-10ce218bb360, S_LOW_GuildSmugglers_Smuggler_9f79f33b-fccf-44d5-a68b-7cd4f01b1b4e, _Var1);
+
+QRY
+QRY_LOW_GuildSmugglers_PlayerNotTooClose((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInTrigger(_Var1, S_LOW_GuildSmugglers_Trigger_Attack_a4a58ecc-09e8-462a-bba7-c6d8402dfe1d, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "LOW_GuildSMugglers_Spotting_Attack", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetHostileAndEnterCombat(ACT3_LOW_Guildhall_Smugglers_4bce359e-7eb9-4ce7-9609-021d2acec14d, Hero_a1542c81-6895-929e-4522-10ce218bb360, _Var1, _Var2);
+
+IF
+FlagSet(LOW_GuildSmugglers_PersuadedPartOfGuild_a23c00d4-e13b-8215-f2b3-d954a6900eb7, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SpotPlayers_CleanupSpotting("LOW_GuildSMugglers_Spotting_Attack");
+
+IF
+FlagSet(LOW_GuildSmugglers_BoughtGoodsOffSmugglers_91b80838-1270-4b1b-b862-999f34e7f757, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SpotPlayers_CleanupSpotting("LOW_GuildSMugglers_Spotting_Attack");
+PROC_SpotPlayers_CleanupSpotting("LOW_GuildSMugglers_Spotting_StartConvo");
+PROC_LOW_GuildSmugglers_RemoveSmugglewareOwnership();
+
+IF
+FlagSet(LOW_GuildSmugglers_IntimidatedSmugglers_5066d2c1-e34f-4b13-b131-83529d840b6f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SpotPlayers_CleanupSpotting("LOW_GuildSMugglers_Spotting_Attack");
+PROC_SpotPlayers_CleanupSpotting("LOW_GuildSMugglers_Spotting_StartConvo");
+
+PROC
+PROC_LOW_GuildSmugglers_RemoveSmugglewareOwnership()
+THEN
+TriggerClearItemsOwner(S_LOW_GuildSmugglers_Trigger_Ownership_7f269032-0a76-42e1-9a98-885ac4b73f16);
+
+IF
+TextEvent("GuildSmugglers_BuyNow", _, _, _, _)
+THEN
+ClearFlag(LOW_GuildSmugglers_BoughtGoodsOffSmugglers_91b80838-1270-4b1b-b862-999f34e7f757);
+ClearFlag(LOW_GuildSmugglers_IntimidatedSmugglers_5066d2c1-e34f-4b13-b131-83529d840b6f);
+SetFlag(LOW_GuildSmugglers_PersuadedPartOfGuild_a23c00d4-e13b-8215-f2b3-d954a6900eb7);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

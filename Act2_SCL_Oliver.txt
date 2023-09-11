@@ -1,0 +1,326 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68);
+DB_OneShot_ADTrigger(S_SCL_OliversDiary_ADTrigger_c740604c-37eb-4d9e-a96d-100890013e5b, SCL_OliversDiary_AD_CreepyNoises_1e5debb1-aea4-511a-36a4-36a971146d2c, S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+DB_OneShot_ADTrigger(S_SCL_OliversDiary_EarlyAD_ce2b1a4a-801a-49fe-93db-35f6ffcb3deb, SCL_OliversDiary_AD_CreepyNoises001_f6ddd8d0-ea55-687a-a640-c0a49f276ba2, S_SCL_OliversDiary_DialogHelper_2af0542e-8e2c-4c85-8913-98bf0aee0c07);
+DB_SCL_OliversFamily(S_SCL_OliversDiary_DadShadow_509470bc-6c99-40c6-8d50-9dbf78b71dcf);
+DB_SCL_OliversFamily(S_SCL_OliversDiary_MomShadow_18e81e1f-c904-4609-8237-b43fe12eeaaa);
+DB_SCL_OliversFamily(S_SCL_OliversDiary_BetsyShadow_5842b508-82c8-430b-a302-9eddecee9974);
+ApplyStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVISIBLE", -1, 1, S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+DB_SpotPlayers(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliverDiary_InitialDialog", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_CustomRadius(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliverDiary_InitialDialog", 8);
+PROC_CharacterDisableAllCrimes(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+DB_KeepDialogsOnDeath(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+DB_PreventPermaDefeated(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+DB_NoLowAttitudeDialog(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+PROC_TriggerRegisterForPlayers(S_SCL_OliverShadow_FlowerVBTrigger_b7229ee5-233c-4910-b5b8-14e4e8e904c0);
+DB_AutoSaveTrigger(S_SCL_Autosave_Oliver_7fedee30-9846-4ee1-aa4c-e28e8c713eb8);
+
+KBSECTION
+IF
+DB_SCL_OliversFamily(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+DB_SCL_OliversFamily(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_DefeatCounter(_Var1, "SCL_OliversFamily_DefeatCounter");
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("SCL_OliversFamily_DefeatCounter", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_OliversDiary_State_FamilyDefeated_b124c0cf-b12e-4c4b-a980-a79e2d79c15e);
+
+IF
+FlagSet(SCL_OliversDiary_State_FamilyHostile_0893b453-2e22-4eef-ba4f-13e8b6cc30b5, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SCL_OliversFamily_Appear();
+
+IF
+DialogEnded(SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(SCL_OliversDiary_State_FamilyHostile_0893b453-2e22-4eef-ba4f-13e8b6cc30b5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_OliversDiary_SecondRound_b361382e-f0a8-f6eb-902a-da4d5044f90e, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(S_SCL_OliversDiary_BetsyShadow_5842b508-82c8-430b-a302-9eddecee9974, S_SCL_OliversDiary_HideNSeekDetectionTrigger_0291f9f4-e9c6-4ffb-b06c-8b31843cd526, "Walk", "");
+
+IF
+Moved(S_SCL_OliversDiary_DadsAxe_b7d2149f-dcd4-4244-858c-aaae7af6e9b3, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_OliversDiary_AxeGravityReset", _, _, _, _)
+THEN
+SetGravity(S_SCL_OliversDiary_DadsAxe_b7d2149f-dcd4-4244-858c-aaae7af6e9b3, 0);
+
+IF
+AddedTo(S_SCL_OliversDiary_DadsAxe_b7d2149f-dcd4-4244-858c-aaae7af6e9b3, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("SCL_OliversDiary_AxeGravityReset", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetGravity(S_SCL_OliversDiary_DadsAxe_b7d2149f-dcd4-4244-858c-aaae7af6e9b3, 0);
+
+IF
+AddedTo(S_SCL_DeadGithExplorer_001_228e2f85-358d-4747-8dc0-df7f198f1c68, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_OliversDiary_AxeGravityReset", _, _, _, _)
+THEN
+SetGravity(S_SCL_OliversDiary_DadsAxe_b7d2149f-dcd4-4244-858c-aaae7af6e9b3, 0);
+
+IF
+ForceMoveStarted((GUIDSTRING)_Var1, S_SCL_DeadGithExplorer_001_228e2f85-358d-4747-8dc0-df7f198f1c68, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("SCL_OliversDiary_AxeGravityReset", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetGravity(S_SCL_OliversDiary_DadsAxe_b7d2149f-dcd4-4244-858c-aaae7af6e9b3, 0);
+
+PROC
+PROC_SpotPlayers_Spotted(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliverDiary_InitialDialog", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_StartDialog(SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+FlagSet(SCL_OliversDiary_Event_OliverAppears_5a2ef6c0-593f-c2dc-f86b-3d02e8fa70f6, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+RemoveStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVISIBLE", S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+
+IF
+DialogEnded(SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_OliversDiary_StartedHideAndSeek_195eac0d-d53a-4522-854e-c07ce9dd74d9, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_OliversDiary_StartedHideAndSeek", _, _, _, _)
+THEN
+ApplyStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVISIBLE", -1, 0, S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+PROC_CharacterMoveTo(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, S_SCL_OliversDiary_HidingSpot_19236b21-e742-48f7-829e-a533e8c34014, "Run", "SCL_OliversDiary_OliverHid");
+
+IF
+EntityEvent(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliversDiary_OliverHid", _, _, _)
+THEN
+DB_KnowledgeCheckTrigger_AD("SCL_OliversDiary_HideAndSeekPerception", S_SCL_OliversDiary_HideNSeekDetectionTrigger_0291f9f4-e9c6-4ffb-b06c-8b31843cd526, "Perception", DC_Legacy_10_625be976-7a67-4394-97c8-14c69715ae4b, SCL_OliversDiary_PAD_HideAndSeek_cc620752-64f6-37b7-39d8-a2c6b6de0843, SCL_OliversDiary_FoundOliver_5dbc2a51-c859-4184-bf3b-2eaf7ece51ce);
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((CHARACTER)_Var1, "SCL_OliversDiary_HideAndSeekPerception", S_SCL_OliversDiary_HideNSeekDetectionTrigger_0291f9f4-e9c6-4ffb-b06c-8b31843cd526, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RemoveStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVISIBLE", S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+PROC_PlayPerceptionRevealEffect(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliversDiary_HideNSeek_Found");
+PROC_CharacterMoveToAndTalk(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _Var1, SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, "SCL_OliversDiary_OliverRunsToPlayer", "Run", 10);
+
+PROC
+PROC_GLO_KnowledgeCheckFailure((CHARACTER)_Var1, "SCL_OliversDiary_HideAndSeekPerception", S_SCL_OliversDiary_HideNSeekDetectionTrigger_0291f9f4-e9c6-4ffb-b06c-8b31843cd526, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "SCL_OliversDiary_FoundOliverWait", 3000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_OliversDiary_FoundOliverWait", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVISIBLE", NULL_00000000-0000-0000-0000-000000000000);
+PROC_CharacterMoveToAndTalk(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _Var1, SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, "SCL_OliversDiary_OliverRunsToPlayer", "Run", 10);
+
+PROC
+PROC_SCL_OliversDiary_FoundOliverWithDamage()
+THEN
+NOT DB_KnowledgeCheckTrigger_AD("SCL_OliversDiary_HideAndSeekPerception", S_SCL_OliversDiary_HideNSeekDetectionTrigger_0291f9f4-e9c6-4ffb-b06c-8b31843cd526, "Perception", DC_Legacy_10_625be976-7a67-4394-97c8-14c69715ae4b, SCL_OliversDiary_PAD_HideAndSeek_cc620752-64f6-37b7-39d8-a2c6b6de0843, SCL_OliversDiary_FoundOliver_5dbc2a51-c859-4184-bf3b-2eaf7ece51ce);
+PROC_GlobalSetFlagAndCache(SCL_OliversDiary_FoundOliver_5dbc2a51-c859-4184-bf3b-2eaf7ece51ce);
+RemoveStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVISIBLE", S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+PROC_PlayPerceptionRevealEffect(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliversDiary_HideNSeek_Found");
+
+IF
+AttackedBy(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _, (GUIDSTRING)_Var2, _, _, "Attack", _, _, _, _)
+AND
+DB_GlobalFlag(SCL_OliversDiary_StartedHideAndSeek_195eac0d-d53a-4522-854e-c07ce9dd74d9, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_LiftingTheCurse_State_OliverFledToTown_47018478-a3ef-42cc-8334-1516c6ed40f7, _, _, _, _)
+THEN
+PROC_SCL_OliversDiary_FoundOliverWithDamage();
+PROC_CharacterMoveToAndTalk(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _Var2, SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, "SCL_OliversDiary_OliverRunsToPlayer", "Run", 10);
+
+IF
+CharacterMoveToAndTalkFailed(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, (GUIDSTRING)_Var1, "SCL_OliversDiary_OliverRunsToPlayer", _, (GUIDSTRING)_Var1)
+THEN
+PROC_CharacterMoveTo(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, S_SCL_OliversDiary_HideAndSeekFallbackPoint_64a407e8-3cc5-487c-8d22-9b5ca09b4d74, "Run", "SCL_OliversDiary_OliverRunsToFallback");
+
+IF
+EntityEvent(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliversDiary_OliverRunsToFallback", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetClosestPlayer(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 < 10.1
+AND
+QRY_OnlyOnce("SCL_OliversDiary_OliverRunsToFallback", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveToAndTalk(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _Var1, SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, "SCL_OliversDiary_OliverLastTry", "Run", 10);
+
+IF
+DialogEnded(SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(SCL_OliversDiary_SecondRound_b361382e-f0a8-f6eb-902a-da4d5044f90e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_OliversDiary_StartedSecondRound", _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVISIBLE", -1, 0, NULL_00000000-0000-0000-0000-000000000000);
+SetHasDialog(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, 0);
+SetCanSpotSneakers(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, 0);
+PROC_CharacterMoveTo(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, S_SCL_OliversDiary_SecondHidingSpot_89500029-9b42-4257-93f1-01ac0d070c47, "Sprint", "SCL_OliversDiary_OliverHid2");
+RealtimeObjectTimerLaunch(_Var2, "SCL_OliversDiary_SecondRound_StartDelay", 1200);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "SCL_OliversDiary_SecondRound_StartDelay", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+UseSpell(_Var1, "Shout_Hide", _Var1);
+ForceTurnBasedMode(_Var1, 1);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "SCL_OliversDiary_SecondRound_StartDelay", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var1
+AND
+QRY_IsInRange(_Var2, _Var1, 15, _Var1, _Var1)
+THEN
+UseSpell(_Var2, "Shout_Hide", _Var2);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "SCL_OliversDiary_SecondRound_StartDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_OliversDiary_State_FamilyHostile_0893b453-2e22-4eef-ba4f-13e8b6cc30b5);
+
+IF
+EntityEvent(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliversDiary_OliverHid2", _, _, _)
+THEN
+RemoveStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVISIBLE", S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+PROC_CharacterMoveTo(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, S_SCL_OliversDiary_FinalHidingSpot_8c1f7431-5696-4731-8b38-7d5b676418b0, "Run", "SCL_OliversDiary_OliverHidFinal");
+
+PROC
+PROC_DialogFlagSetup(SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_OliversDiary_SecondRound_b361382e-f0a8-f6eb-902a-da4d5044f90e, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_OliversDiary_EndedSecondRound", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_OliversFamily_Poof();
+SetCanSpotSneakers(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, 1);
+
+PROC
+PROC_DialogFlagSetup(SCL_OliversDiary_OliverShadow_7924b3e2-0329-7e1d-616c-6d2df0c43b68, S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_OliversDiary_SecondRound_b361382e-f0a8-f6eb-902a-da4d5044f90e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_OliversDiary_State_FamilyDefeated_b124c0cf-b12e-4c4b-a980-a79e2d79c15e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(SCL_OliversDiary_FoundAgain_6596035e-4583-764f-52fb-c995ec9737bf, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_OliversDiary_FoundAgain_6596035e-4583-764f-52fb-c995ec9737bf);
+
+IF
+EntityEvent(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "SCL_OliversDiary_OliverHidFinal", _, _, _)
+THEN
+SetHasDialog(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, 1);
+
+PROC
+PROC_GLO_DefeatCounter_AllPermaDefeated("SCL_OliversFamily_DefeatCounter", _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_OliversDiary_State_SecondRound_b361382e-f0a8-f6eb-902a-da4d5044f90e, _, _, _, _)
+THEN
+PROC_TryStartAD(SCL_OliversDiary_AD_OliverDeathScream_32450448-6b4c-786d-db49-6d1820710b0b, S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+
+IF
+AutomatedDialogEnded(SCL_OliversDiary_AD_OliverDeathScream_32450448-6b4c-786d-db49-6d1820710b0b, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SCL_OliversDiary_State_SecondRound_b361382e-f0a8-f6eb-902a-da4d5044f90e, _, _, _, _)
+THEN
+PROC_SCL_Oliver_Poof(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_SCL_OliverShadow_FlowerVBTrigger_b7229ee5-233c-4910-b5b8-14e4e8e904c0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_Player_Sees_Flowers_At_Olivers_House", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(SCL_OliverShadow_VB_FlowersAtHouse_07085b31-64ce-20fd-eb02-81b69cfc9174, _Var1);
+
+IF
+FlagSet(SCL_ShadowCurse_Knows_Oliver_Is_Thaniel_56af8bbd-eafe-3861-22a2-c253f16952e2, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_LiftingTheCurse_Event_SpottedFlowers_d7be75c9-0434-48ea-af3d-0429349367cf, _, _, _, _)
+AND
+DB_Players(_Var3, _, _, _, _)
+THEN
+ShowMapMarker(_Var3, "SCL_OliversHouseRevealed", 1);
+
+IF
+FlagSet(SCL_OliversDiary_State_LaidToRest_523e7f1c-2e13-428a-b9e9-fe63fa237075, _, _, _, _)
+AND
+DB_SCL_OliversFamily(_Var3, _, _, _, _)
+AND NOT
+DB_PermaDefeated(_Var3, _, _, _, _)
+THEN
+ApplyStatus(_Var3, "PEACEFUL_RESOLUTION_XP", -1, 1, _Var3);
+
+IF
+FlagSet(SCL_OliversDiary_State_LaidToRest_523e7f1c-2e13-428a-b9e9-fe63fa237075, _, _, _, _)
+AND
+GetClosestPlayer(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _Var3, _Var4, _, _)
+AND
+QRY_OnlyOnce("SCL_WonOliverMiniBooster", _, _, _, _)
+THEN
+QuestUpdate(_Var3, "HIDDEN_SCL_Boosters", "SCL_OliversShadow_WonHideAndSeek");
+
+PROC
+PROC_SCL_OliversFamily_Appear()
+AND
+DB_SCL_OliversFamily(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Foop(_Var1);
+
+PROC
+PROC_SCL_OliversFamily_Poof()
+AND
+DB_SCL_OliversFamily(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Poof(_Var1);
+
+IF
+DB_Defeated(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _, _, _, _)
+THEN
+PROC_SCL_Oliver_Poof(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+
+IF
+DB_PermaDefeated(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, _, _, _, _)
+THEN
+PROC_SCL_Oliver_Poof(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+
+PROC
+PROC_SCL_Oliver_Poof((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialogCustom(SCL_OliversDiary_AD_OliverDeathScream_32450448-6b4c-786d-db49-6d1820710b0b, _Var1, 0, 0, 0, 0, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_OliversDiary_State_DefeatedAtHouse_e9228f5e-6b63-4d99-be85-6257059dd7fd, NULL_00000000-0000-0000-0000-000000000000);
+PROC_Poof(_Var1);
+PROC_RemoveOneShotAD(S_SCL_OliversDiary_ADTrigger_c740604c-37eb-4d9e-a96d-100890013e5b);
+PROC_RemoveOneShotAD(S_SCL_OliversDiary_EarlyAD_ce2b1a4a-801a-49fe-93db-35f6ffcb3deb);
+
+IF
+FlagSet(SCL_OliversDiary_Event_RestoreAtHouse_29634249-bce8-4332-9683-0860f129184c, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+Resurrect(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+ApplyStatus(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a, "INVULNERABLE_NOT_SHOWN", -1);
+PROC_Foop(S_SCL_OliversDiary_OliverShadow_4f6e63a1-b143-46b1-ac0e-834494dfdc6a);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

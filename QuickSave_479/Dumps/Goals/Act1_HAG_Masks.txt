@@ -1,0 +1,65 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_GLO_TurnOnHagMasks();
+DB_HAG_Hagmasks(S_HAG_Hagmask1_10ae5edf-b0d4-448c-9356-37f9e012d65c, S_HAG_Hagmask1_Helper_7716f4e1-5f86-4275-9b91-98c407b0a4c2);
+DB_HAG_Hagmasks(S_HAG_Hagmask2_7519545f-0f83-4510-8122-4c795e3a1b8f, S_HAG_Hagmask2_Helper_dcd21e50-1610-4cd7-996f-71ce44d77be8);
+DB_HAG_Hagmasks(S_HAG_Hagmask3_9d78c066-6a4e-426d-8df8-c0570299c3d9, S_HAG_Hagmask3_Helper_e00f3d96-df98-4c89-9dbd-786ab1210505);
+DB_HAG_Hagmasks(S_HAG_Hagmask4_963715c4-2ac4-4960-a974-ed61666790d0, S_HAG_Hagmask4_Helper_bfb24ff9-89d9-455d-9917-059759478745);
+DB_HAG_Hagmasks(S_HAG_Hagmask_Victim1_4f3d4417-365d-4b08-914e-aab0358d29d9, S_HAG_Hagmask_Victim1_Helper_254766be-1881-46c9-bf54-f1ddb89553eb);
+DB_HAG_Hagmasks(S_HAG_Hagmask_Victim2_4f2918e8-2941-46eb-9c8e-548e3bc40a64, S_HAG_Hagmask_Victim2_Helper_d501bea7-07fa-4421-b7df-e4aa7fb7d7ad);
+DB_HAG_Hagmasks(S_HAG_Hagmask_Victim3_dcd66e62-efa7-421e-865d-1c60f8281f70, S_HAG_Hagmask_Victim3_Helper_e8fbbf3e-1999-4ec0-909c-dd4de80d1828);
+DB_HAG_Hagmasks(S_HAG_Hagmask_Victim4_4344bae8-141e-44ec-8743-17750a89d496, S_HAG_Hagmask_Victim4_Helper_68ac7b2f-a531-4d10-85bb-cb212666c4d0);
+Equip(S_HAG_Hag_MaskedVictim1_d2832662-4a12-4565-bfe2-094b93ae8af8, S_HAG_Hagmask_Victim1_4f3d4417-365d-4b08-914e-aab0358d29d9);
+Equip(S_HAG_Hag_MaskedVictim2_535f23bc-2d27-4c40-a1f3-1cf58bfd1698, S_HAG_Hagmask_Victim2_4f2918e8-2941-46eb-9c8e-548e3bc40a64);
+Equip(S_HAG_Hag_MaskedVictim3_d7707fd3-301b-49a3-b7f1-2fb92cfa9805, S_HAG_Hagmask_Victim3_dcd66e62-efa7-421e-865d-1c60f8281f70);
+Equip(S_HAG_Hag_MaskedVictim4_74dcb337-e6d1-4329-ac2b-5a3723346159, S_HAG_Hagmask_Victim4_4344bae8-141e-44ec-8743-17750a89d496);
+SetOnStage(S_HAG_HagLair_IllusionWall_UndFaerieRing_57f41c80-ad12-4884-80fa-d3f879e4e837, 0);
+
+KBSECTION
+IF
+StatusRemoved(S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, "HAG_MASK_ILLUSION", _, _, (GUIDSTRING)_)
+THEN
+SetCanInteract(S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, 1);
+
+PROC
+PROC_StateSet_PermaDefeated(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, _, _, _, _)
+THEN
+DB_SpotPlayers(S_HAG_Hag_MaskedVictim1_d2832662-4a12-4565-bfe2-094b93ae8af8, "HAG_HagLair_MaskedVictim01", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_CustomRadius(S_HAG_Hag_MaskedVictim1_d2832662-4a12-4565-bfe2-094b93ae8af8, "HAG_HagLair_MaskedVictim01", 9.5);
+
+PROC
+PROC_SpotPlayers_Spotted(S_HAG_Hag_MaskedVictim1_d2832662-4a12-4565-bfe2-094b93ae8af8, "HAG_HagLair_MaskedVictim01", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_SelectAndStartDialog(S_HAG_Hag_MaskedVictim1_d2832662-4a12-4565-bfe2-094b93ae8af8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(HAG_Hag_MaskedVictim1_14458758-2b69-def1-7971-c7dc1d5bc63e, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SpotPlayers_StopSpotting(S_HAG_Hag_MaskedVictim1_d2832662-4a12-4565-bfe2-094b93ae8af8, "HAG_HagLair_MaskedVictim01");
+
+IF
+StatusApplied(S_HAG_HagLair_IllusionWall_UndFaerieRing_Blocker_5719b68c-f30b-457f-b129-f3147ea3fc6f, "HAG_MASK_ILLUSION", _, _, (GUIDSTRING)_)
+THEN
+SetOnStage(S_HAG_HagLair_IllusionWall_UndFaerieRing_Blocker_5719b68c-f30b-457f-b129-f3147ea3fc6f, 0);
+SetOnStage(S_HAG_HagLair_IllusionWall_UndFaerieRing_57f41c80-ad12-4884-80fa-d3f879e4e837, 1);
+
+IF
+StatusRemoved(S_HAG_HagLair_IllusionWall_UndFaerieRing_57f41c80-ad12-4884-80fa-d3f879e4e837, "HAG_MASK_ILLUSION", _, _, (GUIDSTRING)_)
+THEN
+SetOnStage(S_HAG_HagLair_IllusionWall_UndFaerieRing_Blocker_5719b68c-f30b-457f-b129-f3147ea3fc6f, 1);
+SetOnStage(S_HAG_HagLair_IllusionWall_UndFaerieRing_57f41c80-ad12-4884-80fa-d3f879e4e837, 0);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

@@ -1,0 +1,1054 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_DefineSingleOriginMoment(IRN_IronThrone_Return_09c71cbf-c72c-d810-3bba-c1b9fc81770e, REALLY_WYLL_5f40def5-d3ec-4698-a367-01a339888956, IRN_IronThrone_ReturnRavengard_OM_Wyll_AOM_OOM_098efda3-4db1-0643-a8dd-2138ffc2f9ff, IRN_IronThrone_ReturnRavengard_OM_Wyll_COM_7a6ef705-6264-d7d9-b461-b4366e7df226, IRN_IronThrone_ReturnRavengard_OM_Wyll_AOM_OOM_098efda3-4db1-0643-a8dd-2138ffc2f9ff);
+TriggerRegisterForCharacter(S_IRN_MizoraAppearArea_3431b700-d7e9-4c56-8d2c-029fa8cf080a, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+TriggerRegisterForCharacter(S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+TriggerRegisterForCharacter(S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+TriggerRegisterForCharacter(S_IRN_SubmersibleInteriorArea_4a6d5106-21ea-4d8c-8625-8f061452ff34, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+DB_IRN_MizoraSummons(S_IRN_Mizora_Spiderling1_3b58232b-7e00-403c-a435-e0b168928407, S_IRN_Mizora_Summon01Pos_78efb0a9-c4a4-4f11-b7d5-6ab2293d3d93, 1, 0.5);
+DB_IRN_MizoraSummons(S_IRN_Mizora_Spiderling2_1c7bf8bb-259a-4673-9f7e-f0244ddaaf8a, S_IRN_Mizora_Summon02Pos_c7f5fd25-ac69-4b86-a877-9e3e7412a9ed, 0.5, -0.5);
+DB_IRN_MizoraSummons(S_IRN_Mizora_Spiderling3_be2d42a4-6155-4367-b722-8f765752b646, S_IRN_Mizora_Summon03Pos_3739fe9d-09cc-46cc-b785-0eab20790d0e, -0.5, -0.5);
+DB_IRN_MizoraSummons(S_IRN_Mizora_Spiderling4_896ff47b-6b47-4eb8-adb2-e668eb604162, S_IRN_Mizora_Summon04Pos_739c575e-1a54-482e-97f7-a7d81f422779, -1, 0.5);
+DB_IRN_MizoraSummons(S_IRN_Mizora_Spiderling5_30ee9356-ab30-4476-b02b-9d190089f12a, S_IRN_Mizora_Summon05Pos_a5721bf3-6ce9-44a9-ad41-63f6f234ddfa, -0.5, 1);
+DB_IRN_MizoraSummons(S_IRN_Mizora_Spiderling6_45559dc7-72ef-4990-b3f8-852df6b0a157, S_IRN_Mizora_Summon06Pos_44ad1da2-100d-44fa-aae7-67637f683e1c, 0.5, 1);
+DB_Combat_ExplodeOnDeath(LOW_IronThrone_Mizora_Spiderling_01_0b9f573c-6761-4630-9adf-53ac2bf93e88, 0, 0, "Projectile_LOW_IronThrone_Mizora_ExplodingSpiderlings_Explosion");
+DB_DoNotFaceDialog(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672);
+
+KBSECTION
+IF
+TextEvent("irn_mizoracombat", _, _, _, _)
+THEN
+PROC_Debug_IRN_SetupMizoraCombat();
+
+PROC
+PROC_Debug_IRN_SetupMizoraCombat()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_IRN_Debug_SetupMizoraCombat(1);
+LoadPartyPreset("PC1-DuringAct3-May", _Var1);
+
+IF
+PartyPresetLoaded("PC1-DuringAct3-May", _, _, _, _)
+AND
+DB_IRN_Debug_SetupMizoraCombat(1, _, _, _, _)
+THEN
+NOT DB_IRN_Debug_SetupMizoraCombat(1);
+SetFlag(CAMP_MizorasPact_State_WyllReleasedFromPact_79a90490-b009-507c-e0d3-f79b0bdd4cb6);
+SetFlag(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496);
+SetFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff);
+TimerLaunch("DEBUG_IRN_MizoraCombat", 500);
+
+IF
+TimerFinished("DEBUG_IRN_MizoraCombat", _, _, _, _)
+THEN
+PROC_IRN_SetupRavengard();
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, TEST_IRN_IronThrone_SetupParameters_f5a70361-5874-c8dd-dd54-d48221c56110, _, _, _)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _, _, _, _)
+THEN
+SetFlag(CAMP_MizorasPact_State_WyllReleasedFromPact_79a90490-b009-507c-e0d3-f79b0bdd4cb6);
+
+IF
+TextEvent("irn_mizoraally", _, _, _, _)
+THEN
+PROC_Debug_IRN_SetupMizoraAlly();
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, TEST_IRN_IronThrone_SetupParameters_f5a70361-5874-c8dd-dd54-d48221c56110, _, _, _)
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _, _, _, _)
+THEN
+PROC_Debug_IRN_SetupMizoraAlly();
+
+PROC
+PROC_Debug_IRN_SetupMizoraAlly()
+THEN
+DB_IRN_MizoraKeepsRavengardAlive(1);
+SetFlag(CAMP_MizorasPact_State_WyllEternalPact_8da8b1fb-5aa9-8cf5-8b45-6f8ca31a1227);
+SetFlag(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496);
+ClearFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff);
+ClearFlag(CAMP_MizorasPact_State_WyllReleasedFromPact_79a90490-b009-507c-e0d3-f79b0bdd4cb6);
+TimerLaunch("DEBUG_IRN_MizoraAlly", 1000);
+
+IF
+TimerFinished("DEBUG_IRN_MizoraAlly", _, _, _, _)
+THEN
+PROC_IRN_SetupRavengard();
+
+PROC
+PROC_IRN_MizoraAppear((CHARACTER)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (STRING)_Var5)
+AND
+_Var1 == S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a
+THEN
+PROC_SetOnStage(_Var1, 1);
+AppearAtPosition(_Var1, _Var2, _Var3, _Var4, 1, CUST_MizoraTeleIn_01_99069369-88a0-4580-84ab-aa34788cb509, "", 0);
+RealtimeObjectTimerLaunch(_Var1, _Var5, 2000);
+DB_IRN_MizoraAppear_Delay(_Var1, _Var5);
+
+PROC
+PROC_IRN_MizoraAppear((CHARACTER)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (STRING)_Var5)
+AND
+_Var1 != S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a
+THEN
+PROC_SetOnStage(_Var1, 1);
+AppearAtPosition(_Var1, _Var2, _Var3, _Var4, 1, CUST_DukeRavengardTeleIn_01_b8635076-a1e5-4e33-b0be-2f280f2d5c87, "", 0);
+RealtimeObjectTimerLaunch(_Var1, _Var5, 2000);
+DB_IRN_MizoraAppear_Delay(_Var1, _Var5);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_IRN_MizoraAppear_Delay(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_IRN_MizoraAppear_Delay(_Var1, _Var2);
+SetEntityEvent(_Var1, _Var2, 1);
+
+PROC
+PROC_IRN_MizoraDisappear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 == S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a
+THEN
+DB_IRN_MizoraDisappear_Disappearing(_Var1);
+PlayAnimation(_Var1, CUST_MizoraTeleOut_01_74c0de2d-e834-4613-a5ea-02bd8be9ab2f, "");
+
+PROC
+PROC_IRN_MizoraDisappear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a
+THEN
+DB_IRN_MizoraDisappear_Disappearing(_Var1);
+PlayAnimation(_Var1, CUST_DukeRavengardTeleOut_01_6c40557c-1688-4dfe-ac0f-4d70db4f9dff, "");
+
+IF
+AnimationEvent((CHARACTER)_Var1, "AnimationSetOffStage", 0, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_IRN_MizoraDisappear_Disappearing(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_IRN_MizoraDisappear_Disappearing(_Var1);
+PROC_SetOnStage(_Var1, 0);
+
+IF
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "CountdownOngoing", _, _)
+AND
+DB_Sees(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _, _, _)
+AND
+DB_GlobalFlag(IRN_Ravengard_State_KilledByPlayer_289b160c-1225-4b86-9cc8-ddbd00fb1ef9, _, _, _, _)
+AND
+QRY_OnlyOnce("IRN_WyllSeesDeadRavengard_Played", _, _, _, _)
+THEN
+PROC_TryStartAD(IRN_IronThrone_AD_WyllReactsToPlayerKillingRavengard_b00ab024-731a-ce45-c459-f22a51177372, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+IF
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "CountdownOngoing", _, _)
+AND
+DB_Sees(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _, _)
+AND
+DB_PermaDefeated(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _, _, _)
+AND
+QRY_OnlyOnce("IRN_WyllSeesDeadRavengard_Played", _, _, _, _)
+THEN
+PROC_TryStartAD(IRN_IronThrone_AD_WyllReactsToRavengardDying_dc8dc7d4-bb6a-ed91-c298-71e2468c7c2b, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+IF
+DB_InRegion(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, S_IRN_IronThrone_SUB_559c1c28-b3b7-49fb-8897-36272a2d6f33, _, _, _)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, _, _, _, _)
+AND
+DB_GlobalFlag(ORI_Wyll_Quest_RescueRavengardIRN_7d1d8a98-90ce-8f10-2ad9-1a0ebbf7298a, _, _, _, _)
+AND
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "CountdownOngoing", _, _)
+THEN
+DB_CombatReact_AD_OnNextTurn(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, IRN_IronThrone_AD_WyllStartOfCombat_755314e1-6a79-b98e-f7ea-6946f857f6e5);
+
+IF
+DB_GlobalFlag(ORI_Wyll_Quest_RescueRavengardIRN_7d1d8a98-90ce-8f10-2ad9-1a0ebbf7298a, _, _, _, _)
+AND
+DB_ActiveLevel("IRN_Main_A", _, _, _, _)
+AND
+DB_Avatars(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+AND NOT
+DB_OnlyOnce("IRN_IronThrone_PlayersSawRavengard", _, _, _, _)
+AND
+QRY_OnlyOnce("IRN_IronThrone_WyllReactsToFindingOutRavengardIsInIRN_Played", _, _, _, _)
+THEN
+PROC_TryStartAD(IRN_IronThrone_AD_WyllReactsToFindingOutRavengardIsInIRN_ed75af11-8a4f-8fd7-0ec9-13de5582cdc2, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+IF
+DB_GlobalFlag(ORI_Wyll_Quest_RescueRavengardIRN_7d1d8a98-90ce-8f10-2ad9-1a0ebbf7298a, _, _, _, _)
+AND
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "Arrival", _, _)
+AND NOT
+DB_OnlyOnce("IRN_IronThrone_PlayersSawRavengard", _, _, _, _)
+AND
+QRY_OnlyOnce("IRN_IronThrone_WyllReactsToFindingOutRavengardIsInIRN_Played", _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, IRN_IronThrone_AfterArrival_OM_Wyll_COM_3f899f57-840f-bcc7-d45f-4385c19d5b62, NULL_00000000-0000-0000-0000-000000000000, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, 0);
+
+IF
+DB_GlobalFlag(ORI_Wyll_Quest_RescueRavengardIRN_7d1d8a98-90ce-8f10-2ad9-1a0ebbf7298a, _, _, _, _)
+AND
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "CountdownOngoing", _, _)
+AND NOT
+DB_OnlyOnce("IRN_IronThrone_PlayersSawRavengard", _, _, _, _)
+AND
+QRY_OnlyOnce("IRN_IronThrone_WyllReactsToFindingOutRavengardIsInIRN_Played", _, _, _, _)
+AND
+DB_Players(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+PROC_TryStartAD(IRN_IronThrone_AD_WyllReactsToFindingOutRavengardIsInIRN_ed75af11-8a4f-8fd7-0ec9-13de5582cdc2, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+IF
+DB_IRN_PrisonerGroupFreed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_IRN_PrisonerGroup(_Var1, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_MizoraAppearArea_3431b700-d7e9-4c56-8d2c-029fa8cf080a, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("IRN_MizoraAppearsDialogRequested", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IRN_CheckIfMizoraInterferes();
+
+IF
+StatusApplied(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "LOW_IRONTHRONE_MIZORA_FIENDISHCHARM", _, _, (GUIDSTRING)_)
+THEN
+SetFlag(IRN_Ravengard_State_HasMizoraCharmStatus_08da544f-cfcc-4e05-8029-d525eecb19ee);
+
+IF
+StatusRemoved(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "LOW_IRONTHRONE_MIZORA_FIENDISHCHARM", _, _, (GUIDSTRING)_)
+THEN
+ClearFlag(IRN_Ravengard_State_HasMizoraCharmStatus_08da544f-cfcc-4e05-8029-d525eecb19ee);
+
+PROC
+PROC_IRN_PrisonerGroupFreed_Started((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_IRN_PrisonerGroup(_Var1, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _Var1, _Var1, _Var1, _Var1)
+THEN
+TimerLaunch("IRN_RavengardFreed", 1000);
+
+PROC
+PROC_IRN_PrisonerGroupFreed_Started((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_IRN_PrisonerGroup(_Var1, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("IRN_MizoraLaugh_Played", _Var1, _Var1, _Var1, _Var1)
+THEN
+PlayHUDSound(_Var2, "SE_IRN_MizoraLaugh_Main");
+
+IF
+TimerFinished("IRN_RavengardFreed", _, _, _, _)
+THEN
+PROC_TryStartAD(IRN_IronThrone_AD_RavengardFreed_a7975b99-da06-ea9e-c0e1-cc070db41f35, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(IRN_IronThrone_AD_RavengardFreed_a7975b99-da06-ea9e-c0e1-cc070db41f35, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, 1, 0, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+PROC
+PROC_IRN_CheckIfMizoraInterferes()
+AND
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _, _, _, _)
+THEN
+PROC_IRN_MizoraInterferes();
+
+PROC
+PROC_IRN_MizoraInterferes()
+THEN
+TriggerRegisterForCharacter(S_IRN_IronThrone_SUB_559c1c28-b3b7-49fb-8897-36272a2d6f33, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+RemoveStatus(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "GLO_MIZORA_INVULNERABLE", NULL_00000000-0000-0000-0000-000000000000);
+SetCanJoinCombat(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+SetDetached(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+TeleportTo(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, S_IRN_MizoraAppearPos_72c049bb-d3da-4371-bc3b-5f684100e722, "", 0, 0, 0, 0, 1);
+DB_AddCharactersInTriggerToDialog(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, S_IRN_IronThrone_SUB_559c1c28-b3b7-49fb-8897-36272a2d6f33, 0);
+PROC_IRN_MizoraCombat();
+
+PROC
+PROC_IRN_MizoraCombat()
+AND
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _, _, _, _)
+AND
+QRY_GetClosestAvailableCharacterTo(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, 0, 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 1, _, _)
+AND
+DB_ClosestAvailableCharacterTo_PreferAvatar(_Var1, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var2, 1, _Var1)
+AND
+_Var2 <= 12
+AND NOT
+DB_OnlyOnce("IRN_MizoraAppears_DialogStarted", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1)
+THEN
+DB_OnlyOnce("IRN_MizoraAppears_DialogStarted");
+
+PROC
+PROC_IRN_MizoraCombat()
+AND
+QRY_GetClosestAvailableCharacterTo(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, 0, 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 1, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _Var1, _Var1)
+AND
+_Var1 != S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d
+AND NOT
+DB_OnlyOnce("IRN_MizoraAppears_DialogStarted", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1)
+THEN
+DB_OnlyOnce("IRN_MizoraAppears_DialogStarted");
+
+PROC
+PROC_IRN_MizoraCombat()
+AND
+QRY_GetClosestAvailableCharacterTo(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, 0, 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 1, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _Var1, _Var1)
+AND
+_Var1 == S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d
+AND
+QRY_GetClosestAvailableCharacterTo(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, 0, 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var3, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("IRN_MizoraAppears_DialogStarted", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var3, _Var1)
+THEN
+DB_OnlyOnce("IRN_MizoraAppears_DialogStarted");
+
+PROC
+PROC_IRN_MizoraCombat()
+AND
+QRY_GetClosestAvailableCharacterTo(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, 0, 0, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 1, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_Var1, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _Var1, _Var1)
+AND
+_Var1 == S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d
+AND NOT
+DB_OnlyOnce("IRN_MizoraAppears_DialogStarted", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+DB_OnlyOnce("IRN_MizoraAppears_DialogStarted");
+
+PROC
+PROC_IRN_MizoraCombat()
+AND
+QRY_OnlyOnce("IRN_MizoraAppears_DialogStarted", _, _, _, _)
+THEN
+DB_IRN_MizoraAppears_DialogFailed(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var2, _Var1, _Var1)
+AND
+_Var2 < 12
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d);
+
+IF
+FlagSet(IRN_Ravengard_Event_MizoraCastsCommandOnRavengard_23ce5046-6d69-42c9-afc5-b1b15496ace4, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetEntityEventReal(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "GLO_CombatWait", 30);
+ApplyStatus(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "IRN_IRONTHRONE_RAVENGARDPRONE", 1, 1, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+
+IF
+DialogEnded(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, _, _, _, _)
+AND
+DB_GlobalFlag(IRN_Ravengard_Event_MizoraCastsCommandOnRavengard_23ce5046-6d69-42c9-afc5-b1b15496ace4, _, _, _, _)
+THEN
+PROC_TryStartAD(IRN_IronThrone_AD_RavengardAfterMizoraAppearDialog_56a93c19-a4d2-4fcd-c528-1ee7022a494f, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+IF
+DialogRequestFailed(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SetOnStage(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+PROC_IRN_MizoraSummons();
+
+IF
+DialogEnded(IRN_IronThrone_MizoraAppears_bbcd709d-9ab9-f3e6-c623-c4a3a649d672, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SetOnStage(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+PROC_IRN_MizoraSummons();
+
+IF
+DB_IRN_MizoraAppears_DialogFailed(1, _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+PROC_IRN_MizoraSummons();
+
+PROC
+PROC_IRN_MizoraSummons()
+THEN
+SetFlag(IRN_Wyll_Event_MizoraAppearedToKillRavengard_3775e048-e7ec-48c2-a5cb-83acdd8c72dc);
+
+PROC
+PROC_IRN_MizoraSummons()
+AND
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _, _, _)
+THEN
+PROC_IRN_MizoraSummons_Main();
+
+PROC
+PROC_IRN_MizoraSummons()
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _, _, _)
+THEN
+PROC_IRN_MizoraSummons_Backup();
+
+PROC
+PROC_IRN_MizoraSummons_Main()
+AND
+DB_IRN_MizoraSummons(_Var1, _Var2, _, _, _Var1)
+THEN
+PROC_IRN_Mizora_SummonAtPos(_Var1, _Var2);
+
+PROC
+PROC_IRN_MizoraSummons_Backup()
+AND
+GetPosition(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var2, _Var3, _Var1)
+AND
+DB_IRN_MizoraSummons(_Var4, _, _Var6, _Var7, _Var1)
+AND NOT
+DB_IRN_MizoraSummons_Summoned(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+RealSum(_Var1, _Var6, _Var8, _Var1, _Var1)
+AND
+RealSum(_Var3, _Var7, _Var9, _Var1, _Var1)
+AND
+FindValidPosition(_Var8, _Var2, _Var9, 0.5, _Var4, 1, _Var10, _Var11, _Var12, _Var1)
+THEN
+DB_IRN_MizoraSummons_Summoned(_Var4);
+PROC_IRN_Mizora_SummonAtPos(_Var4, _Var10, _Var11, _Var12);
+
+PROC
+PROC_IRN_MizoraSummons_Backup()
+AND
+GetPosition(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var2, _Var3, _Var1)
+AND
+DB_IRN_MizoraSummons(_Var4, _, _Var6, _Var7, _Var1)
+AND NOT
+DB_IRN_MizoraSummons_Summoned(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+RealSum(_Var1, _Var6, _Var8, _Var1, _Var1)
+AND
+RealSum(_Var3, _Var7, _Var9, _Var1, _Var1)
+AND
+FindValidPosition(_Var8, _Var2, _Var9, 3, _Var4, 1, _Var10, _Var11, _Var12, _Var1)
+THEN
+DB_IRN_MizoraSummons_Summoned(_Var4);
+PROC_IRN_Mizora_SummonAtPos(_Var4, _Var10, _Var11, _Var12);
+
+PROC
+PROC_IRN_Mizora_SummonAtPos((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+AppearAt(_Var1, _Var2, 1, CUST_SpiderTeleIn_01_99855a69-ba76-4299-9219-1e3a57c1e8ed, "IRN_MizoraSummon_SpiderAppeared", 0);
+PROC_GLO_NarrativeCombat_JoinCombat("IRN_IronThrone", _Var1);
+
+PROC
+PROC_IRN_Mizora_SummonAtPos((CHARACTER)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (CHARACTER)_Var1)
+THEN
+AppearAtPosition(_Var1, _Var2, _Var3, _Var4, 1, CUST_SpiderTeleIn_01_99855a69-ba76-4299-9219-1e3a57c1e8ed, "IRN_MizoraSummon_SpiderAppeared", 0);
+TriggerRegisterForCharacter(S_IRN_IronThrone_SUB_559c1c28-b3b7-49fb-8897-36272a2d6f33, _Var1);
+PROC_GLO_NarrativeCombat_JoinCombat("IRN_IronThrone", _Var1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "IRN_MizoraSummon_SpiderAppeared", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("IRN_IronThrone_MizoraSummons_CombatWaitDelay", _Var1, _Var1, _Var1, _Var1)
+THEN
+TimerLaunch("IRN_IronThrone_MizoraSummons_CombatWaitDelay", 3000);
+
+IF
+TimerFinished("IRN_IronThrone_MizoraSummons_CombatWaitDelay", _, _, _, _)
+THEN
+SetEntityEventReal(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "GLO_CombatWait", 0);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+AddPreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_RAVENGARDTARGET_6953dce2-8f2f-4ff4-bb29-78cbb3dc5638);
+TriggerRegisterForCharacter(S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _Var1);
+TriggerRegisterForCharacter(S_IRN_MizoraSummons_CorridorArea_46909eec-eea0-4edf-9d7e-8267a244df8b, _Var1);
+TriggerRegisterForCharacter(S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, _Var1);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND
+DB_InRegion(_Var1, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _Var1, _Var1, _Var1)
+THEN
+AddPreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_SWARMTARGET_OUTERDOOR_4116c28d-b243-4c28-8ecb-9b2385d2fe68);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _Var1, _Var1, _Var1)
+THEN
+RemovePreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_SWARMTARGET_OUTERDOOR_4116c28d-b243-4c28-8ecb-9b2385d2fe68);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _Var1, _Var1, _Var1)
+THEN
+AddPreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_SWARMTARGET_OUTERDOOR_4116c28d-b243-4c28-8ecb-9b2385d2fe68);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND
+DB_InRegion(_Var1, S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_RavengardRoomArea_472fb1d8-a2ab-46a0-99d5-13e3d45288de, _Var1, _Var1, _Var1)
+THEN
+RemovePreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_SWARMTARGET_OUTERDOOR_4116c28d-b243-4c28-8ecb-9b2385d2fe68);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND
+DB_InRegion(_Var1, S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, _Var1, _Var1, _Var1)
+THEN
+AddPreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_SWARMTARGET_INNERDOOR_a7f4b2a4-97d2-41f8-9fe9-39160750d1e1);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, _Var1, _Var1, _Var1)
+THEN
+AddPreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_SWARMTARGET_INNERDOOR_a7f4b2a4-97d2-41f8-9fe9-39160750d1e1);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND NOT
+DB_InRegion(_Var1, S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_MizoraSummons_RavengardWingArea_b08c9d5c-a8cb-4476-b65f-5a35390ae075, _Var1, _Var1, _Var1)
+THEN
+RemovePreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_SWARMTARGET_INNERDOOR_a7f4b2a4-97d2-41f8-9fe9-39160750d1e1);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_DestructionArea_d122293f-621c-4085-85af-5c1eb70cbf88, _Var1, _Var1, _Var1)
+THEN
+AiAddInterestingItem(_Var1, S_IRN_LobbyLadder_000_40c79f34-a39d-4495-9145-08a16cde2159);
+AddPreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_MIZORASPIDERSTARGET_FIRSTLADDER_bb83e4b4-d819-4252-a53a-2616204c76a6);
+
+IF
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_DestructionArea_d122293f-621c-4085-85af-5c1eb70cbf88, _Var1, _Var1, _Var1)
+THEN
+AiRemoveInterestingItem(_Var1, S_IRN_LobbyLadder_000_40c79f34-a39d-4495-9145-08a16cde2159);
+RemovePreferredAiTargetTag(_Var1, ACT3_LOW_IRONTHRONE_MIZORASPIDERSTARGET_FIRSTLADDER_bb83e4b4-d819-4252-a53a-2616204c76a6);
+
+IF
+CastSpell((CHARACTER)_Var1, "Target_LOW_IronThrone_Mizora_Spiderlings_Attack", _, _, _)
+AND
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+THEN
+Die(_Var1, 0, _Var1, 0, 0, 1);
+
+IF
+DB_Defeated(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_IRN_MizoraSummons(_Var2, _, _, _, _Var1)
+AND
+DB_Is_InCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_IRN_MizoraSummon_ShouldDisappear(_Var2);
+RequestSetSwarmGroup(_Var2, "");
+
+IF
+AttackedBy(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, (CHARACTER)_Var2, _, _, _, _, _, _, _)
+AND
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "CountdownOngoing", _, _)
+AND
+DB_IRN_MizoraSummons(_Var2, _, _, _, _)
+AND
+GetHitpointsPercentage(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var10, _, _, _)
+AND
+_Var10 <= 0
+AND
+QRY_OnlyOnce("IRN_Mizora_RavengardKilledBySpiders", _, _, _, _)
+THEN
+SetEntityEventReal(_Var2, "GLO_CombatWait", 3);
+
+IF
+TurnStarted((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_IRN_MizoraSummons(_Var1, _, _, _, _Var1)
+AND
+DB_IRN_MizoraSummon_ShouldDisappear(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEventReal(_Var1, "GLO_CombatWait", 2);
+RealtimeObjectTimerLaunch(_Var1, "IRN_MizoraSummons_SpiderDisappearDelay", 1500);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "IRN_MizoraSummons_SpiderDisappearDelay", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_IRN_MizoraSummons_SpiderDisappear(_Var1);
+
+PROC
+PROC_IRN_MizoraSummons_SpiderDisappear((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_IRN_MizoraSummonDisappear_Disappearing(_Var1);
+RemoveStatus(_Var1, "LOW_IRONTHRONE_MIZORA_EXPLODINGSPIDERS", NULL_00000000-0000-0000-0000-000000000000);
+PlayAnimation(_Var1, CUST_SpiderTeleOut_01_84938587-d506-43b7-a300-af29654430e9, "IRN_MizoraSummons_SpiderDisappeared");
+
+IF
+AnimationEvent((CHARACTER)_Var1, "AnimationSetOffStage", 0, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_IRN_MizoraSummonDisappear_Disappearing(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_IRN_MizoraSummonDisappear_Disappearing(_Var1);
+SetVisible(_Var1, 0);
+RealtimeObjectTimerLaunch(_Var1, "IRN_MizoraSummon_OffStageDelay", 1000);
+SetEntityEventReal(_Var1, "GLO_CombatWait", 0);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "IRN_MizoraSummon_OffStageDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_SetOnStage(_Var1, 0);
+
+PROC
+PROC_IRN_TurnStarted((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_IRN_IronThrone_TotalTurns(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+_Var3 <= 0
+AND
+DB_GlobalFlag(IRN_IronThrone_State_RavengardPresent_2e102a34-500a-4cd2-ba93-51d1a8b96496, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_IRN_MizoraKeepsRavengardAlive(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_SubmersibleInteriorArea_4a6d5106-21ea-4d8c-8625-8f061452ff34, _Var1, _Var1, _Var1)
+THEN
+PROC_IRN_MizoraRescuesRavengard();
+SetFlag(IRN_IronThrone_State_IndividualPrisonerFree_4c120f58-ad6c-438a-b35b-1bb3d4ed5e87, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+IF
+AttackedBy(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, (CHARACTER)_Var2, _, _, _, _, _, _, _)
+AND
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "CountdownOngoing", _, _)
+AND NOT
+DB_PartyMembers(_Var2, _, _, _, _)
+AND
+GetHitpointsPercentage(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var7, _, _, _)
+AND
+_Var7 <= 0
+AND
+DB_IRN_MizoraKeepsRavengardAlive(1, _, _, _, _)
+AND
+QRY_OnlyOnce("IRN_Mizora_RavengardResurrected", _, _, _, _)
+THEN
+SetEntityEventReal(_Var2, "GLO_CombatWait", 20);
+DB_IRN_RavengardKiller(_Var2);
+TimerLaunch("IRN_MizoraComesToResurrectRavengard", 1000);
+
+IF
+AttackedBy(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, (CHARACTER)_Var2, _, _, _, _, _, _, _)
+AND
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "CountdownOngoing", _, _)
+AND
+GetHitpointsPercentage(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var7, _, _, _)
+AND
+_Var7 <= 0
+AND
+DB_PartyMembers(_Var2, _, _, _, _)
+THEN
+NOT DB_PreventPermaDefeated(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+NOT DB_IRN_MizoraKeepsRavengardAlive(1);
+
+IF
+TextEvent("irn_mizoratele", _, _, _, _)
+AND
+QRY_OnlyOnce_Reset("IRN_MizoraLeaves_InSubmersible", _, _, _, _)
+THEN
+DB_IRN_MizoraKeepsRavengardAlive(1);
+Die(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 1, 0);
+PROC_IRN_MizoraRescuesRavengard();
+
+IF
+TimerFinished("IRN_MizoraComesToResurrectRavengard", _, _, _, _)
+THEN
+PROC_IRN_MizoraRescuesRavengard();
+
+PROC
+PROC_IRN_MizoraRescuesRavengard()
+THEN
+SetImmortal(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+RemoveStatus(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "GLO_MIZORA_INVULNERABLE", NULL_00000000-0000-0000-0000-000000000000);
+TriggerRegisterForCharacter(S_IRN_IronThrone_SUB_559c1c28-b3b7-49fb-8897-36272a2d6f33, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+SetCanJoinCombat(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+SetDetached(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+
+PROC
+PROC_IRN_MizoraRescuesRavengard()
+AND
+GetPosition(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var2, _Var3, _Var1)
+AND
+RealSum(_Var1, 2, _Var4, _Var1, _Var1)
+AND
+FindValidPosition(_Var4, _Var2, _Var3, 5, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0, _Var5, _Var6, _Var7, _Var1)
+THEN
+PROC_IRN_MizoraAppear(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, _Var5, _Var6, _Var7, "IRN_MizoraRescuesRavengard");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "IRN_MizoraRescuesRavengard", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_SubmersibleInteriorArea_4a6d5106-21ea-4d8c-8625-8f061452ff34, _Var1, _Var1, _Var1)
+THEN
+TimerLaunch("IRN_Mizora_ResurrectDelay", 2000);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "IRN_MizoraRescuesRavengard", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_InRegion(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, S_IRN_SubmersibleInteriorArea_4a6d5106-21ea-4d8c-8625-8f061452ff34, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(IRN_IronThrone_AD_MizoraHelpsRavengardTeleportedToSub_017275ec-306c-e0f9-02ea-8db8626f2316, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, _Var1, _Var1, _Var1)
+THEN
+TimerLaunch("IRN_Mizora_ResurrectDelay", 2000);
+
+IF
+TimerFinished("IRN_Mizora_ResurrectDelay", _, _, _, _)
+THEN
+PROC_IRN_MizoraResurrectsRavengard();
+
+IF
+AutomatedDialogEnded(IRN_IronThrone_AD_MizoraHelpsRavengardTeleportedToSub_017275ec-306c-e0f9-02ea-8db8626f2316, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_IRN_MizoraResurrectsRavengard();
+
+IF
+AutomatedDialogRequestFailed(IRN_IronThrone_AD_MizoraHelpsRavengardTeleportedToSub_017275ec-306c-e0f9-02ea-8db8626f2316, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_IRN_MizoraResurrectsRavengard();
+
+PROC
+PROC_IRN_MizoraResurrectsRavengard()
+AND
+DB_Defeated(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _, _, _)
+THEN
+UseSpell(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "Target_LOW_IronThrone_Mizora_Resurrect", S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+PROC
+PROC_IRN_MizoraResurrectsRavengard()
+AND NOT
+DB_Defeated(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _, _, _)
+THEN
+SetFlag(IRN_Wyll_Event_MizoraAppearedToHelpRavengard_d0f84a78-d508-4194-b4f1-d663dbb10d8e);
+TimerLaunch("IRN_MizoraResurrectedRavengard_Delay", 5000);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, "Target_LOW_IronThrone_Mizora_Resurrect", _, _, _)
+THEN
+Resurrect(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+IF
+CastSpellFailed((GUIDSTRING)_Var1, "Target_LOW_IronThrone_Mizora_Resurrect", _, _, _)
+THEN
+Resurrect(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+IF
+Resurrected(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _, _, _, _)
+AND
+DB_IRN_MizoraKeepsRavengardAlive(1, _, _, _, _)
+THEN
+SetFlag(IRN_Wyll_Event_MizoraAppearedToHelpRavengard_d0f84a78-d508-4194-b4f1-d663dbb10d8e);
+TimerLaunch("IRN_MizoraResurrectedRavengard_Delay", 5000);
+
+IF
+TimerFinished("IRN_MizoraResurrectedRavengard_Delay", _, _, _, _)
+THEN
+PROC_IRN_MizoraDisappear(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+PROC_IRN_MizoraDisappear(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+TimerLaunch("IRN_Mizora_BackInSubmersible_Delay", 1000);
+
+IF
+TimerFinished("IRN_Mizora_BackInSubmersible_Delay", (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+GetPosition(S_IRN_SubmersibleInterior_RavengardPos_cae20467-b32b-4cdf-a160-8d2ce73f65a9, _Var1, _Var2, _Var3, _Var1)
+AND
+GetPosition(S_IRN_SubmersibleInterior_MizoraPos_514a21c3-8cc9-4358-af02-44d127209ee1, _Var4, _Var5, _Var6, _Var1)
+THEN
+PROC_IRN_MizoraAppear(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var2, _Var3, "IRN_IronThrone_AppearedInSub");
+PROC_IRN_MizoraAppear(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, _Var4, _Var5, _Var6, "IRN_IronThrone_AppearedInSub");
+
+IF
+EntityEvent(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "IRN_IronThrone_AppearedInSub", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+CharacterGetOwner(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemovePartyFollower(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1);
+PROC_GLO_NarrativeCombat_LeaveCombat("IRN_IronThrone", S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+IF
+EntityEvent(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "IRN_IronThrone_AppearedInSub", _, _, _)
+THEN
+SetFlag(IRN_Wyll_Event_MizoraAppearedToHelpRavengard_d0f84a78-d508-4194-b4f1-d663dbb10d8e);
+DB_IRN_MizoraHelps_WaitsToPlayADInSubmersible(1);
+
+IF
+DB_IRN_MizoraHelps_WaitsToPlayADInSubmersible(1, _, _, _, _)
+AND
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "Arrival", _, _)
+AND
+DB_Sees(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03
+AND NOT
+QRY_StartDialog(IRN_IronThrone_AD_MizoraHelpsRavengardTeleportedToSub_InSubmersible_9fba529c-3f37-01dc-3805-49341f7a062e, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, _Var1, _Var1, _Var1)
+THEN
+PROC_IRN_MizoraLeaves();
+
+IF
+DB_IRN_MizoraHelps_WaitsToPlayADInSubmersible(1, _, _, _, _)
+AND
+DB_State_Current(S_GLO_IronThrone_StateProgressHelper_954459bd-8fc3-4c16-8224-0343cacb1a01, "IRN_IronThrone", "CountdownOngoing", _, _)
+AND
+DB_Sees(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03
+AND NOT
+QRY_StartDialog(IRN_IronThrone_AD_MizoraHelpsRavengardTeleportedToSub_InSubmersible_9fba529c-3f37-01dc-3805-49341f7a062e, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, _Var1, _Var1, _Var1)
+THEN
+PROC_IRN_MizoraLeaves();
+
+IF
+AutomatedDialogEnded(IRN_IronThrone_AD_MizoraHelpsRavengardTeleportedToSub_InSubmersible_9fba529c-3f37-01dc-3805-49341f7a062e, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_IRN_MizoraLeaves();
+
+IF
+AutomatedDialogRequestFailed(IRN_IronThrone_AD_MizoraHelpsRavengardTeleportedToSub_InSubmersible_9fba529c-3f37-01dc-3805-49341f7a062e, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_IRN_MizoraLeaves();
+
+PROC
+PROC_IRN_MizoraLeaves()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HideMarker(_Var1, "IRN_HostageRavengard");
+
+PROC
+PROC_IRN_MizoraLeaves()
+AND
+QRY_OnlyOnce("IRN_MizoraLeaves_InSubmersible", _, _, _, _)
+THEN
+NOT DB_IRN_MizoraHelps_WaitsToPlayADInSubmersible(1);
+PROC_IRN_MizoraDisappear(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+SetImmortal(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+ApplyStatus(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "GLO_MIZORA_INVULNERABLE", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+SetCanJoinCombat(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+SetDetached(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+TriggerUnregisterForCharacter(S_IRN_IronThrone_SUB_559c1c28-b3b7-49fb-8897-36272a2d6f33, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+
+PROC
+PROC_State_Changed(_, "IRN_IronThrone", "CountdownFinished", _, _)
+AND
+HasActiveStatus(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "GLO_MIZORA_INVULNERABLE", 0, _, _)
+THEN
+ApplyStatus(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "GLO_MIZORA_INVULNERABLE", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_State_Changed(_, "IRN_IronThrone", "CountdownFinished", (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetImmortal(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+SetCanJoinCombat(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+SetDetached(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+TriggerUnregisterForCharacter(S_IRN_IronThrone_SUB_559c1c28-b3b7-49fb-8897-36272a2d6f33, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+
+PROC
+PROC_State_Changed(_, "IRN_IronThrone", "CountdownFinished", _, _)
+AND
+DB_IRN_MizoraHelps_WaitsToPlayADInSubmersible(1, _, _, _, _)
+THEN
+NOT DB_IRN_MizoraHelps_WaitsToPlayADInSubmersible(1);
+PROC_IRN_MizoraDisappear(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+
+IF
+EntityEvent(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "IRN_IronThrone_AppearedInSub", _, _, _)
+THEN
+LeaveCombat(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+SetCanJoinCombat(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, 0);
+NOT DB_IRN_MizoraKeepsRavengardAlive(1);
+
+IF
+EntityEvent(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "IRN_IronThrone_AppearedInSub", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_IRN_RavengardKiller(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEventReal(_Var1, "GLO_CombatWait", 0);
+NOT DB_IRN_RavengardKiller(_Var1);
+
+PROC
+PROC_IRN_PrisonerGroupFreed_Started((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_IRN_PrisonerGroup(_Var1, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var1, _Var1)
+AND
+QRY_IRN_MizoraShouldAppear()
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(IRN_IronThrone_AD_RavengardFreed_a7975b99-da06-ea9e-c0e1-cc070db41f35, S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+PROC
+PROC_IRN_CheckIfMizoraInterferes()
+AND
+QRY_IRN_MizoraShouldAppear()
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_MizoraEnemy_bfbf3d9c-2db7-443e-aceb-784bb45bc4ff, _, _, _, _)
+AND
+DB_IRN_MizoraKeepsRavengardAlive(1, _, _, _, _)
+THEN
+PROC_IRN_MizoraHelps();
+
+PROC
+PROC_IRN_MizoraHelps()
+AND
+GetPosition(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, _Var1, _Var2, _Var3, _Var1)
+AND
+FindValidPosition(_Var1, _Var2, _Var3, 4, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0, _Var4, _Var5, _Var6, _Var1)
+THEN
+SetFlag(IRN_Wyll_Event_MizoraAppearedToHelpRavengard_d0f84a78-d508-4194-b4f1-d663dbb10d8e);
+TriggerRegisterForCharacter(S_IRN_IronThrone_SUB_559c1c28-b3b7-49fb-8897-36272a2d6f33, S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+RemoveStatus(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "GLO_MIZORA_INVULNERABLE", NULL_00000000-0000-0000-0000-000000000000);
+SetCanJoinCombat(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 0);
+SetDetached(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+PROC_IRN_MizoraAppear(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, _Var4, _Var5, _Var6, "IRN_MizoraAppearsToHelp");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "IRN_MizoraAppearsToHelp", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_StartDialog(IRN_IronThrone_AD_MizoraInterferes_4dca90e5-5c8e-170c-3f97-efb3796e08ee, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_IRN_MizoraCastsBuffsRavengard();
+TimerLaunch("IRN_MizoraCastBuffs_WaitBeforePoof", 5000);
+
+IF
+AutomatedDialogStarted(IRN_IronThrone_AD_MizoraInterferes_4dca90e5-5c8e-170c-3f97-efb3796e08ee, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_IRN_MizoraCastsBuffsRavengard();
+
+IF
+AutomatedDialogRequestFailed(IRN_IronThrone_AD_MizoraInterferes_4dca90e5-5c8e-170c-3f97-efb3796e08ee, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_IRN_MizoraCastsBuffsRavengard();
+DB_IRN_MizoraHelpingAD_Ended(1);
+
+IF
+AutomatedDialogEnded(IRN_IronThrone_AD_MizoraInterferes_4dca90e5-5c8e-170c-3f97-efb3796e08ee, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+DB_IRN_MizoraHelpingAD_Ended(1);
+
+PROC
+PROC_IRN_MizoraCastsBuffsRavengard()
+THEN
+DB_IRN_MizoraCastingBuffs(1);
+UseSpell(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "Target_FreedomOfMovement", S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+TimerLaunch("IRN_IronThrone_MizoraCastingSpells_FallbackTimer", 10000);
+
+IF
+CastedSpell(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "Target_FreedomOfMovement", _, _, _)
+AND
+DB_IRN_MizoraCastingBuffs(1, _, _, _, _)
+THEN
+UseSpell(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "Target_LOW_IronThrone_MizoraHaste", S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+IF
+CastSpellFailed(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "Target_FreedomOfMovement", _, _, _)
+AND
+DB_IRN_MizoraCastingBuffs(1, _, _, _, _)
+THEN
+UseSpell(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "Target_LOW_IronThrone_MizoraHaste", S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+IF
+CastedSpell(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "Target_LOW_IronThrone_MizoraHaste", _, _, _)
+AND
+DB_IRN_MizoraCastingBuffs(1, _, _, _, _)
+THEN
+NOT DB_IRN_MizoraCastingBuffs(1);
+
+IF
+CastSpellFailed(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, "Target_LOW_IronThrone_MizoraHaste", _, _, _)
+AND
+DB_IRN_MizoraCastingBuffs(1, _, _, _, _)
+THEN
+NOT DB_IRN_MizoraCastingBuffs(1);
+
+IF
+TimerFinished("IRN_IronThrone_MizoraCastingSpells_FallbackTimer", _, _, _, _)
+AND
+DB_IRN_MizoraCastingBuffs(1, _, _, _, _)
+THEN
+NOT DB_IRN_MizoraCastingBuffs(1);
+
+IF
+DB_IRN_MizoraHelpingAD_Ended(1, _, _, _, _)
+AND NOT
+DB_IRN_MizoraCastingBuffs(1, _, _, _, _)
+THEN
+TimerLaunch("IRN_IronThrone_FinishedCastingSpells_DisappearDelay", 2000);
+
+IF
+TimerFinished("IRN_IronThrone_FinishedCastingSpells_DisappearDelay", _, _, _, _)
+THEN
+PROC_IRN_MizoraDisappear(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a);
+
+PROC
+PROC_State_Changed(_, "IRN_IronThrone", "BackAtDocks", (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+RemoveStatus(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "HASTE", NULL_00000000-0000-0000-0000-000000000000);
+RemoveStatus(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03, "FREEDOM_OF_MOVEMENT", NULL_00000000-0000-0000-0000-000000000000);
+RemoveHarmfulStatuses(S_GLO_Ravengard_f6620372-ebd0-4511-a39d-8c2d4ad03f03);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3i"

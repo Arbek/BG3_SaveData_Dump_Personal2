@@ -1,0 +1,294 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DEN_GraveElements(S_DEN_DeadLover_0126a6b5-3452-47db-a3e5-525b7deca82f, S_DEN_KanonGrave_01118246-017c-43cd-87d0-b18fc3a846c9, S_DEN_KanonGraveMarker_e6d3ba16-c971-4c75-8488-b3a6b11e18e0, S_DEN_KanonGrave_Open_d6f5a61d-9d44-4c8a-8296-e91a401fa00c);
+DB_DEN_GraveElements(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, S_DEN_ZevlorGrave_39e1df33-1020-42a8-bd9d-2e43555dfbc0, S_DEN_ZevlorGraveMarker_8f7b10e6-3730-49b5-afb2-c33b50f020ab, S_DEN_ZevlorGrave_Open_f8921531-7c88-40ca-ae53-9a8185ba4e2a);
+DB_DEN_GraveElements(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, S_DEN_AradinGrave_8d6242fb-1874-422c-b4a4-19dc430b1ccd, S_DEN_AradinGraveMarker_3fa1f330-1ab4-4f53-a29e-0987172c2a17, S_DEN_AradinGrave_Open_6142d188-c386-4381-97c4-eb981d7ae07a);
+SetOnStage(S_DEN_KanonGrave_01118246-017c-43cd-87d0-b18fc3a846c9, 0);
+SetOnStage(S_DEN_KanonGraveMarker_e6d3ba16-c971-4c75-8488-b3a6b11e18e0, 0);
+SetOnStage(S_DEN_ZevlorGrave_39e1df33-1020-42a8-bd9d-2e43555dfbc0, 0);
+SetOnStage(S_DEN_ZevlorGraveMarker_8f7b10e6-3730-49b5-afb2-c33b50f020ab, 0);
+SetOnStage(S_DEN_AradinGrave_8d6242fb-1874-422c-b4a4-19dc430b1ccd, 0);
+SetOnStage(S_DEN_AradinGraveMarker_3fa1f330-1ab4-4f53-a29e-0987172c2a17, 0);
+SetOnStage(S_DEN_KanonGrave_Open_d6f5a61d-9d44-4c8a-8296-e91a401fa00c, 0);
+SetOnStage(S_DEN_ZevlorGrave_Open_f8921531-7c88-40ca-ae53-9a8185ba4e2a, 0);
+SetOnStage(S_DEN_AradinGrave_Open_6142d188-c386-4381-97c4-eb981d7ae07a, 0);
+DB_ItemDialog_NarratorAD(S_DEN_ZevlorGraveMarker_8f7b10e6-3730-49b5-afb2-c33b50f020ab, DEN_General_VB_Grave_TieflingLeader_7f3b25c8-4cf6-4ca2-2e7e-a382ec7d1a67);
+DB_ItemDialog_NarratorAD(S_DEN_AradinGraveMarker_3fa1f330-1ab4-4f53-a29e-0987172c2a17, DEN_General_VB_Grave_AdventurerLeader_8837ba24-64dd-df9d-3cc5-1ae17d981aeb);
+DB_ItemDialog_NarratorAD(S_DEN_KanonGraveMarker_e6d3ba16-c971-4c75-8488-b3a6b11e18e0, DEN_General_VB_Grave_Kanon_ba196e16-8b13-b72f-9d64-a8f22173ce5c);
+DB_GLO_CharacterCorpseDialog(S_DEN_TieflingLeader_475200ee-cc3c-4dbe-84b1-1820c02ea26a, DEN_General_Dead_TieflingLeader_0c01fb78-47c4-e999-c4e1-fe343883e04d);
+DB_GLO_CharacterCorpseDialog(S_DEN_AdventurerLeader_82d1b843-9e8c-48a5-9d87-caddea5c193c, DEN_General_Dead_AdventurerLeader_9102f240-012e-4a4a-8466-76eecc00a73a);
+DB_GLO_CharacterCorpseDialog(S_DEN_DeadLover_0126a6b5-3452-47db-a3e5-525b7deca82f, DEN_General_Dead_Kanon_9e2a1e1f-82e5-78e8-86f0-d6ea5b77cdc2);
+DB_DEN_KanonBodyGuards(S_DEN_Tiefling_001_82f8662d-76da-4352-b37e-01ba433b5d43, S_DEN_Tiefling001Pos_04ec99ec-08ea-4fee-9c6f-9c4d3bd733da);
+DB_DEN_KanonBodyGuards(S_DEN_Tiefling_004_c9562174-44af-4ffa-9e5e-da58538f23d8, S_DEN_TieflingGuard004_LedgeArea_bf870d3c-1c44-42f3-b3ad-8ea68fb4578f);
+DB_DEN_KanonSceneStartFlags(DEN_RaidingParty_Quest_GoblinRaidOver_98712d90-c46b-20c4-c4df-02c0117e85a5, DEN_General_State_KanonCorpseClear_2f31ab46-4850-444b-b826-c13c8ca854eb);
+DB_DEN_KanonSceneStartFlags(DEN_General_State_KanonCorpseClear_2f31ab46-4850-444b-b826-c13c8ca854eb, DEN_RaidingParty_Quest_GoblinRaidOver_98712d90-c46b-20c4-c4df-02c0117e85a5);
+PROC_TriggerRegisterForPlayers(S_DEN_General_KanonCorpseScene_aa74c57d-1fa3-4dec-993b-37c6c135c2f4);
+
+KBSECTION
+IF
+Died((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_GraveElements(_Var1, _, _, _, _Var1)
+AND
+QRY_DEN_IsInDen(_Var1, 0, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_OccupiedGraves(_, _Var1, _, _, _Var1)
+AND NOT
+DB_DEN_GraveQueue(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_DEN_CheckPeaceState()
+THEN
+DB_DEN_GraveQueue(_Var1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(DEN_RaidingParty_Quest_GoblinRaidOver_98712d90-c46b-20c4-c4df-02c0117e85a5, _, _, _, _)
+AND NOT
+QRY_DEN_GraveBuffer()
+AND
+DB_DEN_GraveQueue(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_TryAddGrave(_Var1);
+DB_OnlyOnce("DEN_GraveBuffer_Ready");
+
+QRY
+QRY_DEN_GraveBuffer()
+AND NOT
+DB_GlobalFlag(DEN_General_State_Entered_26b2dc6a-e5eb-4d99-a4bd-3ecaa3b86a9e, _, _, _, _)
+AND
+QRY_OnlyOnce("DEN_GraveBuffer", _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_TryAddGrave((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetSurfaceGroundAt(_Var1, "SurfaceBlood", _Var1, _Var1, _Var1)
+THEN
+RemoveSurfaceLayer(_Var1, "Ground", 3);
+
+PROC
+PROC_DEN_TryAddGrave((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_GraveElements(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_DEN_OccupiedGraves(_Var3, _Var1, _Var2, _Var4);
+SetOnStage(_Var1, 0);
+NOT DB_DEN_GraveQueue(_Var1);
+
+PROC
+PROC_DEN_TryAddGrave((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_GraveElements(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetOnStage(_Var3, 1);
+SetOnStage(_Var2, 1);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_OccupiedGraves(_, _, _Var2, _, _Var1)
+AND
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+PROC_PlayCantUseItemAD(_Var1);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_OccupiedGraves(_, _Var4, _Var2, _, _Var1)
+AND
+GetFlag(DEN_General_State_GraveExhumed_6c0db76d-7d13-02a4-f1dd-5d755800e7e7, _Var2, 0, _Var1, _Var1)
+AND
+QRY_StartDialog(DEN_General_GraveDig_d485f8ba-a7a9-58e7-b40c-f93db41c12e1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(DEN_General_GraveDig_d485f8ba-a7a9-58e7-b40c-f93db41c12e1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogNPCs(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_DEN_OccupiedGraves(_, _Var5, _Var2, _Var6, _Var1)
+AND
+GetFlag(DEN_General_State_GraveExhumed_6c0db76d-7d13-02a4-f1dd-5d755800e7e7, _Var2, 1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var7, _Var8, _Var9, _Var1)
+THEN
+SetOnStage(_Var2, 0);
+SetOnStage(_Var6, 1);
+TeleportTo(_Var5, _Var2);
+SetOnStage(_Var5, 1);
+
+IF
+FlagSet(DEN_CapturedGoblin_State_Avenge_0b50db9b-3055-a749-a58b-472d904faa72, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_General_State_KanonCorpseClear_2f31ab46-4850-444b-b826-c13c8ca854eb, _, _, _, _)
+THEN
+SetFlag(DEN_General_State_KanonCorpseClear_2f31ab46-4850-444b-b826-c13c8ca854eb, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_KanonSceneStartFlags(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_General_KanonBuryGuardsDead()
+AND NOT
+DB_GlobalFlag(DEN_AttackOnDen_State_UnderAttack_4ebba932-b9cf-41c5-b897-e77a63b93511, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_GraveQueue(S_DEN_DeadLover_0126a6b5-3452-47db-a3e5-525b7deca82f);
+
+QRY
+QRY_DEN_General_KanonBuryGuardsDead()
+AND
+DB_DEN_KanonBodyGuards(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+AutomatedDialogStarted(DEN_General_AD_CorpseMove_79e24704-46d3-2741-2ee0-fb5246b66cdd, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_General_State_KanonGuardScene_0753324f-9359-45e7-8725-5b1d2d04bad8, _, _, _, _)
+THEN
+SetFlag(DEN_General_State_KanonGuardScene_0753324f-9359-45e7-8725-5b1d2d04bad8, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_DEN_General_KanonCorpseScene_aa74c57d-1fa3-4dec-993b-37c6c135c2f4, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GlobalFlag(DEN_General_State_KanonGuardScene_0753324f-9359-45e7-8725-5b1d2d04bad8, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_DEN_General_NearKanonGuards()
+AND NOT
+DB_GlobalFlag(DEN_General_State_KanonTryBurial_7edf4538-ae5d-4fdd-968d-9ce4f6c63d7f, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(S_DEN_General_KanonCorpseScene_aa74c57d-1fa3-4dec-993b-37c6c135c2f4);
+SetFlag(DEN_General_State_KanonTryBurial_7edf4538-ae5d-4fdd-968d-9ce4f6c63d7f, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+QRY
+QRY_DEN_General_NearKanonGuards()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, S_DEN_General_KanonCorpseScene_aa74c57d-1fa3-4dec-993b-37c6c135c2f4, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(DEN_General_State_KanonGuardScene_0753324f-9359-45e7-8725-5b1d2d04bad8, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_General_State_KanonTryBurial_7edf4538-ae5d-4fdd-968d-9ce4f6c63d7f, _, _, _, _)
+AND
+DB_OnlyOnce("DEN_GraveBuffer_Ready", _, _, _, _)
+THEN
+SetFlag(DEN_General_State_KanonTryBurial_7edf4538-ae5d-4fdd-968d-9ce4f6c63d7f, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(DEN_General_State_KanonTryBurial_7edf4538-ae5d-4fdd-968d-9ce4f6c63d7f, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+ClearFlag(DEN_General_State_KanonCorpseClear_2f31ab46-4850-444b-b826-c13c8ca854eb, NULL_00000000-0000-0000-0000-000000000000, 0);
+ClearFlag(DEN_General_State_KanonGuardScene_0753324f-9359-45e7-8725-5b1d2d04bad8, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_DEN_TryAddGrave(S_DEN_DeadLover_0126a6b5-3452-47db-a3e5-525b7deca82f);
+
+IF
+FlagSet(DEN_General_State_KanonTryBurial_7edf4538-ae5d-4fdd-968d-9ce4f6c63d7f, NULL_00000000-0000-0000-0000-000000000000, _, _, _)
+AND
+DB_DEN_KanonBodyGuards(_Var2, _Var3, _, _, _)
+AND NOT
+DB_PermaDefeated(_Var2, _, _, _, _)
+THEN
+TeleportTo(_Var2, _Var3);
+
+PROC
+PROC_StateSet_PermaDefeated((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_DEN_KanonBodyGuards(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_GraveQueue(S_DEN_DeadLover_0126a6b5-3452-47db-a3e5-525b7deca82f, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_OccupiedGraves(_, S_DEN_DeadLover_0126a6b5-3452-47db-a3e5-525b7deca82f, _, _, _Var1)
+THEN
+ClearFlag(DEN_General_State_KanonCorpseClear_2f31ab46-4850-444b-b826-c13c8ca854eb, NULL_00000000-0000-0000-0000-000000000000, 0);
+ClearFlag(DEN_General_State_KanonGuardScene_0753324f-9359-45e7-8725-5b1d2d04bad8, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+FlagSet(DEN_Kanon_Event_RevealedValuables_e951e7a4-9157-3bcf-f232-281a7890d44c, NULL_00000000-0000-0000-0000-000000000000, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Kanon_State_FoundBag_4131c3af-5216-4689-a24e-ee38e074ec47, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowMarker(_Var2, "DEN_Kanon_Valuables");
+
+IF
+UseStarted((CHARACTER)_Var1, S_DEN_KanonBag_34f15197-44e7-4e5c-afd4-11a3c6b6c1b4, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(DEN_Kanon_State_FoundBag_4131c3af-5216-4689-a24e-ee38e074ec47, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Kanon_FoundBag(_Var1);
+
+IF
+DestroyedBy(S_DEN_KanonBag_34f15197-44e7-4e5c-afd4-11a3c6b6c1b4, _, (CHARACTER)_Var2, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+THEN
+PROC_DEN_Kanon_FoundBag(_Var2);
+
+IF
+AddedTo(S_DEN_KanonBag_34f15197-44e7-4e5c-afd4-11a3c6b6c1b4, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Kanon_FoundBag(_Var1);
+
+PROC
+PROC_DEN_Kanon_FoundBag((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(DEN_Kanon_State_FoundBag_4131c3af-5216-4689-a24e-ee38e074ec47, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Kanon_State_FoundBag_4131c3af-5216-4689-a24e-ee38e074ec47, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_DEN_Kanon_FoundBag((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GlobalFlag(DEN_Kanon_Event_RevealedValuables_e951e7a4-9157-3bcf-f232-281a7890d44c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_HideMarker(_Var1, "DEN_Kanon_Valuables");
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DEN_GoblinRaidCombatID(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DEN_GraveElements(_Var1, _, _, _, _Var1)
+AND NOT
+QRY_IsSummonOrPartyFollower(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_GraveElements(_Var1, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

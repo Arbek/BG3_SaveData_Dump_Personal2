@@ -1,0 +1,38 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_Shared_CharacterCreationFinished()
+THEN
+DB_MonkStatus(1);
+
+IF
+DB_MonkStatus(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsGameLevel(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, MONK_e1e460bb-d0ae-4452-8529-c9e176558731, 1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "MONK_ANIMATION_SET", -1, 0, _Var2);
+
+IF
+DB_MonkStatus(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsGameLevel(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

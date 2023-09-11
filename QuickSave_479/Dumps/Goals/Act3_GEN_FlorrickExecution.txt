@@ -1,0 +1,169 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LOW_BasiliskGate_FlorrickExecution_CountDownDays(5);
+DB_Act3_FlorrickExecution_Hangmen(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_GLO_Desire_58f75d85-2b4c-4a66-a67d-adbd264cfe95, S_GLO_Desire_HangedPhysics_e7b4bc5b-3ca5-4579-8a54-2de1075cf5a3, S_LOW_BasiliskGate_FlorrickExecution_HangingSpot_Florrick_343dfb1c-7175-42c6-bca7-dc53cc46c617, S_LOW_BasiliskGate_FlorrickExecution_HangingSupport_Florrick_d93cdd3f-4fac-49ec-8cd5-2eb9d04bc522, 1, 0);
+DB_Act3_FlorrickExecution_Hangmen(S_LOW_BasiliskGate_FlorricksCoHangman_01_bb541277-bc52-4d5f-95f3-e7f5e62eeeeb, LOW_BasiliskGate_HumanMaleHanging_01_fe6fc02a-a73f-4836-b976-e23d5e057e8d, LOW_BasiliskGate_HumanMaleHanging_01_HangedPhysics_14c3b132-214c-42c4-97ea-b6e03b8f61d9, S_LOW_BasiliskGate_FlorrickExecution_HangingSpot_01_acf2dc0b-0ffa-44ae-a232-70f41ddf914b, S_LOW_BasiliskGate_FlorrickExecution_HangingSupport_01_c5c22ded-c7a9-41f8-bea0-7e4d0da472d3, 1, 0);
+DB_Act3_FlorrickExecution_Hangmen(S_LOW_BasiliskGate_FlorricksCoHangman_02_35aca423-db49-4308-acf3-e16c831d565c, LOW_BasiliskGate_HumanMaleHanging_02_002827e6-8b00-42f4-b679-1e9b9140c23d, LOW_BasiliskGate_HumanMaleHanging_02_HangedPhysics_e66901d5-8a8f-4def-be48-d0981c7cef18, S_LOW_BasiliskGate_FlorrickExecution_HangingSpot_02_bd93a80d-bbaa-4b0d-8464-fdeb47db29e4, S_LOW_BasiliskGate_FlorrickExecution_HangingSupport_02_03b0622e-c16e-48be-aa42-13e2d9013035, 1, 0);
+SetOnStage(S_LOW_BasiliskGate_FlorricksCoHangman_01_bb541277-bc52-4d5f-95f3-e7f5e62eeeeb, 0);
+SetOnStage(S_LOW_BasiliskGate_FlorricksCoHangman_02_35aca423-db49-4308-acf3-e16c831d565c, 0);
+
+KBSECTION
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(LOW_BasiliskGate_State_FlorrickExecutionKnown_aff10649-cfc1-b6d0-0984-5572383cda0a, _, _, _, _)
+AND
+DB_LOW_BasiliskGate_FlorrickExecution_CountDownDays(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerSubtract(_Var1, 1, _Var2, _Var1, _Var1)
+AND NOT
+QRY_LOW_BasiliskGate_FlorrickExecution(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_BasiliskGate_FlorrickExecution_CountDownDays(_Var1);
+DB_LOW_BasiliskGate_FlorrickExecution_CountDownDays(_Var2);
+PROC_FlorrickExecution_ReinstatePosters();
+
+IF
+DialogStarted(WYR_WyrmRockPrison_Florrick_40d9f384-7637-91b7-01aa-556a76ac20e1, _, _, _, _)
+AND
+DB_LOW_BasiliskGate_FlorrickExecution_CountDownDays(_Var2, _, _, _, _)
+THEN
+DialogSetVariableInt(WYR_WyrmRockPrison_Florrick_40d9f384-7637-91b7-01aa-556a76ac20e1, "LOW_BasiliskGate_FlorrickExecutionCountdownDays_55b150cf-4040-e2b3-89e4-ba2737fbbe01", _Var2);
+
+IF
+DB_GlobalFlag(WYR_WyrmRockPrison_State_FlorrickEscaped_a84a5b16-ca29-43c3-91bf-17def670ba07, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Act3_FlorrickExecution_Hangmen(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _Var1, _Var2, _Var3, _Var4, 1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_Act3_FlorrickExecution_DisableFlorrickHanging();
+
+IF
+DB_PermaDefeated(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Act3_FlorrickExecution_Hangmen(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _Var1, _Var2, _Var3, _Var4, 1, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_Act3_FlorrickExecution_DisableFlorrickHanging();
+
+PROC
+PROC_Act3_FlorrickExecution_DisableFlorrickHanging()
+AND
+DB_Act3_FlorrickExecution_Hangmen(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _Var1, _Var2, _Var3, _Var4, 1, 0, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Act3_FlorrickExecution_Hangmen(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _Var1, _Var2, _Var3, _Var4, 1, 0);
+DB_Act3_FlorrickExecution_Hangmen(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _Var1, _Var2, _Var3, _Var4, 0, 0);
+
+QRY
+QRY_LOW_BasiliskGate_FlorrickExecution(0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Act3_FlorrickExecution_Hangmen(_Var1, _Var2, _Var3, _Var4, _Var5, 1, 0, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+Transform(_Var1, _Var3, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+ApplyStatus(_Var1, "DIE_HANGING_TECHNICAL", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Act3_FlorrickExecution_Hangmen(_Var1, _Var2, _Var3, _Var4, _Var5, 1, 0);
+DB_Act3_FlorrickExecution_Hangmen(_Var1, _Var2, _Var3, _Var4, _Var5, 1, 1);
+PROC_DieImmediate(_Var1, 0, 0);
+PROC_GLO_Tutorials_TrackedTimerStart("Act3b_LOW_BasiliskGate_FlorrickExecution_DelayedTeleportToGallows", 100);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished("Act3b_LOW_BasiliskGate_FlorrickExecution_DelayedTeleportToGallows", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Act3_FlorrickExecution_Hangmen(_Var1, _, _, _Var4, _, 1, 1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(_Var1, _Var4);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished("Act3b_LOW_BasiliskGate_FlorrickExecution_DelayedTeleportToGallows", _, _, _, _)
+AND
+DB_Act3_FlorrickExecution_Hangmen(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _, _, _, _, _, 1, _, _, _)
+THEN
+SetFlag(LOW_BasiliskGate_State_FlorrickExecuted_32a5fd87-95c0-255a-3473-ac288c798df8);
+PROC_BasiliskGate_FlorrickExecution_FlorrickExecuted();
+TriggerRegisterForCharacter(S_LOW_BasiliskGate_FlorrickExecution_BodyPresenceCheckArea_46b08f47-5c64-4f98-8667-6d514bb2c0cc, S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9);
+
+PROC
+PROC_GLO_Tutorials_TrackedTimerFinished("Act3b_LOW_BasiliskGate_FlorrickExecution_DelayedTeleportToGallows", (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_LOW_BasiliskGate_FlorrickExecution_CountDownDays(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_BasiliskGate_FlorrickExecution_CountDownDays(_Var1);
+
+PROC
+PROC_Act3_FlorrickExecution_CancelHangedState((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Act3_FlorrickExecution_Hangmen(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, 1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var5, 0);
+RemoveStatus(_Var1, "DIE_HANGING_TECHNICAL");
+Transform(_Var1, _Var2, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+NOT DB_Act3_FlorrickExecution_Hangmen(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, 1);
+DB_Act3_FlorrickExecution_Hangmen(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, 2);
+
+IF
+AddedTo((GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Act3_FlorrickExecution_Hangmen(_Var1, _, _, _, _, _, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Act3_FlorrickExecution_CancelHangedState(_Var1);
+
+IF
+AttackedBy((GUIDSTRING)_Var1, _, _, _, _, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Act3_FlorrickExecution_Hangmen(_Var1, _, _, _, _, _, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_Act3_FlorrickExecution_CancelHangedState(_Var1);
+
+IF
+UsingSpellOnTarget(_, (GUIDSTRING)_Var2, _, _, _, _, _, _, _, _)
+AND
+DB_Act3_FlorrickExecution_Hangmen(_Var2, _, _, _, _, _, 1, _, _, _)
+THEN
+PROC_Act3_FlorrickExecution_CancelHangedState(_Var2);
+
+IF
+ForceMoveStarted(_, (GUIDSTRING)_Var2, _, _, _)
+AND
+DB_Act3_FlorrickExecution_Hangmen(_Var2, _, _, _, _, _, 1, _, _, _)
+THEN
+PROC_Act3_FlorrickExecution_CancelHangedState(_Var2);
+
+IF
+LeftTrigger(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_LOW_BasiliskGate_FlorrickExecution_BodyPresenceCheckArea_46b08f47-5c64-4f98-8667-6d514bb2c0cc, _, _, _)
+THEN
+SetFlag(LOW_BasiliskGate_FlorrickExecution_FlorrcikBodyGone_6e1907c4-e474-483e-974a-b1ab422dee8b);
+
+IF
+AddedTo(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(LOW_BasiliskGate_FlorrickExecution_FlorrcikBodyGone_6e1907c4-e474-483e-974a-b1ab422dee8b);
+
+IF
+RemovedFrom(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _, _, _, _)
+AND
+DB_InRegion(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_LOW_BasiliskGate_FlorrickExecution_BodyPresenceCheckArea_46b08f47-5c64-4f98-8667-6d514bb2c0cc, _, _, _)
+THEN
+ClearFlag(LOW_BasiliskGate_FlorrickExecution_FlorrcikBodyGone_6e1907c4-e474-483e-974a-b1ab422dee8b);
+
+IF
+DB_InRegion(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_LOW_BasiliskGate_FlorrickExecution_BodyPresenceCheckArea_46b08f47-5c64-4f98-8667-6d514bb2c0cc, _, _, _)
+AND
+IsInInventory(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, 0, _, _, _)
+THEN
+ClearFlag(LOW_BasiliskGate_FlorrickExecution_FlorrcikBodyGone_6e1907c4-e474-483e-974a-b1ab422dee8b);
+
+IF
+LevelLoaded("END_Main", _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_WyrmRockPrison_State_FlorrickEscaped_a84a5b16-ca29-43c3-91bf-17def670ba07, _, _, _, _)
+AND
+QRY_LOW_BasiliskGate_FlorrickExecution(0, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

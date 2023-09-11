@@ -1,0 +1,601 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_PreventPermaDefeated(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10);
+DB_IgnoreAssault(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10);
+SetOnStage(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, 0);
+SetOnStage(S_ORI_DarkUrge_ButlerVoiceStandin_f79ea93e-4696-40d5-b146-7ae02686eaaf, 0);
+DB_GLO_PartyMembers_DefaultFaction(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, Hero_a1542c81-6895-929e-4522-10ce218bb360);
+DB_GLO_ORI_DarkUrge_ButlerConfigs("SCL_Main_A", "SCL_DarkUrge_Butler");
+DB_GLO_ORI_DarkUrge_ButlerConfigs("WYR_Main_A", "WYR_DarkUrge_Butler");
+DB_GLO_ORI_DarkUrge_ButlerHats(ARM_Hat_Butler_198e801b-b91e-4b78-b8a6-4fe630a6a3f1);
+DB_GLO_ORI_DarkUrge_ButlerHats(MAG_Hat_Butler_14b2e775-9734-4fa0-82c3-2e560b8f2e2f);
+DB_OriginPartOfTheTeamFlag(S_DEN_Bard_4a405fba-3000-4c63-97e5-a8001ebb883c, GLO_Origin_PartOfTheTeam_Alfira_f5d7c888-ccce-4a30-a0a8-6ac0c9f4c094, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, REALLY_DARK_URGE_cd611d7d-b67d-42b4-a75c-a0c6091ef8a2, 1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge(_Var1);
+DB_OriginCampFlags(_Var1, DARKURGE_68888003-acaa-49d5-b4f2-0c6293797e59, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_OriginInPartyGlobal(_Var1, ORI_DarkUrge_State_IsInParty_126c47da-7d24-49ce-b06f-5a44f09ee87e);
+DB_OriginPartOfTheTeamFlag(_Var1, GLO_Origin_PartOfTheTeam_DarkUrge_fbf4c4a8-99bb-4e62-a78c-cc9c115bd938, GLO_Origin_Avatar_DarkUrge_d41b2dd7-42ba-4fe5-a5cc-543d9af608d4, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_PartyMembers_DefaultFaction(_Var1, Companion11_a36493ce-5798-d27f-1e24-01cb79fbdb1b);
+DB_GLO_DieFlag(ORI_DarkUrge_Butler_State_PermaDead_d2f18c09-105a-7cbd-8c44-9a323ca0ce28, S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, 0, _Var1);
+
+IF
+TagSet((CHARACTER)_Var1, REALLY_DARK_URGE_cd611d7d-b67d-42b4-a75c-a0c6091ef8a2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge(_Var1);
+DB_OriginCampFlags(_Var1, DARKURGE_68888003-acaa-49d5-b4f2-0c6293797e59, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_OriginInPartyGlobal(_Var1, ORI_DarkUrge_State_IsInParty_126c47da-7d24-49ce-b06f-5a44f09ee87e);
+DB_OriginPartOfTheTeamFlag(_Var1, GLO_Origin_PartOfTheTeam_DarkUrge_fbf4c4a8-99bb-4e62-a78c-cc9c115bd938, GLO_Origin_Avatar_DarkUrge_d41b2dd7-42ba-4fe5-a5cc-543d9af608d4, NULL_00000000-0000-0000-0000-000000000000);
+DB_GLO_PartyMembers_DefaultFaction(_Var1, Companion11_a36493ce-5798-d27f-1e24-01cb79fbdb1b);
+DB_GLO_DieFlag(ORI_DarkUrge_Butler_State_PermaDead_d2f18c09-105a-7cbd-8c44-9a323ca0ce28, S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, 0, _Var1);
+
+IF
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveLevel("TUT_Avernus_C", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_TUT_Start_JournalUpdate(_Var1, "ORI_Avatar_DarkUrge", "Start");
+
+IF
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ActiveLevel("TUT_Avernus_C", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "ORI_Avatar_DarkUrge", "Start");
+
+IF
+TextEvent("darkurge", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(GEN_MaxPlayerCountReached_823b5064-8aa4-c0b7-1b8c-657b46987ccd, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Party Full");
+
+IF
+TextEvent("darkurge", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GEN_MaxPlayerCountReached_823b5064-8aa4-c0b7-1b8c-657b46987ccd, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, 1);
+TeleportTo(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, _Var1);
+MakePlayer(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, _Var1);
+DB_Players(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3);
+PROC_CheckPartyFull();
+SetFlag(SetPreset_Default_7eabc516-c15c-46ff-a99d-60d4a9f7037e, S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, 0);
+SetTag(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+
+IF
+TextEvent("darkurge", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(GEN_MaxPlayerCountReached_823b5064-8aa4-c0b7-1b8c-657b46987ccd, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, 1);
+TeleportTo(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, _Var1);
+MakePlayer(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, _Var1);
+DB_Players(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3);
+PROC_CheckPartyFull();
+SetFlag(SetPreset_Default_7eabc516-c15c-46ff-a99d-60d4a9f7037e, S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, 0);
+SetTag(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+
+QRY
+QRY_Camp_StartSoloDream_CustomDialogStart((DIALOGRESOURCE)_Var1, (CHARACTER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Camp_DarkUrge_ButlerDream(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CampNight_Darkurge_BringInButler()
+AND
+QRY_StartDialog_Fixed(_Var1, S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var2, _Var1, _Var1)
+THEN
+MakePlayerActive(_Var2);
+
+QRY
+QRY_CampNight_Darkurge_BringInButler()
+AND
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var1, _, _, _Var4, _Var1)
+THEN
+TeleportTo(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var4);
+SetVisible(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, 1);
+SetDetached(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, 0);
+Resurrect(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10);
+NOT DB_DefeatedCauses(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, "Dead", 0);
+NOT DB_Dead(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10);
+PROC_Foop(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, VFX_Script_Stub_Poof_01_NoSound_de020641-4dbd-855e-9b2f-f008a32d6737);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, _, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_Camp_DarkUrge_ButlerDream(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_Poof(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, VFX_Script_Stub_Poof_01_NoSound_de020641-4dbd-855e-9b2f-f008a32d6737);
+
+IF
+DB_ORI_DarkUrge_FavouriteCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_OriginCampFlags(_Var1, _Var2, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CampNight_Requirement(NIGHT_DarkUrge_SparedIsobel_bc8b660e-33e9-44f7-9bc2-b869db5ac1f8, ORI_DarkUrge_SparedIsobel_Requirement_7b24b6bb-f9ef-414e-92e8-a662ce41fced, DARKURGE_68888003-acaa-49d5-b4f2-0c6293797e59, _Var2);
+NOT DB_CampNight_Requirement(NIGHT_DarkUrge_SparedIsobel_bc8b660e-33e9-44f7-9bc2-b869db5ac1f8, ORI_DarkUrge_SparedIsobel_Requirement_7b24b6bb-f9ef-414e-92e8-a662ce41fced, DARKURGE_68888003-acaa-49d5-b4f2-0c6293797e59, IMPOSSIBLE_6e4b66e9-0f72-5171-04ba-441108b45b0e);
+
+IF
+DB_CampNight_Requirement(NIGHT_DarkUrge_SparedIsobel_bc8b660e-33e9-44f7-9bc2-b869db5ac1f8, ORI_DarkUrge_SparedIsobel_Requirement_7b24b6bb-f9ef-414e-92e8-a662ce41fced, DARKURGE_68888003-acaa-49d5-b4f2-0c6293797e59, _Var1, _Var1)
+AND
+DB_OriginCampFlags(_Var2, _Var1, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_FavouriteCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CampNight_Requirement(NIGHT_DarkUrge_SparedIsobel_bc8b660e-33e9-44f7-9bc2-b869db5ac1f8, ORI_DarkUrge_SparedIsobel_Requirement_7b24b6bb-f9ef-414e-92e8-a662ce41fced, DARKURGE_68888003-acaa-49d5-b4f2-0c6293797e59, _Var1);
+DB_CampNight_Requirement(NIGHT_DarkUrge_SparedIsobel_bc8b660e-33e9-44f7-9bc2-b869db5ac1f8, ORI_DarkUrge_SparedIsobel_Requirement_7b24b6bb-f9ef-414e-92e8-a662ce41fced, DARKURGE_68888003-acaa-49d5-b4f2-0c6293797e59, IMPOSSIBLE_6e4b66e9-0f72-5171-04ba-441108b45b0e);
+
+IF
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "ORI_DARKURGE_BLOODIEDSTART", 1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "ORI_DARKURGE_BLOODIEDSTART", _, _, (GUIDSTRING)_Var1)
+THEN
+RemoveStatus(_Var1, "ORI_DARKURGE_BLOODIEDSTART", NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_TUT_Start_NonRandomPodStart(_Var1, TUT_DarkUrge_Start_58fb9ec7-966f-619d-ed1a-b1dbba06d7d9, S_TUT_PlayerPod_002_4a9d344d-8bfa-4bea-a8dd-cc54327b0cfb);
+
+PROC
+PROC_Tutorial_Start()
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(TUT_DarkUrge_Start_58fb9ec7-966f-619d-ed1a-b1dbba06d7d9, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetWeaponUnsheathed(_Var1, 1, 1);
+
+IF
+FlagSet(ORI_DarkUrge_State_BhaalAccepted_904c45e0-bb06-40ed-b5d7-4f1c851b9d86, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10);
+SetOnStage(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, 1);
+DB_Dialogs(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, GLO_DarkUrge_Butler_6dedd871-ae5b-a47d-bd93-a6f7f21578ea);
+PROC_ORI_SetupCamp(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, 1);
+
+PROC
+PROC_DialogFlagSetup(GLO_DarkUrge_Butler_6dedd871-ae5b-a47d-bd93-a6f7f21578ea, S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_ORI_DarkUrge_WearingHatForDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(ORI_DarkUrge_State_WearingButlerHat_d8d86554-91cd-d64d-c713-6011155814b6, _Var1, 0);
+
+PROC
+PROC_DialogFlagSetup(LOW_BhaalTemple_MainDoor_6879d3df-5c9c-6cd6-78ca-340aadfbd989, _, (CHARACTER)_Var2, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND NOT
+QRY_ORI_DarkUrge_WearingHatForDialog(_Var2, _, _, _, _)
+THEN
+ClearFlag(ORI_DarkUrge_State_WearingButlerHat_d8d86554-91cd-d64d-c713-6011155814b6, _Var2, 0);
+
+QRY
+QRY_ORI_DarkUrge_WearingHatForDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetEquippedItem(_Var1, "Helmet", _Var2, _Var1, _Var1)
+AND
+GetTemplate(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ORI_DarkUrge_ButlerHats(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetArmourSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetArmourSet(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_DarkUrge_State_WearingButlerHat_d8d86554-91cd-d64d-c713-6011155814b6, _Var1, 0);
+
+IF
+FlagSet(ORI_DarkUrge_State_SlayerForm_88b450d5-3815-4f5d-0c6f-0de221513d64, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "SLAYER_PLAYER", 0, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SLAYER_PLAYER", -1, 0, _Var1);
+
+IF
+FlagCleared(ORI_DarkUrge_State_SlayerForm_88b450d5-3815-4f5d-0c6f-0de221513d64, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "SLAYER_PLAYER", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "SLAYER_PLAYER", _Var1);
+
+IF
+StatusApplied((CHARACTER)_Var1, "SLAYER_PLAYER", _, _, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_DarkUrge_State_SlayerForm_88b450d5-3815-4f5d-0c6f-0de221513d64, _Var1, 0);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "SLAYER_PLAYER", _, _, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(ORI_DarkUrge_State_SlayerForm_88b450d5-3815-4f5d-0c6f-0de221513d64, _Var1, 0);
+
+IF
+StatusAttemptFailed((CHARACTER)_Var1, "SLAYER_PLAYER", _, _, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(ORI_DarkUrge_State_SlayerForm_88b450d5-3815-4f5d-0c6f-0de221513d64, _Var1, 0);
+
+IF
+FlagSet(ORI_DarkUrge_State_GivenSlayerForm_14aec5bc-1013-4845-96ca-20722c5219e3, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+AddSpell(_Var3, "Shout_DarkUrge_Slayer", 1, 1);
+
+IF
+FlagCleared(ORI_DarkUrge_State_GivenSlayerForm_14aec5bc-1013-4845-96ca-20722c5219e3, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+AND
+HasSpell(_Var3, "Shout_DarkUrge_Slayer", 1, _, _)
+THEN
+RemoveSpell(_Var3, "Shout_DarkUrge_Slayer", 1);
+
+IF
+CastSpell((CHARACTER)_Var1, "Shout_DarkUrge_Slayer", _, _, _)
+AND
+QRY_OnlyOnce("GLO_DarkUrge_VB_SeesDUBecomeSlayer", _Var1, _Var1, _Var1, _Var1)
+THEN
+StartVoiceBark(GLO_DarkUrge_VB_SeesDUBecomeSlayer_bca55271-3372-65d6-27f7-207c2322d4cb, _Var1);
+
+IF
+FlagSet(ORI_DarkUrge_Butler_State_PermaDead_d2f18c09-105a-7cbd-8c44-9a323ca0ce28, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+NOT DB_PreventPermaDefeated(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10);
+
+IF
+AddedTo(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_ORI_DarkUrge_ButlerHolder(_, _, 0, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_DarkUrge_ButlerHolder(_Var1, _Var5, 0);
+
+IF
+RemovedFrom(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ORI_DarkUrge_ButlerHolder(_Var1, _Var2, 0, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_ButlerHolder(_Var1, _Var2, 0);
+
+IF
+DB_ORI_DarkUrge_ButlerHolder(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_ButlerHolder(_Var1, _Var2, 1);
+TemplateAddTo(DEC_GEN_Gore_Pile_A_DarkUrgeButler_af5c6cb4-7536-4824-9fae-41bf76459ecc, _Var1, 1, 0);
+
+IF
+DB_ORI_DarkUrge_OldLoc(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CreateAt(DEC_GEN_Gore_Pile_A_DarkUrgeButler_af5c6cb4-7536-4824-9fae-41bf76459ecc, _Var2, _Var3, _Var4, 0, 0, "", _, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_OldLoc(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_ORI_DarkUrge_CreateGiblets()
+AND
+QRY_IncreaseCounter("ORI_DarkUrge_Giblets", _, _, _, _)
+AND
+DB_GlobalCounter("ORI_DarkUrge_Giblets", _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 <= 11
+THEN
+PROC_ORI_DarkUrge_DoCreateGiblets();
+
+PROC
+PROC_ORI_DarkUrge_DoCreateGiblets()
+AND
+DB_ORI_DarkUrge_ButlerHolder(_Var1, _Var2, 0, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_ButlerHolder(_Var1, _Var2, 0);
+DB_ORI_DarkUrge_ButlerHolder(_Var1, _Var2, 1);
+
+PROC
+PROC_ORI_DarkUrge_DoCreateGiblets()
+AND
+GetRegion(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var2, _Var3, _Var4, _Var1)
+AND
+CreateAt(DEC_GEN_Gore_Pile_A_DarkUrgeButler_af5c6cb4-7536-4824-9fae-41bf76459ecc, _Var2, _Var3, _Var4, 0, 0, "", _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_ORI_DarkUrge_DoCreateGiblets()
+AND
+GetRegion(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_ORI_DarkUrge_OldLoc(_Var1, _Var2, _Var3, _Var4);
+
+IF
+Died(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_State_BhaalResisted_74944ac3-1ea0-4eae-9653-1f1319f8646b, _, _, _, _)
+THEN
+PROC_ORI_DarkUrge_CreateGiblets();
+SetOnStage(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, 0);
+
+QRY
+QRY_ORI_DarkUrge_ButlerNeededInTemple()
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_State_BhaalAccepted_904c45e0-bb06-40ed-b5d7-4f1c851b9d86, _, _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp_NightMode(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LongRest()
+AND
+DB_Dead(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_Butler_State_PermaDead_d2f18c09-105a-7cbd-8c44-9a323ca0ce28, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_State_BhaalResisted_74944ac3-1ea0-4eae-9653-1f1319f8646b, _, _, _, _)
+THEN
+Resurrect(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_ORI_DarkUrge_RestoreButlerPosition();
+
+PROC
+PROC_LongRest()
+AND NOT
+DB_Dead(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_Butler_State_PermaDead_d2f18c09-105a-7cbd-8c44-9a323ca0ce28, _, _, _, _)
+AND
+DB_Defeated(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _, _, _, _)
+AND NOT
+DB_GlobalFlag(ORI_DarkUrge_State_BhaalResisted_74944ac3-1ea0-4eae-9653-1f1319f8646b, _, _, _, _)
+THEN
+PROC_CharacterFullRestore(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10);
+PROC_ORI_DarkUrge_RestoreButlerPosition();
+
+PROC
+PROC_ORI_DarkUrge_RestoreButlerPosition()
+AND
+QRY_ORI_DarkUrge_ButlerInCamp()
+AND
+DB_ORI_OriginCampData(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var1, _Var2, _Var1, _Var1)
+THEN
+TeleportTo(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var2, "", 0, 0, 1);
+SetOnStage(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, 1);
+
+IF
+Died(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _, _, _, _)
+THEN
+SetFlag(ORI_DarkUrge_Butler_Event_Died_b0ac69bd-21c6-4a5f-8f44-8802c20dce23, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+KilledBy(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, (GUIDSTRING)_Var1, _, _, (GUIDSTRING)_Var1)
+AND
+DB_ORI_DarkUrge_ButlerKiller(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 != _Var1
+THEN
+NOT DB_ORI_DarkUrge_ButlerKiller(_Var4);
+ClearFlag(ORI_DarkUrge_State_ButlerKiller_ac1f731c-0b50-3b60-5c4f-3120cbe5fc12, _Var1, 0);
+
+IF
+KilledBy(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, (CHARACTER)_Var1, _, _, (CHARACTER)_Var1)
+AND
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ORI_DarkUrge_ButlerKiller(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_DarkUrge_ButlerInCamp()
+THEN
+DB_ORI_DarkUrge_ButlerKiller(_Var1);
+SetFlag(ORI_DarkUrge_State_ButlerKiller_ac1f731c-0b50-3b60-5c4f-3120cbe5fc12, _Var1, 0);
+
+IF
+FlagCleared(ORI_DarkUrge_State_ButlerKiller_ac1f731c-0b50-3b60-5c4f-3120cbe5fc12, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge_ButlerKiller(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ORI_DarkUrge_ButlerKiller(_Var1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime(_, _, _, _, S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ORI_DarkUrge_ButlerInCamp()
+AND
+DB_GlobalFlag(ORI_DarkUrge_State_BhaalAccepted_904c45e0-bb06-40ed-b5d7-4f1c851b9d86, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_ORI_DarkUrge_ButlerInCamp()
+AND
+DB_ORI_DarkUrge_Debug_ButlerToCamp(1, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_DialogSpeakers(_Var2, S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var4, _, _Var1, _Var1)
+AND
+GetFlag(ORI_DarkUrge_Knows_ButlerDied_6832b15a-2883-4c3d-b71a-b14ef967a32e, _Var4, 1, _Var1, _Var1)
+THEN
+SetFlag(ORI_DarkUrge_Knows_ButlerDiedReaction_98596b7d-f15e-4590-995a-8827f9d5287b, _Var4, 1);
+
+QRY
+QRY_GLO_PartyMembers_GetInPartyDialog((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_PartyMembers_InPartyDialog(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_GLO_PartyMembers_GetInPartyDialog(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, _, _, _, _)
+THEN
+DB_GLO_PartyMembers_InPartyDialog(S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+StatusApplied((CHARACTER)_Var1, "UND_NOBLESTALK", _, _, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8, 1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_DarkUrge_Heal_Mushroom", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(ORI_DarkUrge_Healed_988dc8d4-cd32-9d0d-5e4c-a5857bc2fb1d, S_ORI_DarkUrge_ButlerVoiceStandin_f79ea93e-4696-40d5-b146-7ae02686eaaf, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_DarkUrge_Event_AteMushroom_3a67a8ff-f4a6-5aa2-a503-e5faffeed82c, _Var1, 0);
+SetFlag(ORI_DarkUrge_State_RecoveredMemories_64592b1f-44fc-4725-a3cb-0891ba662e28, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+UsingSpellOnTarget(_, (CHARACTER)_Var2, "Target_Heal", _, _, _, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var2, _, _, _, _)
+AND
+IsTagged(_Var2, HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8, 1, _, _)
+AND
+QRY_OnlyOnce("ORI_DarkUrge_Heal", _, _, _, _)
+AND
+QRY_StartDialog_Fixed(ORI_DarkUrge_Healed_988dc8d4-cd32-9d0d-5e4c-a5857bc2fb1d, S_ORI_DarkUrge_ButlerVoiceStandin_f79ea93e-4696-40d5-b146-7ae02686eaaf, _Var2, _, _)
+THEN
+ClearFlag(ORI_DarkUrge_Event_AteMushroom_3a67a8ff-f4a6-5aa2-a503-e5faffeed82c, _Var2, 0);
+SetFlag(ORI_DarkUrge_State_RecoveredMemories_64592b1f-44fc-4725-a3cb-0891ba662e28, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EnteredLevel((CHARACTER)_Var1, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_DarkUrge(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_ORI_DarkUrge_ButlerVoiceStandin_f79ea93e-4696-40d5-b146-7ae02686eaaf, _Var1);
+
+IF
+GameBookInterfaceClosed(S_MOO_NecromancerLab_DUBackgroundBook_f19e7958-819d-473e-bed3-5aa5fb4101a3, S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3, _, _, _)
+AND
+QRY_OnlyOnce("MOO_NecromancerLab_AD_DUBackgroundBook", _, _, _, _)
+THEN
+PROC_TryStartAD(MOO_NecromancerLab_AD_DUBackgroundBook_6b576b9d-ebaa-c2af-3955-7805d282b8c9, S_Player_DarkUrge_c66bc36f-7cb0-41fa-92f0-6d81d7d17ba3);
+
+IF
+EnteredLevel(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _, (STRING)_Var2, _, _)
+AND
+QRY_ORI_DarkUrgeButler_Config(_Var2, _, _, _, _)
+AND
+DB_QRYRTN_DarkUrgeButler_Config(_Var3, _, _, _, _)
+THEN
+PROC_SetAnubisConfig(S_GLO_DarkUrge_Butler_f3486165-268f-4e41-9e0c-51485dfdff10, _Var3);
+
+QRY
+QRY_ORI_DarkUrgeButler_Config((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GlobalFlag(ORI_DarkUrge_State_BhaalAccepted_904c45e0-bb06-40ed-b5d7-4f1c851b9d86, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DarkUrgeButler_Config("WYR_DarkUrge_Butler");
+
+QRY
+QRY_ORI_DarkUrgeButler_Config((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_DarkUrgeButler_Config(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_ORI_DarkUrge_ButlerConfigs(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DarkUrgeButler_Config(_Var3);
+
+QRY
+QRY_ORI_DarkUrgeButler_Config((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_DarkUrgeButler_Config(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_DarkUrgeButler_Config("GLO_DarkUrge_Butler");
+
+IF
+FlagSet(ORI_DarkUrge_State_GivenSlayerForm_14aec5bc-1013-4845-96ca-20722c5219e3, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "ORI_Avatar_DarkUrge", "AlfiraKilled_Reward");
+
+IF
+FlagSet(ORI_DarkUrge_Quest_CrownedNetherbrain_9a885a28-82df-c786-6289-7746e90cc6ca, _, _, _, _)
+AND
+DB_ORI_DarkUrge(_Var3, _, _, _, _)
+THEN
+QuestUpdate(_Var3, "ORI_Avatar_DarkUrge", "ORI_Avatar_DarkUrge_OldFriends_End");
+
+IF
+FlagSet(TG_DarkUrge_SlayerForm_2784c68b-bbd0-4a7a-b382-61b11554e3bb, (GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetFlag(ORI_DarkUrge_Knows_BraggedSlayerForm_ffcc134e-c197-5727-cf61-66e7480d39f2, _Var1, 1, _Var1, _Var1)
+THEN
+ClearFlag(TG_DarkUrge_SlayerForm_2784c68b-bbd0-4a7a-b382-61b11554e3bb, _Var1, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

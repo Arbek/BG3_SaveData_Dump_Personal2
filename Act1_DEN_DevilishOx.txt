@@ -1,0 +1,80 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+SetStoryDisplayName(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "GLO_DevilishOx_PolymorphedName");
+SetFaction(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, ACT1_DEN_TieflingPet_ab6c1d9e-9305-4399-aaa3-b390158be87e);
+SetLevel(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 1);
+DB_DefeatedEvent(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, GLO_DevilishOx_State_Defeated_4061b72f-ce89-4b86-b18b-ed9c5fbc7cc8);
+PROC_TriggerRegisterForPlayers(S_DEN_OxKnowledgeCheck_0bf408e4-4af6-4f30-ac5d-1067aba52d99);
+TriggerRegisterForCharacter(S_DEN_OxADArea_56e5be8d-7453-4604-a665-fc1a0b7b79b3, S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56);
+DB_KnowledgeCheckTrigger("DEN_DevilishOx_Investigation", S_DEN_OxKnowledgeCheck_0bf408e4-4af6-4f30-ac5d-1067aba52d99, "Insight", Act1_Medium_fa621d38-6f83-4e42-a55c-6aa651a75d46);
+DB_Dialogs(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, DEN_DevilishOx_MeetAtDruidsGrove_c42ef318-4b9a-42bf-4c7c-fb60ee18ff27);
+
+KBSECTION
+IF
+TextEvent("KillDevilishOx", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Die(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 0, 0);
+
+IF
+TextEvent("MetOxIn_DruidsGrove", _, _, _, _)
+THEN
+SetFlag(DEN_DevilishOx_MeetAtDruidsGrove_HasMet_SwA_94637372-3365-4c0c-97fa-59b7d089cd53);
+
+IF
+DB_Defeated(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, _, _, _)
+THEN
+TriggerUnregisterForPlayers(S_DEN_OxKnowledgeCheck_0bf408e4-4af6-4f30-ac5d-1067aba52d99);
+
+IF
+DB_PermaDefeated(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, _, _, _, _)
+THEN
+TriggerUnregisterForPlayers(S_DEN_OxKnowledgeCheck_0bf408e4-4af6-4f30-ac5d-1067aba52d99);
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((CHARACTER)_Var1, "DEN_DevilishOx_Investigation", S_DEN_OxKnowledgeCheck_0bf408e4-4af6-4f30-ac5d-1067aba52d99, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_TryStartAD(DEN_DevilishOx_PAD_FirstInsight_ee3df178-2a9b-5fc9-e3fc-f9357e063bc1, _Var1);
+SetFlag(DEN_DevilishOx_State_InsightCheckSucceeded_36e186dc-ba92-4ac1-8dbd-f41a2b97d8d0);
+
+IF
+DialogEnded(DEN_DevilishOx_MeetAtDruidsGrove_c42ef318-4b9a-42bf-4c7c-fb60ee18ff27, _, _, _, _)
+AND
+DB_Players(_Var2, _, _, _, _)
+AND
+IsTagged(_Var2, PETPAL_dc860a81-f3c2-4c1a-ab90-e7583324845c, 1, _, _)
+AND
+QRY_OnlyOnce("DEN_DevilishOx_ToronReaction", _, _, _, _)
+THEN
+PROC_TryStartAD(DEN_DevilishOx_AD_ToronCurious_a1bae388-a5ed-bdd1-a38e-95a04aa8b0bd, S_DEN_TieflingRefugee_004_bc4c4282-86b0-4330-9df8-246ed0a704a2);
+DB_SpotPlayers(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "DEN_DevilishOx_Spotted", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "DEN_DevilishOx_Spotted", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce("DEN_DevilishOx_SpotsPlayer", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DEN_DevilishOx_AD_OxReaction_49feacbb-c535-9b59-942a-c95962023648, S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56);
+
+IF
+ShapeshiftedHitpointsChanged(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+_Var1 <= 0
+THEN
+Die(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 0, 0);
+CreateExplosion(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, "Projectile_DEN_PhasmExplosion", -1, S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56);
+PlayEffect(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, VFX_Spells_Cast_Damage_Acid_GlyphOfWarding_Impact_01_df89b99e-113b-b37f-7838-d600b5d22c44, "Dummy_Root");
+
+IF
+DB_State_Current(S_DEN_RangerDen_SUB_50062397-bf9c-4765-9cbc-e40b5148f211, "DEN", "DEN_State_AttackOnDen", _, _)
+THEN
+PROC_SetOnStage(S_GLO_DevilishOx_49eb5b4b-c6ed-4d37-8f68-97b1128b7d56, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

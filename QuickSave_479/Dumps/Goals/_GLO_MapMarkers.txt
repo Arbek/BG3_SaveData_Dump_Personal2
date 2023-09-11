@@ -1,0 +1,43 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_ShowMarker((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_ActivePlayerMarker(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_ActivePlayerMarker(_Var1, _Var2);
+ShowMapMarker(_Var1, _Var2, 1);
+
+PROC
+PROC_HideMarker((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActivePlayerMarker(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ActivePlayerMarker(_Var1, _Var2);
+ShowMapMarker(_Var1, _Var2, 0);
+
+PROC
+PROC_UnlockPartyMarker((STRING)_Var1, (TRIGGER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_PartyMarker_HasBeenActivated(_Var2, _, _Var1, _Var1, _Var1)
+THEN
+DB_PartyMarker_HasBeenActivated(_Var2, _Var1);
+PROC_TriggerRegisterForPlayers(_Var2);
+PROC_ShowMarker(NULL_00000000-0000-0000-0000-000000000000, _Var1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMarker_HasBeenActivated(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_HideMarker(NULL_00000000-0000-0000-0000-000000000000, _Var3);
+PROC_TriggerUnregisterForPlayers(_Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

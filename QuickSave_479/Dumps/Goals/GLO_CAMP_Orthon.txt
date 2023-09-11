@@ -1,0 +1,64 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CampNight(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, 7130);
+DB_CampNight_Camp(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, "FARM");
+DB_CampNight_Camp(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, "SLUMS");
+DB_CampNight_Camp(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, "ELFSONG");
+DB_CampNight_Requirement(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, SHA_Orthon_State_ContractEnded_26c35edd-3617-82b3-b4d7-1b7bb6410485, WYR_RaphaelTango_State_DiscussedDeal_9896c94b-431e-4b0e-90ce-80293ffb1198);
+DB_CampNight_CRD(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, CAMP_Orthon_DiabolistHint_698c239b-4a50-95c7-c9b5-02f1adfa0098, NULL_00000000-0000-0000-0000-000000000000);
+DB_CampNight_CancelledBy(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, SHA_Orthon_State_DefeatedOnce_8dd589d6-90fc-4a3b-b369-10440bd56520);
+DB_OriginCampFlags(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, ORTHON_d7bad33e-4308-4119-ad60-9ce95711c2f5, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_OriginInPartyDialog(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, CAMP_Orthon_DiabolistHint_698c239b-4a50-95c7-c9b5-02f1adfa0098);
+DB_CAMP_OrthonVisit_PosTriggers("FARM", S_CAMP_FARM_Orthon_6e0e4155-a468-4339-93d4-5b43dbdc848a);
+DB_CAMP_OrthonVisit_PosTriggers("SLUMS", S_CAMP_SLUMS_Orthon_9fa37f75-35e4-4171-8af9-ce080df080ff);
+DB_CAMP_OrthonVisit_PosTriggers("ELFSONG", S_CAMP_ELFSONG_Orthon_18dc5deb-bac4-42a3-aea5-9953157575e5);
+
+KBSECTION
+IF
+DB_CAMP_OrthonVisit_PosTriggers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_ORI_OriginCampData(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _Var1, _Var2);
+
+PROC
+PROC_CampNight_StartSelected()
+AND
+DB_Camp_QueuedNight(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, _, _, _, _)
+THEN
+PurgeOsirisQueue(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c);
+PROC_SetAnubisConfig(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, "DefaultCharacter");
+SetEntityEvent(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, "ClearPeaceReturn");
+PROC_ORI_SetupCamp(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, 1);
+PROC_Foop(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, VFX_Script_FieryPoof_01_90e5c093-038c-34c7-3eb4-255c968f0932);
+
+IF
+DB_InCamp(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND
+DB_Camp_QueuedNight(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, _, _, _, _)
+AND
+QRY_OnlyOnce("FCRD_Orthon_DiabolistHint", _, _, _, _)
+THEN
+PROC_CampRelationshipDialog(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, CAMP_Orthon_DiabolistHint_698c239b-4a50-95c7-c9b5-02f1adfa0098, FCRD_Orthon_DiabolistHint_1688abb6-8a06-49b9-ad11-02ca822d438c, 0);
+PROC_Try_CampRelationshipDialog(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, 1);
+
+IF
+DialogEnded(CAMP_Orthon_DiabolistHint_698c239b-4a50-95c7-c9b5-02f1adfa0098, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SetCanFight(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, 1);
+PROC_Poof(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, VFX_Script_FieryPoof_01_90e5c093-038c-34c7-3eb4-255c968f0932);
+
+QRY
+QRY_CampNight_AtLeastOneCompanionAvailableForCRD(NIGHT_OrthonVisit_0f675d1a-5b1b-4e44-99fb-628ee14016e9, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orthon_1dc8091d-2af6-4d33-9268-998ef266d19c, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SHA_Orthon_State_DefeatedOnce_8dd589d6-90fc-4a3b-b369-10440bd56520, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

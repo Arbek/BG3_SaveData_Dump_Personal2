@@ -1,0 +1,185 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_GLO_NarrativeCombat_ID("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_NarrativeCombat_Participant("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_NarrativeCombat_WasParticipant("", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_NarrativeCombat_GenericException("");
+NOT DB_GLO_NarrativeCombat_GenericExceptionParticipant("", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_GLO_NarrativeCombat_Region("", NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+PROC
+PROC_GLO_NarrativeCombat_StartCombat((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+CreateNarrativeCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_NarrativeCombat_ID(_Var1, _Var2);
+PROC_GLO_NarrativeCombat_IDGenerated(_Var1, _Var2);
+
+PROC
+PROC_GLO_NarrativeCombat_IDGenerated((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_NarrativeCombat_JoinCombat((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_ID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IsInNarrativeCombat(_Var2, _Var3, 0, _Var1, _Var1)
+AND NOT
+DB_GLO_NarrativeCombat_Participant(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+SetInNarrativeCombat(_Var2, _Var3, 1);
+DB_GLO_NarrativeCombat_Participant(_Var1, _Var3, _Var2);
+PROC_GLO_NarrativeCombat_ParticipantJoined(_Var1, _Var2);
+
+PROC
+PROC_GLO_NarrativeCombat_ParticipantJoined((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_ID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_NarrativeCombat_WasParticipant(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+DB_GLO_NarrativeCombat_WasParticipant(_Var1, _Var3, _Var2);
+
+PROC
+PROC_GLO_NarrativeCombat_ParticipantJoined((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_NarrativeCombat_LeaveCombat((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_ID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IsInNarrativeCombat(_Var2, _Var3, 1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Participant(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_GLO_NarrativeCombat_Participant(_Var1, _Var3, _Var2);
+SetInNarrativeCombat(_Var2, _Var3, 0);
+PROC_GLO_NarrativeCombat_ParticipantLeft(_Var1, _Var2);
+
+PROC
+PROC_GLO_NarrativeCombat_ParticipantLeft((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_Region(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_CharacterEnteredRegion(_Var1, _Var2);
+
+PROC
+PROC_GLO_NarrativeCombat_CharacterEnteredRegion((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Downed(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Participant(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_NarrativeCombat_IsNotException(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_LeaveCombat(_Var2, _Var1);
+
+IF
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Participant(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_NarrativeCombat_IsNotException(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_LeaveCombat(_Var2, _Var1);
+
+QRY
+QRY_GLO_NarrativeCombat_IsNotException((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_NarrativeCombat_GenericException(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_NarrativeCombat_GenericExceptionParticipant(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_ID(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_NarrativeCombat_IsNotException(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_JoinCombat(_Var3, _Var1);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_Region(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_CharacterLeftRegion(_Var3, _Var1, _Var2);
+PROC_GLO_NarrativeCombat_CheckForAnyPlayersInRegion(_Var2);
+
+PROC
+PROC_GLO_NarrativeCombat_CharacterLeftRegion((STRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_NarrativeCombat_CheckForAnyPlayersInRegion((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_TriggerEvents_AnyPartyMemberInTrigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Region(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_AllPlayersLeftRegion(_Var1);
+
+PROC
+PROC_GLO_NarrativeCombat_AllPlayersLeftRegion((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_NarrativeCombat_EndCombat((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_ID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_Participant(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_NarrativeCombat_Participant(_Var1, _Var2, _Var3);
+
+PROC
+PROC_GLO_NarrativeCombat_EndCombat((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_ID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_WasParticipant(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_GLO_NarrativeCombat_WasParticipant(_Var1, _Var2, _Var3);
+
+PROC
+PROC_GLO_NarrativeCombat_EndCombat((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_NarrativeCombat_ID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DestroyNarrativeCombat(_Var2);
+NOT DB_GLO_NarrativeCombat_ID(_Var1, _Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

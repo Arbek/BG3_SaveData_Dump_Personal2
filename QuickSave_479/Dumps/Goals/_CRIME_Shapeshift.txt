@@ -1,0 +1,603 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_ShapeshiftDisturbance(INTELLECT_DEVOURER_69901347-23cb-4f60-abf3-527f23cdf0db, "ShapeshiftIntDev", "", "IntDevHostile");
+DB_CRIME_ShapeshiftDisturbance(CAT_a7d28634-e3bf-40c3-8d8c-e1daf4acad74, "CritterReaction", "", "Harmless");
+DB_CRIME_ShapeshiftDisturbance(RAVEN_ccf8ba00-8e00-4f74-b146-598f46c97e9a, "CritterReaction", "", "Harmless");
+DB_CRIME_ShapeshiftDisturbance(RAT_9568e56b-27a2-45fc-92c5-fa33eeb6f54c, "CritterReaction", "", "Harmless");
+DB_CRIME_ShapeshiftDisturbance(FROG_0976fc05-da0e-43ea-8978-5accef445e0f, "CritterReaction", "", "Harmless");
+DB_CRIME_ShapeshiftDisturbance(CRAB_757ee779-e15e-4663-8a56-ab8929f56c02, "CritterReaction", "", "Harmless");
+DB_CRIME_ShapeshiftDisturbance(BEAR_298e9df0-bd3c-40f4-82ae-14adb77d7c2e, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(WOLF_5f38a755-e386-4a3a-a145-d22c9d6bf6b7, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(BADGER_c00895b9-7d92-4848-af0b-477a231e00f5, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(SPIDER_8c8932c5-45f7-4d45-8f62-182db82ddcb0, "DangerousMonsterReaction_Beast_Spider", "DangerousMonsterReactionFallback_Beast_Spider", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(DEEPROTHE_bba2bcc8-eb3c-435d-97dd-f522ec43ee67, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(DINOSAUR_c485baa6-d363-462b-856d-d946b60aab61, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(BOAR_aa120bba-b749-4b54-8457-62ceae41688c, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(PANTHER_e1ad9942-fa0e-467b-bfe9-c6e7c6680a83, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(SABERTOOTH_83485d43-2f1a-4916-b428-ab3f37aafedf, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(OWLBEAR_70913187-25ac-4301-9c12-16baf3634c65, "DangerousMonsterReaction_Beast", "DangerousMonsterReactionFallback_Beast", "DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance(ELEMENTAL_196351e2-ff25-4e2b-8560-222ac6b94a54, "DangerousMonsterReaction", "DangerousMonsterReactionFallback", "DangerousMonster");
+DB_CRIME_ShapeshiftDisturbance(UNDEAD_33c625aa-6982-4c27-904f-e47029a9b140, "DangerousMonsterReaction", "DangerousMonsterReactionFallback", "DangerousMonster");
+DB_CRIME_ShapeshiftDisturbance(SLAYER_ff6e2e2e-198c-40e3-ae79-4499c5a59eea, "DangerousMonsterReaction", "DangerousMonsterReactionFallback", "DangerousMonster");
+DB_CRIME_ShapeshiftDisturbance(DISPLACER_BEAST_ba107054-6d0a-45de-93bc-06d72d4feeb3, "DangerousMonsterReaction", "DangerousMonsterReactionFallback", "DangerousMonster");
+DB_CRIME_ShapeshiftDisturbance_Dangerous("DangerousBeast");
+DB_CRIME_ShapeshiftDisturbance_Dangerous("DangerousMonster");
+NOT DB_CRIME_ShapeshiftSummonDisturbance_RegionAlternativeReaction(NULL_00000000-0000-0000-0000-000000000000, "", "", "", "");
+DB_CRIME_FleeReaction("CRIME_Follow");
+DB_CRIME_FleeReaction("CRIME_FollowComment");
+DB_CRIME_FleeReaction("CRIME_FollowCommentThrow");
+DB_CRIME_FleeReaction("CRIME_ThrowStones");
+DB_CRIME_FleeReaction("CRIME_HerdAnimal");
+DB_CRIME_DangerousShapeshiftTypes("IntDevHostile");
+DB_CRIME_DangerousShapeshiftTypes("DangerousBeast");
+DB_CRIME_DangerousShapeshiftTypes("DangerousMonster");
+
+KBSECTION
+IF
+DB_CRIME_ShapeshiftDisturbance(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance_Dangerous(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Origins(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CharacterCrimeDisabled(_Var5, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var5, _Var2);
+
+IF
+DB_CRIME_ShapeshiftDisturbance(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance_Dangerous(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var3 != ""
+AND
+DB_Origins(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CharacterCrimeDisabled(_Var5, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var5, _Var3);
+
+IF
+DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance_Dangerous(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != ""
+AND
+DB_Origins(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CharacterCrimeDisabled(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var4, _Var1);
+
+IF
+DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance_Dangerous(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var2 != ""
+AND
+DB_Origins(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CharacterCrimeDisabled(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var4, _Var2);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (CHARACTER)_Var2, _, "Confronting", (INTEGER)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var4, _Var5, _Var6, _Var7, _Var1, _Var8, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetLeadInvestigator(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_ShapeshiftSummonDisturbance_Confronting(_Var1, _Var2);
+
+IF
+DB_CRIME_ShapeshiftSummonDisturbance_Confronting(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_ShapeshiftSummonDisturbance(_, _, _, _, _Var1, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance_Confronting(_Var1, _Var2);
+
+PROC
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop((CHARACTER)_Var1, (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_Confronting(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+CrimeConfrontationDone(_Var2, _Var3);
+NOT DB_CRIME_ShapeshiftSummonDisturbance_Confronting(_Var2, _Var3);
+
+PROC
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+_Var2 > 0
+THEN
+CharacterStopCrimeWithID(_Var1, _Var2);
+
+IF
+OnCrimeResolved((INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CurrentLevel(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var8, _Var9, _Var10, _Var11, _Var1, _Var12, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var8, _Var9, 1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var8, _Var9, _Var10, _Var11, _Var1, _Var12);
+PROC_CRIME_ShapeshiftSummonDisturbance_Register(_Var8, _Var9, _Var10, _Var11, "");
+
+IF
+OnCrimeResolved((INTEGER)_Var1, _, _, _, _, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var7, _Var8, _Var9, _Var10, _Var1, _Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var7, _Var8, 0, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var7, _Var8, _Var9, _Var10, _Var1, _Var11);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var5, 0, _Var1, _Var1)
+THEN
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var8);
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var9);
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var5, _Var6, _Var7, _Var8, _Var9);
+
+IF
+CharacterLeftParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var5);
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var6);
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var4 != ""
+THEN
+PROC_CRIME_ShapeshiftSummonDisturbance_Trigger(_Var1);
+
+IF
+CharacterJoinedParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsSummon(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_ShapeshiftSummonDisturbance_Trigger(_Var1);
+
+PROC
+PROC_CRIME_ShapeshiftSummonDisturbance_Trigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance(_Var2, _Var3, _Var4, _Var5, _Var1)
+AND NOT
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+CharacterGetCrimeRegion(_Var1, _Var11, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_Var3, _Var4, _Var5, _Var11, _Var1)
+AND
+DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_Var12, _Var13, _Var14, _Var1, _Var1)
+THEN
+PROC_CRIME_ShapeshiftSummonDisturbance_Register(_Var1, _Var2, _Var12, _Var13, _Var14);
+
+QRY
+QRY_CRIME_ShapeshiftSummonDisturbance_GetDisturbance((STRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+QRY_CRIME_ShapeshiftSummonDisturbance_GetDisturbance_Reset()
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_RegionAlternativeReaction(_Var5, _Var4, _Var3, _Var6, _Var7)
+THEN
+DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_Var6, "", _Var7);
+
+QRY
+QRY_CRIME_ShapeshiftSummonDisturbance_GetDisturbance((STRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_, _, _, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_Var1, _Var2, _Var3);
+
+QRY
+QRY_CRIME_ShapeshiftSummonDisturbance_GetDisturbance((STRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance("", "", _Var2, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance("", "", _Var2);
+
+QRY
+QRY_CRIME_ShapeshiftSummonDisturbance_GetDisturbance_Reset()
+AND
+DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_ShapeshiftSummonDisturbance_GetDisturbance(_Var1, _Var2, _Var3);
+
+QRY
+QRY_CRIME_ShapeshiftSummonDisturbance_GetDisturbance_Reset()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_ShapeshiftSummonDisturbance_Register((GUIDSTRING)_Var1, (TAG)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND
+_Var4 != ""
+AND
+CrimeGetNewID(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var2, _Var3, _Var4, _Var6, _Var7);
+PROC_CRIME_ShapeshiftDisturbance_DoRegister(_Var1, _Var3, _Var6, _Var5);
+PROC_CharacterRegisterCrime(_Var1, _Var4, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var7);
+
+PROC
+PROC_CRIME_ShapeshiftSummonDisturbance_Register((GUIDSTRING)_Var1, (TAG)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND
+_Var4 == ""
+AND
+_Var3 != ""
+AND
+CrimeGetNewID(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var2, _Var3, _Var4, _Var6, -1);
+PROC_CRIME_ShapeshiftDisturbance_DoRegister(_Var1, _Var3, _Var6, _Var5);
+
+PROC
+PROC_CRIME_ShapeshiftSummonDisturbance_Register((CHARACTER)_Var1, (TAG)_Var2, (STRING)_Var3, (STRING)_Var4, (STRING)_Var5)
+AND
+_Var4 == ""
+AND
+_Var3 == ""
+THEN
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var2, _Var3, _Var4, -1, -1);
+
+PROC
+PROC_CRIME_ShapeshiftDisturbance_DoRegister((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+QRY_Crime_ShapeshiftDisturbance_IgnoreForNearbyCharacters(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_CharacterRegisterCrime(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var3);
+
+PROC
+PROC_CRIME_ShapeshiftDisturbance_DoRegister((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+QRY_Crime_ShapeshiftDisturbance_IgnoreForNearbyCharacters(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+IntegerToString(_Var3, _Var5, _Var1, _Var1, _Var1)
+AND
+Concatenate("CRIME_ShapeshiftSummonDisturbance_", _Var5, _Var6, _Var1, _Var1)
+AND
+Concatenate("CRIME_ShapeshiftSummonDisturbanceDone_", _Var5, _Var7, _Var1, _Var1)
+THEN
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreIterator(_Var6, _Var7, _Var3);
+IterateCharactersAround(_Var1, 20, _Var6, _Var7);
+
+QRY
+QRY_Crime_ShapeshiftDisturbance_IgnoreForNearbyCharacters((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var4 == "DangerousBeast"
+THEN
+DB_NOOP(1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreIterator(_Var2, _, _Var4, _Var1, _Var1)
+THEN
+DB_CRIME_ShapeshiftSummonDisturbance_Ignore(_Var4, _Var1);
+
+IF
+EntityEvent(_, (STRING)_Var2, _, _, _)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreIterator(_Var3, _Var2, _Var4, _, _)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var5, _Var6, _Var7, _Var8, _Var4, _Var9, _, _, _, _)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance_IgnoreIterator(_Var3, _Var2, _Var4);
+PROC_CharacterRegisterCrime(_Var5, _Var7, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var4);
+
+IF
+EntityEvent(_, (STRING)_Var2, _, _, _)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreIterator(_Var3, _Var2, _Var4, _, _)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var5, _Var6, _Var7, _Var8, _Var9, _Var4, _, _, _, _)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance_IgnoreIterator(_Var3, _Var2, _Var4);
+PROC_CharacterRegisterCrime(_Var5, _Var8, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var4);
+
+PROC
+PROC_CRIME_CrimeTriggers_GetSilentWitnessesForCrime((INTEGER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_Ignore(_Var1, _Var6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance_Ignore(_Var1, _Var6);
+DB_CRIME_CrimeTriggers_SilentWitnessesForCrime(_Var6);
+
+PROC
+PROC_CharacterRegisterCrime_Blocked((GUIDSTRING)_Var1, _, _, _, _, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_Ignore(_Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance_Ignore(_Var6, _Var7);
+
+PROC
+PROC_CharacterRegisterCrime_Blocked((GUIDSTRING)_Var1, _, _, _, _, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, _Var9, _Var6, _Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var10);
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, _Var9, _Var6, _Var10);
+
+PROC
+PROC_CharacterRegisterCrime_Blocked((GUIDSTRING)_Var1, _, _, _, _, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, _Var9, _Var10, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, _Var9, _Var10, _Var6);
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, "", _Var10, -1);
+
+IF
+DB_CRIME_ShapeshiftSummonDisturbance_RegionAlternativeReaction(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_TriggerRegisterForParty(_Var1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_RegionAlternativeReaction(_Var2, _Var3, _Var4, _Var5, _Var6)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var10);
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var11);
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, _Var9, _Var10, _Var11);
+PROC_CRIME_ShapeshiftSummonDisturbance_Trigger(_Var1);
+
+IF
+LeftTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_RegionAlternativeReaction(_Var2, _Var3, _Var4, _Var5, _Var6)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var10);
+PROC_CRIME_ShapeshiftSummonDisturbance_Stop(_Var1, _Var11);
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var1, _Var7, _Var8, _Var9, _Var10, _Var11);
+PROC_CRIME_ShapeshiftSummonDisturbance_Trigger(_Var1);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var7, _Var8, _Var9, _, _Var6, _, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreInCamp(_Var6);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var7, _Var8, _Var9, _, _, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreInCamp(_Var6);
+
+IF
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var2, _Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance_IgnoreInCamp(_Var1);
+
+IF
+DB_CRIME_ShapeshiftDisturbance_TempInCamp(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreInCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+CrimeIgnoreCrime(_Var3, _Var1);
+DB_CRIME_ShapeshiftDisturbance_TempIgnoring(_Var1, _Var3);
+
+IF
+DB_CRIME_ShapeshiftDisturbance_TempIgnoring(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_ShapeshiftDisturbance_TempInCamp(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+CrimeStopIgnoringCrime(_Var2, _Var1);
+NOT DB_CRIME_ShapeshiftDisturbance_TempIgnoring(_Var1, _Var2);
+
+IF
+DB_CRIME_ShapeshiftDisturbance_TempIgnoring(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_ShapeshiftSummonDisturbance_IgnoreInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftDisturbance_TempIgnoring(_Var1, _Var2);
+
+QRY
+QRY_CRIME_ShapeshiftDisturbance_AnyPlayerInCamp()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+Teleported((CHARACTER)_Var1, _, _, _, _, (REAL)_Var6, (REAL)_Var7, (REAL)_Var8, _, (CHARACTER)_Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance_TempInCamp(_Var1, _Var10, _Var1, _Var1, _Var1)
+AND
+PositionIsInTrigger(_Var6, _Var7, _Var8, _Var10, 0)
+THEN
+NOT DB_CRIME_ShapeshiftDisturbance_TempInCamp(_Var1, _Var10);
+
+IF
+Teleported((GUIDSTRING)_Var1, _, _, _, _, (REAL)_Var6, (REAL)_Var7, (REAL)_Var8, _, (GUIDSTRING)_Var1)
+AND NOT
+DB_PartOfTheTeam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_ShapeshiftDisturbance_TempInCamp(_Var1, _, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_ShapeshiftDisturbance_AnyPlayerInCamp()
+AND
+DB_ActiveCamp(_Var11, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Camp(_Var11, _, _Var13, _, _Var1)
+AND
+PositionIsInTrigger(_Var6, _Var7, _Var8, _Var13, 1)
+THEN
+DB_CRIME_ShapeshiftDisturbance_TempInCamp(_Var1, _Var13);
+
+IF
+DB_CRIME_ShapeshiftDisturbance_TempInCamp(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_ShapeshiftDisturbance_TempInCamp(_Var1, _Var2);
+
+IF
+LevelLoaded(_, _, _, _, _)
+AND
+DB_CRIME_ShapeshiftSummonDisturbance(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _, _, _, _)
+AND NOT
+CrimeGetTension(_Var6, _, _, _, _)
+THEN
+NOT DB_CRIME_ShapeshiftSummonDisturbance(_Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+PROC_CRIME_ShapeshiftSummonDisturbance_Register(_Var2, _Var3, _Var4, _Var5, "");
+
+IF
+ShapeshiftChanged((CHARACTER)_Var1, _, _, _, (CHARACTER)_Var1)
+AND
+DB_CRIME_WitnessedShapeshiftID(_Var5, _Var6, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_WitnessedShapeshiftID(_Var5, _Var6);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_WitnessedShapeshiftID(_Var5, _Var1);
+PROC_CharacterRegisterCrime(_Var1, "CheckNoticedShapeshift", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, _Var5);
+
+IF
+CharacterOnCrimeSensibleActionNotification((GUIDSTRING)_Var1, _, (INTEGER)_Var3, _, _, (GUIDSTRING)_Var6, _, _, _, _)
+AND
+DB_CRIME_WitnessedShapeshiftID(_Var3, _Var6, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_WitnessedShapeshift(_Var1, _Var3);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_WitnessedShapeshiftID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_WitnessedShapeshift(_Var2, _Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_WitnessedShapeshiftID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_WitnessedShapeshift(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_WitnessedShapeshift(_Var3, _Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_WitnessedShapeshiftID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_WitnessedShapeshiftID(_Var1, _Var2);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_WitnessedShapeshiftID(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var7, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+IsCharacter(_Var7, 1, _Var1, _Var1, _Var1)
+AND
+CanSee(_Var7, _Var1, 1, _Var1, _Var1)
+THEN
+DB_CRIME_WitnessedShapeshift(_Var7, _Var6);
+
+PROC
+PROC_CRIME_WitnessedShapeshift((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CRIME_DisableDangerousShapeshiftReactions((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_DangerousShapeshiftTypes(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance(_, _Var4, _, _Var2, _Var1)
+AND
+_Var4 != ""
+THEN
+PROC_CharacterDisableCrime(_Var1, _Var4);
+
+PROC
+PROC_CRIME_DisableDangerousShapeshiftReactions((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_DangerousShapeshiftTypes(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance(_, _, _Var5, _Var2, _Var1)
+AND
+_Var5 != ""
+THEN
+PROC_CharacterDisableCrime(_Var1, _Var5);
+
+PROC
+PROC_CRIME_EnableDangerousShapeshiftReactions((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_DangerousShapeshiftTypes(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance(_, _Var4, _, _Var2, _Var1)
+AND
+_Var4 != ""
+THEN
+PROC_CharacterEnableCrime(_Var1, _Var4);
+
+PROC
+PROC_CRIME_EnableDangerousShapeshiftReactions((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_DangerousShapeshiftTypes(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_ShapeshiftDisturbance(_, _, _Var5, _Var2, _Var1)
+AND
+_Var5 != ""
+THEN
+PROC_CharacterEnableCrime(_Var1, _Var5);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

@@ -1,0 +1,69 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_DisableFollow((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DetachFromPartyGroup(_Var1);
+
+IF
+UseFinished((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CustomUseItemResponse(_Var1, _Var2, 0, _Var1, _Var1)
+AND
+IsLocked(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+SetDualEntityEvent(_Var1, _Var2, "GLO_UsedLockedItem");
+
+PROC
+PROC_FreezePlayers()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Freeze(_Var1);
+
+PROC
+PROC_UnfreezePlayers()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+Unfreeze(_Var1);
+
+PROC
+MoveAllItemsTo((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+MoveAllItemsTo(_Var1, _Var2, 1, 1, 1);
+
+PROC
+PROC_GenericsDebug((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GenericsDebugTextEnabled()
+THEN
+DebugText(_Var1, _Var2);
+
+QRY
+QRY_GenericsDebugTextEnabled()
+AND
+DB_GenericsDebugEnable(1, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("EnableGenericsDebug", _, _, _, _)
+THEN
+DB_GenericsDebugEnable(1);
+
+IF
+TextEvent("DisableGenericsDebug", _, _, _, _)
+THEN
+NOT DB_GenericsDebugEnable(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

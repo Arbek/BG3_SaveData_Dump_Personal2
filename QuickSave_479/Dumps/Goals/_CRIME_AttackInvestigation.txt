@@ -1,0 +1,470 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_FindSourceInvestigators(0, 0, "Assault_FindSourceInvestigators");
+DB_CRIME_FindSourceInvestigators(0, 1, "Assault_FindSourceInvestigators_Monster");
+DB_CRIME_FindSourceInvestigators(1, 0, "Assault_FindSourceInvestigators_Beast");
+DB_CRIME_FindSourceInvestigators(1, 1, "Assault_FindSourceInvestigators_Beast");
+DB_CRIME_SourceInvestigation_Discovered(0, 0, "Assault_SourceInvestigation_Discovered");
+DB_CRIME_SourceInvestigation_Discovered(0, 1, "Assault_SourceInvestigation_Discovered_Monster");
+DB_CRIME_SourceInvestigation_Discovered(1, 0, "Assault_SourceInvestigation_Discovered_Beast");
+DB_CRIME_SourceInvestigation_Discovered(1, 1, "Assault_SourceInvestigation_Discovered_Beast");
+DB_CRIME_SourceInvestigation_NotDiscovered(0, 0, "Assault_SourceInvestigation_NotDiscovered");
+DB_CRIME_SourceInvestigation_NotDiscovered(0, 1, "Assault_SourceInvestigation_NotDiscovered_Monster");
+DB_CRIME_SourceInvestigation_NotDiscovered(1, 0, "Assault_SourceInvestigation_NotDiscovered_Beast");
+DB_CRIME_SourceInvestigation_NotDiscovered(1, 1, "Assault_SourceInvestigation_NotDiscovered_Beast");
+DB_CRIME_SourceInvestigationRollStealthFail(0);
+DB_CRIME_SourceInvestigationRollStealthFail(2);
+
+KBSECTION
+QRY
+QRY_CRIME_Is_AttackInvestigation((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_FindSourceInvestigators(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Is_AttackInvestigation((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_SourceInvestigation_Discovered(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Is_AttackInvestigation((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CRIME_SourceInvestigation_NotDiscovered(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CharacterRegisterCrime_Success((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (INTEGER)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_CRIME_AttackInvestigation_CrimeStoryActionLink(_Var6, _Var3);
+
+PROC
+PROC_CrimeRegisterAssault((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (INTEGER)_Var4, (GUIDSTRING)_Var1)
+AND
+IsEnemy(_Var2, _Var1, 1, _Var1, _Var1)
+AND NOT
+QRY_CRIME_StoryActionHandled(_Var1, "Assault", _Var4, NULL_00000000-0000-0000-0000-000000000000, _Var2, -1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_FindAssaultSourceInvestigators(_Var2, _Var1, -1, "NoOriginalCrime", _Var4);
+
+PROC
+PROC_CRIME_OneshotMurder_Fallback((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+QRY_CRIME_StoryActionHandled(_Var1, "Murder", _Var3, NULL_00000000-0000-0000-0000-000000000000, _Var2, -1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_FindAssaultSourceInvestigators(_Var2, _Var1, -1, "NoOriginalCrime", _Var3);
+
+QRY
+QRY_CRIME_InvestigateAttackCrime("IncapacitatedAssault", _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_InvestigateAttackCrime((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var1, "Murder", _Var1, _Var1, _Var1)
+AND NOT
+QRY_CRIME_TreatAsAssaultMurderWithInvestigation(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_GetOriginalAttackCrime((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_QRYRTN_CRIME_GetOriginalAttackCrime(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_GetOriginalAttackCrime(_Var2);
+
+QRY
+QRY_CRIME_GetOriginalAttackCrime((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Crime_IncapacitatedOriginalAssaultType(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_GetOriginalAttackCrime(_Var2);
+
+QRY
+QRY_CRIME_GetOriginalAttackCrime((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_QRYRTN_CRIME_GetOriginalAttackCrime(_, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_GetOriginalAttackCrime(_Var3);
+
+IF
+CrimeProcessingStarted((INTEGER)_Var1, 0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_AttackInvestigation_CrimeStoryActionLink(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_InvestigateAttackCrime(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_GetOriginalAttackCrime(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_GetOriginalAttackCrime(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetVictim(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+CrimeGetCriminal(_Var1, 1, _Var6, _Var1, _Var1)
+THEN
+PROC_CRIME_FindAssaultSourceInvestigators(_Var5, _Var6, _Var1, _Var4, _Var2);
+
+PROC
+PROC_CRIME_FindAssaultSourceInvestigators((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+AND
+GetPosition(_Var2, _Var6, _Var7, _Var8, _Var1)
+AND
+GetPosition(_Var1, _Var9, _Var10, _Var11, _Var1)
+AND
+RealSum(_Var10, 1, _Var12, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var13, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, BEAST_890b5a2a-e773-48df-b191-c887d87bec16, _Var14, _Var1, _Var1)
+AND
+IsTagged(_Var1, MONSTER_90101158-141e-4896-8e60-f8db03f6dde3, _Var15, _Var1, _Var1)
+AND
+DB_CRIME_FindSourceInvestigators(_Var14, _Var15, _Var16, _Var1, _Var1)
+THEN
+DB_CRIME_InvestigateAssaultSourceLocation(_Var13, _Var2, _Var6, _Var7, _Var8, _Var1, _Var5);
+DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var13, _Var4);
+PROC_CRIME_StoryActionHandled_Reset(_Var5, _Var3);
+PROC_CharacterRegisterCrimeWithPosition(_Var2, _Var16, _Var5, NULL_00000000-0000-0000-0000-000000000000, _Var9, _Var12, _Var11, _Var1, _Var13);
+
+IF
+CrimeProcessingStarted((INTEGER)_Var1, 0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_InvestigateAssaultSourceLocation(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_FindSourceInvestigators(_, _, _Var8, _Var1, _Var1)
+AND
+DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var1, _Var11, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_TreatAsAssaultMurder(_Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_RegisterAssaultMurderFallback(_Var2, _Var6, _Var1, _Var11, _Var7);
+
+PROC
+PROC_CRIME_RegisterAssaultMurderFallback((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+AND
+QRY_OnlyOnce_Reset("CRIME_AssaultMurderFallback", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_GetAssaultMurderWithInvestigationVariant(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_GetAssaultMurderWithInvestigationVariant(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRIME_AssaultMurderFallback", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StoryActionHandled_Reset(_Var5, _Var3);
+PROC_CRIME_RegisterAssaultMurderWithInvestigation(_Var1, _Var2, _Var3, _Var6, _Var5);
+
+PROC
+PROC_CRIME_RegisterAssaultMurderFallback((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var4, "Murder", _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("CRIME_AssaultMurderFallback", _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var2, BEAST_890b5a2a-e773-48df-b191-c887d87bec16, _Var6, _Var1, _Var1)
+AND
+IsTagged(_Var2, MONSTER_90101158-141e-4896-8e60-f8db03f6dde3, _Var7, _Var1, _Var1)
+AND
+DB_CRIME_SourceInvestigation_NotDiscovered(_Var6, _Var7, _Var8, _Var1, _Var1)
+AND
+Concatenate(_Var8, "_WithCrimeScene", _Var9, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var10, _Var11, _Var12, _Var1)
+AND
+CrimeGetNewID(_Var13, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StoryActionHandled_Reset(_Var5, _Var3);
+PROC_CharacterRegisterCrimeWithPosition(_Var1, _Var9, _Var5, NULL_00000000-0000-0000-0000-000000000000, _Var10, _Var11, _Var12, _Var2, _Var13);
+DB_InvestigatingAssaultSource(_Var13, _Var2);
+
+PROC
+PROC_CRIME_RegisterAssaultMurderWithInvestigation((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var4, "Murder", _Var1, _Var1, _Var1)
+AND
+CrimeGetNewID(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StoryActionHandled_Reset(_Var5, _Var3);
+PROC_CrimeCreateMurder(_Var1, _Var2, _Var6, _Var4, _Var5);
+
+PROC
+PROC_CRIME_RegisterAssaultMurderWithInvestigation((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (STRING)_Var4, (INTEGER)_Var5)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var4, "Assault", _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StoryActionHandled_Reset(_Var5, _Var3);
+PROC_CrimeRegisterAssaultType(_Var1, _Var2, _Var4, _Var5);
+
+QRY
+QRY_CrimeIncapacitatedAssaultGetCrimeTypeCustom((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (REAL)_Var4, (REAL)_Var5, (REAL)_Var6, (INTEGER)_Var7, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_CRIME_TreatAsAssaultMurderWithInvestigation(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeIncapacitatedAssaultGetCrimeType("IncapacitatedAssault_WithInvestigation");
+
+QRY
+QRY_InvestigateAssaultSourceAdvantage((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_AttackInvestigation_Attentive(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_InvestigateAssaultSourceAdvantage(0);
+DB_QRYRTN_InvestigateAssaultSourceAdvantage(1);
+
+QRY
+QRY_InvestigateAssaultSourceAdvantage((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_AttackInvestigation_Attentive(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_InvestigateAssaultSourceAdvantage(0);
+NOT DB_QRYRTN_InvestigateAssaultSourceAdvantage(1);
+
+IF
+CharacterOnCrimeSensibleActionNotification((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, "CRIME_OsirisAssaultFindSourceInvestigators", (GUIDSTRING)_Var4, _, _, _, _, 1)
+AND
+DB_CRIME_InvestigateAssaultSourceLocation(_Var3, _Var9, _Var10, _Var11, _Var12, _Var13, _Var14, _Var1, _Var1, _Var1)
+AND
+QRY_InvestigateAssaultSourceAdvantage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_InvestigateAssaultSourceAdvantage(_Var15, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestPassiveRollVersusSkill(_Var9, _Var1, "RawAbility", "Stealth", "Perception", -1, _Var15, "CRIME_InvestigateAssaultSource");
+
+IF
+RollResult("CRIME_InvestigateAssaultSource", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_CRIME_AttackInvestigation_HandledRoll(1);
+
+IF
+RollResult("CRIME_InvestigateAssaultSource", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_SourceInvestigationRollStealthFail(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_InvestigateAssaultSourceLocation(_Var6, _Var1, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var6, _Var12, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var13, _Var14, _Var15, _Var1)
+AND
+CrimeGetNewID(_Var16, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var10, BEAST_890b5a2a-e773-48df-b191-c887d87bec16, _Var17, _Var1, _Var1)
+AND
+IsTagged(_Var10, MONSTER_90101158-141e-4896-8e60-f8db03f6dde3, _Var18, _Var1, _Var1)
+AND
+DB_CRIME_SourceInvestigation_Discovered(_Var17, _Var18, _Var19, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var20, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TryStopDialogFor(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StoryActionHandled_Reset(_Var11, _Var6);
+CrimeConfrontationDone(_Var6, _Var2);
+PROC_CharacterRegisterCrimeWithPosition(_Var1, _Var19, _Var11, NULL_00000000-0000-0000-0000-000000000000, _Var13, _Var14, _Var15, _Var10, _Var16);
+DB_InvestigatingAssaultSource(_Var16, _Var10);
+DB_CRIME_AttackInvestigation_HandledRoll(1);
+DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var16, _Var12);
+
+IF
+RollResult("CRIME_InvestigateAssaultSource", (CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CRIME_SourceInvestigationRollStealthFail(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_InvestigateAssaultSourceLocation(_Var6, _Var1, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var6, _Var12, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var2, _Var13, _Var14, _Var15, _Var1)
+AND
+CrimeGetNewID(_Var16, _Var1, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var10, BEAST_890b5a2a-e773-48df-b191-c887d87bec16, _Var17, _Var1, _Var1)
+AND
+IsTagged(_Var10, MONSTER_90101158-141e-4896-8e60-f8db03f6dde3, _Var18, _Var1, _Var1)
+AND
+DB_CRIME_SourceInvestigation_NotDiscovered(_Var17, _Var18, _Var19, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var20, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_TryStopDialogFor(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_StoryActionHandled_Reset(_Var11, _Var6);
+CrimeConfrontationDone(_Var6, _Var2);
+PROC_CharacterRegisterCrimeWithPosition(_Var1, _Var19, _Var11, NULL_00000000-0000-0000-0000-000000000000, _Var13, _Var14, _Var15, _Var10, _Var16);
+DB_CRIME_InvestigationCriminalLocation(_Var16, _Var7, _Var8, _Var9);
+DB_InvestigatingAssaultSource(_Var16, _Var10);
+DB_CRIME_AssaultSourceMarker(_Var16, _Var1);
+PROC_LoopEffectAtPosition(VFX_UI_LastKnownPosition_01_a9beedc7-c45a-67b2-a14c-b16ae56ba413, _Var1, "CRIME_AssaultSourceInvestigation", _Var7, _Var8, _Var9, _Var20);
+DB_CRIME_AttackInvestigation_HandledRoll(1);
+DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var16, _Var12);
+
+QRY
+QRY_CRIME_BlockGenericInvestigation((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_SourceInvestigation_NotDiscovered(_, _, _Var3, _Var1, _Var1)
+AND
+QRY_CRIME_Guards_IsCivilianOrKid(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "CRIME_StartLookingForInterrogationSuspects");
+
+QRY
+QRY_CRIME_Guards_IsCivilianOrKid((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, CIVILIAN_71120d5d-3853-46e4-9762-33f59aa6b4ae, 1, _Var1, _Var1)
+AND
+IsTagged(_Var1, BADASSCIVILIAN_91f4b379-63a2-40e9-a509-7b9b2f90e4c8, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_Guards_IsCivilianOrKid((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, KID_ee978587-6c68-4186-9bfc-3b3cc719a835, 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+RollResult("CRIME_InvestigateAssaultSource", (CHARACTER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, _, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CRIME_AttackInvestigation_HandledRoll(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_InvestigateAssaultSourceLocation(_Var6, _Var1, _Var7, _Var8, _Var9, _Var10, _Var11, _Var1, _Var1, _Var1)
+THEN
+CrimeConfrontationDone(_Var6, _Var2);
+
+IF
+CharacterOnCrimeSensibleActionNotification(_, _, (INTEGER)_Var3, _, _, (CHARACTER)_Var6, _, _, _, 1)
+AND
+DB_CRIME_AssaultSourceMarker(_Var3, _Var6, _, _, _)
+THEN
+NOT DB_CRIME_AssaultSourceMarker(_Var3, _Var6);
+PROC_StopLoopEffect(_Var6, "CRIME_AssaultSourceInvestigation");
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_AssaultSourceMarker(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_AssaultSourceMarker(_Var1, _Var2);
+PROC_StopLoopEffect(_Var2, "CRIME_AssaultSourceInvestigation");
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_InvestigateAssaultSourceLocation(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_InvestigateAssaultSourceLocation(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_InvestigatingAssaultSource(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InvestigatingAssaultSource(_Var1, _Var2);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var1, _Var2);
+
+IF
+TextEvent("attackinvestigation_forcefailstealth", _, _, _, _)
+THEN
+DB_CRIME_SourceInvestigationRollStealthFail(1);
+
+IF
+TextEvent("attackinvestigation_noforcefailstealth", _, _, _, _)
+THEN
+NOT DB_CRIME_SourceInvestigationRollStealthFail(1);
+
+IF
+CharacterOnCrimeSensibleActionNotification((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, "CRIME_OsirisAssaultFindSourceInvestigators", (GUIDSTRING)_Var4, _, _, _, _, _)
+THEN
+DB_CRIME_AttackInvestigation_Attentive(_Var1);
+ObjectTimerCancel(_Var1, "CRIME_AttackInvestigation_Attentive");
+ObjectTimerLaunch(_Var1, "CRIME_AttackInvestigation_Attentive", 30000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRIME_AttackInvestigation_Attentive", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_CRIME_AttackInvestigation_Attentive(_Var1);
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_AttackInvestigation_Attentive(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_AttackInvestigation_Attentive(_Var1);
+ObjectTimerCancel(_Var1, "CRIME_AttackInvestigation_Attentive");
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InvestigatingAssaultSource(_Var3, _, _Var1, _Var1, _Var1)
+AND
+CrimeGetCriminal(_Var3, 1, _Var5, _Var1, _Var1)
+THEN
+CharacterStopCrimeWithID(_Var5, _Var3);
+
+IF
+CrimeProcessingStarted((INTEGER)_Var1, _, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_AttackInvestigation_CrimeStoryActionLink(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_AttackInvestigation_CrimeStoryActionLink(_Var1, _Var3);
+
+IF
+DB_CRIME_SourceInvestigation_Discovered(_, _, _Var3, _, _)
+THEN
+DB_CRIME_SceneUnreachableCombat(_Var3);
+
+QRY
+QRY_CRIME_CrimeTypeResolveSourceInvestigation((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_QRYRTN_CRIME_CrimeTypeResolveSourceInvestigation(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CRIME_CrimeTypeResolveSourceInvestigation(_Var2);
+
+QRY
+QRY_CRIME_CrimeTypeResolveSourceInvestigation((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_AttackInvestigation_OriginalCrimeType(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_CrimeTypeResolveSourceInvestigation(_Var2);
+
+QRY
+QRY_CRIME_CrimeTypeResolveSourceInvestigation((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_QRYRTN_CRIME_CrimeTypeResolveSourceInvestigation(_, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CRIME_CrimeTypeResolveSourceInvestigation(_Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

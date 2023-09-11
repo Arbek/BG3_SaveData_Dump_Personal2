@@ -1,0 +1,30 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_QuestDef_State(WYR_Windmill_State_MindflayerFoodExplained_abdda774-d715-e72b-dd69-25db489f1b8d, "WYR_Windmill", "FindBody");
+DB_QuestDef_State(WYR_Windmill_Event_GiveRewardPower_63455abf-6d0d-2943-bd04-a780ee1f6da5, "WYR_Windmill", "FedMindflayer");
+DB_QuestDef_State(WYR_Windmill_State_MindflayerPermaDefeated_bff439da-9df0-4b19-9590-0679d80aa856, "WYR_Windmill", "KilledMindflayer");
+DB_QuestDef_State(WYR_Windmill_State_MindflayerHunts_52f1c3c5-a312-b0ae-c3a6-25785b0ad7d1, "WYR_Windmill", "MindflayerHunts");
+DB_QuestDef_State(END_General_State_Started_a0fd5f91-e4b3-4d01-84d3-9ff484139e99, "WYR_Windmill", "LeftToEND");
+
+KBSECTION
+IF
+QuestUpdateUnlocked((CHARACTER)_Var1, "WYR_Windmill", "FindBody", (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(WYR_Windmill_State_HasBodyHumanoidDead_271d74f7-f085-2ab9-cce5-5790ed755fc6, _Var1, 1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "WYR_Windmill", "ReturnBody");
+
+IF
+FlagSet(WYR_Windmill_State_HasBodyHumanoidDead_271d74f7-f085-2ab9-cce5-5790ed755fc6, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QuestUpdateIsUnlocked(_Var1, "WYR_Windmill", "FindBody", 1, _Var1)
+THEN
+QuestUpdate(_Var1, "WYR_Windmill", "ReturnBody");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3"

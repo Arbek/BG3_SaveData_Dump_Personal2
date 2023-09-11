@@ -1,0 +1,385 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CrimeBribes_SevereCrimes("Murder");
+DB_CrimeBribes_SevereCrimes("Assault");
+DB_CrimeBribes_SevereCrimes("Trespassing");
+DB_CrimeBribes_SevereCrimes("Steal");
+DB_CrimeBribes_GoldTables(0, BribesNonSevereCrimeMin_d6a0f75a-a24f-4a8a-ac36-fd5f68ce074f, BribesNonSevereCrimeMax_53745024-caa7-490a-b106-8dc4f6e36be2);
+DB_CrimeBribes_GoldTables(1, BribesSevereCrimeMin_73b8c1f6-1e2e-4f65-a80f-26a38da9e41f, BribesSevereCrimeMax_d9876116-9c83-4f6e-8efa-cc5d9c2328be);
+DB_CrimeEluding_Max("Bribe", 1);
+DB_CrimeEluding_Max("Persuade", 1);
+DB_CrimeEluding_Flags("Bribe", "no", GEB_BribeDisabled_9e426938-8a06-8f2d-3d7d-7bdc975c3c02);
+DB_CrimeEluding_Flags("Bribe", "lasttime", GEB_Crime_BribingDisabled_NextTime_30b21fcf-d1d7-42b3-9ea4-0af3c8f8852a);
+DB_CrimeEluding_Flags("Bribe", "yes", NULL_00000000-0000-0000-0000-000000000000);
+DB_CrimeEluding_Flags("Persuade", "no", GEB_CharismaDisabled_4bed5f63-dbf9-4fb2-be84-c29edf10a96a);
+DB_CrimeEluding_Flags("Persuade", "lasttime", GEB_CharismaDisabled_NextTime_3e72e9cf-3199-4a9c-9e21-8e187177a952);
+DB_CrimeEluding_Flags("Persuade", "yes", NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_CrimeEluding_CantBeEludedUsing(NULL_00000000-0000-0000-0000-000000000000, "");
+
+KBSECTION
+QRY
+QRY_CrimeBribes_CrimeGetSeverity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_CrimeBribes_CrimeSeverity(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CrimeBribes_CrimeSeverity(_Var2);
+
+QRY
+QRY_CrimeBribes_CrimeGetSeverity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CrimeBribes_SevereCrimes(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_CRIME_IsCrimeFamilyMember(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeBribes_CrimeSeverity(1);
+
+QRY
+QRY_CrimeBribes_CrimeGetSeverity((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_CrimeBribes_CrimeSeverity(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeBribes_CrimeSeverity(0);
+
+IF
+FlagSet((FLAG)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_ItemEvents_TransferFlagToMoneyVarIndex(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var5, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CrimeTriggers_GeneralBribeDialog(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DialogMoneyTransfer(_Var4, _Var5, _, _, _Var8)
+AND
+DB_DialogPlayers(_Var3, _Var9, 1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var3, _Var10, _Var8, _Var1, _Var1)
+AND
+QRY_GLOBAL_Shapeshifting_GetPolymorphStatus(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLOBAL_Shapeshifting_PolymorphStatus(_Var11, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CrimeBribes_RecordElude("Bribe", _Var10, _Var9, _Var11);
+
+IF
+FlagSet(CRIME_PersuasionSuccess_bdcb6798-b606-5c94-95d1-e03b4414c0af, (GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogName(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var4, 1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var2, _Var5, _Var6, _Var1, _Var1)
+AND
+QRY_GLOBAL_Shapeshifting_GetPolymorphStatus(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLOBAL_Shapeshifting_PolymorphStatus(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CrimeBribes_RecordElude("Persuade", _Var5, _Var4, _Var7);
+ClearFlag(CRIME_PersuasionSuccess_bdcb6798-b606-5c94-95d1-e03b4414c0af, _Var1);
+
+PROC
+PROC_CrimeBribes_RecordElude((STRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (STRING)_Var1)
+AND
+DB_CrimeBribes_PairEludes(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+IntegerSum(_Var5, 1, _Var6, _Var1, _Var1)
+THEN
+NOT DB_CrimeBribes_PairEludes(_Var1, _Var2, _Var3, _Var4, _Var5);
+DB_CrimeBribes_PairEludes(_Var1, _Var2, _Var3, _Var4, _Var6);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var5, (GUIDSTRING)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability(_Var7);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var5, (GUIDSTRING)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_CrimeBribes_PairEludes(_Var1, _Var3, _Var4, _Var5, _)
+THEN
+DB_CrimeBribes_PairEludes(_Var1, _Var3, _Var4, _Var5, 0);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var5, (GUIDSTRING)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CrimeBribes_GetEludedMethodAvailability_Custom_Reset()
+AND
+QRY_CrimeBribes_GetEludedMethodAvailability_Custom(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom(_Var7, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability(_Var7);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var5, (GUIDSTRING)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CrimeBribes_PairEludes(_Var1, _Var3, _Var4, _Var5, _Var8)
+AND
+DB_CrimeEluding_Max(_Var1, _Var9, _Var1, _Var1, _Var1)
+AND
+_Var8 >= _Var9
+THEN
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability("no");
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (STRING)_Var5, (GUIDSTRING)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CrimeBribes_PairEludes(_Var1, _Var3, _Var4, _Var5, _Var8)
+AND
+DB_CrimeEluding_Max(_Var1, _Var9, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var8, 1, _Var9, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability("lasttime");
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability((STRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (STRING)_Var5, (DIALOGRESOURCE)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability("yes");
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability_Custom_Reset()
+AND
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom(_Var1);
+
+IF
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom(_Var2);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability_Custom_Reset()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability_Custom((STRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (STRING)_Var5, (DIALOGRESOURCE)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_CrimeBribes_GetBribeBounds((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CrimeBribes_GetBribeBounds(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CrimeBribes_GetBribeBounds(_Var3, _Var4);
+
+PROC
+PROC_CrimeBribes_GetBribeBounds((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CrimeBribes_GoldTables(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DataGetGoldValue(_Var3, _Var2, _Var5, _Var1, _Var1)
+AND
+DataGetGoldValue(_Var4, _Var2, _Var6, _Var1, _Var1)
+AND
+IntegerSubtract(_Var6, _Var5, _Var7, _Var1, _Var1)
+AND
+IntegerSum(_Var7, 1, _Var8, _Var1, _Var1)
+THEN
+DB_CrimeBribes_GetBribeBounds(_Var5, _Var8);
+
+PROC
+PROC_CrimeBribes_GetBribe((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var1)
+AND NOT
+DB_CrimeBribes_GetBribe_NPC(_Var2, _Var3, _Var4, _, _Var1)
+THEN
+PROC_CrimeBribes_GetBribeBounds(_Var4, _Var3);
+
+PROC
+PROC_CrimeBribes_GetBribe((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var1)
+AND NOT
+DB_CrimeBribes_GetBribe_NPC(_Var2, _Var3, _Var4, _, _Var1)
+AND
+DB_CrimeBribes_GetBribeBounds(_Var6, _Var7, _Var1, _Var1, _Var1)
+AND
+Random(_Var7, _Var8, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var6, _Var8, _Var9, _Var1, _Var1)
+THEN
+DB_CrimeBribes_GetBribe_NPC(_Var2, _Var3, _Var4, _Var9);
+
+PROC
+PROC_CrimeBribes_GetBribe((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var1)
+AND
+DB_CrimeBribes_GetBribe(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CrimeBribes_GetBribe(_Var5);
+
+PROC
+PROC_CrimeBribes_GetBribe((INTEGER)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var1)
+AND
+DB_CrimeBribes_GetBribe_NPC(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+DB_CrimeBribes_GetBribe(_Var5);
+
+PROC
+PROC_CrimeBribes_GetBribe((INTEGER)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var1)
+AND
+QRY_CRIME_GetEvidenceCompensationValue(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CRIME_GetEvidenceCompensationValue(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CrimeBribes_GetBribe(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+IntegerProduct(_Var6, 2, _Var7, _Var1, _Var1)
+AND
+IntegerDivide(_Var7, 3, _Var8, _Var1, _Var1)
+AND
+_Var5 > _Var8
+AND
+IntegerDivide(_Var6, 2, _Var9, _Var1, _Var1)
+AND
+IntegerSum(_Var5, _Var9, _Var10, _Var1, _Var1)
+THEN
+NOT DB_CrimeBribes_GetBribe(_Var6);
+DB_CrimeBribes_GetBribe(_Var10);
+
+PROC
+PROC_CrimeInterrogationRequest((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var8, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_CrimeGetInterrogationDialog(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var7, _Var8, _Var1, _Var1)
+AND
+DB_CrimeInterrogationDialog(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CrimeBribes_SetEludingOptions(_Var2, _Var3, _Var4, _Var9);
+
+PROC
+PROC_StartCrimeDialog((INTEGER)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_CrimeBribes_SetEludingOptions(_Var1, _Var3, _Var4, _Var2);
+
+PROC
+PROC_CrimeBribes_SetEludingOptions((INTEGER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (INTEGER)_Var1)
+AND
+QRY_GLOBAL_Shapeshifting_GetPolymorphStatus(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLOBAL_Shapeshifting_PolymorphStatus(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CrimeEluding_Max(_Var6, _, _Var1, _Var1, _Var1)
+AND
+QRY_CrimeBribes_GetEludedMethodAvailability(_Var6, _Var1, _Var2, _Var3, _Var5, _Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CrimeBribes_ProcessEludeMethodAvailability(_Var6, _Var1, _Var2, _Var3, _Var4, _Var8);
+
+PROC
+PROC_CrimeBribes_ProcessEludeMethodAvailability((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (STRING)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CrimeEluding_Flags(_Var1, _Var6, _Var7, _Var1, _Var1)
+AND
+_Var7 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_CrimeEluding_MethodFlagSet(_Var1, _Var7, _Var3, _Var4, _Var5);
+SetFlag(_Var7, _Var3);
+
+PROC
+PROC_CrimeBribes_ProcessEludeMethodAvailability((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (STRING)_Var6, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var6 != "no"
+THEN
+PROC_CrimeBribes_SetEludingOptions_ForAllowedMethod(_Var1, _Var2, _Var3, _Var4, _Var5);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_CrimeEluding_Flags(_Var4, _, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var3, _Var6, _, _Var1, _Var1)
+AND
+DB_DialogName(_Var8, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_CrimeEluding_MethodFlagSet(_Var4, _Var1, _Var2, _Var6, _Var8);
+
+IF
+DialogEnded((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CrimeEluding_MethodFlagSet(_Var3, _Var4, _Var5, _Var6, _Var1)
+THEN
+NOT DB_CrimeEluding_MethodFlagSet(_Var3, _Var4, _Var5, _Var6, _Var1);
+ClearFlag(_Var4, _Var5);
+
+PROC
+PROC_CrimeBribes_SetEludingOptions_ForAllowedMethod("Bribe", (INTEGER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4)
+AND
+DB_CrimeTriggers_GeneralBribeDialog(_Var5, _Var4, _Var1, _Var1, _Var1)
+AND
+CrimeGetType(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+QRY_CrimeBribes_CrimeGetSeverity(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CrimeBribes_CrimeSeverity(_Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+CrimeIsTensionOverWarningTreshold(_Var3, _Var8, _Var1, _Var1, _Var1)
+AND
+IntegerMax(_Var7, _Var8, _Var9, _Var1, _Var1)
+AND
+GetLevel(_Var3, _Var10, _Var1, _Var1, _Var1)
+THEN
+PROC_CrimeBribes_GetBribe(_Var1, _Var2, _Var10, _Var9);
+
+PROC
+PROC_CrimeBribes_SetEludingOptions_ForAllowedMethod("Bribe", (INTEGER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4)
+AND
+DB_CrimeTriggers_GeneralBribeDialog(_Var5, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_CrimeBribes_GetBribe(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DialogMoneyTransfer(_Var5, _Var4, _Var6);
+DB_DialogMoneyTransfer_ForInstance(_Var5, _Var4, _Var2);
+
+PROC
+PROC_CrimeBribes_SetEludingOptions_ForAllowedMethod((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5)
+THEN
+ClearFlag(GEB_Crime_TrespassCanConvincePermanently_7bedda15-54d7-498d-b73b-74d4f2edce16, _Var3);
+
+PROC
+PROC_CrimeBribes_SetEludingOptions_ForAllowedMethod((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5)
+AND
+DB_PlayerTrespassing(_Var4, _Var2, _Var6, _Var1, _Var1)
+AND NOT
+DB_CRIME_TrespassNoPermanentAccess(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CrimeTriggers_GeneralBribeDialog(_Var7, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_DialogMoneyTransfer(_Var7, _Var5, _Var8, _Var1, _Var1)
+AND
+DB_CrimeTriggers_TrespassAccessBribeDialog(_Var9, _Var5, _Var1, _Var1, _Var1)
+AND
+IntegerProduct(_Var8, 4, _Var10, _Var1, _Var1)
+THEN
+SetFlag(GEB_Crime_TrespassCanConvincePermanently_7bedda15-54d7-498d-b73b-74d4f2edce16, _Var3);
+DB_DialogMoneyTransfer(_Var9, _Var5, _Var10);
+DB_DialogMoneyTransfer_ForInstance(_Var9, _Var5, _Var3);
+
+QRY
+QRY_CrimeBribes_GetEludedMethodAvailability_Custom((STRING)_Var1, _, (CHARACTER)_Var3, _, _, _, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_CrimeEluding_CantBeEludedUsing(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_CrimeBribes_GetEludedMethodAvailability_Custom("no");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

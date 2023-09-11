@@ -1,0 +1,94 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_BG3_Released_Versions("Release Hotfix 1", 4, 0, 100, 0);
+DB_BG3_Released_Versions("Release Hotfix 2", 4, 0, 200, 0);
+DB_BG3_Released_Versions("Release Hotfix 3", 4, 0, 300, 0);
+DB_BG3_Released_Versions("Release Patch 1", 4, 1, 0, 0);
+DB_BG3_Released_Versions("Release Patch 2", 4, 2, 0, 0);
+
+KBSECTION
+IF
+SavegameLoaded()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 16, 0, _)
+THEN
+DB_BG3_Released_Versions("Release Hotfix 1", 4, 0, 100, 0);
+DB_BG3_Released_Versions("Release Hotfix 2", 4, 0, 200, 0);
+DB_BG3_Released_Versions("Release Patch 1", 4, 1, 0, 0);
+DB_BG3_Released_Versions("Release Patch 2", 4, 2, 0, 0);
+
+IF
+SavegameLoaded()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 300, 0, _)
+THEN
+DB_BG3_Released_Versions("Release Hotfix 3", 4, 0, 300, 0);
+
+IF
+GameModeStarted(_, 0, 0, (STRING)_, (STRING)_)
+THEN
+PROC_BG3_StoreCurrentVersion();
+
+IF
+SavegameLoadStarted()
+THEN
+PROC_BG3_StoreCurrentVersion();
+
+PROC
+PROC_BG3_StoreCurrentVersion()
+AND
+GetModuleVersion("GustavDev", _Var1, _Var2, _Var3, _Var4)
+THEN
+DB_BG3Version_Trace(_Var1, _Var2, _Var3, _Var4);
+SysClear("DB_BG3Version", 4);
+DB_BG3Version(_Var1, _Var2, _Var3, _Var4);
+
+IF
+ModuleLoadedinSavegame("GustavDev", (INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4)
+THEN
+SysClear("DB_BG3Version_Savegame", 4);
+DB_BG3Version_Savegame(_Var1, _Var2, _Var3, _Var4);
+
+IF
+SavegameLoaded()
+THEN
+DB_BG3_PatchingSavegame(1);
+PROC_ApplySavegamePatches();
+NOT DB_BG3_PatchingSavegame(1);
+
+PROC
+PROC_ApplySavegamePatches()
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_BG3_SaveGameIsOlderThan((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_BG3_Released_Versions(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+QRY_BG3_SavegameIsOlderThan(_Var2, _Var3, _Var4, _Var5, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_BG3_SavegameIsOlderThan((INTEGER)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (INTEGER)_Var4, (INTEGER)_Var1)
+AND
+DB_BG3Version_Savegame(_Var5, _Var6, _Var7, _Var8, _Var1)
+AND
+QRY_VersionIsOlderThan(_Var5, _Var6, _Var7, _Var8, _Var1, _Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_BG3_IsPatchingSavegame()
+AND
+DB_BG3_PatchingSavegame(1, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

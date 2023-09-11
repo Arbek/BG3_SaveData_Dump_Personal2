@@ -1,0 +1,278 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, SCL_ServantOfTheRaven_Memories_921b345b-7a8f-c720-63cb-ef96f8f23a5a);
+DB_Dialogs(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, SCL_ServantOfTheRaven_Raven_4e7afde5-4cce-35e2-e6be-915bd4615f3a);
+DB_SpotPlayers(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, "SCL_ServantOfTheRaven_ServantSpotPlayers", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_HasItemEvent(S_SCL_ServantOfTheRaven_HarperLedger_c2e4b6e3-5d33-4cdf-afc0-5b583a1aabf0, SCL_ServantOfTheRaven_HasLedger_7227384c-b4b1-4e66-8890-3e4adc6b587e);
+DB_GiveItemToEvent(S_SCL_ServantOfTheRaven_HarperLedger_c2e4b6e3-5d33-4cdf-afc0-5b583a1aabf0, SCL_ServantOfTheRaven_HandOverLedger_141bb733-1aa8-4d69-883c-2f7d2d5d84a6);
+DB_GLO_CharacterCorpseDialog(S_SCL_ServantOfTheRaven_Madeline_c3d3ab85-8f51-47f0-9b05-3d6010651bd1, SCL_ServantOfTheRaven_Madeline_SwD_d998049f-6bdf-3ae0-549e-208471e26231);
+SetFlag(GLO_SpeakWithDead_State_QuestionsLimitReached_01c40268-4a8d-4787-8566-77e01ff04762, S_SCL_ServantOfTheRaven_Madeline_c3d3ab85-8f51-47f0-9b05-3d6010651bd1);
+DB_CustomDialogRange(S_SCL_ServantOfTheRaven_Madeline_InvisibleSpeaker_2727ddcc-8a70-4e56-95c2-e83a7a8351f6, 5000);
+PROC_SetCorpseOwner(S_SCL_ServantOfTheRaven_Madeline_c3d3ab85-8f51-47f0-9b05-3d6010651bd1, S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700);
+TriggerRegisterForCharacter(S_SCL_Raven_CorpseBoxTrigger_b6230937-c74f-4fd6-a1eb-aa7dcd7e6f68, S_SCL_ServantOfTheRaven_Madeline_c3d3ab85-8f51-47f0-9b05-3d6010651bd1);
+DB_QuestDef_State(SCL_ServantOfTheRaven_State_DialogUnlocked_7d5cc6c3-ea5c-4c5d-bfd7-bfe5d65f02de, "SCL_ServantOfTheRaven", "AgreedToHelp");
+DB_QuestDef_State(SCL_ServantOfTheRaven_State_HasLedger_7227384c-b4b1-4e66-8890-3e4adc6b587e, "SCL_ServantOfTheRaven", "FoundLedger");
+DB_QuestDef_State(SCL_ServantOfTheRaven_State_MissionAbandoned_358c9395-06d3-4a91-bb2f-663e19be256c, "SCL_ServantOfTheRaven", "AbandonedMission");
+DB_QuestDef_State(SCL_ServantOfTheRaven_Event_ForgaveMadeline_1aa550bf-d606-3fca-484f-818ed1f8c59b, "SCL_ServantOfTheRaven", "ForgaveMadeline");
+DB_QuestDef_State(SCL_ServantOfTheRaven_Event_StabbedShadarKai_5651334c-ad7d-8a76-1927-07eab5c713c6, "SCL_ServantOfTheRaven", "StabbedShadarKai");
+DB_QuestDef_SawPermaDefeatedState("SCL_ServantOfTheRaven", "ShadarKaiPermadefeatedOrLeft", S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700);
+DB_QuestDef_LevelLoaded("SCL_ServantOfTheRaven", "MovedToNextAct", "INT_Main_A");
+DB_CombatReact_AD_OnNextTurn(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, SCL_ServantOfTheRaven_AD_TakingTurn_001_Combat_7a094862-791a-a5c7-8c57-5d009d9c35b2);
+DB_CombatReact_AD_OnNextTurn(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, SCL_ServantOfTheRaven_AD_TakingTurn_002_Combat_5f10ac8c-efcd-dee3-f38f-0d340029a6cb);
+DB_CombatReact_AD_OnNextTurn(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, SCL_ServantOfTheRaven_AD_TakingTurn_003_Combat_2021e58c-a12b-f1c3-e666-aea13ebb07fb);
+
+KBSECTION
+PROC
+PROC_SpotPlayers_Spotted(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, "SCL_ServantOfTheRaven_ServantSpotPlayers", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_StartDialog(SCL_ServantOfTheRaven_ShadarKai_6c8848e8-eba4-ba0b-5883-6731698dc0fa, S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, S_SCL_ServantOfTheRaven_HarperTeacher_c3d3ab85-8f51-47f0-9b05-3d6010651bd1, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var1)
+THEN
+DB_Noop(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(SCL_ServantOfTheRaven_Memories_921b345b-7a8f-c720-63cb-ef96f8f23a5a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_SCL_ServantOfTheRaven_Madeline_SpeakerHelper_2727ddcc-8a70-4e56-95c2-e83a7a8351f6);
+PROC_DialogAddSpeakingActor(_Var1, S_SCL_ServantOfTheRaven_Madeline_c3d3ab85-8f51-47f0-9b05-3d6010651bd1);
+
+IF
+FlagSet(SCL_ServantOfTheRaven_State_HasLedger_7227384c-b4b1-4e66-8890-3e4adc6b587e, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(SCL_ServantOfTheRaven_State_DialogUnlocked_7d5cc6c3-ea5c-4c5d-bfd7-bfe5d65f02de, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("SCL_ServantOfTheRaven_RegisterRavenAppearance", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(S_SCL_ServantOfTheRaven_RavenAppearBox_1088a182-a779-4c0c-8e9c-3d49bf8ed4e5);
+
+IF
+LeftTrigger((CHARACTER)_Var1, S_SCL_ServantOfTheRaven_RavenAppearBox_1088a182-a779-4c0c-8e9c-3d49bf8ed4e5, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SCL_ServantOfTheRaven_SummonServant(_Var1);
+PROC_TriggerUnregisterForPlayers(S_SCL_ServantOfTheRaven_RavenAppearBox_1088a182-a779-4c0c-8e9c-3d49bf8ed4e5);
+
+PROC
+PROC_SCL_ServantOfTheRaven_SummonServant((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+IsInCombat(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InteractiveDialogSpeaker(_, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, 0);
+PROC_Foop(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+TeleportTo(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var1);
+PROC_Foop(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+PROC_SCL_ServantOfTheRaven_SelectPetPalSpeaker(_Var1);
+
+PROC
+PROC_SCL_ServantOfTheRaven_SelectPetPalSpeaker((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GetClosestAvailableCharacterTo(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, 0, _Var1, _Var1, _Var1)
+AND
+DB_ClosestAvailableCharacterTo(_Var2, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _, _Var1, _Var1)
+AND
+QRY_GLO_SelectFavouredSpeaker_SingleTag(_Var2, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, PETPAL_dc860a81-f3c2-4c1a-ab90-e7583324845c, 0, _Var1)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(SCL_ServantOfTheRaven_Raven_AD_GoBack_825af9e8-7355-0182-f71d-e7b53c01b739, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var4);
+
+PROC
+PROC_SCL_ServantOfTheRaven_SummonServant((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsInCombat(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var1, _Var1, _Var1, _Var1)
+AND
+CombatGetGuidFor(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ServantOfTheRaven_PlayerInCombat(_Var2, _Var1);
+
+IF
+SwitchedCombat((CHARACTER)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SCL_ServantOfTheRaven_PlayerInCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ServantOfTheRaven_PlayerInCombat(_Var2, _Var1);
+DB_SCL_ServantOfTheRaven_PlayerInCombat(_Var3, _Var1);
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SCL_ServantOfTheRaven_PlayerInCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_ServantOfTheRaven_PlayerInCombat(_Var1, _Var2);
+PROC_SCL_ServantOfTheRaven_SummonServant(_Var2);
+
+PROC
+PROC_SCL_ServantOfTheRaven_SummonServant((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+IsInCombat(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InteractiveDialogSpeaker(_Var2, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var1, _Var1, _Var1)
+THEN
+DB_SCL_ServantOfTheRaven_RavenInDialog(_Var2, _Var1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_SCL_ServantOfTheRaven_RavenInDialog(_Var2, _Var3, _, _, _)
+THEN
+NOT DB_SCL_ServantOfTheRaven_RavenInDialog(_Var2, _Var3);
+PROC_SCL_ServantOfTheRaven_SummonServant(_Var3);
+
+IF
+AutomatedDialogRequestFailed(SCL_ServantOfTheRaven_Raven_AD_GoBack_825af9e8-7355-0182-f71d-e7b53c01b739, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_Foop(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+TeleportTo(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, S_SCL_ServantOfTheRaven_Raven_HomeTrigger_4bfc08ca-28a0-40fa-b14b-3b1cac121333);
+PROC_Foop(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+SetHasDialog(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, 1);
+
+IF
+AutomatedDialogEnded(SCL_ServantOfTheRaven_Raven_AD_GoBack_825af9e8-7355-0182-f71d-e7b53c01b739, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_Foop(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+TeleportTo(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, S_SCL_ServantOfTheRaven_Raven_HomeTrigger_4bfc08ca-28a0-40fa-b14b-3b1cac121333);
+PROC_Foop(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+SetHasDialog(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, 1);
+
+IF
+FlagSet(SCL_ServantOfTheRaven_Event_RavenPeck_5d060fb4-f53c-442d-82b9-89adde8f1176, (GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+ApplyDamage(_Var1, 2, "Piercing", S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+ClearFlag(SCL_ServantOfTheRaven_Event_RavenPeck_5d060fb4-f53c-442d-82b9-89adde8f1176, _Var1, 0);
+
+IF
+DB_GlobalFlag(SCL_ServantOfTheRaven_Event_KnifeStab_ac71529b-a5b0-493f-bf8b-3137f2184d51, _, _, _, _)
+THEN
+PROC_ApplyLimitedDamagePercent(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, 7, "Piercing", S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700);
+PROC_GlobalClearFlagAndCache(SCL_ServantOfTheRaven_Event_KnifeStab_ac71529b-a5b0-493f-bf8b-3137f2184d51);
+
+IF
+DialogEnded(SCL_ServantOfTheRaven_Memories_921b345b-7a8f-c720-63cb-ef96f8f23a5a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(SCL_ServantOfTheRaven_State_MissionAbandoned_358c9395-06d3-4a91-bb2f-663e19be256c, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Servant_PlaneShift();
+
+IF
+FlagSet(SCL_ServantOfTheRaven_State_RitualMidpoint_84a08002-4ad4-e26b-1a86-c2114c061d65, _, _, _, _)
+AND
+IsInInventoryOf(S_SCL_ServantOfTheRaven_HarperLedger_c2e4b6e3-5d33-4cdf-afc0-5b583a1aabf0, S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, 1, _, _)
+THEN
+Drop(S_SCL_ServantOfTheRaven_HarperLedger_c2e4b6e3-5d33-4cdf-afc0-5b583a1aabf0);
+
+IF
+DialogEnded(SCL_ServantOfTheRaven_Memories_921b345b-7a8f-c720-63cb-ef96f8f23a5a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(SCL_ServantOfTheRaven_Servant_TaskCompleted_0271ade4-4b59-4287-9fba-10e4aedf013b, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Servant_PlaneShift();
+
+PROC
+PROC_SCL_Servant_PlaneShift()
+THEN
+PROC_Poof(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700);
+
+PROC
+PROC_SCL_Servant_PlaneShift()
+AND NOT
+QRY_SCL_ServantOfTheRaven_TryStartRavenByeAD()
+THEN
+PROC_Poof(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+
+QRY
+QRY_SCL_ServantOfTheRaven_TryStartRavenByeAD()
+AND NOT
+DB_PermaDefeated(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _, _, _, _)
+AND
+QRY_GetClosestAvailableCharacterTo(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, 1, _, _, _)
+AND
+DB_ClosestAvailableCharacterTo(_, _Var2, _, _, _)
+AND
+QRY_GLO_SelectFavouredSpeaker_SingleTag(_Var2, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, PETPAL_dc860a81-f3c2-4c1a-ab90-e7583324845c, 0, _)
+AND
+DB_QRYRTN_GLO_SelectFavouredSpeaker(_Var4, _, _, _, _)
+AND
+QRY_OnlyOnce("SCL_ServantOfTheRaven_RavenSaysBye", _, _, _, _)
+AND
+QRY_StartDialog(SCL_ServantOfTheRaven_Raven_AD_Bye_70b7e381-dd35-62c1-f4c0-3ab6b38c47b8, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var4, _, _)
+THEN
+SetHasDialog(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, 0);
+LookAtEntity(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var2, 3);
+
+IF
+AutomatedDialogRequestFailed(SCL_ServantOfTheRaven_Raven_AD_Bye_70b7e381-dd35-62c1-f4c0-3ab6b38c47b8, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_Poof(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+
+IF
+AutomatedDialogEnded(SCL_ServantOfTheRaven_Raven_AD_Bye_70b7e381-dd35-62c1-f4c0-3ab6b38c47b8, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_Poof(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+
+IF
+LeftTrigger(S_SCL_ServantOfTheRaven_Madeline_c3d3ab85-8f51-47f0-9b05-3d6010651bd1, S_SCL_Raven_CorpseBoxTrigger_b6230937-c74f-4fd6-a1eb-aa7dcd7e6f68, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(SCL_ServantOfTheRaven_State_BodyGone_24e52e54-ea06-4501-a4b6-7d2240c41cc0);
+
+IF
+FlagSet(SCL_ServantOfTheRaven_State_BodyGone_24e52e54-ea06-4501-a4b6-7d2240c41cc0, _, _, _, _)
+AND
+QRY_SpeakerIsAvailable(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, 0, 1, 0, _)
+THEN
+PROC_TryStartAD(SCL_ServantOfTheRaven_AD_Idle_f6c2d33b-33f3-e95e-35f4-8d06929d91c6, S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39);
+
+IF
+AutomatedDialogEnded(SCL_ServantOfTheRaven_AD_Idle_f6c2d33b-33f3-e95e-35f4-8d06929d91c6, _, _, _, _)
+AND
+DB_GlobalFlag(SCL_ServantOfTheRaven_State_BodyGone_24e52e54-ea06-4501-a4b6-7d2240c41cc0, _, _, _, _)
+THEN
+PROC_SCL_Servant_PlaneShift();
+
+IF
+CombatEnded((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Was_InCombat(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(S_SCL_ServantOfTheRaven_Raven_3e4d4ec4-e687-42dd-8149-47cf10a42b39, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(S_SCL_ServantOfTheRaven_ShadarKai_a66dd998-1e87-433b-b147-359c0572e700, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Servant_PlaneShift();
+GoalCompleted;
+
+PROC
+PROC_SCL_Servant_PlaneShift()
+AND NOT
+DB_GlobalFlag(SCL_ServantOfTheRaven_State_MissionAbandoned_358c9395-06d3-4a91-bb2f-663e19be256c, _, _, _, _)
+THEN
+QuestUpdate("SCL_ServantOfTheRaven", "ShadarKaiPermadefeatedOrLeft");
+
+IF
+FlagSet(SCL_ServantOfTheRaven_Event_PlayerCompletedTask_b3d1b8d4-2f25-edca-f72d-b4a731b73d43, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+QuestUpdate(_Var1, "SCL_ServantOfTheRaven", "TaskCompleted");
+
+IF
+TextEvent("scl_receiveledger", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("Debug_SCL_ServantOfTheRaven_ReceivedLedger", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_ServantOfTheRaven_Event_HandOverLedger_141bb733-1aa8-4d69-883c-2f7d2d5d84a6, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

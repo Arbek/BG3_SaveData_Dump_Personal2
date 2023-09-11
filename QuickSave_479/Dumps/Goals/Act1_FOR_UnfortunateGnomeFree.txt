@@ -1,0 +1,154 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_HasItemTemplateScriptFlag(1, FOR_UnfortunateGnome_eb447f2f-14f4-df3f-24d3-f2aa0b2bc4f4, GRN_Bomb_A_278271f9-3fbc-4cf7-a5dc-b36527f521b2, 1, 1);
+
+KBSECTION
+IF
+EntityEvent(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "HAV_SavingPrisoners_BarcusToHaven", _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_SpotPlayers_Spotted(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_UnfortunateGnome", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+QRY_StartDialog(DIALOGRESOURCEGUID_FOR_UnfortunateGnome_eb447f2f-14f4-df3f-24d3-f2aa0b2bc4f4, S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogStarted(DIALOGRESOURCEGUID_FOR_UnfortunateGnome_eb447f2f-14f4-df3f-24d3-f2aa0b2bc4f4, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SpotPlayers_StopSpotting(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "FOR_UnfortunateGnome");
+
+IF
+DialogEnded(DIALOGRESOURCEGUID_FOR_UnfortunateGnome_eb447f2f-14f4-df3f-24d3-f2aa0b2bc4f4, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GlobalFlag(UND_DuergarGuards_State_PermaDefeated_b2211d1b-3dea-9b74-b19c-71938ac4b218, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_UnfortunateGnome_State_Freed_ce63b2ca-4692-551f-db78-0bff8dd0da6d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+PROC_FOR_UnfortunateGnome_RunAway("FOR_UnfortunateGnome_RanAway");
+QuestUpdate(_Var2, "FOR_UnfortunateGnome", "GnomeNotToCamp");
+
+IF
+DialogEnded(DIALOGRESOURCEGUID_FOR_UnfortunateGnome_eb447f2f-14f4-df3f-24d3-f2aa0b2bc4f4, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(UND_DuergarGuards_State_PermaDefeated_b2211d1b-3dea-9b74-b19c-71938ac4b218, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(UND_UnfortunateGnome_State_Freed_ce63b2ca-4692-551f-db78-0bff8dd0da6d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+PROC_FOR_UnfortunateGnome_RunAway("FOR_UnfortunateGnome_CapturedAgain");
+QuestUpdate(_Var2, "FOR_UnfortunateGnome", "GnomeNotToCamp");
+
+IF
+DialogEnded(DIALOGRESOURCEGUID_FOR_UnfortunateGnome_eb447f2f-14f4-df3f-24d3-f2aa0b2bc4f4, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(UND_UnfortunateGnome_State_Freed_ce63b2ca-4692-551f-db78-0bff8dd0da6d, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976);
+SetHasDialog(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, 0);
+
+IF
+DialogEnded(DIALOGRESOURCEGUID_FOR_UnfortunateGnome_eb447f2f-14f4-df3f-24d3-f2aa0b2bc4f4, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(UND_UnfortunateGnome_State_Freed_ce63b2ca-4692-551f-db78-0bff8dd0da6d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_UnfortunateGnome_Event_Run_3d6b6f85-e976-d687-e5b1-78785064fb17, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_FOR_UnfortunateGnome_RunAway("UND_UnfortunateGnome_RanAwayToCamp");
+QuestUpdate(_Var2, "FOR_UnfortunateGnome", "GnomeToCamp");
+
+IF
+DialogEnded(DIALOGRESOURCEGUID_FOR_UnfortunateGnome_eb447f2f-14f4-df3f-24d3-f2aa0b2bc4f4, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_GlobalFlag(UND_UnfortunateGnome_State_Freed_ce63b2ca-4692-551f-db78-0bff8dd0da6d, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(FOR_UnfortunateGnome_Event_Run_3d6b6f85-e976-d687-e5b1-78785064fb17, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_FOR_UnfortunateGnome_RunAway("");
+QuestUpdate(_Var2, "FOR_UnfortunateGnome", "GnomeNotToCamp");
+
+PROC
+PROC_LongRest()
+AND
+DB_FOR_GnomeGoblins(_Var1, _, _, _, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+SetEntityEvent(_Var1, "FOR_GnomeGoblinsReturnedHome");
+SetFlag(FOR_GnomeGoblinsReturnedHome_be23fd5b-22ed-b163-0204-779faf6e131c, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_RemoveDBTrespassTrigger(TRIGGERGUID_S_WLD_WIL_NearCapturedGnome_a877c0ce-1016-4120-9c51-6557fea123b0, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_LevelUnloading("WLD_Main_A", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FOR_GnomeGoblins(_Var1, _, _, _, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+SetEntityEvent(_Var1, "FOR_GnomeGoblinsReturnedHome");
+SetFlag(FOR_GnomeGoblinsReturnedHome_be23fd5b-22ed-b163-0204-779faf6e131c, NULL_00000000-0000-0000-0000-000000000000, 0);
+PROC_RemoveDBTrespassTrigger(TRIGGERGUID_S_WLD_WIL_NearCapturedGnome_a877c0ce-1016-4120-9c51-6557fea123b0, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_FOR_UnfortunateGnome_RunAway((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+IsInTrigger(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, S_FOR_UnfortunateGnome_WindmillArea_4bc3d6c1-bb2d-4497-87cd-a4496af65d67, 1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSightTo(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, S_GOB_GnomeGoblinDestination_5418547b-f831-4598-99fe-741ba7985e0a, "Run", 0, _Var1);
+
+PROC
+PROC_FOR_UnfortunateGnome_RunAway((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+IsInTrigger(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, S_FOR_UnfortunateGnome_WindmillArea_4bc3d6c1-bb2d-4497-87cd-a4496af65d67, 0, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(S_FOR_UnfortunateGnome_6e45a00b-bad2-40bb-9403-147b9e92d976, "Run", 0, _Var1);
+
+IF
+DialogEnded(FOR_UnfortunateGnome_SpeedUp_b7098519-067a-43ee-1446-1ef3a604de87, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_FOR_UnfortunateGnome_ThrowOffDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(DIALOGRESOURCEGUID_FOR_GnomeGoblin1_AD_InvestigateMill_cf27ec59-299d-7a19-7d1b-7a20b4c4a7e3, S_FOR_GnomeGoblin1_b2c582af-bc69-48b3-a004-648562dab404, S_FOR_GnomeGoblin3_bff8ab5f-739d-422a-9ad3-92f4b897f1bc, _Var1, _Var1)
+AND
+DB_FOR_UnfortunateGnome_GnomeInvestiGoblins(_, _Var3, 1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var3, "FOR_GnomeGoblins_Investigate");
+
+IF
+AutomatedDialogEnded(DIALOGRESOURCEGUID_FOR_GnomeGoblin1_AD_InvestigateMill_cf27ec59-299d-7a19-7d1b-7a20b4c4a7e3, _, _, _, _)
+AND
+DB_FOR_UnfortunateGnome_GnomeInvestiGoblins(_, _Var3, 1, _, _)
+THEN
+SetEntityEvent(_Var3, "FOR_GnomeGoblins_Investigate");
+
+IF
+DialogEnded(FOR_UnfortunateGnome_SlowDown_e5a2eee5-2eef-e746-ff88-a461d03e336c, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_FOR_UnfortunateGnome_ThrowOffDialog(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_FOR_UnfortunateGnome_GnomeInvestiGoblins(_, _Var3, 1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var3, "FOR_GnomeGoblins_Investigate");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1_FOR_UnfortunateGnomeHeld"

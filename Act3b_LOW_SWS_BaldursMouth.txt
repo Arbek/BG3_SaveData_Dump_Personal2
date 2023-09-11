@@ -1,0 +1,65 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_LOW_SWS_BaldursMouth_Civilian_000_70ac2dd8-b8d9-47a3-b9e1-6381503c76be, LOW_SWS_BaldursMouth_Civilian_000_6d9e7a04-0289-211f-58ec-ba1ac1bcf834);
+DB_Dialogs(S_LOW_SWS_BaldursMouth_Civilian_001_3a04cb6f-eb37-4cca-9ddd-e79c2f75c51c, LOW_SWS_BaldursMouth_Civilian_001_ea94f488-be89-5861-9abe-78e915a98f50);
+DB_Dialogs(S_LOW_SWS_BaldursMouth_Civilian_002_a02b4727-b7b4-4f13-b8e6-ff7d8d873415, LOW_SWS_BaldursMouth_Civilian_002_72a8b73f-a480-a459-4044-784e18594ba3);
+DB_Dialogs(S_LOW_SWS_BaldursMouth_FF_000_d25b7709-2d37-406e-be4d-a2f24390cf68, LOW_SWS_BaldursMouth_FF_000_ca97a7aa-13f1-a303-2b5b-93906914a7fd);
+DB_Dialogs(S_LOW_SWS_BaldursMouth_FF_001_6fdc06e0-9c81-4853-9a08-f9d3ebf5a0eb, LOW_SWS_BaldursMouth_FF_001_4e9bc34c-b4bb-e1f8-1a57-d356659447ea);
+DB_Dialogs(S_LOW_SWS_BaldursMouth_Worker_28d73071-360d-497c-ad07-8e2baf6a2300, LOW_SWS_BaldursMouth_Worker_be8e44b9-f594-6a98-21c2-318ceaa515d7);
+DB_LOW_SWS_BaldursMouth_CivPos(S_LOW_SWS_BaldursMouth_Civilian_000_70ac2dd8-b8d9-47a3-b9e1-6381503c76be, S_LOW_SWS_BaldursMouth_Pos_Civ_000_6959f4e1-0812-4f38-b223-6876b4c7f38f);
+DB_LOW_SWS_BaldursMouth_CivPos(S_LOW_SWS_BaldursMouth_Civilian_001_3a04cb6f-eb37-4cca-9ddd-e79c2f75c51c, S_LOW_SWS_BaldursMouth_Pos_Civ_001_158d1b18-8839-4792-b162-1fe276e5beb4);
+DB_LOW_SWS_BaldursMouth_CivPos(S_LOW_SWS_BaldursMouth_Civilian_002_a02b4727-b7b4-4f13-b8e6-ff7d8d873415, S_LOW_SWS_BaldursMouth_Pos_Civ_002_8133ab07-9957-471d-9e38-5aba77a40975);
+DB_LOW_SWS_BaldursMouth_Guards(S_LOW_SWS_BaldursMouth_FF_000_d25b7709-2d37-406e-be4d-a2f24390cf68);
+DB_LOW_SWS_BaldursMouth_Guards(S_LOW_SWS_BaldursMouth_FF_001_6fdc06e0-9c81-4853-9a08-f9d3ebf5a0eb);
+
+KBSECTION
+IF
+DB_LOW_SWS_BaldursMouth_CivPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+DB_LOW_SWS_BaldursMouth_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReaction");
+PROC_CharacterDisableCrime(_Var1, "DangerousMonsterReactionFallback");
+
+PROC
+PROC_LOW_SWS_Transition()
+AND
+IsInTrigger(S_LOW_SWS_BaldursMouth_SW_646f1f3d-278f-4206-9dee-8acdce92f185, S_LOW_SWS_BaldursMouth_Zone_SW_f0b725b6-f578-43e8-aea2-1b30613108ac, 1, _, _)
+AND
+DB_LOW_SWS_BaldursMouth_CivPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_AppearOutOfSightTo(_Var1, _Var2, _Var1, "LOW_SWS_BaldursMouth_Appeared");
+
+IF
+EntityEvent((CHARACTER)_Var1, "LOW_SWS_BaldursMouth_Appeared", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_BaldursMouth_CivPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_CharacterMoveTo(_Var1, _Var2, "Walk", "");
+
+IF
+EnteredCombat((CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_SWS_BaldursMouth_Guards(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_SWS_BaldursMouth_DisperseCivs();
+
+PROC
+PROC_LOW_SWS_BaldursMouth_DisperseCivs()
+AND
+DB_LOW_SWS_BaldursMouth_CivPos(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+IsOnStage(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var1, "Run", 1, "");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b_LOW_SteelWatchStreets"

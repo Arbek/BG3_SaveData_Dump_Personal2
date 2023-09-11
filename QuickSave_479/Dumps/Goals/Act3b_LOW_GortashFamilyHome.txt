@@ -1,0 +1,182 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LOW_GortashFamilyHome_GortashParents(S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, LOW_GortashFamilyHome_GortashFather_3fb9449b-37ef-1ebb-cf18-c939e7cff48d, LOW_GortashFamilyHome_GortashFather_Dead_cc893025-a948-a52e-9123-e705d34176d1, LOW_GortashFather_State_Dead_0560c266-dd95-4c37-b37d-83fdfe1ef901);
+DB_LOW_GortashFamilyHome_GortashParents(S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, LOW_GortashFamilyHome_GortashMother_e872e4ff-de6b-1c3f-7871-61b03b2f1f81, LOW_GortashFamilyHome_GortashMother_Dead_d85e6de5-47ce-a751-78eb-6769ccb6d666, LOW_GortashMother_State_Dead_3f910c1f-f058-4f43-b955-e476cc026d7f);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_GortashFamilyHome_ShopTrigger_ba0b8a2e-79ed-40e9-8c18-c87a3edcf2ba, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c);
+DB_ItemShopTrigger(S_LOW_GortashFamilyHome_ShopTrigger_ba0b8a2e-79ed-40e9-8c18-c87a3edcf2ba, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_GortashFamilyHome_Private_Ownership_b0768027-40e7-473f-a36a-3266f364aa19, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c);
+DB_ItemOwnerShipClearItem("CTY_Main_A", S_LOW_GortashFamilyHome_GortashPortrait_5d8c20bc-1e8a-4637-bde2-fc1b5dbdf688);
+DB_PerceptionSkillCustomAD(S_LOW_GortashFamilyHome_GortashPortrait_5d8c20bc-1e8a-4637-bde2-fc1b5dbdf688, LOW_GortashFamilyHome_PAD_GortashPortrait_d26ddb43-d9f6-6994-c2cb-4107fed7754a);
+PROC_TriggerRegisterForParty(S_LOW_GortashFamilyHome_Nearby_Trigger_bd798e10-4551-4a00-910c-19b2311138e9);
+
+KBSECTION
+IF
+DB_LOW_GortashFamilyHome_GortashParents(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_Dialogs(_Var1, _Var2);
+DB_GLO_CharacterCorpseDialog(_Var1, _Var3);
+SetCanTrade(_Var1, 1);
+DB_FlagReactionAfterDialog(LOW_GortashFamilyHome_Event_DecreaseApproval_a07c20eb-fb11-ebbb-8c1f-4299e2a39731, _Var2);
+DB_DeadEvent(_Var1, _Var4);
+
+IF
+UseFinished((CHARACTER)_Var1, S_LOW_GortashFamilyHome_GortashPortrait_5d8c20bc-1e8a-4637-bde2-fc1b5dbdf688, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogName(LOW_GortashFamilyHome_PAD_GortashPortrait_d26ddb43-d9f6-6994-c2cb-4107fed7754a, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_GortashFamilyHome_PAD_GortashPortrait_d26ddb43-d9f6-6994-c2cb-4107fed7754a, _Var1);
+
+IF
+UseFinished((CHARACTER)_Var1, S_LOW_GortashFamilyHome_GortashPortrait_5d8c20bc-1e8a-4637-bde2-fc1b5dbdf688, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+IF
+Died(S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _, _, _, _)
+THEN
+NOT DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_GortashFamilyHome_ShopTrigger_ba0b8a2e-79ed-40e9-8c18-c87a3edcf2ba, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c);
+NOT DB_ItemShopTrigger(S_LOW_GortashFamilyHome_ShopTrigger_ba0b8a2e-79ed-40e9-8c18-c87a3edcf2ba, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c);
+NOT DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_GortashFamilyHome_Private_Ownership_b0768027-40e7-473f-a36a-3266f364aa19, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_GortashFamilyHome_ShopTrigger_ba0b8a2e-79ed-40e9-8c18-c87a3edcf2ba, S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1);
+DB_ItemShopTrigger(S_LOW_GortashFamilyHome_ShopTrigger_ba0b8a2e-79ed-40e9-8c18-c87a3edcf2ba, S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_GortashFamilyHome_Private_Ownership_b0768027-40e7-473f-a36a-3266f364aa19, S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1);
+
+IF
+DB_GlobalFlag(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_GortashFamilyHome_GortashParents(_Var1, _, _, _, _Var1)
+THEN
+SetCanTrade(_Var1, 0);
+
+IF
+DB_Sees(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Tadpole_TadpoleCreature(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_LOW_GortashFamilyHome_GortashParents(_Var3, _, _, _, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_GortashFamilyHome_Knows_GortashParentsTadpoled_d74b49da-79b3-46d4-820a-cc7ffd313c85, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(LOW_GortashFamilyHome_Knows_GortashParentsTadpoled_d74b49da-79b3-46d4-820a-cc7ffd313c85);
+
+IF
+DB_PermaDefeated(S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, _, _, _, _)
+AND
+DB_Sees(S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, _, _, _)
+AND
+QRY_OnlyOnce("LOW_GortashFamilyHome_AD_FatherSeesDeadMother", _, _, _, _)
+THEN
+PROC_TryStartAD(LOW_GortashFamilyHome_AD_FatherSeesDeadMother_05964d88-a01e-6d81-6a7b-ecb8aa85489e, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c);
+
+IF
+DB_PermaDefeated(S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _, _, _, _)
+AND
+DB_Sees(S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _, _, _)
+AND
+QRY_OnlyOnce("LOW_GortashFamilyHome_AD_MotherSeesDeadFather", _, _, _, _)
+THEN
+PROC_TryStartAD(LOW_GortashFamilyHome_AD_MotherSeesDeadFather_99088c3f-492d-3551-fba4-a1c1d2e0e522, S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1);
+
+IF
+DB_InRegion(_, S_LOW_GortashFamilyHome_Nearby_Trigger_bd798e10-4551-4a00-910c-19b2311138e9, _, _, _)
+AND
+QRY_OnlyOnce("LOW_GortashFamilyHome_StartedADTimer", _, _, _, _)
+THEN
+TimerLaunch("LOW_GortashFamilyHome_ADTimer", 15000);
+DB_LOW_GortashFamilyHome_TimerTicking(1);
+
+IF
+DB_LOW_GortashFamilyHome_TimerTicking(1, _, _, _, _)
+AND NOT
+DB_InRegion(_, S_LOW_GortashFamilyHome_Nearby_Trigger_bd798e10-4551-4a00-910c-19b2311138e9, _, _, _)
+THEN
+TimerCancel("LOW_GortashFamilyHome_ADTimer");
+NOT DB_LOW_GortashFamilyHome_TimerTicking(1);
+
+IF
+TimerFinished("LOW_GortashFamilyHome_ADTimer", _, _, _, _)
+THEN
+TimerLaunch("LOW_GortashFamilyHome_ADTimer", 55000);
+
+IF
+TimerFinished("LOW_GortashFamilyHome_ADTimer", _, _, _, _)
+AND
+QRY_AnyCharacterInTrigger(S_LOW_GortashFamilyHome_Nearby_Trigger_bd798e10-4551-4a00-910c-19b2311138e9, _, _, _, _)
+THEN
+PROC_LOW_GortashFamilyHome_TryAD();
+
+PROC
+PROC_LOW_GortashFamilyHome_TryAD()
+AND NOT
+QRY_LOW_GortashFamilyHome_CharacterTryAD(S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _, _, _, _)
+AND
+QRY_LOW_GortashFamilyHome_CharacterTryAD(S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_LOW_GortashFamilyHome_TryAD()
+AND NOT
+QRY_LOW_GortashFamilyHome_MotherDidAD_Clear()
+THEN
+DB_LOW_GortashFamilyHome_MotherDidAD(1);
+
+QRY
+QRY_LOW_GortashFamilyHome_MotherDidAD_Clear()
+AND
+DB_LOW_GortashFamilyHome_MotherDidAD(1, _, _, _, _)
+THEN
+NOT DB_LOW_GortashFamilyHome_MotherDidAD(1);
+
+QRY
+QRY_LOW_GortashFamilyHome_CharacterTryAD(S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, _, _, _, _)
+AND NOT
+DB_CantTalk(S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, _, _, _, _)
+AND NOT
+DB_CRIME_HandlingCrime(_, S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, _, _, _)
+AND
+QRY_StartDialog(LOW_GortashFamilyHome_AD_GortashMother_Idle_3b31f4e1-1bf1-dc35-f6c1-51dfad909f9a, S_LOW_GortashFamilyHome_GortashMother_4b652ebe-5180-4bc1-987b-4e2699987ab1, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_LOW_GortashFamilyHome_CharacterTryAD(S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _, _, _, _)
+AND
+DB_LOW_GortashFamilyHome_MotherDidAD(1, _, _, _, _)
+AND NOT
+DB_CantTalk(S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _, _, _, _)
+AND NOT
+DB_CRIME_HandlingCrime(_, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _, _, _)
+AND
+QRY_LOW_GortashFamilyHome_FatherSeesParty()
+AND
+QRY_StartDialog(LOW_GortashFamilyHome_AD_GortashFather_Idle_84fb6722-a7e4-dbcf-1d03-6ece0489476a, S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_LOW_GortashFamilyHome_FatherSeesParty()
+AND
+DB_Sees(S_LOW_GortashFamilyHome_GortashFather_c64a0a8c-9ee0-4453-90ff-de4a0661579c, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

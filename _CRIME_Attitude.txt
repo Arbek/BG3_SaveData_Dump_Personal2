@@ -1,0 +1,31 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_CrimeSetupWarning((STRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var8, (STRING)_Var1, (STRING)_Var1)
+THEN
+ClearFlag(GEB_Crime_IsAngry_60a1ad4c-ab66-4ca6-973c-a9b49bb84892, _Var4, 0);
+
+PROC
+PROC_CrimeSetupWarning((STRING)_Var1, (INTEGER)_Var2, (CHARACTER)_Var3, (CHARACTER)_Var4, (CHARACTER)_Var5, (CHARACTER)_Var6, (CHARACTER)_Var7, (DIALOGRESOURCE)_Var8, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_Players(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+GetAttitudeTowardsPlayer(_Var3, _Var4, _Var9, _Var1, _Var1)
+AND
+GetAbility(_Var4, "Charisma", _Var10, _Var1, _Var1)
+AND
+IntegerSum(_Var9, _Var10, _Var11, _Var1, _Var1)
+AND
+_Var11 < -10
+THEN
+SetFlag(GEB_Crime_IsAngry_60a1ad4c-ab66-4ca6-973c-a9b49bb84892, _Var3, 0);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

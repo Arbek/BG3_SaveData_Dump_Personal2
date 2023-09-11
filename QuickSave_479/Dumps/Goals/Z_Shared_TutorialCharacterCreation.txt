@@ -1,0 +1,93 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+CharacterCreationStarted()
+THEN
+DB_TUT_CharacterCreation_Started(1);
+
+IF
+MovieFinished("GUS_CGI01_Part1", _, _, _, _)
+THEN
+DB_TUT_CharacterCreation_IntroMovieFinished(1);
+
+IF
+DB_TUT_CharacterCreation_Started(1, _, _, _, _)
+AND
+DB_TUT_CharacterCreation_IntroMovieFinished(1, _, _, _, _)
+THEN
+TimerLaunch("TUT_CharacterCreation", 5000);
+
+IF
+TimerFinished("TUT_CharacterCreation", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CharacterCreationDummy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_TUT_CharacterCreation_InitialShown(1);
+PROC_TUT_CharacterCreation_ShowTutorialForUser(_Var2);
+
+IF
+UserConnected((INTEGER)_Var1, _, _, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_TUT_CharacterCreation_InitialShown(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TUT_CharacterCreation_ShowTutorialForUser(_Var1);
+
+PROC
+PROC_TUT_CharacterCreation_ShowTutorialForUser((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+QRY_TUT_CharacterCreation_GetUserDummy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_TUT_CharacterCreation_GetUserDummy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+WasTutorialCompletedForUser(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+ResetTutorialsRequest(_Var1, _Var3);
+
+PROC
+PROC_ShowUnifiedTutorialForPlayer((CHARACTER)_Var1, (UNIFIEDTUTORIAL)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_TUT_CharacterCreation_GetUserDummy((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_QRYRTN_TUT_CharacterCreation_GetUserDummy(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_TUT_CharacterCreation_GetUserDummy(_Var2);
+
+QRY
+QRY_TUT_CharacterCreation_GetUserDummy((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CharacterCreationDummy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_TUT_CharacterCreation_GetUserDummy(_, _Var1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_TUT_CharacterCreation_GetUserDummy(_Var2);
+
+IF
+CharacterCreationFinished()
+AND
+DB_QRYRTN_TUT_CharacterCreation_GetUserDummy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_TUT_CharacterCreation_GetUserDummy(_Var1);
+
+IF
+CharacterCreationFinished()
+THEN
+NOT DB_TUT_CharacterCreation_Started(1);
+NOT DB_TUT_CharacterCreation_IntroMovieFinished(1);
+NOT DB_TUT_CharacterCreation_InitialShown(1);
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+

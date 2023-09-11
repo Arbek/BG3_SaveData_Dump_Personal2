@@ -1,0 +1,307 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_GLO_LevelSwap_Dialog(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "");
+NOT DB_GLO_LevelSwap_Teleporter(NULL_00000000-0000-0000-0000-000000000000, "");
+NOT DB_GLO_LevelSwap_Location("", NULL_00000000-0000-0000-0000-000000000000, "", "", 0, "", "");
+
+KBSECTION
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_GLO_LevelSwap_Dialog(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var5, _, _Var1, _Var1)
+AND
+GetFlag(_Var3, _Var5, 1, _Var1, _Var1)
+AND
+DB_GLO_LevelSwap_Location(_Var4, _, _, _Var9, _, _, _, _Var1, _Var1, _Var1)
+THEN
+ClearFlag(_Var3, _Var5);
+PROC_GLO_LevelSwapCheckPartyAvailableAndProceed(_Var4, _Var5);
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_LevelSwap_Teleporter(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+DB_CustomUseItemResponse(_Var1, _Var2, 0);
+
+IF
+UseFinished((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_LevelSwap_Teleporter(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_LevelSwap_BlockTeleport(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_LevelSwap_Location(_Var3, _, _, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_LevelSwapCheckPartyAvailableAndProceed(_Var3, _Var1);
+
+QRY
+QRY_GLO_LevelSwap_BlockTeleport((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_LevelSwapCheckPartyAvailableAndProceed((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+QRY_GLO_LevelSwap_IsPartyUnavailable(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_LevelSwapCheckCustomReadyCheckAndProceed(_Var1, _Var2);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_LevelSwap_PartyUnavailable(1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_LevelSwap_PartyUnavailable(1);
+PROC_GLO_LevelSwap_NotifyPartyUnavailable(_Var2, _Var1);
+
+PROC
+PROC_GLO_LevelSwap_NotifyPartyUnavailable((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 == _Var2
+THEN
+OpenMessageBox(_Var2, "ReadyCheck_YouAreNotReady");
+
+PROC
+PROC_GLO_LevelSwap_NotifyPartyUnavailable((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != _Var2
+AND
+QRY_SameUser(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+OpenMessageBox(_Var2, "ReadyCheck_PartyMemberNotReady");
+
+PROC
+PROC_GLO_LevelSwap_NotifyPartyUnavailable((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var1 != _Var2
+AND NOT
+QRY_SameUser(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+OpenMessageBox(_Var1, "ReadyCheck_YouAreNotReady");
+OpenMessageBox(_Var2, "ReadyCheck_PartyMemberNotReady");
+
+QRY
+QRY_GLO_LevelSwap_IsPartyUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_LevelSwap_PartyUnavailable(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_LevelSwap_PartyUnavailable(1);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InteractiveDialogSpeaker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_LevelSwap_Dialog(_Var3, _, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Downed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InDangerZone(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FastTravelBlock_CantMove_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FastTravelBlock_Arrested_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FastTravelBlock_BlockedZone_StatusSet(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_IsPartyMemberUnavailable((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_FastTravelBlock_FugitiveInPrison_StatusSet(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_LevelSwapCheckCustomReadyCheckAndProceed((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+QRY_GLO_LevelSwapCheckCustomReadyCheckAndProceed(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_RegionSwapReadyCheck(_Var2, _Var1, 0);
+
+QRY
+QRY_GLO_LevelSwapCheckCustomReadyCheckAndProceed((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RegionSwapReadyCheck((CHARACTER)_Var1, "WaypointTravel_RegionSwap", (INTEGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_GLO_LevelSwap_ReadyCheck(_Var1, "WaypointTravel_RegionSwap");
+ReadyCheckGlobal("WaypointTravel_RegionSwap", "GLO_Waypoint_Regionswap", _Var2, _Var1);
+
+PROC
+PROC_RegionSwapReadyCheck((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_LevelSwap_Location(_Var2, _, _, _, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1)
+AND
+DB_LevelLoadedOnce(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_LevelSwap_ReadyCheck(_Var1, _Var2);
+ReadyCheckGlobal(_Var2, "GLO_Waypoint_Regionswap", _Var3, _Var1);
+
+PROC
+PROC_RegionSwapReadyCheck((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_LevelSwap_Location(_Var2, _, _, _, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1)
+AND NOT
+DB_LevelLoadedOnce(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_LevelSwap_PlayerLevelIsTooLow(_Var1, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_LevelSwap_ReadyCheck(_Var1, _Var2);
+ReadyCheckGlobal(_Var2, _Var8, _Var3, _Var1);
+
+PROC
+PROC_RegionSwapReadyCheck((GUIDSTRING)_Var1, (STRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_LevelSwap_Location(_Var2, _, _, _Var6, _Var7, _, _Var9, _Var1, _Var1, _Var1)
+AND NOT
+DB_LevelLoadedOnce(_Var9, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_LevelSwap_PlayerLevelIsTooLow(_Var1, _Var7, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_LevelSwap_ReadyCheck(_Var1, _Var2);
+ReadyCheckGlobal(_Var2, _Var6, _Var3, _Var1);
+
+QRY
+QRY_LevelSwap_PlayerLevelIsTooLow((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetLevel(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var3 < _Var2
+THEN
+DB_NOOP(1);
+
+IF
+ReadyCheckPassed((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_LevelSwap_ReadyCheck(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_LevelSwap_ReadyCheck(_Var2, _Var1);
+PROC_RegionSwapReadyCheckPassed(_Var2, _Var1);
+
+IF
+ReadyCheckFailed((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_LevelSwap_ReadyCheck(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_LevelSwap_ReadyCheck(_Var2, _Var1);
+PROC_RegionSwapReadyCheckFailed(_Var2, _Var1);
+
+PROC
+PROC_RegionSwapReadyCheckPassed((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RegionSwapReadyCheckFailed((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RegionSwapReadyCheckPassed((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_LevelSwap_Location(_Var2, _, _, _, _, _, _, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_LevelSwap_BlockSwap(_Var1, _Var2, _Var9);
+PROC_GLO_LevelSwap_CheckSwap(_Var1, _Var2, _Var9);
+
+PROC
+PROC_GLO_LevelSwap_BlockSwap((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_LevelSwap_CheckSwap((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_LevelSwap_Blocked(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_GLO_LevelSwap_CustomTransition(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_GLO_LevelSwap_Location(_Var2, _Var4, _Var5, _, _, _, _, _Var1, _Var1, _Var1)
+THEN
+TeleportPartiesWithMovie(_Var4, "", _Var5);
+PROC_GLO_LevelSwap_LeavingFromTo(_Var3, _Var2);
+
+PROC
+PROC_GLO_LevelSwap_CheckSwap((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_LevelSwap_Blocked(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_LevelSwap_Blocked(_Var3);
+
+PROC
+PROC_GLO_LevelSwap_LeavingFromTo((STRING)_Var1, (STRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_LevelSwap_CustomTransition((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

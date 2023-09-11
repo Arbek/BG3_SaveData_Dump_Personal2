@@ -1,0 +1,22 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Genders_Daisy("Female", DAISY_FEMALE_17c2405e-5771-4150-ad00-b1ef8d1dd5ae);
+DB_Genders_Daisy("Male", DAISY_MALE_807af8f5-0183-42d9-8d40-6e93d5236cc2);
+DB_Genders_Daisy("Neutral", DAISY_NEUTRAL_3caea564-7be7-4f04-ad3c-05f4ebee3926);
+
+KBSECTION
+PROC
+PROC_DaisyDesire_SetDaisyFor((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Genders_Daisy(_Var3, _Var4, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, _Var4);
+SetTag(_Var2, _Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

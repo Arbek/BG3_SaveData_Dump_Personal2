@@ -1,0 +1,191 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialog_AddAllNearbyPlayersAtStart(CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a);
+DB_Dialog_AddAllNearbyPlayersAtStart(FOR_Monitor_Dinner_c6618ea4-f1a5-086f-936e-402f4d74fa38);
+DB_GLO_MonitorAppear_Trigger(S_CRA_MonitorDialog_6397e6b0-37cc-42d4-94f6-666d4c70db18);
+DB_GLO_MonitorAppear_Trigger(S_DEN_MonitorDialog_9163d5d3-42be-49f5-a0a9-6cc1a60ec557);
+DB_GLO_MonitorAppear_Trigger(S_GOB_MonitorDialog_06fb3585-32cb-4204-86a1-f79147dc88b0);
+DB_GLO_MonitorAppear_Trigger(S_PLA_MonitorDialog_e4baef0a-4560-4a38-9ee7-af5e27c5c147);
+DB_GLO_MonitorAppear_Trigger(S_UND_MonitorDialog_472f2d45-8eae-4ff3-a947-d3a7c2e93715);
+DB_GLO_MonitorAppear_Requirement(DEN_Apprentice_State_MonitorIntroRequirementMet_fdf075ba-072b-4788-9edb-1ad85949d06d);
+DB_GLO_MonitorAppear_Requirement(GLO_Hag_State_FailedTadpole_155a938a-5fb7-725b-9b00-6d6f44c451ef);
+DB_GLO_MonitorAppear_Requirement(GOB_GoblinPriest_Quest_CureIsHoax_9296acbd-c107-4fe4-ae63-7d5f89cd7099);
+DB_GLO_MonitorAppear_Requirement(UND_SocietyOfBrilliance_MindFlayer_State_ConnectionPerformed_804aadb8-783b-4d78-9b41-85030a0ba11e);
+DB_GLO_MonitorAppear_Requirement(PLA_GithChokepoint_State_MonitorIntroRequirementMet_4d226b35-cc1b-4750-a06b-30f231b0633c);
+DB_GLO_MonitorAppear_Requirement(GLO_Halsin_State_Returned_5af86099-47f9-ba69-199a-fe91292a41bd);
+DB_GLO_MonitorAppear_Requirement(GLO_Halsin_Quest_AskedKilledLeaders_853122c7-f2e2-a2a0-a2b4-67ae09c3ac73);
+DB_GLO_MonitorAppear_Requirement(GLO_Halsin_Quest_ToldAboutMoonrise_05fdd7a0-000f-f16f-e0b6-ed35c6a6a239);
+DB_GLO_MonitorAppear_Requirement(SCL_State_RegionVisited_6bde55fb-78bb-47e4-9ce6-f91cec93219d);
+
+KBSECTION
+IF
+DB_GLO_MonitorAppear_Requirement(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_MonitorAppearRegister();
+
+PROC
+PROC_GLO_MonitorAppearRegister()
+AND NOT
+DB_GLO_MonitorIntro_HadIntro(1, _, _, _, _)
+AND
+DB_GLO_MonitorAppear_Trigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(_Var1);
+DB_AddCharactersInTriggerToDialog(CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a, _Var1, 1);
+DB_AddCharactersInTriggerToDialog(FOR_Monitor_Dinner_c6618ea4-f1a5-086f-936e-402f4d74fa38, _Var1, 0);
+
+PROC
+PROC_GLO_MonitorAppearUnregisterAll()
+AND
+DB_GLO_MonitorAppear_Trigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+NOT DB_AddCharactersInTriggerToDialog(CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a, _Var1, 1);
+NOT DB_AddCharactersInTriggerToDialog(FOR_Monitor_Dinner_c6618ea4-f1a5-086f-936e-402f4d74fa38, _Var1, 0);
+
+PROC
+PROC_GLO_MonitorAppearUnregisterAll()
+AND
+DB_GLO_MonitorAppear_Requirement(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_MonitorAppear_Requirement(_Var1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_MonitorAppear_Trigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_MonitorIntro_Player(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInCombat(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "GLO_Monitor_CanAppear");
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GLO_MonitorAppear_Trigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_MonitorIntro_Player(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_NotifyWhenReadyToMoveOn(_Var1, "GLO_Monitor_CanAppear");
+
+PROC
+PROC_ReadyToMoveOn((CHARACTER)_Var1, "GLO_Monitor_CanAppear", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_MonitorAppear_Trigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_MonitorIntro_Player(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInCombat(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, _Var1, "MonitorTeleportedToPlayer");
+PROC_GLO_Monitor_Foop();
+DB_GLO_MonitorIntro_Player(_Var1);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_MonitorAppear_Trigger(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_MonitorIntro_Player(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInCombat(_Var1, 0, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailable(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportTo(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, _Var1, "MonitorTeleportedToPlayer");
+PROC_GLO_Monitor_Foop();
+DB_GLO_MonitorIntro_Player(_Var1);
+
+IF
+DB_GLO_Monitor_DismissToCamp(1, _, _, _, _)
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8);
+DB_Dialogs(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a);
+PROC_GLO_Monitor_Foop();
+PROC_GLO_MonitorAppearUnregisterAll();
+
+IF
+DB_GLO_Monitor_DismissToCamp(1, _, _, _, _)
+AND
+DB_ActiveCamp("WLDMAIN", _, _, _, _)
+THEN
+TeleportTo(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, S_CAMP_WLDMAIN_Monitor_70b24e09-502e-421a-a19a-0887ba879014, "", 0, 0, 0, 1, 1);
+
+IF
+DB_GLO_Monitor_DismissToCamp(1, _, _, _, _)
+AND
+DB_ActiveCamp("WLDDUNSHA", _, _, _, _)
+THEN
+TeleportTo(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, S_CAMP_WLDDUNSHA_Monitor_c3e91be7-24f6-4d49-b067-f068c918817e, "", 0, 0, 0, 1, 1);
+
+IF
+EntityEvent(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "MonitorTeleportedToPlayer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_MonitorIntro_Player(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a, S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(CAMP_MonitorIntro_CM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, S_Dummy_Monitor_DevilForm_4a4326cc-be91-4903-9bd6-31bbf5a9ff42);
+
+IF
+DialogStarted(CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_GLO_MonitorIntro_Player(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var3, 1, _Var1, _Var1)
+THEN
+DB_GLO_MonitorIntro_Player(_Var3);
+
+IF
+InstanceDialogChanged(_, CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a, FOR_Monitor_Dinner_c6618ea4-f1a5-086f-936e-402f4d74fa38, _, (INTEGER)_)
+THEN
+PROC_State_Progress(S_GLO_Monitor_f65becd6-5cd7-4c88-b85e-6dd06b60f7b8, "GLO_Monitor", "GLO_Monitor_MonitorVisit");
+PROC_GLO_Monitor_Poof();
+DB_GLO_MonitorIntro_HadIntro(1);
+SetFlag(NIGHT_MonitorIntro_a9297517-ab4d-482d-b287-fc6e7001d93e);
+PROC_GLO_MonitorAppearUnregisterAll();
+
+QRY
+QRY_StartDialog_BlockAttackButton(CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a, (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(CAMP_MonitorIntro_CFM_6aa2bfc3-d9e6-a2d8-d017-25d59d9f757a, _, _, _, _)
+AND
+DB_GLO_MonitorIntro_Player(_Var2, _, _, _, _)
+THEN
+NOT DB_GLO_MonitorIntro_Player(_Var2);
+
+IF
+NestedDialogPlayed(FOR_Monitor_Dinner_c6618ea4-f1a5-086f-936e-402f4d74fa38, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_TopicalGreeting_UnlockTopic(TG_MonitorIntro_e35b7017-eb09-4319-ba1e-934f1862c7ef);
+
+IF
+DB_GLO_MonitorAppear_Trigger(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_TopicalGreetingEndCondition_LeaveTrigger(TG_MonitorIntro_e35b7017-eb09-4319-ba1e-934f1862c7ef, _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

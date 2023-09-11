@@ -1,0 +1,65 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, GOB_NerdyGoblinSage_6c453a75-1ced-8002-22c3-3e4bb799570f);
+DB_ItemOwnerShipTriggers("WLD_Main_A", S_GOB_NerdySage_Ownership_b09d7817-8dda-4d06-99b7-1ae58efffaf8, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d);
+DB_HasItemEvent(S_GOB_VoloGoblinsGuide_b98a3bd2-a17d-4e01-a433-1bd339d3f5f6, GOB_HasVoloGoblinManuscript_72110c64-d3f6-be69-7a4d-d2156b986964);
+DB_GiveItemToEvent(S_GOB_VoloGoblinsGuide_b98a3bd2-a17d-4e01-a433-1bd339d3f5f6, GOB_GiveVoloGoblinManuscript_99d51809-3cda-5457-99ba-2aefd5a6fd9c);
+DB_HasItemEvent(S_GOB_VoloGoblinsGuide_Copy_f1e89064-e9db-47e2-add6-67f8f72e1a74, GOB_HasVoloGoblinManuscriptCopy_c43a7897-cdfa-4d13-9fe5-597d6303e96f);
+DB_GiveItemToEvent(S_GOB_VoloGoblinsGuide_Copy_f1e89064-e9db-47e2-add6-67f8f72e1a74, GOB_GiveVoloGoblinManuscriptCopy_576981eb-3bca-439b-9876-855a5e5d50dc);
+DB_SceneManager(S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, "GOB_NerdyGoblinSage_Scene");
+
+KBSECTION
+IF
+FlagSet(GOB_VoloBallad_State_OnStage_0bc1d7d7-9129-4c6e-188d-054640cea3b9, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(GOB_VoloBallad_State_NerdySageGotVolosBook_7409f6c0-6fa1-4f84-82e5-2a059e9d5353);
+ToInventory(S_GOB_VoloGoblinsGuide_b98a3bd2-a17d-4e01-a433-1bd339d3f5f6, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d);
+
+IF
+FlagSet(GOB_FestivitiesArea_State_Swept_01863b85-a514-473a-9fa9-2869612480a2, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_NotifyWhenReadyToMoveOn(S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, "GOB_NerdyGoblinSage_Notify");
+
+PROC
+PROC_ReadyToMoveOn(S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, "GOB_NerdyGoblinSage_Notify", _, _, _)
+THEN
+SetFlag(GOB_NerdyGoblinSage_DropBook_b4b27ad6-3bfb-cd1f-44a2-d07fb7f36378, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d);
+
+IF
+FlagSet(GOB_NerdyGoblinSage_DropBook_b4b27ad6-3bfb-cd1f-44a2-d07fb7f36378, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, _, _, _)
+AND
+GetFlag(GOB_HasVoloGoblinManuscript_72110c64-d3f6-be69-7a4d-d2156b986964, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, 1, _, _)
+THEN
+Drop(S_GOB_VoloGoblinsGuide_b98a3bd2-a17d-4e01-a433-1bd339d3f5f6);
+ClearOwnership(S_GOB_VoloGoblinsGuide_b98a3bd2-a17d-4e01-a433-1bd339d3f5f6);
+
+IF
+FlagSet(GOB_NerdyGoblinSage_DropBook_b4b27ad6-3bfb-cd1f-44a2-d07fb7f36378, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_DisappearOutOfSight(S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, "Run", 0, "");
+PROC_SceneOver("GOB_NerdyGoblinSage_Scene");
+
+IF
+AddedTo(S_GOB_VoloGoblinsGuide_b98a3bd2-a17d-4e01-a433-1bd339d3f5f6, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d, _, (STRING)_, (STRING)_)
+THEN
+ClearFlag(GOB_NerdyGoblinSage_DropBook_b4b27ad6-3bfb-cd1f-44a2-d07fb7f36378, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d);
+
+IF
+FlagSet(GOB_HasVoloGoblinManuscript_72110c64-d3f6-be69-7a4d-d2156b986964, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var1, "GOB_NerdyGoblinSage_GotBook", "HIDDEN_WLD_Boosters");
+
+PROC
+PROC_SceneInterrupted(_, _, "GOB_NerdyGoblinSage_Scene", "Attacked", (GUIDSTRING)_)
+THEN
+SetFlag(GOB_NerdyGoblinSage_DropBook_b4b27ad6-3bfb-cd1f-44a2-d07fb7f36378, S_GOB_NerdyGoblinSage_5f5c8416-8118-4619-8fc9-442304ff0a3d);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

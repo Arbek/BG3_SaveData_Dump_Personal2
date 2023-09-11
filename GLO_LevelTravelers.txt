@@ -1,0 +1,189 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_GLO_SetupForAct_PermaDefeatedIsSuccess("", NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+TextEvent("setupforact", _, _, _, _)
+THEN
+PROC_GLO_SetupForAct_DebugRerun();
+
+PROC
+PROC_GLO_SetupForAct_DebugRerun()
+AND
+DB_GLO_SetupForAct_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_SetupForAct_DebugRerun(_Var1);
+
+PROC
+PROC_GLO_SetupForAct_DebugRerun((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_SetupForAct_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_SetupForAct_CurrentLevel(_Var1);
+DB_GLO_SetupForAct_CurrentLevel(_Var1);
+
+PROC
+PROC_GLO_SetupForAct_DebugRerun((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_SetupForAct_Character(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_SetupForAct_DoChecks(_Var1, _Var2);
+PROC_GLO_SetupForActComplete(_Var1);
+
+IF
+EnteredLevel((GUIDSTRING)_Var1, _, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_LevelTraveler(_Var1, _Var3, _Var4, _Var1, _Var1)
+THEN
+PROC_SetAnubisConfig(_Var1, _Var4);
+
+IF
+DB_GLO_SetupForAct_PermaDefeatedIsSuccess(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_GLO_SetupForAct_Character(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SetupForAct_Character(_Var1, _Var2);
+
+IF
+DB_GLO_SetupForAct_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_SetupForAct_Character(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_SetupForAct_DoChecks(_Var1, _Var2);
+
+PROC
+PROC_GLO_SetupForAct_DoChecks((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_GLO_SetupForAct_CleanCheckDBs()
+AND
+QRY_GLO_SetupForAct_CheckPermaDefeated(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_SetupForAct_PermaDefeatedOk(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GLO_SetupForAct_CheckCustom(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_SetupForAct_CustomOk(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LogicAnd(_Var3, _Var4, _Var5, _Var1, _Var1)
+THEN
+PROC_GLO_SetupForAct(_Var1, _Var2, _Var5);
+
+QRY
+QRY_GLO_SetupForAct_CheckCustom((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_GLO_SetupForAct_CustomOk(1);
+
+QRY
+QRY_GLO_SetupForAct_CheckCustom((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+QRY_GLO_SetupForAct_CustomBlock(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_SetupForAct_CustomOk(1);
+DB_GLO_SetupForAct_CustomOk(0);
+
+QRY
+QRY_GLO_SetupForAct_CustomBlock((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+1 == 0
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GLO_SetupForAct((STRING)_Var1, (CHARACTER)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_GLO_SetupForAct_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_SetupForActComplete(_Var1);
+
+PROC
+PROC_GLO_SetupForActComplete((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GLO_SetupForAct_CleanCheckDBs()
+THEN
+NOT DB_GLO_SetupForAct_PermaDefeatedOk(0);
+NOT DB_GLO_SetupForAct_PermaDefeatedOk(1);
+NOT DB_GLO_SetupForAct_CustomOk(0);
+NOT DB_GLO_SetupForAct_CustomOk(1);
+
+QRY
+QRY_GLO_SetupForAct_CheckPermaDefeated((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_GLO_SetupForAct_PermaDefeatedOk(1);
+
+QRY
+QRY_GLO_SetupForAct_CheckPermaDefeated((STRING)_Var1, (CHARACTER)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_SetupForAct_PermaDefeatedIsSuccess(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SetupForAct_PermaDefeatedOk(0);
+
+QRY
+QRY_GLO_SetupForAct_CheckPermaDefeated((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND NOT
+DB_GLO_SetupForAct_PermaDefeatedIsSuccess(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PermaDefeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_SetupForAct_PermaDefeatedOk(0);
+
+QRY
+QRY_GLO_SetupForAct_CheckPermaDefeated((STRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_SetupForAct_PermaDefeatedOk(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_SetupForAct_PermaDefeatedOk(1);
+
+PROC
+PROC_GLO_SetupForAct_Place((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_GLO_SetupForAct_Place(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, "");
+
+PROC
+PROC_GLO_SetupForAct_Place((CHARACTER)_Var1, (TRIGGER)_Var2, (FACTION)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_GLO_SetupForAct_Place(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, "");
+
+PROC
+PROC_GLO_SetupForAct_Place((CHARACTER)_Var1, (TRIGGER)_Var2, (FACTION)_Var3, (DIALOGRESOURCE)_Var4, (CHARACTER)_Var1)
+THEN
+PROC_GLO_SetupForAct_Place(_Var1, _Var2, _Var3, _Var4, "");
+
+PROC
+PROC_GLO_SetupForAct_Place((CHARACTER)_Var1, (TRIGGER)_Var2, (FACTION)_Var3, (DIALOGRESOURCE)_Var4, (STRING)_Var5)
+THEN
+SetVisible(_Var1, 1);
+SetOnStage(_Var1, 1);
+TeleportTo(_Var1, _Var2, _Var5);
+LookFromTrigger(_Var1, _Var2, 0);
+
+PROC
+PROC_GLO_SetupForAct_Place((CHARACTER)_Var1, (TRIGGER)_Var2, (FACTION)_Var3, (DIALOGRESOURCE)_Var4, (STRING)_Var5)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetFaction(_Var1, _Var3);
+
+PROC
+PROC_GLO_SetupForAct_Place((CHARACTER)_Var1, (TRIGGER)_Var2, (FACTION)_Var3, (DIALOGRESOURCE)_Var4, (STRING)_Var5)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_RemoveAllDialogEntriesForSpeaker(_Var1);
+DB_Dialogs(_Var1, _Var4);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

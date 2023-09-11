@@ -1,0 +1,36 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_ExclamationMarkCleanup();
+
+KBSECTION
+IF
+GameModeStarted(_, _, 1, (STRING)_, (STRING)_)
+THEN
+DB_StoryReloaded(1);
+
+IF
+GameModeStarted((STRING)_Var1, (INTEGER)_Var2, (INTEGER)_Var3, (STRING)_Var1, (STRING)_Var1)
+THEN
+DB_IsEditor(_Var2);
+PROC_InitStory();
+GoalCompleted;
+
+PROC
+PROC_ExclamationMarkCleanup()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+StopAllEffectsWithName(_Var1, "RS3_FX_UI_Exclamation_Mark_01");
+SetHasDialog(_Var1, 0);
+
+IF
+DB_IsEditor(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

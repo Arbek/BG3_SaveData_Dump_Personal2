@@ -1,0 +1,83 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_QuestDef_State(SCL_Inquisition_State_ReadInquisitorOrder_593fd6de-219a-4388-9291-a629300ae75e, "SCL_Inquisition", "ReadInquisitorOrder");
+DB_QuestDef_State(SCL_Inquisition_State_ReadPottersNote_b582a96f-5c68-4143-abd9-029827be2f25, "SCL_Inquisition", "ReadPottersNote");
+DB_QuestDef_State(SCL_Inquisition_State_DiscoveredLastLight_87adc0f4-f40f-440d-8312-5438d90bcf66, "SCL_Inquisition", "DiscoveredLastLight");
+DB_QuestDef_State(SCL_Inquisition_State_SearchLastLight_ca757872-22bc-46a6-beab-6ef21b556ac7, "SCL_Inquisition", "SearchLastLight");
+DB_QuestDef_State(SCL_Inquisition_State_InvestigateMason_25dec181-2a8b-44f0-83c4-bf2c6ac5e360, "SCL_Inquisition", "InvestigateMason");
+DB_QuestDef_State(SCL_Inquisition_State_FoundMasonResistance_bb178587-5a4d-43cf-a60e-6f6b2d8cc558, "SCL_Inquisition", "FoundMasonResistance");
+DB_QuestDef_LevelLoaded("SCL_Inquisition", "MovedToNextAct", "INT_Main_A");
+
+KBSECTION
+IF
+TextEvent("SCL_Inquisition_State_ReadInquisitorOrder", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Inquisition_State_ReadInquisitorOrder_593fd6de-219a-4388-9291-a629300ae75e, _Var1, 0, 1);
+
+IF
+TextEvent("SCL_Inquisition_State_ReadPottersNote", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Inquisition_State_ReadPottersNote_b582a96f-5c68-4143-abd9-029827be2f25, _Var1, 0, 1);
+SetFlag(SCL_Inquisition_State_SearchLastLight_ca757872-22bc-46a6-beab-6ef21b556ac7, _Var1, 0, 1);
+
+IF
+TextEvent("SCL_Inquisition_State_DiscoveredLastLight", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Inquisition_State_DiscoveredLastLight_87adc0f4-f40f-440d-8312-5438d90bcf66, _Var1, 0, 1);
+SetFlag(SCL_Inquisition_State_InvestigateMason_25dec181-2a8b-44f0-83c4-bf2c6ac5e360, _Var1, 0, 1);
+
+IF
+TextEvent("SCL_Inquisition_State_InvestigateMason", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Inquisition_State_InvestigateMason_25dec181-2a8b-44f0-83c4-bf2c6ac5e360, _Var1, 0, 1);
+
+IF
+TextEvent("SCL_Inquisition_State_FoundMasonResistance", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Inquisition_State_FoundMasonResistance_bb178587-5a4d-43cf-a60e-6f6b2d8cc558, _Var1, 0, 1);
+
+IF
+TextEvent("SCL_Inquisition_State_MoveToNextAct", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(SCL_Inquisition_State_MovedToNextAct_4e58af2b-2988-4d14-a584-291618a5d2b0, _Var1, 0, 1);
+
+IF
+GameBookInterfaceClosed(S_SCL_InquisitionLedger_1e90ae65-f0aa-4b85-b85e-c67a1a9fac40, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(SCL_Inquisition_State_ReadInquisitorOrder_593fd6de-219a-4388-9291-a629300ae75e, _Var1, 0, 1);
+
+IF
+GameBookInterfaceClosed(S_SCL_BannedSeluneItemsNote_2eb9e0b0-87aa-4171-a78c-c033da18ad45, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(SCL_Inquisition_State_ReadPottersNote_b582a96f-5c68-4143-abd9-029827be2f25, _Var1, 0, 1);
+SetFlag(SCL_Inquisition_State_SearchLastLight_ca757872-22bc-46a6-beab-6ef21b556ac7, _Var1, 0, 1);
+
+IF
+GameBookInterfaceClosed(S_HAV_SeluniteResistanceNote_c2827852-5cc1-46ec-8ab0-254e52150966, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+SetFlag(SCL_Inquisition_State_DiscoveredLastLight_87adc0f4-f40f-440d-8312-5438d90bcf66, _Var1, 0, 1);
+SetFlag(SCL_Inquisition_State_InvestigateMason_25dec181-2a8b-44f0-83c4-bf2c6ac5e360, _Var1, 0, 1);
+
+IF
+GameBookInterfaceClosed(S_TWN_MasonGuild_Log_be5a1904-ec39-4821-950c-f051a701812b, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+SetFlag(SCL_Inquisition_State_FoundMasonResistance_bb178587-5a4d-43cf-a60e-6f6b2d8cc558, _Var1, 0, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_HasSpellCheckInDialog_Var(1, "Spell", "Spell_Check_1_cd20feec-f089-63ab-089a-960f840dfb92");
+DB_GLO_HasSpellCheckInDialog_Var(1, "Source", "Spell_Check_1_Source_36a8665f-9e1c-bc03-80f4-aacc826d7c81");
+DB_GLO_HasSpellCheckInDialog_Var(2, "Spell", "Spell_Check_2_917ae77e-ef83-1237-9a46-ab74bf9111af");
+DB_GLO_HasSpellCheckInDialog_Var(2, "Source", "Spell_Check_2_Source_0096afc1-68ec-37ef-3541-e865510ff1d5");
+
+KBSECTION
+IF
+DB_GLO_HasSpellCheckInDialog(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_GLO_HasSpellCheckInDialog_Var(_Var1, "Spell", _Var5, _Var1, _Var1)
+AND
+DB_GLO_HasSpellCheckInDialog_Var(_Var1, "Source", _Var6, _Var1, _Var1)
+THEN
+DialogSetVariableInt(_Var2, _Var6, _Var4);
+DialogSetVariableString(_Var2, _Var5, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

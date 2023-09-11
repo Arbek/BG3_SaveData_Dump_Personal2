@@ -1,0 +1,61 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Event2DisplayText("HiddenPerceptionReveal", GEN_AD_HiddenPerceptionReveal_00000000-0000-0000-0000-000000000000);
+DB_Event2DisplayText("HiddenTrapReveal", GEN_AD_HiddenTrapReveal_00000000-0000-0000-0000-000000000000);
+DB_Event2DisplayText("FakePerceptionReveal", GEN_AD_FakePerceptionReveal_00000000-0000-0000-0000-000000000000);
+DB_Event2DisplayText("AmbushReveal", GLO_AD_AmbushDetected_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DualEntityEvent((CHARACTER)_Var1, (ITEM)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_BlockTextSpam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ADEvent_Item(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_BlockTextSpam(_Var1);
+ObjectTimerLaunch(_Var1, "BlockTextSpam", 5000);
+
+IF
+EntityEvent((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_BlockTextSpam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ADEvent(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_BlockTextSpam(_Var1);
+ObjectTimerLaunch(_Var1, "BlockTextSpam", 5000);
+
+IF
+EntityEvent((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_BlockTextSpam(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Event2DisplayText(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_BlockTextSpam(_Var1);
+ObjectTimerLaunch(_Var1, "BlockTextSpam", 5000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "BlockTextSpam", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_BlockTextSpam(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

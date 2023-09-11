@@ -1,0 +1,23 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+TriggerRegisterForCharacter(S_LOW_DiabolicForge_Ownership_4b0ffd21-31ed-41a1-907a-93a680e4cd88, S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79);
+SetOnStage(S_LOW_Dammon_InfernalArmsJournal_000_c098174d-01c0-4196-b1e7-c66135cf3944, 0);
+
+KBSECTION
+IF
+EnteredTrigger(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, S_LOW_DiabolicForge_SUB_4b0ffd21-31ed-41a1-907a-93a680e4cd88, _, _, _)
+AND
+QRY_OnlyOnce("LOW_DammonEntersAct3", _, _, _, _)
+THEN
+TriggerUnregisterForCharacter(S_LOW_DiabolicForge_Ownership_4b0ffd21-31ed-41a1-907a-93a680e4cd88, S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79);
+SetOnStage(S_LOW_Dammon_InfernalArmsJournal_000_c098174d-01c0-4196-b1e7-c66135cf3944, 1);
+DB_ItemOwnerShipTriggers("CTY_Main_A", S_LOW_DiabolicForge_SUB_4b0ffd21-31ed-41a1-907a-93a680e4cd88, S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79);
+ToInventory(S_LOW_Key_DiabolicForge_2fc7053e-debf-4e5e-a7d4-130d541a841e, S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

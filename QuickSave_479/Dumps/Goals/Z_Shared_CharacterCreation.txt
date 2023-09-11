@@ -1,0 +1,156 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_Shared_CharacterCreation_Init();
+NOT DB_CharacterCreationTransitionInfo("", "");
+
+KBSECTION
+PROC
+PROC_Shared_CharacterCreation_Init()
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+InitializePlayerData(_Var1);
+
+IF
+DB_CharacterCreationStarted(0, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CharacterCreationDummy(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PredefinePartyPreset_Loaded(_, _Var1, _Var1, _Var1, _Var1)
+AND
+IsGameLevel(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveCCDummy(_Var1);
+
+IF
+DB_CharacterCreationStarted(0, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsGameLevel(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+GoalCompleted;
+PROC_Shared_CharacterCreationFinished();
+
+PROC
+PROC_Shared_CharacterCreationFinished()
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Shared_CharacterCreation_Init()
+AND NOT
+DB_CharacterCreationDummy(_, _, _, _, _)
+THEN
+DB_CharacterCreationDummy(S_GLO_CharacterCreationDummy_001_e2badbf0-159a-4ef5-9e73-7bbeb3d1015a);
+DB_CharacterCreationDummy(S_GLO_CharacterCreationDummy_002_aa772968-b5e0-4441-8d86-2d0506b4aab5);
+DB_CharacterCreationDummy(S_GLO_CharacterCreationDummy_003_81c48711-d7cc-4a3d-9e49-665eb915c15c);
+DB_CharacterCreationDummy(S_GLO_CharacterCreationDummy_004_6bff5419-5a9e-4839-acd4-cac4f6e41bd7);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+IsCharacterCreationLevel(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+StartCharacterCreation();
+
+PROC
+PROC_Z_Shared_GameModeStarted("Campaign", 1, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_CharacterCreationStarted(0);
+
+PROC
+PROC_RemoveCCDummy((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+MakeNPC(_Var1);
+SetOnStage(_Var1, 0);
+
+IF
+TextEvent("noteleportaftercc", _, _, _, _)
+THEN
+DB_CharacterCreationNoTeleport(1);
+
+PROC
+PROC_GLO_CharacterCreationTeleportWithOptionalMovie((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CharacterCreationNoTeleport(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TeleportPartiesToLevelWithMovie(_Var2, "", _Var3);
+
+PROC
+PROC_MovePartyToStart((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CharacterCreationNoTeleport(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AlreadyTeleported(1);
+
+PROC
+PROC_MovePartyToStart((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_CharacterCreationNoTeleport(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_TeleportedToStartCharacters(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInPartyWith(_Var4, _Var1, 1, _Var1, _Var1)
+THEN
+DB_AlreadyTeleported(1);
+
+PROC
+PROC_MovePartyToStart((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CharacterCreationNoTeleport(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_AlreadyTeleported(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_TeleportedToStartCharacters(_Var1);
+PROC_GLO_CharacterCreationTeleportWithOptionalMovie(_Var1, _Var2, _Var3);
+
+IF
+CharacterCreationStarted()
+THEN
+DB_CharacterCreationStarted(1);
+
+IF
+CharacterSelectedForUser((GUIDSTRING)_Var1, (INTEGER)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_DoNotFace(_Var1);
+SetTag(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+DB_Players(_Var1);
+PROC_CheckPartyFull();
+
+IF
+CharacterCreationFinished()
+AND
+DB_CharacterCreationDummy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveCCDummy(_Var1);
+
+IF
+CharacterCreationFinished()
+AND
+GetActiveModStartupLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CharacterCreationTransitionInfo(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MovePartyToStart(_Var3, _Var1, _Var2);
+
+IF
+CharacterCreationFinished()
+THEN
+DB_GLO_PlayerCharactersSetup(1);
+PROC_PlayersSelected("Initial");
+NOT DB_GLO_PlayerCharactersSetup(1);
+GoalCompleted;
+PROC_Shared_CharacterCreationFinished();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Z_Shared_Campaign_At_End"

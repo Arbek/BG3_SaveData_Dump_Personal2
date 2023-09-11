@@ -1,0 +1,148 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+CharacterJoinedParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CMB_SpellFollower(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsPartyFollower(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("type:follower,recruiter:", _Var3, _Var4, _Var1, _Var1)
+THEN
+DB_Analytics_PartyFollower(_Var1);
+TrackAnalyticsInfo("party_join", _Var4, _Var1);
+
+IF
+CharacterLeftParty((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Analytics_PartyFollower(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TrackAnalyticsInfo("party_leave", "type:follower,leave_type:permanent,reason:permadefeated", _Var1);
+
+IF
+CharacterLeftParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Analytics_PartyFollower(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TrackAnalyticsInfo("party_leave", "type:follower,leave_type:,reason:", _Var1);
+
+IF
+CharacterLeftParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Analytics_PartyFollower(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Analytics_PartyFollower(_Var1);
+
+PROC
+PROC_TUT_Misc_TutorialCompanion_Recruitment((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GUIDToString(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("type:non_origin_companion,recruiter:", _Var3, _Var4, _Var1, _Var1)
+THEN
+TrackAnalyticsInfo("party_join", _Var4, _Var1);
+
+PROC
+PROC_TUT_Misc_TutorialCompanion_RemoveCompanion((CHARACTER)_Var1, (STRING)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+Concatenate("type:non_origin_companion,leave_type:", _Var2, _Var4, _Var1, _Var1)
+AND
+Concatenate(_Var4, ",reason:", _Var5, _Var1, _Var1)
+AND
+Concatenate(_Var5, _Var3, _Var6, _Var1, _Var1)
+THEN
+TrackAnalyticsInfo("party_leave", _Var6, _Var1);
+
+PROC
+PROC_GLO_PartyMembers_AddHook((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GUIDToString(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+Concatenate("type:companion,recruiter:", _Var3, _Var4, _Var1, _Var1)
+THEN
+TrackAnalyticsInfo("party_join", _Var4, _Var1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_ORI_ToCampAfterDialog(_Var3, _Var2, _Var4, _, _)
+AND
+DB_DialogPlayers(_Var2, _Var5, 1, _, _)
+AND
+GUIDToString(_Var5, _Var6, _, _, _)
+AND
+Concatenate("type:companion,recruiter:", _Var6, _Var7, _, _)
+THEN
+TrackAnalyticsInfo("added_to_camp", _Var7, _Var3);
+
+PROC
+PROC_Origins_CompanionLeavePermanently((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_Origin_TemporaryLeaveReason(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+Concatenate("type:non_origin_companion,leave_type:permanently,reason:", _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_Analytics_LeftPermanently(_Var1);
+TrackAnalyticsInfo("party_leave", _Var3, _Var1);
+
+PROC
+PROC_GLO_PartyMembers_MakeNPCHook((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_PlayerCharactersSetup(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Analytics_LeftPermanently(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TrackAnalyticsInfo("party_leave", "type:companion,leave_type:dismissed,reason:", _Var1);
+
+PROC
+PROC_GLO_PartyMembers_MakeNPCHook((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Analytics_LeftPermanently(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Analytics_LeftPermanently(_Var2);
+
+IF
+GainedControl((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DialogPlayers(_Var2, _Var3, _, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND NOT
+DB_Analytics_SwappedDuring(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var5, _Var2, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+Concatenate("dialog:", _Var6, _Var7, _Var1, _Var1)
+THEN
+DB_Analytics_SwappedDuring(_Var2);
+TrackAnalyticsInfo("player_dialog_swap", _Var7, _Var1);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_Analytics_SwappedDuring(_Var2, _, _, _, _)
+THEN
+NOT DB_Analytics_SwappedDuring(_Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

@@ -1,0 +1,191 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_DEN_PrisonTrapSetBox_ffb03d40-8e8e-4907-aa52-0fc4b557979d);
+PROC_TriggerRegisterForPlayers(S_DEN_PrisonTrapSpawnBox_000_4647d10e-4eac-42db-936c-e7ce807df880);
+PROC_TriggerRegisterForPlayers(S_DEN_PrisonTrapSpawnBox_001_9c83e771-5d14-4042-8a69-11a39028651e);
+PROC_TriggerRegisterForPlayers(S_DEN_PrisonTrapSpawnBox_002_3d7c9bb1-bccb-4db2-b1cc-6956716dfcb7);
+PROC_TriggerRegisterForPlayers(S_DEN_PrisonTrapSpawnBox_003_23415d44-4e8b-439e-841e-7838d282a121);
+DB_DEN_Jailbreak_AllTraps(S_DEN_PrisonMushroomTrap_000_1eada771-1fd1-40d8-9105-f597f6e973d0);
+DB_DEN_Jailbreak_AllTraps(S_DEN_PrisonMushroomTrap_001_fc1c12c8-4d08-4701-8d79-b2c45ae13387);
+DB_DEN_Jailbreak_AllTraps(S_DEN_PrisonMushroomTrap_002_06db30ab-b6ac-4f98-a372-e76e5302fc79);
+DB_DEN_Jailbreak_AllTraps(S_DEN_PrisonMushroomTrap_003_ea32a798-7ffd-45e1-bc84-a3c967f4c4bf);
+DB_DEN_Jailbreak_AllTraps(S_DEN_PrisonMushroomTrap_004_58023cd0-80c8-4894-8e91-22b1b3c1ea18);
+DB_DEN_Jailbreak_FirstPlatformTraps(S_DEN_PrisonMushroomTrap_000_1eada771-1fd1-40d8-9105-f597f6e973d0);
+DB_DEN_Jailbreak_FirstPlatformTraps(S_DEN_PrisonMushroomTrap_002_06db30ab-b6ac-4f98-a372-e76e5302fc79);
+DB_DEN_Jailbreak_TrapSpawnArea(S_DEN_PrisonTrapSpawnBox_000_4647d10e-4eac-42db-936c-e7ce807df880);
+DB_DEN_Jailbreak_TrapSpawnArea(S_DEN_PrisonTrapSpawnBox_001_9c83e771-5d14-4042-8a69-11a39028651e);
+DB_DEN_Jailbreak_TrapSpawnArea(S_DEN_PrisonTrapSpawnBox_002_3d7c9bb1-bccb-4db2-b1cc-6956716dfcb7);
+DB_DEN_Jailbreak_TrapSpawnArea(S_DEN_PrisonTrapSpawnBox_003_23415d44-4e8b-439e-841e-7838d282a121);
+DB_DEN_Jailbreak_SelectedSpawn(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DEN_Jailbreak_SelectedSpawn(NULL_00000000-0000-0000-0000-000000000000);
+DB_DEN_Jailbreak_TempSpawnList(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DEN_Jailbreak_TempSpawnList(NULL_00000000-0000-0000-0000-000000000000);
+DB_DEN_Jailbreak_SpawnedTraps(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_DEN_Jailbreak_SpawnedTraps(NULL_00000000-0000-0000-0000-000000000000);
+SetHitpoints(S_DEN_PrisonDestructWall_e4436c10-57db-4e25-ab9f-a9abbb221be8, 4);
+
+KBSECTION
+IF
+EnteredTrigger((CHARACTER)_Var1, S_DEN_PrisonTrapSetBox_ffb03d40-8e8e-4907-aa52-0fc4b557979d, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(DEN_Crime_State_EscapedByPlatform_e6de8669-3209-4874-8f69-3c3ec2ec2985, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_LongRest()
+AND
+DB_GlobalFlag(DEN_Crime_State_EscapedByPlatform_e6de8669-3209-4874-8f69-3c3ec2ec2985, _, _, _, _)
+THEN
+NOT DB_OnlyOnce("DEN_Jailbreak_CommentOnFoundTrap");
+NOT DB_OnlyOnce("DEN_Jailbreak_CommentOnTrapDeactivate");
+PROC_DEN_Jailbreak_ClearInitialTraps();
+PROC_DEN_Jailbreak_ClearTraps();
+PROC_DEN_Jailbreak_SetSpawnList();
+PROC_DEN_Jailbreak_CheckSpawns();
+PROC_DEN_Jailbreak_ClearTempList();
+
+PROC
+PROC_DEN_Jailbreak_ClearInitialTraps()
+AND
+DB_DEN_Jailbreak_FirstPlatformTraps(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+NOT DB_DEN_Jailbreak_AllTraps(_Var1);
+
+PROC
+PROC_DEN_Jailbreak_ClearTraps()
+AND
+DB_DEN_Jailbreak_SpawnedTraps(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestDelete(_Var1);
+NOT DB_DEN_Jailbreak_SpawnedTraps(_Var1);
+NOT DB_DEN_Jailbreak_AllTraps(_Var1);
+
+PROC
+PROC_DEN_Jailbreak_ClearTempList()
+AND
+DB_DEN_Jailbreak_TempSpawnList(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Jailbreak_TempSpawnList(_Var1);
+
+PROC
+PROC_DEN_Jailbreak_SetSpawnList()
+AND
+DB_DEN_Jailbreak_TrapSpawnArea(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DEN_Jailbreak_TempSpawnList(_Var1);
+
+IF
+DB_DEN_Jailbreak_TempSpawnList(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_DEN_Jailbreak_CheckSpawns()
+AND
+QRY_DoNTimes(3, _, _, _, _)
+AND
+DB_QRY_RTN_DoNTimes(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetRandom("DB_DEN_Jailbreak_TempSpawnList", 1, "DB_DEN_Jailbreak_SelectedSpawn", _Var1, _Var1)
+AND
+DB_DEN_Jailbreak_SelectedSpawn(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DEN_Jailbreak_SelectedSpawn(_Var2);
+NOT DB_DEN_Jailbreak_TempSpawnList(_Var2);
+PROC_DEN_Jailbreak_CheckForPlayer(_Var2);
+
+PROC
+PROC_DEN_Jailbreak_CheckForPlayer((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND NOT
+QRY_CheckOtherPlayersInTrigger(NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Jailbreak_SpawnTrap(_Var1);
+
+PROC
+PROC_DEN_Jailbreak_SpawnTrap((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+TriggerGetRandomPosition(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+CreateAt(PUZ_Underdark_Mushroom_Exploding_Small_A_64e2fdce-a46f-4fd6-8d9c-204f078b873d, _Var2, _Var3, _Var4, 0, 0, "", _Var5, _Var1, _Var1)
+THEN
+DB_DEN_Jailbreak_SpawnedTraps(_Var5);
+DB_DEN_Jailbreak_AllTraps(_Var5);
+
+PROC
+PROC_DEN_Jailbreak_SetNewTrapRotation((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+Random(360, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerToReal(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+ItemRotateYToAngle(_Var1, _Var3, 0);
+
+IF
+DB_DEN_Jailbreak_AllTraps(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_PerceptionSkillCheckADBlocked(_Var1);
+
+PROC
+PROC_HiddenPerceptionCheckSucceeded((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DEN_Jailbreak_AllTraps(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DEN_Jailbreak_RevealAD(_Var2);
+
+PROC
+PROC_DEN_Jailbreak_RevealAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GlobalFlag(GLO_Mushroom_Knows_Torchstalk_274534be-89c5-40f6-ab58-f91af5a33923, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(DEN_Jailbreak_PAD_DiscoverTrap_3cc24fee-d6b7-7750-cbfd-f7937707f6e2, _Var1);
+SetFlag(GLO_Mushroom_Knows_Torchstalk_274534be-89c5-40f6-ab58-f91af5a33923);
+
+IF
+TextEvent("denresettraps", _, _, _, _)
+THEN
+SetFlag(DEN_Crime_State_EscapedByPlatform_e6de8669-3209-4874-8f69-3c3ec2ec2985, NULL_00000000-0000-0000-0000-000000000000);
+PROC_DEN_Jailbreak_ClearInitialTraps();
+PROC_DEN_Jailbreak_ClearTraps();
+PROC_DEN_Jailbreak_SetSpawnList();
+PROC_DEN_Jailbreak_CheckSpawns();
+PROC_DEN_Jailbreak_ClearTempList();
+
+IF
+TextEvent("denspawntraps", _, _, _, _)
+THEN
+PROC_DEN_Jailbreak_SetSpawnList();
+PROC_DEN_Jailbreak_CheckSpawns();
+
+IF
+TextEvent("dencleartraps", _, _, _, _)
+THEN
+PROC_DEN_Jailbreak_ClearInitialTraps();
+PROC_DEN_Jailbreak_ClearTraps();
+
+IF
+TextEvent("denrevealtraps", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_DEN_Jailbreak_AllTraps(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var1, "StoryReveal");
+
+IF
+TextEvent("gotodenprison", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_RegionPrison("WLD_Main_A_DEN", _Var2, _Var3, _Var1, _Var1)
+AND
+DB_PlayerPrison(_Var4, _, _, _Var7, _Var1)
+THEN
+PROC_CrimeTeleportCharacterToPrison(S_DEN_Tiefling_011_77439e86-3f60-4456-bd55-931e2f45654f, _Var1, _Var2, _Var3, _Var7);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

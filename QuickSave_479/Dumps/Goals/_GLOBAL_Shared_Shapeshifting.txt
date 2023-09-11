@@ -1,0 +1,396 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Shapeshifting_Inconspicuous_TagExpression_Default("CAT_a7d28634-e3bf-40c3-8d8c-e1daf4acad74 | RAVEN_ccf8ba00-8e00-4f74-b146-598f46c97e9a | RAT_9568e56b-27a2-45fc-92c5-fa33eeb6f54c | FROG_0976fc05-da0e-43ea-8978-5accef445e0f | CRAB_757ee779-e15e-4663-8a56-ab8929f56c02 | (SUMMON_26c78224-a4c1-43e4-b943-75e7fa1bfa41 & SPIDER_8c8932c5-45f7-4d45-8f62-182db82ddcb0) | GASEOUS_FORM_22d7c29e-28d8-4126-ab03-8a7adbf98850 | WYR_CIRCUS_CHEESE_6c06f5e4-d4fa-498a-91b9-e1ed98773e92 | INTELLECT_DEVOURER_69901347-23cb-4f60-abf3-527f23cdf0db");
+NOT DB_Shapeshifting_Inconspicuous_CustomTriggerExpr(NULL_00000000-0000-0000-0000-000000000000, "");
+
+KBSECTION
+IF
+DB_Shapeshifting_Inconspicuous_CustomTriggerExpr(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForParty(_Var1);
+
+IF
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Shapeshifting_Inconspicuous_CustomTriggerExpr(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_Shapeshifting_UpdateInconspicuousTagExpr(_Var1, _Var3);
+
+PROC
+PROC_Shapeshifting_UpdateInconspicuousTagExpr((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_Shapeshifting_Inconspicuous_Updating(1);
+NOT DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _Var3);
+
+PROC
+PROC_Shapeshifting_UpdateInconspicuousTagExpr((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _Var2);
+NOT DB_Shapeshifting_Inconspicuous_Updating(1);
+
+IF
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Shapeshifting_Inconspicuous_Updating(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_Shapeshifting_Inconspicuous_TagExpression_Default(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _Var3);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Shapeshifting_Inconspicuous_CustomTriggerExpr(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _Var3);
+
+IF
+DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Shapeshifting_Inconspicuous_TagExpr(_Var1, _Var2);
+
+PROC
+PROC_RemoveAllPolymorphs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_RemoveStatusGroupPlaySound(_Var1, "SG_Polymorph");
+RemoveStatusesWithGroup(_Var1, "SG_Polymorph");
+
+PROC
+PROC_RemoveMutingPolymorphs((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_RemoveStatusGroupPlaySound(_Var1, "SG_Polymorph_BeastShape");
+RemoveStatusesWithGroup(_Var1, "SG_Polymorph_BeastShape");
+
+PROC
+PROC_RemoveMutingStatusses((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayRemoveStatusGroupSound(_Var1, "SG_Polymorph_BeastShape");
+
+PROC
+PROC_RemoveMutingStatusses((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveStatusesWithGroup(_Var1, "SG_DropForNonMutingDialog");
+
+PROC
+PROC_RemoveMutingStatusesWithRestore((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_MutingStatuses_RemovalRequested(_Var1, _Var2);
+
+IF
+DB_MutingStatuses_RemovalRequested(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_MutingStatuses_Restoring(_Var2, _, _, _Var1, _Var1)
+AND NOT
+DB_AttemptingMutingStatuses(_Var2, _, _, _Var1, _Var1)
+THEN
+NOT DB_MutingStatuses_RemovalRequested(_Var1, _Var2);
+PROC_RemoveMutingStatusesWithRestore_Intern(_Var1, _Var2);
+
+PROC
+PROC_RemoveMutingStatusesWithRestore_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_Dialogs_DialogBlockRestoreMutingStatuses(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentMutingStatuses(_Var2, _Var3, _Var4, _Var1, _Var1)
+AND
+GetStatusCurrentLifetime(_Var2, _Var3, _Var5, _Var1, _Var1)
+THEN
+DB_RemovedMutingStatusRestoreInfo(_Var2, _Var3, _Var5, _Var4);
+
+PROC
+PROC_RemoveMutingStatusesWithRestore_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_HasMutingStatusRestoreInfo(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHitpointsPercentage(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_RemovedMutingStatusHPRestoreInfo(_Var2, _Var3);
+
+QRY
+QRY_HasMutingStatusRestoreInfo((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_RemovedMutingStatusRestoreInfo(_Var1, _, _, _, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RemoveMutingStatusesWithRestore_Intern((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_RemoveMutingStatusses(_Var2);
+
+PROC
+PROC_RestoreMutingStatuses((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_RemovedMutingStatusRestoreInfo(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_MutingStatuses_Restoring(_Var1, _Var2, _Var4);
+ApplyStatus(_Var1, _Var2, _Var3, 1, _Var4);
+PlaySound(_Var1, "Spell_Cast_Buff_WildShapeDismiss_L1to3");
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_RemovedMutingStatusRestoreInfo(_Var1, _Var2, _Var5, _Var3, _Var1)
+AND
+DB_RemovedMutingStatusHPRestoreInfo(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+DB_MutingStatuses_Restoring(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+SetHitpointsPercentage(_Var1, _Var6, "Guaranteed", 1);
+NOT DB_RemovedMutingStatusHPRestoreInfo(_Var1, _Var6);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_RemovedMutingStatusRestoreInfo(_Var1, _Var2, _Var5, _Var3, _Var1)
+THEN
+NOT DB_RemovedMutingStatusRestoreInfo(_Var1, _Var2, _Var5, _Var3);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_MutingStatuses_Restoring(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_MutingStatuses_Restoring(_Var1, _Var2, _Var3);
+
+IF
+StatusAttemptFailed((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_RemovedMutingStatusRestoreInfo(_Var1, _Var2, _Var5, _Var3, _Var1)
+THEN
+NOT DB_RemovedMutingStatusRestoreInfo(_Var1, _Var2, _Var5, _Var3);
+
+IF
+StatusAttemptFailed((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_MutingStatuses_Restoring(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_MutingStatuses_Restoring(_Var1, _Var2, _Var3);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_PolymorphedInto(_Var1, _Var5, _Var6, _Var7, _Var1)
+THEN
+NOT DB_PolymorphedInto(_Var1, _Var5, _Var6, _Var7);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var4 != ""
+THEN
+DB_PolymorphedInto(_Var1, _Var2, _Var3, _Var4);
+SetFlag(GLO_Polymorphed_ff4902e1-37b6-4fef-aa98-6f4eaa32720b, _Var1);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+_Var4 != ""
+THEN
+SetTag(_Var1, GENERIC_730e82f3-c067-44a4-985b-0dfe079d4fea);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, "", (GUIDSTRING)_Var1)
+THEN
+ClearTag(_Var1, GENERIC_730e82f3-c067-44a4-985b-0dfe079d4fea);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, "", (GUIDSTRING)_Var1)
+THEN
+ClearFlag(GLO_Polymorphed_ff4902e1-37b6-4fef-aa98-6f4eaa32720b, _Var1);
+
+IF
+TextEvent("addpolyflag", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(GLO_Polymorphed_ff4902e1-37b6-4fef-aa98-6f4eaa32720b, _Var1);
+
+IF
+FlagSet(GLO_RemovePolymorph_ac08aa18-f4b8-4a5e-ae4e-f788811fa149, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_RemoveAllPolymorphs(_Var1);
+ClearFlag(GLO_RemovePolymorph_ac08aa18-f4b8-4a5e-ae4e-f788811fa149, _Var1);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_MarkUndeadOrigin(_Var1);
+
+PROC
+PROC_MarkUndeadOrigin((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, UNDEAD_33c625aa-6982-4c27-904f-e47029a9b140, 1, _Var1, _Var1)
+THEN
+DB_UndeadCharacter(_Var1);
+
+QRY
+QRY_GLOBAL_Shapeshifting_GetPolymorphStatus((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLOBAL_Shapeshifting_PolymorphStatus(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLOBAL_Shapeshifting_PolymorphStatus(_Var2);
+
+QRY
+QRY_GLOBAL_Shapeshifting_GetPolymorphStatus((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PolymorphedInto(_Var1, _, _, _Var4, _Var1)
+THEN
+DB_GLOBAL_Shapeshifting_PolymorphStatus(_Var4);
+
+QRY
+QRY_GLOBAL_Shapeshifting_GetPolymorphStatus((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_PolymorphedInto(_Var1, _, _, _, _Var1)
+THEN
+DB_GLOBAL_Shapeshifting_PolymorphStatus("");
+
+QRY
+QRY_IsTrueRace((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetRace(_Var1, 0, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_IsTrueUndead((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetRace(_Var1, 0, _Var2, _Var1, _Var1)
+AND
+DB_UndeadRacePresets(_, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+TextEvent("getrace", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetRace(_Var1, 0, _Var2, _Var1, _Var1)
+THEN
+DebugText(_Var1, _Var2);
+
+IF
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "GLO_SetGameStartTags", 0);
+
+IF
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "GLO_SetGameStartTags", 0);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "GLO_SetGameStartTags", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_GLO_SetGameStartTags(_Var1);
+
+PROC
+PROC_GLO_SetGameStartTags((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_RaceTags(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+IsTagged(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+SetTag(_Var1, _Var3);
+
+IF
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+HasActiveStatusWithGroup(_Var1, "SG_Polymorph_BeastShape_NPC", 1, _Var1, _Var1)
+THEN
+DB_GLO_WasWildshapedBeforeCombat(_Var1);
+
+PROC
+PROC_LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_GLO_WasWildshapedBeforeCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatusWithGroup(_Var1, "SG_Polymorph_BeastShape_NPC", 1, _Var1, _Var1)
+THEN
+RemoveStatusesWithGroup(_Var1, "SG_Polymorph_BeastShape_NPC", _Var1);
+PlaySound(_Var1, "Spell_Cast_Buff_WildShapeDismiss_L1to3");
+
+PROC
+PROC_LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_WasWildshapedBeforeCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_WasWildshapedBeforeCombat(_Var1);
+
+PROC
+PROC_Camp_DropAllPolymorphs()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_RemoveStatusGroupPlaySound_TriggerOnHUD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_RemoveStatusGroupPlaySound_TriggerOnHUD(_Var1);
+
+PROC
+PROC_Camp_ClearDisruptiveStatusses()
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_RemoveStatusGroupPlaySound_TriggerOnHUD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_RemoveStatusGroupPlaySound_TriggerOnHUD(_Var1);
+
+PROC
+PROC_RemoveStatusGroupPlaySound((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_PlayRemoveStatusGroupSound(_Var1, _Var2);
+
+PROC
+PROC_PlayRemoveStatusGroupSound((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatusWithGroup(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+PROC_RemoveStatusGroupPlaySound_Internal(_Var1);
+
+PROC
+PROC_RemoveStatusGroupPlaySound_Internal((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_RemoveStatusGroupPlaySound_TriggerOnHUD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PlayHUDSound(_Var1, "Spell_Cast_Buff_WildShapeDismiss_L1to3HUD");
+
+PROC
+PROC_RemoveStatusGroupPlaySound_Internal((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_RemoveStatusGroupPlaySound_TriggerOnHUD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PlaySound(_Var1, "Spell_Cast_Buff_WildShapeDismiss_L1to3");
+
+IF
+TeleportedToCamp((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_RemoveStatusGroupPlaySound_TriggerOnHUD(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_RemoveStatusGroupPlaySound_TriggerOnHUD(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

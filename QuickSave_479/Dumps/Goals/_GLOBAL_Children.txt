@@ -1,0 +1,25 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DB_Children(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetImmortal(_Var1, 1);
+PROC_SetCanFight(_Var1, 0);
+SetCanJoinCombat(_Var1, 0);
+
+PROC
+PROC_Children_RemoveNPC((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+NOT DB_Children(_Var1);
+SetImmortal(_Var1, 0);
+PROC_SetCanFight(_Var1, 1);
+SetCanJoinCombat(_Var1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+

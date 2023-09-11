@@ -1,0 +1,69 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DB_ORI_Astarion_ForbiddanceTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerRegisterForCharacter(_Var1, S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255);
+
+IF
+DB_Avatars(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, _, _, _, _)
+THEN
+SetFlag(ORI_Astarion_Knows_Forbiddance_4e31ca68-aead-b37b-5bfb-7b22abbdb81b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+EnteredTrigger(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_Players(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Astarion_ForbiddanceTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_ORI_Astarion_ForbiddanceOwnersAlive(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(Astarion_PAD_Forbiddance_75bf296f-9d0d-2c2e-3793-7ed097ca5a3f, S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(ORI_Astarion_Knows_Forbiddance_4e31ca68-aead-b37b-5bfb-7b22abbdb81b, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+QRY
+QRY_ORI_Astarion_ForbiddanceOwnersAlive((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_ORI_Astarion_ForbiddanceOwners(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Dead(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+AutomatedDialogStarted(Astarion_PAD_Forbiddance_75bf296f-9d0d-2c2e-3793-7ed097ca5a3f, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_ORI_Astarion_DisableForbiddanceTriggers();
+
+IF
+FlagSet(ORI_Astarion_Knows_ForbiddanceFromAstarion_3355a992-8bec-475b-8d72-b52794af0e92, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_ORI_Astarion_DisableForbiddanceTriggers();
+
+PROC
+PROC_ORI_Astarion_DisableForbiddanceTriggers()
+AND
+DB_ORI_Astarion_ForbiddanceTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForCharacter(_Var1, S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255);
+
+PROC
+PROC_ORI_Astarion_DisableForbiddanceTriggers()
+THEN
+SysClear("DB_ORI_Astarion_ForbiddanceTriggers", 2);
+SysClear("DB_ORI_Astarion_ForbiddanceTriggerOwners", 2);
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

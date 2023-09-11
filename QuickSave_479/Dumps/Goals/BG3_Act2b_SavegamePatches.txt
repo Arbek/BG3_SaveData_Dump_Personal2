@@ -1,0 +1,176 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+SavegameLoaded()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 5, 0, _)
+AND
+DB_LevelLoadedOnce("INT_Main_A", _, _, _, _)
+AND
+DB_GlobalFlag(GLO_LiftingTheCurse_State_BreathHasBeenRestored_2113b54e-a140-4aa0-97ac-219fa7b7d038, _, _, _, _)
+AND NOT
+DB_InCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND NOT
+DB_PartyMembers(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, _, _, _, _)
+THEN
+PROC_ORI_SetupCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, 1);
+PROC_GlobalSetFlagAndCache(GLO_LiftingTheCurse_State_HalsinRecruitable_2c8b6be0-558d-485c-b4f2-93ec1926a2fa);
+PROC_RemoveAllDialogEntriesForSpeaker(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_Dialogs(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323, Halsin_InParty_890c2586-6b71-ca01-5bd6-19d533181c71);
+DB_InCamp(S_GLO_Halsin_7628bc0e-52b8-42a7-856a-13a6fd413323);
+DB_BUGFIX_Marker("GUS-298675");
+
+IF
+SavegameLoaded()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 7, 0, _)
+AND
+DB_CurrentLevel("INT_Main_A", _, _, _, _)
+THEN
+DB_TopicalGreeting(TG_INT_EmperorRevealed_Event_SceneComplete_16bdcd15-3725-4d1a-befd-5df068091401);
+DB_TopicalGreetingStartCondition_FlagSet(TG_INT_EmperorRevealed_Event_SceneComplete_16bdcd15-3725-4d1a-befd-5df068091401, INT_EmperorRevealed_Event_SceneComplete_2fa4811a-8757-40e7-a0bb-dc7e210dd6e6);
+DB_TopicalGreetingEndCondition_LeaveCamp(TG_INT_EmperorRevealed_Event_SceneComplete_16bdcd15-3725-4d1a-befd-5df068091401);
+DB_BUGFIX_Marker("GUS-299834");
+
+IF
+SavegameLoaded()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 8, 0, _)
+AND
+DB_InRegion(_Var1, S_INT_EmperorRevealed_CombatPullTrigger_a5d355ad-771d-4e67-bb7e-fdf40e59ab21, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_NarrativeCombat_ID("INT_Orpheus_NarrativeCombat", _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_NarrativeCombat_JoinCombat("INT_Orpheus_NarrativeCombat", _Var1);
+DB_BUGFIX_Marker("GUS-300383");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_GlobalFlagReactionAfterDialog(INT_EmperorRevealed_Event_GlobeDestroyed_d545fbcf-a098-4cca-9749-481aa6cd7fa3, INT_EmperorRevealed_OrbExplodes_a521faf3-f6f1-3afa-b35d-c96ced8aca7f);
+DB_BUGFIX_Marker("GUS-300504");
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(INT_EmperorRevealed_Event_GlobeDestroyed_d545fbcf-a098-4cca-9749-481aa6cd7fa3, _, _, _, _)
+THEN
+PROC_SetOnStage(S_EmperorRevealed_GlobeOfDomination_Large_d70d37fb-4f58-4a65-bf19-4ea504f3e16c, 0);
+DB_BUGFIX_Marker("GUS-300504");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 9, 0, _)
+THEN
+DB_QuestDef_State(INT_EmperorRevealed_Event_SceneComplete_2fa4811a-8757-40e7-a0bb-dc7e210dd6e6, "GLO_PrinceOrpheus", "DiscoveredOrpheusIsInArtefact");
+DB_BUGFIX_Marker("GUS-300539");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 10, 0, _)
+THEN
+DB_GlobalFlagReactionAfterDialog(INT_EmperorRevealed_State_PlayerAgreedToHelpEmperor_a8997c32-e165-6e7c-888b-b5433c41a8d7, INT_EmperorRevealed_EmperorPlea_415aa8b3-5eba-6ce5-ee7a-5113b38884e5);
+DB_GlobalFlagReactionAfterDialog(INT_EmperorRevealed_Event_PlayerRefusedToHelpEmperor_34918c8c-dedf-4243-8172-97a70d23e2f6, INT_EmperorRevealed_EmperorPlea_415aa8b3-5eba-6ce5-ee7a-5113b38884e5);
+DB_BUGFIX_Marker("GUS-300502");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+AND
+DB_InRegion(_Var1, S_INT_AstralPlaneArea_37dec4e1-9db0-44a9-bd39-a5f4362d2ab2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetLongRestAvailable(0);
+DB_BUGFIX_Marker("GUS-301370");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 12, 0, _)
+THEN
+NOT DB_AutoSaveTrigger(S_INT_Start_Autosave_102dce5d-48fa-40cc-ac43-8e20d58bc2a0);
+DB_BUGFIX_Marker("GUS-301290");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+THEN
+DB_DropMutingStatussesDialog(INT_EmperorRevealed_OrbExplodes_a521faf3-f6f1-3afa-b35d-c96ced8aca7f);
+DB_DialogStarted_IgnoreStopConditions(INT_EmperorRevealed_OrbExplodes_a521faf3-f6f1-3afa-b35d-c96ced8aca7f);
+DB_DialogStarted_IgnoreStopConditions(INT_EmperorRevealed_EmperorPlea_415aa8b3-5eba-6ce5-ee7a-5113b38884e5);
+DB_DialogBlockTradeButton(INT_EmperorRevealed_EmperorDies_ec591e20-85ae-3ccf-9963-a02e0828a891);
+DB_DialogBlockAttackButton(INT_EmperorRevealed_EmperorDies_ec591e20-85ae-3ccf-9963-a02e0828a891);
+DB_BUGFIX_Marker("GUS-301810");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+AND
+DB_CurrentLevel("INT_Main_A", _, _, _, _)
+AND
+DB_InRegion(_Var1, S_INT_AstralPlaneArea_37dec4e1-9db0-44a9-bd39-a5f4362d2ab2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("INT_Patch_SetMaterialPlanePortal_Offstage", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetOnStage(S_INT_PortalFromAstralPlane_Spine_c485923b-d0c1-43b1-b61d-2d1a13649ae2, 0);
+DB_BUGFIX_Marker("GUS-301813");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SavegameIsOlderThan(4, 0, 14, 0, _)
+AND
+DB_CurrentLevel("INT_Main_A", _, _, _, _)
+THEN
+DB_INT_PreSkullGishGroup(S_INT_Githyanki_FirstContact_001_798325ee-42ad-4237-86b1-e1410a548e26);
+DB_INT_PreSkullGishGroup(S_INT_Githyanki_FirstContact_003_f95179b2-42d2-432f-93bc-c7c066fb5cfa);
+DB_INT_PreSkullGishGroup(S_INT_Githyanki_FirstContact_004_189d5ced-1aad-4a59-b587-c598bf87daf1);
+DB_BUGFIX_Marker("GUS-302080");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND NOT
+DB_GLO_EmperorPrelude_EmperorRevealedLevels(_, _, _, _, _)
+THEN
+DB_GLO_EmperorPrelude_EmperorRevealedLevels("BGO_Main_A");
+DB_GLO_EmperorPrelude_EmperorRevealedLevels("CTY_Main_A");
+DB_GLO_EmperorPrelude_EmperorRevealedLevels("END_Main");
+DB_BUGFIX_Marker("GUS-302132");
+
+PROC
+PROC_ApplySavegamePatches()
+AND
+QRY_BG3_SaveGameIsOlderThan("Release Hotfix 3", _, _, _, _)
+AND
+DB_GLO_EmperorPrelude_EmperorRevealedLevels(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(INT_EmperorRevealed_State_DaisyTrueIdentity_4e234132-dafe-4e81-8c68-6b8a90778562, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(INT_EmperorRevealed_State_DaisyTrueIdentity_4e234132-dafe-4e81-8c68-6b8a90778562);
+DB_BUGFIX_Marker("GUS-302132");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

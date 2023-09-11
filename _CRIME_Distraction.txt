@@ -1,0 +1,117 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_LookAtStatus("CRIME_DISTRACTION", "Distraction");
+DB_CRIME_LookAtStatus("ENTHRALL_AURA", "Enthralled");
+
+KBSECTION
+IF
+StatusApplied((ITEM)_Var1, "CRIME_DISTRACTION", _, _, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetOwner(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_Distraction(_Var1, _Var4, NULL_00000000-0000-0000-0000-000000000000, "Distraction");
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "CRIME_DISTRACTION", _, _, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_Distraction(_Var1, _Var4, NULL_00000000-0000-0000-0000-000000000000, "Distraction");
+
+IF
+StatusApplied((CHARACTER)_Var1, "CRIME_DISTRACTION", _, _, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_Distraction(_Var1, _Var1, NULL_00000000-0000-0000-0000-000000000000, "Distraction");
+
+IF
+StatusApplied((CHARACTER)_Var1, "ENTHRALL_AURA", (CHARACTER)_Var2, _, (CHARACTER)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_Distraction(_Var1, _Var2, _Var1, "Enthralled");
+
+PROC
+PROC_CRIME_Distraction((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_LookAt(_, _Var4, _Var1, _Var2, _Var1)
+AND
+DB_Players(_Var6, _Var1, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var1, _Var7, _Var8, _Var9, _Var1)
+AND
+CrimeGetNewID(_Var10, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_LookAt(_Var10, _Var4, _Var1, _Var2);
+PROC_CharacterRegisterCrimeWithPosition(_Var2, _Var4, _Var1, _Var7, _Var8, _Var9, _Var3, _Var10);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_LookAtStatus(_Var2, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_LookAt(_Var6, _Var5, _Var1, _Var7, _Var1)
+THEN
+PROC_CRIME_StopForAllCriminals(_Var6);
+NOT DB_CRIME_LookAt(_Var6, _Var5, _Var1, _Var7);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_LookAt(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+NOT DB_CRIME_LookAt(_Var1, _Var2, _Var3, _Var4);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "MINOR_ILLUSION", _, _, (GUIDSTRING)_Var1)
+THEN
+RealtimeObjectTimerLaunch(_Var1, "CRIME_Distraction_SetOwnerFrameDelay", 0);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRIME_Distraction_SetOwnerFrameDelay", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsCharacter(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "CRIME_DISTRACTION", -1, 1, _Var1);
+PROC_CRIME_Distraction(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, "Distraction");
+
+IF
+ObjectTimerFinished((ITEM)_Var1, "CRIME_Distraction_SetOwnerFrameDelay", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "CRIME_DISTRACTION", -1, 1, _Var1);
+PROC_CRIME_Distraction(_Var1, _Var2, NULL_00000000-0000-0000-0000-000000000000, "Distraction");
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "CRIME_DISTRACTION", _, _, (GUIDSTRING)_Var1)
+AND
+GetTemplate(_Var1, Cat_MinorIllusion_a4d03902-0382-4f88-866d-3bb2225a69a3, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, _Var1, 0, 1, 0);
+
+IF
+RollResult("STATUS_CombatDistraction", (GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+RemoveStatus(_Var2, "CRIME_DISTRACTION", _Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

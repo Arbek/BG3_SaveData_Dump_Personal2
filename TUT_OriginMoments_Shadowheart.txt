@@ -1,0 +1,26 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+DB_Dead(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+SetFlag(ORI_Shadowheart_State_DiedAtTutorial_fc263233-d4ce-4da9-b4ca-27f0101de5f7, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+Resurrected(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _)
+THEN
+ClearFlag(ORI_Shadowheart_State_DiedAtTutorial_fc263233-d4ce-4da9-b4ca-27f0101de5f7, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EnteredChasm(S_Player_ShadowHeart_3ed74f06-3c60-42dc-83f6-f034cb47c679, _, _, _, _, _, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SetFlag(ORI_Shadowheart_State_FellFromNautiloid_bf503406-711c-4274-abb5-27c22ba09977, NULL_00000000-0000-0000-0000-000000000000);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Tutorial"

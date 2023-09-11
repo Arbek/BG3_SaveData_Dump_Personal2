@@ -1,0 +1,47 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_AssaultSilenced("Assault_Sunlight");
+DB_CRIME_AssaultSilenced("Assault_Monster_Sunlight");
+
+KBSECTION
+IF
+StatusApplied((CHARACTER)_Var1, "SUNLIGHT_FROM_SPELL_TECHNICAL", (ITEM)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1)
+AND
+IsItem(_Var2, 1, _Var1, _Var1, _Var1)
+AND
+GetOwner(_Var2, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Spells_SunlightFromSpell(_Var1, _Var4);
+
+IF
+StatusApplied((CHARACTER)_Var1, "SUNLIGHT_FROM_SPELL_TECHNICAL", (CHARACTER)_Var2, (INTEGER)_Var3, (CHARACTER)_Var1)
+AND
+IsItem(_Var2, 0, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Spells_SunlightFromSpell(_Var1, _Var2);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "SUNLIGHT_FROM_SPELL_TECHNICAL", _, _, (CHARACTER)_Var1)
+AND
+DB_Spells_SunlightFromSpell(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Spells_SunlightFromSpell(_Var1, _Var4);
+
+IF
+StatusApplied((CHARACTER)_Var1, "SUNLIGHT_HYPERSENSITIVITY", _, (INTEGER)_Var3, (CHARACTER)_Var1)
+AND
+DB_Spells_SunlightFromSpell(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_TryRegisterAssaultLikeCrime(_Var4, _Var1, _Var3, "_Sunlight");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

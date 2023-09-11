@@ -1,0 +1,58 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+ShortRested((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "SHORT_REST", 6, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+ShortRested((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_GLO_DoShortRestPAD(_Var1);
+
+PROC
+PROC_GLO_DoShortRestPAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsInRange(_Var2, _Var1, 10, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_DoShortRestPAD_Candidates(_Var2);
+
+PROC
+PROC_GLO_DoShortRestPAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_GetRandom("DB_DoShortRestPAD_Candidates", 1, "DB_DoShortRestPAD_RandomCandidate", _Var1, _Var1)
+AND
+DB_DoShortRestPAD_RandomCandidate(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_PAD_PartyCommentsAfterShortRest_d08505e7-9c2d-7fc4-95ab-1a340692ac84, _Var2);
+
+PROC
+PROC_GLO_DoShortRestPAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DoShortRestPAD_Candidates(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DoShortRestPAD_Candidates(_Var2);
+
+PROC
+PROC_GLO_DoShortRestPAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DoShortRestPAD_RandomCandidate(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_DoShortRestPAD_RandomCandidate(_Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

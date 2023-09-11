@@ -1,0 +1,50 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Spells_DivineInterventionSpells("Shout_DivineIntervention_Attack");
+DB_GLO_Spells_DivineInterventionSpells("Shout_DivineIntervention_Healing");
+DB_GLO_Spells_DivineInterventionSpells("Shout_DivineIntervention_Supplies");
+DB_GLO_Spells_DivineInterventionSpells("Shout_DivineIntervention_Weapon");
+
+KBSECTION
+IF
+TextEvent("divineintervention", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+AddPassive(_Var1, "DivineIntervention");
+
+IF
+TextEvent("divineintervention_clear", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemovePassive(_Var1, "DivineIntervention");
+ClearTag(_Var1, DIVINE_INTERVENTION_USED_37ad267f-7295-4c1e-9ca4-769c8c06441d);
+
+IF
+TagSet((CHARACTER)_Var1, DIVINE_INTERVENTION_0aa50ec5-f0a5-4a9d-a3c8-3ae49a37941e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsTagged(_Var1, DIVINE_INTERVENTION_USED_37ad267f-7295-4c1e-9ca4-769c8c06441d, 0, _Var1, _Var1)
+THEN
+AddSpell(_Var1, "Shout_DivineIntervention", 0, 1);
+
+IF
+TagCleared((CHARACTER)_Var1, DIVINE_INTERVENTION_0aa50ec5-f0a5-4a9d-a3c8-3ae49a37941e, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+RemoveSpell(_Var1, "Shout_DivineIntervention", 1);
+
+IF
+CastedSpell((CHARACTER)_Var1, (STRING)_Var2, _, _, _)
+AND
+DB_GLO_Spells_DivineInterventionSpells(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveSpell(_Var1, "Shout_DivineIntervention", 1);
+SetTag(_Var1, DIVINE_INTERVENTION_USED_37ad267f-7295-4c1e-9ca4-769c8c06441d);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

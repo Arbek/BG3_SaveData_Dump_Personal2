@@ -1,0 +1,27 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_DisableShroud()
+AND NOT
+DB_ShroudDisabled(1, _, _, _, _)
+THEN
+DB_ShroudDisabled(1);
+ShroudRender(0);
+
+PROC
+PROC_EnableShroud()
+AND
+DB_ShroudDisabled(1, _, _, _, _)
+THEN
+NOT DB_ShroudDisabled(1);
+ShroudRender(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Start"

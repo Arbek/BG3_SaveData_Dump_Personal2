@@ -1,0 +1,152 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_PredefinedStartOrigin(NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_Origins_UnavailableForRandom(NULL_00000000-0000-0000-0000-000000000000);
+
+KBSECTION
+IF
+DB_CharacterCreationStarted(1, _, _, _, _)
+THEN
+GoalCompleted;
+
+PROC
+PROC_SelectRandomStartOrigin()
+AND
+DB_Origins(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PurgeOsirisQueue(_Var1);
+
+PROC
+PROC_SelectRandomStartOrigin()
+AND NOT
+DB_PredefinedStartOrigin(_, _, _, _, _)
+AND NOT
+DB_RandomizeStartOrigin(1, _, _, _, _)
+THEN
+PROC_SetAsStartOrigin(S_Player_Astarion_c7c13742-bacd-460a-8f65-f864fe41f255);
+
+PROC
+PROC_SelectRandomStartOrigin()
+AND NOT
+DB_PredefinedStartOrigin(_, _, _, _, _)
+AND
+DB_RandomizeStartOrigin(1, _, _, _, _)
+AND
+DB_Origins(_Var2, _, _, _, _)
+AND NOT
+DB_Origins_UnavailableForRandom(_Var2, _, _, _, _)
+THEN
+DB_Origins_Random(_Var2);
+
+PROC
+PROC_SelectRandomStartOrigin()
+AND NOT
+DB_PredefinedStartOrigin(_, _, _, _, _)
+AND
+DB_RandomizeStartOrigin(1, _, _, _, _)
+AND
+QRY_GetRandom("DB_Origins_Random", 1, "DB_RandomStartOrigin", _, _)
+AND
+DB_RandomStartOrigin(_Var2, _, _, _, _)
+THEN
+NOT DB_RandomStartOrigin(_Var2);
+PROC_SetAsStartOrigin(_Var2);
+
+PROC
+PROC_SelectRandomStartOrigin()
+AND
+DB_Origins_Random(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_Origins_Random(_Var1);
+
+PROC
+PROC_SelectRandomStartOrigin()
+AND
+DB_PredefinedStartOrigin(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_PredefinedStartOrigin(_Var1);
+PROC_SetAsStartOrigin(_Var1);
+
+IF
+CharacterJoinedParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CharacterCreation_FirstDummy(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CharacterCreationDummy(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CharacterCreation_FirstDummy(_Var1);
+
+PROC
+PROC_SetAsStartOrigin((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+Exists(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_CharacterCreation_FirstDummy(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetRegion(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+SetTag(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650);
+PurgeOsirisQueue(_Var1);
+TeleportTo(_Var1, _Var2, "ChosenPlayerTeleported", 1);
+MakePlayer(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+DB_Players(_Var1);
+DB_Avatars(_Var1);
+DB_ChosenOriginWaitingForTeleport(_Var1);
+MakePlayerActive(_Var1);
+RequestAutoLevel(_Var1);
+
+IF
+EntityEvent((CHARACTER)_Var1, "ChosenPlayerTeleported", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ChosenOriginWaitingForTeleport(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_ChosenOriginWaitingForTeleport(_Var1);
+PROC_GLO_Origins_SetupRecruitment(_Var2);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+IsGameLevel(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_SkippedCC();
+
+PROC
+PROC_SkippedCC()
+AND NOT
+DB_StoryReloaded(1, _, _, _, _)
+AND
+DB_PredefinePartyPreset_Loaded(_, _, _, _, _)
+THEN
+DB_CharacterCreationStarted(0);
+
+PROC
+PROC_SkippedCC()
+AND NOT
+DB_StoryReloaded(1, _, _, _, _)
+AND NOT
+DB_PredefinePartyPreset_Loaded(_, _, _, _, _)
+THEN
+PROC_SelectRandomStartOrigin();
+DB_CharacterCreationStarted(0);
+DB_GLO_PlayerCharactersSetup(1);
+PROC_PlayersSelected("Initial");
+NOT DB_GLO_PlayerCharactersSetup(1);
+
+PROC
+PROC_SkippedCC()
+THEN
+NotifyCharacterCreationSkipped();
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

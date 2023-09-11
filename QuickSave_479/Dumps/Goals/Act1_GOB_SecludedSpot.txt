@@ -1,0 +1,74 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, S_GOB_SecludedSpot_Goblin_5bfd5735-129c-4534-64e9-0832472aebba);
+DB_SpotPlayers(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot", S_GOB_SecludedSpot_SpottingTrigger_6b7d0014-b923-4f23-bbf3-08ec1f1a26c5);
+DB_SpotPlayers_SpotterIgnoreCantTalk(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot");
+DB_SpotPlayers_TargetIgnoreCantTalk(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot");
+DB_SpotPlayers_IncludeWildshapedPlayers(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot");
+DB_SpotPlayers_IncludeFollowers(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot");
+DB_SpotPlayers_IncludeSummons(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot");
+DB_SpotPlayers(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea", S_GOB_SecludedSpot_AccessArea_4c6cfa95-d2c0-4c1f-abb5-a3ee61aca95a);
+DB_SpotPlayers_Continuous(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea");
+DB_SpotPlayers_SpotterIgnoreCantTalk(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea");
+DB_SpotPlayers_TargetIgnoreCantTalk(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea");
+DB_SpotPlayers_IncludeWildshapedPlayers(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea");
+DB_SpotPlayers_IncludeFollowers(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea");
+DB_SpotPlayers_IncludeSummons(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea");
+
+KBSECTION
+IF
+FlagSet(GOB_Checkpoint_State_GainedAccess_46279ae3-9662-01b0-25a5-a46e1b80d057, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SpotPlayers_StopSpotting(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot");
+PROC_SpotPlayers_StopSpotting(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea");
+
+PROC
+PROC_SpotPlayers_Spotted(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot_AccessArea", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GOB_SecludedSpot_Ignore_04b8a841-fd7f-4297-81e1-79309dde071d, _Var1, 0, _Var1, _Var1)
+THEN
+SetFlag(GOB_SecludedSpot_Ignore_04b8a841-fd7f-4297-81e1-79309dde071d, _Var1);
+
+PROC
+PROC_SpotPlayers_Spotted(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GOB_SecludedSpot_Ignore_04b8a841-fd7f-4297-81e1-79309dde071d, _Var1, 0, _Var1, _Var1)
+AND
+QRY_IsPlayerActor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(GOB_SecludedSpot_Trespassing_9eb570dd-c45d-96a4-671c-805e1fecbb6c, S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationTemporaryHostile(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, _Var1);
+
+PROC
+PROC_SpotPlayers_Spotted(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetFlag(GOB_SecludedSpot_Ignore_04b8a841-fd7f-4297-81e1-79309dde071d, _Var1, 0, _Var1, _Var1)
+AND NOT
+QRY_IsPlayerActor(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationTemporaryHostile(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, _Var1);
+
+IF
+DialogEnded(GOB_SecludedSpot_Trespassing_9eb570dd-c45d-96a4-671c-805e1fecbb6c, _, _, _, _)
+AND
+GetFlag(GOB_Checkpoint_State_GainedAccess_46279ae3-9662-01b0-25a5-a46e1b80d057, NULL_00000000-0000-0000-0000-000000000000, 0, _, _)
+THEN
+PROC_SpotPlayers_RestartSpotting(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34, "GOB_SecludedSpot");
+
+IF
+AutomatedDialogEnded(GOB_SecludedSpot_AD_Warning_460a58a5-0ae9-0953-74d1-32efccd56ff6, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GOB_MakeFestivitiesAreaHostile();
+ClearFlag(GOB_SecludedSpot_State_NeedToWarnCamp_7a2c87d3-e736-4a17-bb95-ae5c202a4688, S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34);
+EndTurn(S_GOB_SecludedSpot_Goblin_b811fc94-bcd7-4be3-a53a-0663cbc16c34);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

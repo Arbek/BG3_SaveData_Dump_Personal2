@@ -1,0 +1,558 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_AmbushTrigger_AmbushRevealAD(NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_AmbushTrigger_AmbusherDelay(NULL_00000000-0000-0000-0000-000000000000, 0);
+
+KBSECTION
+IF
+DB_AmbushTrigger(_Var1, _, _, _Var1, _Var1)
+AND
+GetUUID(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND NOT
+DB_AmbushTrigger_CachedTrigger(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_AmbushTrigger_CachedTrigger(_Var1, _Var4);
+
+IF
+DB_AmbushTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+GetUUID(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForParty(_Var1);
+DB_KnowledgeCheckTrigger(_Var4, _Var2, "Perception", _Var3);
+
+IF
+DB_AmbushTrigger_AdditionalAmbushTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForParty(_Var2);
+
+IF
+DB_AmbushTrigger_Ambusher(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+GetUUID(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "AMBUSHING", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+DB_SceneManager(_Var2, _Var4);
+SetCanJoinCombat(_Var2, 0);
+
+IF
+DB_AmbushTrigger_Ambusher(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var2, "INVISIBLE", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var2, 0);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var5, _Var1, _Var6, _Var1, _Var1)
+AND
+GetStatusType(_Var2, "INVISIBLE", _Var1, _Var1, _Var1)
+THEN
+DB_HiddenAmbushers(_Var5, _Var1, _Var2);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, _, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var5, _Var1, _Var6, _Var1, _Var1)
+AND
+GetStatusType(_Var2, "INVISIBLE", _Var1, _Var1, _Var1)
+THEN
+NOT DB_HiddenAmbushers(_Var5, _Var1, _Var2);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher_Appear(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HiddenAmbushers(_Var2, _Var1, "");
+
+IF
+WentOnStage((CHARACTER)_Var1, 1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_AmbushTrigger_Ambusher_Appear(_Var2, _Var1, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HiddenAmbushers(_Var2, _Var1, "");
+
+PROC
+PROC_GLO_KnowledgeCheckSuccess((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger(_Var4, _Var3, _, _Var1, _Var1)
+AND
+DB_AmbushTrigger_CachedTrigger(_Var4, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_RequestRevealAmbush(_Var3, _Var1);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+GetStatusType(_Var2, "SNEAKING", _Var1, _Var1, _Var1)
+THEN
+DB_HiddenCharacters(_Var1, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+IsStatusFromGroup(_Var2, "SG_Invisible", 1, _Var1, _Var1)
+THEN
+DB_HiddenCharacters(_Var1, _Var2);
+
+IF
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND
+GetFlag(GLO_State_Hiding_ad57af70-2300-4c49-b713-ba0bd8e77ea3, _Var1, 0, _Var1, _Var1)
+THEN
+SetFlag(GLO_State_Hiding_ad57af70-2300-4c49-b713-ba0bd8e77ea3, _Var1);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_HiddenCharacters(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_HiddenCharacters(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 != _Var2
+THEN
+NOT DB_HiddenCharacters(_Var1, _Var2);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_HiddenCharacters(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_HiddenCharacters(_Var1, _Var2);
+ClearFlag(GLO_State_Hiding_ad57af70-2300-4c49-b713-ba0bd8e77ea3, _Var1);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InconspicuousPartyMember(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AmbushTrigger(_Var2, _, _, _Var1, _Var1)
+THEN
+PROC_RequestLaunchAmbush(_Var2, _Var1);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InconspicuousPartyMember(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AmbushTrigger_AdditionalAmbushTrigger(_Var4, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_AmbushTrigger(_Var4, _, _, _Var1, _Var1)
+THEN
+PROC_RequestLaunchAmbush(_Var4, _Var1);
+
+PROC
+PROC_RequestLaunchAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_CachedTrigger(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver(_Var3);
+PROC_RemoveAmbushTriggers(_Var1);
+
+PROC
+PROC_RemoveAmbushTriggers((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_CachedTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AmbushTrigger_CachedTrigger(_Var1, _Var2);
+
+PROC
+PROC_RemoveAmbushTriggers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_KnowledgeCheck_Clear(_Var2);
+PROC_TriggerUnregisterForParty(_Var1);
+NOT DB_AmbushTrigger(_Var1, _Var2, _Var3);
+
+PROC
+PROC_RemoveAmbushTriggers((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_AdditionalAmbushTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForParty(_Var2);
+NOT DB_AmbushTrigger_AdditionalAmbushTrigger(_Var1, _Var2);
+
+PROC
+PROC_RequestLaunchAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AmbushSurpriseImmune(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_Ambush_AmbusherSurprised(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsInCombat(_Var2, 0, _Var1, _Var1, _Var1)
+THEN
+PROC_Ambush_SetPlayersSurprised(_Var2);
+
+PROC
+PROC_RequestLaunchAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var3, _, _Var1, _Var1)
+THEN
+RemoveStatus(_Var3, "AMBUSHING");
+SetCanJoinCombat(_Var3, 1);
+
+PROC
+PROC_RequestLaunchAmbush((TRIGGER)_Var1, (CHARACTER)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var3, 0, _Var1, _Var1)
+THEN
+PROC_LaunchAmbushOnce(_Var1, _Var2);
+
+PROC
+PROC_RequestLaunchAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var3, 1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var3, "INVISIBLE", _Var4, _Var1, _Var1)
+THEN
+PROC_RequestLaunchAmbush(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_RequestLaunchAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, 0, (GUIDSTRING)_Var1)
+THEN
+PROC_LaunchAmbushOnce(_Var1, _Var2);
+
+PROC
+PROC_RequestLaunchAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, 1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND NOT
+DB_AmbushTrigger_AmbusherDelay(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var3, "INVISIBLE");
+NOT DB_AmbushTrigger_Ambusher(_Var1, _Var3, _Var4);
+DB_AmbushLaunchRequestedFor(_Var3, _Var1, _Var2);
+
+PROC
+PROC_RequestLaunchAmbush((TRIGGER)_Var1, (CHARACTER)_Var2, (GUIDSTRING)_Var3, 1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_AmbushTrigger_AmbusherDelay(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var6, "_Timer", _Var7, _Var1, _Var1)
+AND
+QRY_OnlyOnce(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var3, "INVISIBLE");
+NOT DB_AmbushTrigger_Ambusher(_Var1, _Var3, _Var4);
+DB_AmbushLaunchRequestedFor(_Var3, _Var1, _Var2);
+DB_DelayedAmbushRequested(_Var6, _Var7, _Var2);
+ObjectTimerLaunch(_Var1, _Var7, _Var5);
+
+PROC
+PROC_RequestLaunchAmbush((TRIGGER)_Var1, (CHARACTER)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_AmbushTrigger_AmbusherDelay(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7);
+DB_AmbushLaunchRequestedFor(_Var3, _Var1, _Var2);
+AppearAt(_Var3, _Var4, _Var5, _Var6, _Var7);
+
+PROC
+PROC_RequestLaunchAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AmbushTrigger_AmbusherDelay(_Var1, _Var8, _Var1, _Var1, _Var1)
+AND
+GUIDToString(_Var1, _Var9, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var9, "_Timer", _Var10, _Var1, _Var1)
+AND
+QRY_OnlyOnce(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var3, _Var4, _Var5, _Var6, _Var7);
+DB_AmbushLaunchRequestedFor(_Var3, _Var1, _Var2);
+AppearAt(_Var3, _Var4, _Var5, _Var6, _Var7);
+DB_DelayedAmbushRequested(_Var9, _Var10, _Var2);
+ObjectTimerLaunch(_Var1, _Var10, _Var8);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DelayedAmbushRequested(_Var3, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_OnlyOnce(_Var3);
+
+IF
+ObjectTimerFinished((TRIGGER)_Var1, (STRING)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_DelayedAmbushRequested(_Var3, _Var2, _Var4, _Var1, _Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var5, _Var6, _Var1, _Var1)
+AND
+DB_AmbushTrigger_AmbusherDelay(_Var1, _Var7, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var5, "INVISIBLE");
+NOT DB_AmbushTrigger_Ambusher(_Var1, _Var5, _Var6);
+DB_AmbushLaunchRequestedFor(_Var5, _Var1, _Var4);
+ObjectTimerLaunch(_Var1, _Var2, _Var7);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_DelayedAmbushRequested(_Var3, _Var2, _Var4, _Var1, _Var1)
+AND
+DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var5, _Var6, _Var7, _Var8, _Var9, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AmbushTrigger_AmbusherDelay(_Var1, _Var10, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var5, _Var6, _Var7, _Var8, _Var9);
+DB_AmbushLaunchRequestedFor(_Var5, _Var1, _Var4);
+AppearAt(_Var5, _Var6, _Var7, _Var8, _Var9);
+ObjectTimerLaunch(_Var1, _Var2, _Var10);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "INVISIBLE", _, _, (GUIDSTRING)_Var1)
+AND
+DB_AmbushLaunchRequestedFor(_Var1, _Var4, _Var5, _Var1, _Var1)
+THEN
+NOT DB_AmbushLaunchRequestedFor(_Var1, _Var4, _Var5);
+PROC_LaunchAmbushOnce(_Var4, _Var5);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushLaunchRequestedFor(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_AmbushLaunchRequestedFor(_Var1, _Var2, _Var3);
+PROC_LaunchAmbushOnce(_Var2, _Var3);
+
+QRY
+QRY_Ambush_AmbusherSurprised((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+HasActiveStatus(_Var2, "SURPRISED", 1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Ambush_AmbusherSurprised((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var2, 1, _Var1, _Var1)
+AND NOT
+DB_HiddenAmbushers(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Ambush_AmbusherSurprised((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushRevealed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_Ambush_SetPlayersSurprised((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+_Var3 < 15
+THEN
+PROC_MakeSurprised(_Var2);
+
+PROC
+PROC_LaunchAmbushOnce((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AmbushLaunched(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_AmbushLaunched(_Var1);
+PROC_LaunchAmbush(_Var1, _Var2);
+
+PROC
+PROC_LaunchAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RequestRevealAmbush((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_AmbushSurpriseImmune(_Var3, _Var5);
+
+PROC
+PROC_RequestRevealAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger(_Var3, _Var1, _, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var1);
+
+PROC
+PROC_RequestRevealAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger(_Var3, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_AmbushTrigger_Ambusher(_Var3, _, _, _Var1, _Var1)
+THEN
+PROC_RevealAmbushOnce(_Var1, _Var2);
+
+PROC
+PROC_RequestRevealAmbush((TRIGGER)_Var1, (CHARACTER)_Var2, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var3, _Var5, 0, _Var1, _Var1)
+THEN
+PROC_RevealAmbushOnce(_Var1, _Var2);
+
+PROC
+PROC_RequestRevealAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var3, _Var5, 1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var5, "INVISIBLE", _Var6, _Var1, _Var1)
+THEN
+PROC_RequestRevealAmbush(_Var1, _Var2, _Var5, _Var6);
+
+PROC
+PROC_RequestRevealAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (CHARACTER)_Var3, 0, (GUIDSTRING)_Var1)
+THEN
+PROC_RevealAmbushOnce(_Var1, _Var2);
+
+PROC
+PROC_RequestRevealAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var3, 1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger(_Var4, _Var1, _, _Var1, _Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var4, _Var3, _, _Var1, _Var1)
+THEN
+RemoveStatus(_Var3, "INVISIBLE");
+DB_AmbushRevealRequestedFor(_Var3, _Var1, _Var2);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "INVISIBLE", _, _, (GUIDSTRING)_Var1)
+AND
+DB_AmbushRevealRequestedFor(_Var1, _Var4, _Var5, _Var1, _Var1)
+THEN
+PROC_RevealAmbushOnce(_Var4, _Var5);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, "INVISIBLE", _, _, (GUIDSTRING)_Var1)
+AND
+DB_AmbushRevealRequestedFor(_Var1, _Var4, _Var5, _Var1, _Var1)
+THEN
+NOT DB_AmbushRevealRequestedFor(_Var1, _Var4, _Var5);
+
+PROC
+PROC_RevealAmbushOnce((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AmbushRevealed(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_AmbushRevealed(_Var1);
+PROC_RevealAmbush(_Var1);
+PROC_RevealAmbush(_Var1, _Var2);
+PROC_StartAmbushRevealAD(_Var1, _Var2);
+
+PROC
+PROC_StartAmbushRevealAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_AmbushRevealAD(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(_Var3, _Var2);
+
+PROC
+PROC_StartAmbushRevealAD((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_AmbushTrigger_AmbushRevealAD(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_PAD_RevealedAmbush_fb8900bc-88f0-1af4-c5d7-40513b632938, _Var2);
+
+PROC
+PROC_RevealAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_RevealAmbush((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_GLO_GenericSceneManager_ViolenceReason(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var5, _Var1, _, _Var1, _Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var5, _Var7, _, _Var1, _Var1)
+AND
+GetFaction(_Var7, _Var9, _Var1, _Var1, _Var1)
+THEN
+PROC_MakeSurprised(_Var7);
+PROC_SetRelationToPlayers(_Var9, 0);
+
+PROC
+PROC_SceneInterrupted((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var5, _Var1, _Var6, _Var1, _Var1)
+THEN
+PROC_CancelAmbush(_Var5);
+
+PROC
+PROC_CancelAmbush((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_CachedTrigger(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SceneOver(_Var2);
+PROC_RemoveAmbushTriggers(_Var1);
+
+PROC
+PROC_CancelAmbush((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var2, 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "INVISIBLE");
+
+PROC
+PROC_CancelAmbush((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_Ambusher(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+RemoveStatus(_Var2, "AMBUSHING");
+SetCanJoinCombat(_Var2, 1);
+NOT DB_AmbushTrigger_Ambusher(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CancelAmbush((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_AmbushTrigger_Ambusher_Appear(_Var1, _Var2, _Var3, _Var4, _Var5, _Var6);
+
+
+EXITSECTION
+ENDEXITSECTION
+

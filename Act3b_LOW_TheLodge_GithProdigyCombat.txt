@@ -1,0 +1,88 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_000_aaf0e0ab-62df-4fdc-979a-e52f351c54cb);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_001_e95a4b5d-47a3-46ab-a5a6-3c85810a9ef9);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_002_e1e41ef0-ba93-4a8f-a8de-c7e54da7bdc6);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_003_f746b04d-261a-4229-a6e5-d31007e546bf);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_004_57ed3e3d-a6df-41a3-908c-1dc58e2c11c8);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_005_9a632926-ff44-4c2d-8d68-58667b88905a);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_006_53fc4d12-ee0c-4f17-afed-a88b1b894edf);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_007_87e3ce95-884d-472d-bfea-8b8873848771);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_008_6ac2c89f-4140-4475-b176-156cdcc7c98a);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_009_323d5379-f33c-46df-9a9e-55648480742e);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_010_1a5fd3b3-7e9f-4e2f-8854-2a480ae597e9);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_011_66cc69fd-8730-4b3a-a50c-7c6f75d3d1f5);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_012_a739d557-a0ce-465a-ab79-b10c614b94b4);
+DB_Combat_GihtyankiProdigy_TeleportPoints(S_GithyankiProdigy_TeleportPoint_013_4203a4ad-c49e-44cf-8ade-bad694bbb53c);
+
+KBSECTION
+IF
+StatusApplied((GUIDSTRING)_Var1, "LOW_GITHYANKIPRODIGY_REACTIVEDISPLACEMENT", (CHARACTER)_Var2, _, (GUIDSTRING)_Var1)
+AND
+QRY_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(_, _Var5, _Var1, _Var1, _Var1)
+THEN
+UseSpell(_Var1, "Target_LOW_GithyankiProdigy_AstralStep_ReactiveDisplacement", _Var5);
+
+QRY
+QRY_LOW_GithyankiProdigy_FindFarthestPointFromAttacker((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(_Var2, _Var3);
+
+QRY
+QRY_LOW_GithyankiProdigy_FindFarthestPointFromAttacker((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(_, _, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(0, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_LOW_GithyankiProdigy_FindFarthestPointFromAttacker((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Combat_GihtyankiProdigy_TeleportPoints(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+_Var5 >= _Var3
+THEN
+NOT DB_QRYRTN_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(_Var3, _Var4);
+DB_QRYRTN_LOW_GithyankiProdigy_FindFarthestPointFromAttacker(_Var5, _Var2);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "LOW_GITHYANKIPRODIGY_MENTALIMAGE_TECHNICAL", (GUIDSTRING)_Var2, _, (GUIDSTRING)_Var1)
+AND
+GetPosition(_Var1, _Var4, _Var5, _Var6, _Var1)
+AND
+CreateAt(9b36b1f6-f0a7-4489-ae41-e8aafd58a8ad, _Var4, _Var5, _Var6, 1, 1, "", _Var7, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "LOW_GITHYANKIPRODIGY_MENTALIMAGE_TECHNICAL", _Var7);
+ApplyStatus(_Var1, "LOW_GITHYANKIPRODIGY_MENTALIMAGE", -1, 0, _Var7);
+ApplyStatus(_Var7, "LOW_GITHYANKIPRODIGY_MENTALIMAGE_TECHNICAL_SOURCECHARACTER", -1, 0, _Var1);
+ApplyStatus(_Var7, "LOW_GITHYANKIPRODIGY_MENTALIMAGE_BEAM", -1, 0, _Var1);
+
+IF
+EnteredCombat((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(_Var1, "LOW_GITHYANKIPRODIGY_MENTALIMAGE_TECHNICAL_SOURCECHARACTER", 1, _Var1, _Var1)
+AND
+QRY_CurrentCombatRoundIs(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "LOW_GITHYANKIPRODIGY_MENTALIMAGE_LATEJOINPENALTY", 6, 0, _Var1);
+
+IF
+StatusRemoved((CHARACTER)_Var1, "LOW_GITHYANKIPRODIGY_MENTALIMAGE_BEAM", _, _, (CHARACTER)_Var1)
+THEN
+PROC_Poof(_Var1, VFX_Cinematic_DeathPouch_Poof_01_2bece487-ccbc-9795-40d4-20b64e0e32e5);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

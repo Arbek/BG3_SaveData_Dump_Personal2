@@ -1,0 +1,354 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_TriggerRegisterForPlayers(S_SHA_Disc_Bounds_ed943df3-d3ca-43e4-890f-4ef9bd30faa1);
+DB_SHA_Disc_ControlStones_State(0);
+DB_SHA_Disc_CurrentPos(NULL_00000000-0000-0000-0000-000000000000);
+DB_SHA_Disc_Destination(1, S_SHA_Disc_CenterPos_5a15d75e-3f27-407c-9149-da0f1f8e2991, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SHA_Disc_Destination(0, S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4, S_SHA_Disc_ControlStone_Entrance_23c55a79-46b1-4495-b78e-9a2b72839f4d, S_SHA_Disc_ControlStone_Entrance_Down_a1ccd3a3-164c-4d2b-ad30-2fea26910ef6, S_SHA_Disc_ControlStone_Entrance_Up_d16a2b28-02cd-47ad-a72c-cea6239c883f);
+DB_SHA_Disc_Destination(0, S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9, S_SHA_Disc_ControlStone_Nightsong_ec5dd167-4149-4bf0-a1d5-7c533ec802b1, S_SHA_Disc_ControlStone_Nightsong_Down_90835332-d2cb-4452-a768-79371f505505, S_SHA_Disc_ControlStone_Nightsong_Up_033b4f4d-3224-4483-b0c9-7fa53fdf4c2e);
+DB_SHA_Disc_SummonStone(S_SHA_Disc_SummonStone_Entrance_c6487f7b-8dc3-42ac-8e63-b3534be96281, S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4);
+DB_SHA_Disc_SummonStone(S_SHA_Disc_SummonStone_Nightsong_0a57dca7-ae54-496a-b124-4620c3f458d1, S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9);
+DB_SHA_Disc_FromToSpline(S_SHA_Disc_CenterPos_5a15d75e-3f27-407c-9149-da0f1f8e2991, S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4, d1730596-7a1f-4a1d-ace6-76aaeb637f3a, 0, 4);
+DB_SHA_Disc_FromToSpline(S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4, S_SHA_Disc_CenterPos_5a15d75e-3f27-407c-9149-da0f1f8e2991, d1730596-7a1f-4a1d-ace6-76aaeb637f3a, 4, 0);
+DB_SHA_Disc_FromToSpline(S_SHA_Disc_CenterPos_5a15d75e-3f27-407c-9149-da0f1f8e2991, S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9, b11b21fd-be2c-497f-9c88-e6302b59b83a, 0, 4);
+DB_SHA_Disc_FromToSpline(S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9, S_SHA_Disc_CenterPos_5a15d75e-3f27-407c-9149-da0f1f8e2991, b11b21fd-be2c-497f-9c88-e6302b59b83a, 4, 0);
+DB_SHA_Disc_FromToSpline(S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4, S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9, 94212a31-b8ca-40ae-a7ae-404d1c54b3ae, 0, 5);
+DB_SHA_Disc_FromToSpline(S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9, S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4, 94212a31-b8ca-40ae-a7ae-404d1c54b3ae, 5, 0);
+
+KBSECTION
+IF
+TextEvent("discunlockone", _, _, _, _)
+THEN
+PROC_SHA_Disc_UnlockDestination(S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9);
+
+IF
+TextEvent("discunlockall", _, _, _, _)
+THEN
+PROC_SHA_Disc_UnlockDestination(S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4);
+PROC_SHA_Disc_UnlockDestination(S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9);
+
+IF
+TextEvent("SHA_Disc_MoveToCenter", _, _, _, _)
+THEN
+PROC_SHA_Disc_MoveTo(S_SHA_Disc_CenterPos_5a15d75e-3f27-407c-9149-da0f1f8e2991);
+
+IF
+TextEvent("SHA_Disc_MoveToEntrance", _, _, _, _)
+THEN
+PROC_SHA_Disc_MoveTo(S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4);
+
+IF
+TextEvent("SHA_Disc_MoveToNightsong", _, _, _, _)
+THEN
+PROC_SHA_Disc_MoveTo(S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9);
+
+IF
+DB_SHA_Disc_Destination(_Var1, _Var2, _Var3, _Var4, _Var5)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_SHA_Disc_DeactivateStone(_Var3);
+
+IF
+EnteredTrigger((GUIDSTRING)_Var1, S_SHA_Disc_Bounds_ed943df3-d3ca-43e4-890f-4ef9bd30faa1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Disc_ControlStones_State(0, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Disc_ControlStones_State(0);
+DB_SHA_Disc_ControlStones_State(1);
+PROC_SHA_Disc_WakeUpStones();
+
+PROC
+PROC_SHA_Disc_WakeUpStones()
+AND
+DB_SHA_Disc_Destination(1, _Var1, _Var2, _Var3, _Var4)
+AND NOT
+DB_SHA_Disc_CurrentPos(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SHA_Disc_ActivateStone(_Var2);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, S_SHA_Disc_Bounds_ed943df3-d3ca-43e4-890f-4ef9bd30faa1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_InRegion(_, S_SHA_Disc_Bounds_ed943df3-d3ca-43e4-890f-4ef9bd30faa1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_ControlStones_State(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SHA_Disc_Moving(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Disc_ControlStones_State(1);
+DB_SHA_Disc_ControlStones_State(0);
+PROC_SHA_Disc_SleepStones();
+
+PROC
+PROC_SHA_Disc_SleepStones()
+AND
+DB_SHA_Disc_Destination(1, _Var1, _Var2, _Var3, _Var4)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+PROC_SHA_Disc_DeactivateStone(_Var2);
+
+IF
+UseFinished((CHARACTER)_Var1, (ITEM)_Var2, 1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SHA_Disc_Destination(1, _Var3, _Var2, _Var4, _Var5)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_PlayCantUseItemAD(_Var1);
+
+IF
+UseFinished((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Disc_Destination(1, _Var3, _Var2, _Var4, _Var5)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SHA_Disc_PrepStonesForMovement(_Var2);
+
+IF
+UseFinished((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, 1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Disc_SummonStone(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_Destination(1, _Var3, _Var4, _, _)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+PROC_SHA_Disc_PrepStonesForMovement(_Var4);
+
+PROC
+PROC_SHA_Disc_PrepStonesForMovement((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Disc_Destination(1, _Var2, _Var1, _Var3, _Var4)
+THEN
+PROC_SHA_Disc_MoveTo(_Var2);
+
+PROC
+PROC_SHA_Disc_PrepStonesForMovement((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Disc_Destination(_, _, _Var4, _, _)
+THEN
+PROC_SHA_Disc_DeactivateStone(_Var4);
+
+PROC
+PROC_SHA_Disc_PrepStonesForMovement(S_SHA_Disc_ControlStone_Nightsong_ec5dd167-4149-4bf0-a1d5-7c533ec802b1, _, _, _, _)
+AND
+QRY_OnlyOnce("SHA_Disc_MusicTriggers", _, _, _, _)
+AND
+DB_InRegion(_Var1, S_SHA_Disc_Bounds_ed943df3-d3ca-43e4-890f-4ef9bd30faa1, _Var1, _Var1, _Var1)
+AND
+GetReservedUserID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SHA_Disc_MusicPlayedFor(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SHA_Disc_MusicPlayedFor(_Var2);
+MusicPlayForPeer(_Var1, "MusicTraversalGem");
+PROC_SHA_Trials_TryStartDiscAD(_Var1);
+
+PROC
+PROC_SHA_Disc_PrepStonesForMovement(S_SHA_Disc_ControlStone_Nightsong_ec5dd167-4149-4bf0-a1d5-7c533ec802b1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_SHA_Disc_MusicPlayedFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Disc_MusicPlayedFor(_Var1);
+
+PROC
+PROC_SHA_Disc_ActivateStone((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetCanInteract(_Var1, 1);
+Transform(_Var1, DEC_Dungeon_SharTemple_Gem_Socket_B_Glow_A_35e6b78b-c687-4880-b8bb-0d759478f0d5, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+
+PROC
+PROC_SHA_Disc_DeactivateStone((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+_Var1 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+SetCanInteract(_Var1, 0);
+RemoveTransforms(_Var1);
+
+PROC
+PROC_SHA_Disc_LockDestination((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SHA_Disc_Destination(1, _Var1, _Var2, _Var3, _Var4)
+THEN
+NOT DB_SHA_Disc_Destination(1, _Var1, _Var2, _Var3, _Var4);
+DB_SHA_Disc_Destination(0, _Var1, _Var2, _Var3, _Var4);
+ItemMoveTo(_Var2, _Var3, 0.5, 1, 1, "", 0);
+SetCanInteract(_Var2, 0);
+
+PROC
+PROC_SHA_Disc_UnlockDestination((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SHA_Disc_Destination(0, _Var1, _Var2, _Var3, _Var4)
+THEN
+NOT DB_SHA_Disc_Destination(0, _Var1, _Var2, _Var3, _Var4);
+DB_SHA_Disc_Destination(1, _Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_SHA_Disc_WakeNewStone((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_SHA_Disc_ControlStones_State(1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SHA_Disc_Moving(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_Destination(_, _, _Var1, _, _Var6)
+THEN
+ItemMoveTo(_Var1, _Var6, 0.5, 1, 1, "SHA_Disc_ControlStone_Up", 0);
+
+PROC
+PROC_SHA_Disc_WakeNewStone((ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_SHA_Disc_ControlStones_State(1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_Moving(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_SHA_Disc_WakeAfterMovement(_Var1);
+
+IF
+PlatformMovementFinished(S_PLT_SHA_Disc_963cbac6-de2b-4ee5-ba5b-c13a0c4fcda9, "SHA_Disc_Moved", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_SHA_Disc_WakeAfterMovement(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_Destination(_, _, _Var1, _, _Var5)
+THEN
+NOT DB_SHA_Disc_WakeAfterMovement(_Var1);
+ItemMoveTo(_Var1, _Var5, 0.5, 1, 1, "SHA_Disc_ControlStone_Up", 0);
+
+IF
+DB_SHA_Disc_Destination(1, S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4, _, _, _)
+THEN
+Transform(S_SHA_Disc_SummonStone_Entrance_c6487f7b-8dc3-42ac-8e63-b3534be96281, DEC_Dungeon_SharTemple_Gem_Socket_B_Glow_A_35e6b78b-c687-4880-b8bb-0d759478f0d5, Disguise_ceccc4eb-d774-4cd5-9147-12322b81b763);
+
+IF
+DB_SHA_Disc_Destination(0, S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4, _, _, _)
+THEN
+RemoveTransforms(S_SHA_Disc_SummonStone_Entrance_c6487f7b-8dc3-42ac-8e63-b3534be96281);
+
+IF
+UseStarted((CHARACTER)_Var1, S_SHA_Disc_SummonStone_Nightsong_0a57dca7-ae54-496a-b124-4620c3f458d1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_SHA_Disc_UnlockDestination(S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4);
+PROC_SHA_Disc_UnlockDestination(S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Disc_SummonStone(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_SHA_Disc_CantUseSummonStone(1);
+
+IF
+UseStarted((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SHA_Disc_SummonStone(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_Destination(1, _Var3, _, _, _)
+AND NOT
+DB_SHA_Disc_Moving(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Disc_CantUseSummonStone(1);
+PROC_SHA_Disc_MoveTo(_Var3);
+
+IF
+UseStarted((CHARACTER)_Var1, (ITEM)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SHA_Disc_SummonStone(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_CantUseSummonStone(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Disc_CantUseSummonStone(1);
+PROC_PlayCantUseItemAD(_Var1);
+
+PROC
+PROC_SHA_Disc_MoveTo((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND NOT
+DB_SHA_Disc_Moving(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_CurrentPos(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SHA_Disc_Destination(_, _Var1, _Var5, _Var6, _Var7)
+AND
+_Var5 != _Var3
+AND
+DB_SHA_Disc_Destination(_, _Var9, _Var3, _, _)
+THEN
+DB_SHA_Disc_Moving(_Var9);
+NOT DB_SHA_Disc_CurrentPos(_Var3);
+DB_SHA_Disc_CurrentPos(_Var5);
+PROC_SHA_Disc_StartMovingTo(_Var9, _Var1, "SHA_Disc_Moved");
+
+PROC
+PROC_SHA_Disc_StartMovingTo((TRIGGER)_Var1, (TRIGGER)_Var2, (STRING)_Var3, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SHA_Disc_FromToSpline(_Var1, _Var2, _Var4, _Var5, _Var6)
+THEN
+PlatformMoveOnSpline(S_PLT_SHA_Disc_963cbac6-de2b-4ee5-ba5b-c13a0c4fcda9, _Var4, _Var5, _Var6, 5, _Var3, 0);
+
+IF
+PlatformMovementCanceled(S_PLT_SHA_Disc_963cbac6-de2b-4ee5-ba5b-c13a0c4fcda9, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SHA_Disc_Moving(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(S_PLT_SHA_Disc_963cbac6-de2b-4ee5-ba5b-c13a0c4fcda9, _Var1);
+NOT DB_SHA_Disc_Moving(_Var2);
+
+IF
+PlatformMovementFinished(S_PLT_SHA_Disc_963cbac6-de2b-4ee5-ba5b-c13a0c4fcda9, "SHA_Disc_Moved", (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SHA_Disc_Moving(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SHA_Disc_Moving(_Var1);
+
+IF
+PlatformMovementFinished(S_PLT_SHA_Disc_963cbac6-de2b-4ee5-ba5b-c13a0c4fcda9, "SHA_Disc_Moved", _, _, _)
+AND
+DB_SHA_Disc_ControlStones_State(1, _, _, _, _)
+AND
+DB_SHA_Disc_Destination(1, _, _Var2, _Var3, _Var4)
+AND
+DB_SHA_Disc_CurrentPos(_Var5, _, _, _, _)
+AND
+_Var2 != _Var5
+THEN
+PROC_SHA_Disc_ActivateStone(_Var2);
+
+IF
+PlatformMovementFinished(S_PLT_SHA_Disc_963cbac6-de2b-4ee5-ba5b-c13a0c4fcda9, "SHA_Disc_Moved", _, _, _)
+AND
+DB_SHA_Disc_CurrentPos(S_SHA_Disc_ControlStone_Entrance_b9f1043f-14dc-827a-61d9-5b557ec25ce6, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SHA_Upper_State_DiscUnlocked_4b056ce5-e145-4d90-8451-0ff502e11898, _, _, _, _)
+THEN
+PROC_SHA_Disc_LockDestination(S_SHA_Disc_EntrancePos_f8dce590-e3eb-4557-8492-01bf20ecc4e4);
+
+IF
+PlatformMovementFinished(S_PLT_SHA_Disc_963cbac6-de2b-4ee5-ba5b-c13a0c4fcda9, "SHA_Disc_Moved", _, _, _)
+AND
+DB_SHA_Disc_CurrentPos(S_SHA_Disc_ControlStone_Nightsong_72898b2d-1f64-89d5-5b20-3d8d3a07cf5a, _, _, _, _)
+AND NOT
+DB_GlobalFlag(SHA_Upper_State_DiscUnlocked_4b056ce5-e145-4d90-8451-0ff502e11898, _, _, _, _)
+THEN
+PROC_SHA_Disc_LockDestination(S_SHA_Disc_NightsongPos_df12413d-ef0f-43af-8fba-682ffe80c0d9);
+
+IF
+UseStarted((CHARACTER)_Var1, S_SHA_Disc_Altar_e6290daf-8051-489a-ad88-fa85f8404f54, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(SHA_Disc_Altar_09880e0d-b8f7-4686-0f45-4534db115314, S_SHA_Disc_Altar_e6290daf-8051-489a-ad88-fa85f8404f54, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

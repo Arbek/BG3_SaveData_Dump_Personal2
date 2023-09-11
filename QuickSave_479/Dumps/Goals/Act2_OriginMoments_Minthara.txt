@@ -1,0 +1,65 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+TriggerRegisterForCharacter(S_COL_Barracks_EntryBox_f3cb2d55-0e3d-4eac-9f01-1af11840032b, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+TriggerRegisterForCharacter(S_MOO_DocksEntryArea_18cd24fe-a37f-4a57-8711-a8eb60b9d7d7, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+KBSECTION
+IF
+DB_InRegion(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, S_COL_NecromancerRoom_Area_Box_1118fd06-0ad4-4214-a378-29c6188030f1, _, _, _)
+AND NOT
+DB_GlobalFlag(COL_NecromancerLab_State_Entered_97730e26-60b8-4956-a2f2-2d0fa80443d8, _, _, _, _)
+AND NOT
+DB_DialogPlayers(_, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _)
+AND
+QRY_OnlyOnce("COL_NecromancerLab_AD_MintharaEntersLab", _, _, _, _)
+THEN
+PROC_TryStartAD(COL_NecromancerLab_AD_MintharaEntersLab_fc52b40a-df26-a0ad-5cc7-c5ec5e41e4e8, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+IF
+DB_InRegion(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, S_COL_KitchenEntry_Box_f5a3b37f-9efa-46e0-98dc-9e2daa595041, _, _, _)
+AND NOT
+DB_DialogPlayers(_, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _)
+AND
+QRY_OnlyOnce("COL_Morgue_AD_Minthara_EnteredRoom", _, _, _, _)
+THEN
+PROC_TryStartAD(COL_Morgue_AD_Minthara_EnteredRoom_cfdba3ec-86ba-e9ad-7aac-8319bc3556ee, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+IF
+DB_InRegion(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, S_COL_TadpolingCentre_ZevlorAD_Box_d8931927-0343-41ac-ade4-e2c40f69e9fd, _, _, _)
+AND NOT
+DB_DialogPlayers(_, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _)
+AND NOT
+DB_DialogName(COL_TadpolingCentre_DaisyAD_PodsComment_f573ff77-91fa-ac75-068b-9b3068492202, _, _, _, _)
+AND
+QRY_OnlyOnce("COL_TadpolingCentre_AD_Minthara_EnteredTadpolingCenter", _, _, _, _)
+THEN
+PROC_TryStartAD(COL_TadpolingCentre_AD_Minthara_EnteredTadpolingCenter_916fa7cc-7e87-c1a0-e11d-050b8f609880, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+IF
+DB_InRegion(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, S_COL_Barracks_EntryBox_f3cb2d55-0e3d-4eac-9f01-1af11840032b, _, _, _)
+AND NOT
+DB_DialogPlayers(_, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _)
+AND
+QRY_OnlyOnce("COL_Barracks_AD_Minthara_EnteredBarracks", _, _, _, _)
+THEN
+PROC_TryStartAD(COL_Barracks_AD_Minthara_EnteredBarracks_dfcd44a7-7354-378b-9014-bc8d747c4738, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+IF
+UseFinished(_, S_COL_BrainReader_Head_Item_27d9da55-c1e8-484e-9710-81e3d88e2f90, 1, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_TryStartAD(COL_NecroLab_AD_Minthara_WitnessedBrainDevice_cc3c420c-08cb-d68d-38e5-4425de1cffe5, S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+
+PROC
+PROC_COL_KethericShowdown_AfterDefeat()
+AND
+DB_InRegion(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, S_COL_KethericShowdown_ChosenThree_Box_1581a588-b69f-41c9-a591-5959751f3cdf, _, _, _)
+THEN
+SetFlag(COL_KethericShowdown_State_MintharaInvolvedInShowdown_fe5998a6-10c2-1170-0a79-95cdb76a1a77);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

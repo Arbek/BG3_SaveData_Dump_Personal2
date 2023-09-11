@@ -1,0 +1,182 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_KnowledgeCheckTrigger_AD("UND_ChestOfMundane_ArcanaCheckArea", S_UND_ChestOfMundane_ArcanaCheckArea_b7e49afe-ed3f-41b3-b154-7152ba1da05d, "Arcana", DC_Legacy_15_bddbb9b8-a242-4c3e-a2eb-3fd274c0c539, UND_ChestOfMundane_PAD_ArcanaCheck_6faf6d54-c01b-9c02-4f6e-687252fc2329, UND_ChestOfMundane_State_ArcanaCheckSuccess_44963e87-4638-423a-96c1-86001e913982);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Bowl_A_Wood_A_18303ee3-884d-41ed-8bf9-3a1742f27a75);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Cup_A_Porcelain_A_ab081706-d6a4-4d6f-a148-8a774be32608);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Cup_B_Porcelain_A_6aea565d-0132-4ea2-8bdf-53398a50b975);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Cup_C_Metal_A_2add6f00-eb1c-4f86-bf7f-73e2c68ad5de);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Cup_D_Metal_A_bf8738af-7637-45f3-ad2d-123d17def4f7);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Cup_E_Metal_A_31d47753-7713-461f-a65b-da4339939cf2);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Ladle_A_Copper_A_07f03f85-7eba-4f4e-ab8f-e51979a45ce7);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_MeatFork_A_Metal_A_4b7c07ef-1f95-478d-859f-32f1ad98687b);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Plate_A_Metal_A_ccb0c26b-8502-450a-96ff-cfa22bba8150);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Plate_B_Porcelain_A_c89c5461-12c6-441e-8643-7501fc61f8cf);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Spatula_A_Copper_A_b92c1b71-ecc3-45cc-b22d-f7a1ebc9e781);
+DB_UND_ChestOfMundane_JunkTemplates(DEC_GEN_KitchenInstrument_Spoon_A_Wood_A_d9b9ce80-5ed0-44f1-8494-6f835f9b2859);
+PROC_UND_ChestOfMundane_Init();
+
+KBSECTION
+PROC
+PROC_UND_ChestOfMundane_Init()
+THEN
+IterateInventory(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_ChestOfMundane_TransformOnInit", "UND_ChestOfMundane_TransformOnInit_Complete");
+
+IF
+EntityEvent(_, "UND_ChestOfMundane_TransformOnInit_Complete", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_UND_ChestOfMundane_InitCompleted(1);
+
+IF
+FlagSet(UND_ChestOfMundane_State_ArcanaCheckSuccess_44963e87-4638-423a-96c1-86001e913982, NULL_00000000-0000-0000-0000-000000000000, _, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_PlayPerceptionRevealEffect(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_ChestOfMundane_PerceptionVFX");
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "UND_ChestOfMundane_TransformOnInit", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsItem(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_ChestOfMundane_OnTemplateAdded(_Var2, _Var1);
+
+IF
+TemplateAddedTo((ITEMROOT)_Var1, (ITEM)_Var2, S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, _, (ITEMROOT)_Var1)
+AND
+IsItem(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_UND_ChestOfMundane_OnTemplateAdded(_Var1, _Var2);
+
+PROC
+PROC_UND_ChestOfMundane_OnTemplateAdded((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_UND_ChestOfMundane(_Var1, _Var2);
+
+PROC
+PROC_UND_ChestOfMundane_OnTemplateAdded((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+HasActiveStatus(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_SUSSURTREEANTIMAGIC", 0, _Var1, _Var1)
+AND
+QRY_GetRandom("DB_UND_ChestOfMundane_JunkTemplates", 1, "DB_UND_ChestOfMundane_RandomTemplate", _Var1, _Var1)
+AND
+DB_UND_ChestOfMundane_RandomTemplate(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+Transform(_Var2, _Var3, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+PROC_UND_ChestOfMundane_ItemTransformed();
+PROC_UND_ChestOfMundane_ItemTransformedPuttingAD();
+
+IF
+TemplateRemovedFrom((ROOT)_Var1, (ITEM)_Var2, S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, (ROOT)_Var1, (ROOT)_Var1)
+AND
+HasActiveStatus(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_SUSSURTREEANTIMAGIC", 0, _Var1, _Var1)
+AND
+DB_UND_ChestOfMundane(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+RemoveTransforms(_Var2);
+PROC_UND_ChestOfMundane_ItemTransformed();
+PROC_UND_ChestOfMundane_ItemTransformedLootingAD();
+
+IF
+TemplateRemovedFrom((ROOT)_Var1, (ITEM)_Var2, S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, (ROOT)_Var1, (ROOT)_Var1)
+AND
+DB_UND_ChestOfMundane(_Var3, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_ChestOfMundane(_Var3, _Var2);
+
+IF
+StatusApplied(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_SUSSURTREEANTIMAGIC", _, _, (GUIDSTRING)_)
+THEN
+IterateInventory(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_ChestOfMundane_Reveal", "UND_ChestOfMundane_Reveal_Finish");
+
+IF
+StatusRemoved(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_SUSSURTREEANTIMAGIC", _, _, (GUIDSTRING)_)
+THEN
+IterateInventory(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_ChestOfMundane_Hide", "UND_ChestOfMundane_Hide_Finish");
+
+IF
+EntityEvent((ITEM)_Var1, "UND_ChestOfMundane_Reveal", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_UND_ChestOfMundane(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+RemoveTransforms(_Var1);
+PROC_UND_ChestOfMundane_ItemTransformed();
+
+IF
+EntityEvent((ITEM)_Var1, "UND_ChestOfMundane_Hide", (ITEM)_Var1, (ITEM)_Var1, (ITEM)_Var1)
+AND
+DB_UND_ChestOfMundane(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_GetRandom("DB_UND_ChestOfMundane_JunkTemplates", 1, "DB_UND_ChestOfMundane_RandomTemplate", _Var1, _Var1)
+AND
+DB_UND_ChestOfMundane_RandomTemplate(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+Transform(_Var1, _Var3, DISGUISE_ceccc4eb-d774-4cd5-9147-12322b81b763);
+PROC_UND_ChestOfMundane_ItemTransformed();
+
+PROC
+PROC_UND_ChestOfMundane_ItemTransformed()
+AND
+DB_UND_ChestOfMundane_InitCompleted(1, _, _, _, _)
+AND NOT
+DB_LoopEffect(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, _, "UND_ChestOfMundane_VFX", _, _, _, _, _, _, _)
+THEN
+DB_UND_ChestOfMundane_VFXBlocked(1);
+PlayEffect(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, VFX_Script_ChestOfMundane_01_ac66b4c8-0a75-2edf-e9a5-3e7511689359);
+ObjectTimerLaunch(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_ChestOfMundane_VFX", 1);
+
+IF
+ObjectTimerFinished(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, "UND_ChestOfMundane_VFX", _, _, _)
+AND
+DB_UND_ChestOfMundane_VFXBlocked(1, _, _, _, _)
+THEN
+NOT DB_UND_ChestOfMundane_VFXBlocked(1);
+
+PROC
+PROC_UND_ChestOfMundane_ItemTransformedPuttingAD()
+AND
+DB_UND_ChestOfMundane_InitCompleted(1, _, _, _, _)
+AND
+GetClosestPlayer(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 < 5
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "UND_ChestOfMundane_ItemTransformed", _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(UND_ChestOfMundane_PAD_ItemTransformed_46a37c55-d647-a614-7af3-9333b55bdffd, _Var1);
+
+PROC
+PROC_UND_ChestOfMundane_ItemTransformedLootingAD()
+AND
+DB_UND_ChestOfMundane_InitCompleted(1, _, _, _, _)
+AND
+GetClosestPlayer(S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, _Var1, _Var2, _Var1, _Var1)
+AND
+_Var2 < 5
+AND NOT
+QRY_OncePerUserAndNearbyPlayers_IsSet(_Var1, "UND_ChestOfMundane_ItemTransformed", _Var1, _Var1, _Var1)
+AND
+QRY_OncePerUserAndNearbyPlayers(_Var1, "UND_ChestOfMundane_ItemTransformedLooting", _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(UND_ChestOfMundane_PAD_ItemTransformedLooting_8ecbd88c-523b-0eaf-fed2-df19cffb7cbc, _Var1);
+
+IF
+MovedFromTo((GUIDSTRING)_Var1, (CHARACTER)_Var2, S_UND_ChestOfMundane_fd56efe0-fbd4-471d-9661-856f732a77ef, 0, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("HIDDEN_WLD_Boosters_UND_ChestOfMundane_Identified", _Var1, _Var1, _Var1, _Var1)
+THEN
+QuestUpdate(_Var2, "HIDDEN_WLD_Boosters", "UND_ChestOfMundane_Identified");
+
+PROC
+PROC_LevelLoadedOnce("BGO_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

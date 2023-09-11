@@ -1,0 +1,1767 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_SpotPlayers_BlockTargetFTB(NULL_00000000-0000-0000-0000-000000000000, "");
+
+KBSECTION
+IF
+FlagSet((GUIDSTRING)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers(_Var3, _Var4, _Var1, _Var5, _Var1)
+THEN
+ClearFlag(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+DB_InternPlayerSpot_Spotting(_Var3, _Var4);
+
+IF
+FlagSet((GUIDSTRING)_Var1, NULL_00000000-0000-0000-0000-000000000000, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers(_Var3, _Var4, _Var5, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, NULL_00000000-0000-0000-0000-000000000000);
+NOT DB_InternPlayerSpot_Spotting(_Var3, _Var4);
+
+IF
+DB_SpotPlayers(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+AND
+GetFlag(_Var4, NULL_00000000-0000-0000-0000-000000000000, 0, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_Spotting(_Var1, _Var2);
+
+IF
+DB_SpotPlayers(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var4 == NULL_00000000-0000-0000-0000-000000000000
+THEN
+DB_InternPlayerSpot_Spotting(_Var1, _Var2);
+
+IF
+DB_SpotPlayers(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+ClearFlag(_Var3, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_SpotPlayers(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+ClearFlag(_Var4, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DB_InternPlayerSpot_Spotting(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers(_Var1, _Var2, _, _, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Spotting(_Var1, _Var2);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_SpotPlayers_StartObjectFlags(_Var2, _Var4, _Var1, _Var5, _Var1)
+THEN
+ClearFlag(_Var1, _Var2);
+DB_InternPlayerSpot_Spotting(_Var2, _Var4);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_SpotPlayers_StartObjectFlags(_Var2, _Var4, _Var5, _Var1, _Var1)
+THEN
+ClearFlag(_Var1, _Var2);
+NOT DB_InternPlayerSpot_Spotting(_Var2, _Var4);
+
+IF
+DB_SpotPlayers_StartObjectFlags(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var3 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+ClearFlag(_Var3, _Var1);
+
+IF
+DB_SpotPlayers_StartObjectFlags(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+THEN
+ClearFlag(_Var4, _Var1);
+
+IF
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CurrentLevel(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+Exists(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_Available(_Var1);
+
+IF
+DB_SpotPlayers(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_CurrentLevel(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Available(_Var1);
+
+IF
+EnteredLevel((CHARACTER)_Var1, _, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CurrentLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OffStage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers(_Var1, _, _, _, _Var1)
+THEN
+DB_InternPlayerSpot_Available(_Var1);
+
+IF
+EnteredLevel((GUIDSTRING)_Var1, _, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternPlayerSpot_Available(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CurrentLevel(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Available(_Var1);
+
+IF
+DB_InternPlayerSpot_Available(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Available(_Var1);
+
+PROC
+PROC_StateSet_PermaDefeated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternPlayerSpot_Available(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Available(_Var1);
+
+IF
+WentOnStage((GUIDSTRING)_Var1, 0, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternPlayerSpot_Available(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Available(_Var1);
+
+IF
+DB_InternPlayerSpot_Available(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Available(_Var1);
+
+IF
+DB_InternPlayerSpot_Available(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_Spotting(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Available(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Spotting(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2);
+
+PROC
+PROC_SpotPlayers_RestartSpotting((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_InternPlayerSpot_Spotting(_Var1, _Var2);
+
+PROC
+PROC_SpotPlayers_StopSpotting((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_InternPlayerSpot_Spotting(_Var1, _Var2);
+
+PROC
+PROC_SpotPlayers_StopSpotting((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_InternPlayerSpot_Spotting(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Spotting(_Var2, _Var1);
+
+QRY
+QRY_SpotPlayers_IsSpotting((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InternPlayerSpot_Spotting(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SpotPlayers_CleanupSpotting((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(_Var1);
+PROC_InternSpotPlayers_CleanUp(_Var1);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_Players(_Var1, _Var2, _Var3);
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_Players(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_Players(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_IncludeSummons(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PlayerSummons(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3);
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_PlayerSummons(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IncludeSummons(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_IncludeFollowers(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyFollowers(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_Followers(_Var1, _Var2, _Var3);
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_Followers(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_PartyFollowers(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_Followers(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_Followers(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IncludeFollowers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_Followers(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_IncludeExtra(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_ExtraTargetOfInterest(_Var1, _Var2, _Var3);
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_ExtraTargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IncludeExtra(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_ExtraTargetOfInterest(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_Players(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_Followers(_Var1, _Var2, _Var3);
+NOT DB_InternPlayerSpot_ExtraTargetOfInterest(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotTriggerActiveFor(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_InternPlayerSpot_SpotTriggerActiveFor(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotTriggerActiveFor(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_InternPlayerSpot_SpotTriggerActiveFor(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotTriggerActiveFor(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_SpotPlayers_SpotTrigger_ManualRegistering(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TriggerRegistered(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TriggerRegistered(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_SpotTriggerActiveFor(_, _, _Var3, _Var4, _)
+AND NOT
+DB_InternPlayerSpot_TriggerRegistered(_Var3, _Var4, _, _, _)
+AND NOT
+DB_SpotPlayers_SpotTrigger_ManualRegistering(_Var3, _, _, _, _)
+THEN
+DB_InternPlayerSpot_TriggerRegistered(_Var3, _Var4);
+TriggerRegisterForCharacter(_Var3, _Var4);
+
+IF
+DB_InternPlayerSpot_TriggerRegistered(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_SpotTriggerActiveFor(_, _, _Var1, _Var2, _Var1)
+AND NOT
+DB_SpotPlayers_SpotTrigger_ManualRegistering(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TriggerRegistered(_Var1, _Var2);
+TriggerUnregisterForCharacter(_Var1, _Var2);
+
+IF
+DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_SpotTriggerActiveFor(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND
+DB_InRegion(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetInTrigger(_Var1, _Var2, _Var4, _Var3);
+
+IF
+DB_InternPlayerSpot_SpotTriggerActiveFor(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_InRegion(_Var4, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetInTrigger(_Var1, _Var2, _Var4, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetInTrigger(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetInTrigger(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var2, _Var3);
+
+PROC
+PROC_SpotPlayers_ClearSpotTrigger((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetInTrigger(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetInTrigger(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetInTrigger(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_SpotPlayers_SpotTrigger(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetInTrigger(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_InternSpotPlayers_CheckObjectFlag((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (FLAG)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var5 != _Var6
+THEN
+NOT DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var2, _Var3);
+
+PROC
+PROC_InternSpotPlayers_CheckObjectFlag((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (FLAG)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var5 == _Var6
+AND NOT
+QRY_SpotPlayers_HasWrongObjectFlag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var2, _Var3);
+
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_SpotPlayers_HasObjectFlag(_Var4, _Var5, _Var1, _Var6, _Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var4, _Var5, _Var2, _Var1, _Var1)
+THEN
+PROC_InternSpotPlayers_CheckObjectFlag(_Var4, _Var5, _Var2, _Var1, 1, _Var6);
+
+IF
+FlagCleared((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_SpotPlayers_HasObjectFlag(_Var4, _Var5, _Var1, _Var6, _Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var4, _Var5, _Var2, _Var1, _Var1)
+THEN
+PROC_InternSpotPlayers_CheckObjectFlag(_Var4, _Var5, _Var2, _Var1, 0, _Var6);
+
+IF
+ShapeshiftChanged((GUIDSTRING)_Var1, _, _, _, (GUIDSTRING)_Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SpotPlayers_HasWrongObjectFlag(_Var5, _Var6, _Var1, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+DB_InternPlayerSpot_TargetObjectFlagsOk(_Var5, _Var6, _Var1);
+
+IF
+ShapeshiftChanged((CHARACTER)_Var1, _, _, _, (CHARACTER)_Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var5, _Var6, _Var1, _Var1, _Var1)
+AND
+QRY_SpotPlayers_HasWrongObjectFlag(_Var5, _Var6, _Var1, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetObjectFlagsOk(_Var5, _Var6, _Var1);
+
+QRY
+QRY_SpotPlayers_HasWrongObjectFlag((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (FLAG)_Var4, (CHARACTER)_Var1)
+AND
+DB_SpotPlayers_HasObjectFlag(_Var1, _Var2, _Var5, _Var6, _Var1)
+AND
+_Var5 != _Var4
+AND NOT
+GetFlag(_Var5, _Var3, _Var6, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+QRY_SpotPlayers_HasWrongObjectFlag(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_HasObjectFlag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_InternPlayerSpot_CheckNewFlag(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_InternPlayerSpot_CheckNewFlag((CHARACTER)_Var1, (STRING)_Var2, (FLAG)_Var3, (INTEGER)_Var4, (CHARACTER)_Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+GetFlag(_Var3, _Var5, _Var6, _Var1, _Var1)
+THEN
+PROC_InternSpotPlayers_CheckObjectFlag(_Var1, _Var2, _Var5, _Var3, _Var6, _Var4);
+
+IF
+DB_SpotPlayers_HasObjectFlag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_InternSpotPlayers_HasObjectFlag(_Var1, _Var2, _Var3);
+
+IF
+DB_InternSpotPlayers_HasObjectFlag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_HasObjectFlag(_Var1, _Var2, _Var3, _, _Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND NOT
+QRY_SpotPlayers_HasWrongObjectFlag(_Var1, _Var2, _Var5, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var2, _Var5);
+
+IF
+DB_InternSpotPlayers_HasObjectFlag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_HasObjectFlag(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+NOT DB_InternSpotPlayers_HasObjectFlag(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var2, _Var3);
+
+PROC
+PROC_InternSpotPlayers_CheckTag((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (TAG)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var5 != _Var6
+THEN
+NOT DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var2, _Var3);
+
+PROC
+PROC_InternSpotPlayers_CheckTag((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var3, (TAG)_Var4, (INTEGER)_Var5, (INTEGER)_Var6, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var5 == _Var6
+AND NOT
+QRY_SpotPlayers_HasWrongTag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var2, _Var3);
+
+IF
+TagSet((CHARACTER)_Var1, (TAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_HasTag(_Var3, _Var4, _Var2, _Var5, _Var1)
+THEN
+PROC_InternSpotPlayers_CheckTag(_Var3, _Var4, _Var1, _Var2, 1, _Var5);
+
+IF
+TagCleared((CHARACTER)_Var1, (TAG)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_HasTag(_Var3, _Var4, _Var2, _Var5, _Var1)
+THEN
+PROC_InternSpotPlayers_CheckTag(_Var3, _Var4, _Var1, _Var2, 0, _Var5);
+
+QRY
+QRY_SpotPlayers_HasWrongTag((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var4, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers_HasTag(_Var1, _Var2, _Var5, _Var6, _Var1)
+AND
+_Var5 != _Var4
+AND NOT
+IsTagged(_Var3, _Var5, _Var6, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+QRY_SpotPlayers_HasWrongTag(_Var1, _Var2, _Var3, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_HasTag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+PROC_InternPlayerSpot_CheckNewTag(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_InternPlayerSpot_CheckNewTag((CHARACTER)_Var1, (STRING)_Var2, (TAG)_Var3, (INTEGER)_Var4, (CHARACTER)_Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND
+IsTagged(_Var5, _Var3, _Var6, _Var1, _Var1)
+THEN
+PROC_InternSpotPlayers_CheckTag(_Var1, _Var2, _Var5, _Var3, _Var6, _Var4);
+
+IF
+DB_SpotPlayers_HasTag(_Var1, _Var2, _Var3, _Var4, _Var1)
+THEN
+DB_InternSpotPlayers_HasTag(_Var1, _Var2, _Var3);
+
+IF
+DB_InternSpotPlayers_HasTag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_HasTag(_Var1, _Var2, _Var3, _, _Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var5, _Var1, _Var1)
+AND NOT
+QRY_SpotPlayers_HasWrongTag(_Var1, _Var2, _Var5, NULL_00000000-0000-0000-0000-000000000000, _Var1)
+THEN
+DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var2, _Var5);
+
+IF
+DB_InternSpotPlayers_HasTag(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_HasTag(_Var1, _Var2, _Var3, _, _Var1)
+THEN
+NOT DB_InternSpotPlayers_HasTag(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Is_InconspicuousPartyMember(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_InconspicuousOK(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_IncludeInconspicuous(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_InconspicuousOK(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_Is_InconspicuousPartyMember(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IncludeInconspicuous(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_InconspicuousOK(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_InconspicuousOK(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_InconspicuousOK(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_SpotterIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterAbleToSpeakChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers(_Var1, _Var3, _, _, _Var1)
+AND NOT
+DB_SpotPlayers_SpotterIgnoreCantTalk(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_CantTalk_IgnoreCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterAbleToSpeakChecksOk(_Var1, _Var3);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_SpotterIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterAbleToSpeakChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_SpotterAbleToSpeakChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterAbleToSpeakChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_NoSpotterInAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterADChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_NoSpotterInAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_DialogNPCs(_, _Var1, _, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterADChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_NoSpotterInAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var3, _Var1, _, _Var1, _Var1)
+AND NOT
+DB_AutomatedDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterADChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_NoSpotterInAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var3, _Var1, _, _Var1, _Var1)
+AND
+DB_AutomatedDialog(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterADChecksOk(_Var1, _Var2);
+
+IF
+DialogActorLeft(_, (INTEGER)_Var2, (CHARACTER)_Var3, _, _)
+AND
+DB_AutomatedDialog(_Var2, _, _, _, _)
+AND
+DB_SpotPlayers_NoSpotterInAD(_Var3, _Var5, _, _, _)
+AND
+DB_InternPlayerSpot_TrackSpotterInterests(_Var3, _Var5, _, _, _)
+THEN
+DB_InternPlayerSpot_SpotterADChecksOk(_Var3, _Var5);
+
+IF
+DB_InternPlayerSpot_SpotterADChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterADChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_SpotterADChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_SpotterAbleToSpeakChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterDialogChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_SpotterDialogChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_SpotterADChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterDialogChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_SpotterDialogChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_SpotterAbleToSpeakChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterDialogChecksOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers(_Var1, _Var2, _, _, _Var1)
+AND NOT
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Is_WildShaped(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantTalk_IgnoreCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers(_Var1, _Var2, _, _, _Var1)
+AND NOT
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CantTalk_IgnoreStatusesCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers(_Var1, _Var2, _, _, _Var1)
+AND NOT
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_WildShaped(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantTalk_IgnoreStatusesCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Is_WildShaped(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_Summons(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_WildShaped(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_NoTargetInAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetADChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_NoTargetInAD(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogNPCs(_Var4, _Var3, _, _Var1, _Var1)
+AND
+DB_AutomatedDialog(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetADChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DialogActorLeft(_, _, (GUIDSTRING)_Var3, _, _)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var5, _Var6, _Var3, _, _)
+THEN
+DB_InternPlayerSpot_TargetADChecksOk(_Var5, _Var6, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetADChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetADChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetADChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetDialogChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetDialogChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetADChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetDialogChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetDialogChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetAbleToSpeakChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetDialogChecksOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_WildShaped(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetWildShapeOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_WildShaped(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetWildShapeOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetWildShapeOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetWildShapeOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetWildShapeOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IncludeDefeated(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetDefeatedOkay(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IncludeDefeated(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetDefeatedOkay(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_IncludeDefeated(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetDefeatedOkay(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetDefeatedOkay(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetDefeatedOkay(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterCombatOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterCombatOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterCombatOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_SpotterCombatOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterCombatOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetCombatOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var3, _, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetCombatOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetCombatOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetCombatOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetCombatOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_BlockTargetFTB(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InFTB(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetFTBOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_BlockTargetFTB(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetFTBOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_BlockTargetFTB(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Is_InFTB(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetFTBOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetFTBOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetFTBOk(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterCrimesOk(_Var1, _Var2);
+
+QRY
+QRY_PlayerSpotting_NPCDisturbanceBlocksSpotting((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetHandlingCrimeID(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var2, NoSceneManagerInterrupt_e305c93f-eaf2-4b73-ae0a-0be56a1b0549, 0, _Var1, _Var1)
+AND
+CrimeHasProperty(_Var2, BackgroundReaction_db918cfb-a484-437c-93bb-8bc36fe98a9c, 0, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+OnCrimeInvestigatorSwitchedState(_, (GUIDSTRING)_Var2, _, _, _)
+AND
+DB_InternPlayerSpot_TrackSpotterInterests(_Var2, _Var5, _, _, _)
+AND NOT
+DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var2, _Var5, _, _, _)
+AND NOT
+QRY_PlayerSpotting_NPCDisturbanceBlocksSpotting(_Var2, _, _, _, _)
+THEN
+DB_InternPlayerSpot_SpotterCrimesOk(_Var2, _Var5);
+
+IF
+OnCrimeInvestigatorSwitchedState(_, (GUIDSTRING)_Var2, _, _, _)
+AND
+DB_InternPlayerSpot_TrackSpotterInterests(_Var2, _Var5, _, _, _)
+AND NOT
+DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var2, _Var5, _, _, _)
+AND
+QRY_PlayerSpotting_NPCDisturbanceBlocksSpotting(_Var2, _, _, _, _)
+THEN
+NOT DB_InternPlayerSpot_SpotterCrimesOk(_Var2, _Var5);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PlayerSpotting_NPCDisturbanceBlocksSpotting(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_SpotterCrimesOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_PlayerSpotting_NPCDisturbanceBlocksSpotting(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterCrimesOk(_Var1, _Var2);
+
+IF
+DB_InternPlayerSpot_SpotterCrimesOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_SpotterCrimesOk(_Var1, _Var2);
+
+IF
+Activated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternPlayerSpot_Spotting(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_Active(_Var1);
+
+IF
+Deactivated((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Active(_Var1);
+
+IF
+DB_InternPlayerSpot_Spotting(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsActive(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_Active(_Var1);
+
+IF
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Spotting(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Active(_Var1);
+
+IF
+DB_SpotPlayers_CustomRadius(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_CustomRadius(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var3 != _Var4
+THEN
+NOT DB_SpotPlayers_CustomRadius(_Var1, _Var2, _Var4);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_SpotPlayers_CustomRadius(_Var1, _Var2, _, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var4);
+
+IF
+DB_InternPlayerSpot_TrackSpotterInterests(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_Sees(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_CustomRadius(_Var1, _, _, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _, _, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_RadiusCheckTimerRunningFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_RadiusCheckTimerRunningFor(_Var1);
+DB_InternPlayerSpot_RadiusCheckTimerRunning(1);
+
+IF
+DB_InternPlayerSpot_RadiusCheckTimerRunning(1, _, _, _, _)
+THEN
+TimerLaunch("NotifyOnPlayerSight_RadiusCheck", 953);
+
+IF
+TimerFinished("NotifyOnPlayerSight_RadiusCheck", _, _, _, _)
+THEN
+TimerLaunch("NotifyOnPlayerSight_RadiusCheck", 953);
+
+IF
+DB_InternPlayerSpot_RadiusCheckTimerRunningFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_Active(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_RadiusCheckTimerRunningFor(_Var1);
+
+IF
+DB_InternPlayerSpot_RadiusCheckTimerRunningFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _, _, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_RadiusCheckTimerRunningFor(_Var1);
+
+IF
+DB_InternPlayerSpot_RadiusCheckTimerRunning(1, _, _, _, _)
+AND NOT
+DB_InternPlayerSpot_RadiusCheckTimerRunningFor(_, _, _, _, _)
+THEN
+NOT DB_InternPlayerSpot_RadiusCheckTimerRunning(1);
+TimerCancel("NotifyOnPlayerSight_RadiusCheck");
+
+IF
+TimerFinished("NotifyOnPlayerSight_RadiusCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_InternPlayerSpot_RadiusCheckTimerRunningFor(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_CustomRadius(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+DB_Sees(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(_Var1, _Var4, _Var5, _Var1, _Var1)
+THEN
+PROC_InternSpotPlayers_UpdateInRange(_Var1, _Var2, _Var4, _Var3, _Var5);
+
+PROC
+PROC_InternSpotPlayers_UpdateInRange((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (REAL)_Var4, (REAL)_Var5)
+AND
+_Var5 <= _Var4
+THEN
+DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3);
+
+PROC
+PROC_InternSpotPlayers_UpdateInRange((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (REAL)_Var4, (REAL)_Var5)
+AND
+_Var5 > _Var4
+THEN
+NOT DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3);
+
+IF
+DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetOfInterest(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_SpotEvent(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_SpotPlayers_SpotEvent(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+_Var3 != _Var4
+THEN
+NOT DB_SpotPlayers_SpotEvent(_Var1, _Var2, _Var4);
+
+QRY
+QRY_InternPlayerSpot_IsAboutToFight((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_InternPlayerSpot_IsAboutToFight_Reason(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_InternPlayerSpot_IsAboutToFightBlock(_Var1, _Var3);
+
+PROC
+PROC_InternPlayerSpot_IsAboutToFightBlock((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+Concatenate("GLO_SpotPlayers_AboutToFightBlock_", _Var2, _Var3, _Var1, _Var1)
+THEN
+DB_InternPlayerSpot_IsAboutToFight(_Var1, _Var2, _Var3);
+RealtimeObjectTimerLaunch(_Var1, _Var3, 1000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_InternPlayerSpot_IsAboutToFight(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_IsAboutToFight(_Var1, _Var3, _Var2);
+
+QRY
+QRY_InternPlayerSpot_IsAboutToFight_Reason((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+IsEnemy(_Var1, _Var2, 1, _Var1, _Var1)
+AND
+CanFight(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+CanFight(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_InternPlayerSpot_IsAboutToFight_Reason((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+CanFight(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+GetFaction(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_RelationChangingToHostile(_Var4, _, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_InternPlayerSpot_IsAboutToFight_Reason((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_EnterCombatRequested(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+CanFight(_Var2, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_InternPlayerSpot_IsAboutToFight_Reason((CHARACTER)_Var1, (CHARACTER)_Var2, (STRING)_Var3, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_SpotPlayers_IgnoreCombat(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_EnterCombatRequested(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CanFight(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+DB_InternPlayerSpot_TargetWildShapeOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_InconspicuousOK(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_SpotterDialogChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetDialogChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_SpotterCombatOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetCombatOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_SpotterCrimesOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetFTBOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetDefeatedOkay(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_IsAboutToFight(_Var1, _Var2, _, _Var1, _Var1)
+AND NOT
+QRY_InternPlayerSpot_IsAboutToFight(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+PROC_InternSpotPlayers_Spotted(_Var1, _Var2, _Var3);
+
+PROC
+PROC_InternSpotPlayers_Spotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SpotPlayers_CheckDelay(_Var1, _Var2, _, _Var1, _Var1)
+AND
+Concatenate("GLO_SpotPlayers_AboutToFightBlock_", _Var2, _Var5, _Var1, _Var1)
+THEN
+DB_SpotPlayers_CheckDelay(_Var1, _Var2, _Var5);
+RealtimeObjectTimerLaunch(_Var1, _Var5, 300);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers_CheckDelay(_Var1, _Var3, _Var2, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetWildShapeOk(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_InconspicuousOK(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_SpotterDialogChecksOk(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetDialogChecksOk(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_SpotterCombatOk(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetCombatOk(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_SpotterCrimesOk(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetInRange(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetDefeatedOkay(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND
+DB_InternPlayerSpot_TargetFTBOk(_Var1, _Var3, _Var4, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_IsAboutToFight(_Var1, _Var3, _, _Var1, _Var1)
+AND NOT
+QRY_InternPlayerSpot_IsAboutToFight(_Var1, _Var4, _Var3, _Var1, _Var1)
+THEN
+PROC_InternSpotPlayers_Spotted_Delayed(_Var1, _Var3, _Var4);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers_CheckDelay(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_CheckDelay(_Var1, _Var3, _Var2);
+
+PROC
+PROC_InternSpotPlayers_Spotted_Delayed((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_SpotPlayers_Continuous(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InternPlayerSpot_Spotting(_Var1, _Var2);
+
+PROC
+PROC_InternSpotPlayers_Spotted_Delayed((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_SpotPlayers_Spotted(_Var1, _Var2, _Var3);
+
+PROC
+PROC_SpotPlayers_Spotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers_SpotEvent(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_SpotPlayers_Spotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_InternSpotPlayers_Spotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers_Continuous(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3);
+
+PROC
+PROC_InternSpotPlayers_Spotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers_Continuous(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_SpotPlayers_SpotEvent(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var4, _Var1)
+AND NOT
+DB_SpotPlayers_SpotEvent(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var4);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetWildShapeOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetTriggerOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetObjectFlagsOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetTagsOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_SpotterDialogChecksOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetDialogChecksOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_SpotterCombatOk(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetCombatOk(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_TargetInRange(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+IF
+DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND NOT
+DB_InternPlayerSpot_InconspicuousOK(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted_Intern(_Var1, _Var2, _Var3);
+
+PROC
+PROC_SpotPlayers_Unspotted_Intern((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+NOT DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3);
+
+PROC
+PROC_SpotPlayers_Unspotted_Intern((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers_SpotEvent(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_Spotted(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_SpotPlayers_Unspotted_Intern((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_SpotPlayers_Unspotted(_Var1, _Var2, _Var3);
+
+PROC
+PROC_SpotPlayers_Unspotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_SpotPlayers_SpotEvent(_Var1, _Var2, _Var4, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_Unspotted(_Var1, _Var2, _Var3, _Var4);
+
+PROC
+PROC_SpotPlayers_Unspotted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var3, (STRING)_Var4, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers(_Var2, _Var1, _Var3, _Var4, _Var1)
+THEN
+NOT DB_SpotPlayers(_Var2, _Var1, _Var3, _Var4);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_Continuous(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_Continuous(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_SpotEvent(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_SpotEvent(_Var2, _Var1, _Var3);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_StartObjectFlags(_Var2, _Var2, _Var1, _Var3, _Var4)
+THEN
+NOT DB_SpotPlayers_StartObjectFlags(_Var2, _Var2, _Var1, _Var3, _Var4);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_CustomRadius(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_CustomRadius(_Var2, _Var1, _Var3);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_SpotTrigger(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_SpotTrigger(_Var2, _Var1, _Var3);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_HasObjectFlag(_Var2, _Var1, _Var3, _Var4, _Var1)
+THEN
+NOT DB_SpotPlayers_HasObjectFlag(_Var2, _Var1, _Var3, _Var4);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_HasTag(_Var2, _Var1, _Var3, _Var4, _Var1)
+THEN
+NOT DB_SpotPlayers_HasTag(_Var2, _Var1, _Var3, _Var4);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_SpotterIgnoreCantTalk(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_SpotterIgnoreCantTalk(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_TargetIgnoreCantTalk(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_TargetIgnoreCantTalk(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_NoSpotterInAD(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_NoSpotterInAD(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_NoTargetInAD(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_NoTargetInAD(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IncludeWildshapedPlayers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IncludeWildshapedPlayers(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IncludeDead(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IncludeDead(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IncludeDowned(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IncludeDowned(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IncludeSummons(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IncludeSummons(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IncludeFollowers(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IncludeFollowers(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IncludeExtra(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IncludeExtra(_Var2, _Var1, _Var3);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IncludeInconspicuous(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IncludeInconspicuous(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IgnoreCombat(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IgnoreCombat(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_IgnoreSpotterCrimeHandling(_Var2, _Var1);
+
+PROC
+PROC_InternSpotPlayers_CleanUp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_SpotPlayers_Spotted(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_SpotPlayers_Spotted(_Var2, _Var1, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

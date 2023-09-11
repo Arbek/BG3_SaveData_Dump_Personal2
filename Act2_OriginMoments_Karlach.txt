@@ -1,0 +1,224 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CharacterInRegionFlag(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, GLO_ForgingOfTheHeart_State_DammonInAct2_13d137f7-44ec-4217-8254-42691f3a8f63);
+PROC_DefineSingleOriginMoment(HAV_TieflingSurvivors_Weaponsmith_c2312421-411c-757e-551b-3e7ddbb9d7e7, REALLY_KARLACH_1a2f70d6-8ead-4eb5-a824-79ee1971764a, GLO_ForgingOfTheHeart_OM_Karlach_AOM_OOM_GLO_ForgingOfTheHeart_OM_Karlach_AOM_OOM_COM_e31f3936-c198-cf82-bd8f-e26efba691f1);
+PROC_HAV_ForgingOfTheHeart_Init();
+PROC_DefineSingleOriginMoment(HAV_TieflingSurvivors_Mattis_4e74776f-1483-ee03-ed6a-3baae7fe5979, KARLACH_9aab4bcd-e1f7-4008-8f7b-f1203789ae9b, HAV_TieflingKids_OM_Karlach_AOM_OOM_d29e791f-5c42-3620-b821-f43007cbf70c, HAV_TieflingKids_OM_Karlach_COM_3c50973f-8938-7c0f-9851-b2d1039a9319, HAV_TieflingKids_OM_Karlach_AOM_OOM_d29e791f-5c42-3620-b821-f43007cbf70c);
+DB_ORI_Karlach_InPartyOMFlags(ORI_Karlach_IPRD_WyllDiedAfterKillingMizora_545c24ba-e6f7-431f-af3d-484b08985ec4, ORI_Karlach_State_WyllDiedInColony_056ba9d1-010e-4b73-9eca-1fbfc42b1282);
+PROC_DefineSingleOriginMoment(MOO_BugBearVendor_31587a41-84c1-4bf2-ead6-ced25ccb1f03, KARLACH_9aab4bcd-e1f7-4008-8f7b-f1203789ae9b, MOO_MoonriseBazarSoulCoins_OM_Karlach_AOM_OOM_b4af5865-401c-2980-7b0c-84b14d2147a0, MOO_MoonriseBazarSoulCoins_OM_Karlach_COM_2fdf81bd-f3a1-632c-52ad-0303db817b49, MOO_MoonriseBazarSoulCoins_OM_Karlach_AOM_OOM_b4af5865-401c-2980-7b0c-84b14d2147a0);
+DB_GiveTemplateFromNpcToPlayerDialogEvent(LOOT_SoulCoin_8c68e68d-96d4-45d6-804c-5f31ac948ff3, ORI_MoonriseBazarSoulCoins_Event_GiveSoulCoin_2089b8e7-2483-4bc0-abae-6fdb2bbe6fda, NULL_00000000-0000-0000-0000-000000000000, 1);
+DB_HasItemTemplateScriptFlag(1, MOO_MoonriseBazarSoulCoins_OM_Karlach_AOM_OOM_b4af5865-401c-2980-7b0c-84b14d2147a0, LOOT_SoulCoin_8c68e68d-96d4-45d6-804c-5f31ac948ff3, 1, 1);
+DB_HasItemTemplateScriptFlag(1, MOO_MoonriseBazarSoulCoins_OM_Karlach_COM_2fdf81bd-f3a1-632c-52ad-0303db817b49, LOOT_SoulCoin_8c68e68d-96d4-45d6-804c-5f31ac948ff3, 1, 1);
+DB_ExclamationDialog_NeverStop(Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_GortashInColony_80314a56-b334-48fe-9055-54bcd2efc5b6);
+DB_RelationshipDialog_WRD_TriggerInCamp(Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_GortashInColony_80314a56-b334-48fe-9055-54bcd2efc5b6);
+DB_SCL_Karlach_CancelComplainCursePADTriggers(S_MOO_MoonriseTower_SUB_14187ad9-cf83-44f9-81bf-bb46cb4cd8e6);
+DB_SCL_Karlach_CancelComplainCursePADTriggers(S_TWN_MainSub_169edf4a-bd51-4964-adb0-4d47956d5fae);
+DB_SCL_Karlach_CancelComplainCursePADTriggers(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab);
+DB_SCL_Karlach_ComplainAboutCurseTriggers(S_SCL_Karlach_ComplainAboutCurse_000_7860ad6d-eb42-43ce-8ef6-60835db1e2c9);
+DB_SCL_Karlach_ComplainAboutCurseTriggers(S_SCL_Karlach_ComplainAboutCurse_001_06abceaf-2a39-4ef8-b64e-eea31d98a88d);
+DB_GlobalFlagReactionAfterDialog(GLO_Gortash_Knows_IsLord_cb144b9c-5cb9-4f3d-9b2d-26320521d4a2, HAV_Florrick_97692dad-7127-170b-00ce-9ee3a08b1df4);
+
+KBSECTION
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(GLO_ForgingOfTheHeart_OM_Karlach_AOM_OOM_GLO_ForgingOfTheHeart_OM_Karlach_AOM_OOM_COM_e31f3936-c198-cf82-bd8f-e26efba691f1, S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_HAV_ForgingOfTheHeart_Init()
+AND
+DB_GlobalFlag(GLO_ForgingOfTheHeart_State_KarlachUpgraded_a818e2f5-9e0c-4ab3-8c1e-00765d3b892f, _, _, _, _)
+THEN
+SetFlag(HAV_ForgingOfTheHeart_State_ReadyForSecondUpgrade_edce0ffd-21d1-7a6c-2b55-a3e749d06fca, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogStarted(COL_KethericShowdown_ChosenThree_94ef9fa6-729b-d34a-623a-74a8c3ba187f, _, _, _, _)
+AND
+DB_PartOfTheTeam(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+SetFlag(ORI_Karlach_Knows_GortashInColony_32199c63-86f7-4002-bd16-32ae5627249c, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogStarted(COL_KethericShowdown_ChosenThree_94ef9fa6-729b-d34a-623a-74a8c3ba187f, _, _, _, _)
+AND
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+SetFlag(ORI_Karlach_State_WaitTillKethericsDefeat_0e46ab05-5b3d-482d-a2e8-c14b78556c21, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+DialogActorJoined(COL_KethericShowdown_ChosenThree_94ef9fa6-729b-d34a-623a-74a8c3ba187f, _, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, (INTEGER)_)
+THEN
+SetFlag(ORI_Karlach_Knows_GortashGrudge_65838018-f5f0-4ecf-acd7-0b6ca245a9a2, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_COL_KethericShowdown_AfterDefeat()
+THEN
+ClearFlag(ORI_Karlach_State_WaitTillKethericsDefeat_0e46ab05-5b3d-482d-a2e8-c14b78556c21, NULL_00000000-0000-0000-0000-000000000000);
+DB_RelationshipDialog_AutostartTryOnce(Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_GortashInColony_80314a56-b334-48fe-9055-54bcd2efc5b6);
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_GortashInColony_80314a56-b334-48fe-9055-54bcd2efc5b6, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+PROC
+PROC_DialogStarted(CAMP_Karlach_CRD_FacingDeath_ac41b9da-c61c-aefc-d82f-91744f88b3e6, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_GortashInColony_80314a56-b334-48fe-9055-54bcd2efc5b6);
+
+IF
+DB_ORI_Karlach_TriggerGortashAvatarDialogAtCOL(1, _, _, _, _)
+AND NOT
+DB_CantTalk(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+PROC_ORI_Karlach_StartSawGortashAvatarDialog();
+
+PROC
+PROC_ORI_Karlach_StartSawGortashAvatarDialog()
+AND NOT
+QRY_StartDialog_Fixed(COL_Karlach_AvatarSawGortash_4f2d66c7-4a25-1881-c3c2-129fb77d4df9, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _)
+THEN
+TimerLaunch("ORI_Karlach_RetryGortashAvatarDialog", 3000);
+
+IF
+TimerFinished("ORI_Karlach_RetryGortashAvatarDialog", _, _, _, _)
+AND
+DB_CantTalk(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+ClearScreenFade(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 1, "COL_KethericShowdown_KethericDefeated_6596d1d4-725f-6ba2-0c3f-07f3a5733b7f", 1);
+
+IF
+TimerFinished("ORI_Karlach_RetryGortashAvatarDialog", _, _, _, _)
+THEN
+PROC_ORI_Karlach_StartSawGortashAvatarDialog();
+
+IF
+DialogStarted(COL_Karlach_AvatarSawGortash_4f2d66c7-4a25-1881-c3c2-129fb77d4df9, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+TimerCancel("ORI_Karlach_RetryGortashAvatarDialog");
+NOT DB_ORI_Karlach_TriggerGortashAvatarDialogAtCOL(1);
+
+PROC
+PROC_State_Changed(S_HAV_Haven_SUB_6ac001f4-9c56-4a1b-963d-a509e158ffab, "HAV_Mood", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+_Var1 != "HAV_Mood_State_Protected"
+THEN
+PROC_ClearOriginMoment(HAV_TieflingKids_OM_Karlach_AOM_OOM_d29e791f-5c42-3620-b821-f43007cbf70c);
+PROC_ClearOriginMoment(HAV_TieflingKids_OM_Karlach_COM_3c50973f-8938-7c0f-9851-b2d1039a9319);
+
+IF
+FlagSet(HAV_MolsDeal_Event_KarlachPresentInFollowUp_26d84807-72f6-f559-a6a3-9bb45590d21f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_PresentDuringMolsDeal_3d793572-da93-405f-8846-81a0f1e1736e, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+DialogEnded(TWN_MizorasCapture_OM_Wyll_COM_AOM_OOM_7d7fdf2d-7f48-b140-eb03-bb2e351c0bd0, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_DialogRequestFailed(TWN_MizorasCapture_OM_Wyll_COM_AOM_OOM_7d7fdf2d-7f48-b140-eb03-bb2e351c0bd0, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_MizoraInTown_b8daafd5-f52e-4c19-a5bd-76ec45a6ede6, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+FlagSet(ORI_Karlach_Event_ClearMizorasCaptureCRDAndIPRD_3e573947-2c38-4358-e54e-63e295e17665, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CancelRelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_MizoraInTown_b8daafd5-f52e-4c19-a5bd-76ec45a6ede6);
+NOT DB_CampNight_CRD(NIGHT_Wyll_MizorasCapture_3279549a-c467-4630-bd6d-a2aafeb8a2b9, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_MizoraInTown_b8daafd5-f52e-4c19-a5bd-76ec45a6ede6);
+
+PROC
+PROC_ORI_Karlach_UnlockWyllsDeathBranch()
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_WyllDiedAfterKillingMizora_545c24ba-e6f7-431f-af3d-484b08985ec4, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(MOO_MoonriseBazarSoulCoins_OM_Karlach_AOM_OOM_b4af5865-401c-2980-7b0c-84b14d2147a0, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(MOO_MoonriseBazarSoulCoins_OM_Karlach_COM_2fdf81bd-f3a1-632c-52ad-0303db817b49, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OM_BlockDisablingTrade(MOO_MoonriseBazarSoulCoins_OM_Karlach_AOM_OOM_b4af5865-401c-2980-7b0c-84b14d2147a0, _, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OM_BlockDisablingTrade(MOO_MoonriseBazarSoulCoins_OM_Karlach_COM_2fdf81bd-f3a1-632c-52ad-0303db817b49, _, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OM_BlockDisablingTrade(HAV_TieflingKids_OM_Karlach_AOM_OOM_d29e791f-5c42-3620-b821-f43007cbf70c, _, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OM_BlockDisablingTrade(HAV_TieflingKids_OM_Karlach_COM_3c50973f-8938-7c0f-9851-b2d1039a9319, _, _, (INTEGER)_, (INTEGER)_)
+THEN
+DB_NOOP(1);
+
+IF
+DB_SCL_Karlach_ComplainAboutCurseTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_OneShot_ADTrigger(_Var1, SCL_Karlach_PAD_ComplainsAboutCurse_3df43415-28c7-5401-852e-bd7ffcaf91b9, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+IF
+EnteredTrigger(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+AND
+DB_SCL_Karlach_CancelComplainCursePADTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SCL_Karlach_RemoveComplainTriggers();
+
+IF
+AutomatedDialogStarted(SCL_Karlach_PAD_ComplainsAboutCurse_3df43415-28c7-5401-852e-bd7ffcaf91b9, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SCL_Karlach_RemoveComplainTriggers();
+
+PROC
+PROC_SCL_Karlach_RemoveComplainTriggers()
+AND
+DB_SCL_Karlach_ComplainAboutCurseTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_RemoveOneShotAD(_Var1);
+
+PROC
+PROC_SCL_Karlach_RemoveComplainTriggers()
+AND
+DB_SCL_Karlach_CancelComplainCursePADTriggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_SCL_Karlach_CancelComplainCursePADTriggers(_Var1);
+
+IF
+DialogEnded(HAV_EnteringHaven_TadpoleCheckpoint_e51408cc-4f7a-5a5f-52e8-caf1359c1d6c, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND NOT
+DB_PermaDefeated(S_DEN_Weaponsmith_e2ad06ec-8034-479a-9f69-b86faea6dc79, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAV_EnteringHaven_State_MolVouched_ff4181d3-63ff-49ea-b26e-bc96c919119e, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var1, _Var2, _, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("ORI_Karlach_MentionedDammonInHAV", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(GLO_ForgingOfTheHeart_PAD_DammonInHaven_17aff98d-0b62-695b-1fac-db04ee3843d2, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(GLO_Gortash_Knows_IsLord_cb144b9c-5cb9-4f3d-9b2d-26320521d4a2, _, _, _, _)
+AND
+DB_Players(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _, _)
+THEN
+PROC_RelationshipDialog(S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, Karlach_InParty_12459660-b66e-9b0b-9963-670e0993543d, ORI_Karlach_IPRD_LearnsGortashIsLord_c4a00a64-f98c-de56-3a04-425e943539f3, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, 0);
+
+IF
+GameBookInterfaceClosed(S_MOO_GortashLetter_a4aa779b-7871-41b5-8792-10d4a4fbb71d, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c, _, _, _)
+AND
+QRY_OnlyOnce("ORI_Karlach_ReadsGortashLetter", _, _, _, _)
+THEN
+PROC_TryStartAD(MOO_Karlach_PAD_GortashLetter_3847aaf0-3335-f566-4360-7261fa3df8d6, S_Player_Karlach_2c76687d-93a2-477b-8b18-8a14b549304c);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

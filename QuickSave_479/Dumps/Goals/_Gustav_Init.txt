@@ -1,0 +1,34 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+IF
+CharacterJoinedParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+IsTagged(_Var1, AVATAR_306b9b05-1057-4770-aa17-01af21acd650, 1, _Var1, _Var1)
+AND
+TemplateIsInInventory(LOOT_Camp_Pack_398e7328-ce90-4c02-94a2-93341fac499a, _Var1, 0, _Var1, _Var1)
+AND
+QRY_OnlyOnce("OneFreePackPerParty", _Var1, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(LOOT_Camp_Pack_398e7328-ce90-4c02-94a2-93341fac499a, _Var1, 1, 0);
+
+PROC
+PROC_CAMP_GiveFreeSupplies()
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(LOOT_Camp_Pack_398e7328-ce90-4c02-94a2-93341fac499a, _Var1, 1, 0);
+
+IF
+TextEvent("camppack", _, _, _, _)
+THEN
+PROC_CAMP_GiveFreeSupplies();
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

@@ -1,0 +1,118 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, S_HAG_HagLair_TalkingDoor_HagSpeakerHelper_39800611-2bff-4511-9174-5162269807a2, DIALOGRESOURCEGUID_HAG_HagLair_TalkingDoor_bd75c11e-9afb-6caa-d3cd-fc560e2392c2);
+DB_DropMutingStatussesDialog(HAG_HagLair_TalkingDoor_bd75c11e-9afb-6caa-d3cd-fc560e2392c2);
+PROC_TriggerRegisterForPlayers(S_HAG_HagLair_TalkingDoorDialogTrigger_7579adb8-6255-4a5c-b142-53b2cb8cf59d);
+PROC_TriggerRegisterForParty(S_HAG_HagLair_TalkingDoorFxTrigger_30583450-93a1-4e64-b02b-c61897962692);
+PROC_TriggerRegisterForParty(S_HAG_HagLair_PastTalkingDoor_d0778696-9cec-41d8-8534-078895760f40);
+
+KBSECTION
+IF
+DB_InRegion(_Var1, S_HAG_HagLair_TalkingDoorDialogTrigger_7579adb8-6255-4a5c-b142-53b2cb8cf59d, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("HAG_HagLair_TalkingDoor", _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatuses(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_EngineBlock_Talk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_WildShaped(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PlayEffect(_Var1, VFX_Script_Hag_Poof_01_a5ac4b11-0c02-a7a6-5c41-a95cf56c847f, "", 1);
+PROC_RemoveAllPolymorphs(_Var1);
+
+IF
+DB_InRegion(_Var1, S_HAG_HagLair_TalkingDoorDialogTrigger_7579adb8-6255-4a5c-b142-53b2cb8cf59d, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(HAG_Hag_State_HagInLair_b1559527-2aa5-41e1-bab2-89ace2bf450c, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OnlyOnce("HAG_HagLair_TalkingDoor", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DIALOGRESOURCEGUID_HAG_HagLair_TalkingDoor_bd75c11e-9afb-6caa-d3cd-fc560e2392c2, S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, S_HAG_HagLair_TalkingDoor_HagSpeakerHelper_39800611-2bff-4511-9174-5162269807a2, _Var1, _Var1)
+THEN
+DB_OnlyOnce("HAG_HagLair_TalkingDoor");
+
+IF
+StatusApplied(S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, "HAG_MASK_ILLUSION", _, _, (GUIDSTRING)_)
+THEN
+DB_OnlyOnce("HAG_HagLair_TalkingDoor");
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+IsLocked(S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, 1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(DIALOGRESOURCEGUID_HAG_HagLair_TalkingDoor_bd75c11e-9afb-6caa-d3cd-fc560e2392c2, S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, S_HAG_HagLair_TalkingDoor_HagSpeakerHelper_39800611-2bff-4511-9174-5162269807a2, _Var1, _Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, 0);
+
+IF
+AttackedBy(S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, _, _, _, _, _, _, _, _, _)
+AND NOT
+DB_HAG_HagLair_TalkingDoorFxSpamPrevent(1, _, _, _, _)
+THEN
+PROC_LoopEffect(VFX_Script_Hag_IllusionWall_01_c226465e-3aeb-c02a-b8e3-65684210e1c0, S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, "HAG_HagLair_TalkingDoorFX", "__ANY__", "");
+DB_HAG_HagLair_TalkingDoorFxSpamPrevent(1);
+TimerLaunch("HAG_HagLair_TalkingDoorFxSpamPrevent", 1000);
+
+IF
+EnteredTrigger(_, S_HAG_HagLair_TalkingDoorFxTrigger_30583450-93a1-4e64-b02b-c61897962692, _, _, _)
+AND NOT
+DB_HAG_HagLair_TalkingDoorFxSpamPrevent(1, _, _, _, _)
+THEN
+PROC_LoopEffect(VFX_Script_Hag_IllusionWall_01_c226465e-3aeb-c02a-b8e3-65684210e1c0, S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, "HAG_HagLair_TalkingDoorFX", "__ANY__", "");
+DB_HAG_HagLair_TalkingDoorFxSpamPrevent(1);
+TimerLaunch("HAG_HagLair_TalkingDoorFxSpamPrevent", 1000);
+
+IF
+TimerFinished("HAG_HagLair_TalkingDoorFxSpamPrevent", _, _, _, _)
+THEN
+NOT DB_HAG_HagLair_TalkingDoorFxSpamPrevent(1);
+PROC_StopLoopEffect(S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611, "HAG_HagLair_TalkingDoorFX");
+
+IF
+FlagSet(HAG_Hag_State_HagDefeated_7a1acad0-589f-ae02-f712-f0d24080d720, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_Poof(S_HAG_HagLair_TalkingDoor_54c9fbfc-53d6-4509-a002-c1070c441611);
+PROC_CancelAmbush(S_HAG_HagLair_TalkingDoorDialogTrigger_7579adb8-6255-4a5c-b142-53b2cb8cf59d);
+
+IF
+DB_InRegion(_Var1, S_HAG_HagLair_PastTalkingDoor_d0778696-9cec-41d8-8534-078895760f40, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(HAG_HagLair_State_PlayerPassedDoor_6cbcd1d7-c5ef-4587-aaf6-2b0a56adc30b, _Var1, 1);
+
+IF
+ShapeshiftChanged((CHARACTER)_Var1, _, _, (STRING)_Var4, (CHARACTER)_Var1)
+AND
+_Var4 != ""
+AND
+DB_InRegion(_Var1, S_HAG_HagLair_PastTalkingDoor_d0778696-9cec-41d8-8534-078895760f40, _Var1, _Var1, _Var1)
+AND NOT
+DB_HiddenCharacters(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetFlag(HAG_HagLair_State_PlayerPassedDoor_6cbcd1d7-c5ef-4587-aaf6-2b0a56adc30b, _Var1, 1);
+
+IF
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

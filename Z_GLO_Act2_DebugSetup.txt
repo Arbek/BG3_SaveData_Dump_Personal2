@@ -1,0 +1,118 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DBG_Act2_PathFlags(DBG_Act2_TieflingPath_eec5a662-da3c-2375-bbd0-0906c3acaeaa);
+DB_DBG_Act2_PathFlags(DBG_Act2_AbsolutePath_be04c037-ca2e-7351-f299-c7cc13d44b53);
+DB_DBG_Act2_PathFlags(DBG_Act2_KillerPath_1037d931-1e71-b749-b12a-f2c8186ba891);
+
+KBSECTION
+IF
+FlagSet((FLAG)_Var1, (CHARACTER)_Var2, _, (FLAG)_Var1, (FLAG)_Var1)
+AND
+DB_DBG_Act2_PathFlags(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Act2_DebugSetup_Completed(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Act2_DebugSetup_MainPlayer(_Var2);
+
+IF
+DialogEnded(DebugBook_3af7dec4-4c08-9e44-9064-ec038ebad0ea, _, _, _, _)
+AND
+DB_Act2_DebugSetup_MainPlayer(_Var2, _, _, _, _)
+AND
+DB_DBG_Act2_PathFlags(_Var3, _, _, _, _)
+AND
+GetFlag(_Var3, _Var2, 1, _, _)
+AND NOT
+DB_Act2_DebugSetup_Completed(1, _, _, _, _)
+THEN
+DB_Act2_DebugSetup_Completed(1);
+PROC_GLO_Act2_DebugSetup_Journal(_Var3);
+
+PROC
+PROC_GLO_Act2_DebugSetup_Journal(DBG_Act2_TieflingPath_eec5a662-da3c-2375-bbd0-0906c3acaeaa, _, _, _, _)
+THEN
+QuestUpdate("TUT_NautiloidEscape", "EscapedHell");
+QuestUpdate("DEN_Conflict", "RathGaveQuest_BeforeZev");
+QuestUpdate("DEN_Conflict", "LearnedHalsinMissing");
+QuestUpdate("DEN_Conflict", "Celebration_MetHalsin");
+QuestUpdate("DEN_Conflict", "LeftSafe");
+QuestUpdate("GLO_Tadpole", "WokeAtCrash");
+QuestUpdate("GLO_Tadpole", "FoundHalsin_Unknown_KillLeaders");
+QuestUpdate("GLO_Tadpole", "FoundHalsin_Known_KillLeaders");
+QuestUpdate("GLO_Tadpole", "ReportHalsin_LeadersDefeated");
+QuestUpdate("GLO_Tadpole", "HalsinLeft_KilledLeaders");
+QuestUpdate("GLO_Tadpole", "TalkedLeader_Celebrate");
+QuestUpdate("GLO_Tadpole", "GoToMoonrise");
+QuestUpdate("GLO_Tadpole", "HeardOf");
+QuestUpdate("SHA_Nightsong", "ReadHalsinDiary");
+QuestUpdate("GLO_PathToMoonrise", "ToldMoonrise_Known_MT");
+QuestUpdate("GLO_PathToMoonrise", "HalsinToldPath");
+QuestUpdate("GLO_PathToMoonrise", "Underdark_HalsinToldPath");
+QuestUpdate("GLO_PathToMoonrise", "Underdark_FindPuzzle");
+QuestUpdate("GLO_PathToMoonrise", "Underdark_FoundPuzzle");
+QuestUpdate("GLO_PathToMoonrise", "Underdark_EnteredUnderdark");
+QuestUpdate("GLO_PathToMoonrise", "Underdark_DuergarToldAboutCurse");
+QuestUpdate("GLO_PathToMoonrise", "Underdark_ReachedSCL_KethericCity");
+QuestUpdate("GLO_PathToMoonrise", "ReachedSCL");
+QuestUpdate("GLO_Moonrise", "EnteredSCL_KnowsMT");
+QuestUpdate("GLO_Moonrise", "DuergarToldAboutCurse");
+QuestUpdate("GLO_Moonrise", "ExperiencedShadowcurse_KnowsNereLantern");
+
+PROC
+PROC_GLO_Act2_DebugSetup_Journal(DBG_Act2_AbsolutePath_be04c037-ca2e-7351-f299-c7cc13d44b53, _, _, _, _)
+THEN
+QuestUpdate("TUT_NautiloidEscape", "EscapedHell");
+QuestUpdate("GLO_Tadpole", "WokeAtCrash");
+QuestUpdate("GLO_Tadpole", "LearnPriestess");
+QuestUpdate("GLO_Tadpole", "GotBranded");
+QuestUpdate("GLO_Tadpole", "ReachedQuarters");
+QuestUpdate("GLO_Tadpole", "RefusedHelpGut");
+QuestUpdate("GLO_Tadpole", "LaezelToldCreche");
+QuestUpdate("CHA_Chapel", "ShadowheartMention");
+QuestUpdate("DEN_Conflict", "WyllGaveQuest_BeforeZev");
+QuestUpdate("DEN_Conflict", "AskedTorture");
+QuestUpdate("DEN_Conflict", "ArrivedAtGrove");
+QuestUpdate("DEN_Conflict", "VictoryMinthara");
+QuestUpdate("DEN_Conflict", "CelebrationGoblins");
+QuestUpdate("DEN_Conflict", "NoTieflings");
+QuestUpdate("GLO_PathToMoonrise", "ToldMoonrise_Minthara");
+QuestUpdate("GLO_PathToMoonrise", "MintharaToldPath");
+QuestUpdate("GLO_PathToMoonrise", "EnteredCRE_Parent");
+QuestUpdate("GLO_PathToMoonrise", "Mountain_MintharaToldPath");
+QuestUpdate("GLO_PathToMoonrise", "Mountain_EnteredCRE");
+QuestUpdate("GLO_PathToMoonrise", "DeadZealot");
+QuestUpdate("GLO_PathToMoonrise", "Mountain_ReachedSCL_MountainPass");
+QuestUpdate("GLO_PathToMoonrise", "ReachedSCL");
+QuestUpdate("GLO_Moonrise", "EnteredSCL_KnowsMT");
+QuestUpdate("GLO_Moonrise", "ExperiencedShadowcurse_KnowsLight");
+
+PROC
+PROC_GLO_Act2_DebugSetup_Journal(DBG_Act2_KillerPath_1037d931-1e71-b749-b12a-f2c8186ba891, _, _, _, _)
+THEN
+QuestUpdate("TUT_NautiloidEscape", "EscapedHell");
+QuestUpdate("GLO_Tadpole", "LearnedNettieNearby");
+QuestUpdate("GLO_Tadpole", "PoisonedByApprentice");
+QuestUpdate("GLO_Tadpole", "WokeAtCrash");
+QuestUpdate("GLO_Tadpole", "LearnedApprentice");
+QuestUpdate("GLO_Tadpole", "ApprenticeDied_Tadpoled");
+QuestUpdate("DEN_Conflict", "WyllGaveQuest_BeforeZev");
+QuestUpdate("DEN_Conflict", "HeardAboutAoD");
+QuestUpdate("DEN_Conflict", "Lockdown");
+QuestUpdate("SHA_Nightsong", "ReadHalsinDiary");
+QuestUpdate("GLO_PathToMoonrise", "ReadHalsinDiary_MT");
+QuestUpdate("GLO_PathToMoonrise", "ReadHalsinDiary");
+QuestUpdate("GLO_PathToMoonrise", "HalsinToldPath_Dead");
+QuestUpdate("GLO_PathToMoonrise", "Mountain_EnteredCRE");
+QuestUpdate("GLO_PathToMoonrise", "Mountain_ReachedSCL_MountainPass");
+QuestUpdate("GLO_PathToMoonrise", "ReachedSCL");
+QuestUpdate("GLO_Moonrise", "EnteredSCL_KnowsMT");
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "ModWrapper_Gustav"

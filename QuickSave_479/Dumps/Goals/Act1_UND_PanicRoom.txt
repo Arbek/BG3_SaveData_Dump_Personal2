@@ -1,0 +1,454 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_Dialogs(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab);
+DB_DropMutingStatussesDialog(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab);
+TriggerRegisterForItems(S_UND_HiddenGnomeBarrelSphere_ef211d05-f9fe-4285-8911-d411dae721ce);
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1);
+DB_HasItemEvent(S_UND_Runepowder_Vial_9e5ca2ed-e305-44b7-a65f-35d39fe5fa2a, UND_HiddenGnome_HasVial_c21860d0-c8af-430e-aa42-de81ff020568);
+DB_GiveItemToEvent(S_UND_Runepowder_Vial_9e5ca2ed-e305-44b7-a65f-35d39fe5fa2a, UND_HiddenGnome_GiveVial_5a67f77b-a8ef-4197-817c-7ae4cab1515f);
+DB_PermaDefeatedEvent(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, UND_PanicRoom_State_GnomePermaDefeated_f5193345-c742-452a-87f4-7eb00d4f8991);
+DB_OneShotPlayerTrigger(S_UND_HiddenGnome_Tools_VBTrigger_c4414b58-18f6-4733-b8e1-7b2ec62aaf6d);
+DB_SpotPlayers(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, "UND_HiddenGnome_SpotForDialog", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, "UND_HiddenGnome_SpotForDialog", S_UND_HiddenGnomeSphere_0b38e638-3a1d-4188-b688-65b030fee128);
+DB_SpotPlayers_TargetIgnoreCantTalk(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, "UND_HiddenGnome_SpotForDialog");
+DB_SpotPlayers_IncludeWildshapedPlayers(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, "UND_HiddenGnome_SpotForDialog");
+DB_SceneManager(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, "UND_HiddenGnome_Scene");
+DB_SceneTriggerManager("UND_HiddenGnome_Scene", S_UND_HiddenGnomeSphere_0b38e638-3a1d-4188-b688-65b030fee128);
+DB_CustomDialogRange(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 40);
+
+KBSECTION
+PROC
+PROC_SpotPlayers_Spotted(_, "UND_HiddenGnome_SpotForDialog", (CHARACTER)_Var2, _, _)
+AND
+QRY_StartDialog(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _Var2, _, _)
+THEN
+DB_NOOP(1);
+
+IF
+DialogEnded(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72, _, _, _, _)
+AND NOT
+DB_UND_PanicRoom_ReactingToTrespass(1, _, _, _, _)
+THEN
+PROC_UND_PanicRoom_HiddenGnomeCheckLeave();
+
+PROC
+PROC_UND_DuergarCamp_BattleEnded()
+THEN
+PROC_UND_PanicRoom_HiddenGnomeCheckLeave();
+
+PROC
+PROC_UND_PanicRoom_HiddenGnomeCheckLeave()
+AND NOT
+DB_Defeated(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND NOT
+DB_OffStage(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND NOT
+DB_UND_PanicRoom_HiddenGnomeLeaving(1, _, _, _, _)
+THEN
+DB_UND_PanicRoom_HiddenGnomeLeaving(1);
+
+PROC
+PROC_UND_PanicRoom_HiddenGnomeCheckLeave()
+AND
+DB_UND_PanicRoom_HiddenGnomeLeaving(1, _, _, _, _)
+AND NOT
+DB_Defeated(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND NOT
+DB_OffStage(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND NOT
+DB_CantMove(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND NOT
+DB_Is_InCombat(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND NOT
+DB_UND_PanicRoom_HiddenGnomeLeaving_WaitingForCrimeFinish(_, _, _, _, _)
+AND NOT
+QRY_UND_PanicRoom_HiddenGnomeLeave_CheckCrimes()
+THEN
+PROC_UND_PanicRoom_HiddenGnomeLeave();
+
+QRY
+QRY_UND_PanicRoom_HiddenGnomeLeave_CheckCrimes()
+AND
+GetHandlingCrimeID(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_UND_PanicRoom_HiddenGnomeLeaving_WaitingForCrimeFinish(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_UND_PanicRoom_HiddenGnomeLeaving_WaitingForCrimeFinish(_Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_UND_PanicRoom_HiddenGnomeLeaving_WaitingForCrimeFinish(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_UND_PanicRoom_HiddenGnomeLeaving_WaitingForCrimeFinish(_Var1);
+PROC_UND_PanicRoom_HiddenGnomeCheckLeave();
+
+PROC
+PROC_StateCleared_CantMove(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND
+DB_UND_PanicRoom_HiddenGnomeLeaving(1, _, _, _, _)
+THEN
+PROC_UND_PanicRoom_HiddenGnomeCheckLeave();
+
+IF
+DB_UND_PanicRoom_HiddenGnomeLeaving(1, _, _, _, _)
+AND NOT
+DB_Is_InCombat(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+THEN
+PROC_UND_PanicRoom_HiddenGnomeCheckLeave();
+
+PROC
+PROC_UND_PanicRoom_HiddenGnomeLeave()
+AND
+QRY_UND_PanicRoom_BarrelWithinReach(5, _, _, _, _)
+AND NOT
+DB_Defeated(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+THEN
+Pickup(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, "UND_HiddenGnome_PickedBarrel");
+
+PROC
+PROC_UND_PanicRoom_HiddenGnomeLeave()
+THEN
+PROC_NotifyWhenReadyToMoveOn(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, "UND_HiddenGnome_DisappearNotify");
+
+PROC
+PROC_ReadyToMoveOn(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, "UND_HiddenGnome_DisappearNotify", _, _, _)
+THEN
+SetCanJoinCombat(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 0);
+PROC_SetCanFight(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 0);
+SetHasDialog(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 0);
+PROC_DisappearOutOfSightTo(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, S_UND_PanicRoom_DisappearToPos_ff492828-6e42-499d-bc1f-d148e3658232, "Sprint", 0, "UND_HiddenGnome_Disappeared");
+
+PROC
+PROC_UND_PanicRoom_HiddenGnomeLeave()
+AND
+DB_UND_PanicRoom_HiddenGnomeLeaving(1, _, _, _, _)
+THEN
+NOT DB_UND_PanicRoom_HiddenGnomeLeaving(1);
+
+PROC
+PROC_StateSet_Defeated(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND
+DB_UND_PanicRoom_HiddenGnomeLeaving(1, _, _, _, _)
+THEN
+NOT DB_UND_PanicRoom_HiddenGnomeLeaving(1);
+
+IF
+DB_OffStage(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND
+DB_UND_PanicRoom_HiddenGnomeLeaving(1, _, _, _, _)
+THEN
+NOT DB_UND_PanicRoom_HiddenGnomeLeaving(1);
+
+IF
+DB_PermaDefeatedOrOffstage(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+THEN
+PROC_UND_PanicRoom_Clear();
+
+PROC
+PROC_UND_PanicRoom_HiddenGnomeLeave_Immediately()
+AND
+QRY_UND_PanicRoom_BarrelWithinReach(20, _, _, _, _)
+AND NOT
+DB_Defeated(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+THEN
+ToInventory(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e);
+
+PROC
+PROC_UND_PanicRoom_HiddenGnomeLeave_Immediately()
+AND NOT
+DB_Defeated(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+THEN
+SetOnStage(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 0);
+
+QRY
+QRY_DialogAttackRequested_CustomResponse(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND
+DB_DialogNPCs(_Var2, S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _)
+AND
+DB_DialogName(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, _Var2, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_EscapedGnome_State_GnomeSaved_c5fe7588-a178-3d13-7303-332689b4941a, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72);
+PROC_ForceStopDialog(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e);
+
+IF
+DialogStarted(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, _, _, _, _)
+AND NOT
+DB_GlobalFlag(UND_PanicRoom_Event_StartTrespass_753163eb-6d56-c234-9822-19eddafd9f8e, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_Event_StartTrespass_753163eb-6d56-c234-9822-19eddafd9f8e);
+
+IF
+FlagSet(UND_PanicRoom_Event_StartTrespass_753163eb-6d56-c234-9822-19eddafd9f8e, _, _, _, _)
+AND
+DB_GlobalFlag(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1, _, _, _, _)
+THEN
+DB_TrespassTrigger(S_UND_PanicRoom_TrespassWhenInDialog_aac08053-75a2-48f6-baa5-7697ec87ea02, NULL_00000000-0000-0000-0000-000000000000, "UND_PanicRoom_TrespassWhileInDialog", S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e);
+
+IF
+DialogEnded(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_RemoveDBTrespassTrigger(S_UND_PanicRoom_TrespassWhenInDialog_aac08053-75a2-48f6-baa5-7697ec87ea02, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+FlagCleared(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_RemoveDBTrespassTrigger(S_UND_PanicRoom_TrespassWhenInDialog_aac08053-75a2-48f6-baa5-7697ec87ea02, NULL_00000000-0000-0000-0000-000000000000);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "UND_PanicRoom_TrespassWhileInDialog", _, _, _)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var5, _Var1, _, _Var1, _Var1)
+AND
+DB_DialogName(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, _Var5, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_CRIME_BlockRegisterCrime((CHARACTER)_Var1, "UND_PanicRoom_TrespassWhileInDialog", _, _, _)
+AND NOT
+DB_GlobalFlag(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+IF
+CharacterOnCrimeSensibleActionNotification(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, (INTEGER)_Var2, _, _, _, _, _, _, _)
+AND
+CrimeGetType(_Var2, "UND_PanicRoom_TrespassWhileInDialog", _, _, _)
+THEN
+PROC_UND_PanicRoom_ReactTespassing();
+
+PROC
+PROC_UND_PanicRoom_ReactTespassing()
+AND NOT
+DB_UND_PanicRoom_ReactingToTrespass(1, _, _, _, _)
+THEN
+PROC_RemoveDBTrespassTrigger(S_UND_PanicRoom_TrespassWhenInDialog_aac08053-75a2-48f6-baa5-7697ec87ea02, NULL_00000000-0000-0000-0000-000000000000);
+BlockNewCrimeReactions(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 1);
+DB_UND_PanicRoom_ReactingToTrespass(1);
+RealtimeObjectTimerLaunch(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, "UND_PanicRoom_TryExplodeAfterTreaspass_Timer", 2000);
+
+IF
+ObjectTimerFinished(_, "UND_PanicRoom_TryExplodeAfterTreaspass_Timer", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_UND_PanicRoom_TryExplodeAfterTreaspass();
+
+PROC
+PROC_BlockPickupOfItem((CHARACTER)_Var1, S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_UND_PanicRoom_ReactingToTrespass(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CustomPickupItemResponse(_Var1, S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, 0);
+PROC_UND_PanicRoom_TryExplodeAfterTreaspass();
+
+PROC
+PROC_StateSet_Defeated(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND
+DB_UND_PanicRoom_ReactingToTrespass(1, _, _, _, _)
+THEN
+NOT DB_UND_PanicRoom_ReactingToTrespass(1);
+
+PROC
+PROC_UND_PanicRoom_TryExplodeAfterTreaspass()
+AND NOT
+DB_CantAct(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72);
+
+PROC
+PROC_UND_PanicRoom_TryExplodeAfterTreaspass()
+AND
+DB_UND_PanicRoom_ReactingToTrespass(1, _, _, _, _)
+THEN
+NOT DB_UND_PanicRoom_ReactingToTrespass(1);
+
+PROC
+PROC_SceneOver("UND_HiddenGnome_Scene", _, _, _, _)
+THEN
+NOT DB_CustomDialogRange(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 40);
+
+PROC
+PROC_SceneInterrupted(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, (CHARACTER)_Var1, "UND_HiddenGnome_Scene", "Attacked", (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(UND_EscapedGnome_State_GnomeSaved_c5fe7588-a178-3d13-7303-332689b4941a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72);
+
+PROC
+PROC_SceneInterrupted(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, (CHARACTER)_Var1, "UND_HiddenGnome_Scene", "EnteredCombat", (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(UND_EscapedGnome_State_GnomeSaved_c5fe7588-a178-3d13-7303-332689b4941a, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72);
+
+PROC
+PROC_SceneInterrupted(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, (CHARACTER)_Var1, "UND_HiddenGnome_Scene", "DisturbanceRegistering", (CHARACTER)_Var1)
+AND
+QRY_CharacterGetOwnerOrSelf(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72);
+
+PROC
+PROC_SceneInterrupted(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, (CHARACTER)_Var1, "UND_HiddenGnome_Scene", "DisturbanceRegistering", (CHARACTER)_Var1)
+AND
+QRY_CharacterGetOwnerOrSelf(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_CharacterGetOwnerOrSelf(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+QRY_StartDialog(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _Var2, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72);
+
+IF
+DialogRequestFailed(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72);
+
+IF
+FlagSet(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_SceneOver("UND_HiddenGnome_Scene");
+
+IF
+DialogStarted(UND_PanicRoom_HiddenGnome_d0c4d689-b98f-2450-bc02-4b006b6e8cab, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_SceneOver("UND_HiddenGnome_Scene");
+
+PROC
+PROC_OneShotTriggerEntered((GUIDSTRING)_Var1, S_UND_HiddenGnome_Tools_VBTrigger_c4414b58-18f6-4733-b8e1-7b2ec62aaf6d, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+THEN
+PROC_TryStartAD(UND_HiddenGnome_PAD_Tools_402051db-9429-50cb-b5c4-9ae8b28db539, _Var1);
+
+IF
+ItemEnteredTrigger(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, S_UND_HiddenGnomeBarrelSphere_ef211d05-f9fe-4285-8911-d411dae721ce, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1);
+
+IF
+AddedTo(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, (STRING)_, (STRING)_)
+THEN
+PROC_GlobalSetFlagAndCache(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1);
+
+IF
+ItemLeftTrigger(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, S_UND_HiddenGnomeBarrelSphere_ef211d05-f9fe-4285-8911-d411dae721ce, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_GlobalClearFlagAndCache(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1);
+
+IF
+RemovedFrom(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _)
+AND
+IsInTrigger(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, S_UND_HiddenGnomeBarrelSphere_ef211d05-f9fe-4285-8911-d411dae721ce, 0, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1);
+
+IF
+DestroyedBy(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, _, _, _, (CHARACTER)_)
+THEN
+PROC_GlobalClearFlagAndCache(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1);
+
+IF
+DB_GlobalFlag(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72, _, _, _, _)
+AND NOT
+DB_CantAct(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND NOT
+DB_PermaDefeatedOrOffstage(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, _, _, _, _)
+AND
+QRY_UND_PanicRoom_BarrelWithinReach(15, _, _, _, _)
+THEN
+PROC_UND_PanicRoom_GnomeSuicide();
+
+PROC
+PROC_UND_PanicRoom_GnomeSuicide()
+THEN
+DB_UND_PanicRoom_GnomeSuicided(1);
+CreateExplosion(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, "Projectile_Bag_Smokepowder", 1);
+Die(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 0, NULL_00000000-0000-0000-0000-000000000000, 0, 0);
+
+PROC
+PROC_UND_PanicRoom_GnomeSuicide()
+AND
+GetFlag(UND_HiddenGnome_HasVial_c21860d0-c8af-430e-aa42-de81ff020568, S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 1, _, _)
+THEN
+Die(S_UND_Runepowder_Vial_9e5ca2ed-e305-44b7-a65f-35d39fe5fa2a, 0, S_UND_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, 0, 0);
+
+PROC
+PROC_UND_PanicRoom_GnomeSuicide()
+THEN
+PROC_UND_PanicRoom_Clear();
+
+IF
+FlagSet(UND_EscapedGnome_State_GnomeSaved_c5fe7588-a178-3d13-7303-332689b4941a, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_UND_PanicRoom_Clear();
+
+QRY
+QRY_UND_PanicRoom_BarrelWithinReach(_, _, _, _, _)
+AND
+DB_GlobalFlag(UND_PanicRoom_State_GnomeBarrelPresent_4e04a9c5-58e1-4e80-b0c2-bd471d9ddec1, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_UND_PanicRoom_BarrelWithinReach((REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1, (REAL)_Var1)
+AND
+IsDestroyed(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, 0, _Var1, _Var1, _Var1)
+AND
+IsInInventory(S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, 0, _Var1, _Var1, _Var1)
+AND
+GetDistanceTo(S_GLO_HiddenGnome_6cacd488-c479-47a9-9a39-1cfb2bf6836e, S_UND_Runepowder_Barrel_f09c0a57-6b72-4308-a588-322cb06d47f3, _Var2, _Var1, _Var1)
+AND
+_Var2 < _Var1
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_UND_PanicRoom_Clear()
+THEN
+TriggerUnregisterForItems(S_UND_HiddenGnomeBarrelSphere_ef211d05-f9fe-4285-8911-d411dae721ce);
+NOT DB_UND_PanicRoom_ReactingToTrespass(1);
+PROC_SceneOver("UND_HiddenGnome_Scene");
+
+PROC
+PROC_UND_PanicRoom_Clear()
+AND NOT
+DB_UND_PanicRoom_GnomeSuicided(1, _, _, _, _)
+THEN
+PROC_GlobalClearFlagAndCache(UND_PanicRoom_Event_GnomeSuicide_b230716c-ca7d-4a41-9980-e0c8b8655a72);
+
+IF
+GameBookInterfaceClosed(S_UND_HiddenGnomeLetter_a2f4af6f-4fb2-408a-a2d3-3c670e512a23, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+QRY_OnlyOnce("UND_HiddenGnomeLetter_Read", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForPlayers(S_UND_Smokepowder_ReserveStash_Trigger_1d4b28f9-3293-49a5-8b9a-bb17f5c2b6d5);
+PROC_ShowMarker(_Var1, "UND_Smokepowder_PanicRoom");
+PROC_ShowMarker(_Var1, "UND_Smokepowder_ReserveStash");
+
+IF
+DB_InRegion(_Var1, S_UND_Smokepowder_ReserveStash_Trigger_1d4b28f9-3293-49a5-8b9a-bb17f5c2b6d5, _Var1, _Var1, _Var1)
+THEN
+PROC_HideMarker(_Var1, "UND_Smokepowder_PanicRoom");
+PROC_HideMarker(_Var1, "UND_Smokepowder_ReserveStash");
+PROC_TriggerUnregisterForPlayers(S_UND_Smokepowder_ReserveStash_Trigger_1d4b28f9-3293-49a5-8b9a-bb17f5c2b6d5);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act1"

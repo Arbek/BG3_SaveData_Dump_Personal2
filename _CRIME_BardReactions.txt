@@ -1,0 +1,487 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CRIME_MusicalPerformance_DC(8, Act1_NearlyImpossible_ea049218-36a8-4440-a3fc-f3019a57c86b);
+DB_CRIME_MusicalPerformance_DC(6, Act1_VeryHard_8986db4d-09af-46ee-9781-ac88ec10fa0e);
+DB_CRIME_MusicalPerformance_DC(4, Act1_Hard_831e1fbe-428d-4f4d-bd17-4206d6efea35);
+DB_CRIME_MusicalPerformance_DC(2, Act1_Medium_fa621d38-6f83-4e42-a55c-6aa651a75d46);
+DB_CRIME_MusicalPerformance_DC(1, Act1_VeryEasy_8d398021-34e0-40b9-b7b2-0445f38a4c0b);
+DB_CRIME_MusicalPerformance_Status("PERFORM_NEGATIVE", "MusicalPerformance_Bad", "OnStatusApply");
+DB_CRIME_MusicalPerformance_Status("PERFORM_NEGATIVE", "MusicalPerformance_Bad_OneShot", "OnStatusApply");
+DB_CRIME_MusicalPerformance_Status("PERFORM_POSITIVE", "MusicalPerformance_Good", "OnStatusApply");
+DB_CRIME_MusicalPerformance_Status("PERFORM_POSITIVE", "MusicalPerformance_Good_BardNPC", "OnMainPerformerStart");
+DB_CRIME_MusicalPerformance_SoundNames("PERFORM_NEGATIVE", "Amb_Walla_BardReactions_CrowdBooing", "Amb_Walla_BardReactions_CrowdBooing_Stop");
+DB_CRIME_MusicalPerformance_SoundNames("PERFORM_POSITIVE", "Amb_Walla_BardReactions_CrowdCheering", "Amb_Walla_BardReactions_CrowdCheering_Stop");
+DB_Bard_InstrumentRootToSpell(NULL_00000000-0000-0000-0000-000000000000, "_Whistle");
+DB_Bard_InstrumentRootToSpell(TOOL_GEN_Music_Drum_Small_B_76944b2f-1e79-4c22-8d9a-e6c30e5194e0, "_Drum");
+DB_Bard_InstrumentRootToSpell(TOOL_GEN_Music_Flute_A_848ad8dc-59f3-464b-b8b2-95eab6022446, "_Flute");
+DB_Bard_InstrumentRootToSpell(TOOL_GEN_Music_Guitar_Lute_A_8f98a7e7-c773-4b58-9127-5cf79b9206e9, "_Lute");
+DB_Bard_InstrumentRootToSpell(TOOL_GEN_Music_Lyre_A_13739f15-7366-4d7f-9926-991e98b9e964, "_Lyre");
+DB_Bard_InstrumentRootToSpell(TOOL_GEN_Music_Violin_A_aca5d144-773b-42ba-aca1-6903c60c418c, "_Violin");
+
+KBSECTION
+IF
+StatusApplied((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_PartyMembers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_MusicalPerformance(_, _Var1, _, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_Status(_Var2, _Var7, "OnStatusApply", _Var1, _Var1)
+AND
+CrimeGetNewID(_Var8, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_MusicalPerformance(_Var8, _Var1, _Var7);
+PROC_CharacterRegisterCrime(_Var1, _Var7, _Var1, NULL_00000000-0000-0000-0000-000000000000, _Var8);
+
+IF
+StatusRemoved((GUIDSTRING)_Var1, (STRING)_Var2, _, _, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Status(_Var2, _Var5, _, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var7, _Var1, _Var5, _Var1, _Var1)
+THEN
+PROC_CRIME_MusicalPerformance_TriggerFlourishes(_Var7);
+DB_CRIME_MusicalPerformance_WaitForFlourishesToStop(_Var7);
+
+IF
+DB_CRIME_MusicalPerformance_WaitForFlourishesToStop(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_Flourish(_Var1, _, _, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_WaitForFlourishesToStop(_Var1);
+PROC_CRIME_StopForAllCriminals(_Var1);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, _, "Confronting", (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_Status(_Var6, _Var5, "OnStatusApply", _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_SoundNames(_Var6, _Var7, _Var8, _Var1, _Var1)
+THEN
+PROC_CRIME_MusicalPerformance_MaybeStartWalla(_Var4, _Var7, _Var8);
+DB_CRIME_MusicalPerformance_Listener(_Var1, _Var4, _Var2);
+
+PROC
+PROC_CRIME_MusicalPerformance_MaybeStartWalla((GUIDSTRING)_Var1, (STRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_Listener(_, _Var1, _, _Var1, _Var1)
+THEN
+DB_CRIME_MusicalPerformance_SoundStarted(_Var1, _Var3);
+PlaySound(_Var1, _Var2);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, "Confronting", _, (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Listener(_Var1, _Var4, _Var2, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_Listener(_Var1, _Var4, _Var2);
+PROC_CRIME_MusicalPerformance_MaybeStopWalla(_Var4);
+
+PROC
+PROC_CRIME_MusicalPerformance_MaybeStopWalla((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_Listener(_, _Var1, _, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_SoundStarted(_Var1, _Var4, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_SoundStarted(_Var1, _Var4);
+PlaySound(_Var1, _Var4);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, _, "Confronting", (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var1, _Var4, _Var5, _Var1, _Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_Status(_, _Var5, "OnMainPerformerStart", _Var1, _Var1)
+THEN
+DB_CRIME_MusicalPerformance_Confronted(_Var1, _Var2, _Var5);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, "Confronting", (STRING)_Var3, (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Confronted(_Var1, _Var2, _Var4, _Var1, _Var1)
+AND
+Concatenate("CRIME_MusicalPerformance_Ignore_", _Var4, _Var5, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_Confronted(_Var1, _Var2, _Var4);
+DB_CRIME_MusicalPerformance_NPCIgnoring(_Var2, _Var4, _Var5);
+PROC_CRIME_MusicalPerformance_NPCIgnoring_LaunchTimer(_Var2, _Var5);
+
+PROC
+PROC_CRIME_MusicalPerformance_NPCIgnoring_LaunchTimer((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_DEBUG_QuickPerformanceTimer(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, _Var2);
+ObjectTimerLaunch(_Var1, _Var2, 300000);
+
+PROC
+PROC_CRIME_MusicalPerformance_NPCIgnoring_LaunchTimer((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_DEBUG_QuickPerformanceTimer(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var1, _Var2);
+ObjectTimerLaunch(_Var1, _Var2, 2000);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_MusicalPerformance_NPCIgnoring(_Var1, _Var3, _Var2, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_NPCIgnoring(_Var1, _Var3, _Var2);
+
+PROC
+PROC_CRIME_CrimeTriggers_GetSilentWitnessesForCrime((INTEGER)_Var1, (GUIDSTRING)_Var2, (STRING)_Var3, (GUIDSTRING)_Var4, (CHARACTER)_Var5)
+AND
+DB_CRIME_MusicalPerformance_NPCIgnoring(_Var6, _Var3, _, _Var1, _Var1)
+THEN
+DB_CRIME_CrimeTriggers_SilentWitnessesForCrime(_Var6);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, _, "Confronting", (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var1, _Var4, "MusicalPerformance_Good", _Var1, _Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_NPCs(_Var1, _Var4, _, _Var1, _Var1)
+THEN
+PROC_CRIME_MusicalPerformance_Good_LaunchTimer(_Var4);
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, _, "Confronting", (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var1, _Var4, "MusicalPerformance_Good", _Var1, _Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_NPCs(_Var1, _Var4, _Var2, _Var1, _Var1)
+THEN
+DB_CRIME_MusicalPerformance_NPCs(_Var1, _Var4, _Var2);
+PROC_ObjectCountHelper(_Var4, "CRIME_MusicalPerformance_NPCs");
+
+IF
+OnCrimeInvestigatorSwitchedState((INTEGER)_Var1, (GUIDSTRING)_Var2, "Confronting", (STRING)_Var3, (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_NPCs(_Var1, _Var4, _Var2, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var1, _Var4, _Var5, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_NPCs(_Var1, _Var4, _Var2);
+PROC_ObjectCountHelper(_Var4, "CRIME_MusicalPerformance_NPCs", -1);
+
+PROC
+PROC_CRIME_MusicalPerformance_Good_LaunchTimer((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_CRIME_MusicalPerformance_DEBUG_QuickPerformanceTimer(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "CRIME_MusicalPeformance_Good", 6000);
+
+PROC
+PROC_CRIME_MusicalPerformance_Good_LaunchTimer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_DEBUG_QuickPerformanceTimer(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "CRIME_MusicalPeformance_Good", 500);
+
+IF
+TextEvent("bard_quickperformance", _, _, _, _)
+THEN
+DB_CRIME_MusicalPerformance_DEBUG_QuickPerformanceTimer(1);
+
+IF
+TextEvent("bard_quickperformance_clear", _, _, _, _)
+THEN
+NOT DB_CRIME_MusicalPerformance_DEBUG_QuickPerformanceTimer(1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRIME_MusicalPeformance_Good", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var2, _Var1, "MusicalPerformance_Good", _Var1, _Var1)
+AND
+DB_ObjectCountHelper(_Var1, "CRIME_MusicalPerformance_NPCs", _Var3, _Var1, _Var1)
+AND
+QRY_OnlyOnce_Reset("CRIME_MusicalPerformance_DC", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_DC(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var3 >= _Var4
+AND
+QRY_OnlyOnce("CRIME_MusicalPerformance_DC", _Var1, _Var1, _Var1, _Var1)
+THEN
+RequestPassiveRoll(_Var1, _Var1, "SkillCheck", "Performance", _Var5, 0, "CRIME_MusicalPerformance_PerformanceCheck");
+
+IF
+RollResult("CRIME_MusicalPerformance_PerformanceCheck", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, 1, _, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var4, _Var1, _Var5, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_NPCs(_Var4, _Var1, _Var6, _Var1, _Var1)
+AND
+IsTagged(_Var6, HUMANOID_7fbed0d4-cabc-4a9d-804e-12ca6088a0a8, 1, _Var1, _Var1)
+THEN
+DB_CRIME_MusicalPerformance_Flourish(_Var4, _Var6, _Var1);
+
+IF
+DB_CRIME_MusicalPerformance_Flourish(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_DEBUG_QuickPerformanceTimer(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_CRIME_MusicalPerformance_Flourish_LaunchTimer(_Var2);
+
+PROC
+PROC_CRIME_MusicalPerformance_TriggerFlourishes((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Flourish(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PROC_CRIME_MusicalPerformance_Flourish_LaunchTimer(_Var2);
+
+PROC
+PROC_CRIME_MusicalPerformance_Flourish_LaunchTimer((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+Random(200, _Var2, _Var1, _Var1, _Var1)
+AND
+IntegerSum(100, _Var2, _Var3, _Var1, _Var1)
+THEN
+ObjectTimerLaunch(_Var1, "CRIME_BardReactions_Flourish_Timer", _Var3);
+
+IF
+OnCrimeInvestigatorSwitchedState(_, (GUIDSTRING)_Var2, "Idle", _, _)
+AND
+DB_CRIME_MusicalPerformance_Flourish(_Var4, _Var2, _Var5, _, _)
+THEN
+NOT DB_CRIME_MusicalPerformance_Flourish(_Var4, _Var2, _Var5);
+ObjectTimerCancel(_Var2, "CRIME_BardReactions_Flourish_Timer");
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRIME_BardReactions_Flourish_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Flourish(_Var2, _Var1, _Var3, _Var1, _Var1)
+AND
+QRY_IsInRange(_Var1, _Var3, 10, _Var1, _Var1)
+AND
+QRY_Helper_GetAnyRandomPositionInArea(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Helper_GetAnyRandomPositionInArea_Result(_Var4, _Var5, _Var6, _Var1, _Var1)
+THEN
+UseSpellAtPosition(_Var1, "Projectile_GEB_Perform_TossCoin", _Var4, _Var5, _Var6);
+DB_CRIME_MusicalPerformance_TossCoin(_Var1, _Var3);
+
+IF
+CastSpellFailed((GUIDSTRING)_Var1, "Projectile_GEB_Perform_TossCoin", _, _, _)
+AND
+DB_CRIME_MusicalPerformance_TossCoin(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_TossCoin(_Var1, _Var5);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, "Projectile_GEB_Perform_TossCoin", _, _, _)
+AND
+DB_CRIME_MusicalPerformance_TossCoin(_Var1, _Var5, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_TossCoin(_Var1, _Var5);
+PROC_CRIME_MusicalPerformance_TossedCoin(_Var1, _Var5);
+
+PROC
+PROC_CRIME_MusicalPerformance_TossedCoin(_, _, (CHARACTER)_, (CHARACTER)_, (CHARACTER)_)
+THEN
+DB_NOOP(1);
+
+IF
+ObjectTimerFinished((GUIDSTRING)_Var1, "CRIME_BardReactions_Flourish_Timer", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Flourish(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_Flourish(_Var2, _Var1, _Var3);
+
+IF
+CastedSpell((GUIDSTRING)_Var1, "Projectile_GEB_Perform_TossCoin", _, _, _)
+AND
+GetGold(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+_Var5 > 0
+THEN
+AddGold(_Var1, -1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_NPCs(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance_NPCs(_Var1, _Var2, _Var3);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var1, _Var2, "MusicalPerformance_Good", _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var2, "CRIME_MusicalPeformance_Good");
+PROC_ObjectCountHelperReset(_Var2, "CRIME_MusicalPerformance_NPCs");
+
+IF
+MainPerformerStarted((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_Status("PERFORM_POSITIVE", _Var4, "OnStatusApply", _Var1, _Var1)
+AND
+DB_CRIME_MusicalPerformance_Status("PERFORM_POSITIVE", _Var5, "OnMainPerformerStart", _Var1, _Var1)
+AND
+CrimeGetNewID(_Var6, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_MusicalPerformanceSpell(_Var6, _Var2);
+DB_CRIME_MusicalPerformance(_Var6, _Var1, _Var5);
+PROC_CharacterRegisterCrime(_Var1, _Var5, _Var1, NULL_00000000-0000-0000-0000-000000000000, _Var6);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformanceSpell(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformanceSpell(_Var1, _Var2);
+
+IF
+CharacterOnCrimeSensibleActionNotification((GUIDSTRING)_Var1, _, (INTEGER)_Var3, "CRIME_OsirisBardPerformWellReaction", (GUIDSTRING)_Var4, (GUIDSTRING)_Var5, (GUIDSTRING)_Var6, (GUIDSTRING)_Var7, (GUIDSTRING)_Var8, _)
+AND NOT
+DB_CantAct(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+HasActiveStatus(_Var1, "SILENCED", 1, _Var1, _Var1)
+AND NOT
+DB_CRIME_BardNPCPerformingWithPlayers(_Var1, _, _, _Var1, _Var1)
+THEN
+PROC_CRIME_MusicalPerformance_BardJoins(_Var1, _Var5, _Var3);
+
+PROC
+PROC_CRIME_MusicalPerformance_BardJoins((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (INTEGER)_Var3, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_CRIME_MusicalPerformanceSpell(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+QRY_Bard_GetPerformSpell(_Var1, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_QRY_RTN_Bard_GetPerformSpell(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CRIME_BardNPCPerformingWithPlayers(_Var1, _Var2, _Var3);
+EndRepose(_Var1);
+UseSpell(_Var1, _Var5, _Var1, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+CharacterOnCrimeSensibleActionNotification((CHARACTER)_Var1, _, (INTEGER)_Var3, "CRIME_OsirisBardPerformWellReaction", (DIALOGRESOURCE)_Var4, (CHARACTER)_Var5, (CHARACTER)_Var6, (CHARACTER)_Var7, (CHARACTER)_Var8, _)
+AND NOT
+DB_CRIME_BardNPCPerformingWithPlayers(_Var1, _, _Var3, _Var1, _Var1)
+THEN
+CrimeConfrontationDone(_Var3, _Var1);
+
+IF
+CastSpellFailed((CHARACTER)_Var1, _, _, _, _)
+AND
+DB_CRIME_BardNPCPerformingWithPlayers(_Var1, _Var6, _Var7, _Var1, _Var1)
+THEN
+NOT DB_CRIME_BardNPCPerformingWithPlayers(_Var1, _Var6, _Var7);
+CrimeConfrontationDone(_Var7, _Var1);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_BardNPCPerformingWithPlayers(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CRIME_BardNPCPerformingWithPlayers(_Var2, _Var3, _Var1);
+
+QRY
+QRY_Bard_GetPerformSpell((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+Concatenate("Shout_", _Var2, _Var3, _Var1, _Var1)
+AND
+QRY_Bard_GetPerformSpellIntern(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_Bard_GetPerformSpellIntern((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_QRY_RTN_Bard_GetPerformSpell(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRY_RTN_Bard_GetPerformSpell(_Var3);
+
+QRY
+QRY_Bard_GetPerformSpellIntern((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetEquippedItem(_Var1, "MusicalInstrument", _Var3, _Var1, _Var1)
+AND
+GetTemplate(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+DB_Bard_InstrumentRootToSpell(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var2, _Var5, _Var6, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Bard_GetPerformSpell(_Var6);
+
+QRY
+QRY_Bard_GetPerformSpellIntern((GUIDSTRING)_Var1, (STRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND NOT
+DB_QRY_RTN_Bard_GetPerformSpell(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Bard_InstrumentRootToSpell(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRY_RTN_Bard_GetPerformSpell(_, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var4 != NULL_00000000-0000-0000-0000-000000000000
+AND
+GetItemByTemplateInInventory(_Var4, _Var1, _, _Var1, _Var1)
+AND
+Concatenate(_Var2, _Var5, _Var8, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Bard_GetPerformSpell(_Var8);
+
+QRY
+QRY_Bard_GetPerformSpellIntern((CHARACTER)_Var1, (STRING)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRY_RTN_Bard_GetPerformSpell(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Bard_InstrumentRootToSpell(NULL_00000000-0000-0000-0000-000000000000, _Var4, _Var1, _Var1, _Var1)
+AND
+Concatenate(_Var2, _Var4, _Var5, _Var1, _Var1)
+THEN
+DB_QRY_RTN_Bard_GetPerformSpell(_Var5);
+
+PROC
+PROC_CRIME_MusicalPerformance_DisableBadReactions((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Status("PERFORM_NEGATIVE", _Var2, _, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, _Var2);
+
+PROC
+PROC_CRIME_MusicalPerformance_EnableBadReactions((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Status("PERFORM_NEGATIVE", _Var2, _, _Var1, _Var1)
+THEN
+PROC_CharacterEnableCrime(_Var1, _Var2);
+
+PROC
+PROC_CRIME_MusicalPerformance_DisableAllReactions((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Status(_, _Var3, _, _Var1, _Var1)
+THEN
+PROC_CharacterDisableCrime(_Var1, _Var3);
+
+PROC
+PROC_CRIME_MusicalPerformance_EnableAllReactions((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CRIME_MusicalPerformance_Status(_, _Var3, _, _Var1, _Var1)
+THEN
+PROC_CharacterEnableCrime(_Var1, _Var3);
+
+PROC
+PROC_CRIME_Finished((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_CRIME_MusicalPerformance(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+NOT DB_CRIME_MusicalPerformance(_Var1, _Var2, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "__Shared_Campaign"

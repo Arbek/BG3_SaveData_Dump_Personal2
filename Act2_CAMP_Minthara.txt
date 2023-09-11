@@ -1,0 +1,40 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+NOT DB_MOO_Denizens(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+PROC_CAMP_Minthara_Init();
+
+KBSECTION
+PROC
+PROC_CAMP_Minthara_Init()
+AND
+DB_GlobalFlag(MOO_MintharaFate_State_ToCamp_4e0701b1-c16d-4017-8be6-5781c3c682f4, _, _, _, _)
+THEN
+NOT DB_GLO_PartyMembers_BlockRecruitmentDialog(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+PROC_CharacterEnableAllCrimes(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b);
+SetOnStage(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 1);
+PROC_SetAnubisConfig(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, "Dummy");
+PROC_ORI_SetupCamp(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 1);
+ClearTag(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, BLOCK_RESURRECTION_22a75dbb-1588-407e-b559-5aa4e6d4e6a6);
+
+IF
+DB_InCamp(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, _, _, _, _)
+AND
+QRY_OnlyOnce("FCRD_Minthara_Recruit", _, _, _, _)
+THEN
+PROC_CampRelationshipDialog(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, CAMP_Minthara_e776dff2-6285-3f23-ceff-f40371236993, MOO_MintharaFate_State_ToCamp_4e0701b1-c16d-4017-8be6-5781c3c682f4, 0);
+PROC_Try_CampRelationshipDialog(S_GOB_DrowCommander_25721313-0c15-4935-8176-9f134385451b, 1);
+
+PROC
+PROC_CAMP_Minthara_Init()
+AND NOT
+DB_GlobalFlag(MOO_MintharaFate_State_ToCamp_4e0701b1-c16d-4017-8be6-5781c3c682f4, _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2_MOO_MintharaFate"

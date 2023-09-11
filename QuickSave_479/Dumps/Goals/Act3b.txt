@@ -1,0 +1,26 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_CheckLevelStart("CTY_Main_A");
+DB_RegionSafeSpot("CTY_Main_A", StartPoint_000__000_517be014-1b08-40b5-9ea7-011aa40edf0d);
+
+KBSECTION
+IF
+LevelLoaded("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+IF
+DB_CheckLevelStart("CTY_Main_A", _, _, _, _)
+AND
+DB_CurrentLevel("CTY_Main_A", _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+PROC_GLO_TurnOnHagMasks();
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

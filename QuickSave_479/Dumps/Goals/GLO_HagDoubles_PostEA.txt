@@ -1,0 +1,63 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_LOW_HagDouble_Combat_StateFlags(LOW_BlushingMermaid_State_HagCombatPhase_2_b9def2bd-bb1a-49e3-96af-958e853293c5, ACT3_LOW_HAG_PHASE2_23736f75-cb7c-4211-8a83-d6100bf09b04);
+DB_LOW_HagDouble_Combat_StateFlags(LOW_BlushingMermaid_State_HagCombatPhase_3_a5e3f2dd-5294-4776-826b-60c029cb7590, ACT3_LOW_HAG_PHASE3_c7d23663-bfd0-4e62-bd31-4d5c9b4d5e8e);
+DB_LOW_HagDouble_Combat_StateFlags(LOW_BlushingMermaid_State_HagCombatPhase_4_593877d7-9b40-4485-a171-0e316c6a7ea1, ACT3_LOW_HAG_PHASE4_3c6f95e0-6d5e-4e80-bdc6-9e325e63d022);
+
+KBSECTION
+PROC
+PROC_GLO_HagDoublePostSpawnSetup((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_CurrentLevel("CTY_Main_A", _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, ACT3_LOW_HAG_9b91e9ae-0205-476d-a381-17dca1b2cdc7);
+SetTag(_Var1, IGNORE_COMBAT_LATE_JOIN_PENALTY_6d60bed7-10cc-4b52-8fb7-baa75181cd49);
+ApplyStatus(_Var1, "LOW_HAG_MAGICRESISTANCE", -1);
+SetCombatGroupID(_Var1, "LOW_HagBossFight");
+PROC_LOW_SetHagDoubleComatState(_Var1);
+
+PROC
+PROC_LOW_SetHagDoubleComatState((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_HagDouble_Combat_StateFlags(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_LOW_CurrentHagFightState(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetTag(_Var1, _Var3);
+
+IF
+StatusApplied((GUIDSTRING)_Var1, "LOW_HAG_MAGICRESISTANCE", _, _, (GUIDSTRING)_Var1)
+AND
+DB_HAG_HagLair_Doubles(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+ApplyStatus(_Var1, "INVISIBILITY", 6);
+
+IF
+UsingSpell(S_HAG_Hag_c457d064-83fb-4ec6-b74d-1f30dfafd12d, (STRING)_Var1, _, _, _)
+AND
+DB_GLO_HagSpawnDoubleSpellSetup(_Var1, _, _, _, "ClearDoublesOnCast", _, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_HAG_HagLair_Doubles(_Var9, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetEntityEvent(_Var9, "HAG_RemoveDouble");
+
+IF
+FlagSet(LOW_BlushingMermaid_State_HagInBaldursGate_68d1731c-7a20-4692-a093-5aa39b69d211, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+SysClear("DB_HAG_HagLair_DoublesSpawnPoints", 1);
+PROC_LOW_SetNewHagDoublesSpawnPoints();
+
+PROC
+PROC_LOW_SetNewHagDoublesSpawnPoints()
+AND
+DB_LOW_HagDoublesSpawnPoints(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_HAG_HagLair_DoublesSpawnPoints(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "GLO_Hag"

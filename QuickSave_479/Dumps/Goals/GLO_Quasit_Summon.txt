@@ -1,0 +1,93 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_DialogBlockAttackButton(FOR_ThayanCellar_QuasitSummon_7b661231-3d26-6ab4-2dae-9cbd4d0cc848);
+
+KBSECTION
+IF
+DB_PlayerSummons(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetTemplate(_Var1, QUEST_FOR_QuasitSummon_000c1be8-615a-4324-b59d-1f0f5637df36, _Var1, _Var1, _Var1)
+THEN
+DB_GLO_Quasit_Summoned(_Var1);
+
+IF
+CharacterLeftParty((GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Quasit_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GLO_Quasit_Summoned(_Var1);
+
+IF
+DB_GLO_Quasit_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Quasit_Name(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND
+GetFlag(_Var2, _Var1, 0, _Var1, _Var1)
+THEN
+SetFlag(_Var2, _Var1);
+SetStoryDisplayName(_Var1, _Var3);
+
+IF
+DB_GLO_Quasit_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_ActiveLevel("WLD_Main_A", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_Dialogs(_Var1, FOR_ThayanCellar_QuasitSummon_7b661231-3d26-6ab4-2dae-9cbd4d0cc848);
+
+IF
+DB_GLO_Quasit_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_CombatReact_AD_OnTurn(_Var1, GLO_Shovel_AD_CombatOnTurn_f1e944c3-4119-be51-4d03-b2c94ebc1595, 1);
+DB_CombatReact_AD_OnTurn(_Var1, GLO_Shovel_AD_CombatOnTurn_f1e944c3-4119-be51-4d03-b2c94ebc1595, 4);
+DB_CombatReact_AD_OnTurn(_Var1, GLO_Shovel_AD_CombatOnTurn_f1e944c3-4119-be51-4d03-b2c94ebc1595, 7);
+DB_CombatReact_AD_OnTurn(_Var1, GLO_Shovel_AD_CombatOnTurn_f1e944c3-4119-be51-4d03-b2c94ebc1595, 10);
+DB_CombatReact_AD_OnDeath(_Var1, GLO_Shovel_AD_CombatOnDeath_829f601e-ceab-7923-37ee-87194f5ba387);
+DB_CombatReact_AD_OnHPPercentage(_Var1, GLO_Shovel_AD_CombatOnHitPoints_b1ff4876-8b31-b6c2-3385-937dc695de02, 30);
+DB_CombatReact_AD_OnCast(_Var1, GLO_Shovel_AD_CombatOnSpell_4b5dd7f6-e01b-0601-c67f-60f496111e0a, "Target_Scare_Quasit_Summon");
+
+IF
+LeftCombat((GUIDSTRING)_Var1, _, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+GetTemplate(_Var1, QUEST_FOR_QuasitSummon_000c1be8-615a-4324-b59d-1f0f5637df36, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CombatReact_AD_OnCast(_Var1, GLO_Shovel_AD_CombatOnSpell_4b5dd7f6-e01b-0601-c67f-60f496111e0a, "Target_Scare_Quasit_Summon", _Var1, _Var1)
+THEN
+DB_CombatReact_AD_OnCast(_Var1, GLO_Shovel_AD_CombatOnSpell_4b5dd7f6-e01b-0601-c67f-60f496111e0a, "Target_Scare_Quasit_Summon");
+
+IF
+LearnedSpell((CHARACTER)_Var1, "Target_FOR_ThayanCellar_SummonQuasit", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GlobalFlag(GLO_Quasit_State_LearnedSpell_d32342d1-1236-42d3-9181-96867a2d354b, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Quasit_State_LearnedSpell_d32342d1-1236-42d3-9181-96867a2d354b);
+
+IF
+FlagSet(GLO_Quasit_Event_LearningSpell_7ea75336-74f6-492a-82eb-5d7f144ce736, (CHARACTER)_Var1, _, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+AddSpell(_Var1, "Target_FOR_ThayanCellar_SummonQuasit", 1, 1);
+
+IF
+DB_GLO_Quasit_Summoned(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+CharacterGetOwner(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_InRegion(_Var2, S_FOR_ThayanCellar_DangerZone_5978a2ae-581a-4063-a953-f0713aca5bbe, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_Quasit_State_SummonedFirstInCellar_1ca9d878-354b-49dc-be7e-551962eae306);
+
+IF
+TextEvent("shovel_scroll", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+TemplateAddTo(QUEST_FOR_SCROLL_SummonQuasit_6b881dce-b87f-4c3c-aa98-7ba4b07c009b, _Var1, 1, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Start"

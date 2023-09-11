@@ -1,0 +1,335 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_BookFlags(S_GLO_OrinsMessages_SteelWatchFought_4587a971-799d-4522-a922-1b9089dadd1f, GLO_OrinsMessages_Event_Read_SteelWatchFought_d4500cec-3261-45b1-9bce-460864095379);
+DB_BookFlags(S_GLO_OrinsMessages_SteelWatchFoundryDestroyed_289f67f8-baad-4979-90fc-ca6346a1cfe9, GLO_OrinsMessages_Event_Read_SteelWatchFoundryDestroyed_a0bee5d5-de03-4fef-b051-ac3022553d4c);
+DB_BookFlags(S_GLO_OrinsMessages_GortashKilled_fe2a63d0-3ed2-4c34-b234-377e34b06959, GLO_OrinsMessages_Event_Read_GortashKilled_c450a024-9683-4c3f-a7f1-a958555f2afb);
+DB_BookFlags(S_GLO_OrinsMessages_GortashKilled_fe2a63d0-3ed2-4c34-b234-377e34b06959, LOW_SerialKiller_State_KnowWordOfPassageFromOrin_fff04b2b-f123-482f-8a45-f639f3052dee);
+DB_GEN_OrinsMessages_List("GEN_OrinsMessages_SteelWatchFought", GLO_OrinsMessages_State_SteelWatchFought_3b5949f1-5bce-43d0-9579-1e261f13ae2c, S_GLO_OrinsMessages_SteelWatchFought_4587a971-799d-4522-a922-1b9089dadd1f);
+DB_GEN_OrinsMessages_List("GEN_OrinsMessages_SteelWatchFoundryDestroyed", GLO_OrinsMessages_State_SteelWatchFoundryDestroyed_894e276b-fcfd-46d7-8b23-a5ba9a45c595, S_GLO_OrinsMessages_SteelWatchFoundryDestroyed_289f67f8-baad-4979-90fc-ca6346a1cfe9);
+DB_GEN_OrinsMessages_List("GEN_OrinsMessages_GortashKilled", GLO_OrinsMessages_State_GortashKilled_c6e7b755-119e-48cf-8698-67ebf3d09044, S_GLO_OrinsMessages_GortashKilled_fe2a63d0-3ed2-4c34-b234-377e34b06959);
+DB_GEN_OrinsMessages_List("GEN_OrinsMessages_GortashKilled_NoTribunal", GLO_OrinsMessages_State_GortashKilled_c6e7b755-119e-48cf-8698-67ebf3d09044, S_GLO_OrinsMessages_GortashKilled_NoTribunal_836152c1-2e32-4545-a553-b6571992cc46);
+DB_GEN_OrinsMessages_PosList("SLUMS", S_LOW_OrinsMessages_Slums_362544ef-a2c7-441f-92d3-be6bcaec2aa9);
+DB_GEN_OrinsMessages_PosList("ELFSONG", S_LOW_OrinsMessages_Elfsong_1e7f6479-b736-4cf8-9f4b-a32b296a018c);
+DB_GEN_OrinsMessages_PosList("FARM", S_WYR_OrinsMessages_Farm_c72c5f39-9a06-4e22-9881-f8727f1c5b1e);
+DB_GEN_OrinsMessages_HandList("GEN_OrinsMessages_SteelWatchFought", S_GLO_OrinsMessages_Hand01_83a16395-92d1-4295-af1f-c7ce1dabfb9f);
+DB_GEN_OrinsMessages_HandList("GEN_OrinsMessages_SteelWatchFoundryDestroyed", S_GLO_OrinsMessages_Hand02_ea7c0034-208f-4f8f-b8af-1aea8d06f881);
+DB_GEN_OrinsMessages_HandList("GEN_OrinsMessages_GortashKilled", S_GLO_OrinsMessages_Hand03_e2cc0472-77be-48f1-b213-d810cf99ee71);
+DB_GEN_OrinsMessages_HandList("GEN_OrinsMessages_GortashKilled_NoTribunal", S_GLO_OrinsMessages_Hand03_e2cc0472-77be-48f1-b213-d810cf99ee71);
+
+KBSECTION
+PROC
+PROC_GEN_OrinsMessages_Setup()
+THEN
+DB_NOOP(1);
+
+IF
+DB_GLO_SteelWatchers(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Was_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var3, _, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("GEN_OrinsMessages_SteelWatchFought", _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GEN_OrinsMessages_SteelWatchFought(_Var1);
+PROC_GEN_OrinsMessages_SteelWatchLeftCombat();
+
+PROC
+PROC_GEN_OrinsMessages_SteelWatchLeftCombat()
+AND
+DB_GlobalFlag(GLO_OrinsAbduction_State_AbductionOccured_98dda46d-871c-4807-aced-5dc3ff5f4c2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Orin_State_BrokeDealToKillGortash_2283f315-5fda-481c-87a1-635d04253759, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_OrinsMessages_State_SteelWatchFought_3b5949f1-5bce-43d0-9579-1e261f13ae2c, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+THEN
+PROC_GEN_OrinsMessages_SetupMessageInCamp("GEN_OrinsMessages_SteelWatchFought");
+
+IF
+DB_GlobalFlag(LOW_SteelWatchFoundry_State_Destroyed_cdfffe24-5082-4e41-b7c2-f1fef6da3a8a, _, _, _, _)
+AND
+QRY_OnlyOnce("GEN_OrinsMessages_SteelWatchFoundryDestroyed", _, _, _, _)
+THEN
+PROC_GEN_OrinsMessages_SteelWatchFoundryDestroyed();
+
+PROC
+PROC_GEN_OrinsMessages_SteelWatchFoundryDestroyed()
+AND
+DB_GlobalFlag(IRN_IronThrone_State_Visited_5b3fb5a7-61e8-44a9-a0a1-b6b45b59a23c, _, _, _, _)
+THEN
+AddEntryToCustomBook("GEN_OrinsMessages_SteelWatchFoundryDestroyed_CustomVersion", "GEN_OrinsMessages_SteelWatchFoundryDestroyed_Prefix_IronThroneDestroyedByPlayers");
+AddEntryToCustomBook("GEN_OrinsMessages_SteelWatchFoundryDestroyed_CustomVersion", "GEN_OrinsMessages_SteelWatchFoundryDestroyed");
+
+PROC
+PROC_GEN_OrinsMessages_SteelWatchFoundryDestroyed()
+AND NOT
+DB_GlobalFlag(IRN_IronThrone_State_Visited_5b3fb5a7-61e8-44a9-a0a1-b6b45b59a23c, _, _, _, _)
+THEN
+AddEntryToCustomBook("GEN_OrinsMessages_SteelWatchFoundryDestroyed_CustomVersion", "GEN_OrinsMessages_SteelWatchFoundryDestroyed_Prefix_IronThroneDestroyedInSteelwatch");
+AddEntryToCustomBook("GEN_OrinsMessages_SteelWatchFoundryDestroyed_CustomVersion", "GEN_OrinsMessages_SteelWatchFoundryDestroyed");
+
+PROC
+PROC_GEN_OrinsMessages_SteelWatchFoundryDestroyed()
+AND
+DB_GlobalFlag(GLO_OrinsAbduction_State_AbductionOccured_98dda46d-871c-4807-aced-5dc3ff5f4c2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Orin_State_BrokeDealToKillGortash_2283f315-5fda-481c-87a1-635d04253759, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_OrinsMessages_State_SteelWatchFoundryDestroyed_894e276b-fcfd-46d7-8b23-a5ba9a45c595, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+THEN
+PROC_GEN_OrinsMessages_SetupMessageInCamp("GEN_OrinsMessages_SteelWatchFoundryDestroyed");
+
+PROC
+PROC_BlockUseOfItem((CHARACTER)_Var1, S_GLO_OrinsMessages_SteelWatchFoundryDestroyed_289f67f8-baad-4979-90fc-ca6346a1cfe9, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+DB_CustomUseItemResponse(_Var1, S_GLO_OrinsMessages_SteelWatchFoundryDestroyed_289f67f8-baad-4979-90fc-ca6346a1cfe9, 0);
+OpenReferencedBookUI(_Var1, "GEN_OrinsMessages_SteelWatchFoundryDestroyed_CustomVersion", S_GLO_OrinsMessages_SteelWatchFoundryDestroyed_289f67f8-baad-4979-90fc-ca6346a1cfe9);
+
+IF
+DB_GlobalFlag(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769, _, _, _, _)
+AND
+QRY_OnlyOnce("GEN_OrinsMessages_GortashKilled", _, _, _, _)
+THEN
+PROC_GEN_OrinsMessages_GortashKilled();
+
+PROC
+PROC_GEN_OrinsMessages_GortashKilled()
+AND
+DB_GlobalFlag(GLO_OrinsAbduction_State_AbductionOccured_98dda46d-871c-4807-aced-5dc3ff5f4c2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Orin_State_BrokeDealToKillGortash_2283f315-5fda-481c-87a1-635d04253759, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_OrinsMessages_State_GortashKilled_c6e7b755-119e-48cf-8698-67ebf3d09044, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+AND
+QRY_GEN_OrinsMessages_MurderTribunalCleared()
+THEN
+PROC_GEN_OrinsMessages_SetupMessageInCamp("GEN_OrinsMessages_GortashKilled_NoTribunal");
+
+PROC
+PROC_GEN_OrinsMessages_GortashKilled()
+AND
+DB_GlobalFlag(GLO_OrinsAbduction_State_AbductionOccured_98dda46d-871c-4807-aced-5dc3ff5f4c2d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_Orin_State_BrokeDealToKillGortash_2283f315-5fda-481c-87a1-635d04253759, _, _, _, _)
+AND NOT
+DB_GlobalFlag(GLO_OrinsMessages_State_GortashKilled_c6e7b755-119e-48cf-8698-67ebf3d09044, _, _, _, _)
+AND NOT
+DB_PermaDefeated(S_GLO_Orin_bf24e0ec-a3a6-4905-bd2d-45dc8edf8101, _, _, _, _)
+AND NOT
+QRY_GEN_OrinsMessages_MurderTribunalCleared()
+THEN
+PROC_GEN_OrinsMessages_SetupMessageInCamp("GEN_OrinsMessages_GortashKilled");
+
+QRY
+QRY_GEN_OrinsMessages_MurderTribunalCleared()
+AND
+DB_GlobalFlag(LOW_MurderTribunal_Event_GiveBhaalAmulet_51ae9508-df79-2849-21a0-9f9aae78d727, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_GEN_OrinsMessages_MurderTribunalCleared()
+AND
+DB_GlobalFlag(LOW_MurderTribunal_Sarevok_State_Dead_e9d30711-af25-4ba9-813e-cc7c131b17b6, _, _, _, _)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_GEN_OrinsMessages_SetupMessageInCamp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GEN_OrinsMessages_List(_Var1, _Var2, _Var3, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_PosList(_Var4, _Var5, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_HandList(_Var1, _Var6, _Var1, _Var1, _Var1)
+AND
+GetPosition(_Var5, _Var7, _Var8, _Var9, _Var1)
+THEN
+DB_GEN_OrinsMessages_CurrentMessage(_Var1);
+DB_GEN_OrinsMessages_CurrentMessageInCamp(_Var4);
+PROC_GlobalSetFlagAndCache(_Var2);
+TeleportTo(_Var3, _Var5, "GEN_OrinMessages_Teleported", 0, 0, 0, 0, 1);
+PROC_TriggerRegisterForPlayers(_Var5);
+DB_GEN_OrinsMessages_PlayersNotFoundMessage(1);
+
+IF
+EntityEvent((GUIDSTRING)_Var1, "GEN_OrinMessages_Teleported", (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_ActiveCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_PosList(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+PROC_GEN_OrinsMessages_BloodSurface_Create(_Var3);
+
+PROC
+PROC_GEN_OrinsMessages_SetupMessageInCamp("GEN_OrinsMessages_SteelWatchFoundryDestroyed", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_OrinsMessages_State_SteelWatchFought_3b5949f1-5bce-43d0-9579-1e261f13ae2c);
+
+PROC
+PROC_GEN_OrinsMessages_SetupMessageInCamp("GEN_OrinsMessages_GortashKilled", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(GLO_OrinsMessages_State_SteelWatchFought_3b5949f1-5bce-43d0-9579-1e261f13ae2c);
+PROC_GlobalSetFlagAndCache(GLO_OrinsMessages_State_SteelWatchFoundryDestroyed_894e276b-fcfd-46d7-8b23-a5ba9a45c595);
+
+IF
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_CurrentMessageInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+AND
+DB_GEN_OrinsMessages_PlayersNotFoundMessage(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GEN_OrinsMessages_MoveMessageToNewCamp(_Var1);
+
+PROC
+PROC_GEN_OrinsMessages_ClearMesssageInOldCamp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GEN_OrinsMessages_PosList(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForPlayers(_Var2);
+
+PROC
+PROC_GEN_OrinsMessages_MoveMessageToNewCamp((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GEN_OrinsMessages_CurrentMessage(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GEN_OrinsMessages_SetupMessageInCamp(_Var2);
+
+PROC
+PROC_LongRest()
+AND NOT
+DB_GEN_OrinsMessages_PlayersNotFoundMessage(1, _, _, _, _)
+AND
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_PosList(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GEN_OrinsMessages_BloodSurface_Clear(_Var2);
+
+PROC
+PROC_GEN_OrinsMessages_BloodSurface_Create((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+THEN
+CreateSurface(_Var1, "SurfaceBlood", 1, -1);
+
+PROC
+PROC_GEN_OrinsMessages_BloodSurface_Clear((TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1, (TRIGGER)_Var1)
+THEN
+RemoveSurfaceLayer(_Var1, "Ground", 1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_PosList(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_PlayersNotFoundMessage(1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TryStartAD(LOW_BhaalTemple_PAD_FoundOrinsLetter_20e9f5f0-8659-0065-fcfc-bca20d5e05d9, _Var1);
+NOT DB_GEN_OrinsMessages_PlayersNotFoundMessage(1);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+AND
+DB_ActiveCamp(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_PosList(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_CurrentMessage("GEN_OrinsMessages_GortashKilled", _Var1, _Var1, _Var1, _Var1)
+THEN
+TriggerUnregisterForPlayers(_Var2);
+
+IF
+DB_GEN_OrinsMessages_SteelWatchFought(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_SteelWatchFought(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_GEN_OrinsMessages_SteelWatchFought(_Var2);
+
+IF
+DB_GEN_OrinsMessages_CurrentMessage(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_CurrentMessage(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_GEN_OrinsMessages_CurrentMessage(_Var2);
+
+IF
+DB_GEN_OrinsMessages_CurrentMessageInCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GEN_OrinsMessages_CurrentMessageInCamp(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var2
+THEN
+NOT DB_GEN_OrinsMessages_CurrentMessageInCamp(_Var2);
+
+IF
+TextEvent("OMSteelWatchFought", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "OMSteelWatchFought");
+PROC_GEN_OrinsMessages_SteelWatchLeftCombat();
+
+IF
+TextEvent("OMDestroySteelWatchFoundry", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "OMDestroySteelWatchFoundry");
+PROC_GlobalSetFlagAndCache(LOW_SteelWatchFoundry_State_Destroyed_cdfffe24-5082-4e41-b7c2-f1fef6da3a8a);
+
+IF
+TextEvent("OMResetMessages", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "OMResetMessages");
+PROC_GlobalClearFlagAndCache(GLO_OrinsMessages_State_SteelWatchFought_3b5949f1-5bce-43d0-9579-1e261f13ae2c);
+PROC_GlobalClearFlagAndCache(GLO_OrinsMessages_State_SteelWatchFoundryDestroyed_894e276b-fcfd-46d7-8b23-a5ba9a45c595);
+PROC_GlobalClearFlagAndCache(GLO_OrinsMessages_State_GortashKilled_c6e7b755-119e-48cf-8698-67ebf3d09044);
+PROC_GlobalClearFlagAndCache(LOW_SteelWatchFoundry_State_Destroyed_cdfffe24-5082-4e41-b7c2-f1fef6da3a8a);
+PROC_GlobalClearFlagAndCache(GLO_Gortash_State_PermaDefeated_74dd56ff-7e00-42a6-a0f3-0d122f364769);
+
+IF
+TextEvent("OMMoveMessageToCurCamp", (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_ActiveCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+GetHostCharacter(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var2, "OMMoveMessageToCurCamp");
+PROC_GEN_OrinsMessages_MoveMessageToNewCamp(_Var1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3_GEN"

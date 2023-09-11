@@ -1,0 +1,440 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_TWN_ArabellasPowers_FirstEncounterShadows(S_TWN_ArabellaPowers_Shadow_1_6f78bd45-cd89-499d-af09-de331e945ad4);
+DB_TWN_ArabellasPowers_FirstEncounterShadows(S_TWN_ArabellaPowers_Shadow_2_92489d69-dae8-4aa2-9a93-2053e809c0d0);
+DB_TWN_ArabellasPowers_DeathShadows(S_TWN_ArabellaPower_DeadShadow_1_be1d10fc-d50d-472c-ac1f-afba5d558b97, 0);
+DB_TWN_ArabellasPowers_DeathShadows(S_TWN_ArabellaPower_DeadShadow_2_c94576db-572f-481f-a75b-f8c719b50600, 1);
+SetOnStage(S_TWN_ArabellaPower_DeadShadow_1_be1d10fc-d50d-472c-ac1f-afba5d558b97, 0);
+SetOnStage(S_TWN_ArabellaPower_DeadShadow_2_c94576db-572f-481f-a75b-f8c719b50600, 0);
+DB_GlobalFlagReactionAfterDialog(TWN_ArabellaPowers_State_MovedToCamp_b5f880bc-272e-e8a3-8ca1-b3dca3bce191, TWN_ArabellasPowers_TownIntroduction_78c6743c-ff1d-386c-2205-209edaae1a06);
+DB_GlobalFlagReactionAfterDialog(TWN_ArabellaPowers_State_StayedAtTown_58722b05-d7d2-5199-6ae1-937ae5b91b2b, TWN_ArabellasPowers_TownIntroduction_78c6743c-ff1d-386c-2205-209edaae1a06);
+DB_SpotPlayers(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "TWN_ArabellasPowers_SpottedPlayer_Wave", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "TWN_ArabellasPowers_SpottedPlayer_Chat", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+DB_SpotPlayers_SpotTrigger(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "TWN_ArabellasPowers_SpottedPlayer_Chat", S_TWN_ArabellasPowers_DialogBoxTrigger_69e3ca61-03c6-44b3-b10e-a2d95a0aa613);
+DB_Dialogs(S_TWN_Hospital_Reception_CorpseTender_64198bb1-d575-4b7b-bcf9-0c58d24020f1, TWN_Hospital_Reception_CorpseTender_84142e2e-804e-c4d5-83f3-d1443b2a8321);
+DB_DialogBlockTradeButton(TWN_Hospital_Reception_CorpseTender_84142e2e-804e-c4d5-83f3-d1443b2a8321);
+DB_GLO_CharacterCorpseDialog(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, TWN_ArabellasPowers_ParentA_Dead_b13f2f9b-14ef-5f12-d67b-595cdaa913cb);
+DB_GLO_CharacterCorpseDialog(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, TWN_ArabellasPowers_ZombieArabella_Dead_bd148d8e-3d64-39e3-c675-6ef01206b4dc);
+SetTag(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, ACT2_SHADOW_CURSE_IMMUNE_b47643e0-583c-4808-b108-f6d3b605b0a9);
+DB_TWN_ArabellaPowers_Parents(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, TWN_ArabellaPowers_State_Reacted_Mother_633f29f4-156e-892b-38c9-3909256b3b85);
+DB_TWN_ArabellaPowers_Parents(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, TWN_ArabellaPowers_State_Reacted_Father_ed409656-1a18-25b9-772b-db95623b95c7);
+SetOnStage(S_TWN_Hospital_Reception_TendedCorpse_d15d2347-6b23-4ad6-a49c-6e9d8c2069e7, 0);
+PROC_TWN_ArabellasPowers_PreInit();
+PROC_TriggerRegisterForPlayers(S_TWN_ArabellasPowers_DialogBoxTrigger_69e3ca61-03c6-44b3-b10e-a2d95a0aa613);
+DB_QuestDef_State_ConditionalFlag(TWN_ArabellaPowers_Event_AskedForHelp_7537b739-d975-625f-fb7f-d037d8a90bf2, "TWN_FindArabellasParents", "ArabellaStart", 0, TWN_ArabellasPowers_State_ParentsFoundDead_e3077a60-12dd-fe83-bc56-f646091d4029);
+DB_QuestDef_State_ConditionalFlag(TWN_ArabellaPowers_Event_AskedForHelp_7537b739-d975-625f-fb7f-d037d8a90bf2, "TWN_FindArabellasParents", "ArabellaStartSawBodies", 1, TWN_ArabellasPowers_State_ParentsFoundDead_e3077a60-12dd-fe83-bc56-f646091d4029);
+DB_QuestDef_State(CAMP_ArabellaAtCamp_State_JergalSceneDone_28bd7736-306f-49a8-9e4b-3473673aa1e6, "TWN_FindArabellasParents", "ArabellaTalkedJergal");
+DB_GLO_Levels_RemoveArabellaFromCamp("INT_Main_A");
+DB_GLO_Levels_RemoveArabellaFromCamp("BGO_Main_A");
+DB_GLO_Levels_RemoveArabellaFromCamp("CTY_Main_A");
+
+KBSECTION
+IF
+DB_TWN_ArabellasPowers_FirstEncounterShadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 0);
+
+IF
+DB_TWN_ArabellasPowers_FirstEncounterShadows(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+HasActiveStatus(_Var1, "TWN_ARABELLAPOWERS_ARABELLAVINES", 1, _Var1, _Var1)
+THEN
+RemoveStatus(_Var1, "TWN_ARABELLAPOWERS_ARABELLAVINES");
+
+PROC
+PROC_TWN_ArabellasPowers_PreInit()
+AND
+DB_TWN_ArabellaPowers_Parents(_Var1, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_PermaDefeated(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TWN_ArabellasPowers_PreInit", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TWN_ArabellasPowers_Init();
+
+PROC
+PROC_TWN_ArabellasPowers_PreInit()
+AND NOT
+DB_PermaDefeated(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _, _, _, _)
+AND
+DB_GlobalFlag(DEN_ShadowDruid_State_SnakeCourtStarted_461195aa-0d53-44c3-bc45-3b8bbe59649d, _, _, _, _)
+AND NOT
+DB_GlobalFlag(DEN_ShadowDruid_State_KidDied_5b5de896-e733-47ae-81df-85a4b25ebfd1, _, _, _, _)
+AND NOT
+DB_Defeated(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, _, _, _, _)
+AND NOT
+DB_Defeated(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, _, _, _, _)
+THEN
+TeleportTo(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, S_TWN_ArabellaPowers_ArabellaSpot_27a59458-175f-48b1-b611-205755d1645b, "SCL_TWN_ArabellaPowers_ArabellaTeleport");
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+DB_Dialogs(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, TWN_ArabellasPowers_TownIntroduction_78c6743c-ff1d-386c-2205-209edaae1a06);
+SetOnStage(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, 1);
+
+PROC
+PROC_TWN_ArabellasPowers_Init()
+AND
+DB_Defeated(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_ArabellasPowers_State_ParentA_DeadBeforeTown_c5d3fadc-0aae-40ae-8688-8b6c31450a8c);
+
+PROC
+PROC_TWN_ArabellasPowers_Init()
+AND
+DB_Defeated(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_ArabellasPowers_State_ParentB_DeadBeforeTown_d7007710-b123-4725-9108-2b2e4fb24617);
+
+PROC
+PROC_TWN_ArabellasPowers_Init()
+AND
+DB_Defeated(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, _, _, _, _)
+AND
+DB_Defeated(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, _, _, _, _)
+THEN
+SetOnStage(S_TWN_Hospital_Reception_TendedCorpse_d15d2347-6b23-4ad6-a49c-6e9d8c2069e7, 1);
+SetTag(S_TWN_Hospital_Reception_TendedCorpse_d15d2347-6b23-4ad6-a49c-6e9d8c2069e7, ACT2_SHADOW_CURSE_IMMUNE_b47643e0-583c-4808-b108-f6d3b605b0a9);
+Use(S_TWN_Hospital_Reception_TendedCorpse_d15d2347-6b23-4ad6-a49c-6e9d8c2069e7, S_TWN_Hospital_Reception_CorpseTender_CorpseBed_22dff80b-9604-4612-862f-e75999d7c7f9, 1, 1, "TWN_Hospital_CorpseTender_UsedBed");
+
+PROC
+PROC_TWN_ArabellasPowers_Init()
+AND NOT
+DB_Defeated(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, _, _, _, _)
+THEN
+PROC_SetOnStage(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, 1);
+SetTag(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, ACT2_SHADOW_CURSE_IMMUNE_b47643e0-583c-4808-b108-f6d3b605b0a9);
+TeleportTo(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, S_TWN_ArabellaPowers_ParentBPoint_eadeed84-81a1-48f6-b978-e393406c0b07, "SCL_TWN_ArabellaPowers_ParentBTeleport");
+Use(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, S_TWN_Hospital_Reception_CorpseTender_CorpseBed_22dff80b-9604-4612-862f-e75999d7c7f9, 1, 1, "TWN_Hospital_CorpseTender_UsedBed");
+
+PROC
+PROC_TWN_ArabellasPowers_Init()
+AND NOT
+DB_Defeated(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, _, _, _, _)
+THEN
+PROC_SetOnStage(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, 1);
+SetTag(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, ACT2_SHADOW_CURSE_IMMUNE_b47643e0-583c-4808-b108-f6d3b605b0a9);
+TeleportTo(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, S_TWN_ArabellaPowers_ParentAPoint_4fed0be7-a924-44ac-bd46-69839fb883ac, "SCL_TWN_ArabellaPowers_ParentATeleport");
+Use(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, S_TWN_ArabellaPowers_ParentABed_6b9e8498-9efe-48ed-bba2-8d60fdd723b7, 1, 1, "TWN_Hospital_CorpseTender_UsedBed");
+
+IF
+UseFinished(S_TWN_Hospital_Reception_TendedCorpse_d15d2347-6b23-4ad6-a49c-6e9d8c2069e7, S_TWN_Hospital_Reception_CorpseTender_CorpseBed_22dff80b-9604-4612-862f-e75999d7c7f9, 1, _, _)
+THEN
+Die(S_TWN_Hospital_Reception_TendedCorpse_d15d2347-6b23-4ad6-a49c-6e9d8c2069e7, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 0);
+
+IF
+UseFinished(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, S_TWN_Hospital_Reception_CorpseTender_CorpseBed_22dff80b-9604-4612-862f-e75999d7c7f9, 1, _, _)
+THEN
+Die(S_DEN_ParentB_397467d4-1631-447b-a505-d44275dca78e, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 0);
+
+IF
+UseFinished(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, S_TWN_ArabellaPowers_ParentABed_6b9e8498-9efe-48ed-bba2-8d60fdd723b7, 1, _, _)
+THEN
+Die(S_DEN_ParentA_d6d88c8b-6ba7-4350-b3b3-d60565a44e90, 0, NULL_00000000-0000-0000-0000-000000000000, 1, 1, 0);
+
+PROC
+PROC_TWN_ArabellasPowers_Init()
+THEN
+SetFaction(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, ACT2_TWN_Arabella_33166e4b-4fd9-474c-8a4e-a97d1bc60b0f);
+PROC_SetRelationMutual(Hero_a1542c81-6895-929e-4522-10ce218bb360, ACT2_TWN_Arabella_33166e4b-4fd9-474c-8a4e-a97d1bc60b0f, 50);
+
+IF
+FlagSet(TWN_CorpseTender_State_PassedCorpseCheck_f187530a-0fe5-6fad-bc0e-4998df7b588e, _, _, _, _)
+AND
+DB_DialogBlockTradeButton(TWN_Hospital_Reception_CorpseTender_84142e2e-804e-c4d5-83f3-d1443b2a8321, _, _, _, _)
+THEN
+NOT DB_DialogBlockTradeButton(TWN_Hospital_Reception_CorpseTender_84142e2e-804e-c4d5-83f3-d1443b2a8321);
+
+IF
+FlagSet(TWN_ArabellasPowers_Debug_Teleport_a1ccd405-8ed6-4fdf-b19c-772b8f02edc7, _, _, _, _)
+AND
+GetHostCharacter(_Var3, _, _, _, _)
+THEN
+TeleportTo(_Var3, S_TWN_ArabellaDebugPoint_aef52933-e365-4e94-97a2-af67b32f59bc, "TWN_Debug_Teleport_To_Arabella", 1, 1, 1, 1, 1);
+Resurrect(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+PROC_TWN_ArabellasPowers_Init();
+
+IF
+TextEvent("TWN_ArabellaPowers_Reset", _, _, _, _)
+THEN
+Resurrect(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+PROC_TWN_ArabellasPowers_Init();
+
+IF
+TextEvent("TWN_ArabellaPowers_CheckParents", _, _, _, _)
+AND
+DB_GlobalFlag(TWN_ArabellasPowers_State_ParentA_DeadBeforeTown_c5d3fadc-0aae-40ae-8688-8b6c31450a8c, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Dad dead before twn");
+
+IF
+TextEvent("TWN_ArabellaPowers_CheckParents", _, _, _, _)
+AND NOT
+DB_GlobalFlag(TWN_ArabellasPowers_State_ParentA_DeadBeforeTown_c5d3fadc-0aae-40ae-8688-8b6c31450a8c, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Dad alive before twn");
+
+IF
+TextEvent("TWN_ArabellaPowers_CheckParents", _, _, _, _)
+AND
+DB_GlobalFlag(TWN_ArabellasPowers_State_ParentB_DeadBeforeTown_d7007710-b123-4725-9108-2b2e4fb24617, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Mom dead before twn");
+
+IF
+TextEvent("TWN_ArabellaPowers_CheckParents", _, _, _, _)
+AND NOT
+DB_GlobalFlag(TWN_ArabellasPowers_State_ParentB_DeadBeforeTown_d7007710-b123-4725-9108-2b2e4fb24617, _, _, _, _)
+AND
+GetHostCharacter(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DebugText(_Var1, "Mom alive before twn");
+
+IF
+DB_GlobalFlag(DEN_AttackOnDen_State_RaiderVictory_abe1bce8-c234-4afe-a490-76210d98a078, _, _, _, _)
+AND NOT
+DB_Dead(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _, _, _, _)
+THEN
+Die(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+
+IF
+DB_GlobalFlag(DEN_AttackOnDen_State_RaiderVictory_abe1bce8-c234-4afe-a490-76210d98a078, _, _, _, _)
+THEN
+SetOnStage(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, 0);
+
+IF
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _, _, _, _)
+THEN
+SetOnStage(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, 1);
+
+IF
+DB_GlobalFlag(DEN_AttackOnDen_State_DenVictory_71c7f23e-3ff1-c9b8-3ef5-d75fa1b42c8d, _, _, _, _)
+AND
+DB_Dead(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _, _, _, _)
+AND NOT
+DB_GlobalFlag(TWN_ArabellaPowers_State_StayedAtTown_58722b05-d7d2-5199-6ae1-937ae5b91b2b, _, _, _, _)
+THEN
+Resurrect(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+
+IF
+DB_GlobalFlag(HAV_TieflingSurvivors_Debug_Setup_ee73faa7-3b8e-907b-84fe-8ad4aaf6f364, _, _, _, _)
+THEN
+PROC_TWN_ArabellasPowers_Init();
+
+IF
+TextEvent("TWN_ArabellaPowers_ResetParentsReaction", _, _, _, _)
+THEN
+ClearFlag(TWN_ArabellasPowers_State_RecognisedParents_305b596e-fa8f-3c70-759d-47ce7648d074, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+IF
+TextEvent("TWN_ArabellaPowers_ResetParentsReaction", _, _, _, _)
+AND
+DB_TWN_ArabellaPowers_Parents(_, _Var2, _, _, _)
+THEN
+ClearFlag(_Var2, NULL_00000000-0000-0000-0000-000000000000, 0);
+
+PROC
+PROC_SpotPlayers_Spotted(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "TWN_ArabellasPowers_SpottedPlayer_Wave", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetFlag(TWN_ArabellaPowers_Event_SpottedPlayers_24f93cfe-7e12-4809-aa1c-2ce2a5c61a41, S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, 0);
+PROC_SpotPlayers_CleanupSpotting("TWN_ArabellasPowers_SpottedPlayer_Wave");
+
+PROC
+PROC_SpotPlayers_Spotted(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "TWN_ArabellasPowers_SpottedPlayer_Chat", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TWN_ArabellasPowers_FirstMetArabella", _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(TWN_ArabellasPowers_TownIntroduction_78c6743c-ff1d-386c-2205-209edaae1a06, S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _Var1, _Var1, _Var1)
+THEN
+PROC_SpotPlayers_StopSpotting(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "TWN_ArabellasPowers_SpottedPlayer_Chat");
+
+PROC
+PROC_SpotPlayers_Spotted(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "TWN_ArabellasPowers_SpottedPlayer_Chat", _, (CHARACTER)_, (CHARACTER)_)
+THEN
+PROC_SpotPlayers_CleanupSpotting("TWN_ArabellasPowers_SpottedPlayer_Chat");
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(TWN_ArabellasPowers_TownIntroduction_78c6743c-ff1d-386c-2205-209edaae1a06, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_TWN_ArabellasPowers_FirstEncounterShadows(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var1, _Var2);
+
+IF
+FlagSet(TWN_ArabellaPowers_Event_ShadowsTwisted_48a16669-dd92-adf4-0891-a6a73cbda346, _, _, _, _)
+AND
+DB_TWN_ArabellasPowers_FirstEncounterShadows(_Var3, _, _, _, _)
+AND
+GetPosition(_Var3, _Var4, _Var5, _Var6, _)
+THEN
+DebugText(_Var3, "TWN_ARABELLAPOWERS_ARABELLAVINES");
+ApplyStatus(_Var3, "TWN_ARABELLAPOWERS_ARABELLAVINES", -1, 1, S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+AppearAtPosition(_Var3, _Var4, _Var5, _Var6, 1, SHADOW_Rig_DFLT_CMBT_Initiative_01_325d7832-848b-8435-9d5b-4cabba822c48, "", 0);
+
+IF
+DialogEnded(TWN_ArabellasPowers_TownIntroduction_78c6743c-ff1d-386c-2205-209edaae1a06, _, _, _, _)
+AND NOT
+DB_GlobalFlag(TWN_ArabellaPowers_Event_ShadowsTwisted_48a16669-dd92-adf4-0891-a6a73cbda346, _, _, _, _)
+AND
+DB_TWN_ArabellasPowers_FirstEncounterShadows(_Var2, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_ArabellaPowers_Event_ShadowsTwisted_48a16669-dd92-adf4-0891-a6a73cbda346);
+UseSpell(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "Target_TWN_ArabellaPowers_ShadowEnsnare", _Var2);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(TWN_ArabellaPowers_State_MovedToCamp_b5f880bc-272e-e8a3-8ca1-b3dca3bce191, _, _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "Run", 1, "TWN_ArabellaPowers_RunToCamp");
+
+IF
+EntityEvent((CHARACTER)_Var1, "TWN_ArabellaPowers_RunToCamp", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_ORI_SetupCamp(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+PROC_RemoveAllDialogEntriesForSpeaker(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+DB_Dialogs(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, CAMP_ArabellaPowers_Arabella_d116229d-e77e-782b-1937-5271efa4e67e);
+DB_InCamp(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+
+PROC
+PROC_GlobalFlagReactionAfterDialog(TWN_ArabellaPowers_State_StayedAtTown_58722b05-d7d2-5199-6ae1-937ae5b91b2b, _, _, _, _)
+THEN
+PROC_DisappearOutOfSight(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "Run", 1, "TWN_ArabellaPowers_RunToTown");
+
+IF
+TextEvent("TWN_ArabellaPowers_RunToTown", _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_ArabellaPowers_State_StayedAtTown_58722b05-d7d2-5199-6ae1-937ae5b91b2b);
+PROC_DisappearOutOfSight(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, "Run", 1, "TWN_ArabellaPowers_RunToTown");
+
+IF
+LongRestFinished()
+AND
+DB_GlobalFlag(TWN_ArabellaPowers_State_StayedAtTown_58722b05-d7d2-5199-6ae1-937ae5b91b2b, _, _, _, _)
+AND
+QRY_OnlyOnce("TWN_Arabella_AppearInTownDead", _, _, _, _)
+THEN
+PROC_ArabellaDiesInTown();
+
+IF
+DB_InRegion(_Var1, S_SHA_NightsongPrison_SUB_0a302268-dd92-4462-99e5-ca7491815ec0, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(TWN_ArabellaPowers_State_StayedAtTown_58722b05-d7d2-5199-6ae1-937ae5b91b2b, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("TWN_Arabella_AppearInTownDead", _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_ArabellaDiesInTown();
+
+PROC
+PROC_ArabellaDiesInTown()
+THEN
+PROC_Children_RemoveNPC(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+SetOnStage(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, 1);
+TeleportTo(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, S_TWN_ArabellaPower_DeathPoint_aebe7414-4089-43a2-af5b-008cc81fff52);
+Die(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, 0, 1);
+
+PROC
+PROC_ArabellaDiesInTown()
+AND
+DB_TWN_ArabellasPowers_DeathShadows(_Var1, _, _Var1, _Var1, _Var1)
+THEN
+SetOnStage(_Var1, 1);
+ApplyStatus(_Var1, "TWN_ARABELLAPOWERS_ARABELLAVINES", -1, 1, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_ArabellaDiesInTown()
+AND
+DB_TWN_ArabellasPowers_DeathShadows(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+Die(_Var1, 0, 1);
+
+IF
+CharacterLootedCharacter((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_TWN_ArabellaPowers_Parents(_Var2, _Var3, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(TWN_ArabellasPowers_State_RecognisedParents_305b596e-fa8f-3c70-759d-47ce7648d074, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GlobalSetFlagAndCache(_Var3);
+PROC_GlobalSetFlagAndCache(TWN_ArabellasPowers_State_RecognisedParents_305b596e-fa8f-3c70-759d-47ce7648d074);
+PROC_TryStartAD(TWN_ArabellasPowers_PAD_FoundParents_8c8ae214-cddd-ca9c-1cf1-a8650100c7bb, _Var1);
+
+IF
+DB_GlobalFlag(TWN_ArabellasPowers_State_RecognisedParents_305b596e-fa8f-3c70-759d-47ce7648d074, _, _, _, _)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_ArabellasPowers_State_ParentsFoundDead_e3077a60-12dd-fe83-bc56-f646091d4029);
+
+IF
+DialogStarted(TWN_ArabellasPowers_ParentA_Dead_b13f2f9b-14ef-5f12-d67b-595cdaa913cb, _, (INTEGER)_, (INTEGER)_, (INTEGER)_)
+THEN
+PROC_GlobalSetFlagAndCache(TWN_ArabellasPowers_State_ParentsFoundDead_e3077a60-12dd-fe83-bc56-f646091d4029);
+
+IF
+FlagSet(TWN_ArabellasPowers_State_ParentsFoundDead_e3077a60-12dd-fe83-bc56-f646091d4029, _, _, _, _)
+AND
+QuestUpdateIsUnlocked(NULL_00000000-0000-0000-0000-000000000000, "TWN_FindArabellasParents", "ArabellaStart", 1, _)
+THEN
+QuestUpdate("TWN_FindArabellasParents", "FoundBodies");
+
+IF
+FlagSet(TWN_ArabellaPowers_State_StayedAtTown_58722b05-d7d2-5199-6ae1-937ae5b91b2b, _, _, _, _)
+AND
+DB_GlobalFlag(TWN_ArabellasPowers_State_ParentsFoundDead_e3077a60-12dd-fe83-bc56-f646091d4029, _, _, _, _)
+AND
+DB_GlobalFlag(TWN_ArabellaPowers_Event_ShadowsAppear_7347d8cb-34a7-63b8-b780-2075ae5d0965, _, _, _, _)
+THEN
+QuestUpdate("TWN_FindArabellasParents", "ArabellaStartFakeStart");
+QuestUpdate("TWN_FindArabellasParents", "ArabellaRanAway");
+
+IF
+FlagSet(TWN_ArabellasPowers_State_ToldParentsDead_cc1a3765-9334-cb88-602f-49ca052de39c, _, _, _, _)
+AND
+DB_InCamp(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _, _, _, _)
+THEN
+QuestUpdate("TWN_FindArabellasParents", "CheckOnArabella");
+
+PROC
+PROC_TWN_ArabellasPowers_PreInit()
+AND NOT
+DB_PermaDefeated(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _, _, _, _)
+THEN
+PROC_CRIME_DisableDangerousShapeshiftReactions(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+
+IF
+EntityEvent(_, "TWN_ArabellaPowers_RunToCamp", (GUIDSTRING)_, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+PROC_CRIME_EnableDangerousShapeshiftReactions(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Levels_RemoveArabellaFromCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_InCamp(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_InCamp(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+
+IF
+LevelLoaded((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_GLO_Levels_RemoveArabellaFromCamp(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CampLevelSwap_WasInCamp(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_CampLevelSwap_WasInCamp(S_DEN_SnakeKid_02257c1c-bbec-4ae3-9bcb-31c75a0a982f);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act2"

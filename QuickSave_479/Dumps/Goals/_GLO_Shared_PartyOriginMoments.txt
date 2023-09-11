@@ -1,0 +1,158 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_StartPartyOriginMoment((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_StartPartyOriginMoment(_Var1, _Var2, _Var2, _Var2, _Var2);
+
+PROC
+PROC_StartPartyOriginMoment((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (DIALOGRESOURCE)_Var3, (DIALOGRESOURCE)_Var4, (DIALOGRESOURCE)_Var5)
+THEN
+DB_OriginDialog(_Var1, _Var2);
+DB_OriginDialog(_Var1, _Var3);
+DB_OriginDialog(_Var1, _Var4);
+DB_OriginDialog(_Var1, _Var5);
+PROC_StartPartyOriginMoment_ACM(_Var1, _Var2);
+PROC_StartPartyOriginMoment_AOM(_Var1, _Var3);
+PROC_StartPartyOriginMoment_COM(_Var1, _Var4);
+PROC_StartPartyOriginMoment_OOM(_Var1, _Var5);
+
+PROC
+PROC_StartPartyOriginMoment_ACM((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+_Var2 != NULL_00000000-0000-0000-0000-000000000000
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_POM_FindNearestCompanion(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_POM_FindNearestCompanion(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, _Var1, _Var3, _Var1, _Var1)
+THEN
+SetFlag(ACM_c7125760-be83-711a-f842-c57da678c74d, _Var1, 0);
+DB_OM_Type_Flag(NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, ACM_c7125760-be83-711a-f842-c57da678c74d);
+
+PROC
+PROC_StartPartyOriginMoment_AOM((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OM_Type_Flag(_, _Var2, _Var1, _, _Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, _Var1, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+SetFlag(AOM_794d7d9a-4e15-849c-7c0d-6e6cdb67cdcb, _Var1, 0);
+DB_OM_Type_Flag(NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, AOM_794d7d9a-4e15-849c-7c0d-6e6cdb67cdcb);
+
+PROC
+PROC_StartPartyOriginMoment_COM((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OM_Type_Flag(_, _Var2, _Var1, _, _Var1)
+AND
+QRY_GetBestAvatarForCompanion(_Var1, 1, 1, _Var1, _Var1)
+AND
+DB_QRYRTN_GetBestAvatarForCompanion(_Var1, _Var5, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, _Var1, _Var5, _Var1, _Var1)
+THEN
+SetFlag(COM_7075ec1a-70ad-bd25-3111-0a955cf07585, _Var1, 0);
+DB_OM_Type_Flag(NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, COM_7075ec1a-70ad-bd25-3111-0a955cf07585);
+
+PROC
+PROC_StartPartyOriginMoment_OOM((CHARACTER)_Var1, (DIALOGRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_OM_Type_Flag(_, _Var2, _Var1, _, _Var1)
+AND NOT
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog_Fixed(_Var2, _Var1, NULL_00000000-0000-0000-0000-000000000000, _Var1, _Var1)
+THEN
+SetFlag(OOM_018ab052-38df-6d2c-117f-8d7c1e56b061, _Var1, 0);
+DB_OM_Type_Flag(NULL_00000000-0000-0000-0000-000000000000, _Var2, _Var1, OOM_018ab052-38df-6d2c-117f-8d7c1e56b061);
+
+QRY
+QRY_POM_FindNearestCompanion((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_POM_FindNearestCompanion(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_POM_FindNearestCompanion(_Var2);
+
+QRY
+QRY_POM_FindNearestCompanion((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_ORI_Partnered(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+QRY_SameUser(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var2, _Var1, 0, 1, _Var1)
+AND NOT
+DB_QRYRTN_POM_FindNearestCompanion(_, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_QRYRTN_POM_FindNearestCompanion(_Var2);
+
+QRY
+QRY_POM_FindNearestCompanion((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_POM_FindNearestCompanion(_, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_ORI_Dating(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var3, _Var1, _Var4, _Var1, _Var1)
+AND
+QRY_SameUser(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var3, _Var1, 0, 1, _Var1)
+THEN
+DB_QRYRTN_POM_FindNearestCompanion_Candidate(_Var3, _Var4);
+
+QRY
+QRY_POM_FindNearestCompanion((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_QRYRTN_POM_FindNearestCompanion(_, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_QRYRTN_POM_FindNearestCompanion_Candidate(_, _, _Var1, _Var1, _Var1)
+AND
+DB_ApprovalRating(_Var5, _Var1, _Var6, _Var1, _Var1)
+AND
+QRY_SameUser(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsAvailableAndInDialogRange(_Var5, _Var1, 0, 1, _Var1)
+THEN
+DB_QRYRTN_POM_FindNearestCompanion_Candidate(_Var5, _Var6);
+
+IF
+DB_QRYRTN_POM_FindNearestCompanion_Candidate(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_POM_FindNearestCompanion_Candidate(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var1 != _Var3
+AND
+_Var4 <= _Var2
+THEN
+NOT DB_QRYRTN_POM_FindNearestCompanion_Candidate(_Var3, _Var4);
+
+QRY
+QRY_POM_FindNearestCompanion((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_QRYRTN_POM_FindNearestCompanion_Candidate(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_POM_FindNearestCompanion_Candidate(_Var2, _Var3);
+DB_QRYRTN_POM_FindNearestCompanion(_Var2);
+
+
+EXITSECTION
+ENDEXITSECTION
+

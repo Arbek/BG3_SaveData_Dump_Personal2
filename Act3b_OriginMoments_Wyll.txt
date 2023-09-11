@@ -1,0 +1,316 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+PROC_DefineSingleOriginMoment(IRN_IronThrone_Return_09c71cbf-c72c-d810-3bba-c1b9fc81770e, REALLY_WYLL_5f40def5-d3ec-4698-a367-01a339888956, IRN_IronThrone_ReturnRavengard_OM_Wyll_AOM_OOM_098efda3-4db1-0643-a8dd-2138ffc2f9ff, IRN_IronThrone_ReturnRavengard_OM_Wyll_COM_7a6ef705-6264-d7d9-b461-b4366e7df226, IRN_IronThrone_ReturnRavengard_OM_Wyll_AOM_OOM_098efda3-4db1-0643-a8dd-2138ffc2f9ff);
+DB_LOW_FlorrickConfrontation_Dialogs(LOW_FlorrickFight_DialogHook_1b22ba4a-2459-3451-3fef-194af83f8387);
+DB_LOW_FlorrickConfrontation_Dialogs(LOW_FlorrickFight_OM_Wyll_AOM_COM_OOM_d0e62bca-6ad7-bfb0-fbea-ace7d275a7de);
+DB_LOW_FlorrickConfrontation_Dialogs(LOW_FlorrickFight_OM_Wyll_AOM_OOM_7e9ba58e-632a-6e4e-b7d0-4dac7a842c9e);
+DB_LOW_FlorrickConfrontation_Dialogs(LOW_FlorrickFightFallback_OM_Wyll_dfd8fab6-e0b2-bc4e-903b-f8f639b6244f);
+DB_LOW_FlorrickConfrontation_Dialogs(LOW_FlorrickFightFallback_OM_Wyll_AOM_OOM_17675941-1973-eda5-4c13-7db91f4629a4);
+DB_LOW_FlorrickConfrontation_Dialogs(LOW_FlorrickFightFallback_WithoutWyll_a64ba25d-2c12-7502-38eb-f4a75d6a28d7);
+DB_LOW_FlorrickConfrontation_Zones("Gate", S_LOW_FlorrickConfrontationZone_Gate_46867c84-c45b-4fc7-b75b-f6247b241456);
+DB_LOW_FlorrickConfrontation_Zones("Sundries", S_LOW_FlorrickConfrontationZone_Sundries_8da421cb-0f96-4210-ab9e-8814e0c188e6);
+DB_LOW_FlorrickConfrontation_Zones("Wall", S_LOW_FlorrickConfrontationZone_Wall_7f760fc3-9ce5-4bf7-b929-15234de09278);
+DB_LOW_FlorrickConfrontation_Zones("Park", S_LOW_FlorrickConfrontationZone_Park_6fc901be-335b-4d33-91dd-7c1110b85fba);
+DB_LOW_FlorrickConfrontation_Zones("Blushing", S_LOW_FlorrickConfrontationZone_Blushing_370c1ed2-3793-4b27-90e0-4543ffd2add3);
+SetOnStage(S_LOW_FlorrickConfrontation_FallbackChar_6f74d6fd-6b13-4ccb-bd72-9b466856576e, 0);
+SetOnStage(S_LOW_FlorrickConfrontation_Goon01_ea783113-2d9e-48df-a40a-80a346f46cb4, 0);
+SetOnStage(S_LOW_FlorrickConfrontation_Goon02_6d0c04b2-81d4-4d34-96d5-d5304dc889e8, 0);
+DB_DefeatedEvent(S_LOW_FlorrickConfrontation_Fallback_6f74d6fd-6b13-4ccb-bd72-9b466856576e, LOW_FlorrickFighFallback_State_EltanDefeated_23009487-3277-46ca-b376-d2c998c5ef2f);
+
+KBSECTION
+IF
+DB_LevelLoadedOnce("CTY_Main_A", _, _, _, _)
+AND
+DB_CTY_ForrickConfrontationSetupDone(2, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_Ravengard_State_Defeated_7bb624ef-09cb-4e55-b035-832c05427a61, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_WyrmRockPrison_State_FlorrickEscaped_a84a5b16-ca29-43c3-91bf-17def670ba07, _, _, _, _)
+AND
+DB_GlobalFlag(CAMP_MizorasPact_Event_PactScene_022d6a0a-15fe-09b2-2897-268d9a34a381, _, _, _, _)
+AND
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+PROC_ClearOriginMoment(LOW_FlorrickFightFallback_OM_Wyll_dfd8fab6-e0b2-bc4e-903b-f8f639b6244f);
+PROC_LOW_FlorrickConfrontation_Cleanup(1);
+NOT DB_CTY_ForrickConfrontationSetupDone(2);
+
+IF
+DB_LevelLoadedOnce("CTY_Main_A", _, _, _, _)
+AND NOT
+DB_CTY_ForrickConfrontationSetupDone(1, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_Ravengard_State_Defeated_7bb624ef-09cb-4e55-b035-832c05427a61, _, _, _, _)
+AND
+DB_GlobalFlag(WYR_WyrmRockPrison_State_FlorrickEscaped_a84a5b16-ca29-43c3-91bf-17def670ba07, _, _, _, _)
+AND
+DB_GlobalFlag(CAMP_MizorasPact_Event_PactScene_022d6a0a-15fe-09b2-2897-268d9a34a381, _, _, _, _)
+AND
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+ToInventory(S_GLO_AnsurGhost_LegendOfAnsurBook_b0ecc3d5-85ad-48fa-bc47-988107507e6c, S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, 1, 0, 1);
+Transform(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_GLO_Desire_Hooded_d8ccafbc-7d82-48ff-9bec-fa63fe2dec04, Physical_4acc6277-6dcd-4110-9450-b9379beaedac);
+PROC_DefineSingleOriginMoment(LOW_FlorrickFight_DialogHook_1b22ba4a-2459-3451-3fef-194af83f8387, WYLL_facf82dc-a6e1-4720-a0bd-6efde960dc5f, LOW_FlorrickFight_OM_Wyll_AOM_OOM_7e9ba58e-632a-6e4e-b7d0-4dac7a842c9e, LOW_FlorrickFight_OM_Wyll_AOM_COM_OOM_d0e62bca-6ad7-bfb0-fbea-ace7d275a7de, LOW_FlorrickFight_OM_Wyll_AOM_OOM_7e9ba58e-632a-6e4e-b7d0-4dac7a842c9e);
+DB_OriginMoment_MaxDistance(LOW_FlorickFight_OM_Wyll_AOM_COM_OOM_d0e62bca-6ad7-bfb0-fbea-ace7d275a7de, 100);
+DB_OriginMoment_MaxDistance(LOW_FlorrickFight_OM_Wyll_AOM_OOM_7e9ba58e-632a-6e4e-b7d0-4dac7a842c9e, 100);
+DB_CTY_ForrickConfrontationSetupDone(1);
+
+IF
+DB_LevelLoadedOnce("CTY_Main_A", _, _, _, _)
+AND NOT
+DB_CTY_ForrickConfrontationSetupDone(_, _, _, _, _)
+AND
+DB_GlobalFlag(GLO_Ravengard_State_Defeated_7bb624ef-09cb-4e55-b035-832c05427a61, _, _, _, _)
+AND NOT
+DB_GlobalFlag(WYR_WyrmRockPrison_State_FlorrickEscaped_a84a5b16-ca29-43c3-91bf-17def670ba07, _, _, _, _)
+AND
+DB_GlobalFlag(CAMP_MizorasPact_Event_PactScene_022d6a0a-15fe-09b2-2897-268d9a34a381, _, _, _, _)
+AND
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _, _, _, _)
+THEN
+ToInventory(S_GLO_AnsurGhost_LegendOfAnsurBook_b0ecc3d5-85ad-48fa-bc47-988107507e6c, S_LOW_FlorrickConfrontation_FallbackChar_6f74d6fd-6b13-4ccb-bd72-9b466856576e, 1, 0, 1);
+PROC_DefineSingleOriginMoment(LOW_FlorrickFightFallback_WithoutWyll_a64ba25d-2c12-7502-38eb-f4a75d6a28d7, WYLL_facf82dc-a6e1-4720-a0bd-6efde960dc5f, LOW_FlorrickFightFallback_OM_Wyll_AOM_OOM_17675941-1973-eda5-4c13-7db91f4629a4, LOW_FlorrickFightFallback_OM_Wyll_dfd8fab6-e0b2-bc4e-903b-f8f639b6244f, LOW_FlorrickFightFallback_OM_Wyll_AOM_OOM_17675941-1973-eda5-4c13-7db91f4629a4);
+DB_OriginMoment_MaxDistance(LOW_FlorrickFightFallback_OM_Wyll_dfd8fab6-e0b2-bc4e-903b-f8f639b6244f, 100);
+DB_OriginMoment_MaxDistance(LOW_FlorrickFightFallback_OM_Wyll_AOM_OOM_17675941-1973-eda5-4c13-7db91f4629a4, 100);
+DB_CTY_ForrickConfrontationSetupDone(2);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_FlorrickFight_OM_Wyll_AOM_COM_OOM_d0e62bca-6ad7-bfb0-fbea-ace7d275a7de, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_FlorrickFight_OM_Wyll_AOM_OOM_7e9ba58e-632a-6e4e-b7d0-4dac7a842c9e, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_FlorrickFightFallback_OM_Wyll_dfd8fab6-e0b2-bc4e-903b-f8f639b6244f, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(LOW_FlorrickFightFallback_OM_Wyll_AOM_OOM_17675941-1973-eda5-4c13-7db91f4629a4, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+IF
+DB_CTY_ForrickConfrontationSetupDone(_, _, _, _, _)
+THEN
+DB_LOW_FlorrickConfrontation_CharPositions("Gate", S_LOW_FlorrickConfrontation_Goon01_ea783113-2d9e-48df-a40a-80a346f46cb4, S_LOW_FlorrickConfrontationPoint_Goon01_Gate_8ad5f2ab-ff1f-48e9-a8f9-4e6c4f8e0bdb);
+DB_LOW_FlorrickConfrontation_CharPositions("Gate", S_LOW_FlorrickConfrontation_Goon02_6d0c04b2-81d4-4d34-96d5-d5304dc889e8, S_LOW_FlorrickConfrontationPoint_Goon02_Gate_119af63a-4bf0-414f-94d4-f642a1f1fe5e);
+DB_LOW_FlorrickConfrontation_CharPositions("Sundries", S_LOW_FlorrickConfrontation_Goon01_ea783113-2d9e-48df-a40a-80a346f46cb4, S_LOW_FlorrickConfrontationPoint_Goon01_Sundries_e8731184-ded4-40ef-8280-9649198998a9);
+DB_LOW_FlorrickConfrontation_CharPositions("Sundries", S_LOW_FlorrickConfrontation_Goon02_6d0c04b2-81d4-4d34-96d5-d5304dc889e8, S_LOW_FlorrickConfrontationPoint_Goon02_Sundries_3d7fadf5-ad2a-48d3-ab92-5c9c8b6337fd);
+DB_LOW_FlorrickConfrontation_CharPositions("Wall", S_LOW_FlorrickConfrontation_Goon01_ea783113-2d9e-48df-a40a-80a346f46cb4, S_LOW_FlorrickConfrontationPoint_Goon01_Wall_81f18fcb-2216-409c-8f93-58381f2226c1);
+DB_LOW_FlorrickConfrontation_CharPositions("Wall", S_LOW_FlorrickConfrontation_Goon02_6d0c04b2-81d4-4d34-96d5-d5304dc889e8, S_LOW_FlorrickConfrontationPoint_Goon02_Wall_68b607be-a477-4169-9016-55bc21d2447e);
+DB_LOW_FlorrickConfrontation_CharPositions("Park", S_LOW_FlorrickConfrontation_Goon01_ea783113-2d9e-48df-a40a-80a346f46cb4, S_LOW_FlorrickConfrontationPoint_Goon01_Park_84abc032-c44b-44e0-b92e-d6e1ebd6f74f);
+DB_LOW_FlorrickConfrontation_CharPositions("Park", S_LOW_FlorrickConfrontation_Goon02_6d0c04b2-81d4-4d34-96d5-d5304dc889e8, S_LOW_FlorrickConfrontationPoint_Goon02_Park_dcb3edf6-6414-40b9-869d-01f2be5b56e8);
+DB_LOW_FlorrickConfrontation_CharPositions("Blushing", S_LOW_FlorrickConfrontation_Goon01_ea783113-2d9e-48df-a40a-80a346f46cb4, S_LOW_FlorrickConfrontationPoint_Goon01_Blushing_6df4c3a3-bb6f-4673-83a8-87cb21c2358b);
+DB_LOW_FlorrickConfrontation_CharPositions("Blushing", S_LOW_FlorrickConfrontation_Goon02_6d0c04b2-81d4-4d34-96d5-d5304dc889e8, S_LOW_FlorrickConfrontationPoint_Goon02_Blushing_1432efb3-a9f6-4eee-aff2-db8124de95fa);
+
+IF
+DB_CTY_ForrickConfrontationSetupDone(1, _, _, _, _)
+THEN
+DB_LOW_FlorrickConfrontation_CharPositions("Gate", S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_LOW_FlorrickConfrontationPoint_Gate_45bf71a4-18a1-4d47-ae56-38209a627be3);
+DB_LOW_FlorrickConfrontation_CharPositions("Sundries", S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_LOW_FlorrickConfrontationPoint_Sundries_2a6a5aca-391e-4648-9225-0e901aeadb4a);
+DB_LOW_FlorrickConfrontation_CharPositions("Wall", S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_LOW_FlorrickConfrontationPoint_Wall_5d326a55-7b4e-4228-957e-06513f1fffc8);
+DB_LOW_FlorrickConfrontation_CharPositions("Park", S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_LOW_FlorrickConfrontationPoint_Park_c2fa6a94-b82b-4b84-8f83-60c507a3330b);
+DB_LOW_FlorrickConfrontation_CharPositions("Blushing", S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, S_LOW_FlorrickConfrontationPoint_Blushing_b3e08bbc-c0e2-49d0-8d14-a4263d6f04e6);
+
+IF
+DB_CTY_ForrickConfrontationSetupDone(2, _, _, _, _)
+THEN
+DB_LOW_FlorrickConfrontation_CharPositions("Gate", S_LOW_FlorrickConfrontation_Fallback_6f74d6fd-6b13-4ccb-bd72-9b466856576e, S_LOW_FlorrickConfrontationPoint_Gate_45bf71a4-18a1-4d47-ae56-38209a627be3);
+DB_LOW_FlorrickConfrontation_CharPositions("Sundries", S_LOW_FlorrickConfrontation_Fallback_6f74d6fd-6b13-4ccb-bd72-9b466856576e, S_LOW_FlorrickConfrontationPoint_Sundries_2a6a5aca-391e-4648-9225-0e901aeadb4a);
+DB_LOW_FlorrickConfrontation_CharPositions("Wall", S_LOW_FlorrickConfrontation_Fallback_6f74d6fd-6b13-4ccb-bd72-9b466856576e, S_LOW_FlorrickConfrontationPoint_Wall_5d326a55-7b4e-4228-957e-06513f1fffc8);
+DB_LOW_FlorrickConfrontation_CharPositions("Park", S_LOW_FlorrickConfrontation_Fallback_6f74d6fd-6b13-4ccb-bd72-9b466856576e, S_LOW_FlorrickConfrontationPoint_Park_c2fa6a94-b82b-4b84-8f83-60c507a3330b);
+DB_LOW_FlorrickConfrontation_CharPositions("Blushing", S_LOW_FlorrickConfrontation_Fallback_6f74d6fd-6b13-4ccb-bd72-9b466856576e, S_LOW_FlorrickConfrontationPoint_Blushing_b3e08bbc-c0e2-49d0-8d14-a4263d6f04e6);
+
+IF
+DB_CTY_ForrickConfrontationSetupDone(_, _, _, _, _)
+AND
+DB_LOW_FlorrickConfrontation_Zones(_, _Var3, _, _, _)
+THEN
+PROC_TriggerRegisterForPlayers(_Var3);
+
+IF
+EnteredTrigger((CHARACTER)_Var1, (TRIGGER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_FlorrickConfrontation_Zones(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartOfTheTeam(S_Player_Wyll_c774d764-4a17-48dc-b470-32ace9ce447d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LOW_FlorrickConfrontation_SetupAmbush(_Var3);
+
+PROC
+PROC_LOW_FlorrickConfrontation_SetupAmbush((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LOW_FlorrickConfrontation_Zones(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForPlayers(_Var2);
+PROC_LOW_FlorrickConfrontation_SetChars(_Var1);
+PROC_LOW_FlorrickConfrontation_Cleanup();
+
+PROC
+PROC_LOW_FlorrickConfrontation_SetChars((STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1, (STRING)_Var1)
+AND
+DB_LOW_FlorrickConfrontation_CharPositions(_Var1, _Var2, _Var3, _Var1, _Var1)
+THEN
+PurgeOsirisQueue(_Var2);
+SetEntityEvent(_Var2, "ClearPeaceReturn");
+SetFaction(_Var2, ACT3_LOW_FlorrickGoons_3ea93658-ee6a-436f-986c-36822286f4db);
+SetOnStage(_Var2, 1);
+TeleportTo(_Var2, _Var3, "LOW_FlorrickConfrontation_Teleported");
+DB_LOW_FlorrickConfrontation_Characters(_Var2);
+
+PROC
+PROC_LOW_FlorrickConfrontation_Cleanup()
+THEN
+PROC_LOW_FlorrickConfrontation_Cleanup(1);
+
+PROC
+PROC_LOW_FlorrickConfrontation_Cleanup()
+AND
+DB_LOW_FlorrickConfrontation_Zones(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_FlorrickConfrontation_Zones(_Var1, _Var2);
+
+PROC
+PROC_LOW_FlorrickConfrontation_Cleanup((INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_LOW_FlorrickConfrontation_CharPositions(_Var2, _Var3, _Var4, _Var1, _Var1)
+THEN
+NOT DB_LOW_FlorrickConfrontation_CharPositions(_Var2, _Var3, _Var4);
+
+IF
+EntityEvent(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, "LOW_FlorrickConfrontation_Teleported", _, _, _)
+THEN
+DB_SpotPlayers(S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, "LOW_FlorrickConfrontation_Spotting", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+IF
+EntityEvent(S_LOW_FlorrickConfrontation_FallbackChar_6f74d6fd-6b13-4ccb-bd72-9b466856576e, "LOW_FlorrickConfrontation_Teleported", _, _, _)
+THEN
+DB_SpotPlayers(S_LOW_FlorrickConfrontation_FallbackChar_6f74d6fd-6b13-4ccb-bd72-9b466856576e, "LOW_FlorrickConfrontation_Spotting", NULL_00000000-0000-0000-0000-000000000000, NULL_00000000-0000-0000-0000-000000000000);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "LOW_FlorrickConfrontation_Spotting", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(LOW_FlorrickFight_DialogHook_1b22ba4a-2459-3451-3fef-194af83f8387, S_GLO_Desire_8b9fa503-7205-4ddd-bdfa-bfaa781d9ea9, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_SpotPlayers_Spotted((CHARACTER)_Var1, "LOW_FlorrickConfrontation_Spotting", (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_StartDialog(LOW_FlorrickFightFallback_WithoutWyll_a64ba25d-2c12-7502-38eb-f4a75d6a28d7, S_LOW_FlorrickConfrontation_FallbackChar_6f74d6fd-6b13-4ccb-bd72-9b466856576e, _Var2, _Var1, _Var1)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_LOW_FlorrickConfrontation_Dialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddSpeakingActor(_Var2, S_LOW_FlorrickConfrontation_Goon01_ea783113-2d9e-48df-a40a-80a346f46cb4);
+PROC_DialogAddSpeakingActor(_Var2, S_LOW_FlorrickConfrontation_Goon02_6d0c04b2-81d4-4d34-96d5-d5304dc889e8);
+
+IF
+DB_Is_InCombat(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_LOW_FlorrickConfrontation_Characters(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_GlobalFlag(LOW_FlorrickFight_State_Hostile_b34101ae-27e0-dfbd-5d57-7ee968631f7d, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Is_InCombat(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_PartyMembers(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_IsEnemy(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_SetRelationToPlayers(ACT3_LOW_FlorrickGoons_3ea93658-ee6a-436f-986c-36822286f4db, 0);
+PROC_GlobalSetFlagAndCache(LOW_FlorrickFight_State_Hostile_b34101ae-27e0-dfbd-5d57-7ee968631f7d);
+
+IF
+DialogEnded((DIALOGRESOURCE)_Var1, (INTEGER)_Var2, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1, (DIALOGRESOURCE)_Var1)
+AND
+DB_LOW_FlorrickConfrontation_Dialogs(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GlobalFlag(LOW_FlorrickFight_Event_StoodDown_f625d9e3-b449-1248-6041-7d789e64277a, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_LOW_FlorrickConfrontation_Characters(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DisappearOutOfSight(_Var3, "Run", 0, "");
+NOT DB_LOW_FlorrickConfrontation_Characters(_Var3);
+
+QRY
+QRY_CorpseLooting_BlockMakeOwned((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_LOW_FlorrickConfrontation_Characters(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_LOW_FlorrickConfrontation_Characters(_Var1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(IRN_IronThrone_ReturnRavengard_OM_Wyll_AOM_OOM_098efda3-4db1-0643-a8dd-2138ffc2f9ff, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(IRN_IronThrone_ReturnRavengard_OM_Wyll_AOM_OOM_098efda3-4db1-0643-a8dd-2138ffc2f9ff, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+SetLevelStartingDialog(_Var1, 1);
+
+QRY
+QRY_OriginMoment_PreventRelaunchDialog(IRN_IronThrone_ReturnRavengard_OM_Wyll_COM_7a6ef705-6264-d7d9-b461-b4366e7df226, _, _, (GUIDSTRING)_, (GUIDSTRING)_)
+THEN
+DB_NOOP(1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(IRN_IronThrone_ReturnRavengard_OM_Wyll_COM_7a6ef705-6264-d7d9-b461-b4366e7df226, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+THEN
+SetLevelStartingDialog(_Var1, 1);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(IRN_IronThrone_ReturnRavengard_OM_Wyll_AOM_OOM_098efda3-4db1-0643-a8dd-2138ffc2f9ff, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var1, _Var2);
+
+PROC
+PROC_StartDialog_AddExtraSpeakers(IRN_IronThrone_ReturnRavengard_OM_Wyll_COM_7a6ef705-6264-d7d9-b461-b4366e7df226, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1, (INTEGER)_Var1)
+AND
+DB_Players(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Defeated(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_DialogAddListeningActor(_Var1, _Var2);
+
+PROC
+PROC_State_Changed(_, "IRN_IronThrone", "BackAtDocks", _, _)
+AND
+DB_GlobalFlag(IRN_Wyll_Event_MizoraAppearedToKillRavengard_3775e048-e7ec-48c2-a5cb-83acdd8c72dc, _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+
+PROC
+PROC_State_Changed(_, "IRN_IronThrone", "BackAtDocks", _, _)
+AND
+DB_GlobalFlag(IRN_Wyll_Event_MizoraAppearedToHelpRavengard_d0f84a78-d508-4194-b4f1-d663dbb10d8e, _, _, _, _)
+THEN
+PROC_SetOnStage(S_GLO_Wyll_Cambion_491a7686-3081-405b-983c-289ec8781e0a, 1);
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Act3b"

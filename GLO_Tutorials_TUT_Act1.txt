@@ -1,0 +1,77 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+DB_GLO_Tutorials_AdvancedMovement_StartStopTriggerPairs(S_Tutorials_AdvancedMovement_04_5fb37b1f-42bd-4129-a8f8-69810ff20477, S_Tutorials_AdvancedMovement_04_Stop_e18749ca-88c9-4b15-b097-7318fb0bb6e8);
+DB_GLO_Tutorials_AdvancedMovement_StartStopTriggerPairs(S_Tutorials_AdvancedMovement_05_2207c116-7859-44b1-a4c4-f762ac91278f, S_Tutorials_AdvancedMovement_05_Stop_d987351d-0d36-4813-adca-f313c9f129b0);
+
+KBSECTION
+IF
+DB_GLO_Tutorials_AdvancedMovement_StartStopTriggerPairs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerRegisterForParty(_Var1);
+PROC_TriggerRegisterForParty(_Var2);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_AdvancedMovement_Triggers(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Advanced_Movement_dba0f73a-b17c-486d-a84c-1df5c8e12387);
+
+IF
+DB_InRegion(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_AdvancedMovement_StartStopTriggerPairs(_Var2, _, _Var1, _Var1, _Var1)
+AND NOT
+DB_Is_InCombat(_Var1, _, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+PROC_ShowUnifiedTutorialForPlayer(_Var1, Advanced_Movement_dba0f73a-b17c-486d-a84c-1df5c8e12387);
+
+IF
+LeftTrigger((GUIDSTRING)_Var1, (GUIDSTRING)_Var2, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1, (GUIDSTRING)_Var1)
+AND
+DB_GLO_Tutorials_AdvancedMovement_StartStopTriggerPairs(_, _Var2, _Var1, _Var1, _Var1)
+AND
+IsControlled(_Var1, 1, _Var1, _Var1, _Var1)
+THEN
+HideTutorial(_Var1, Advanced_Movement_dba0f73a-b17c-486d-a84c-1df5c8e12387);
+
+IF
+TutorialEvent((CHARACTER)_Var1, UserAction_CameraTargetMode_Activated_f4d715ca-7b0f-4598-acf2-81d7aa0744f0, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+HideTutorial(_Var1, Advanced_Movement_dba0f73a-b17c-486d-a84c-1df5c8e12387);
+
+IF
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_AdvancedMovement_StartStopTriggerPairs(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForParty(_Var1);
+PROC_TriggerUnregisterForParty(_Var2);
+NOT DB_GLO_Tutorials_AdvancedMovement_StartStopTriggerPairs(_Var1, _Var2);
+
+IF
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GLO_Tutorials_AdvancedMovement_Triggers(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_TriggerUnregisterForParty(_Var1);
+NOT DB_GLO_Tutorials_AdvancedMovement_Triggers(_Var1);
+
+IF
+DB_GlobalFlag(Act2_PointOfNoReturnReached_a3155f30-b8f3-4db5-ac21-d3036f4426e3, _, _, _, _)
+THEN
+GoalCompleted;
+
+
+EXITSECTION
+ENDEXITSECTION
+
+ParentTargetEdge "Tutorial"

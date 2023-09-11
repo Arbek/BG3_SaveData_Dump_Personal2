@@ -1,0 +1,288 @@
+Version 1
+SubGoalCombiner SGC_AND
+
+INITSECTION
+
+KBSECTION
+PROC
+PROC_GroupDiscussion_InstantStart((CHARACTER)_Var1, (VOICEBARKRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GroupDiscussion_HasPlayed(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+StartInteractiveVoiceBark(_Var2, _Var1);
+DB_GroupDiscussion_Attempt(_Var2);
+
+IF
+VoiceBarkStarted((VOICEBARKRESOURCE)_Var1, (INTEGER)_Var2, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Attempt(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GroupDiscussion_HasPlayed(_Var1);
+
+IF
+VoiceBarkStarted((VOICEBARKRESOURCE)_Var1, (INTEGER)_Var2, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Attempt(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+DB_GroupDiscussion_Instance(_Var1, _Var2);
+
+IF
+DialogEnded(_, (INTEGER)_Var2, _, _, _)
+AND
+DB_GroupDiscussion_Instance(_Var3, _Var2, _, _, _)
+THEN
+NOT DB_GroupDiscussion_Instance(_Var3, _Var2);
+
+IF
+DB_GroupDiscussion_Instance(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogName(_Var3, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_DialogPlayers(_Var2, _Var4, _, _Var1, _Var1)
+THEN
+DB_OriginDialog(_Var4, _Var3);
+
+PROC
+PROC_GroupDiscussion_DelayedStart((CHARACTER)_Var1, (VOICEBARKRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GroupDiscussion_Potential(_Var3, _Var1, _Var1, _Var1, _Var1)
+THEN
+NOT DB_GroupDiscussion_Potential(_Var3);
+
+PROC
+PROC_GroupDiscussion_DelayedStart((CHARACTER)_Var1, (VOICEBARKRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GroupDiscussion_HasPlayed(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Players(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_CantTalk_IgnoreStatusesCombat(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_HandlingRelationshipDialog(_Var3, _, _, _, _, _, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_PartyDialogSuppressed(_Var3, _, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+QRY_SpeakerIsInDialogRange(_Var1, _Var3, _Var1, _Var1, _Var1)
+THEN
+DB_GroupDiscussion_Potential(_Var3);
+
+PROC
+PROC_GroupDiscussion_DelayedStart((CHARACTER)_Var1, (VOICEBARKRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_OnlyOnce_Reset("PROC_GroupDiscussion_DelayedStart_FoundAvatar", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GroupDiscussion_Potential(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var3, _Var1, _Var1, _Var1, _Var1)
+AND
+QRY_OnlyOnce("PROC_GroupDiscussion_DelayedStart_FoundAvatar", _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GroupDiscussion_Potential(_Var4, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Avatars(_Var4, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_LoopEffect(EFFECTRESOURCEGUID_VFX_UI_ExclamationMark_01_a3018cf0-3a25-06ee-206a-3dd079332d80, _Var4, "RelationshipMarker", "__ANY__", "Dummy_OverheadFX");
+DB_GroupDiscussion_Queued(_Var4, _Var2);
+PROC_GroupDiscussion_StartTracking(_Var4, _Var2);
+
+IF
+DB_GroupDiscussion_Queued(_Var1, _Var2, _Var1, _Var1, _Var1)
+AND
+DB_GroupDiscussion_Queued(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+_Var2 != _Var3
+THEN
+PROC_GroupDiscussion_Cancel(_Var3);
+
+PROC
+PROC_GroupDiscussion_StartTracking((CHARACTER)_Var1, (VOICEBARKRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND NOT
+DB_GroupDiscussion_Anchor(_Var1, _Var2, _, _, _)
+AND
+GetPosition(_Var1, _Var6, _Var7, _Var8, _Var1)
+THEN
+DB_GroupDiscussion_Anchor(_Var1, _Var2, _Var6, _Var7, _Var8);
+ObjectTimerLaunch(_Var1, "GroupDiscussionDistanceCheck", 3000);
+
+IF
+ObjectTimerFinished((CHARACTER)_Var1, "GroupDiscussionDistanceCheck", (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GroupDiscussion_Anchor(_Var1, _Var2, _Var3, _Var4, _Var5)
+THEN
+PROC_GroupDiscussion_CheckValidity(_Var2);
+
+IF
+DB_CantTalk_IgnoreStatusesCombat(_Var1, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_GroupDiscussion_Queued(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_CheckValidity(_Var2);
+
+PROC
+PROC_PartyDialogSuppressed_Start((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_CheckValidity(_Var2);
+
+IF
+CharacterReservedUserIDChanged(_, _, _, _, _)
+AND
+DB_GroupDiscussion_Queued(_Var4, _Var5, _, _, _)
+THEN
+PROC_GroupDiscussion_CheckValidity(_Var5);
+
+IF
+Teleported((CHARACTER)_Var1, _, _, _, _, _, _, _, _, (CHARACTER)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var1, _Var10, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_CheckValidity(_Var10);
+
+PROC
+PROC_GroupDiscussion_CancelForPlayer((CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_CheckValidity(_Var2);
+
+PROC
+PROC_GroupDiscussion_CheckValidity((VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Anchor(_Var2, _Var1, _Var3, _Var4, _Var5)
+AND
+QRY_GroupDiscussion_CheckValidity_Individual(_Var1, _Var3, _Var4, _Var5, _Var1)
+AND NOT
+QRY_GroupDiscussion_CheckValidity_Group(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+ObjectTimerCancel(_Var2, "ExclamationDialogDistanceCheck");
+PROC_GroupDiscussion_Cancel(_Var1);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Individual((VOICEBARKRESOURCE)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+GetDistanceToPosition(_Var5, _Var2, _Var3, _Var4, _Var6)
+AND
+_Var6 > 30
+THEN
+PROC_GroupDiscussion_RestorePlayerAfterCancel(_Var5, _Var1);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Individual((VOICEBARKRESOURCE)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+DB_Players(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_RestorePlayerAfterCancel(_Var5, _Var1);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Individual((VOICEBARKRESOURCE)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_CantTalk_IgnoreStatusesCombat(_Var5, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_RestorePlayerAfterCancel(_Var5, _Var1);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Individual((VOICEBARKRESOURCE)_Var1, (REAL)_Var2, (REAL)_Var3, (REAL)_Var4, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var5, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_PartyDialogSuppressed(_Var5, _, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_RestorePlayerAfterCancel(_Var5, _Var1);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Group((CHARACTER)_Var1, (VOICEBARKRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+QRY_GroupDiscussion_CheckValidity_Group_CountPlayersAndAvatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+_Var3 > _Var4
+AND
+_Var4 >= 1
+THEN
+ObjectTimerCancel(_Var1, "ExclamationDialogDistanceCheck");
+ObjectTimerLaunch(_Var1, "ExclamationDialogDistanceCheck", 3000);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Group_CountPlayersAndAvatars((VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var2, _Var3, _Var1, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var2, _Var3);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Group_CountPlayersAndAvatars((VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+THEN
+DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(0, 0);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Group_CountPlayersAndAvatars((VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var3, 1, _Var5, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var3, _Var4);
+DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var5, _Var4);
+
+QRY
+QRY_GroupDiscussion_CheckValidity_Group_CountPlayersAndAvatars((VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND
+DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var3, _Var4, _Var1, _Var1, _Var1)
+AND
+IntegerSum(_Var4, 1, _Var5, _Var1, _Var1)
+THEN
+NOT DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var3, _Var4);
+DB_QRYRTN_GroupDiscussion_CheckValidity_Group_Count(_Var3, _Var5);
+
+PROC
+PROC_GroupDiscussion_Cancel((VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1, (VOICEBARKRESOURCE)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var2, _Var1, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_RestorePlayerAfterCancel(_Var2, _Var1);
+
+PROC
+PROC_GroupDiscussion_RestorePlayerAfterCancel((CHARACTER)_Var1, (VOICEBARKRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+THEN
+PROC_StopLoopEffect(_Var1, "RelationshipMarker");
+NOT DB_GroupDiscussion_Queued(_Var1, _Var2);
+
+PROC
+PROC_GroupDiscussion_RestorePlayerAfterCancel((CHARACTER)_Var1, (VOICEBARKRESOURCE)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_Avatars(_Var1, _Var1, _Var1, _Var1, _Var1)
+THEN
+SetHasDialog(_Var1, 0);
+
+QRY
+QRY_SelectReflectionDialog((CHARACTER)_Var1, (CHARACTER)_Var2, (CHARACTER)_Var1, (CHARACTER)_Var1, (CHARACTER)_Var1)
+AND
+DB_GroupDiscussion_Queued(_Var1, _Var3, _Var1, _Var1, _Var1)
+AND
+DB_Avatars(_Var2, _Var1, _Var1, _Var1, _Var1)
+AND NOT
+QRY_PreventMPDialogue(_Var1, _Var2, _Var1, _Var1, _Var1)
+THEN
+PROC_GroupDiscussion_Cancel(_Var3);
+PROC_GroupDiscussion_InstantStart(_Var2, _Var3);
+
+
+EXITSECTION
+ENDEXITSECTION
+
